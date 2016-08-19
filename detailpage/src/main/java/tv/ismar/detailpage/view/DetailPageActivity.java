@@ -1,8 +1,11 @@
 package tv.ismar.detailpage.view;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import tv.ismar.app.util.Constants;
 import tv.ismar.detailpage.R;
 
 /**
@@ -10,10 +13,14 @@ import tv.ismar.detailpage.R;
  */
 public class DetailPageActivity extends Activity {
 
-    @Override
-    public void setContentView(View view) {
-        setContentView(R.layout.activity_detailpage);
-    }
+    private static final String TAG = "DetailPageActivity";
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detailpage);
+
+        Log.i(TAG, Constants.TEST);
+    }
 
 }
