@@ -18,7 +18,7 @@ public class DetailPageViewModel extends BaseObservable{
 
     }
 
-    
+
 
 
 }

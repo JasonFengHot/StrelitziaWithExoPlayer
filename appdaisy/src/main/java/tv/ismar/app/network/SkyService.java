@@ -2,9 +2,13 @@ package tv.ismar.app.network;
 
 import android.net.Uri;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.CacheControl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.GsonConverterFactory;
