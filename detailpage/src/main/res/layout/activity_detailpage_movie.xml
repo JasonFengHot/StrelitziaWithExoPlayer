@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@mipmap/main_bg"
-    android:orientation="vertical"
-    tools:context=".view.DetailPageActivity">
+>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DetailPage"
-        android:textColor="#000000"
-        android:textSize="24sp" />
+    <data>
 
-</LinearLayout>
+        <import type="android.view.View"/>
+
+        <variable
+            name="tasks"
+            type="tv.ismar.detailpage.viewmodel.DetailPageViewModel"/>
+
+        <variable
+            name="actionHandler"
+            type="tv.ismar.detailpage.DetailPageContract.Presenter"/>
+    </data>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/main_bg"
+        android:orientation="vertical"
+        tools:context=".view.DetailPageActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DetailPage"
+            android:textColor="#000000"
+            android:textSize="24sp"/>
+
+    </LinearLayout>
+</layout>
