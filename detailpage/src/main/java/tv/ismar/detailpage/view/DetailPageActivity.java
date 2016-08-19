@@ -30,12 +30,12 @@ public class DetailPageActivity extends Activity implements DetailPageContract.V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
-        new DetailPagePresenter(this);
+        mModel = new DetailPageViewModel(this, new DetailPagePresenter(this));
         mBinding.setTasks(mModel);
         mBinding.setActionHandler(mPresenter);
+
         Log.i(TAG, Constants.TEST);
     }
-
 
 
     @Override
@@ -46,6 +46,11 @@ public class DetailPageActivity extends Activity implements DetailPageContract.V
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
+
+    }
+
+    @Override
+    public void loadItemRelate(ItemEntity[] itemEntities) {
 
     }
 

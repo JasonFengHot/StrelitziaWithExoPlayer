@@ -17,4 +17,8 @@ public class DetailPageViewModel extends BaseObservable{
         mPresenter = presenter;
 
     }
+
+    
+
+
 }
