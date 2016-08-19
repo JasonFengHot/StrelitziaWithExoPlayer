@@ -3,7 +3,6 @@ package tv.ismar.detailpage.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import tv.ismar.app.util.Constants;
 import tv.ismar.detailpage.R;
@@ -18,7 +17,7 @@ public class DetailPageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailpage);
+        setContentView(R.layout.activity_detailpage_movie);
 
         Log.i(TAG, Constants.TEST);
     }
