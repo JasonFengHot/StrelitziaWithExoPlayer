@@ -1,0 +1,17 @@
+<resources>
+
+    <dimen name="h1_text_size">26.66sp</dimen>
+    <dimen name="h2_text_size">20sp</dimen>
+    <dimen name="h3_text_size">16.66sp</dimen>
+    <dimen name="h4_text_size">13.33sp</dimen>
+    <dimen name="h5_text_size">10sp</dimen>
+
+    <!-- 头部高度 -->
+    <dimen name="header_fragment_h">55.55dp</dimen>
+    <dimen name="header_fragment_padding_lr">22.77dp</dimen>
+    <dimen name="header_fragment_padding_bottom">11.11dp</dimen>
+    <dimen name="header_fragment_divider_w">27.77dp</dimen>
+    <dimen name="header_fragment_divider_h">2.77dp</dimen>
+
+
+</resources>

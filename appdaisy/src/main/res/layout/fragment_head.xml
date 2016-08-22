@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/header_fragment_padding_lr"
+    android:paddingRight="@dimen/header_fragment_padding_lr"
+    tools:context="tv.ismar.app.ui.HeadFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_fragment_h">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/header_fragment_padding_bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/head_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/h1_text_size" />
+
+            <View
+                android:id="@+id/head_divider"
+                android:layout_width="@dimen/header_fragment_divider_w"
+                android:layout_height="@dimen/header_fragment_divider_h"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/header_fragment_text_space"
+                android:layout_toRightOf="@id/head_title"
+                android:background="@color/color_white" />
+
+            <TextView
+                android:id="@+id/head_subTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/header_fragment_text_space"
+                android:layout_toRightOf="@id/head_divider"
+                android:text="subTitle"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/h2_text_size" />
+
+            <TextView
+                android:id="@+id/head_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/header_fragment_text_space"
+                android:layout_toRightOf="@id/head_subTitle"
+                android:text="weather"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/h3_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/header_fragment_padding_bottom"
+            android:orientation="horizontal">
+
+            <tv.ismar.app.widget.IndicatorButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/header_fragment_padding_bottom"
+                android:layout_marginRight="@dimen/header_fragment_padding_bottom"
+                android:focusable="true"
+                app:ib_drawable="@drawable/usercenter_indicator"
+                app:ib_text="@string/vod_title_history"
+                app:ib_textColor="@color/color_white"
+                app:ib_textSize="@dimen/h3_text_size"
+                app:ib_wrapContent="true" />
+
+            <tv.ismar.app.widget.IndicatorButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/header_fragment_padding_bottom"
+                android:layout_marginRight="@dimen/header_fragment_padding_bottom"
+                android:focusable="true"
+                app:ib_drawable="@drawable/usercenter_indicator"
+                app:ib_text="@string/vod_title_favorite"
+                app:ib_textColor="@color/color_white"
+                app:ib_textSize="@dimen/h3_text_size"
+                app:ib_wrapContent="true" />
+
+            <tv.ismar.app.widget.IndicatorButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/header_fragment_padding_bottom"
+                android:layout_marginRight="@dimen/header_fragment_padding_bottom"
+                android:focusable="true"
+                app:ib_drawable="@drawable/usercenter_indicator"
+                app:ib_text="@string/vod_title_center"
+                app:ib_textColor="@color/color_white"
+                app:ib_textSize="@dimen/h3_text_size"
+                app:ib_wrapContent="true" />
+
+            <tv.ismar.app.widget.IndicatorButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/header_fragment_padding_bottom"
+                android:layout_marginRight="@dimen/header_fragment_padding_bottom"
+                android:focusable="true"
+                app:ib_drawable="@drawable/usercenter_indicator"
+                app:ib_text="@string/vod_title_search"
+                app:ib_textColor="@color/color_white"
+                app:ib_textSize="@dimen/h3_text_size"
+                app:ib_wrapContent="true" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@mipmap/filter_divider" />
+
+</LinearLayout>

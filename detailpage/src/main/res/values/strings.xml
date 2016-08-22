@@ -1,3 +1,11 @@
 <resources>
 
+    <string name="video_play">播放</string>
+    <string name="video_preview">试看</string>
+    <string name="video_buy">购买</string>
+    <string name="video_favorite">收藏</string>
+    <string name="video_favorite_">已收藏</string>
+    <string name="recommend_str">同类推荐</string>
+    <string name="movie_more">更\n\n多</string>
+
 </resources>

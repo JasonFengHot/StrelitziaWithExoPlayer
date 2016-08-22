@@ -7,4 +7,11 @@
     android:orientation="vertical"
     tools:context=".view.DetailPageActivity">
 
+    <fragment
+        android:id="@+id/fragment_head"
+        android:name="tv.ismar.app.ui.HeadFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_head" />
+
 </LinearLayout>

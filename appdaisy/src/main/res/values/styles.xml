@@ -14,4 +14,18 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <declare-styleable name="IndicatorButton">
+        <attr name="ib_drawable" format="reference" />
+        <attr name="ib_textSize" format="dimension" />
+        <attr name="ib_textColor" format="color" />
+        <attr name="ib_text" format="string" />
+        <attr name="ib_wrapContent" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="DetailAttributeContainer">
+        <attr name="dac_textSize" format="dimension" />
+        <attr name="dac_textColor" format="color" />
+        <attr name="dac_space" format="dimension" />
+    </declare-styleable>
+
 </resources>

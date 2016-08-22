@@ -1,0 +1,28 @@
+<resources>
+
+    <dimen name="movie_detail_preview_img_w">298.66dp</dimen>
+    <dimen name="movie_detail_preview_img_h">418.66dp</dimen>
+    <dimen name="movie_detail_preview_img_ml">4.44dp</dimen>
+    <dimen name="movie_detail_margin_lr">60.44dp</dimen>
+    <dimen name="movie_detail_margin_top1">25.77dp</dimen>
+    <dimen name="movie_duration_txt_w">232dp</dimen>
+    <dimen name="movie_duration_txt_h">29.33dp</dimen>
+    <dimen name="movie_vip_txt_w">118.22dp</dimen>
+    <dimen name="movie_price_txt_w">98.66dp</dimen>
+    <dimen name="movie_detail_des_ml">24.88dp</dimen>
+    <dimen name="movie_detail_title_w">709dp</dimen>
+    <dimen name="movie_detail_container_w">489.77dp</dimen>
+    <dimen name="movie_detail_des_line_space">19.55dp</dimen>
+    <dimen name="movie_detail_button_w">243.55dp</dimen>
+    <dimen name="movie_detail_button_h">81.77dp</dimen>
+    <dimen name="movie_detail_button_space">16dp</dimen>
+    <dimen name="movie_detail_button_pl">88.88dp</dimen>
+    <dimen name="movie_detail_source_w">225.77dp</dimen>
+    <dimen name="movie_detail_source_h">50.66dp</dimen>
+    <dimen name="movie_detail_recommend_w">32dp</dimen>
+    <dimen name="movie_detail_recommend_ml">27.55dp</dimen>
+    <dimen name="movie_detail_recommend_mr">7.11dp</dimen>
+    <dimen name="movie_detail_more_w">87.11dp</dimen>
+
+
+</resources>
