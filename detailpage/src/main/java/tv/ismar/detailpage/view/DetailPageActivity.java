@@ -1,14 +1,14 @@
 package tv.ismar.detailpage.view;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Constants;
-import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.DetailPageContract;
+import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.databinding.ActivityDetailpageMovieBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
@@ -16,7 +16,7 @@ import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 /**
  * Created by huibin on 8/18/16.
  */
-public class DetailPageActivity extends Activity implements DetailPageContract.View {
+public class DetailPageActivity extends BaseActivity implements DetailPageContract.View {
 
     private static final String TAG = "DetailPageActivity";
 
