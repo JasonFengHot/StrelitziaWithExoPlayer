@@ -34,9 +34,19 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         mBinding.setTasks(mModel);
         mBinding.setActionHandler(mPresenter);
 
+        mPresenter.start();
+
         Log.i(TAG, Constants.TEST);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //700711 免费
+        //706913 付费
+        mPresenter.fetchItem("700711", null, null);
+    }
 
     @Override
     public void setPresenter(DetailPageContract.Presenter presenter) {
@@ -46,7 +56,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
-
+        mModel.replaceItem(itemEntity);
     }
 
     @Override

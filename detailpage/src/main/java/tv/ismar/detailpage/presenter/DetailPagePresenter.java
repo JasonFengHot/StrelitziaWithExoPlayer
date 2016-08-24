@@ -22,6 +22,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     private Subscription removeBookmarksSubsc;
     private Subscription playCheckSubsc;
 
+
     public DetailPagePresenter(DetailPageContract.View detailView) {
         mDetailView = detailView;
 
@@ -186,4 +187,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             playCheckSubsc.unsubscribe();
         }
     }
+
+
+
 }

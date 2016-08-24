@@ -35,7 +35,7 @@ public interface SkyService {
     );
 
 
-    @GET("/api/item/{pk}/")
+    @GET("api/item/{pk}/")
     Observable<ItemEntity> apiItem(
             @Path("pk") String pk,
             @Query("access_token") String accessToken,
@@ -43,7 +43,7 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST("/api/bookmarks/create/")
+    @POST("api/bookmarks/create/")
     Observable<ResponseBody> apiBookmarksCreate(
             @Field("item") String item,
             @Field("access_token") String accessToken,
@@ -51,14 +51,14 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST("/api/bookmarks/remove/")
+    @POST("api/bookmarks/remove/")
     Observable<ResponseBody> apiBookmarksRemove(
             @Field("item") String item,
             @Field("access_token") String accessToken,
             @Field("device_token") String deviceToken
     );
 
-    @GET("/api/tv/relate/{pk}/")
+    @GET("api/tv/relate/{pk}/")
     Observable<ItemEntity[]> apiTvRelate(
             @Query("pk") String item,
             @Query("access_token") String accessToken,
@@ -66,7 +66,7 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST("/api/play/check/")
+    @POST("api/play/check/")
     Observable<ResponseBody> apiPlayCheck(
             @Field("item") String item,
             @Field("package") String pkg,
@@ -120,7 +120,7 @@ public interface SkyService {
                     .build();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(appendProtocol(""))
+                    .baseUrl(appendProtocol("http://sky.tvxio.bestv.com.cn/v3_0/SKY2/tou/"))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)

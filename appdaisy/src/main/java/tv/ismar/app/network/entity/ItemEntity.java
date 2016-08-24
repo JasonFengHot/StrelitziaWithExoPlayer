@@ -58,6 +58,15 @@ public class ItemEntity {
     private int itemPk;
     private String list_url;
     private String item_url;
+    private Expense expense;
+
+    public Expense getExpense() {
+        return expense;
+    }
+
+    public void setExpense(Expense expense) {
+        this.expense = expense;
+    }
 
     public String getItem_url() {
         return item_url;
@@ -581,6 +590,99 @@ public class ItemEntity {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+    }
+
+    public class Expense{
+        public float price;
+        public float subprice;
+        public int duration;
+        public int cpid;
+        public String cpname;
+        public String cptitle;
+        public int pay_type;
+        public String cplogo;
+        public boolean sale_subitem;
+        public int jump_to;
+
+        public float getPrice() {
+            return price;
+        }
+
+        public void setPrice(float price) {
+            this.price = price;
+        }
+
+        public float getSubprice() {
+            return subprice;
+        }
+
+        public void setSubprice(float subprice) {
+            this.subprice = subprice;
+        }
+
+        public int getDuration() {
+            return duration;
+        }
+
+        public void setDuration(int duration) {
+            this.duration = duration;
+        }
+
+        public int getCpid() {
+            return cpid;
+        }
+
+        public void setCpid(int cpid) {
+            this.cpid = cpid;
+        }
+
+        public String getCpname() {
+            return cpname;
+        }
+
+        public void setCpname(String cpname) {
+            this.cpname = cpname;
+        }
+
+        public String getCptitle() {
+            return cptitle;
+        }
+
+        public void setCptitle(String cptitle) {
+            this.cptitle = cptitle;
+        }
+
+        public int getPay_type() {
+            return pay_type;
+        }
+
+        public void setPay_type(int pay_type) {
+            this.pay_type = pay_type;
+        }
+
+        public String getCplogo() {
+            return cplogo;
+        }
+
+        public void setCplogo(String cplogo) {
+            this.cplogo = cplogo;
+        }
+
+        public boolean isSale_subitem() {
+            return sale_subitem;
+        }
+
+        public void setSale_subitem(boolean sale_subitem) {
+            this.sale_subitem = sale_subitem;
+        }
+
+        public int getJump_to() {
+            return jump_to;
+        }
+
+        public void setJump_to(int jump_to) {
+            this.jump_to = jump_to;
         }
     }
 }
