@@ -24,8 +24,8 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private DetailPageViewModel mModel;
     private DetailPageContract.Presenter mPresenter;
     private RecyclerView detail_movie_recycler;
-
     private ActivityDetailpageMovieBinding mBinding;
+    private int mItemPk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +38,25 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         detail_movie_recycler = mBinding.detailMovieRecycler;
 
         Log.i(TAG, Constants.TEST);
+        getLoaderManager().initLoader(0, null, mModel);
+        //700711 免费
+        //706913 付费
+        mItemPk = 700711;
+        mPresenter.start();
+        mPresenter.fetchItem(String.valueOf(mItemPk), null, null);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        //700711 免费
-        //706913 付费
-        mPresenter.fetchItem("700711", null, null);
+        mPresenter.requestPlayCheck(String.valueOf(mItemPk), null, null);
+    }
+
+    @Override
+    protected void onStop() {
+        mPresenter.stop();
+        super.onStop();
     }
 
     @Override
@@ -60,9 +70,15 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         mModel.replaceItem(itemEntity);
     }
 
+
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
 
+    }
+
+    @Override
+    public void notifyPlayCheck(int remainDay) {
+        mModel.notifyPlayCheck(remainDay);
     }
 
 }

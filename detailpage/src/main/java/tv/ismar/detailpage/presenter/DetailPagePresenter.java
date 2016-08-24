@@ -1,12 +1,21 @@
 package tv.ismar.detailpage.presenter;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+import cn.ismartv.injectdb.library.query.Select;
 import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.network.entity.PlayCheckEntity;
+import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
 
 /**
@@ -21,6 +30,8 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     private Subscription itemRelateSubsc;
     private Subscription removeBookmarksSubsc;
     private Subscription playCheckSubsc;
+
+    private ItemEntity mItemEntity = new ItemEntity();
 
 
     public DetailPagePresenter(DetailPageContract.View detailView) {
@@ -56,6 +67,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
                     @Override
                     public void onNext(ItemEntity itemEntity) {
+                        mItemEntity = itemEntity;
                         mDetailView.loadItem(itemEntity);
                     }
                 });
@@ -136,11 +148,34 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
                     @Override
                     public void onNext(ResponseBody responseBody) {
-
+                        try {
+                            int remainDay = calculateRemainDay(responseBody.string());
+                            mDetailView.notifyPlayCheck(remainDay);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
 
+    private int calculateRemainDay(String info) {
+        int remainDay;
+        switch (info) {
+            case "0":
+                remainDay = 0;
+                break;
+            default:
+                PlayCheckEntity playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
+
+                try {
+                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date()) + 1;
+                } catch (ParseException e) {
+                    remainDay = 0;
+                }
+                break;
+        }
+        return remainDay;
+    }
 
     @Override
     public void fetchItemRelate(String pk, String deviceToken, String accessToken) {
@@ -188,6 +223,16 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         }
     }
 
-
-
+    @Override
+    public void handleBookmark() {
+        BookmarkTable bookmarkTable = new Select().from(BookmarkTable.class).where("pk = ?", mItemEntity.getPk()).executeSingle();
+        if (bookmarkTable != null) {
+            bookmarkTable.delete();
+        } else {
+            bookmarkTable = new BookmarkTable();
+            bookmarkTable.pk = mItemEntity.getPk();
+            bookmarkTable.title = mItemEntity.getTitle();
+            bookmarkTable.save();
+        }
+    }
 }

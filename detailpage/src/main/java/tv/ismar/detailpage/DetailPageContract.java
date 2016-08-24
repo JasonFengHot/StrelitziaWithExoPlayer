@@ -12,6 +12,9 @@ public interface DetailPageContract {
         void loadItem(ItemEntity itemEntity);
 
         void loadItemRelate(ItemEntity[] itemEntities);
+
+        void notifyPlayCheck(int remainDay);
+
     }
 
 
@@ -23,6 +26,8 @@ public interface DetailPageContract {
         void fetchItemRelate(String pk, String deviceToken, String accessToken);
 
         void removeBookmarks(String pk, String deviceToken, String accessToken);
+
+        void handleBookmark();
 
         void requestPlayCheck(String itemPk, String deviceToken, String accessToken);
     }
