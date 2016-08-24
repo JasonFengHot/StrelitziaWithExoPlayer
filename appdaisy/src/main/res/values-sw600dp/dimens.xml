@@ -13,5 +13,8 @@
     <dimen name="header_fragment_divider_w">27.77dp</dimen>
     <dimen name="header_fragment_divider_h">2.77dp</dimen>
 
+    <dimen name="movie_detail_label_image_w">141.11dp</dimen>
+    <dimen name="movie_detail_label_image_h">197.22dp</dimen>
+
 
 </resources>

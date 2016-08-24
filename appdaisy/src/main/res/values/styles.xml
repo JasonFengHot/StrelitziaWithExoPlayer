@@ -28,4 +28,28 @@
         <attr name="dac_space" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="LabelImageView">
+        <attr name="livUrl" format="string" />
+        <attr name="livSelectorDrawable" format="reference" />
+        <attr name="livErrorDrawable" format="reference" />
+        <attr name="livContentPadding" format="dimension" />
+        <attr name="livLabelHeight" format="dimension" />
+        <attr name="livLabelText" format="string" />
+        <attr name="livLabelColor" format="color" />
+        <attr name="livLabelSize" format="dimension" />
+        <attr name="livLabelBackColor" format="color" />
+        <attr name="livVipPosition">
+            <enum name="leftTop" value="0" />
+            <enum name="rightTop" value="1" />
+            <enum name="gone" value="2" />
+        </attr>
+        <attr name="livVipUrl" format="string" />
+        <attr name="livVipSize" format="dimension" />
+        <attr name="livRate" format="float" />
+        <attr name="livRateColor" format="color" />
+        <attr name="livRateSize" format="dimension" />
+        <attr name="livRateMarginRight" format="dimension" />
+        <attr name="livRateMarginBottom" format="dimension" />
+    </declare-styleable>
+
 </resources>
