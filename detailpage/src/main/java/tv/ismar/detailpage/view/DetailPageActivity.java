@@ -2,6 +2,7 @@ package tv.ismar.detailpage.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import tv.ismar.app.BaseActivity;
@@ -22,7 +23,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     private DetailPageViewModel mModel;
     private DetailPageContract.Presenter mPresenter;
-
+    private RecyclerView detail_movie_recycler;
 
     private ActivityDetailpageMovieBinding mBinding;
 
@@ -34,7 +35,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         mBinding.setTasks(mModel);
         mBinding.setActionHandler(mPresenter);
 
-        mPresenter.start();
+        detail_movie_recycler = mBinding.detailMovieRecycler;
 
         Log.i(TAG, Constants.TEST);
     }

@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <tv.ismar.app.widget.LabelImageView
+        android:id="@+id/detail_labelImage"
         android:layout_width="@dimen/movie_detail_label_image_w"
-        android:layout_height="@dimen/movie_detail_label_image_h" />
+        android:layout_height="@dimen/movie_detail_label_image_h"
+        app:livContentPadding="@dimen/label_image_padding"
+        app:livErrorDrawable="@mipmap/img_error_vertical"
+        app:livLabelBackColor="@color/color_label_image_text_back"
+        app:livLabelColor="@color/color_white"
+        app:livLabelSize="@dimen/h3_text_size"
+        app:livLabelText=""
+        app:livRate="0"
+        app:livRateColor="@color/color_focus"
+        app:livRateMarginBottom="5dp"
+        app:livRateMarginRight="10dp"
+        app:livRateSize="@dimen/h2_text_size"
+        app:livSelectorDrawable="@drawable/vod_img_selector"
+        app:livUrl=""
+        app:livVipPosition="gone"
+        app:livVipSize="0dp"
+        app:livVipUrl="" />
+
+    <TextView
+        android:id="@+id/detail_labelText"
+        android:layout_width="@dimen/movie_detail_label_image_w"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/color_label"
+        android:textSize="@dimen/h2_text_size" />
 
 
 </LinearLayout>

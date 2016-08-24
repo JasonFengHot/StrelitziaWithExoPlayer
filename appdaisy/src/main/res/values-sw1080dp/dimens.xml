@@ -17,5 +17,7 @@
     <dimen name="movie_detail_label_image_w">254dp</dimen>
     <dimen name="movie_detail_label_image_h">355dp</dimen>
 
+    <dimen name="label_image_padding">21dp</dimen>
+
 
 </resources>

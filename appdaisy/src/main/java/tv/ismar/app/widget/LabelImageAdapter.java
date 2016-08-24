@@ -1,24 +1,61 @@
 package tv.ismar.app.widget;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import tv.ismar.app.R;
 
 /**
  * Created by beaver on 16-8-23.
  */
 public class LabelImageAdapter extends RecyclerView.Adapter<LabelImageAdapter.ViewHolder> {
 
+    private Context mContext;
+    private RecyclerView mRecyclerView;
+    private LayoutInflater mInflater;
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    private int mSelectedPosition;
+    private OnItemActionListener mOnItemActionListener;
+
+    public void setOnItemActionListener(OnItemActionListener onItemActionListener) {
+        this.mOnItemActionListener = onItemActionListener;
+    }
+
+    public LabelImageAdapter(Context context, RecyclerView recyclerView) {
+        mContext = context;
+        mRecyclerView = recyclerView;
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = mInflater.inflate(R.layout.detail_label_image_portrait, parent, false);
+        ViewHolder holder = new ViewHolder(v);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemActionListener != null) {
+                    mOnItemActionListener.onItemClickListener(v, holder.getAdapterPosition());
+                }
+            }
+        });
+
+        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+            }
+        });
 
     }
 
@@ -29,11 +66,13 @@ public class LabelImageAdapter extends RecyclerView.Adapter<LabelImageAdapter.Vi
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout channel_item_back;
-        public TextView channel_item_text;
+        public LabelImageView detail_labelImage;
+        public TextView detail_labelText;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            detail_labelImage = (LabelImageView) itemView.findViewById(R.id.detail_labelImage);
+            detail_labelText = (TextView) itemView.findViewById(R.id.detail_labelText);
         }
     }
 }

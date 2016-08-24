@@ -8,7 +8,8 @@
     <color name="color_focus">#ff9c3c</color>
     <color name="color_rate">#ff9000</color>
     <color name="color_btn_grey">#33ffffff</color>
-
+    <color name="color_label_image_text_back">#b3303030</color>
+    <color name="color_label">#F8F8FF</color>
 
     <color name="color_background">#a94685</color>
     <color name="color_black">#000000</color>

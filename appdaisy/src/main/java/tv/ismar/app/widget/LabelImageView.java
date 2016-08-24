@@ -93,7 +93,12 @@ public class LabelImageView extends FrameLayout {
         asyncLoadImage();
 
         if (livVipPosition > 0) {
-            FrameLayout.LayoutParams ltparams = new FrameLayout.LayoutParams(livVipSize, livVipSize);
+            FrameLayout.LayoutParams ltparams;
+            if (livVipSize == 0) {
+                ltparams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            } else {
+                ltparams = new FrameLayout.LayoutParams(livVipSize, livVipSize);
+            }
             if (livVipPosition == 0) {
                 ltparams.gravity = Gravity.LEFT | Gravity.TOP;
             } else if (livVipPosition == 1) {
