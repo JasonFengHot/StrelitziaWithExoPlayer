@@ -41,7 +41,7 @@
         <attr name="livVipPosition">
             <enum name="leftTop" value="0" />
             <enum name="rightTop" value="1" />
-            <enum name="gone" value="2" />
+            <enum name="gone" value="-1" />
         </attr>
         <attr name="livVipUrl" format="string" />
         <attr name="livVipSize" format="dimension" />
