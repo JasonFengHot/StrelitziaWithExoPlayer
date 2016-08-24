@@ -202,7 +202,7 @@
                     android:layout_weight="1"
                     android:focusable="false"/>
 
-                <TextView
+                <Button
                     android:layout_width="@dimen/movie_detail_more_w"
                     android:layout_height="match_parent"
                     android:background="@drawable/s_button_color"

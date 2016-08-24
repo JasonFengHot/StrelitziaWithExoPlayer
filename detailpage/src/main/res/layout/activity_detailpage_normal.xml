@@ -1,17 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@mipmap/main_bg"
-    android:orientation="vertical"
-    tools:context=".view.DetailPageActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <fragment
-        android:id="@+id/fragment_head"
-        android:name="tv.ismar.app.ui.HeadFragment"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="tasks"
+            type="tv.ismar.detailpage.viewmodel.DetailPageViewModel" />
+
+        <variable
+            name="actionHandler"
+            type="tv.ismar.detailpage.DetailPageContract.Presenter" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_head" />
+        android:layout_height="match_parent"
+        android:background="@mipmap/main_bg"
+        android:orientation="vertical"
+        tools:context=".view.DetailPageActivity">
 
-</LinearLayout>
+        <fragment
+            android:id="@+id/movie_head"
+            android:name="tv.ismar.app.ui.HeadFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_head" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/movie_detail_margin_lr"
+            android:layout_marginRight="@dimen/movie_detail_margin_lr"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="@dimen/normal_detail_relative_w"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/movie_detail_margin_top1">
+
+                <LinearLayout
+                    android:id="@+id/movie_detail_des_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/detail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxEms="10"
+                        android:maxLines="1"
+                        android:text="@{tasks.itemTitle}"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h1_text_size" />
+
+                    <tv.ismar.app.widget.DetailAttributeContainer
+                        android:layout_width="@dimen/movie_detail_container_w"
+                        android:layout_height="wrap_content"
+                        app:dac_space="@dimen/movie_detail_des_line_space"
+                        app:dac_textColor="@color/color_white"
+                        app:dac_textSize="@dimen/h4_text_size" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true">
+
+                    <ImageView
+                        android:id="@+id/movie_detail_preview"
+                        android:layout_width="@dimen/normal_detail_preview_img_w"
+                        android:layout_height="@dimen/normal_detail_preview_img_h"
+                        android:layout_marginLeft="@dimen/movie_detail_preview_img_ml"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{tasks.itemPostUrl}" />
+
+                    <TextView
+                        android:layout_width="@dimen/movie_duration_txt_w"
+                        android:layout_height="@dimen/movie_duration_txt_h"
+                        android:layout_gravity="bottom"
+                        android:background="@mipmap/detailpage_date"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h5_text_size"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:layout_width="@dimen/movie_vip_txt_w"
+                        android:layout_height="@dimen/movie_duration_txt_h"
+                        android:layout_gravity="bottom"
+                        android:background="@mipmap/detailpage_vip"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="仅限VIP观看"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h5_text_size"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="@dimen/movie_price_txt_w"
+                        android:layout_height="@dimen/movie_duration_txt_h"
+                        android:layout_gravity="bottom"
+                        android:background="@mipmap/detailpage_vip"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="￥7.00"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h5_text_size"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/movie_detail_btn_linear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normal_detail_button_mt"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="@dimen/movie_detail_button_w"
+                        android:layout_height="@dimen/movie_detail_button_h"
+                        android:background="@drawable/selector_movie_play"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/movie_detail_button_pl"
+                        android:text="@{tasks.playText}"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h1_text_size" />
+
+                    <Button
+                        android:layout_width="@dimen/movie_detail_button_w"
+                        android:layout_height="@dimen/movie_detail_button_h"
+                        android:layout_marginLeft="@dimen/movie_detail_button_space"
+                        android:background="@drawable/selector_movie_buy"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/movie_detail_button_pl"
+                        android:text="@string/video_buy"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h1_text_size"
+                        android:visibility="@{tasks.purchaseVisibility}" />
+
+                    <Button
+                        android:layout_width="@dimen/movie_detail_button_w"
+                        android:layout_height="@dimen/movie_detail_button_h"
+                        android:layout_marginLeft="@dimen/movie_detail_button_space"
+                        android:background="@drawable/selector_movie_favorite"
+                        android:gravity="center_vertical"
+                        android:onClick="@{() -> actionHandler.handleBookmark()}"
+                        android:paddingLeft="@dimen/movie_detail_button_pl"
+                        android:text="@{tasks.bookmarkText}"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h1_text_size" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/detail_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/movie_detail_des_container"
+                    android:layout_below="@id/movie_detail_btn_linear"
+                    android:layout_marginTop="@dimen/normal_detail_des_mt"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="@dimen/movie_detail_des_line_space"
+                    android:maxLines="3"
+                    android:text="@{tasks.description}"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/h4_text_size" />
+
+                <ImageView
+                    android:layout_width="@dimen/movie_detail_source_w"
+                    android:layout_height="@dimen/movie_detail_source_h"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/movie_detail_btn_linear"
+                    android:layout_marginTop="@dimen/movie_detail_des_line_space"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recommend_str"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/h2_text_size" />
+
+                <Button
+                    android:layout_width="@dimen/normal_detail_button_w"
+                    android:layout_height="@dimen/normal_detail_button_h"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/s_button_color"
+                    android:gravity="center"
+                    android:text="@string/more"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/h2_text_size" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

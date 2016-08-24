@@ -24,5 +24,13 @@
     <dimen name="movie_detail_recommend_mr">6.22dp</dimen>
     <dimen name="movie_detail_more_w">76.22dp</dimen>
 
+    <dimen name="normal_detail_relative_w">852.83dp</dimen>
+    <dimen name="normal_detail_button_mt">378dp</dimen>
+    <dimen name="normal_detail_preview_img_w">383.44dp</dimen>
+    <dimen name="normal_detail_preview_img_h">303.33dp</dimen>
+    <dimen name="normal_detail_des_mt">38.88dp</dimen>
+    <dimen name="normal_detail_button_w">192.11dp</dimen>
+    <dimen name="normal_detail_button_h">71.55dp</dimen>
+
 
 </resources>
