@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import tv.ismar.app.R;
+import tv.ismar.app.network.entity.ItemEntity;
 
 /**
  * Created by beaver on 16-8-23.
@@ -17,6 +20,7 @@ public class LabelImageAdapter extends RecyclerView.Adapter<LabelImageAdapter.Vi
     private Context mContext;
     private RecyclerView mRecyclerView;
     private LayoutInflater mInflater;
+    private List<ItemEntity> itemEntityList;
 
     private int mSelectedPosition;
     private OnItemActionListener mOnItemActionListener;
@@ -25,9 +29,10 @@ public class LabelImageAdapter extends RecyclerView.Adapter<LabelImageAdapter.Vi
         this.mOnItemActionListener = onItemActionListener;
     }
 
-    public LabelImageAdapter(Context context, RecyclerView recyclerView) {
+    public LabelImageAdapter(Context context, RecyclerView recyclerView, List<ItemEntity> itemList) {
         mContext = context;
         mRecyclerView = recyclerView;
+        itemEntityList = itemList;
         mInflater = LayoutInflater.from(context);
     }
 
