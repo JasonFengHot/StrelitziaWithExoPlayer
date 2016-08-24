@@ -40,8 +40,12 @@ public class LabelImageView extends FrameLayout {
     private int livRateMarginRight;
     private int livRateMarginBottom;
 
-    private ImageView imageView;
+    private ImageView imageView, vipImageView;
     private TextView textView;
+
+    private int LEFTTOP = 0;
+    private int RIGHTTOP = 1;
+    private int GONE = -1;
 
     private Context mContext;
 
@@ -57,22 +61,23 @@ public class LabelImageView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LabelImageView);
-//        String livUrl = typedArray.getString(R.styleable.LabelImageView_liv_url);
-//        Drawable livSelectorDrawable;
-//        Drawable livErrorDrawable;
-//        int livContentPadding;
-//        int livLabelHeight;
-//        int livLabelColor;
-//        int livLabelSize;
-//        int livLabelBackColor;
-//        int livVipPosition;
-//         String livVipUrl;
-//         int livVipSize;
-//         float livRate;
-//         int livRateColor;
-//         int livRateSize;
-//         int livRateMarginRight;
-//         int livRateMarginBottom;
+        livUrl = typedArray.getString(R.styleable.LabelImageView_livUrl);
+        livSelectorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livSelectorDrawable);
+        livErrorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livErrorDrawable);
+        livContentPadding = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livContentPadding, dp2px(5));
+        livLabelHeight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelHeight, dp2px(30));
+        livLabelText = typedArray.getString(R.styleable.LabelImageView_livLabelText);
+        livLabelColor = typedArray.getColor(R.styleable.LabelImageView_livLabelColor, Color.WHITE);
+        livLabelSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelSize, sp2px(16));
+        livLabelBackColor = typedArray.getColor(R.styleable.LabelImageView_livLabelBackColor, Color.parseColor("#33000000"));
+        livVipPosition = typedArray.getInt(R.styleable.LabelImageView_livVipPosition, GONE);
+        livVipUrl = typedArray.getString(R.styleable.LabelImageView_livVipUrl);
+        livVipSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livVipSize, dp2px(40));
+        livRate = typedArray.getFloat(R.styleable.LabelImageView_livRate, 0);
+        livRateColor = typedArray.getColor(R.styleable.LabelImageView_livRateColor, Color.parseColor("#ff9000"));
+        livRateSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateSize, sp2px(14));
+        livRateMarginRight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateMarginRight, dp2px(5));
+        livRateMarginBottom = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateMarginBottom, dp2px(5));
 
         typedArray.recycle();
 
@@ -84,63 +89,71 @@ public class LabelImageView extends FrameLayout {
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         imageView = new ImageView(mContext);
         imageView.setLayoutParams(layoutParams);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         asyncLoadImage();
 
-//        if (leftTopDrawable != null) {
-//            FrameLayout.LayoutParams ltparams = new FrameLayout.LayoutParams(drawableSize, drawableSize);
-//            ltparams.gravity = Gravity.LEFT | Gravity.TOP;
-//            ImageView ltImage = new ImageView(mContext);
-//            ltImage.setLayoutParams(ltparams);
-//        }
+        if (livVipPosition > 0) {
+            FrameLayout.LayoutParams ltparams = new FrameLayout.LayoutParams(livVipSize, livVipSize);
+            if (livVipPosition == 0) {
+                ltparams.gravity = Gravity.LEFT | Gravity.TOP;
+            } else if (livVipPosition == 1) {
+                ltparams.gravity = Gravity.RIGHT | Gravity.TOP;
+            }
+            vipImageView = new ImageView(mContext);
+            vipImageView.setLayoutParams(ltparams);
+            vipImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            asyncLoadVipImage();
 
-//        FrameLayout.LayoutParams labelParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, labelHeight);
-//        labelParams.gravity = Gravity.BOTTOM;
-//        textView = new TextView(mContext);
-//        textView.setLayoutParams(labelParams);
-//        textView.setBackgroundColor(labelBackColor);
-//        textView.setGravity(Gravity.CENTER);
-//        textView.setText(labelText);
-//        textView.setTextSize(labelTextSize);
-//        textView.setTextColor(labelTextColor);
-//
-//        if (rate > 0) {
-//            FrameLayout.LayoutParams rateParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//            rateParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
-//            rateParams.bottomMargin = rateMarginBottom;
-//            rateParams.rightMargin = rateMarginRight;
-//            TextView rateTextView = new TextView(mContext);
-//            rateTextView.setText(String.valueOf(rate));
-//            rateTextView.setTextColor(rateColor);
-//            rateTextView.setTextSize(rateSize);
-//        }
+        }
+
+        FrameLayout.LayoutParams labelParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, livLabelHeight);
+        labelParams.gravity = Gravity.BOTTOM;
+        textView = new TextView(mContext);
+        textView.setLayoutParams(labelParams);
+        textView.setBackgroundColor(livLabelBackColor);
+        textView.setGravity(Gravity.CENTER);
+        textView.setText(livLabelText);
+        textView.setTextSize(livLabelSize);
+        textView.setTextColor(livLabelColor);
+
+        if (livRate > 0) {
+            FrameLayout.LayoutParams rateParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            rateParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+            rateParams.bottomMargin = livRateMarginBottom;
+            rateParams.rightMargin = livRateMarginRight;
+            TextView rateTextView = new TextView(mContext);
+            rateTextView.setText(String.valueOf(livRate));
+            rateTextView.setTextColor(livRateColor);
+            rateTextView.setTextSize(livRateSize);
+        }
 
     }
 
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-//        if (gainFocus) {
-//            setBackgroundDrawable(selectorDrawable);
-//        } else {
-//            setBackgroundColor(Color.TRANSPARENT);
-//        }
+        if (gainFocus) {
+            setBackgroundDrawable(livSelectorDrawable);
+        } else {
+            setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     @Override
     public void onHoverChanged(boolean hovered) {
         super.onHoverChanged(hovered);
-//        if (hovered) {
-//            setBackgroundDrawable(selectorDrawable);
-//        } else {
-//            setBackgroundColor(Color.TRANSPARENT);
-//        }
+        if (hovered) {
+            setBackgroundDrawable(livSelectorDrawable);
+        } else {
+            setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-//                setBackgroundDrawable(selectorDrawable);
+                setBackgroundDrawable(livSelectorDrawable);
                 break;
             case MotionEvent.ACTION_UP:
                 setBackgroundColor(Color.TRANSPARENT);
@@ -151,11 +164,18 @@ public class LabelImageView extends FrameLayout {
 
     private void asyncLoadImage() {
         if (imageView != null) {
-//            Picasso.with(mContext).load(url)
-//                    .placeholder(errDrawable)
-//                    .error(errDrawable)
-//                    .centerCrop()
-//                    .into(imageView);
+            Picasso.with(mContext).load(livUrl)
+                    .placeholder(livErrorDrawable)
+                    .error(livErrorDrawable)
+                    .centerCrop()
+                    .into(imageView);
+        }
+    }
+
+    private void asyncLoadVipImage() {
+        if (vipImageView != null) {
+            Picasso.with(mContext).load(livVipUrl)
+                    .into(vipImageView);
         }
     }
 
@@ -165,6 +185,7 @@ public class LabelImageView extends FrameLayout {
 
     public void setLivUrl(String livUrl) {
         this.livUrl = livUrl;
+        asyncLoadImage();
     }
 
     public Drawable getLivSelectorDrawable() {
@@ -245,6 +266,7 @@ public class LabelImageView extends FrameLayout {
 
     public void setLivVipUrl(String livVipUrl) {
         this.livVipUrl = livVipUrl;
+        asyncLoadVipImage();
     }
 
     public int getLivVipSize() {
