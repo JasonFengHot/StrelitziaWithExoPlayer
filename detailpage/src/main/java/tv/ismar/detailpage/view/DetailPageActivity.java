@@ -83,6 +83,15 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         mPresenter = presenter;
     }
 
+    @Override
+    public void onHttpFailure(Throwable e) {
+
+    }
+
+    @Override
+    public void onHttpInterceptor(Throwable e) {
+
+    }
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
