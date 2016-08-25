@@ -1,5 +1,7 @@
 package tv.ismar.detailpage.presenter;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -15,6 +17,8 @@ import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
+import tv.ismar.app.network.exception.OnlyMobileException;
+import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
 
@@ -62,7 +66,12 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage());
+                        if (e.getClass() == OnlyWifiException.class) {
+                            mDetailView.onHttpInterceptor(e);
+                        } else {
+                            mDetailView.onHttpFailure(e);
+                        }
                     }
 
                     @Override

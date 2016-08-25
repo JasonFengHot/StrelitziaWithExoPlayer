@@ -22,6 +22,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
+import tv.ismar.app.VodApplication;
 import tv.ismar.app.network.entity.ItemEntity;
 
 /**
@@ -117,6 +118,7 @@ public interface SkyService {
                     .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(interceptor)
+                    .addNetworkInterceptor(VodApplication.getHttpTrafficInterceptor())
                     .build();
 
             Retrofit retrofit = new Retrofit.Builder()
