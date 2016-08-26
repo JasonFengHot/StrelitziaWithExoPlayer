@@ -17,6 +17,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.network.entity.ActiveEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 
 /**
@@ -58,6 +59,28 @@ public interface SkyService {
             @Field("item") String item,
             @Field("package") String pkg,
             @Field("subitem") String subItem
+    );
+
+    @FormUrlEncoded
+    @POST("/trust/security/active/")
+    Observable<ActiveEntity> securityActive(
+            @Field("sn") String sn,
+            @Field("manufacture") String manufacture,
+            @Field("kind") String kind,
+            @Field("version") String version,
+            @Field("sign") String sign,
+            @Field("fingerprint") String fingerprint,
+            @Field("api_version") String api_version,
+            @Field("info") String deviceInfo
+    );
+
+    @FormUrlEncoded
+    @POST("/trust/get_licence/")
+    Observable<ResponseBody> getLicence(
+            @Field("fingerprint") String fingerprint,
+            @Field("sn") String sn,
+            @Field("manufacture") String manufacture,
+            @Field("code") String code
     );
 
 //    @GET
