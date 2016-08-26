@@ -17,7 +17,6 @@ import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
-import tv.ismar.app.network.exception.OnlyMobileException;
 import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
@@ -55,13 +54,12 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             apiItemSubsc.unsubscribe();
         }
 
-        apiItemSubsc = mSkyService.apiItem(pk, deviceToken, accessToken)
+        apiItemSubsc = mSkyService.apiItem(pk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ItemEntity>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
@@ -88,7 +86,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (bookmarksSubsc != null && !bookmarksSubsc.isUnsubscribed()) {
             bookmarksSubsc.unsubscribe();
         }
-        bookmarksSubsc = mSkyService.apiBookmarksCreate(pk, deviceToken, accessToken)
+        bookmarksSubsc = mSkyService.apiBookmarksCreate(pk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -114,7 +112,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (removeBookmarksSubsc != null && !removeBookmarksSubsc.isUnsubscribed()) {
             removeBookmarksSubsc.unsubscribe();
         }
-        removeBookmarksSubsc = mSkyService.apiBookmarksRemove(pk, deviceToken, accessToken)
+        removeBookmarksSubsc = mSkyService.apiBookmarksRemove(pk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -141,7 +139,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             playCheckSubsc.unsubscribe();
         }
 
-        playCheckSubsc = mSkyService.apiPlayCheck(itemPk, null, null, deviceToken, accessToken)
+        playCheckSubsc = mSkyService.apiPlayCheck(itemPk, null, null)
                 .observeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -191,7 +189,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (itemRelateSubsc != null && !itemRelateSubsc.isUnsubscribed()) {
             itemRelateSubsc.unsubscribe();
         }
-        itemRelateSubsc = mSkyService.apiTvRelate(pk, deviceToken, accessToken)
+        itemRelateSubsc = mSkyService.apiTvRelate(pk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ItemEntity[]>() {

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
+import tv.ismar.app.network.HttpParamsInterceptor;
 import tv.ismar.app.network.HttpTrafficInterceptor;
 
 /**
@@ -11,6 +12,7 @@ import tv.ismar.app.network.HttpTrafficInterceptor;
  */
 public class VodApplication extends Application {
     private static HttpTrafficInterceptor mHttpTrafficInterceptor;
+    private static HttpParamsInterceptor mHttpParamsInterceptor;
 
     @Override
     public void onCreate() {
@@ -18,6 +20,10 @@ public class VodApplication extends Application {
         ActiveAndroid.initialize(this);
         mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
         mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
+        mHttpParamsInterceptor = new HttpParamsInterceptor.Builder()
+                .addParam("device_token", "1")
+                .addParam("access_token", "2")
+                .build();
     }
 
     public static VodApplication get(Context context) {
@@ -26,5 +32,9 @@ public class VodApplication extends Application {
 
     public static HttpTrafficInterceptor getHttpTrafficInterceptor() {
         return mHttpTrafficInterceptor;
+    }
+
+    public static HttpParamsInterceptor getHttpParamsInterceptor() {
+        return mHttpParamsInterceptor;
     }
 }
