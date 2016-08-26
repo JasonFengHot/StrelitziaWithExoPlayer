@@ -61,7 +61,7 @@ public interface SkyService {
 
     @GET("api/tv/relate/{pk}/")
     Observable<ItemEntity[]> apiTvRelate(
-            @Query("pk") String item,
+            @Path("pk") String item,
             @Query("access_token") String accessToken,
             @Query("device_token") String deviceToken
     );

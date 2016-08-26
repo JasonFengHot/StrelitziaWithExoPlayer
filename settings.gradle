@@ -1,1 +1,1 @@
-include ':app', ':appdaisy', ':detailpage'
+include ':app', ':appdaisy', ':detailpage', ':account'

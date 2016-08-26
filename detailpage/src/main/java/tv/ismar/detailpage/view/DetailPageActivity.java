@@ -55,7 +55,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         detail_movie_recycler.setLayoutManager(layoutManager);
         HorizontalSpacesItemDecoration decoration = new HorizontalSpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.label_image_padding));
         detail_movie_recycler.addItemDecoration(decoration);
-
+//
         Log.i(TAG, Constants.TEST);
         getLoaderManager().initLoader(0, null, mModel);
         //700711 免费
@@ -63,6 +63,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         mItemPk = 700711;
         mPresenter.start();
         mPresenter.fetchItem(String.valueOf(mItemPk), null, null);
+        mPresenter.fetchItemRelate(String.valueOf(mItemPk), null, null);
     }
 
 
