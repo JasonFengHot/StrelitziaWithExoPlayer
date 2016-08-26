@@ -1,5 +1,7 @@
 package tv.ismar.app.network;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +22,7 @@ import okio.BufferedSource;
 
 public final class HttpLoggingInterceptor implements Interceptor {
     private static final Charset UTF8 = Charset.forName("UTF-8");
+    private static final String TAG = "HttpLoggingInterceptor";
 
     public enum Level {
         NONE,
@@ -66,6 +69,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        Log.i(TAG, "HttpLoggingInterceptor");
         Level level = this.level;
 
         Request request = chain.request();
