@@ -27,11 +27,14 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import tv.ismar.app.network.SkyService;
+
 public class GenericAccountService extends Service {
     private static final String TAG = "GenericAccountService";
     private static final String ACCOUNT_TYPE = "tv.ismar.account";
     public static final String ACCOUNT_NAME = "sync";
     private Authenticator mAuthenticator;
+    private SkyService mSkyService;
 
     /**
      * Obtain a handle to the {@link android.accounts.Account} used for sync in this application.
@@ -53,6 +56,7 @@ public class GenericAccountService extends Service {
     @Override
     public void onCreate() {
         Log.i(TAG, "Service created");
+
         mAuthenticator = new Authenticator(this);
     }
 
@@ -64,6 +68,11 @@ public class GenericAccountService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return mAuthenticator.getIBinder();
+    }
+
+    private void getLicence(){
+
+
     }
 
     public class Authenticator extends AbstractAccountAuthenticator {
@@ -81,6 +90,7 @@ public class GenericAccountService extends Service {
         public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse,
                                  String s, String s2, String[] strings, Bundle bundle)
                 throws NetworkErrorException {
+            Log.i(TAG, "current thread: " + Thread.currentThread().getName());
             return null;
         }
 
