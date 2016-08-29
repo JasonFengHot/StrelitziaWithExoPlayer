@@ -10,6 +10,7 @@ import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -67,9 +68,30 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     }
 
     @Bindable
+    public String getGenre() {
+        StringBuffer stringBuffer = new StringBuffer();
+        int length = mItemEntity.getAttributes().getGenre().length;
+        for (int i = 0; i < length; i++) {
+            if (i == length) {
+                stringBuffer.append(mItemEntity.getAttributes().getGenre()[1]);
+            } else {
+                stringBuffer.append(mItemEntity.getAttributes().getGenre()[1]).append(",");
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    @Bindable
+    public int getGenreVisibility() {
+        return TextUtils.isEmpty(getGenre()) ? View.GONE : View.VISIBLE;
+    }
+
+
+    @Bindable
     public int getPurchaseVisibility() {
         return mItemEntity.getExpense() != null && mRemandDay <= 0 ? View.VISIBLE : View.GONE;
     }
+
 
     @Bindable
     public String getPlayText() {

@@ -14,7 +14,9 @@ import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Constants;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
+import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageMovieBinding;
+import tv.ismar.detailpage.databinding.ActivityDetailpageNormalBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 
@@ -31,7 +33,12 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     private List<ItemEntity> itemEntityList = new ArrayList<>();
 
-    private ActivityDetailpageMovieBinding mBinding;
+    private ActivityDetailpageMovieBinding mMovieBinding;
+    private ActivityDetailpageEntertainmentBinding mEntertainmentBinding;
+    private ActivityDetailpageNormalBinding mNormalBinding;
+
+
+
     private int mItemPk;
 
     @Override
@@ -49,17 +56,23 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
             finish();
             return;
         }
+        mModel = new DetailPageViewModel(this, new DetailPagePresenter(this));
         if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
-            mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);
+            mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);
+            mEntertainmentBinding.setTasks(mModel);
+            mEntertainmentBinding.setActionHandler(mPresenter);
         } else if ("movie".equals(content_model)) {
-            mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
+            mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
+            mMovieBinding.setTasks(mModel);
+            mMovieBinding.setActionHandler(mPresenter);
         } else {
-            mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal);
+            mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal);
+            mNormalBinding.setTasks(mModel);
+            mNormalBinding.setActionHandler(mPresenter);
         }
 
-        mModel = new DetailPageViewModel(this, new DetailPagePresenter(this));
-        mBinding.setTasks(mModel);
-        mBinding.setActionHandler(mPresenter);
+
+
 
         Log.i(TAG, Constants.TEST);
         getLoaderManager().initLoader(0, null, mModel);
