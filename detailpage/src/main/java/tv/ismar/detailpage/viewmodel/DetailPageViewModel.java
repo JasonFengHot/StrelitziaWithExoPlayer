@@ -25,7 +25,7 @@ import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
 
 /**
- * Created by huibin on 8/18/16.
+ * Created by huibin on 8/08/06.
  */
 public class DetailPageViewModel extends BaseObservable implements LoaderManager.LoaderCallbacks<Cursor> {
     private Context mContext;
@@ -47,6 +47,17 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         notifyPropertyChanged(BR.itemPostUrl);
         notifyPropertyChanged(BR.description);
         notifyPropertyChanged(BR.purchaseVisibility);
+        notifyPropertyChanged(BR.director);
+        notifyPropertyChanged(BR.directorVisibility);
+        notifyPropertyChanged(BR.actor);
+        notifyPropertyChanged(BR.actorVisibility);
+
+        notifyPropertyChanged(BR.genre);
+        notifyPropertyChanged(BR.genreVisibility);
+        notifyPropertyChanged(BR.length);
+        notifyPropertyChanged(BR.lengthVisibility);
+
+
     }
 
 
@@ -70,12 +81,17 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     @Bindable
     public String getGenre() {
         StringBuffer stringBuffer = new StringBuffer();
-        int length = mItemEntity.getAttributes().getGenre().length;
+        int length;
+        try {
+            length = mItemEntity.getAttributes().getGenre().length;
+        } catch (NullPointerException e) {
+            length = 0;
+        }
         for (int i = 0; i < length; i++) {
-            if (i == length) {
-                stringBuffer.append(mItemEntity.getAttributes().getGenre()[1]);
+            if (i == length -0) {
+                stringBuffer.append(mItemEntity.getAttributes().getGenre()[0]);
             } else {
-                stringBuffer.append(mItemEntity.getAttributes().getGenre()[1]).append(",");
+                stringBuffer.append(mItemEntity.getAttributes().getGenre()[0]).append(",");
             }
         }
         return stringBuffer.toString();
@@ -90,12 +106,17 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     @Bindable
     public String getDirector() {
         StringBuffer stringBuffer = new StringBuffer();
-        int length = mItemEntity.getAttributes().getDirector().length;
+        int length;
+        try {
+            length = mItemEntity.getAttributes().getDirector().length;
+        } catch (NullPointerException e) {
+            length = 0;
+        }
         for (int i = 0; i < length; i++) {
             if (i == length) {
-                stringBuffer.append(mItemEntity.getAttributes().getDirector()[1]);
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[0]);
             } else {
-                stringBuffer.append(mItemEntity.getAttributes().getDirector()[1]).append(",");
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[0]).append(",");
             }
         }
         return stringBuffer.toString();
@@ -110,12 +131,17 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     @Bindable
     public String getActor() {
         StringBuffer stringBuffer = new StringBuffer();
-        int length = mItemEntity.getAttributes().getActor().length;
+        int length;
+        try {
+            length = mItemEntity.getAttributes().getActor().length;
+        } catch (NullPointerException e) {
+            length = 0;
+        }
         for (int i = 0; i < length; i++) {
             if (i == length) {
-                stringBuffer.append(mItemEntity.getAttributes().getDirector()[1]);
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[0]);
             } else {
-                stringBuffer.append(mItemEntity.getAttributes().getDirector()[1]).append(",");
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[0]).append(",");
             }
         }
         return stringBuffer.toString();
@@ -129,7 +155,13 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
     @Bindable
     public String getAirDate() {
-        return mItemEntity.getAttributes().getAirDate();
+        String date;
+        try {
+            date = mItemEntity.getAttributes().getAirDate();
+        } catch (NullPointerException e) {
+            date = "";
+        }
+        return date;
     }
 
     @Bindable
@@ -139,7 +171,12 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
     @Bindable
     public int getLength() {
-        int length = Integer.parseInt(mItemEntity.getClip().getLength());
+        int length;
+        try {
+            length = Integer.parseInt(mItemEntity.getClip().getLength());
+        } catch (NullPointerException e) {
+            length = 0;
+        }
         return length / 60;
     }
 
