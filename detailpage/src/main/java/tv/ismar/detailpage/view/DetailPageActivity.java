@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Constants;
+import tv.ismar.app.widget.LabelImageView;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentBinding;
@@ -36,6 +38,11 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private ActivityDetailpageNormalBinding mNormalBinding;
 
 
+    private int[] mRelImageViewIds = {R.id.rel_1_img, R.id.rel_2_img, R.id.rel_3_img, R.id.rel_4_img, R.id.rel_5_img, R.id.rel_6_img};
+    private int[] mRelTextViewIds = {R.id.rel_1_text, R.id.rel_2_text, R.id.rel_3_text, R.id.rel_4_text, R.id.rel_5_text, R.id.rel_6_text};
+
+    private LabelImageView[] relRelImageViews = new LabelImageView[6];
+    private TextView[] relTextViews = new TextView[6];
 
     private int mItemPk;
 
@@ -69,8 +76,10 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
             mNormalBinding.setActionHandler(mPresenter);
         }
 
-
-
+        for (int i = 0; i < 6; i++) {
+            relRelImageViews[i] = (LabelImageView) findViewById(mRelImageViewIds[i]);
+            relTextViews[i] = (TextView) findViewById(mRelTextViewIds[i]);
+        }
 
         Log.i(TAG, Constants.TEST);
         getLoaderManager().initLoader(0, null, mModel);
@@ -118,7 +127,9 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
-        if (itemEntities != null && itemEntities.length > 0) {
+        for (int i = 0; i < itemEntities.length && i < 6; i++) {
+            relRelImageViews[i].setLivUrl(itemEntities[i].getDetailUrl());
+            relTextViews[i].setText(itemEntities[i].getTitle());
         }
     }
 

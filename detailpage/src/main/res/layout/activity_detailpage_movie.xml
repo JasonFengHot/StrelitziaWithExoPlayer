@@ -365,6 +365,7 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
+                            android:id="@+id/rel_1_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
                             app:livContentPadding="21dp"
@@ -385,6 +386,7 @@
                             app:livVipUrl="" />
 
                         <TextView
+                            android:id="@+id/rel_1_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/movie_detail_relative_img_space"
@@ -404,6 +406,7 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
+                            android:id="@+id/rel_2_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
                             app:livContentPadding="21dp"
@@ -424,6 +427,7 @@
                             app:livVipUrl="" />
 
                         <TextView
+                            android:id="@+id/rel_2_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/movie_detail_relative_img_space"
@@ -443,6 +447,7 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
+                            android:id="@+id/rel_3_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
                             app:livContentPadding="21dp"
@@ -463,6 +468,7 @@
                             app:livVipUrl="" />
 
                         <TextView
+                            android:id="@+id/rel_3_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/movie_detail_relative_img_space"
@@ -482,6 +488,7 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
+                            android:id="@+id/rel_4_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
                             app:livContentPadding="21dp"
@@ -502,6 +509,7 @@
                             app:livVipUrl="" />
 
                         <TextView
+                            android:id="@+id/rel_4_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/movie_detail_relative_img_space"
@@ -521,6 +529,7 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
+                            android:id="@+id/rel_5_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
                             app:livContentPadding="21dp"
@@ -541,6 +550,7 @@
                             app:livVipUrl="" />
 
                         <TextView
+                            android:id="@+id/rel_5_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/movie_detail_relative_img_space"
@@ -560,6 +570,7 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
+                            android:id="@+id/rel_6_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
                             app:livContentPadding="21dp"
@@ -580,6 +591,7 @@
                             app:livVipUrl="" />
 
                         <TextView
+                            android:id="@+id/rel_6_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/movie_detail_relative_img_space"
