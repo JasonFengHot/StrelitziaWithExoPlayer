@@ -7,9 +7,9 @@
 
     <tv.ismar.app.widget.LabelImageView
         android:id="@+id/detail_labelImage"
-        android:layout_width="@dimen/movie_detail_label_image_w"
-        android:layout_height="@dimen/movie_detail_label_image_h"
-        app:livContentPadding="@dimen/label_image_padding"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        app:livContentPadding="21dp"
         app:livErrorDrawable="@mipmap/img_error_vertical"
         app:livLabelBackColor="@color/color_label_image_text_back"
         app:livLabelColor="@color/color_white"
@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/detail_labelText"
-        android:layout_width="@dimen/movie_detail_label_image_w"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:gravity="center"

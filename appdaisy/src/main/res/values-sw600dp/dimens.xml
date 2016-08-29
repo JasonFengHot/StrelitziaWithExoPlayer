@@ -1,22 +1,17 @@
 <resources>
 
-    <dimen name="h1_text_size">26.66sp</dimen>
-    <dimen name="h2_text_size">20sp</dimen>
-    <dimen name="h3_text_size">16.66sp</dimen>
-    <dimen name="h4_text_size">13.33sp</dimen>
-    <dimen name="h5_text_size">10sp</dimen>
+    <dimen name="h1_text_size">20.41dp</dimen>
+    <dimen name="h2_text_size">15.41dp</dimen>
+    <dimen name="h3_text_size">12.91dp</dimen>
+    <dimen name="h4_text_size">10.41dp</dimen>
+    <dimen name="h5_text_size">7.91dp</dimen>
 
     <!-- 头部高度 -->
-    <dimen name="header_fragment_h">55.55dp</dimen>
-    <dimen name="header_fragment_padding_lr">22.77dp</dimen>
-    <dimen name="header_fragment_padding_bottom">11.11dp</dimen>
+    <dimen name="header_fragment_h">55.83dp</dimen>
+    <dimen name="header_fragment_padding_lr">40.83dp</dimen>
+    <dimen name="header_fragment_padding_bottom">17.91dp</dimen>
+    <dimen name="header_fragment_divider_mr">22.08dp</dimen>
     <dimen name="header_fragment_divider_w">27.77dp</dimen>
     <dimen name="header_fragment_divider_h">2.77dp</dimen>
-
-    <dimen name="movie_detail_label_image_w">141.11dp</dimen>
-    <dimen name="movie_detail_label_image_h">197.22dp</dimen>
-
-    <dimen name="label_image_padding">11.66dp</dimen>
-
 
 </resources>

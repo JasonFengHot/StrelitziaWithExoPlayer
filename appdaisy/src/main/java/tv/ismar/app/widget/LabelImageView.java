@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -168,7 +169,7 @@ public class LabelImageView extends FrameLayout {
     }
 
     private void asyncLoadImage() {
-        if (imageView != null) {
+        if (imageView != null && !TextUtils.isEmpty(livUrl)) {
             Picasso.with(mContext).load(livUrl)
                     .placeholder(livErrorDrawable)
                     .error(livErrorDrawable)
@@ -178,7 +179,7 @@ public class LabelImageView extends FrameLayout {
     }
 
     private void asyncLoadVipImage() {
-        if (vipImageView != null) {
+        if (vipImageView != null && !TextUtils.isEmpty(livVipUrl)) {
             Picasso.with(mContext).load(livVipUrl)
                     .into(vipImageView);
         }

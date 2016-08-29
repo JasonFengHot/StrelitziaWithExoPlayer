@@ -8,5 +8,13 @@
     <string name="recommend_str">同类推荐</string>
     <string name="movie_more">更\n\n多</string>
     <string name="more">更多</string>
+    <string name="detail_page_type">类&#160;&#160;型:</string>
+    <string name="detail_page_level">分&#160;&#160;级:</string>
+    <string name="detail_page_area">地&#160;&#160;区:</string>
+    <string name="detail_page_time">上映时间:</string>
+    <string name="detail_page_director">导&#160;&#160;演:</string>
+    <string name="detail_page_actor">演&#160;&#160;员:</string>
+    <string name="detail_page_episodes">集&#160;&#160;数:</string>
+    <string name="detail_page_introduction">简&#160;&#160;介:</string>
 
 </resources>
