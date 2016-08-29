@@ -10,10 +10,26 @@
     tools:context="tv.ismar.sample.MainActivity">
 
     <Button
-        android:id="@+id/demo_detail_btn"
+        android:id="@+id/demo_detail_btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="DetailPage" />
+        android:text="电影" />
+
+    <Button
+        android:id="@+id/demo_detail_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:padding="8dp"
+        android:text="电视剧" />
+
+    <Button
+        android:id="@+id/demo_detail_btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:padding="8dp"
+        android:text="娱乐综艺" />
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package tv.ismar.detailpage.view;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -23,6 +24,7 @@ import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 public class DetailPageActivity extends BaseActivity implements DetailPageContract.View {
 
     private static final String TAG = "DetailPageActivity";
+    public static final String EXTRA_MODEL = "content_model";
 
     private DetailPageViewModel mModel;
     private DetailPageContract.Presenter mPresenter;
@@ -42,7 +44,19 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(uiOptions);
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
+        String content_model = getIntent().getStringExtra(EXTRA_MODEL);
+        if (TextUtils.isEmpty(content_model)) {
+            finish();
+            return;
+        }
+        if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
+            mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);
+        } else if ("movie".equals(content_model)) {
+            mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
+        } else {
+            mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal);
+        }
+
         mModel = new DetailPageViewModel(this, new DetailPagePresenter(this));
         mBinding.setTasks(mModel);
         mBinding.setActionHandler(mPresenter);

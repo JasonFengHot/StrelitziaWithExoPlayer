@@ -24,7 +24,7 @@
         tools:context=".view.DetailPageActivity">
 
         <fragment
-            android:id="@+id/movie_head"
+            android:id="@+id/detail_head"
             android:name="tv.ismar.app.ui.HeadFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                     android:id="@+id/detail_preview"
                     android:layout_width="@dimen/entertainment_detail_preview_img_w"
                     android:layout_height="@dimen/entertainment_detail_preview_img_h"
-                    android:layout_below="@+id/detail_title"
+                    android:layout_below="@id/detail_title"
                     android:layout_marginTop="@dimen/entertainment_detail_preview_img_mt"
                     android:scaleType="centerCrop"
                     app:imageUrl="@{tasks.itemPostUrl}" />
@@ -259,6 +259,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/detail_btn_linear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

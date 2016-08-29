@@ -1,8 +1,5 @@
 package tv.ismar.sample;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,11 +20,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SyncUtils.CreateSyncAccount(this);
 
-        Button demo_detail_btn = (Button) findViewById(R.id.demo_detail_btn);
-        demo_detail_btn.setOnClickListener(new View.OnClickListener() {
+        Button demo_detail_btn1 = (Button) findViewById(R.id.demo_detail_btn1);
+        demo_detail_btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
+                intent.putExtra(DetailPageActivity.EXTRA_MODEL, "movie");
+                startActivity(intent);
+            }
+        });
+
+        Button demo_detail_btn2 = (Button) findViewById(R.id.demo_detail_btn2);
+        demo_detail_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
+                intent.putExtra(DetailPageActivity.EXTRA_MODEL, "television");
+                startActivity(intent);
+            }
+        });
+
+        Button demo_detail_btn3 = (Button) findViewById(R.id.demo_detail_btn3);
+        demo_detail_btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
+                intent.putExtra(DetailPageActivity.EXTRA_MODEL, "entertainment");
                 startActivity(intent);
             }
         });
