@@ -16,5 +16,8 @@
     <string name="detail_page_actor">演&#160;&#160;员:</string>
     <string name="detail_page_episodes">集&#160;&#160;数:</string>
     <string name="detail_page_introduction">简&#160;&#160;介:</string>
+    <string name="detail_page_length">时&#160;&#160;长:</string>
+    <string name="detail_page_presenter">主&#160;持&#160;人:</string>
+    <string name="detail_page_guest">嘉&#160;&#160;宾:</string>
 
 </resources>
