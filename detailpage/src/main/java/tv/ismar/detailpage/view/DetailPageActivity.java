@@ -49,13 +49,6 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        View decorView = getWindow().getDecorView();
-        // Hide both the navigation bar and the status bar.
-        // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
-        // a general rule, you should design your app to hide the status bar whenever you
-        // hide the navigation bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-        decorView.setSystemUiVisibility(uiOptions);
         super.onCreate(savedInstanceState);
         content_model = getIntent().getStringExtra(EXTRA_MODEL);
         if (TextUtils.isEmpty(content_model)) {

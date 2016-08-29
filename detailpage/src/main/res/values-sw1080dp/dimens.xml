@@ -15,6 +15,7 @@
 
     <dimen name="movie_detail_relative_mt">61.5dp</dimen>
     <dimen name="movie_detail_relative_text_mt">78dp</dimen>
+    <dimen name="movie_detail_relative_text_ml">36dp</dimen>
     <dimen name="movie_detail_relative_img_ml">36.75dp</dimen>
     <dimen name="movie_detail_relative_img_mr">13.5dp</dimen>
     <dimen name="movie_detail_label_image_w">246dp</dimen>

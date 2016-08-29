@@ -14,4 +14,6 @@
     <dimen name="header_fragment_divider_w">27.77dp</dimen>
     <dimen name="header_fragment_divider_h">2.77dp</dimen>
 
+    <dimen name="label_image_padding">9.16dp</dimen>
+
 </resources>

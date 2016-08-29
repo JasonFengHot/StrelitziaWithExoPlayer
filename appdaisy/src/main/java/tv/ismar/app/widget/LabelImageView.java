@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -28,7 +29,7 @@ public class LabelImageView extends FrameLayout {
     private final String TAG = "LH/LabelImageView";
 
     private String livUrl;
-    private Drawable livSelectorDrawable;
+    private NinePatchDrawable livSelectorDrawable;
     private Drawable livErrorDrawable;
     private int livContentPadding;
     private int livLabelHeight;
@@ -67,7 +68,6 @@ public class LabelImageView extends FrameLayout {
         mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LabelImageView);
         livUrl = typedArray.getString(R.styleable.LabelImageView_livUrl);
-        livSelectorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livSelectorDrawable);
         livErrorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livErrorDrawable);
         livContentPadding = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livContentPadding, dp2px(5));
         livLabelHeight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelHeight, dp2px(30));
@@ -86,16 +86,18 @@ public class LabelImageView extends FrameLayout {
 
         typedArray.recycle();
 
-        setPadding(livContentPadding, livContentPadding, livContentPadding, livContentPadding);
         initView();
     }
 
     private void initView() {
+        livSelectorDrawable = (NinePatchDrawable) getResources().getDrawable(
+                R.drawable.vod_img_selector);
+
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         imageView = new ImageView(mContext);
         imageView.setLayoutParams(layoutParams);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        asyncLoadImage();
+        addView(imageView);
 
         if (livVipPosition > 0) {
             FrameLayout.LayoutParams ltparams;
@@ -112,7 +114,7 @@ public class LabelImageView extends FrameLayout {
             vipImageView = new ImageView(mContext);
             vipImageView.setLayoutParams(ltparams);
             vipImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            asyncLoadVipImage();
+            addView(vipImageView);
 
         }
 
@@ -125,6 +127,7 @@ public class LabelImageView extends FrameLayout {
         textView.setText(livLabelText);
         textView.setTextSize(livLabelSize);
         textView.setTextColor(livLabelColor);
+        addView(textView);
 
         if (livRate > 0) {
             FrameLayout.LayoutParams rateParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -135,8 +138,19 @@ public class LabelImageView extends FrameLayout {
             rateTextView.setText(String.valueOf(livRate));
             rateTextView.setTextColor(livRateColor);
             rateTextView.setTextSize(livRateSize);
+            addView(rateTextView);
         }
 
+    }
+
+    private void setBackgroundBorder(boolean focus) {
+        if (focus) {
+            Log.i(TAG, "width:" + getWidth() + " height:" + getHeight());
+//            livSelectorDrawable.setBounds(-livContentPadding * 2, -livContentPadding * 2, getWidth() + livContentPadding * 2, getHeight() + livContentPadding * 2);
+            setForeground(livSelectorDrawable);
+        } else {
+            setForeground(new ColorDrawable(0));
+        }
     }
 
     @Override
@@ -144,9 +158,9 @@ public class LabelImageView extends FrameLayout {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         Log.i(TAG, "onFocusChanged:" + gainFocus);
         if (gainFocus) {
-            setBackgroundDrawable(livSelectorDrawable);
+            setBackgroundBorder(true);
         } else {
-            setBackgroundDrawable(new ColorDrawable(0));
+            setBackgroundBorder(false);
         }
     }
 
@@ -155,33 +169,36 @@ public class LabelImageView extends FrameLayout {
         super.onHoverChanged(hovered);
         Log.i(TAG, "onHoverChanged:" + hovered);
         if (hovered) {
-            setBackgroundDrawable(livSelectorDrawable);
+            setBackgroundBorder(true);
         } else {
-            setBackgroundDrawable(new ColorDrawable(0));
+            setBackgroundBorder(false);
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i(TAG, "event:" + event.getAction());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                setBackgroundDrawable(livSelectorDrawable);
+                setBackgroundBorder(true);
                 return true;
             case MotionEvent.ACTION_UP:
-                setBackgroundDrawable(new ColorDrawable(0));
+                setBackgroundBorder(false);
                 return true;
         }
         return super.onTouchEvent(event);
     }
 
     private void asyncLoadImage() {
-        if (imageView != null && !TextUtils.isEmpty(livUrl)) {
-            Picasso.with(mContext).load(livUrl)
-                    .placeholder(livErrorDrawable)
-                    .error(livErrorDrawable)
-                    .centerCrop()
-                    .into(imageView);
+        Log.i(TAG, "asyncLoadImage:" + livUrl);
+        if (imageView != null) {
+            if (TextUtils.isEmpty(livUrl)) {
+                imageView.setImageDrawable(livErrorDrawable);
+            } else {
+                Picasso.with(mContext).load(livUrl)
+                        .placeholder(livErrorDrawable)
+                        .error(livErrorDrawable)
+                        .into(imageView);
+            }
         }
     }
 
@@ -203,10 +220,6 @@ public class LabelImageView extends FrameLayout {
 
     public Drawable getLivSelectorDrawable() {
         return livSelectorDrawable;
-    }
-
-    public void setLivSelectorDrawable(Drawable livSelectorDrawable) {
-        this.livSelectorDrawable = livSelectorDrawable;
     }
 
     public Drawable getLivErrorDrawable() {

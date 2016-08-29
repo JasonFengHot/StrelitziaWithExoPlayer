@@ -29,6 +29,8 @@
     </declare-styleable>
 
     <declare-styleable name="LabelImageView">
+        <attr name="livWidth" format="dimension" />
+        <attr name="livHeight" format="dimension" />
         <attr name="livUrl" format="string" />
         <attr name="livSelectorDrawable" format="reference" />
         <attr name="livErrorDrawable" format="reference" />
