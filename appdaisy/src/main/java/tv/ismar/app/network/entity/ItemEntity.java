@@ -387,6 +387,15 @@ public class ItemEntity {
         private String[][] actor;
         @SerializedName("air_date")
         private String airDate;
+        private String[] area;
+
+        public String[] getArea() {
+            return area;
+        }
+
+        public void setArea(String[] area) {
+            this.area = area;
+        }
 
         public String[][] getDirector() {
             return director;
