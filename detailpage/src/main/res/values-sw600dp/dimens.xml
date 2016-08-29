@@ -6,9 +6,9 @@
     <dimen name="movie_detail_content_padding_t">22.91dp</dimen>
     <dimen name="movie_detail_text_ml">20.41dp</dimen>
     <dimen name="movie_detail_text_w">247dp</dimen>
-    <dimen name="movie_detail_text_mt1">12.08dp</dimen>
-    <dimen name="movie_detail_text_mt2">12.91dp</dimen>
-    <dimen name="movie_detail_text_mt3">17.91dp</dimen>
+    <dimen name="movie_detail_text_mt1">7.91dp</dimen>
+    <dimen name="movie_detail_text_mt2">8.75dp</dimen>
+    <dimen name="movie_detail_text_mt3">9.58dp</dimen>
     <dimen name="movie_detail_button_w">152.5dp</dimen>
     <dimen name="movie_detail_button_h">51.66dp</dimen>
     <dimen name="movie_detail_button_space">10.41dp</dimen>
