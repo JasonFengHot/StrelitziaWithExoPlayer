@@ -36,6 +36,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private ActivityDetailpageMovieBinding mMovieBinding;
     private ActivityDetailpageEntertainmentBinding mEntertainmentBinding;
     private ActivityDetailpageNormalBinding mNormalBinding;
+    private String content_model;
 
 
     private int[] mRelImageViewIds = {R.id.rel_1_img, R.id.rel_2_img, R.id.rel_3_img, R.id.rel_4_img, R.id.rel_5_img, R.id.rel_6_img};
@@ -56,7 +57,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(uiOptions);
         super.onCreate(savedInstanceState);
-        String content_model = getIntent().getStringExtra(EXTRA_MODEL);
+        content_model = getIntent().getStringExtra(EXTRA_MODEL);
         if (TextUtils.isEmpty(content_model)) {
             finish();
             return;
@@ -128,7 +129,16 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
         for (int i = 0; i < itemEntities.length && i < 6; i++) {
-            relRelImageViews[i].setLivUrl(itemEntities[i].getDetailUrl());
+            switch (content_model) {
+                case "movie":
+                    relRelImageViews[i].setLivUrl(itemEntities[i].getList_url());
+                    break;
+                default:
+                    relRelImageViews[i].setLivUrl(itemEntities[i].getPosterUrl());
+                    break;
+
+            }
+
             relTextViews[i].setText(itemEntities[i].getTitle());
         }
     }
