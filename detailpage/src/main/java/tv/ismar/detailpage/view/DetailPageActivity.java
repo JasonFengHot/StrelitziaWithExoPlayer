@@ -15,6 +15,7 @@ import tv.ismar.app.util.Constants;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.databinding.ActivityDetailpageMovieBinding;
+import tv.ismar.detailpage.databinding.ActivityDetailpageNormalBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 
