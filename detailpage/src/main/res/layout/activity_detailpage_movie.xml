@@ -103,6 +103,7 @@
                         android:textSize="@dimen/h1_text_size" />
 
                     <LinearLayout
+                        android:visibility="@{tasks.genreVisibility}"
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/movie_detail_text_mt1"
@@ -120,7 +121,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.genre}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
@@ -175,6 +176,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="@{tasks.airDateVisibility}"
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/movie_detail_text_mt2"
@@ -192,13 +194,14 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.airDate}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="@{tasks.directorVisibility}"
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/movie_detail_text_mt2"
@@ -216,13 +219,14 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.director}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="@{tasks.actorVisibility}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/movie_detail_text_mt2"
@@ -240,7 +244,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.actor}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 

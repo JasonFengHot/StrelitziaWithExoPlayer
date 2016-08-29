@@ -88,6 +88,68 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
 
     @Bindable
+    public String getDirector() {
+        StringBuffer stringBuffer = new StringBuffer();
+        int length = mItemEntity.getAttributes().getDirector().length;
+        for (int i = 0; i < length; i++) {
+            if (i == length) {
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[1]);
+            } else {
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[1]).append(",");
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+
+    @Bindable
+    public int getDirectorVisibility() {
+        return TextUtils.isEmpty(getDirector()) ? View.GONE : View.VISIBLE;
+    }
+
+    @Bindable
+    public String getActor() {
+        StringBuffer stringBuffer = new StringBuffer();
+        int length = mItemEntity.getAttributes().getActor().length;
+        for (int i = 0; i < length; i++) {
+            if (i == length) {
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[1]);
+            } else {
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[1]).append(",");
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+
+    @Bindable
+    public int getActorVisibility() {
+        return TextUtils.isEmpty(getActor()) ? View.GONE : View.VISIBLE;
+    }
+
+    @Bindable
+    public String getAirDate() {
+        return mItemEntity.getAttributes().getAirDate();
+    }
+
+    @Bindable
+    public int getAirDateVisibility() {
+        return TextUtils.isEmpty(getAirDate()) ? View.GONE : View.VISIBLE;
+    }
+
+    @Bindable
+    public int getLength() {
+        int length = Integer.parseInt(mItemEntity.getClip().getLength());
+        return length / 60;
+    }
+
+    @Bindable
+    public int getLengthVisibility() {
+        return getLength() == 0 ? View.GONE : View.VISIBLE;
+    }
+
+
+    @Bindable
     public int getPurchaseVisibility() {
         return mItemEntity.getExpense() != null && mRemandDay <= 0 ? View.VISIBLE : View.GONE;
     }
