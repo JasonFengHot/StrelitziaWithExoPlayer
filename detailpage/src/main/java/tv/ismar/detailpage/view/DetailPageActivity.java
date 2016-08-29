@@ -31,8 +31,6 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private DetailPageViewModel mModel;
     private DetailPageContract.Presenter mPresenter;
 
-    private List<ItemEntity> itemEntityList = new ArrayList<>();
-
     private ActivityDetailpageMovieBinding mMovieBinding;
     private ActivityDetailpageEntertainmentBinding mEntertainmentBinding;
     private ActivityDetailpageNormalBinding mNormalBinding;
@@ -121,13 +119,6 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
         if (itemEntities != null && itemEntities.length > 0) {
-            itemEntityList.clear();
-            for (int i = 0; i < itemEntities.length; i++) {
-                itemEntityList.add(itemEntities[i]);
-                if (i == 5) {
-                    break;
-                }
-            }
         }
     }
 

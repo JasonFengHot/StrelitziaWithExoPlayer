@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_label_image_text_back"
     android:orientation="vertical"
     android:paddingLeft="@dimen/header_fragment_padding_lr"
     android:paddingRight="@dimen/header_fragment_padding_lr"
@@ -65,7 +64,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/header_fragment_padding_bottom"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <tv.ismar.app.widget.IndicatorButton
                 android:layout_width="wrap_content"

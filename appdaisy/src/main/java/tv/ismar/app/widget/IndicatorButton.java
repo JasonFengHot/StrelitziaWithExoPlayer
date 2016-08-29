@@ -132,10 +132,10 @@ public class IndicatorButton extends FrameLayout {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setIndicatorBack();
-                break;
+                return true;
             case MotionEvent.ACTION_UP:
                 clearBack();
-                break;
+                return true;
         }
         return super.onTouchEvent(event);
     }
@@ -147,9 +147,11 @@ public class IndicatorButton extends FrameLayout {
         }
         if (wrapContent) {
             int width = indicatorText.getWidth();
+            int height = indicatorText.getHeight();
             Log.i(TAG, "wrapContent:" + wrapContent + " width:" + width);
             if (width > 0) {
                 ((FrameLayout.LayoutParams) indicatorImage.getLayoutParams()).width = width;
+                ((FrameLayout.LayoutParams) indicatorImage.getLayoutParams()).height = height;
             }
         }
         indicatorImage.setImageDrawable(indicatorDrawable);

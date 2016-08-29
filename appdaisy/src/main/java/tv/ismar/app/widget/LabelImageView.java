@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -22,6 +24,8 @@ import tv.ismar.app.R;
  * Created by beaver on 16-8-23.
  */
 public class LabelImageView extends FrameLayout {
+
+    private final String TAG = "LH/LabelImageView";
 
     private String livUrl;
     private Drawable livSelectorDrawable;
@@ -138,32 +142,35 @@ public class LabelImageView extends FrameLayout {
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+        Log.i(TAG, "onFocusChanged:" + gainFocus);
         if (gainFocus) {
             setBackgroundDrawable(livSelectorDrawable);
         } else {
-            setBackgroundColor(Color.TRANSPARENT);
+            setBackgroundDrawable(new ColorDrawable(0));
         }
     }
 
     @Override
     public void onHoverChanged(boolean hovered) {
         super.onHoverChanged(hovered);
+        Log.i(TAG, "onHoverChanged:" + hovered);
         if (hovered) {
             setBackgroundDrawable(livSelectorDrawable);
         } else {
-            setBackgroundColor(Color.TRANSPARENT);
+            setBackgroundDrawable(new ColorDrawable(0));
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Log.i(TAG, "event:" + event.getAction());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setBackgroundDrawable(livSelectorDrawable);
-                break;
+                return true;
             case MotionEvent.ACTION_UP:
-                setBackgroundColor(Color.TRANSPARENT);
-                break;
+                setBackgroundDrawable(new ColorDrawable(0));
+                return true;
         }
         return super.onTouchEvent(event);
     }
