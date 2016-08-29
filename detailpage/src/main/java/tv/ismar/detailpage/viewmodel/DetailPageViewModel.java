@@ -57,6 +57,9 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         notifyPropertyChanged(BR.length);
         notifyPropertyChanged(BR.lengthVisibility);
 
+        notifyPropertyChanged(BR.area);
+        notifyPropertyChanged(BR.areaVisibility);
+
 
     }
 
@@ -88,10 +91,10 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
             length = 0;
         }
         for (int i = 0; i < length; i++) {
-            if (i == length -0) {
-                stringBuffer.append(mItemEntity.getAttributes().getGenre()[0]);
+            if (i == length - 1) {
+                stringBuffer.append(mItemEntity.getAttributes().getGenre()[i][1]);
             } else {
-                stringBuffer.append(mItemEntity.getAttributes().getGenre()[0]).append(",");
+                stringBuffer.append(mItemEntity.getAttributes().getGenre()[i][1]).append(",");
             }
         }
         return stringBuffer.toString();
@@ -113,10 +116,10 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
             length = 0;
         }
         for (int i = 0; i < length; i++) {
-            if (i == length) {
-                stringBuffer.append(mItemEntity.getAttributes().getDirector()[0]);
+            if (i == length - 1) {
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[i][1]);
             } else {
-                stringBuffer.append(mItemEntity.getAttributes().getDirector()[0]).append(",");
+                stringBuffer.append(mItemEntity.getAttributes().getDirector()[i][1]).append(",");
             }
         }
         return stringBuffer.toString();
@@ -138,10 +141,10 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
             length = 0;
         }
         for (int i = 0; i < length; i++) {
-            if (i == length) {
-                stringBuffer.append(mItemEntity.getAttributes().getDirector()[0]);
+            if (i == length - 1) {
+                stringBuffer.append(mItemEntity.getAttributes().getActor()[i][1]);
             } else {
-                stringBuffer.append(mItemEntity.getAttributes().getDirector()[0]).append(",");
+                stringBuffer.append(mItemEntity.getAttributes().getActor()[i][1]).append(",");
             }
         }
         return stringBuffer.toString();
@@ -170,21 +173,39 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     }
 
     @Bindable
-    public int getLength() {
+    public String getLength() {
         int length;
         try {
             length = Integer.parseInt(mItemEntity.getClip().getLength());
         } catch (NullPointerException e) {
             length = 0;
         }
-        return length / 60;
+        return String.valueOf(100);
     }
+
 
     @Bindable
     public int getLengthVisibility() {
-        return getLength() == 0 ? View.GONE : View.VISIBLE;
+        return getLength().equals("0") ? View.GONE : View.VISIBLE;
     }
 
+
+    @Bindable
+    public String getArea() {
+        String area;
+        try {
+            area = mItemEntity.getAttributes().getArea()[1];
+        } catch (NullPointerException e) {
+            area = "";
+        }
+        return area;
+    }
+
+
+    @Bindable
+    public int getAreaVisibility() {
+        return TextUtils.isEmpty(getArea()) ? View.GONE : View.VISIBLE;
+    }
 
     @Bindable
     public int getPurchaseVisibility() {

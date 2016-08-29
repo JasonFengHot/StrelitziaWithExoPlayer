@@ -152,6 +152,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="@{tasks.areaVisibility}"
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/movie_detail_text_mt2"
@@ -169,7 +170,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.area}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
