@@ -5,9 +5,8 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="@dimen/movie_duration_txt_w"
-        android:layout_height="@dimen/movie_duration_txt_h"
-        android:layout_alignBottom="@id/movie_detail_preview"
+        android:layout_width="@dimen/detailpage_duration_txt_w"
+        android:layout_height="@dimen/detailpage_duration_txt_h"
         android:background="@mipmap/detailpage_date"
         android:gravity="center"
         android:singleLine="true"
@@ -16,9 +15,8 @@
         android:visibility="gone" />
 
     <TextView
-        android:layout_width="@dimen/movie_vip_txt_w"
-        android:layout_height="@dimen/movie_duration_txt_h"
-        android:layout_alignBottom="@id/movie_detail_preview"
+        android:layout_width="@dimen/detailpage_vip_txt_w"
+        android:layout_height="@dimen/detailpage_duration_txt_h"
         android:background="@mipmap/detailpage_vip"
         android:gravity="center"
         android:singleLine="true"
@@ -28,9 +26,8 @@
         android:visibility="gone" />
 
     <TextView
-        android:layout_width="@dimen/movie_price_txt_w"
-        android:layout_height="@dimen/movie_duration_txt_h"
-        android:layout_alignBottom="@id/movie_detail_preview"
+        android:layout_width="@dimen/detailpage_price_txt_w"
+        android:layout_height="@dimen/detailpage_duration_txt_h"
         android:background="@mipmap/detailpage_vip"
         android:gravity="center"
         android:singleLine="true"

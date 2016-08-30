@@ -81,4 +81,9 @@
     <dimen name="entertainment_detail_more_w">41.25dp</dimen>
     <dimen name="entertainment_detail_button_padding_r">12.25dp</dimen>
 
+    <dimen name="detailpage_duration_txt_w">77.33dp</dimen>
+    <dimen name="detailpage_duration_txt_h">11dp</dimen>
+    <dimen name="detailpage_vip_txt_w">44.33dp</dimen>
+    <dimen name="detailpage_price_txt_w">37dp</dimen>
+
 </resources>
