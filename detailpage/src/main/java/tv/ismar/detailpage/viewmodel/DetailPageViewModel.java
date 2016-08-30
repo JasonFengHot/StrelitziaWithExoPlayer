@@ -216,6 +216,49 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         return mItemEntity.getExpense() != null && mRemandDay <= 0 ? View.VISIBLE : View.GONE;
     }
 
+//    @Bindable
+//    public String getEmcee() {
+//
+//    }
+//
+//    @Bindable
+//    public int getEmceeVisibility() {
+//
+//
+//    }
+//
+//    @Bindable
+//    public String getGuest() {
+//
+//    }
+//
+//    @Bindable
+//    public int getGuestVisibility() {
+//
+//    }
+
+
+    @Bindable
+    public String getEpisodes() {
+        String episodes;
+        try {
+            episodes = String.valueOf(mItemEntity.getEpisode());
+            if (episodes.equals("0")) {
+                episodes = "";
+            } else {
+                episodes += String.format(mContext.getString(R.string.update_to_episode), mItemEntity.getSubitems().length);
+            }
+
+        } catch (NullPointerException e) {
+            episodes = "";
+        }
+        return episodes;
+    }
+
+    @Bindable
+    public int getEpisodesVisibility() {
+        return TextUtils.isEmpty(getEpisodes()) ? View.GONE : View.VISIBLE;
+    }
 
     @Bindable
     public String getPlayText() {
@@ -227,6 +270,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         BookmarkTable bookmarkTable = new Select().from(BookmarkTable.class).where("pk = ?", mItemEntity.getPk()).executeSingle();
         return bookmarkTable == null ? mContext.getString(R.string.video_favorite) : mContext.getString(R.string.video_favorite_);
     }
+
 
     public void notifyPlayCheck(int remainDay) {
         mRemandDay = remainDay;

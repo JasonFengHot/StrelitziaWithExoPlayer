@@ -4,11 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.entity.ItemEntity;

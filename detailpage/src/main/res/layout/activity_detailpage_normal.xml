@@ -84,6 +84,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="@{tasks.classificationVisibility}"
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/detail_text_mt3"
@@ -101,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.classification}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
@@ -208,6 +209,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="@{tasks.episodesVisibility}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/detail_text_mt3"
@@ -225,7 +227,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.episodes}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
