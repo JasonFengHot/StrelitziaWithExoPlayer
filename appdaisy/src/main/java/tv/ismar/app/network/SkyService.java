@@ -2,6 +2,7 @@ package tv.ismar.app.network;
 
 import android.net.Uri;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -18,6 +19,7 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.network.entity.ActiveEntity;
+import tv.ismar.app.network.entity.DpiEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 
 /**
@@ -83,15 +85,17 @@ public interface SkyService {
             @Field("code") String code
     );
 
+    @GET("/api/dpi/")
+    Observable<List<DpiEntity>> fetchDpi(
+
+    );
+
 //    @GET
 //    Observable<HomePagerEntity> fetchHomePage(
 //            @Url String url
 //    );
 //
-//    @GET("/api/dpi/")
-//    Observable<List<DpiEntity>> fetchDpi(
-//
-//    );
+
 
 //    @FormUrlEncoded
 //    @POST("/api/play/check/")

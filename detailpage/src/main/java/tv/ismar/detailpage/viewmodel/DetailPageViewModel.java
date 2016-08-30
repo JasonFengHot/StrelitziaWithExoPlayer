@@ -265,4 +265,6 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     public void onLoaderReset(Loader<Cursor> loader) {
         notifyPropertyChanged(BR.bookmarkText);
     }
+
+
 }

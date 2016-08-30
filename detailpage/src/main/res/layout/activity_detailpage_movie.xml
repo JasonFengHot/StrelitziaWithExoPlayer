@@ -68,7 +68,6 @@
                     </FrameLayout>
 
                     <LinearLayout
-                        android:visibility="@{tasks.classificationVisibility}"
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/movie_detail_text_ml"
@@ -82,7 +81,7 @@
                             android:ellipsize="end"
                             android:includeFontPadding="false"
                             android:singleLine="true"
-                            android:text="@{tasks.classification}"
+                            android:text="@{tasks.itemTitle}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h1_text_size" />
 
@@ -114,6 +113,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="@{tasks.classificationVisibility}"
                             android:layout_width="@dimen/movie_detail_text_w"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt2"
@@ -133,7 +133,7 @@
                                 android:ellipsize="end"
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
-                                android:text="--"
+                                android:text="@{tasks.classification}"
                                 android:textColor="@color/color_white"
                                 android:textSize="@dimen/h3_text_size" />
 
