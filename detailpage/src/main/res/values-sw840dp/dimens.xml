@@ -85,6 +85,9 @@
     <dimen name="detailpage_duration_txt_h">25.66dp</dimen>
     <dimen name="detailpage_vip_txt_w">103.44dp</dimen>
     <dimen name="detailpage_price_txt_w">86.33dp</dimen>
+    <dimen name="detailpage_movie_corner_ml">55.62dp</dimen>
+    <dimen name="detailpage_normal_corner_w">377.79dp</dimen>
+    <dimen name="detailpage_entertainment_corner_ml">53.28dp</dimen>
 
 
 </resources>

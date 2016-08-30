@@ -234,13 +234,34 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/detail_preview"
-                    android:layout_width="@dimen/normal_detail_preview_img_w"
+                <FrameLayout
+                    android:layout_width="@dimen/detailpage_normal_corner_w"
                     android:layout_height="@dimen/normal_detail_preview_img_h"
-                    android:layout_alignParentRight="true"
-                    android:scaleType="centerCrop"
-                    app:imageUrl="@{tasks.itemPostUrl}" />
+                    android:layout_alignParentRight="true">
+
+                    <ImageView
+                        android:id="@+id/detail_preview"
+                        android:layout_width="@dimen/normal_detail_preview_img_w"
+                        android:layout_height="@dimen/normal_detail_preview_img_h"
+                        android:layout_gravity="right"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/img_error_horizontal"
+                        app:imageUrl="@{tasks.itemPostUrl}" />
+
+                    <ImageView
+                        android:id="@+id/detail_right_top_corner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|top"
+                        android:scaleType="centerCrop" />
+
+                    <include
+                        layout="@layout/detailpage_preview_corner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom" />
+
+                </FrameLayout>
 
                 <LinearLayout
                     android:id="@+id/detail_btn_linear"
