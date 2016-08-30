@@ -65,6 +65,7 @@
                     android:id="@+id/detail_des_container1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/detail_preview"
                     android:layout_marginLeft="@dimen/entertainment_detail_preview_img_mt"
                     android:layout_toRightOf="@id/detail_preview"
                     android:orientation="horizontal">
@@ -73,7 +74,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="@{tasks.genreVisibility}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -87,7 +89,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.genre}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
@@ -98,7 +100,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/entertainment_detail_text_space"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="@{tasks.areaVisibility}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -112,7 +115,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.area}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
@@ -137,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.airDate}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_text_size" />
 
@@ -242,7 +245,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/detail_page_presenter"
+                        android:text="@string/detail_page_guest"
                         android:textColor="@color/color_white"
                         android:textSize="@dimen/h3_text_size" />
 
@@ -331,14 +334,14 @@
                 <Button
                     android:id="@+id/detail_relative_button"
                     android:layout_width="@dimen/entertainment_detail_more_w"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/entertainment_detail_label_image_h"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/s_button_color"
                     android:ems="1"
                     android:gravity="center"
                     android:text="@string/movie_more"
                     android:textColor="@color/color_white"
-                    android:textSize="@dimen/h2_text_size" />
+                    android:textSize="@dimen/h1_text_size" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

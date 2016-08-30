@@ -49,41 +49,6 @@
                     android:scaleType="centerCrop"
                     app:imageUrl="@{tasks.itemPostUrl}" />
 
-                <!--<TextView-->
-                <!--android:layout_width="@dimen/movie_duration_txt_w"-->
-                <!--android:layout_height="@dimen/movie_duration_txt_h"-->
-                <!--android:layout_alignBottom="@id/movie_detail_preview"-->
-                <!--android:background="@mipmap/detailpage_date"-->
-                <!--android:gravity="center"-->
-                <!--android:singleLine="true"-->
-                <!--android:textColor="@color/color_white"-->
-                <!--android:textSize="@dimen/h5_text_size"-->
-                <!--android:visibility="gone" />-->
-
-                <!--<TextView-->
-                <!--android:layout_width="@dimen/movie_vip_txt_w"-->
-                <!--android:layout_height="@dimen/movie_duration_txt_h"-->
-                <!--android:layout_alignBottom="@id/movie_detail_preview"-->
-                <!--android:background="@mipmap/detailpage_vip"-->
-                <!--android:gravity="center"-->
-                <!--android:singleLine="true"-->
-                <!--android:text="仅限VIP观看"-->
-                <!--android:textColor="@color/color_white"-->
-                <!--android:textSize="@dimen/h5_text_size"-->
-                <!--android:visibility="gone" />-->
-
-                <!--<TextView-->
-                <!--android:layout_width="@dimen/movie_price_txt_w"-->
-                <!--android:layout_height="@dimen/movie_duration_txt_h"-->
-                <!--android:layout_alignBottom="@id/movie_detail_preview"-->
-                <!--android:background="@mipmap/detailpage_vip"-->
-                <!--android:gravity="center"-->
-                <!--android:singleLine="true"-->
-                <!--android:text="￥7.00"-->
-                <!--android:textColor="@color/color_white"-->
-                <!--android:textSize="@dimen/h5_text_size"-->
-                <!--android:visibility="gone" />-->
-
                 <LinearLayout
                     android:id="@+id/detail_des_container"
                     android:layout_width="wrap_content"
