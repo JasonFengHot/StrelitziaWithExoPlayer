@@ -68,7 +68,8 @@
                     </FrameLayout>
 
                     <LinearLayout
-                        android:layout_width="@dimen/movie_detail_text_w"
+                        android:id="@+id/detail_des_container"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/movie_detail_text_ml"
                         android:layout_toRightOf="@id/detail_preview_frame"
