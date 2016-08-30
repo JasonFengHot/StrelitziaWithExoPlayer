@@ -1,4 +1,4 @@
-package tv.ismar.daisy.module.detailpage;
+package tv.ismar.detailpage;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

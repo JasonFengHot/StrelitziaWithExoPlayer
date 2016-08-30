@@ -1,4 +1,4 @@
-package tv.ismar.daisy.module.detailpage;
+package tv.ismar.detailpage;
 
 import org.junit.Test;
 
