@@ -68,8 +68,8 @@
                     </FrameLayout>
 
                     <LinearLayout
-                        android:id="@+id/detail_des_container"
-                        android:layout_width="wrap_content"
+                        android:visibility="@{tasks.classificationVisibility}"
+                        android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/movie_detail_text_ml"
                         android:layout_toRightOf="@id/detail_preview_frame"
@@ -82,7 +82,7 @@
                             android:ellipsize="end"
                             android:includeFontPadding="false"
                             android:singleLine="true"
-                            android:text="@{tasks.itemTitle}"
+                            android:text="@{tasks.classification}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h1_text_size" />
 

@@ -51,14 +51,18 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         notifyPropertyChanged(BR.directorVisibility);
         notifyPropertyChanged(BR.actor);
         notifyPropertyChanged(BR.actorVisibility);
-
         notifyPropertyChanged(BR.genre);
         notifyPropertyChanged(BR.genreVisibility);
         notifyPropertyChanged(BR.length);
         notifyPropertyChanged(BR.lengthVisibility);
-
         notifyPropertyChanged(BR.area);
         notifyPropertyChanged(BR.areaVisibility);
+        notifyPropertyChanged(BR.airDate);
+        notifyPropertyChanged(BR.airDateVisibility);
+        notifyPropertyChanged(BR.length);
+        notifyPropertyChanged(BR.lengthVisibility);
+        notifyPropertyChanged(BR.classification);
+        notifyPropertyChanged(BR.classificationVisibility);
 
 
     }
@@ -180,13 +184,13 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         } catch (NullPointerException e) {
             length = 0;
         }
-        return String.valueOf(100);
+        return String.valueOf(length) + mContext.getString(R.string.minute);
     }
 
 
     @Bindable
     public int getLengthVisibility() {
-        return getLength().equals("0") ? View.GONE : View.VISIBLE;
+        return getLength().equals("0" + mContext.getString(R.string.minute)) ? View.GONE : View.VISIBLE;
     }
 
 
@@ -228,6 +232,24 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         mRemandDay = remainDay;
         notifyPropertyChanged(BR.playText);
     }
+
+
+    @Bindable
+    public String getClassification() {
+        String classification;
+        try {
+            classification = mItemEntity.getAttributes().getClassification();
+        } catch (NullPointerException e) {
+            classification = "";
+        }
+        return classification;
+    }
+
+    @Bindable
+    public int getClassificationVisibility() {
+        return TextUtils.isEmpty(getClassification()) ? View.GONE : View.VISIBLE;
+    }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {

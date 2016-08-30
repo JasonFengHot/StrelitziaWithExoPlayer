@@ -381,6 +381,15 @@ public class ItemEntity {
     }
 
     public class Attributes {
+        private String classification;
+
+        public String getClassification() {
+            return classification;
+        }
+
+        public void setClassification(String classification) {
+            this.classification = classification;
+        }
 
         private String[][] director;
         private String[][] genre;
@@ -602,7 +611,7 @@ public class ItemEntity {
         }
     }
 
-    public class Expense{
+    public class Expense {
         public float price;
         public float subprice;
         public int duration;
