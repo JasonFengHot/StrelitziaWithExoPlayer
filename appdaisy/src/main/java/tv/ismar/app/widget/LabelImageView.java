@@ -36,7 +36,6 @@ public class LabelImageView extends FrameLayout {
     private NinePatchDrawable livSelectorDrawable;
     private Drawable livErrorDrawable;
     private int livContentPadding;
-    private int livLabelHeight;
     private String livLabelText;
     private int livLabelColor;
     private int livLabelSize;
@@ -80,7 +79,6 @@ public class LabelImageView extends FrameLayout {
         livSelectorDrawable = (NinePatchDrawable) typedArray.getDrawable(R.styleable.LabelImageView_livSelectorDrawable);
         livErrorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livErrorDrawable);
         livContentPadding = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livContentPadding, dp2px(5));
-        livLabelHeight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelHeight, dp2px(30));
         livLabelText = typedArray.getString(R.styleable.LabelImageView_livLabelText);
         livLabelColor = typedArray.getColor(R.styleable.LabelImageView_livLabelColor, Color.WHITE);
         livLabelSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelSize, sp2px(16));
@@ -128,6 +126,7 @@ public class LabelImageView extends FrameLayout {
 
         }
 
+        int livLabelHeight = (int) (livLabelSize * 1.5f);
         FrameLayout.LayoutParams labelParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, livLabelHeight);
         labelParams.gravity = Gravity.BOTTOM;
         textView = new TextView(mContext);
@@ -157,7 +156,6 @@ public class LabelImageView extends FrameLayout {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         super.getDrawingRect(mRect);
-        Log.i(TAG, "draw");
         if (drawBorder) {
             mBound.set(-dp2px(21) + mRect.left, -dp2px(21) + mRect.top, dp2px(21) + mRect.right, dp2px(21) + mRect.bottom);
             livSelectorDrawable.setBounds(mBound);
@@ -268,14 +266,6 @@ public class LabelImageView extends FrameLayout {
 
     public void setLivContentPadding(int livContentPadding) {
         this.livContentPadding = livContentPadding;
-    }
-
-    public int getLivLabelHeight() {
-        return livLabelHeight;
-    }
-
-    public void setLivLabelHeight(int livLabelHeight) {
-        this.livLabelHeight = livLabelHeight;
     }
 
     public String getLivLabelText() {

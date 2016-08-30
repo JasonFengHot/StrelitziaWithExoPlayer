@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     tools:context="tv.ismar.sample.MainActivity">
 
     <Button
@@ -34,27 +34,5 @@
         android:layout_marginLeft="16dp"
         android:padding="8dp"
         android:text="娱乐综艺" />
-
-    <tv.ismar.app.widget.LabelImageView
-        android:id="@+id/rel_6_img"
-        android:layout_width="160dp"
-        android:layout_height="190dp"
-        android:layout_marginLeft="16dp"
-        app:livContentPadding="@dimen/label_image_padding"
-        app:livErrorDrawable="@mipmap/img_error_vertical"
-        app:livLabelBackColor="@color/color_label_image_text_back"
-        app:livLabelColor="@color/color_white"
-        app:livLabelSize="@dimen/h3_text_size"
-        app:livLabelText=""
-        app:livRate="0"
-        app:livRateColor="@color/color_focus"
-        app:livRateMarginBottom="5dp"
-        app:livRateMarginRight="10dp"
-        app:livRateSize="@dimen/h2_text_size"
-        app:livSelectorDrawable="@drawable/vod_img_selector"
-        app:livUrl=""
-        app:livVipPosition="gone"
-        app:livVipSize="0dp"
-        app:livVipUrl="" />
 
 </LinearLayout>
