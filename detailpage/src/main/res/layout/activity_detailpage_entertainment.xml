@@ -20,6 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/main_bg"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         tools:context=".view.DetailPageActivity">
 
@@ -33,6 +35,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingTop="@dimen/entertainment_detail_content_padding_t">
 
@@ -362,7 +366,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/entertainment_detail_content_padding_lr"
                 android:layout_marginRight="@dimen/entertainment_detail_content_padding_lr"
-                android:layout_marginTop="@dimen/entertainment_detail_label_image_mt">
+                android:layout_marginTop="@dimen/entertainment_detail_label_image_mt"
+                android:clipChildren="false"
+                android:clipToPadding="false">
 
                 <Button
                     android:id="@+id/detail_relative_button"
@@ -380,12 +386,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/entertainment_detail_label_image_space1"
-                    android:layout_toLeftOf="@id/detail_relative_button">
+                    android:layout_toLeftOf="@id/detail_relative_button"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
@@ -427,6 +437,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/entertainment_detail_label_image_space1"
                         android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
@@ -468,6 +480,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/entertainment_detail_label_image_space2"
                         android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
@@ -509,6 +523,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/entertainment_detail_label_image_space2"
                         android:layout_weight="1"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView

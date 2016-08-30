@@ -20,6 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/main_bg"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         tools:context=".view.DetailPageActivity">
 
@@ -33,6 +35,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/normal_detail_content_padding_lr"
             android:paddingRight="@dimen/normal_detail_content_padding_lr"
@@ -342,6 +346,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/normal_detail_relative_ml"
                 android:layout_marginTop="@dimen/normal_detail_relative_mt"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:orientation="vertical">
 
                 <TextView
@@ -357,6 +363,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_detail_img_mt1"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
@@ -413,6 +421,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
@@ -469,6 +479,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
@@ -525,6 +537,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView

@@ -6,14 +6,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +33,7 @@ public class LabelImageView extends FrameLayout {
     private final String TAG = "LH/LabelImageView";
 
     private String livUrl;
-    private Drawable livSelectorDrawable;
+    private NinePatchDrawable livSelectorDrawable;
     private Drawable livErrorDrawable;
     private int livContentPadding;
     private int livLabelHeight;
@@ -53,7 +56,11 @@ public class LabelImageView extends FrameLayout {
     private int LEFTTOP = 0;
     private int RIGHTTOP = 1;
     private int GONE = -1;
+    private Animation scaleSmallAnimation;
+    private Animation scaleBigAnimation;
     private Rect mBound;
+    private Rect mRect;
+    private boolean drawBorder;
 
     private Context mContext;
 
@@ -70,7 +77,7 @@ public class LabelImageView extends FrameLayout {
         mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LabelImageView);
         livUrl = typedArray.getString(R.styleable.LabelImageView_livUrl);
-        livSelectorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livSelectorDrawable);
+        livSelectorDrawable = (NinePatchDrawable) typedArray.getDrawable(R.styleable.LabelImageView_livSelectorDrawable);
         livErrorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livErrorDrawable);
         livContentPadding = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livContentPadding, dp2px(5));
         livLabelHeight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelHeight, dp2px(30));
@@ -87,9 +94,12 @@ public class LabelImageView extends FrameLayout {
         livRateMarginRight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateMarginRight, dp2px(5));
         livRateMarginBottom = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateMarginBottom, dp2px(5));
         typedArray.recycle();
+        setWillNotDraw(false);
+        mRect = new Rect();
+        mBound = new Rect();
 
         initView();
-        setWillNotDraw(false);
+
     }
 
     private void initView() {
@@ -146,24 +156,29 @@ public class LabelImageView extends FrameLayout {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        super.getDrawingRect(mRect);
         Log.i(TAG, "draw");
-        Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        canvas.drawLine(-10, -10, 12, 12, paint);
+        if (drawBorder) {
+            mBound.set(-dp2px(21) + mRect.left, -dp2px(21) + mRect.top, dp2px(21) + mRect.right, dp2px(21) + mRect.bottom);
+            livSelectorDrawable.setBounds(mBound);
+            canvas.save();
+            livSelectorDrawable.draw(canvas);
+            canvas.restore();
+        }
+        getRootView().requestLayout();
+        getRootView().invalidate();
     }
 
     private void setBackgroundBorder(boolean focus) {
         if (focus) {
-//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(getWidth() + dp2px(2), getHeight()+dp2px(2));
-//            imageView.setLayoutParams(layoutParams);
-//            imageView.setBackgroundDrawable(livSelectorDrawable);
-//            setBackgroundResource(R.mipmap.vod_item_selected);
+            drawBorder = true;
+            getRootView().requestLayout();
+            getRootView().invalidate();
+            zoomOut();
         } else {
-//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(getWidth(), getHeight());
-//            imageView.setLayoutParams(layoutParams);
-//            imageView.setBackgroundDrawable(new ColorDrawable(0));
+            drawBorder = false;
+            zoomIn();
         }
-        invalidate();
     }
 
     @Override
@@ -202,7 +217,7 @@ public class LabelImageView extends FrameLayout {
     }
 
     private void asyncLoadImage() {
-        Log.i(TAG, "asyncLoadImage:" + livUrl);
+//        Log.i(TAG, "asyncLoadImage:" + livUrl);
         if (imageView != null) {
             if (TextUtils.isEmpty(livUrl)) {
                 imageView.setImageDrawable(livErrorDrawable);
@@ -235,7 +250,7 @@ public class LabelImageView extends FrameLayout {
         return livSelectorDrawable;
     }
 
-    public void setLivSelectorDrawable(Drawable livSelectorDrawable) {
+    public void setLivSelectorDrawable(NinePatchDrawable livSelectorDrawable) {
         this.livSelectorDrawable = livSelectorDrawable;
     }
 
@@ -366,5 +381,21 @@ public class LabelImageView extends FrameLayout {
 
     private int sp2px(float sp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, getResources().getDisplayMetrics());
+    }
+
+    private void zoomIn() {
+        if (scaleSmallAnimation == null) {
+            scaleSmallAnimation = AnimationUtils.loadAnimation(getContext(),
+                    R.anim.anim_scale_small);
+        }
+        startAnimation(scaleSmallAnimation);
+    }
+
+    private void zoomOut() {
+        if (scaleBigAnimation == null) {
+            scaleBigAnimation = AnimationUtils.loadAnimation(getContext(),
+                    R.anim.anim_scale_big);
+        }
+        startAnimation(scaleBigAnimation);
     }
 }
