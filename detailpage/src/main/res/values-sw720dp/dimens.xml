@@ -1,14 +1,15 @@
 <resources>
 
+    <dimen name="detail_text_mt1">9.5dp</dimen>
+    <dimen name="detail_text_mt2">10.5dp</dimen>
+    <dimen name="detail_text_mt3">11.5dp</dimen>
+
     <dimen name="movie_detail_preview_img_w">224.5dp</dimen>
     <dimen name="movie_detail_preview_img_h">314.5dp</dimen>
     <dimen name="movie_detail_content_padding_lr">51dp</dimen>
     <dimen name="movie_detail_content_padding_t">27.5dp</dimen>
     <dimen name="movie_detail_text_ml">24.5dp</dimen>
     <dimen name="movie_detail_text_w">297dp</dimen>
-    <dimen name="movie_detail_text_mt1">9.5dp</dimen>
-    <dimen name="movie_detail_text_mt2">10.5dp</dimen>
-    <dimen name="movie_detail_text_mt3">11.5dp</dimen>
     <dimen name="movie_detail_button_w">183dp</dimen>
     <dimen name="movie_detail_button_h">62dp</dimen>
     <dimen name="movie_detail_button_space">12.5dp</dimen>
@@ -28,6 +29,7 @@
     <dimen name="normal_detail_content_padding_t">42dp</dimen>
     <dimen name="normal_detail_content_w">731.5dp</dimen>
     <dimen name="normal_detail_text_w">297dp</dimen>
+    <dimen name="normal_detail_text_h">275.5dp</dimen>
     <dimen name="normal_detail_text_mt1">20.5dp</dimen>
     <dimen name="normal_detail_text_mt2">21.5dp</dimen>
     <dimen name="normal_detail_preview_img_w">320.5dp</dimen>

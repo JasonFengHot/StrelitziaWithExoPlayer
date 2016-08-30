@@ -2,11 +2,12 @@ package tv.ismar.app.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -29,7 +30,7 @@ public class LabelImageView extends FrameLayout {
     private final String TAG = "LH/LabelImageView";
 
     private String livUrl;
-    private NinePatchDrawable livSelectorDrawable;
+    private Drawable livSelectorDrawable;
     private Drawable livErrorDrawable;
     private int livContentPadding;
     private int livLabelHeight;
@@ -52,6 +53,7 @@ public class LabelImageView extends FrameLayout {
     private int LEFTTOP = 0;
     private int RIGHTTOP = 1;
     private int GONE = -1;
+    private Rect mBound;
 
     private Context mContext;
 
@@ -68,6 +70,7 @@ public class LabelImageView extends FrameLayout {
         mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LabelImageView);
         livUrl = typedArray.getString(R.styleable.LabelImageView_livUrl);
+        livSelectorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livSelectorDrawable);
         livErrorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livErrorDrawable);
         livContentPadding = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livContentPadding, dp2px(5));
         livLabelHeight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelHeight, dp2px(30));
@@ -83,16 +86,13 @@ public class LabelImageView extends FrameLayout {
         livRateSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateSize, sp2px(14));
         livRateMarginRight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateMarginRight, dp2px(5));
         livRateMarginBottom = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateMarginBottom, dp2px(5));
-
         typedArray.recycle();
 
         initView();
+        setWillNotDraw(false);
     }
 
     private void initView() {
-        livSelectorDrawable = (NinePatchDrawable) getResources().getDrawable(
-                R.drawable.vod_img_selector);
-
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         imageView = new ImageView(mContext);
         imageView.setLayoutParams(layoutParams);
@@ -143,14 +143,27 @@ public class LabelImageView extends FrameLayout {
 
     }
 
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        Log.i(TAG, "draw");
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        canvas.drawLine(-10, -10, 12, 12, paint);
+    }
+
     private void setBackgroundBorder(boolean focus) {
         if (focus) {
-            Log.i(TAG, "width:" + getWidth() + " height:" + getHeight());
-//            livSelectorDrawable.setBounds(-livContentPadding * 2, -livContentPadding * 2, getWidth() + livContentPadding * 2, getHeight() + livContentPadding * 2);
-            setForeground(livSelectorDrawable);
+//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(getWidth() + dp2px(2), getHeight()+dp2px(2));
+//            imageView.setLayoutParams(layoutParams);
+//            imageView.setBackgroundDrawable(livSelectorDrawable);
+//            setBackgroundResource(R.mipmap.vod_item_selected);
         } else {
-            setForeground(new ColorDrawable(0));
+//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(getWidth(), getHeight());
+//            imageView.setLayoutParams(layoutParams);
+//            imageView.setBackgroundDrawable(new ColorDrawable(0));
         }
+        invalidate();
     }
 
     @Override
@@ -220,6 +233,10 @@ public class LabelImageView extends FrameLayout {
 
     public Drawable getLivSelectorDrawable() {
         return livSelectorDrawable;
+    }
+
+    public void setLivSelectorDrawable(Drawable livSelectorDrawable) {
+        this.livSelectorDrawable = livSelectorDrawable;
     }
 
     public Drawable getLivErrorDrawable() {

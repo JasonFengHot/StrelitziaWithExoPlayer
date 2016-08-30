@@ -106,7 +106,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/movie_detail_text_mt1"
+                        android:layout_marginTop="@dimen/detail_text_mt1"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.genreVisibility}">
 
@@ -133,7 +133,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/movie_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt2"
                         android:orientation="horizontal">
 
                         <TextView
@@ -159,7 +159,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/movie_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt2"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.areaVisibility}">
 
@@ -186,7 +186,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/movie_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt2"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.airDateVisibility}">
 
@@ -213,7 +213,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/movie_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/movie_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt2"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.directorVisibility}">
 
@@ -240,7 +240,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/movie_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt2"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.actorVisibility}">
 
@@ -267,7 +267,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/movie_detail_text_mt3"
+                        android:layout_marginTop="@dimen/detail_text_mt3"
                         android:orientation="horizontal">
 
                         <TextView
@@ -283,7 +283,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:includeFontPadding="false"
-                            android:lineSpacingExtra="@dimen/movie_detail_text_mt3"
+                            android:lineSpacingExtra="@dimen/detail_text_mt3"
                             android:maxLines="3"
                             android:text="@{tasks.description}"
                             android:textColor="@color/color_white"

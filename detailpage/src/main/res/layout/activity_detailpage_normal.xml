@@ -45,7 +45,7 @@
                 <LinearLayout
                     android:id="@+id/detail_des_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/normal_detail_text_h"
                     android:orientation="vertical">
 
                     <TextView
@@ -61,7 +61,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_detail_text_mt1"
+                        android:layout_marginTop="@dimen/detail_text_mt2"
                         android:orientation="horizontal">
 
                         <TextView
@@ -85,7 +85,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt3"
                         android:orientation="horizontal">
 
                         <TextView
@@ -109,7 +109,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt3"
                         android:orientation="horizontal">
 
                         <TextView
@@ -133,7 +133,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt3"
                         android:orientation="horizontal">
 
                         <TextView
@@ -157,7 +157,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt3"
                         android:orientation="horizontal">
 
                         <TextView
@@ -181,7 +181,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt3"
                         android:orientation="horizontal">
 
                         <TextView
@@ -205,7 +205,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/normal_detail_text_mt2"
+                        android:layout_marginTop="@dimen/detail_text_mt3"
                         android:orientation="horizontal">
 
                         <TextView
@@ -299,7 +299,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:lineSpacingExtra="@dimen/normal_detail_text_mt2"
+                        android:lineSpacingExtra="@dimen/detail_text_mt3"
                         android:maxLines="3"
                         android:text="@{tasks.description}"
                         android:textColor="@color/color_white"
@@ -332,6 +332,7 @@
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
+                        android:id="@+id/rel_1_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
                         app:livContentPadding="21dp"
@@ -358,6 +359,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/rel_1_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -368,7 +370,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/normal_detail_relative_text_mt"
+                            android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
                             android:text="--"
                             android:textColor="@color/color_white"
@@ -386,6 +388,7 @@
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
+                        android:id="@+id/rel_2_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
                         app:livContentPadding="21dp"
@@ -412,6 +415,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/rel_2_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -422,7 +426,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/normal_detail_relative_text_mt"
+                            android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
                             android:text="--"
                             android:textColor="@color/color_white"
@@ -440,6 +444,7 @@
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
+                        android:id="@+id/rel_3_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
                         app:livContentPadding="21dp"
@@ -466,6 +471,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/rel_3_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -476,7 +482,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/normal_detail_relative_text_mt"
+                            android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
                             android:text="--"
                             android:textColor="@color/color_white"
@@ -494,6 +500,7 @@
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
+                        android:id="@+id/rel_4_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
                         app:livContentPadding="21dp"
@@ -520,6 +527,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/rel_4_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -530,7 +538,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/normal_detail_relative_text_mt"
+                            android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
                             android:text="--"
                             android:textColor="@color/color_white"
@@ -542,7 +550,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:layout_width="@dimen/normal_detail_relative_button_h"
+                    android:layout_width="@dimen/normal_detail_relative_button_w"
                     android:layout_height="@dimen/normal_detail_relative_button_h"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/normal_detail_relative_button_mt"

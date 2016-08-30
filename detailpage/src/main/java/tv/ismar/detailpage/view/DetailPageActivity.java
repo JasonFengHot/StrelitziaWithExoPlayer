@@ -39,11 +39,12 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private String content_model;
 
 
+    private int relViews;
     private int[] mRelImageViewIds = {R.id.rel_1_img, R.id.rel_2_img, R.id.rel_3_img, R.id.rel_4_img, R.id.rel_5_img, R.id.rel_6_img};
     private int[] mRelTextViewIds = {R.id.rel_1_text, R.id.rel_2_text, R.id.rel_3_text, R.id.rel_4_text, R.id.rel_5_text, R.id.rel_6_text};
 
-    private LabelImageView[] relRelImageViews = new LabelImageView[6];
-    private TextView[] relTextViews = new TextView[6];
+    private LabelImageView[] relRelImageViews;
+    private TextView[] relTextViews;
 
     private int mItemPk;
 
@@ -57,20 +58,25 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         }
         mModel = new DetailPageViewModel(this, new DetailPagePresenter(this));
         if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
+            relViews = 4;
             mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);
             mEntertainmentBinding.setTasks(mModel);
             mEntertainmentBinding.setActionHandler(mPresenter);
         } else if ("movie".equals(content_model)) {
+            relViews = 6;
             mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
             mMovieBinding.setTasks(mModel);
             mMovieBinding.setActionHandler(mPresenter);
         } else {
+            relViews = 4;
             mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal);
             mNormalBinding.setTasks(mModel);
             mNormalBinding.setActionHandler(mPresenter);
         }
+        relRelImageViews = new LabelImageView[relViews];
+        relTextViews = new TextView[relViews];
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < relViews; i++) {
             relRelImageViews[i] = (LabelImageView) findViewById(mRelImageViewIds[i]);
             relTextViews[i] = (TextView) findViewById(mRelTextViewIds[i]);
         }
@@ -121,7 +127,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
-        for (int i = 0; i < itemEntities.length && i < 6; i++) {
+        for (int i = 0; i < itemEntities.length && i < relViews; i++) {
             switch (content_model) {
                 case "movie":
                     relRelImageViews[i].setLivUrl(itemEntities[i].getList_url());
