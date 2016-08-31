@@ -14,6 +14,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Constants;
+import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LabelImageView;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
@@ -182,11 +183,24 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
             }
             ItemEntity.Expense expense = itemEntities[i].getExpense();
-            if (expense != null && !TextUtils.isEmpty(expense.getCptitle())) {
+            if (expense != null && !Utils.isEmptyText(expense.getCptitle())) {
                 relRelImageViews[i].setLivVipPosition(LabelImageView.LEFTTOP);
                 String imageUrl = VipMark.getInstance().getImage(this, expense.getPay_type(), expense.getCpid());
                 relRelImageViews[i].setLivVipUrl(imageUrl);
             }
+            String scoreStr = itemEntities[i].getBeanScore();
+            if (!Utils.isEmptyText(scoreStr)) {
+                float score = 0;
+                try {
+                    score = Float.parseFloat(scoreStr);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                if (score > 0) {
+                    relRelImageViews[i].setLivRate(score);
+                }
+            }
+            relRelImageViews[i].setLivLabelText(itemEntities[i].getFocus());
 
             relTextViews[i].setText(itemEntities[i].getTitle());
         }
