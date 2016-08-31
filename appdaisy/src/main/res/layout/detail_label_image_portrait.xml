@@ -17,8 +17,6 @@
         app:livLabelText=""
         app:livRate="0"
         app:livRateColor="@color/color_focus"
-        app:livRateMarginBottom="5dp"
-        app:livRateMarginRight="10dp"
         app:livRateSize="@dimen/h2_text_size"
         app:livSelectorDrawable="@drawable/vod_img_selector"
         app:livUrl=""

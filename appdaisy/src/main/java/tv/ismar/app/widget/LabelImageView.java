@@ -46,11 +46,9 @@ public class LabelImageView extends FrameLayout {
     private float livRate;
     private int livRateColor;
     private int livRateSize;
-    private int livRateMarginRight;
-    private int livRateMarginBottom;
 
     private ImageView imageView, vipImageView;
-    private TextView textView;
+    private TextView textView, rateTextView;
 
     public static final int LEFTTOP = 0;
     public static final int RIGHTTOP = 1;
@@ -81,7 +79,7 @@ public class LabelImageView extends FrameLayout {
         livContentPadding = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livContentPadding, dp2px(5));
         livLabelText = typedArray.getString(R.styleable.LabelImageView_livLabelText);
         livLabelColor = typedArray.getColor(R.styleable.LabelImageView_livLabelColor, Color.WHITE);
-        livLabelSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelSize, sp2px(16));
+        livLabelSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelSize, dp2px(10));
         livLabelBackColor = typedArray.getColor(R.styleable.LabelImageView_livLabelBackColor, Color.parseColor("#33000000"));
         livVipPosition = typedArray.getInt(R.styleable.LabelImageView_livVipPosition, GONE);
         livVipUrl = typedArray.getString(R.styleable.LabelImageView_livVipUrl);
@@ -89,8 +87,6 @@ public class LabelImageView extends FrameLayout {
         livRate = typedArray.getFloat(R.styleable.LabelImageView_livRate, 0);
         livRateColor = typedArray.getColor(R.styleable.LabelImageView_livRateColor, Color.parseColor("#ff9000"));
         livRateSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateSize, sp2px(14));
-        livRateMarginRight = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateMarginRight, dp2px(5));
-        livRateMarginBottom = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateMarginBottom, dp2px(5));
         typedArray.recycle();
         setWillNotDraw(false);
         mRect = new Rect();
@@ -121,23 +117,25 @@ public class LabelImageView extends FrameLayout {
         textView = new TextView(mContext);
         textView.setLayoutParams(labelParams);
         textView.setBackgroundColor(livLabelBackColor);
+        textView.setPadding(dp2px(2), 0, dp2px(2), 0);
         textView.setGravity(Gravity.CENTER);
         textView.setText(livLabelText);
-        textView.setTextSize(livLabelSize);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, livLabelSize);
         textView.setTextColor(livLabelColor);
+        textView.setVisibility(View.INVISIBLE);
         addView(textView);
 
-        if (livRate > 0) {
-            FrameLayout.LayoutParams rateParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            rateParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
-            rateParams.bottomMargin = livRateMarginBottom;
-            rateParams.rightMargin = livRateMarginRight;
-            TextView rateTextView = new TextView(mContext);
-            rateTextView.setText(String.valueOf(livRate));
-            rateTextView.setTextColor(livRateColor);
-            rateTextView.setTextSize(livRateSize);
-            addView(rateTextView);
-        }
+        FrameLayout.LayoutParams rateParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        rateParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        rateParams.bottomMargin = livLabelHeight + livLabelHeight / 10;
+        rateParams.rightMargin = livLabelHeight / 4;
+        rateTextView = new TextView(mContext);
+        rateTextView.setLayoutParams(rateParams);
+        rateTextView.setText(String.valueOf(livRate));
+        rateTextView.setTextColor(livRateColor);
+        rateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, livRateSize);
+        rateTextView.setVisibility(View.INVISIBLE);
+        addView(rateTextView);
 
     }
 
@@ -272,6 +270,8 @@ public class LabelImageView extends FrameLayout {
 
     public void setLivLabelText(String livLabelText) {
         this.livLabelText = livLabelText;
+        textView.setText(livLabelText);
+        textView.setVisibility(View.VISIBLE);
     }
 
     public int getLivLabelColor() {
@@ -329,6 +329,8 @@ public class LabelImageView extends FrameLayout {
 
     public void setLivRate(float livRate) {
         this.livRate = livRate;
+        rateTextView.setText(String.valueOf(livRate));
+        rateTextView.setVisibility(View.VISIBLE);
     }
 
     public int getLivRateColor() {
@@ -345,22 +347,6 @@ public class LabelImageView extends FrameLayout {
 
     public void setLivRateSize(int livRateSize) {
         this.livRateSize = livRateSize;
-    }
-
-    public int getLivRateMarginRight() {
-        return livRateMarginRight;
-    }
-
-    public void setLivRateMarginRight(int livRateMarginRight) {
-        this.livRateMarginRight = livRateMarginRight;
-    }
-
-    public int getLivRateMarginBottom() {
-        return livRateMarginBottom;
-    }
-
-    public void setLivRateMarginBottom(int livRateMarginBottom) {
-        this.livRateMarginBottom = livRateMarginBottom;
     }
 
     private int dp2px(float dp) {
