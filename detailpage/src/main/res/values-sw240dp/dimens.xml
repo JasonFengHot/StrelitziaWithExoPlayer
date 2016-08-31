@@ -23,8 +23,6 @@
     <dimen name="movie_detail_label_image_h">76.16dp</dimen>
     <dimen name="movie_detail_relative_img_space">3.66dp</dimen>
     <dimen name="movie_detail_more_w">22dp</dimen>
-    <dimen name="movie_detail_button_padding_r">14.66dp</dimen>
-    <dimen name="movie_detail_button_padding_r1">18.66dp</dimen>
 
     <dimen name="normal_detail_content_padding_lr">16.33dp</dimen>
     <dimen name="normal_detail_content_padding_t">14dp</dimen>
@@ -89,6 +87,8 @@
     <dimen name="detailpage_movie_corner_ml">15.89dp</dimen>
     <dimen name="detailpage_normal_corner_w">107.94dp</dimen>
     <dimen name="detailpage_entertainment_corner_ml">15.22dp</dimen>
+    <dimen name="detailpage_button_drawable_left_size">11.77dp</dimen>
+    <dimen name="detailpage_button_drawable_left_p">4.16dp</dimen>
 
 
 </resources>

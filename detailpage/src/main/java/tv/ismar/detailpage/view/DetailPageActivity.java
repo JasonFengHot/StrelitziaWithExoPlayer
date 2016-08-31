@@ -1,9 +1,11 @@
 package tv.ismar.detailpage.view;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import tv.ismar.app.BaseActivity;
@@ -85,6 +87,49 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         mPresenter.start();
         mPresenter.fetchItem(String.valueOf(mItemPk), null, null);
         mPresenter.fetchItemRelate(String.valueOf(mItemPk), null, null);
+
+        // 购买按钮等设置
+        Drawable drawaleBuy = getResources().getDrawable(R.mipmap.daisy_left_buy);
+        Drawable drawalePlay = getResources().getDrawable(R.mipmap.daisy_left_play);
+        Drawable drawaleCollect = getResources().getDrawable(R.mipmap.daisy_left_collect);
+        Drawable drawaleDrama = getResources().getDrawable(R.mipmap.daisy_left_drama);
+        if (drawaleBuy != null) {
+            drawaleBuy.setBounds(0, 0,
+                    getResources().getDimensionPixelSize(R.dimen.detailpage_button_drawable_left_size),
+                    getResources().getDimensionPixelSize(R.dimen.detailpage_button_drawable_left_size));
+        }
+        if (drawalePlay != null) {
+            drawalePlay.setBounds(0, 0,
+                    getResources().getDimensionPixelSize(R.dimen.detailpage_button_drawable_left_size),
+                    getResources().getDimensionPixelSize(R.dimen.detailpage_button_drawable_left_size));
+        }
+        if (drawaleCollect != null) {
+            drawaleCollect.setBounds(0, 0,
+                    getResources().getDimensionPixelSize(R.dimen.detailpage_button_drawable_left_size),
+                    getResources().getDimensionPixelSize(R.dimen.detailpage_button_drawable_left_size));
+        }
+        if (drawaleDrama != null) {
+            drawaleDrama.setBounds(0, 0,
+                    getResources().getDimensionPixelSize(R.dimen.detailpage_button_drawable_left_size),
+                    getResources().getDimensionPixelSize(R.dimen.detailpage_button_drawable_left_size));
+        }
+        Button detail_btn_play = (Button) findViewById(R.id.detail_btn_play);
+        Button detail_btn_buy = (Button) findViewById(R.id.detail_btn_buy);
+        Button detail_btn_collect = (Button) findViewById(R.id.detail_btn_collect);
+        Button detail_btn_drama = (Button) findViewById(R.id.detail_btn_drama);
+        if (detail_btn_play != null) {
+            detail_btn_play.setCompoundDrawables(drawalePlay, null, null, null);
+        }
+        if (detail_btn_buy != null) {
+            detail_btn_buy.setCompoundDrawables(drawaleBuy, null, null, null);
+        }
+        if (detail_btn_collect != null) {
+            detail_btn_collect.setCompoundDrawables(drawaleCollect, null, null, null);
+        }
+        if (detail_btn_drama != null) {
+            detail_btn_drama.setCompoundDrawables(drawaleDrama, null, null, null);
+        }
+
     }
 
 
