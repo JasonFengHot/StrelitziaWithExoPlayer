@@ -44,9 +44,11 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private int relViews;
     private int[] mRelImageViewIds = {R.id.rel_1_img, R.id.rel_2_img, R.id.rel_3_img, R.id.rel_4_img, R.id.rel_5_img, R.id.rel_6_img};
     private int[] mRelTextViewIds = {R.id.rel_1_text, R.id.rel_2_text, R.id.rel_3_text, R.id.rel_4_text, R.id.rel_5_text, R.id.rel_6_text};
+    private int[] mRelTextViewFocusIds = {R.id.rel_1_focus_text, R.id.rel_2_focus_text, R.id.rel_3_focus_text, R.id.rel_4_focus_text};
 
     private LabelImageView[] relRelImageViews;
     private TextView[] relTextViews;
+    private TextView[] relFocusTextViews;
 
     private int mItemPk;
 
@@ -61,33 +63,37 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         mModel = new DetailPageViewModel(this, new DetailPagePresenter(this));
         if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
             relViews = 4;
+            mItemPk = 705116;
             mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);
             mEntertainmentBinding.setTasks(mModel);
             mEntertainmentBinding.setActionHandler(mPresenter);
         } else if ("movie".equals(content_model)) {
             relViews = 6;
+            mItemPk = 707744;
             mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
             mMovieBinding.setTasks(mModel);
             mMovieBinding.setActionHandler(mPresenter);
         } else {
             relViews = 4;
+            mItemPk = 705229;
             mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal);
             mNormalBinding.setTasks(mModel);
             mNormalBinding.setActionHandler(mPresenter);
         }
         relRelImageViews = new LabelImageView[relViews];
         relTextViews = new TextView[relViews];
+        relFocusTextViews = new TextView[relViews];
 
         for (int i = 0; i < relViews; i++) {
             relRelImageViews[i] = (LabelImageView) findViewById(mRelImageViewIds[i]);
             relTextViews[i] = (TextView) findViewById(mRelTextViewIds[i]);
+            if (!content_model.equals("variety") && !content_model.equals("entertainment") && !content_model.equals("movie")) {
+                relFocusTextViews[i] = (TextView) findViewById(mRelTextViewFocusIds[i]);
+            }
         }
 
         Log.i(TAG, Constants.TEST);
         getLoaderManager().initLoader(0, null, mModel);
-        //700711 免费
-        //706913 付费
-        mItemPk = 707744;
         mPresenter.start();
         mPresenter.fetchItem(String.valueOf(mItemPk), null, null);
         mPresenter.fetchItemRelate(String.valueOf(mItemPk), null, null);
@@ -200,9 +206,15 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
                     relRelImageViews[i].setLivRate(score);
                 }
             }
-            relRelImageViews[i].setLivLabelText(itemEntities[i].getFocus());
-
             relTextViews[i].setText(itemEntities[i].getTitle());
+
+            if (!content_model.equals("variety") && !content_model.equals("entertainment") && !content_model.equals("movie")) {
+                relFocusTextViews[i].setText(itemEntities[i].getFocus());
+            } else {
+                relRelImageViews[i].setLivLabelText(itemEntities[i].getFocus());
+            }
+
+
         }
     }
 
