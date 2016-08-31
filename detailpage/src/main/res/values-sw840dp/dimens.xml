@@ -87,7 +87,8 @@
     <dimen name="detailpage_movie_corner_ml">55.62dp</dimen>
     <dimen name="detailpage_normal_corner_w">377.79dp</dimen>
     <dimen name="detailpage_entertainment_corner_ml">53.28dp</dimen>
-    <dimen name="detailpage_button_drawable_left_p">15.16dp</dimen>
+    <dimen name="detailpage_button_drawable_left_size">41.22dp</dimen>
+    <dimen name="detailpage_button_drawable_left_p">14.58dp</dimen>
 
 
 </resources>

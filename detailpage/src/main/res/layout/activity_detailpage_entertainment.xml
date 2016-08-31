@@ -292,6 +292,7 @@
                         android:orientation="horizontal">
 
                         <Button
+                            android:id="@+id/detail_btn_play"
                             android:layout_width="@dimen/entertainment_detail_button3_w"
                             android:layout_height="@dimen/entertainment_detail_button_h"
                             android:background="@drawable/selector_button_radius"
@@ -302,6 +303,7 @@
                             android:textSize="@dimen/h1_text_size" />
 
                         <Button
+                            android:id="@+id/detail_btn_drama"
                             android:layout_width="@dimen/entertainment_detail_button2_w"
                             android:layout_height="@dimen/entertainment_detail_button_h"
                             android:layout_marginLeft="@dimen/entertainment_detail_button_ml"
@@ -314,6 +316,7 @@
                             android:visibility="@{tasks.purchaseVisibility}" />
 
                         <Button
+                            android:id="@+id/detail_btn_collect"
                             android:layout_width="@dimen/entertainment_detail_button1_w"
                             android:layout_height="@dimen/entertainment_detail_button_h"
                             android:layout_marginLeft="@dimen/entertainment_detail_button_ml"
