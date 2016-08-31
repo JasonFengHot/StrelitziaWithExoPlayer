@@ -69,6 +69,14 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         notifyPropertyChanged(BR.classification);
         notifyPropertyChanged(BR.classificationVisibility);
 
+        notifyPropertyChanged(BR.playText);
+
+        notifyPropertyChanged(BR.vipMarkUrl);
+        notifyPropertyChanged(BR.vipMarkVisibility);
+
+        notifyPropertyChanged(BR.price);
+        notifyPropertyChanged(BR.priceVisibility);
+
 
     }
 
@@ -77,6 +85,14 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     public static void loadImage(ImageView view, String imageUrl) {
         Picasso.with(view.getContext())
                 .load(imageUrl)
+                .into(view);
+    }
+
+    @BindingAdapter({"vipMark"})
+    public static void vipMark(ImageView view, String imageUrl) {
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .rotate(90)
                 .into(view);
     }
 
@@ -267,7 +283,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
             url = VipMark.getInstance().getImage((Activity) mContext, mItemEntity.getExpense().getPay_type(),
                     mItemEntity.getExpense().getCpid());
         } else {
-            url = "";
+            url = "test";
         }
         return url;
     }

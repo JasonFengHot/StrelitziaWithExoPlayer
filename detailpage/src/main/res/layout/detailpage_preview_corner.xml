@@ -1,39 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="@dimen/detailpage_duration_txt_w"
-        android:layout_height="@dimen/detailpage_duration_txt_h"
-        android:background="@mipmap/detailpage_date"
-        android:gravity="center"
-        android:singleLine="true"
-        android:textColor="@color/color_white"
-        android:textSize="@dimen/h5_text_size"
-        android:visibility="visible" />
+    <data>
 
-    <TextView
-        android:layout_width="@dimen/detailpage_vip_txt_w"
-        android:layout_height="@dimen/detailpage_duration_txt_h"
-        android:background="@mipmap/detailpage_vip"
-        android:gravity="center"
-        android:singleLine="true"
-        android:text="仅限VIP观看"
-        android:textColor="@color/color_white"
-        android:textSize="@dimen/h5_text_size"
-        android:visibility="visible" />
+        <import type="android.view.View"/>
 
-    <TextView
-        android:layout_width="@dimen/detailpage_price_txt_w"
-        android:layout_height="@dimen/detailpage_duration_txt_h"
-        android:background="@mipmap/detailpage_vip"
-        android:gravity="center"
-        android:singleLine="true"
-        android:text="￥7.00"
-        android:textColor="@color/color_white"
-        android:textSize="@dimen/h5_text_size"
-        android:visibility="visible" />
+        <variable
+            name="tasks"
+            type="tv.ismar.detailpage.viewmodel.DetailPageViewModel"/>
 
-</RelativeLayout>
+        <variable
+            name="actionHandler"
+            type="tv.ismar.detailpage.DetailPageContract.Presenter"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="@dimen/detailpage_duration_txt_w"
+            android:layout_height="@dimen/detailpage_duration_txt_h"
+            android:background="@mipmap/detailpage_date"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/h5_text_size"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="@dimen/detailpage_vip_txt_w"
+            android:layout_height="@dimen/detailpage_duration_txt_h"
+            android:background="@mipmap/detailpage_vip"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="仅限VIP观看"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/h5_text_size"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="@dimen/detailpage_price_txt_w"
+            android:layout_height="@dimen/detailpage_duration_txt_h"
+            android:background="@mipmap/detailpage_vip"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@{tasks.price}"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/h5_text_size"
+            android:visibility="@{tasks.priceVisibility}"/>
+
+    </RelativeLayout>
+</layout>

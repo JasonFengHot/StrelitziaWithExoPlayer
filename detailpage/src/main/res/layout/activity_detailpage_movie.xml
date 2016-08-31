@@ -63,6 +63,8 @@
                             app:imageUrl="@{tasks.itemPostUrl}" />
 
                         <ImageView
+                            android:visibility="@{tasks.vipMarkVisibility}"
+                            app:vipMark="@{tasks.vipMarkUrl}"
                             android:id="@+id/detail_right_top_corner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -331,6 +333,7 @@
 
                 <include
                     layout="@layout/detailpage_preview_corner"
+                    bind:tasks="@{tasks}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
