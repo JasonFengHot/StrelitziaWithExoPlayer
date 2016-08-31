@@ -3,6 +3,15 @@ package tv.ismar.app.network.entity;
 public class PlayCheckEntity {
     private String expiry_date;
     private String iqiyi_code;
+    private int remainDay;
+
+    public int getRemainDay() {
+        return remainDay;
+    }
+
+    public void setRemainDay(int remainDay) {
+        this.remainDay = remainDay;
+    }
 
     public String getExpiry_date() {
         return expiry_date;

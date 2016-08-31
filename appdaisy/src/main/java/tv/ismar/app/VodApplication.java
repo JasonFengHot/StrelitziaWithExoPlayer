@@ -2,6 +2,11 @@ package tv.ismar.app;
 
 import android.content.Context;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
 import tv.ismar.app.core.VipMark;
@@ -20,6 +25,10 @@ public class VodApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ActiveAndroid.initialize(this);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
+        Picasso.setSingletonInstance(picasso);
+
         mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
         mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
         mHttpParamsInterceptor = new HttpParamsInterceptor.Builder()

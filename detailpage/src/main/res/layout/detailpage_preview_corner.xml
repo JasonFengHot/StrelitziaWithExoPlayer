@@ -25,9 +25,10 @@
             android:background="@mipmap/detailpage_date"
             android:gravity="center"
             android:singleLine="true"
+            android:text="@{tasks.expireDate}"
             android:textColor="@color/color_white"
             android:textSize="@dimen/h5_text_size"
-            android:visibility="visible"/>
+            android:visibility="@{tasks.expireDateVisibility}"/>
 
         <TextView
             android:layout_width="@dimen/detailpage_vip_txt_w"
@@ -38,7 +39,7 @@
             android:text="仅限VIP观看"
             android:textColor="@color/color_white"
             android:textSize="@dimen/h5_text_size"
-            android:visibility="visible"/>
+            android:visibility="@{tasks.permissionVisibility}"/>
 
         <TextView
             android:layout_width="@dimen/detailpage_price_txt_w"

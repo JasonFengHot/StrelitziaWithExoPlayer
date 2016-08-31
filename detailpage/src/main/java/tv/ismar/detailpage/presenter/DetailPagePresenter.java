@@ -156,8 +156,8 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                     @Override
                     public void onNext(ResponseBody responseBody) {
                         try {
-                            int remainDay = calculateRemainDay(responseBody.string());
-                            mDetailView.notifyPlayCheck(remainDay);
+                            PlayCheckEntity playCheckEntity = calculateRemainDay(responseBody.string());
+                            mDetailView.notifyPlayCheck(playCheckEntity);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -165,23 +165,25 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                 });
     }
 
-    private int calculateRemainDay(String info) {
-        int remainDay;
+    private PlayCheckEntity calculateRemainDay(String info) {
+        PlayCheckEntity playCheckEntity;
         switch (info) {
             case "0":
-                remainDay = 0;
+                playCheckEntity = new PlayCheckEntity();
+                playCheckEntity.setRemainDay(0);
                 break;
             default:
-                PlayCheckEntity playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
-
+                playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
+                int remainDay;
                 try {
                     remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date()) + 1;
                 } catch (ParseException e) {
                     remainDay = 0;
                 }
+                playCheckEntity.setRemainDay(remainDay);
                 break;
         }
-        return remainDay;
+        return playCheckEntity;
     }
 
     @Override

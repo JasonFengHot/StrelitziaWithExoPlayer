@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.util.Constants;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LabelImageView;
@@ -219,8 +220,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     }
 
     @Override
-    public void notifyPlayCheck(int remainDay) {
-        mModel.notifyPlayCheck(remainDay);
+    public void notifyPlayCheck(PlayCheckEntity playCheckEntity) {
+        mModel.notifyPlayCheck(playCheckEntity);
     }
-
 }

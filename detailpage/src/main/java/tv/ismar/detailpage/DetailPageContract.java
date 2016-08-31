@@ -3,6 +3,7 @@ package tv.ismar.detailpage;
 import tv.ismar.app.BasePresenter;
 import tv.ismar.app.BaseView;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.network.entity.PlayCheckEntity;
 
 /**
  * Created by huibin on 8/19/16.
@@ -13,7 +14,7 @@ public interface DetailPageContract {
 
         void loadItemRelate(ItemEntity[] itemEntities);
 
-        void notifyPlayCheck(int remainDay);
+        void notifyPlayCheck(PlayCheckEntity playCheckEntity);
 
     }
 

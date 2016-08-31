@@ -17,6 +17,8 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -25,6 +27,7 @@ import cn.ismartv.injectdb.library.query.Select;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.detailpage.BR;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
@@ -38,6 +41,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     public ObservableField<String> itemTitle;
     private ItemEntity mItemEntity = new ItemEntity();
     private int mRemandDay = 0;
+    private String expireDate;
 
 
     public DetailPageViewModel(Context context, DetailPageContract.Presenter presenter) {
@@ -76,6 +80,8 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
         notifyPropertyChanged(BR.price);
         notifyPropertyChanged(BR.priceVisibility);
+
+        notifyPropertyChanged(BR.permissionVisibility);
 
 
     }
@@ -264,7 +270,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         try {
             BigDecimal bigDecimal = new BigDecimal(mItemEntity.getExpense().getPrice());
             DecimalFormat decimalFormat = new DecimalFormat("##0.0");
-            price = decimalFormat.format(bigDecimal);
+            price = mContext.getString(R.string.yuan) + decimalFormat.format(bigDecimal);
         } catch (NullPointerException e) {
             price = "0";
         }
@@ -273,7 +279,21 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
     @Bindable
     public int getPriceVisibility() {
-        return getPrice().equals("0") ? View.GONE : View.VISIBLE;
+        try {
+            if (mItemEntity.getExpense().getPay_type() == 3 || mItemEntity.getExpense().getPay_type() == 0) {
+                if (TextUtils.isEmpty(expireDate)) {
+                    return View.VISIBLE;
+                } else {
+                    return View.GONE;
+                }
+
+            } else {
+                return getPrice().equals("0") ? View.GONE : View.VISIBLE;
+            }
+        } catch (NullPointerException e) {
+            return View.GONE;
+        }
+
     }
 
     @Bindable
@@ -294,6 +314,24 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         return TextUtils.isEmpty(getVipMarkUrl()) ? View.GONE : View.VISIBLE;
     }
 
+
+    @Bindable
+    public int getPermissionVisibility() {
+        try {
+            if (mItemEntity.getExpense().getPay_type() == 3 || mItemEntity.getExpense().getPay_type() == 0) {
+                if (TextUtils.isEmpty(expireDate)) {
+                    return View.VISIBLE;
+                } else {
+                    return View.GONE;
+                }
+
+            } else {
+                return View.GONE;
+            }
+        } catch (NullPointerException e) {
+            return View.GONE;
+        }
+    }
 
     @Bindable
     public String getEpisodes() {
@@ -329,9 +367,24 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     }
 
 
-    public void notifyPlayCheck(int remainDay) {
-        mRemandDay = remainDay;
+    public void notifyPlayCheck(PlayCheckEntity playCheckEntity) {
+        mRemandDay = playCheckEntity.getRemainDay();
+        expireDate = playCheckEntity.getExpiry_date();
         notifyPropertyChanged(BR.playText);
+        notifyPropertyChanged(BR.expireDate);
+        notifyPropertyChanged(BR.expireDateVisibility);
+        notifyPropertyChanged(BR.priceVisibility);
+        notifyPropertyChanged(BR.permissionVisibility);
+    }
+
+    @Bindable
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    @Bindable
+    public int getExpireDateVisibility() {
+        return TextUtils.isEmpty(expireDate) ? View.GONE : View.VISIBLE;
     }
 
 
