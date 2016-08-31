@@ -3,6 +3,7 @@ package tv.ismar.detailpage.view;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
+import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.Constants;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LabelImageView;
@@ -53,6 +55,9 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     private int mItemPk;
 
+    private HeadFragment headFragment;
+    private String mHeadTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,25 +70,28 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
             relViews = 4;
             mItemPk = 705116;
+            mHeadTitle = "娱乐综艺";
             mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);
             mEntertainmentBinding.setTasks(mModel);
             mEntertainmentBinding.setActionHandler(mPresenter);
         } else if ("movie".equals(content_model)) {
             relViews = 6;
             mItemPk = 707744;
+            mHeadTitle = "电影";
             mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
             mMovieBinding.setTasks(mModel);
             mMovieBinding.setActionHandler(mPresenter);
         } else {
             relViews = 4;
+            relFocusTextViews = new TextView[relViews];
             mItemPk = 705229;
+            mHeadTitle = "电视剧";
             mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal);
             mNormalBinding.setTasks(mModel);
             mNormalBinding.setActionHandler(mPresenter);
         }
         relRelImageViews = new LabelImageView[relViews];
         relTextViews = new TextView[relViews];
-        relFocusTextViews = new TextView[relViews];
 
         for (int i = 0; i < relViews; i++) {
             relRelImageViews[i] = (LabelImageView) findViewById(mRelImageViewIds[i]);
@@ -92,6 +100,8 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
                 relFocusTextViews[i] = (TextView) findViewById(mRelTextViewFocusIds[i]);
             }
         }
+        headFragment = (HeadFragment) getSupportFragmentManager().findFragmentById(R.id.detail_head);
+        headFragment.setHeadTitle(mHeadTitle);
 
         Log.i(TAG, Constants.TEST);
         getLoaderManager().initLoader(0, null, mModel);

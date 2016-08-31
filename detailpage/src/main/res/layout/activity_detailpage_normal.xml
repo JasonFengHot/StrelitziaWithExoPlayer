@@ -400,7 +400,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text="--"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h2_text_size" />
 
@@ -410,7 +409,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
-                            android:text=""
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h2_text_size" />
 
@@ -457,7 +455,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text="--"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h2_text_size" />
 
@@ -467,7 +464,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
-                            android:text=""
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h2_text_size" />
 
@@ -514,7 +510,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text="--"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h2_text_size" />
 
@@ -524,7 +519,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
-                            android:text=""
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h2_text_size" />
 
@@ -571,7 +565,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text="--"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h2_text_size" />
 
@@ -581,7 +574,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
-                            android:text=""
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h2_text_size" />
 
