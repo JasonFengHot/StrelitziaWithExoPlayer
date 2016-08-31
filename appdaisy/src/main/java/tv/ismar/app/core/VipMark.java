@@ -21,7 +21,7 @@ import tv.ismar.app.network.entity.DpiEntity;
  */
 public class VipMark {
     private static final String TAG = "VipMark";
-    public static VipMark mInstance;
+    private static VipMark mInstance;
 
 
     private VipMark() {

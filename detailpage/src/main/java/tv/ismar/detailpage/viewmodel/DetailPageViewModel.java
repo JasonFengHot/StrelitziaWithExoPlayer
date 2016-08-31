@@ -1,5 +1,6 @@
 package tv.ismar.detailpage.viewmodel;
 
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -16,8 +17,12 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
 import cn.ismartv.injectdb.library.content.ContentProvider;
 import cn.ismartv.injectdb.library.query.Select;
+import tv.ismar.app.core.VipMark;
 import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.detailpage.BR;
@@ -236,6 +241,42 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 //    public int getGuestVisibility() {
 //
 //    }
+
+    @Bindable
+    public String getPrice() {
+        String price = "0";
+        try {
+            BigDecimal bigDecimal = new BigDecimal(mItemEntity.getExpense().getPrice());
+            DecimalFormat decimalFormat = new DecimalFormat("##0.0");
+            price = decimalFormat.format(bigDecimal);
+        } catch (NullPointerException e) {
+            price = "0";
+        }
+        return price;
+    }
+
+    @Bindable
+    public int getPriceVisibility() {
+        return getPrice().equals("0") ? View.GONE : View.VISIBLE;
+    }
+
+    @Bindable
+    public String getVipMarkUrl() {
+        String url;
+        if (mItemEntity.getExpense() != null) {
+            url = VipMark.getInstance().getImage((Activity) mContext, mItemEntity.getExpense().getPay_type(),
+                    mItemEntity.getExpense().getCpid());
+        } else {
+            url = "";
+        }
+        return url;
+    }
+
+
+    @Bindable
+    public int getVipMarkVisibility() {
+        return TextUtils.isEmpty(getVipMarkUrl()) ? View.GONE : View.VISIBLE;
+    }
 
 
     @Bindable
