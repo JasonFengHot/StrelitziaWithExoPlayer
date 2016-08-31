@@ -281,14 +281,14 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     public int getPriceVisibility() {
         try {
             if (mItemEntity.getExpense().getPay_type() == 3 || mItemEntity.getExpense().getPay_type() == 0) {
+
+                return View.GONE;
+            } else {
                 if (TextUtils.isEmpty(expireDate)) {
                     return View.VISIBLE;
                 } else {
-                    return View.GONE;
+                    return getPrice().equals("0") ? View.GONE : View.VISIBLE;
                 }
-
-            } else {
-                return getPrice().equals("0") ? View.GONE : View.VISIBLE;
             }
         } catch (NullPointerException e) {
             return View.GONE;
