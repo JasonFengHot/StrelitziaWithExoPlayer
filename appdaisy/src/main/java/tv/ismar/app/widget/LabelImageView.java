@@ -89,6 +89,8 @@ public class LabelImageView extends FrameLayout {
         livRateSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateSize, sp2px(14));
         typedArray.recycle();
         setWillNotDraw(false);
+        setFocusable(true);
+        setFocusableInTouchMode(false);
         mRect = new Rect();
         mBound = new Rect();
 
