@@ -90,5 +90,9 @@
     <dimen name="detailpage_button_drawable_left_size">41.22dp</dimen>
     <dimen name="detailpage_button_drawable_left_p">14.58dp</dimen>
 
+    <dimen name="movie_detail_button_padding_left">38.88dp</dimen>
+    <dimen name="normal_detail_button_padding_left">35dp</dimen>
+    <dimen name="entertainment_detail_button_padding_left">35dp</dimen>
+
 
 </resources>
