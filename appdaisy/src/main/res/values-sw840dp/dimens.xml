@@ -1,5 +1,6 @@
 <resources>
 
+    <dimen name="h0_text_size">37.33dp</dimen>
     <dimen name="h1_text_size">28.58dp</dimen>
     <dimen name="h2_text_size">21.58dp</dimen>
     <dimen name="h3_text_size">18.08dp</dimen>

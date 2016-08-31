@@ -52,9 +52,9 @@ public class LabelImageView extends FrameLayout {
     private ImageView imageView, vipImageView;
     private TextView textView;
 
-    private int LEFTTOP = 0;
-    private int RIGHTTOP = 1;
-    private int GONE = -1;
+    public static final int LEFTTOP = 0;
+    public static final int RIGHTTOP = 1;
+    public static final int GONE = -1;
     private Animation scaleSmallAnimation;
     private Animation scaleBigAnimation;
     private Rect mBound;
@@ -107,24 +107,13 @@ public class LabelImageView extends FrameLayout {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         addView(imageView);
 
-        if (livVipPosition > 0) {
-            FrameLayout.LayoutParams ltparams;
-            if (livVipSize == 0) {
-                ltparams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            } else {
-                ltparams = new FrameLayout.LayoutParams(livVipSize, livVipSize);
-            }
-            if (livVipPosition == 0) {
-                ltparams.gravity = Gravity.LEFT | Gravity.TOP;
-            } else if (livVipPosition == 1) {
-                ltparams.gravity = Gravity.RIGHT | Gravity.TOP;
-            }
-            vipImageView = new ImageView(mContext);
-            vipImageView.setLayoutParams(ltparams);
-            vipImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            addView(vipImageView);
-
-        }
+        FrameLayout.LayoutParams ltparams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        ltparams.gravity = Gravity.LEFT | Gravity.TOP;
+        vipImageView = new ImageView(mContext);
+        vipImageView.setLayoutParams(ltparams);
+        vipImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        vipImageView.setVisibility(View.INVISIBLE);
+        addView(vipImageView);
 
         int livLabelHeight = (int) (livLabelSize * 1.5f);
         FrameLayout.LayoutParams labelParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, livLabelHeight);
@@ -229,7 +218,16 @@ public class LabelImageView extends FrameLayout {
     }
 
     private void asyncLoadVipImage() {
+        Log.i(TAG, "asyncLoadVipImage:" + livVipUrl);
         if (vipImageView != null && !TextUtils.isEmpty(livVipUrl)) {
+            FrameLayout.LayoutParams ltparams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            if (livVipPosition == LEFTTOP) {
+                ltparams.gravity = Gravity.LEFT | Gravity.TOP;
+            } else if (livVipPosition == RIGHTTOP) {
+                ltparams.gravity = Gravity.RIGHT | Gravity.TOP;
+            }
+            vipImageView.setLayoutParams(ltparams);
+            vipImageView.setVisibility(View.VISIBLE);
             Picasso.with(mContext).load(livVipUrl)
                     .into(vipImageView);
         }

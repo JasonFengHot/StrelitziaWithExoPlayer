@@ -297,7 +297,7 @@
                             android:paddingLeft="@dimen/detailpage_button_drawable_left_p"
                             android:text="@{tasks.playText}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h1_text_size" />
+                            android:textSize="@dimen/h0_text_size" />
 
                         <Button
                             android:id="@+id/detail_btn_buy"
@@ -309,7 +309,7 @@
                             android:drawableLeft="@mipmap/daisy_left_buy"
                             android:text="@string/video_buy"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h1_text_size"
+                            android:textSize="@dimen/h0_text_size"
                             android:visibility="@{tasks.purchaseVisibility}" />
 
                         <Button
@@ -323,7 +323,7 @@
                             android:onClick="@{() -> actionHandler.handleBookmark()}"
                             android:text="@{tasks.bookmarkText}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h1_text_size" />
+                            android:textSize="@dimen/h0_text_size" />
 
                     </LinearLayout>
 

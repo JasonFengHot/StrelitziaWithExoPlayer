@@ -8,7 +8,10 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Constants;
 import tv.ismar.app.widget.LabelImageView;
@@ -83,7 +86,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         getLoaderManager().initLoader(0, null, mModel);
         //700711 免费
         //706913 付费
-        mItemPk = 700711;
+        mItemPk = 707744;
         mPresenter.start();
         mPresenter.fetchItem(String.valueOf(mItemPk), null, null);
         mPresenter.fetchItemRelate(String.valueOf(mItemPk), null, null);
@@ -177,6 +180,12 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
                     relRelImageViews[i].setLivUrl(itemEntities[i].getPosterUrl());
                     break;
 
+            }
+            ItemEntity.Expense expense = itemEntities[i].getExpense();
+            if (expense != null && !TextUtils.isEmpty(expense.getCptitle())) {
+                relRelImageViews[i].setLivVipPosition(LabelImageView.LEFTTOP);
+                String imageUrl = VipMark.getInstance().getImage(this, expense.getPay_type(), expense.getCpid());
+                relRelImageViews[i].setLivVipUrl(imageUrl);
             }
 
             relTextViews[i].setText(itemEntities[i].getTitle());
