@@ -31,4 +31,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'cn.ismartv.injectdb:injectdb:1.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 }

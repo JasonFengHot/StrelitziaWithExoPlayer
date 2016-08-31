@@ -4,8 +4,10 @@ import android.content.Context;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
+import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.HttpParamsInterceptor;
 import tv.ismar.app.network.HttpTrafficInterceptor;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by beaver on 16-8-19.
@@ -24,6 +26,14 @@ public class VodApplication extends Application {
                 .addParam("device_token", "1")
                 .addParam("access_token", "2")
                 .build();
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+//                .setDefaultFontPath("DroidSansFallback.ttf")
+                        .setDefaultFontPath("MONACO.TTF")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+        VipMark.getInstance();
     }
 
     public static VodApplication get(Context context) {
