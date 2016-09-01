@@ -60,6 +60,7 @@ public class ItemEntity {
     private String item_url;
     private Expense expense;
 
+
     public Expense getExpense() {
         return expense;
     }

@@ -35,12 +35,17 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     private Subscription playCheckSubsc;
 
     private ItemEntity mItemEntity = new ItemEntity();
+    private String mContentModel;
 
 
-    public DetailPagePresenter(DetailPageContract.View detailView) {
+    public DetailPagePresenter(DetailPageContract.View detailView, String contentModel) {
+        mContentModel = contentModel;
         mDetailView = detailView;
-
         mDetailView.setPresenter(this);
+    }
+
+    public String getContentModel() {
+        return mContentModel;
     }
 
     @Override

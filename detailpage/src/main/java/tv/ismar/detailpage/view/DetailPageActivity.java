@@ -39,6 +39,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private ActivityDetailpageMovieBinding mMovieBinding;
     private ActivityDetailpageEntertainmentBinding mEntertainmentBinding;
     private ActivityDetailpageNormalBinding mNormalBinding;
+    private  DetailPagePresenter mDetailPagePresenter;
     private String content_model;
 
 
@@ -61,8 +62,10 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
             finish();
             return;
         }
-        mModel = new DetailPageViewModel(this, new DetailPagePresenter(this));
+        mDetailPagePresenter = new DetailPagePresenter(this, content_model);
+        mModel = new DetailPageViewModel(this, mDetailPagePresenter);
         if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
+
             relViews = 4;
             mItemPk = 705116;
             mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);

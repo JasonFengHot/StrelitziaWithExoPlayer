@@ -31,20 +31,21 @@ import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.detailpage.BR;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
+import tv.ismar.detailpage.presenter.DetailPagePresenter;
 
 /**
  * Created by huibin on 8/08/06.
  */
 public class DetailPageViewModel extends BaseObservable implements LoaderManager.LoaderCallbacks<Cursor> {
     private Context mContext;
-    private final DetailPageContract.Presenter mPresenter;
+    private final DetailPagePresenter mPresenter;
     public ObservableField<String> itemTitle;
     private ItemEntity mItemEntity = new ItemEntity();
     private int mRemandDay = 0;
     private String expireDate;
 
 
-    public DetailPageViewModel(Context context, DetailPageContract.Presenter presenter) {
+    public DetailPageViewModel(Context context, DetailPagePresenter presenter) {
         mContext = context;
         mPresenter = presenter;
         itemTitle = new ObservableField<>();
@@ -82,6 +83,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         notifyPropertyChanged(BR.priceVisibility);
 
         notifyPropertyChanged(BR.permissionVisibility);
+        notifyPropertyChanged(BR.subItem);
 
 
     }
@@ -357,8 +359,36 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
     @Bindable
     public String getPlayText() {
-        return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) : mContext.getString(R.string.video_play);
+
+
+        switch (mPresenter.getContentModel()) {
+            case "entertainment":
+            case "variety":
+                ItemEntity sub
+                if (mItemEntity.getSubitems() == null || mItemEntity.getSubitems().length == 0) {
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
+                            mContext.getString(R.string.video_play);
+                } else {
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) + " " + mItemEntity.getSubitems()[] :
+                            mContext.getString(R.string.video_play) + " " + mItemEntity.getSubtitle();
+                }
+
+            default:
+                return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
+                        mContext.getString(R.string.video_play);
+        }
+
     }
+
+    @Bindable
+    public boolean getShowSubItem(){
+        if (mItemEntity.getSubitems() == null || mItemEntity.getSubitems().length == 0) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+
 
     @Bindable
     public String getBookmarkText() {
