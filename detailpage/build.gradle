@@ -6,7 +6,7 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 def projectName = "ismartv_detailpage"
-def versionTag = "1.0"
+def versionTag = rootProject.ext.moduleVersion
 def groupId = "tv.ismar.detailpage"
 def siteUrl = 'git@github.com:JasonFengIce/videocache.git'
 def gitUrl = 'git@github.com:JasonFengIce/videocache.gitt'
@@ -28,6 +28,7 @@ bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
+    publish = true
     pkg {
         repo = 'maven'
         name = projectName
@@ -42,12 +43,12 @@ bintray {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 24
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode 1
         versionName "1.0"
     }
