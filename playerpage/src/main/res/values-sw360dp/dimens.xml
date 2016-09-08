@@ -1,0 +1,20 @@
+<resources>
+
+    <dimen name="player_seekBar_max_h">6.33dp</dimen>
+    <dimen name="player_seekBar_thumbOffset">10dp</dimen>
+    <dimen name="player_controller_margin_lr">16.66dp</dimen>
+    <dimen name="player_controller_padding_bottom">2.66dp</dimen>
+    <dimen name="player_controller_left_w">200dp</dimen>
+    <dimen name="player_timetext_h">15dp</dimen>
+    <dimen name="player_timetext_mt">3.33dp</dimen>
+    <dimen name="player_qualitytext_w">32.33dp</dimen>
+    <dimen name="player_qualitytext_h">16dp</dimen>
+    <dimen name="player_qualitytext_mt">4dp</dimen>
+    <dimen name="player_qualitytext_back_corner">5dp</dimen>
+    <dimen name="player_titletext_h">18dp</dimen>
+    <dimen name="player_titletext_mt">5.33dp</dimen>
+    <dimen name="player_icon_w">24dp</dimen>
+    <dimen name="player_icon_h">23.66dp</dimen>
+    <dimen name="player_icon_ml">6.33dp</dimen>
+
+</resources>

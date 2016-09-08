@@ -1,1 +1,1 @@
-include ':app', ':appdaisy', ':detailpage', ':account'
+include ':app', ':appdaisy', ':detailpage', ':account', ':playerpage'

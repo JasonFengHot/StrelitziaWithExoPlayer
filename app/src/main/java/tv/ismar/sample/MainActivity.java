@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import tv.ismar.account.SyncUtils;
 import tv.ismar.detailpage.view.DetailPageActivity;
+import tv.ismar.player.view.PlayerActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,5 +89,18 @@ public class MainActivity extends AppCompatActivity {
         return (int) (pxValue / scale + 0.5f);
     }
 
+    public void onMovieClick(View view) {
+        Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+        intent.putExtra("itemId", "81025");
+        startActivity(intent);
+
+    }
+
+    public void onTelevisionClick(View view) {
+        Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+        intent.putExtra("itemId", "707894");
+        intent.putExtra("subItemId", "409844");
+        startActivity(intent);
+    }
 
 }

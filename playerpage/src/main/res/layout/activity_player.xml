@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="tasks"
+            type="tv.ismar.player.viewmodel.PlayerPageViewModel" />
+
+        <variable
+            name="actionHandler"
+            type="tv.ismar.player.PlayerPageContract.Presenter" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.PlayerActivity">
+
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:id="@+id/player_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/player_controller_bg"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <SeekBar
+                android:id="@+id/player_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:maxHeight="@dimen/player_seekBar_max_h"
+                android:progressDrawable="@drawable/player_seekbar_style"
+                android:thumb="@drawable/player_seekbar_thumb"
+                android:thumbOffset="@dimen/player_seekBar_thumbOffset" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/player_controller_padding_bottom"
+                android:paddingLeft="@dimen/player_controller_margin_lr"
+                android:paddingRight="@dimen/player_controller_margin_lr">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/player_timetext_h"
+                        android:layout_marginTop="@dimen/player_timetext_mt"
+                        android:text="hello"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h1_text_size" />
+
+                    <TextView
+                        android:id="@+id/QualityText"
+                        android:layout_width="@dimen/player_qualitytext_w"
+                        android:layout_height="@dimen/player_qualitytext_h"
+                        android:layout_marginTop="@dimen/player_qualitytext_mt"
+                        android:background="@drawable/player_quality_back"
+                        android:ellipsize="marquee"
+                        android:gravity="center"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="流畅"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h1_text_size" />
+
+                    <TextView
+                        android:layout_width="@dimen/player_controller_left_w"
+                        android:layout_height="@dimen/player_titletext_h"
+                        android:layout_marginTop="@dimen/player_titletext_mt"
+                        android:ellipsize="marquee"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="title"
+                        android:textColor="@color/color_white"
+                        android:textSize="@dimen/h1_text_size" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:id="@+id/FBImage"
+                        android:layout_width="@dimen/player_icon_w"
+                        android:layout_height="@dimen/player_icon_h"
+                        android:clickable="true"
+                        android:src="@drawable/selector_player_preview" />
+
+                    <ImageView
+                        android:id="@+id/PlayPauseImage"
+                        android:layout_width="@dimen/player_icon_w"
+                        android:layout_height="@dimen/player_icon_h"
+                        android:layout_marginLeft="@dimen/player_icon_ml"
+                        android:clickable="true"
+                        android:src="@drawable/selector_player_pause" />
+
+                    <ImageView
+                        android:id="@+id/FFImage"
+                        android:layout_width="@dimen/player_icon_w"
+                        android:layout_height="@dimen/player_icon_h"
+                        android:layout_marginLeft="@dimen/player_icon_ml"
+                        android:clickable="true"
+                        android:src="@drawable/selector_player_next" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+</layout>
