@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
@@ -27,13 +28,14 @@ import tv.ismar.detailpage.databinding.ActivityDetailpageNormalBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_MODEL;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
+
 /**
  * Created by huibin on 8/18/16.
  */
 public class DetailPageActivity extends BaseActivity implements DetailPageContract.View {
-
     private static final String TAG = "DetailPageActivity";
-    public static final String EXTRA_MODEL = "content_model";
 
     private DetailPageViewModel mModel;
     private DetailPageContract.Presenter mPresenter;
@@ -63,7 +65,8 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         content_model = getIntent().getStringExtra(EXTRA_MODEL);
-        if (TextUtils.isEmpty(content_model)) {
+        mItemPk = getIntent().getIntExtra(EXTRA_PK, -1);
+        if (TextUtils.isEmpty(content_model)||  mItemPk == -1) {
             finish();
             return;
         }
@@ -72,14 +75,12 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
 
             relViews = 4;
-            mItemPk = 705116;
             mHeadTitle = "娱乐综艺";
             mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);
             mEntertainmentBinding.setTasks(mModel);
             mEntertainmentBinding.setActionHandler(mPresenter);
         } else if ("movie".equals(content_model)) {
             relViews = 6;
-            mItemPk = 707744;
             mHeadTitle = "电影";
             mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
             mMovieBinding.setTasks(mModel);
@@ -87,7 +88,6 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         } else {
             relViews = 4;
             relFocusTextViews = new TextView[relViews];
-            mItemPk = 705229;
             mHeadTitle = "电视剧";
             mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal);
             mNormalBinding.setTasks(mModel);
