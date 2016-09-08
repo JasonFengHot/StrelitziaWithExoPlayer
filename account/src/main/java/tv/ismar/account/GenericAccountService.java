@@ -67,6 +67,7 @@ public class GenericAccountService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.i(TAG, "Service onBind");
         return mAuthenticator.getIBinder();
     }
 

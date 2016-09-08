@@ -83,7 +83,6 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         notifyPropertyChanged(BR.priceVisibility);
 
         notifyPropertyChanged(BR.permissionVisibility);
-        notifyPropertyChanged(BR.subItem);
 
 
     }
@@ -364,13 +363,13 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         switch (mPresenter.getContentModel()) {
             case "entertainment":
             case "variety":
-                ItemEntity sub
-                if (mItemEntity.getSubitems() == null || mItemEntity.getSubitems().length == 0) {
+                ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+                if (subItems == null || subItems.length == 0) {
                     return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
                             mContext.getString(R.string.video_play);
                 } else {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) + " " + mItemEntity.getSubitems()[] :
-                            mContext.getString(R.string.video_play) + " " + mItemEntity.getSubtitle();
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) + " " + subItems[subItems.length -1].getSubtitle():
+                    mContext.getString(R.string.video_play) + " " + subItems[subItems.length -1].getSubtitle();
                 }
 
             default:
@@ -379,16 +378,6 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         }
 
     }
-
-    @Bindable
-    public boolean getShowSubItem(){
-        if (mItemEntity.getSubitems() == null || mItemEntity.getSubitems().length == 0) {
-            return false;
-        }else {
-            return true;
-        }
-    }
-
 
     @Bindable
     public String getBookmarkText() {
