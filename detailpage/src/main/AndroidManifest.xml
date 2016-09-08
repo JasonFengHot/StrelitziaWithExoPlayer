@@ -12,7 +12,13 @@
             android:name=".view.DetailPageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme.Fullscreen"/>
+            android:theme="@style/AppTheme.Fullscreen"
+        >
+            <intent-filter>
+                <action android:name="tv.ismar.daisy.detailpage"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
 
     </application>
 
