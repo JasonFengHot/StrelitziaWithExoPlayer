@@ -20,10 +20,6 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
- * Field and table name constants for
- * {@link com.example.android.network.sync.basicsyncadapter.provider.FeedProvider}.
- */
 public class FeedContract {
     private FeedContract() {
     }

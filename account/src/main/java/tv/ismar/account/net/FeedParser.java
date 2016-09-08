@@ -28,15 +28,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class parses generic Atom feeds.
- *
- * <p>Given an InputStream representation of a feed, it returns a List of entries,
- * where each list element represents a single entry (post) in the XML feed.
- *
- * <p>An example of an Atom feed can be found at:
- * http://en.wikipedia.org/w/index.php?title=Atom_(standard)&oldid=560239173#Example_of_an_Atom_1.0_feed
- */
 public class FeedParser {
 
     // Constants indicting XML element names that we're interested in
@@ -48,13 +39,6 @@ public class FeedParser {
     // We don't use XML namespaces
     private static final String ns = null;
 
-    /** Parse an Atom feed, returning a collection of Entry objects.
-     *
-     * @param in Atom feed, as a stream.
-     * @return List of {@link Entry} objects.
-     * @throws XmlPullParserException on error parsing feed.
-     * @throws IOException on I/O error.
-     */
     public List<Entry> parse(InputStream in)
             throws XmlPullParserException, IOException, ParseException {
         try {
@@ -68,14 +52,6 @@ public class FeedParser {
         }
     }
 
-    /**
-     * Decode a feed attached to an XmlPullParser.
-     *
-     * @param parser Incoming XMl
-     * @return List of {@link Entry} objects.
-     * @throws XmlPullParserException on error parsing feed.
-     * @throws IOException on I/O error.
-     */
     private List<Entry> readFeed(XmlPullParser parser)
             throws XmlPullParserException, IOException, ParseException {
         List<Entry> entries = new ArrayList<Entry>();
@@ -119,10 +95,6 @@ public class FeedParser {
         return entries;
     }
 
-    /**
-     * Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them
-     * off to their respective "read" methods for processing. Otherwise, skips the tag.
-     */
     private Entry readEntry(XmlPullParser parser)
             throws XmlPullParserException, IOException, ParseException {
         parser.require(XmlPullParser.START_TAG, ns, "entry");
@@ -136,7 +108,7 @@ public class FeedParser {
                 continue;
             }
             String name = parser.getName();
-            if (name.equals("id")){
+            if (name.equals("id")) {
                 // Example: <id>urn:uuid:218AC159-7F68-4CC6-873F-22AE6017390D</id>
                 id = readTag(parser, TAG_ID);
             } else if (name.equals("title")) {
@@ -163,9 +135,6 @@ public class FeedParser {
         return new Entry(id, title, link, publishedOn);
     }
 
-    /**
-     * Process an incoming tag and read the selected value from it.
-     */
     private String readTag(XmlPullParser parser, int tagType)
             throws IOException, XmlPullParserException {
         String tag = null;
@@ -185,17 +154,6 @@ public class FeedParser {
         }
     }
 
-    /**
-     * Reads the body of a basic XML tag, which is guaranteed not to contain any nested elements.
-     *
-     * <p>You probably want to call readTag().
-     *
-     * @param parser Current parser object
-     * @param tag XML element tag name to parse
-     * @return Body of the specified tag
-     * @throws IOException
-     * @throws XmlPullParserException
-     */
     private String readBasicTag(XmlPullParser parser, String tag)
             throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, tag);
@@ -204,9 +162,6 @@ public class FeedParser {
         return result;
     }
 
-    /**
-     * Processes link tags in the feed.
-     */
     private String readAlternateLink(XmlPullParser parser)
             throws IOException, XmlPullParserException {
         String link = null;
@@ -223,9 +178,6 @@ public class FeedParser {
         return link;
     }
 
-    /**
-     * For the tags title and summary, extracts their text values.
-     */
     private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
         String result = null;
         if (parser.next() == XmlPullParser.TEXT) {
@@ -235,11 +187,6 @@ public class FeedParser {
         return result;
     }
 
-    /**
-     * Skips tags the parser isn't interested in. Uses depth to handle nested tags. i.e.,
-     * if the next tag after a START_TAG isn't a matching END_TAG, it keeps going until it
-     * finds the matching END_TAG (as indicated by the value of "depth" being 0).
-     */
     private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
         if (parser.getEventType() != XmlPullParser.START_TAG) {
             throw new IllegalStateException();
@@ -257,11 +204,6 @@ public class FeedParser {
         }
     }
 
-    /**
-     * This class represents a single entry (post) in the XML feed.
-     *
-     * <p>It includes the data members "title," "link," and "summary."
-     */
     public static class Entry {
         public final String id;
         public final String title;
