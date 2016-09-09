@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import tv.ismar.account.SyncUtils;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.detailpage.view.DetailPageActivity;
 import tv.ismar.player.view.PlayerActivity;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
-                intent.putExtra(DetailPageActivity.EXTRA_MODEL, "movie");
+                intent.putExtra(PageIntentInterface.EXTRA_MODEL, "movie");
                 startActivity(intent);
             }
         });
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
-                intent.putExtra(DetailPageActivity.EXTRA_MODEL, "television");
+                intent.putExtra(PageIntentInterface.EXTRA_MODEL, "television");
                 startActivity(intent);
             }
         });
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
-                intent.putExtra(DetailPageActivity.EXTRA_MODEL, "entertainment");
+                intent.putExtra(PageIntentInterface.EXTRA_MODEL, "entertainment");
                 startActivity(intent);
             }
         });
@@ -91,15 +92,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void onMovieClick(View view) {
         Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
-        intent.putExtra("itemId", "81025");
+        intent.putExtra(PageIntentInterface.EXTRA_ITEM_ID, "81025");
+        intent.putExtra(PageIntentInterface.EXTRA_MEDIA_POSITION, 0);
         startActivity(intent);
 
     }
 
     public void onTelevisionClick(View view) {
         Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
-        intent.putExtra("itemId", "707894");
-        intent.putExtra("subItemId", "409844");
+        intent.putExtra(PageIntentInterface.EXTRA_ITEM_ID, "707894");
+        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_ID, "409844");
+        intent.putExtra(PageIntentInterface.EXTRA_MEDIA_POSITION, 0);
         startActivity(intent);
     }
 

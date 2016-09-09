@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import tv.ismar.app.widget.LoadingDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by beaver on 16-8-19.
  */
 public class BaseActivity extends AppCompatActivity {
+
+    private LoadingDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +27,21 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    public void showProgressDialog(String msg) {
+        if (mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
+        }
+        if (msg != null) {
+            mLoadingDialog.setTvText(msg);
+        }
+        mLoadingDialog.showDialog();
+    }
+
+    public void dismissProgressDialog() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.dismiss();
+        }
     }
 }

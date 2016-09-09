@@ -30,4 +30,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':appdaisy')
+    compile files('libs/QiyiPlayerSdk-r46308.jar')
+    compile files('libs/SmartPlayer.jar')
 }

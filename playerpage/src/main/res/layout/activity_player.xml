@@ -42,6 +42,7 @@
                 android:focusable="false"
                 android:maxHeight="@dimen/player_seekBar_max_h"
                 android:progressDrawable="@drawable/player_seekbar_style"
+                android:splitTrack="false"
                 android:thumb="@drawable/player_seekbar_thumb"
                 android:thumbOffset="@dimen/player_seekBar_thumbOffset" />
 

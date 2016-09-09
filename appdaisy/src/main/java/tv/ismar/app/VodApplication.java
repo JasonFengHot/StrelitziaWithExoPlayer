@@ -20,6 +20,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class VodApplication extends Application {
     private static HttpTrafficInterceptor mHttpTrafficInterceptor;
     private static HttpParamsInterceptor mHttpParamsInterceptor;
+    private String deviceToken = "__Ntksg9LjmpHH4Bx6wkjNKk8v6zzhQYu-erQaGzc7D0lUKTjwbH8GimsLJuRLEhaP";
 
     @Override
     public void onCreate() {
@@ -32,7 +33,7 @@ public class VodApplication extends Application {
         mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
         mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
         mHttpParamsInterceptor = new HttpParamsInterceptor.Builder()
-                .addParam("device_token", "1")
+                .addParam("device_token", deviceToken)
                 .addParam("access_token", "2")
                 .build();
 
