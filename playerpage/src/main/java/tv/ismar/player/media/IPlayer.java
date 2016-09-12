@@ -1,5 +1,7 @@
 package tv.ismar.player.media;
 
+import tv.ismar.app.network.entity.ClipEntity;
+
 /**
  * Created by longhai on 16-9-12.
  */
@@ -8,11 +10,9 @@ public interface IPlayer {
     /**
      * 设置播放地址
      *
-     * @param url    媒体播放地址
-     * @param is_vip 设置是否vip,只有是奇艺片源时,设置此参数才有效
-     * @return 设置是否成功, 主要用于判断创建播放器对象时是否传入Mode
+     * @param clipEntity 媒体播放地址
      */
-    boolean setDataSource(String url, boolean is_vip);
+    void setDataSource(ClipEntity clipEntity);
 
     /**
      * 播放器准备

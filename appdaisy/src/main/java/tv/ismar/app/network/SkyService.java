@@ -103,7 +103,7 @@ public interface SkyService {
     );
 
     @POST("/api/get/ad/")
-    Observable<AdElementEntity> fetchAdvertisement(
+    Observable<AdElementEntity[]> fetchAdvertisement(
             @FieldMap HashMap<String,String> paramsMap
     );
 
