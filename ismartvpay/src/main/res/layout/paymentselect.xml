@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    >
+<LinearLayout 
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginLeft="@dimen/pay_paymentselect_marginleft"
+              android:layout_marginRight="@dimen/pay_paymentselect_marginright"
+              android:baselineAligned="false"
+              android:orientation="vertical">
+
+    <!-- top panel -->
+
+    <include layout="@layout/pay_top_panel" />
+    <!-- sperate line -->
+
+    <ImageView
+        android:id="@+id/hseparate_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pay_paymentselect_hseparate_height"
+        android:layout_marginTop="@dimen/pay_paymentselect_hseparate_margintop"
+        android:src="@drawable/divider_person" />
+    <!-- qrcode panel -->
+
+   <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/pay_paymentselect_main_margintop"
+        android:layout_weight="5"
+        android:orientation="horizontal" >
+
+        <!-- payment channel -->
+
+        <include layout="@layout/pay_channel" />
+        <!-- qrcode view -->
+
+        <ImageView
+            android:id="@+id/vseparate_view"
+            android:layout_width="@dimen/pay_paymentselect_vseparate_width"
+            android:layout_height="match_parent"
+            android:src="@drawable/portrait_divider_person" />
+       
+<!--         <include -->
+<!--             layout="@layout/pay_person_login" -->
+<!--             /> -->
+           <tv.ismar.daisy.views.LoginPanelView
+             xmlns:login="http://schemas.android.com/apk/res/tv.ismar.daisy"
+             android:id="@+id/login_panel"
+             android:layout_width="0dip"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="@dimen/pay_qrcode_pay_panel_margintop"
+             android:layout_marginLeft="@dimen/pay_qrcode_pay_panel_marginleft"
+             login:suspension_window="true"
+             android:layout_weight="2.1"
+             android:visibility="gone"
+             />
+        <include
+            layout="@layout/qrcode_pay_panel"
+            android:visibility="invisible" />
+
+        <include
+            layout="@layout/shiyuncard_pay"
+            android:visibility="gone" />
+
+        <include
+            layout="@layout/guanyingcard_pay"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>
+        <ImageView
+            android:id="@+id/payment_shadow_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:src="@color/shawdow" />
+</FrameLayout>

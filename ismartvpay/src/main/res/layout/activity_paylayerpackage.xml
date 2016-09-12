@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/newvip_bg">
+
+    <ImageView
+        android:id="@+id/tmp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:src="@android:color/transparent"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+
+        <LinearLayout
+            android:layout_width="@dimen/paylayervip_layout_width"
+            android:layout_height="@dimen/paylayervip_layout_height"
+            android:layout_centerInParent="true"
+            android:background="@android:color/black"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/paylayerpkg_text_marginLeft">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/paylayerpkg_title_marginTop"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/textsize_24sp"/>
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/paylayerpkg_text_marginTop"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/textsize_24sp"/>
+
+                    <TextView
+                        android:id="@+id/duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/paylayerpkg_text_marginTop"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/textsize_24sp"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/paylayerpkg_purchase"
+                    android:layout_width="@dimen/paylayerpkg_purchase_width"
+                    android:layout_height="@dimen/paylayerpkg_purchase_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/paylayerpkg_purchase_marginRight"
+                    android:background="@drawable/daisy_btn_bg_selector"
+                    android:enabled="false"
+                    android:text="@string/paylayerpkg_purchase"
+                    android:textColor="@color/_ffffff"
+                    android:nextFocusLeft="@id/paylayerpkg_purchase"
+                    android:nextFocusUp="@id/paylayerpkg_purchase"
+                    android:nextFocusRight="@id/paylayerpkg_purchase"
+                    android:textSize="@dimen/textsize_48sp"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_marginRight="@dimen/vip_pkg_des_marginRight"
+                android:lineSpacingExtra="@dimen/lineSpacing"
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/paylayerpkg_text_marginTop"
+                android:paddingLeft="@dimen/paylayerpkg_text_marginLeft"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textsize_24sp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/paylayerpkg_scrollview_margintop"
+                android:gravity="center_horizontal"
+                >
+
+                <cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView
+                    android:id="@+id/scroll_view"
+                    android:layout_width="@dimen/paylayervip_scrollview_width"
+                    android:layout_height="@dimen/paylayervip_scrollview_height"
+                    android:layout_centerInParent="true"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/scroll_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"/>
+
+                </cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView>
+
+                <ImageView
+                    android:id="@+id/left_arrow"
+                    android:layout_width="@dimen/paylayervip_width"
+                    android:layout_height="@dimen/paylayervip_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/scroll_view"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/selector_paylayervip_leftarrow"
+                    />
+
+                <ImageView
+                    android:focusable="true"
+                    android:id="@+id/right_arrow"
+                    android:layout_width="@dimen/paylayervip_width"
+                    android:layout_height="@dimen/paylayervip_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/scroll_view"
+                    android:clickable="true"
+                    android:src="@drawable/selector_paylayervip_rightarrow"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

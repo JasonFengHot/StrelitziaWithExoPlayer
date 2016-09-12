@@ -18,4 +18,9 @@
 
     <dimen name="label_image_padding">16.5dp</dimen>
 
+    <!-- message popwindow -->
+    <dimen name="pop_double_line_height">351dp</dimen>
+    <dimen name="pop_width">877dp</dimen>
+    <dimen name="pop_height">305dp</dimen>
+
 </resources>
