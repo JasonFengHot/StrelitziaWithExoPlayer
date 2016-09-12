@@ -142,6 +142,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             mClipEntity.setIs_vip(clipEntity.is_vip());
 
             // TODO 奇艺直接加载播放器
+
         }
 
     }

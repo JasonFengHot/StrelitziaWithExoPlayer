@@ -24,9 +24,8 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     public static final String AD_MODE_ONSTART = "qiantiepian";
     public static final String AD_MODE_ONPAUSE = "zanting";
-    protected ItemEntity mItem;
 
-    public IsmartvPlayer(ItemEntity item, byte mode) {
+    public IsmartvPlayer( byte mode) {
         mPlayerMode = mode;
     }
 

@@ -11,12 +11,12 @@ public class QiyiPlayer extends IsmartvPlayer {
 
     private IMediaPlayer mPlayer;
 
-    public QiyiPlayer(ItemEntity item) {
-        this(item, MODE_QIYI_PLAYER);
+    public QiyiPlayer() {
+        this(MODE_QIYI_PLAYER);
     }
 
-    public QiyiPlayer(ItemEntity item, byte mode) {
-        super(item, mode);
+    public QiyiPlayer(byte mode) {
+        super(mode);
     }
 
     @Override
