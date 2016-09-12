@@ -38,10 +38,9 @@ public class VodApplication extends Application {
                 .build();
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-//                .setDefaultFontPath("DroidSansFallback.ttf")
-                        .setDefaultFontPath("MONACO.TTF")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
+                .setDefaultFontPath("DroidSansFallback.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
         );
         VipMark.getInstance();
     }
