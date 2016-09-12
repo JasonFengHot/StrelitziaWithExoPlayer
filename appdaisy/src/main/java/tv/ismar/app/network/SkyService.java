@@ -2,6 +2,7 @@ package tv.ismar.app.network;
 
 import android.net.Uri;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -11,6 +12,7 @@ import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.RxJavaCallAdapterFactory;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -20,6 +22,7 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.network.entity.ActiveEntity;
+import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.DpiEntity;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -95,10 +98,13 @@ public interface SkyService {
     @GET
     Observable<ClipEntity> fetchMediaUrl(
             @Url String clipUrl,
-            @Query("device_token") String deviceToken,
-            @Query("access_token") String access_token,
             @Query("sign") String sign,
             @Query("code") String code
+    );
+
+    @POST("/api/get/ad/")
+    Observable<AdElementEntity> fetchAdvertisement(
+            @FieldMap HashMap<String,String> paramsMap
     );
 
 //    @GET

@@ -2,6 +2,7 @@ package tv.ismar.player;
 
 import tv.ismar.app.BasePresenter;
 import tv.ismar.app.BaseView;
+import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 
@@ -16,15 +17,17 @@ public interface PlayerPageContract {
 
         void loadClip(ClipEntity clipEntity);
 
+        void loadAdvertisement(AdElementEntity adElementEntity);
+
     }
 
     interface Presenter extends BasePresenter {
 
-        void fetchItem(String itemId, String deviceToken, String accessToken);
+        void fetchItem(String itemId);
 
-        void fetchMediaUrl(String clipUrl, String deviceToken, String accessToken, String sign, String code);
+        void fetchMediaUrl(String clipUrl, String sign, String code);
 
-        void fetchSubItem(String subItemId, String deviceToken, String accessToken);
+        void fetchAdvertisement(ItemEntity itemEntity, String params);
 
     }
 
