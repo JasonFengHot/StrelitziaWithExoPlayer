@@ -9,6 +9,7 @@ import android.view.SurfaceHolder;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Utils;
@@ -16,6 +17,7 @@ import tv.ismar.player.AccessProxy;
 import tv.ismar.player.PlayerPageContract;
 import tv.ismar.player.R;
 import tv.ismar.player.databinding.ActivityPlayerBinding;
+import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
 
@@ -27,6 +29,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private int subItemPk = 0;
     private int mediaPosition;
     private int mCurrentTeleplayIndex = 0;
+    private ItemEntity mItemEntity;
     private ClipEntity mClipEntity;
     private String deviceToken = "__Ntksg9LjmpHH4Bx6wkjNKk8v6zzhQYu-erQaGzc7D0lUKTjwbH8GimsLJuRLEhaP";
 
@@ -55,14 +58,14 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             return;
         }
 
-        mPlayerPagePresenter = new PlayerPagePresenter(this);
+        mPlayerPagePresenter = new PlayerPagePresenter(getApplicationContext(), this);
         mModel = new PlayerPageViewModel(this, mPlayerPagePresenter);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_player);
         mBinding.setTasks(mModel);
         mBinding.setActionHandler(mPresenter);
 
         mPresenter.start();
-        mPresenter.fetchItem(itemId, "", "");
+        mPresenter.fetchItem(itemId);
         showProgressDialog(null);
 
     }
@@ -75,6 +78,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
+        mItemEntity = itemEntity;
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity.SubItem[] subItems = itemEntity.getSubitems();
         if (subItemPk > 0 && subItems != null) {
@@ -88,10 +92,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 }
             }
         }
-        String accessToken = "";
         String sign = "";
         String code = "1";
-        mPresenter.fetchMediaUrl(clip.getUrl(), deviceToken, accessToken, sign, code);
+        mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
 
     }
 
@@ -130,12 +133,22 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             if (!Utils.isEmptyText(_4k)) {
                 mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k, deviceToken));
             }
+
+            // 视云片源先加载广告
+            mPresenter.fetchAdvertisement(mItemEntity, IsmartvPlayer.AD_MODE_ONSTART);
         } else {
             // 片源为爱奇艺
             mClipEntity.setIqiyi_4_0(clipEntity.getIqiyi_4_0());
             mClipEntity.setIs_vip(clipEntity.is_vip());
+
+            // TODO 奇艺直接加载播放器
         }
-        Log.d(TAG, mClipEntity.toString());
+
+    }
+
+    @Override
+    public void loadAdvertisement(AdElementEntity adElementEntity) {
+        // TODO 加载视云播放器
         dismissProgressDialog();
     }
 
