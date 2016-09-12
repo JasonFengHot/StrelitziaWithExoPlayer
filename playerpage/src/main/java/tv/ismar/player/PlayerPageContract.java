@@ -17,8 +17,6 @@ public interface PlayerPageContract {
 
         void loadClip(ClipEntity clipEntity);
 
-        void loadAdvertisement(AdElementEntity adElementEntity);
-
     }
 
     interface Presenter extends BasePresenter {
@@ -26,8 +24,6 @@ public interface PlayerPageContract {
         void fetchItem(String itemId);
 
         void fetchMediaUrl(String clipUrl, String sign, String code);
-
-        void fetchAdvertisement(ItemEntity itemEntity, String params);
 
     }
 

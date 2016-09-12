@@ -3,7 +3,6 @@ package tv.ismar.player.view;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -13,11 +12,12 @@ import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Utils;
-import tv.ismar.player.AccessProxy;
 import tv.ismar.player.PlayerPageContract;
 import tv.ismar.player.R;
 import tv.ismar.player.databinding.ActivityPlayerBinding;
+import tv.ismar.player.media.DaisyPlayer;
 import tv.ismar.player.media.IsmartvPlayer;
+import tv.ismar.player.media.PlayerBuilder;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
 
@@ -30,8 +30,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private int mediaPosition;
     private int mCurrentTeleplayIndex = 0;
     private ItemEntity mItemEntity;
-    private ClipEntity mClipEntity;
-    private String deviceToken = "__Ntksg9LjmpHH4Bx6wkjNKk8v6zzhQYu-erQaGzc7D0lUKTjwbH8GimsLJuRLEhaP";
+
+    // 播放器
+    private IsmartvPlayer mIsmartvPlayer;
 
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
@@ -102,55 +103,22 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     public void loadClip(ClipEntity clipEntity) {
         Log.d(TAG, clipEntity.toString());
         String iqiyi = clipEntity.getIqiyi_4_0();
-        mClipEntity = new ClipEntity();
-        if (TextUtils.isEmpty(iqiyi)) {
+        byte playerMode;
+        if (Utils.isEmptyText(iqiyi)) {
             // 片源为视云
-            String adaptive = clipEntity.getAdaptive();
-            String normal = clipEntity.getNormal();
-            String medium = clipEntity.getMedium();
-            String high = clipEntity.getHigh();
-            String ultra = clipEntity.getUltra();
-            String blueray = clipEntity.getBlueray();
-            String _4k = clipEntity.get_4k();
-            if (!Utils.isEmptyText(adaptive)) {
-                mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive, deviceToken));
-            }
-            if (!Utils.isEmptyText(normal)) {
-                mClipEntity.setNormal(AccessProxy.AESDecrypt(normal, deviceToken));
-            }
-            if (!Utils.isEmptyText(medium)) {
-                mClipEntity.setMedium(AccessProxy.AESDecrypt(medium, deviceToken));
-            }
-            if (!Utils.isEmptyText(high)) {
-                mClipEntity.setHigh(AccessProxy.AESDecrypt(high, deviceToken));
-            }
-            if (!Utils.isEmptyText(ultra)) {
-                mClipEntity.setUltra(AccessProxy.AESDecrypt(ultra, deviceToken));
-            }
-            if (!Utils.isEmptyText(blueray)) {
-                mClipEntity.setBlueray(AccessProxy.AESDecrypt(blueray, deviceToken));
-            }
-            if (!Utils.isEmptyText(_4k)) {
-                mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k, deviceToken));
-            }
-
-            // 视云片源先加载广告
-            mPresenter.fetchAdvertisement(mItemEntity, IsmartvPlayer.AD_MODE_ONSTART);
+            playerMode = PlayerBuilder.MODE_SMART_PLAYER;
         } else {
             // 片源为爱奇艺
-            mClipEntity.setIqiyi_4_0(clipEntity.getIqiyi_4_0());
-            mClipEntity.setIs_vip(clipEntity.is_vip());
-
-            // TODO 奇艺直接加载播放器
-
+            playerMode = PlayerBuilder.MODE_QIYI_PLAYER;
         }
+        mIsmartvPlayer = PlayerBuilder.getInstance()
+                .setActivity(PlayerActivity.this)
+                .setPlayerMode(playerMode)
+                .setItemEntity(mItemEntity)
+                .build();
+        mIsmartvPlayer.setDataSource(clipEntity);
+        mIsmartvPlayer.prepareAsync();
 
-    }
-
-    @Override
-    public void loadAdvertisement(AdElementEntity adElementEntity) {
-        // TODO 加载视云播放器
-        dismissProgressDialog();
     }
 
     @Override
