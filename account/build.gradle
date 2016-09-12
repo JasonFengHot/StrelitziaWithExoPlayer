@@ -66,11 +66,11 @@ android {
 
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies;
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile dependencies.appCompat
     compile 'com.google.guava:guava:17.0'
-    compile project(path: ':appdaisy')
+    testCompile 'junit:junit:4.12'
+    compile project(':appdaisy')
 }
 
 task sourcesJar(type: Jar) {
