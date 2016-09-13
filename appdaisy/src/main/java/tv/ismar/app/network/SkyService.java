@@ -106,11 +106,20 @@ public interface SkyService {
             @Query("code") String code
     );
 
+    @FormUrlEncoded
     @POST("/api/get/ad/")
-    Observable<AdElementEntity[]> fetchAdvertisement(
+    Observable<ResponseBody> fetchAdvertisement(
             @FieldMap HashMap<String, String> paramsMap
     );
 
+    @FormUrlEncoded
+    @POST
+    Observable<ResponseBody> sendPlayerLog(
+            @Url String logUrl,
+            @Field("sn") String sn,
+            @Field("modelname") String modelname,
+            @Field("data") String data
+    );
 
     @POST("/accounts/login/")
     Observable<ResponseBody> accountsLogin(

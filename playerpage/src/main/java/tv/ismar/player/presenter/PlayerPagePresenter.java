@@ -98,7 +98,7 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "fetchMediaUrl:" + e.getMessage());
+                        e.printStackTrace();
                         if (e.getClass() == OnlyWifiException.class) {
                             playerView.onHttpInterceptor(e);
                         } else {

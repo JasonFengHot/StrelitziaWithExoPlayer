@@ -18,13 +18,22 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/color_black"
         tools:context=".view.PlayerActivity">
 
         <SurfaceView
             android:id="@+id/surfaceView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/player_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/player_layout"
@@ -33,7 +42,7 @@
             android:layout_gravity="bottom"
             android:background="@color/player_controller_bg"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <SeekBar
                 android:id="@+id/player_seekBar"

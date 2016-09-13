@@ -276,6 +276,17 @@ public class IsmartvActivator {
         }
     }
 
+    public String getLogDomain() {
+        String logDomain = mSharedPreferences.getString("log_domain", "");
+        if (TextUtils.isEmpty(logDomain)) {
+            ResultEntity resultEntity = execute();
+            saveAccountInfo(resultEntity);
+            return resultEntity.getLog_Domain();
+        } else {
+            return logDomain;
+        }
+    }
+
     public String getAccessToken() {
         return "";
     }
@@ -297,6 +308,7 @@ public class IsmartvActivator {
         editor.putString("device_token", resultEntity.getDevice_token());
         editor.putString("sn_token", resultEntity.getSn_Token());
         editor.putString("api_domain", resultEntity.getDomain());
+        editor.putString("log_domain", resultEntity.getLog_Domain());
         editor.commit();
     }
 }

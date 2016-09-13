@@ -2,6 +2,9 @@ package tv.ismar.player.media;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.widget.FrameLayout;
 
 import tv.ismar.app.network.entity.ItemEntity;
 
@@ -25,6 +28,8 @@ public class PlayerBuilder {
     private byte mPlayerMode = -1;
     private Activity mContext;
     private ItemEntity mItemEntity;
+    private SurfaceView mSurfaceView;
+    private FrameLayout mContainer;
 
     // Removes the default public constructor
     private PlayerBuilder() {
@@ -64,6 +69,16 @@ public class PlayerBuilder {
         return this;
     }
 
+    public PlayerBuilder setSurfaceView(SurfaceView surfaceView) {
+        mSurfaceView = surfaceView;
+        return this;
+    }
+
+    public PlayerBuilder setContainer(FrameLayout container) {
+        mContainer = container;
+        return this;
+    }
+
     public IsmartvPlayer build() {
         if (mPlayerMode <= 0) {
             Log.e(TAG, "Must call setPlayerMode first.");
@@ -92,6 +107,8 @@ public class PlayerBuilder {
         }
         ismartvPlayer.setContext(mContext);
         ismartvPlayer.setItemEntity(mItemEntity);
+        ismartvPlayer.setSurfaceView(mSurfaceView);
+        ismartvPlayer.setContainer(mContainer);
         return ismartvPlayer;
     }
 

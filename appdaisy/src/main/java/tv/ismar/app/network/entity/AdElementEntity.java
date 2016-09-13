@@ -1,40 +1,28 @@
 package tv.ismar.app.network.entity;
 
+import java.util.Map;
+
 /**
  * Created by longhai on 16-9-12.
  */
 public class AdElementEntity {
 
-    private int root_retcode;
-    private String root_retmsg;
     private int retcode;
     private String retmsg;
-    private String title;
-    private int media_id;
-    private String description;
-    private String media_url;
-    private String media_type;
-    private int serial;
-    private int start;
-    private int end;
-    private String report_url;
-    private String md5;
-
-    public int getRoot_retcode() {
-        return root_retcode;
-    }
-
-    public void setRoot_retcode(int root_retcode) {
-        this.root_retcode = root_retcode;
-    }
-
-    public String getRoot_retmsg() {
-        return root_retmsg;
-    }
-
-    public void setRoot_retmsg(String root_retmsg) {
-        this.root_retmsg = root_retmsg;
-    }
+    private String title;//广告标题
+    private int media_id;//展示的投放活动id
+    private String description;//广告描述信息
+    private String media_url;//视频或图片资源地址
+    private String tag;//对于非打点标签类广告，tag值为空, 对于打点标签类广告，tag不为空，"00:05:28"  为打点广告在clip中弹出的时间点；
+    private Map<String, String> coordinate;//打点标签在播放器中的坐标位置
+    private String[] monitor;//广告监测地址，数据格式为数组格式，监测地址可有多个；
+    private String report_url;//客户端广告曝光上报地址
+    private String md5;//只有图片有MD5值
+    private String media_type;//video,img,html  广告视频，图片，网页
+    private int serial;//第几个展示，从0开始表示第一个
+    private int start;//第几秒开始
+    private int end;//第几秒结束
+    private int duration;//一共展示时长多少
 
     public int getRetcode() {
         return retcode;
@@ -130,5 +118,13 @@ public class AdElementEntity {
 
     public void setMd5(String md5) {
         this.md5 = md5;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

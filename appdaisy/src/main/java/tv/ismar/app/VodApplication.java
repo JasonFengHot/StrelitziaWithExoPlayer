@@ -21,9 +21,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class VodApplication extends Application {
     private static HttpTrafficInterceptor mHttpTrafficInterceptor;
     private static HttpParamsInterceptor mHttpParamsInterceptor;
-    public static String SN_TOKEN = "me_uslkvhq2";
-    public static String DEVICE_TOKEN = "ZmZZPCQgcrhDgk2uLrTBXcq42dW1ewNUciZVBIrKmH0=";
-//    public static String deviceToken = "__Ntksg9LjmpHH4Bx6wkjNKk8v6zzhQYu-erQaGzc7D0lUKTjwbH8GimsLJuRLEhaP";
+    public static final boolean DEBUG = true;
 
     @Override
     public void onCreate() {
@@ -36,8 +34,6 @@ public class VodApplication extends Application {
         mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
         mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
         mHttpParamsInterceptor = new HttpParamsInterceptor.Builder()
-                .addParam("device_token", DEVICE_TOKEN)
-                .addParam("access_token", "2")
                 .build();
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

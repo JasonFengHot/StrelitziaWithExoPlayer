@@ -5,17 +5,19 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntentInterface;
-import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.PlayerPageContract;
 import tv.ismar.player.R;
 import tv.ismar.player.databinding.ActivityPlayerBinding;
-import tv.ismar.player.media.DaisyPlayer;
+import tv.ismar.player.media.IPlayer;
 import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.media.PlayerBuilder;
 import tv.ismar.player.presenter.PlayerPagePresenter;
@@ -33,6 +35,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     // 播放器
     private IsmartvPlayer mIsmartvPlayer;
+    private SurfaceView surfaceView;
+    private FrameLayout player_container;
 
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
@@ -64,6 +68,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_player);
         mBinding.setTasks(mModel);
         mBinding.setActionHandler(mPresenter);
+
+        surfaceView = findView(R.id.surfaceView);
+        player_container = findView(R.id.player_container);
 
         mPresenter.start();
         mPresenter.fetchItem(itemId);
@@ -115,9 +122,23 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 .setActivity(PlayerActivity.this)
                 .setPlayerMode(playerMode)
                 .setItemEntity(mItemEntity)
+                .setSurfaceView(surfaceView)
+                .setContainer(player_container)
                 .build();
-        mIsmartvPlayer.setDataSource(clipEntity);
-        mIsmartvPlayer.prepareAsync();
+        mIsmartvPlayer.setDataSource(clipEntity, new IPlayer.OnDataSourceSetListener() {
+            @Override
+            public void onSuccess() {
+                Log.i(TAG, "player init success.");
+                mIsmartvPlayer.prepareAsync();
+                dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailed(String message) {
+                Log.i(TAG, "player init fail: " + message);
+                Toast.makeText(PlayerActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

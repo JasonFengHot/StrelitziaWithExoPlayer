@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">IsmartvPay</string>
-
     <string name="account_connect_error">网络连接错误</string>
 
 

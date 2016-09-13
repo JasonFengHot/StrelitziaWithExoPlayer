@@ -1,12 +1,14 @@
 package tv.ismar.player;
 
+import android.util.Base64;
+
 import com.qiyi.sdk.player.BitStream;
 import com.qiyi.sdk.player.IMedia;
 import com.qiyi.sdk.player.SdkVideo;
 
 import org.json.JSONObject;
 
-import tv.ismar.app.rsa.AESOperator;
+import tv.ismar.account.core.rsa.SkyAESTool2;
 
 public class AccessProxy {
 
@@ -33,7 +35,7 @@ public class AccessProxy {
     }
 
     public static String AESDecrypt(String url, String device_token) {
-        return AESOperator.getInstance().AES_decrypt(device_token, url);
+        return SkyAESTool2.decrypt(device_token.substring(0, 16), Base64.decode(url, Base64.URL_SAFE));
     }
 
 }
