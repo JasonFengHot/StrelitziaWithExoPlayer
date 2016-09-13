@@ -1,0 +1,93 @@
+<LinearLayout
+    android:id="@+id/top_panel"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginLeft="@dimen/pay_top_panel_merginleft"
+    android:layout_marginTop="20dp"
+    android:layout_weight="1.5">
+
+    <!-- title -->
+
+    <RelativeLayout
+        android:id="@+id/panel_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="9">
+
+        <TextView
+            android:id="@+id/videotitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:text="归来"
+            android:textSize="@dimen/h1_text_size"/>
+
+        <TextView
+            android:layout_below="@id/videotitle"
+            android:id="@+id/spacer"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/filter_list_item_title_pb"
+            android:text="     "/>
+
+        <TextView
+            android:id="@+id/panel_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spacer"
+            android:layout_marginTop="@dimen/filter_list_item_title_pb"
+            android:text="@string/pay_warntitle"
+            android:textColor="#fe8109"
+            android:textSize="@dimen/h3_text_size"/>
+    </RelativeLayout>
+
+    <!-- top login panel -->
+
+    <RelativeLayout
+        android:id="@+id/top_login_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:visibility="invisible"
+        >
+
+        <Button
+            android:id="@+id/top_login"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/pay_channel_weixin_height"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/person_btn_selector"
+            android:text="@string/pay_top_login_label"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/pay_top_panel_top_login_textsieze"/>
+
+        <TextView
+            android:id="@+id/warntitle"
+            android:layout_width="470dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/top_login"
+            android:layout_below="@id/top_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/pay_warntitle"
+            android:textColor="#fe8109"
+            android:textSize="@dimen/pay_top_panel_warntitle_textsieze"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/welocome_tip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_weight="3"
+        android:gravity="right"
+        android:text="@string/welocome_tip"
+        android:textSize="@dimen/pay_top_panel_welocome_tip_textsieze"
+        />
+
+</LinearLayout>
