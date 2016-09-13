@@ -74,6 +74,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':appdaisy')
     compile project(':ismartvpay')
+    compile project(':account')
 }
 
 task sourcesJar(type: Jar) {

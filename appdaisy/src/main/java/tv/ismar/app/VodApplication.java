@@ -9,8 +9,9 @@ import java.util.concurrent.Executors;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
+import tv.ismar.account.HttpParamsInterceptor;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.VipMark;
-import tv.ismar.app.network.HttpParamsInterceptor;
 import tv.ismar.app.network.HttpTrafficInterceptor;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -31,7 +32,7 @@ public class VodApplication extends Application {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
         Picasso.setSingletonInstance(picasso);
-
+        IsmartvActivator.initialize(this);
         mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
         mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
         mHttpParamsInterceptor = new HttpParamsInterceptor.Builder()

@@ -13,6 +13,9 @@ import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.detailpage.view.DetailPageActivity;
 import tv.ismar.player.view.PlayerActivity;
 
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_MODEL;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -27,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
-                intent.putExtra(PageIntentInterface.EXTRA_MODEL, "movie");
+                intent.putExtra(EXTRA_MODEL, "movie");
+                intent.putExtra(EXTRA_PK, 705229);
                 startActivity(intent);
             }
         });
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
-                intent.putExtra(PageIntentInterface.EXTRA_MODEL, "television");
+                intent.putExtra(EXTRA_MODEL, "television");
                 startActivity(intent);
             }
         });
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
-                intent.putExtra(PageIntentInterface.EXTRA_MODEL, "entertainment");
+                intent.putExtra(EXTRA_MODEL, "entertainment");
                 startActivity(intent);
             }
         });

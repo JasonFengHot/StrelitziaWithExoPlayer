@@ -27,14 +27,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-import tv.ismar.app.network.SkyService;
 
 public class GenericAccountService extends Service {
     private static final String TAG = "GenericAccountService";
     private static final String ACCOUNT_TYPE = "tv.ismar.account";
     public static final String ACCOUNT_NAME = "sync";
     private Authenticator mAuthenticator;
-    private SkyService mSkyService;
+//    private SkyService mSkyService;
 
     /**
      * Obtain a handle to the {@link android.accounts.Account} used for sync in this application.

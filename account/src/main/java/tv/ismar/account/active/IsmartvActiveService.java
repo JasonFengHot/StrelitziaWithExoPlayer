@@ -5,8 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import tv.ismar.app.network.SkyService;
-
 /**
  * Created by huibin on 8/26/16.
  */
@@ -24,11 +22,11 @@ public class IsmartvActiveService {
     private String fingerprint;
     private String deviceId;
 
-    private SkyService mSkyService;
+//    private SkyService mSkyService;
 
 
     public IsmartvActiveService() {
-        mSkyService = SkyService.ServiceManager.getService();
+//        mSkyService = SkyService.ServiceManager.getService();
     }
 
     private void getLicence() {

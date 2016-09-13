@@ -1,4 +1,4 @@
-package tv.ismar.app.network;
+package tv.ismar.account;
 
 import android.util.Log;
 
@@ -18,6 +18,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
+import tv.ismar.account.data.ResultEntity;
 
 /**
  * Created by huibin on 8/25/16.
@@ -35,10 +36,14 @@ public class HttpParamsInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Log.i(TAG, "HttpParamsInterceptor");
-
+        Log.i(TAG, "HttpParamsInterceptor: thread ===> " + Thread.currentThread().getName());
         Request request = chain.request();
         Request.Builder requestBuilder = request.newBuilder();
+
+        paramsMap = new HashMap<>();
+        IsmartvActivator activator = IsmartvActivator.getInstance();
+        paramsMap.put("device_token", activator.getDeviceToken());
+        paramsMap.put("access_token", activator.getAccessToken());
 
         // process header params inject
         Headers.Builder headerBuilder = request.headers().newBuilder();
