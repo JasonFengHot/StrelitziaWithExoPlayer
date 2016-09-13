@@ -8,7 +8,7 @@
                 android:descendantFocusability="blocksDescendants"
                 android:focusable="true"
                 android:nextFocusUp="@id/item_qiyi_vip"
-    >
+>
 
     <com.example.foregroundimageview.ForegroundImageView
         android:id="@+id/image"
@@ -25,7 +25,7 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="@dimen/textsize_48sp"
-        />
+    />
 
     <TextView
         android:id="@+id/price"

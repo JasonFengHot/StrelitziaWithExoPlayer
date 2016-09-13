@@ -7,9 +7,7 @@ import java.text.ParseException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import tv.ismar.daisy.core.SimpleRestClient;
-import tv.ismar.daisy.utils.Util;
+import tv.ismar.app.network.SkyService;
 
 /**
  * Created by huibin on 7/4/16.
@@ -17,6 +15,7 @@ import tv.ismar.daisy.utils.Util;
 public class PlayCheckManager {
 
     private static PlayCheckManager mInstance;
+    private SkyService mSkyService;
 
     public static PlayCheckManager getInstance() {
         if (mInstance == null) {
@@ -25,11 +24,13 @@ public class PlayCheckManager {
         return mInstance;
     }
 
+    public PlayCheckManager() {
+        mSkyService = SkyService.ServiceManager.getService();
+    }
+
     public void check(String item, final Callback callback) {
-        String deviceToken = SimpleRestClient.device_token;
-        String accessToken = SimpleRestClient.access_token;
-        SkyService.Factory.create(SimpleRestClient.root_url).playCheck(
-                item, null, null, deviceToken, accessToken).enqueue(new retrofit2.Callback<ResponseBody>() {
+        mSkyService.playCheck(
+                item, null, null).enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Response<ResponseBody> response) {
                 if (response.errorBody() != null) {
@@ -52,10 +53,8 @@ public class PlayCheckManager {
     }
 
     public void checkPkg(String pkg, final Callback callback) {
-        String deviceToken = SimpleRestClient.device_token;
-        String accessToken = SimpleRestClient.access_token;
-        SkyService.Factory.create(SimpleRestClient.root_url).playCheck(
-                null, pkg, null, deviceToken, accessToken).enqueue(new retrofit2.Callback<ResponseBody>() {
+        mSkyService.playCheck(
+                null, pkg, null).enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Response<ResponseBody> response) {
                 if (response.errorBody() != null) {

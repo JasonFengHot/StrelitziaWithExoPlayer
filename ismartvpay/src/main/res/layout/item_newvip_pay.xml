@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/newvip_pay_item"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/newvip_pay_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/newvip_pay_selector_item"
@@ -9,7 +9,7 @@
     android:descendantFocusability="blocksDescendants"
     android:focusable="true"
     android:nextFocusUp="@id/newvip_pay_item"
-    >
+>
 
     <com.example.foregroundimageview.ForegroundImageView
         android:id="@+id/item_newvip_pay_img"

@@ -17,7 +17,12 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.PayLayerEntity;
 
 /**
  * Created by huaijie on 4/11/16.
@@ -30,9 +35,11 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     private ImageView tmp;
     private String mItemId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_newvip_pay);
 
         ImageView pay_back = (ImageView) findViewById(R.id.pay_back);
@@ -59,18 +66,26 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     //675300
     //675322
     public void payLayer(String itemId) {
-        NewVipHttpManager.getInstance().resetAdapter_SKY.create(NewVipHttpApi.PayLayer.class).doRequest(itemId, SimpleRestClient.device_token).enqueue(new Callback<PayLayerEntity>() {
-            @Override
-            public void onResponse(Response<PayLayerEntity> response) {
-                if (response.errorBody() == null)
-                    fillLayout(response.body());
-            }
+        mSkyService.apiPaylayer(itemId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PayLayerEntity>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Throwable t) {
+                    }
 
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(PayLayerEntity payLayerEntity) {
+                        fillLayout(payLayerEntity);
+
+                    }
+                });
     }
 
     private void fillLayout(final PayLayerEntity payLayerEntity) {
@@ -78,7 +93,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int margin = (int) getResources().getDimension(R.dimen.newip_payitem_margin);
         layoutParams.setMargins(margin, 0, margin, 0);
-        Vip vip = payLayerEntity.getVip();
+        PayLayerEntity.Vip vip = payLayerEntity.getVip();
         if (vip != null) {
             RelativeLayout vipItem;
             if (payLayerEntity.getCpname().startsWith("ismar")) {
@@ -112,7 +127,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
             scrollViewLayout.addView(vipItem, layoutParams);
         }
 
-        final Expense_item expenseItem = payLayerEntity.getExpense_item();
+        final PayLayerEntity.Expense_item expenseItem = payLayerEntity.getExpense_item();
         if (expenseItem != null) {
             RelativeLayout item = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.item_newvip_pay, null);
             ImageView imageView = (ImageView) item.findViewById(R.id.item_newvip_pay_img);
@@ -137,7 +152,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
             scrollViewLayout.addView(item, layoutParams);
         }
 
-        final Package newVipPackage = payLayerEntity.getPkage();
+        final PayLayerEntity.Package newVipPackage = payLayerEntity.getPkage();
         if (newVipPackage != null) {
             RelativeLayout item = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.item_newvip_pay, null);
             ImageView imageView = (ImageView) item.findViewById(R.id.item_newvip_pay_img);
@@ -195,27 +210,27 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     }
 
     private void buyVideo(int pk, String type, float price, String duration, String title) {
-        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
-            @Override
-            public void payResult(boolean result) {
-                if (result) {
-                    Intent data = new Intent();
-                    data.putExtra("result", true);
-                    setResult(20, data);
-                    finish();
-                }
-            }
-        });
-        Item mItem = new Item();
-        mItem.pk = pk;
-        Expense expense = new Expense();
-        expense.price = price;
-        mItem.expense = expense;
-        mItem.model_name = type;
-        mItem.title = title;
-        mItem.expense.duration = Integer.parseInt(duration);
-        dialog.setItem(mItem);
-        dialog.show();
+//        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
+//            @Override
+//            public void payResult(boolean result) {
+//                if (result) {
+//                    Intent data = new Intent();
+//                    data.putExtra("result", true);
+//                    setResult(20, data);
+//                    finish();
+//                }
+//            }
+//        });
+//        Item mItem = new Item();
+//        mItem.pk = pk;
+//        Expense expense = new Expense();
+//        expense.price = price;
+//        mItem.expense = expense;
+//        mItem.model_name = type;
+//        mItem.title = title;
+//        mItem.expense.duration = Integer.parseInt(duration);
+//        dialog.setItem(mItem);
+//        dialog.show();
     }
 
 

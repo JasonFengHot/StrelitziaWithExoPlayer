@@ -18,7 +18,11 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.network.entity.PayLayerVipEntity;
 
 /**
  * Created by huaijie on 4/12/16.
@@ -73,18 +77,26 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
 
 
     private void payLayerVip(String cpid, String itemId) {
-        NewVipHttpManager.getInstance().resetAdapter_SKY.create(NewVipHttpApi.PayLayerVip.class).doRequest(cpid, itemId, SimpleRestClient.device_token).enqueue(new Callback<PayLayerVipEntity>() {
-            @Override
-            public void onResponse(Response<PayLayerVipEntity> response) {
-                if (response.errorBody() == null)
-                    fillLayout(response.body());
-            }
+        mSkyService.apiPaylayerVip(cpid, itemId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PayLayerVipEntity>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Throwable t) {
+                    }
 
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(PayLayerVipEntity payLayerVipEntity) {
+                        fillLayout(payLayerVipEntity);
+                    }
+                });
+
     }
 
 
@@ -101,7 +113,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         int margin = (int) getResources().getDimension(R.dimen.newvip_paylayervip_margin);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(margin, 0, margin, 0);
-        for (final Vip_list vipList : payLayerVipEntity.getVip_list()) {
+        for (final PayLayerVipEntity.Vip_list vipList : payLayerVipEntity.getVip_list()) {
             RelativeLayout itemView = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.item_paylayervip, null);
             ForegroundImageView imageView = (ForegroundImageView) itemView.findViewById(R.id.image);
             if (TextUtils.isEmpty(vipList.getVertical_url())) {
@@ -151,32 +163,32 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
-            Vip_list vipList = (Vip_list) v.getTag();
+            PayLayerVipEntity.Vip_list vipList = (PayLayerVipEntity.Vip_list) v.getTag();
             vipDescriptionTextView.setText(vipList.getDescription());
         }
     }
 
     private void buyVideo(int pk, String type, float price, int duration, String title) {
-        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
-            @Override
-            public void payResult(boolean result) {
-                if (result) {
-                    Intent data = new Intent();
-                    data.putExtra("result", true);
-                    setResult(20, data);
-                    finish();
-                }
-            }
-        });
-        Item mItem = new Item();
-        mItem.pk = pk;
-        mItem.title = title;
-        Expense expense = new Expense();
-        expense.price = price;
-        expense.duration = duration;
-        mItem.expense = expense;
-        mItem.model_name = type;
-        dialog.setItem(mItem);
-        dialog.show();
+//        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
+//            @Override
+//            public void payResult(boolean result) {
+//                if (result) {
+//                    Intent data = new Intent();
+//                    data.putExtra("result", true);
+//                    setResult(20, data);
+//                    finish();
+//                }
+//            }
+//        });
+//        Item mItem = new Item();
+//        mItem.pk = pk;
+//        mItem.title = title;
+//        Expense expense = new Expense();
+//        expense.price = price;
+//        expense.duration = duration;
+//        mItem.expense = expense;
+//        mItem.model_name = type;
+//        dialog.setItem(mItem);
+//        dialog.show();
     }
 }

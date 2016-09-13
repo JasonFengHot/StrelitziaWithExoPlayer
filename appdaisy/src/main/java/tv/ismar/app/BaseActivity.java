@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import tv.ismar.app.network.SkyService;
 import tv.ismar.app.widget.LoadingDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -14,10 +15,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class BaseActivity extends AppCompatActivity {
 
     private LoadingDialog mLoadingDialog;
+    protected SkyService mSkyService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSkyService = SkyService.ServiceManager.getService();
     }
 
     protected <T extends View> T findView(int resId) {

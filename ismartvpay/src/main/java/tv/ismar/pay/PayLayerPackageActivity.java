@@ -18,7 +18,12 @@ import com.example.foregroundimageview.ForegroundImageView;
 import com.squareup.picasso.Picasso;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PlayCheckManager;
+import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 
 /**
@@ -91,25 +96,30 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     }
 
     private void payLayerPackage(String packageId) {
+        mSkyService.apiPaylayerPackage(packageId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PayLayerPackageEntity>() {
+                    @Override
+                    public void onCompleted() {
 
-        NewVipHttpManager.getInstance().resetAdapter_SKY.create(NewVipHttpApi.PayLayerPack.class).doRequest(packageId, SimpleRestClient.device_token).enqueue(new Callback<PayLayerPackageEntity>() {
-            @Override
-            public void onResponse(Response<PayLayerPackageEntity> response) {
-                if (response.errorBody() == null) {
-                    entity = response.body();
-                    title.setText("名称 : " + entity.getTitle());
-                    price.setText("金额 : " + entity.getPrice() + "元");
-                    duration.setText("有效期 : " + entity.getDuration() + "天");
-                    decription.setText("说明 : " + entity.getDescription());
-                    fillLayout(entity);
-                }
-            }
+                    }
 
-            @Override
-            public void onFailure(Throwable t) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(PayLayerPackageEntity payLayerPackageEntity) {
+                        entity = payLayerPackageEntity;
+                        title.setText("名称 : " + entity.getTitle());
+                        price.setText("金额 : " + entity.getPrice() + "元");
+                        duration.setText("有效期 : " + entity.getDuration() + "天");
+                        decription.setText("说明 : " + entity.getDescription());
+                        fillLayout(entity);
+                    }
+                });
     }
 
 
@@ -119,14 +129,14 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(margin, 0, margin, 0);
         for (int i = 0; i < packageEntity.getItem_list().size(); i++) {
-            final Item_list itemList = packageEntity.getItem_list().get(i);
+            final PayLayerPackageEntity.Item_list itemList = packageEntity.getItem_list().get(i);
             RelativeLayout itemView = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.item_paylayerpackage, null);
             ForegroundImageView imageView = (ForegroundImageView) itemView.findViewById(R.id.image);
             TextView itemTitle = (TextView) itemView.findViewById(R.id.title);
             itemTitle.setText(itemList.getTitle());
             ImageView expense_txt = (ImageView) itemView.findViewById(R.id.expense_txt);
             if (itemList.getCptitle() != null && "" != itemList.getCptitle()) {
-                String imageUrl = DpiManager.getInstance().getImage(this, itemList.getPay_type(), itemList.getCpid());
+                String imageUrl = VipMark.getInstance().getImage(this, itemList.getPay_type(), itemList.getCpid());
                 Picasso.with(this).load(imageUrl).into(expense_txt);
 
             }
@@ -156,18 +166,18 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    String url = SimpleRestClient.root_url + "/api/item/" + itemList.getItem_id() + "/";
-                    intent.putExtra("url", url);
-                    String contentMode = itemList.getContent_model();
-                    if ("movie".equals(contentMode)) {
-                        intent.setAction("tv.ismar.daisy.PFileItem");
-                    } else if ("package".equals(contentMode)) {
-                        intent.setAction("tv.ismar.daisy.packageitem");
-                    } else {
-                        intent.setAction("tv.ismar.daisy.Item");
-                    }
-                    startActivity(intent);
+//                    Intent intent = new Intent();
+//                    String url = SimpleRestClient.root_url + "/api/item/" + itemList.getItem_id() + "/";
+//                    intent.putExtra("url", url);
+//                    String contentMode = itemList.getContent_model();
+//                    if ("movie".equals(contentMode)) {
+//                        intent.setAction("tv.ismar.daisy.PFileItem");
+//                    } else if ("package".equals(contentMode)) {
+//                        intent.setAction("tv.ismar.daisy.packageitem");
+//                    } else {
+//                        intent.setAction("tv.ismar.daisy.Item");
+//                    }
+//                    startActivity(intent);
                 }
             });
             if (listLayoutItemNextFocusUpIsSelf == true) {
@@ -213,27 +223,27 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     }
 
     private void buyVideo(int pk, String type, float price) {
-        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
-            @Override
-            public void payResult(boolean result) {
-                if (result) {
-                    Intent data = new Intent();
-                    data.putExtra("result", true);
-                    setResult(20, data);
-                    finish();
-                }
-            }
-        });
-        Item mItem = new Item();
-        mItem.pk = pk;
-        Expense expense = new Expense();
-        expense.price = price;
-        mItem.expense = expense;
-        mItem.model_name = type;
-        mItem.title = entity.getTitle();
-        mItem.expense.duration = Integer.parseInt(entity.getDuration());
-        dialog.setItem(mItem);
-        dialog.show();
+//        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
+//            @Override
+//            public void payResult(boolean result) {
+//                if (result) {
+//                    Intent data = new Intent();
+//                    data.putExtra("result", true);
+//                    setResult(20, data);
+//                    finish();
+//                }
+//            }
+//        });
+//        Item mItem = new Item();
+//        mItem.pk = pk;
+//        Expense expense = new Expense();
+//        expense.price = price;
+//        mItem.expense = expense;
+//        mItem.model_name = type;
+//        mItem.title = entity.getTitle();
+//        mItem.expense.duration = Integer.parseInt(entity.getDuration());
+//        dialog.setItem(mItem);
+//        dialog.show();
     }
 
     public void buyPackage() {
@@ -277,10 +287,10 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.paylayerpkg_purchase:
-                buyPackage();
-                break;
+        int i = v.getId();
+        if (i == R.id.paylayerpkg_purchase) {
+            buyPackage();
+
         }
     }
 }

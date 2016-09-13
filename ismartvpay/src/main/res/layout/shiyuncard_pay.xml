@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/pay_shiyuncard_account_label"
-        android:textSize="@dimen/pay_shiyuncard_account_label_textsize" />
+        android:textSize="@dimen/pay_shiyuncard_account_label_textsize"/>
 
     <TextView
         android:id="@+id/recharge_error_msg"
@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColor="#fe8109"
-        android:visibility="gone"
-        android:textSize="@dimen/pay_shiyuncard_account_label_textsize" />
+        android:textSize="@dimen/pay_shiyuncard_account_label_textsize"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/shiyuncard_input"
@@ -30,14 +30,14 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/pay_shiyuncard_input_margintop"
-        android:singleLine="true"
-        android:paddingLeft="5dip"
-        android:textSize="32sp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:nextFocusDown="@+id/shiyuncard_submit"
         android:nextFocusLeft="@id/videocard"
-         />
+        android:paddingLeft="5dip"
+        android:singleLine="true"
+        android:textSize="32sp"
+    />
 
     <Button
         android:id="@+id/shiyuncard_submit"
@@ -46,10 +46,10 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/pay_shiyuncard_submit_margintop"
         android:background="@drawable/paychannel_btn_selector"
-        android:text="@string/pay_shiyuncard_submit_label"
-        android:textColor="#FFF8F8FF"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:textSize="@dimen/pay_shiyuncard_submit_textsize" />
+        android:text="@string/pay_shiyuncard_submit_label"
+        android:textColor="#FFF8F8FF"
+        android:textSize="@dimen/pay_shiyuncard_submit_textsize"/>
 
 </LinearLayout>

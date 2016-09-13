@@ -20,4 +20,103 @@
 
     <color name="color_yellow">#fafd00</color>
 
+
+    <!-- 背景色白色 -->
+    <color name="play_finished">#000000</color>
+    <color name="hotwords_test">#00000000</color>
+    <color name="hotwords_test_selected">#FBCE8B</color>
+    <color name="hotwords_text_color">#FFFFFFFF</color>
+    <!-- 自动提示Item backgound-->
+    <color name="autocomplete_back_color_selector">#93C8E4</color>
+    <!-- 自动提示Item text-->
+    <color name="autocomplete_text_color">#DEE8ED</color>
+    <!-- 自动提示Item text-->
+    <color name="autocomplete_text_color_selector">#6B9CB4</color>
+    <!-- 搜索范围在线视频 -->
+    <color name="search_color">#BBBBBB</color>
+    <!-- 线 -->
+    <color name="search_line_color">#899da3</color>
+    <!-- 搜索个数    黄色 -->
+    <color name="search_color_count">#FFDD2D</color>
+    <!-- 搜索结果背景 蓝色 -->
+    <color name="search_background">#1e979f</color>
+    <!-- 搜索到结果文字  白灰 -->
+    <color name="search_text_result">#D4D6D7</color>
+    <!-- 搜索推荐   黑灰 -->
+    <color name="search_words">#333333</color>
+    <!-- 搜索按钮 黄色 -->
+    <color name="player_panel_bg">#CC000000</color>
+    <color name="player_panel_fg">#CC000000</color>
+    <color name="player_menu_bg">#CC000000</color>
+    <color name="player_menu_fg">#CC000000</color>
+    <color name="volume_panel_bg">#CC323232</color>
+    <color name="volume_panel_fg">#CC323232</color>
+    <drawable name="top_title_color">#FAFAFA</drawable>
+    <color name="itemdetail_firsttextcolor">#BBBBBB</color>
+    <color name="itemdetail_secondtextcolor">#999999</color>
+    <color name="itemdetail_thirdtextcolor">#000000</color>
+    <color name="movielist_title">#A3D2D3</color>
+    <color name="movieitem_sel">#000000</color>
+    <color name="movieitem_nosel">#B9BCBC</color>
+    <color name="movieitem_comment">#686868</color>
+    <color name="ratepopup_dlg">#e2e2e2</color>
+    <color name="loginpopup_dlg_focus">#000000</color>
+    <color name="loginpopup_dlg_error">#000000</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="progress_color_end">#407e8f</color>
+    <color name="progress_color_start">#407e8f</color>
+    <color name="progress_bg_color">#005c85</color>
+    <color name="secondary_progress_color">#407e8f</color>
+
+    <!-- update -->
+    <color name="bg_update_bt_normal">#f27f0a</color>
+    <color name="bg_update_bt_focus">#3aa0eb</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="channel_more">#00a8ff</color>
+    <color name="sakura_progress">#128FFF</color>
+    <!-- sakura -->
+    <color name="button_disable_bg">#666666</color>
+
+    <color name="normal_activity_bg">#8803548d</color>
+
+    <drawable name="child_item_bg_focus">#ea7b0d</drawable>
+    <drawable name="child_item_bg_normal">#601800</drawable>
+    <drawable name="list_item_more_bg">#00a8ff</drawable>
+    <drawable name="user_info_popwindow_bg">#b3303030</drawable>
+
+    <color name="association_normal">#FFFFFF</color>
+    <color name="association_focus">#00a9ff</color>
+
+    <drawable name="transparent">#00000000</drawable>
+
+    <drawable name="button_disable">#7f7f7f</drawable>
+
+    <color name="location_text_focus">#FF9C3C</color>
+    <color name="carousel_focus">#d9000000</color>
+    <color name="shawdow">#d9000000</color>
+
+    <color name="history_divider">#515a6c</color>
+
+    <color name="blue">#00a9ff</color>
+    <color name="payment_dialog_bg">#012239</color>
+
+    <color name="_ffba00">#ffba00</color>
+    <color name="_ffffff">#ffffff</color>
+    <color name="_ff9c3c">#ff9c3c</color>
+    <drawable name="exit_focus_bg_color">#ff9c3c</drawable>
+    <drawable name="_000000000">#00000000</drawable>
+
+    <color name="detail_more_bg">#33ffffff</color>
+    <color name="search_bg_focus">#ffffba00</color>
+    <color name="personinfo_login_button_disable">#5c626e</color>
+    <color name="paychannel_button_disable">#3f3f3f</color>
+
+    <drawable name="pop_bg_drawable">#CC000000</drawable>
+    <color name="newvip_purchase_focus">#ff9c3c</color>
+    <color name="newvip_purchase_normal">#383d43</color>
+    <color name="channel_item_frame">#ff9c3c</color>
+
+    <color name="iqiyi_ad_btn_color">#33ffffff</color>
+
 </resources>

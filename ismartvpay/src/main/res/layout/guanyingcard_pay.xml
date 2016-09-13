@@ -11,7 +11,7 @@
         android:id="@+id/card_balance_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" >
+        android:layout_gravity="center_horizontal">
 
         <TextView
             android:id="@+id/card_balance_title_label"
@@ -19,19 +19,19 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/pay_card_balance_title_label"
-            android:textSize="@dimen/pay_guanyingcard_card_balance_title_textsize" 
             android:textColor="#a6d4f5"
-            />
-<!-- 
-        <TextView
-            android:id="@+id/card_balance_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/card_balance_title_label"
-            android:layout_marginRight="20dp"
-            android:text="￥0.00"
-            android:textSize="28sp" />
- -->
+            android:textSize="@dimen/pay_guanyingcard_card_balance_title_textsize"
+        />
+        <!--
+                <TextView
+                    android:id="@+id/card_balance_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/card_balance_title_label"
+                    android:layout_marginRight="20dp"
+                    android:text="￥0.00"
+                    android:textSize="28sp" />
+         -->
     </RelativeLayout>
 
     <RelativeLayout
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/pay_guanyingcard_card_balance_package_info_margintop"
-         >
+    >
 
         <TextView
             android:id="@+id/package_price"
@@ -48,17 +48,17 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/pay_package_price"
-            android:textSize="@dimen/pay_guanyingcard_package_price_textsize" />
-<!-- 
-        <TextView
-            android:id="@+id/package_exprice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/package_price"
-            android:layout_marginRight="20dp"
-            android:text="有效期: 7天"
-            android:textSize="28sp" />
- -->
+            android:textSize="@dimen/pay_guanyingcard_package_price_textsize"/>
+        <!--
+                <TextView
+                    android:id="@+id/package_exprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/package_price"
+                    android:layout_marginRight="20dp"
+                    android:text="有效期: 7天"
+                    android:textSize="28sp" />
+         -->
         <TextView
             android:id="@+id/package_exprice_label"
             android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
             android:layout_below="@id/package_price"
             android:layout_centerHorizontal="true"
             android:text="@string/package_exprice_label"
-            android:textSize="@dimen/pay_guanyingcard_package_exprice_textsize" />
+            android:textSize="@dimen/pay_guanyingcard_package_exprice_textsize"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -74,32 +74,32 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/pay_guanyingcard_submit_panel_margintop"
-         >
+    >
 
         <Button
             android:id="@+id/card_balance_submit"
             android:layout_width="@dimen/tv_guide_channel_item_width"
             android:layout_height="@dimen/pay_channel_weixin_height"
-            android:text="@string/card_balance_submit"
             android:background="@drawable/paychannel_btn_selector"
-            android:textColor="#FFF8F8FF"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:textSize="@dimen/pay_guanyingcard_card_balance_submit_textsize"
-            android:nextFocusLeft="@+id/balance_pay"/>
+            android:nextFocusLeft="@+id/balance_pay"
+            android:text="@string/card_balance_submit"
+            android:textColor="#FFF8F8FF"
+            android:textSize="@dimen/pay_guanyingcard_card_balance_submit_textsize"/>
 
         <Button
             android:id="@+id/card_balance_cancel"
             android:layout_width="@dimen/tv_guide_channel_item_width"
             android:layout_height="@dimen/pay_channel_weixin_height"
-            android:layout_toRightOf="@id/card_balance_submit"
             android:layout_marginLeft="@dimen/pay_guanyingcard_card_balance_cancel_marginleft"
-            android:text="@string/card_balance_cancel"
+            android:layout_toRightOf="@id/card_balance_submit"
             android:background="@drawable/paychannel_btn_selector"
-            android:textColor="#FFF8F8FF"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:textSize="@dimen/pay_guanyingcard_card_balance_cancel_textsize" />
+            android:text="@string/card_balance_cancel"
+            android:textColor="#FFF8F8FF"
+            android:textSize="@dimen/pay_guanyingcard_card_balance_cancel_textsize"/>
     </RelativeLayout>
 
 </LinearLayout>

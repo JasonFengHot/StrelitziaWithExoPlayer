@@ -4,14 +4,14 @@
               android:layout_height="wrap_content"
               android:layout_marginLeft="@dimen/pay_qrcode_pay_panel_marginleft"
               android:orientation="vertical"
-    >
+>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/pay_person_login_linearLayout_h"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal"
-        >
+    >
 
         <TextView
             android:layout_width="@dimen/pay_person_login_textview_w"
@@ -26,11 +26,11 @@
             android:layout_width="@dimen/pay_person_login_pay_edit_mobile_w"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/pay_person_login_pay_edit_mobile_marginLeft"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center"
             android:inputType="phone"
             android:paddingLeft="@dimen/pay_person_login_pay_edit_mobile_pl"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
 
         <Button
@@ -39,10 +39,10 @@
             android:layout_height="@dimen/pay_person_login_pay_identifyCodeBtn_h"
             android:layout_marginLeft="@dimen/pay_person_login_pay_identifyCodeBtn_ml"
             android:background="@drawable/person_btn_selector"
-            android:text="获取验证码"
-            android:textColor="#FFF8F8FF"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:text="获取验证码"
+            android:textColor="#FFF8F8FF"
             android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
     </LinearLayout>
 
@@ -62,7 +62,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/pay_person_login_linearLayout2_mt"
         android:orientation="horizontal"
-        >
+    >
 
         <TextView
             android:layout_width="@dimen/pay_person_login_textview_w"
@@ -77,11 +77,11 @@
             android:layout_width="@dimen/pay_person_login_pay_edit_mobile_w"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/pay_person_login_pay_identifyCodeBtn_ml"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center"
             android:inputType="number"
             android:paddingLeft="@dimen/pay_person_login_pay_edit_mobile_pl"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
     </LinearLayout>
 
@@ -92,11 +92,11 @@
         android:layout_marginLeft="@dimen/pay_person_login_pay_btn_submit_ml"
         android:layout_marginTop="@dimen/pay_person_login_pay_btn_submit_mt"
         android:background="@drawable/person_btn_selector"
-        android:text="提交"
-        android:textColor="#FFF8F8FF"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:text="提交"
+        android:textColor="#FFF8F8FF"
         android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"
-        />
+    />
 
 </LinearLayout>

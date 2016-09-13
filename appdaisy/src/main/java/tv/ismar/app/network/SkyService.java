@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.RxJavaCallAdapterFactory;
@@ -26,6 +27,9 @@ import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.DpiEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.network.entity.PayLayerEntity;
+import tv.ismar.app.network.entity.PayLayerPackageEntity;
+import tv.ismar.app.network.entity.PayLayerVipEntity;
 
 /**
  * Created by huibin on 8/3/16.
@@ -104,8 +108,49 @@ public interface SkyService {
 
     @POST("/api/get/ad/")
     Observable<AdElementEntity[]> fetchAdvertisement(
-            @FieldMap HashMap<String,String> paramsMap
+            @FieldMap HashMap<String, String> paramsMap
     );
+
+
+    @POST("/accounts/login/")
+    Observable<ResponseBody> accountsLogin(
+            @Field("username") String userName,
+            @Field("auth_number") String authNumber
+    );
+
+    @POST("/accounts/auth/")
+    Observable<ResponseBody> accountsAuth(
+            @Field("username") String userName
+    );
+
+
+    @GET("/api/histories/")
+    Observable<ResponseBody> apiHistories(
+    );
+
+    @GET("api/paylayer/{item_id}/")
+    Observable<PayLayerEntity> apiPaylayer(
+            @Path("item_id") String itemId
+    );
+
+    @GET("api/paylayer/vip/{cpid}/")
+    Observable<PayLayerVipEntity> apiPaylayerVip(
+            @Path("cpid") String cpid,
+            @Query("item_id") String itemId
+    );
+
+    @GET("api/paylayer/package/{package_id}/")
+    Observable<PayLayerPackageEntity> apiPaylayerPackage(
+            @Path("package_id") String packageId
+    );
+
+    @POST("/accounts/combine/")
+    Observable<ResponseBody> accountsCombine(
+            @Field("sharp_bestv") String sharpBestv,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
 
 //    @GET
 //    Observable<HomePagerEntity> fetchHomePage(
@@ -114,15 +159,13 @@ public interface SkyService {
 //
 
 
-//    @FormUrlEncoded
-//    @POST("/api/play/check/")
-//    Call<ResponseBody> playCheck(
-//            @Field("item") String item,
-//            @Field("package") String pkg,
-//            @Field("subitem") String subItem,
-//            @Field("device_token") String deviceToken,
-//            @Field("access_token") String accessToken
-//    );
+    @FormUrlEncoded
+    @POST("/api/play/check/")
+    Call<ResponseBody> playCheck(
+            @Field("item") String item,
+            @Field("package") String pkg,
+            @Field("subitem") String subItem
+    );
 //
 //    @GET("/api/package/relate/{pkg}/")
 //    Observable<Item[]> packageRelate(

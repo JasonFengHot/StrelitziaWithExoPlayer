@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/pay_layer_item"
-                xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/pay_layer_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:descendantFocusability="blocksDescendants"
                 android:focusable="true"
-    >
+>
 
     <RelativeLayout
         android:id="@+id/item_container"
@@ -24,9 +24,8 @@
             android:id="@+id/expense_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@id/detail_preview_img"
             android:visibility="visible"
-            />
+        />
     </RelativeLayout>
 
     <TextView
@@ -35,8 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/item_container"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
         android:ellipsize="marquee"
+        android:gravity="center"
         android:marqueeRepeatLimit="marquee_forever"
         android:maxEms="10"
         android:singleLine="true"
