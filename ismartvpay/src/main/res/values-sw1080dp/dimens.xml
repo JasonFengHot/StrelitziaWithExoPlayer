@@ -118,5 +118,7 @@
     <dimen name="pay_guanyingcard_package_price_textsize">23sp</dimen>
     <dimen name="pay_guanyingcard_package_exprice_textsize">23sp</dimen>
     <dimen name="pay_guanyingcard_card_balance_cancel_textsize">32sp</dimen>
+    <dimen name="payment_min_height">890dp</dimen>
+    <dimen name="payment_min_width">1590dp</dimen>
 
 </resources>
