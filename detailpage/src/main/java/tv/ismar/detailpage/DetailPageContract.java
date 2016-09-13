@@ -1,5 +1,7 @@
 package tv.ismar.detailpage;
 
+import android.content.Context;
+
 import tv.ismar.app.BasePresenter;
 import tv.ismar.app.BaseView;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -16,6 +18,8 @@ public interface DetailPageContract {
 
         void notifyPlayCheck(PlayCheckEntity playCheckEntity);
 
+        Context getContext();
+
     }
 
 
@@ -29,6 +33,8 @@ public interface DetailPageContract {
         void removeBookmarks(String pk, String deviceToken, String accessToken);
 
         void handleBookmark();
+
+        void handlePlay();
 
         void requestPlayCheck(String itemPk, String deviceToken, String accessToken);
     }

@@ -35,7 +35,7 @@ import tv.ismar.account.data.ResultEntity;
  */
 public class IsmartvActivator {
     private static final String TAG = "IsmartvActivator";
-    private static final String DEFAULT_HOST = "http://peachtest.tvxio.com";
+    private static final String DEFAULT_HOST = "http://sky.tvxio.com";
     private static final String SIGN_FILE_NAME = "sign";
     private static final int DEFAULT_CONNECT_TIMEOUT = 2;
     private static final int DEFAULT_READ_TIMEOUT = 5;
@@ -265,6 +265,17 @@ public class IsmartvActivator {
         }
     }
 
+    public String getApiDomain() {
+        String apiDomain = mSharedPreferences.getString("api_domain", "");
+        if (TextUtils.isEmpty(apiDomain)) {
+            ResultEntity resultEntity = execute();
+            saveAccountInfo(resultEntity);
+            return resultEntity.getDevice_token();
+        } else {
+            return apiDomain;
+        }
+    }
+
     public String getAccessToken() {
         return "";
     }
@@ -285,6 +296,7 @@ public class IsmartvActivator {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString("device_token", resultEntity.getDevice_token());
         editor.putString("sn_token", resultEntity.getSn_Token());
+        editor.putString("api_domain", resultEntity.getDomain());
         editor.commit();
     }
 }

@@ -1,5 +1,7 @@
 package tv.ismar.detailpage.presenter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -20,6 +22,7 @@ import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
+import tv.ismar.pay.PaymentActivity;
 
 /**
  * Created by huibin on 8/19/16.
@@ -248,5 +251,13 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             bookmarkTable.title = mItemEntity.getTitle();
             bookmarkTable.save();
         }
+    }
+
+    @Override
+    public void handlePlay() {
+        Context context = mDetailView.getContext();
+        Intent intent = new Intent();
+        intent.setClass(context, PaymentActivity.class);
+        context.startActivity(intent);
     }
 }

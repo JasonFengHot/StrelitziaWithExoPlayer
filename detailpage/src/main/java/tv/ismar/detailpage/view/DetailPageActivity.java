@@ -1,5 +1,6 @@
 package tv.ismar.detailpage.view;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -193,5 +194,10 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     @Override
     public void notifyPlayCheck(PlayCheckEntity playCheckEntity) {
         mModel.notifyPlayCheck(playCheckEntity);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

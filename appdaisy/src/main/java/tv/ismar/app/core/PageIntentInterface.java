@@ -13,4 +13,6 @@ public interface PageIntentInterface {
     String EXTRA_MEDIA_POSITION = "mediaPosition";
 
     void toDetailPage(Context context, String contentModel, int pk);
+
+    void toPayment();
 }
