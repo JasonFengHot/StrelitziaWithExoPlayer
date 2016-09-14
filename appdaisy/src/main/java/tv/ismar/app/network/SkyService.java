@@ -16,12 +16,16 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.network.entity.AccountBalanceEntity;
+import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.network.entity.ActiveEntity;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
@@ -73,7 +77,7 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST("/trust/security/active/")
+    @POST("trust/security/active/")
     Observable<ActiveEntity> securityActive(
             @Field("sn") String sn,
             @Field("manufacture") String manufacture,
@@ -86,7 +90,7 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST("/trust/get_licence/")
+    @POST("trust/get_licence/")
     Observable<ResponseBody> getLicence(
             @Field("fingerprint") String fingerprint,
             @Field("sn") String sn,
@@ -94,7 +98,7 @@ public interface SkyService {
             @Field("code") String code
     );
 
-    @GET("/api/dpi/")
+    @GET("api/dpi/")
     Observable<List<DpiEntity>> fetchDpi(
 
     );
@@ -107,7 +111,7 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST("/api/get/ad/")
+    @POST("api/get/ad/")
     Observable<ResponseBody> fetchAdvertisement(
             @FieldMap HashMap<String, String> paramsMap
     );
@@ -121,19 +125,25 @@ public interface SkyService {
             @Field("data") String data
     );
 
-    @POST("/accounts/login/")
-    Observable<ResponseBody> accountsLogin(
+    @FormUrlEncoded
+    @POST("accounts/login/")
+    Observable<AccountsLoginEntity> accountsLogin(
             @Field("username") String userName,
             @Field("auth_number") String authNumber
     );
 
-    @POST("/accounts/auth/")
+    @FormUrlEncoded
+    @POST("accounts/auth/")
     Observable<ResponseBody> accountsAuth(
             @Field("username") String userName
     );
 
+    @GET("accounts/balance/")
+    Observable<AccountBalanceEntity> accountsBalance(
+    );
 
-    @GET("/api/histories/")
+
+    @GET("api/histories/")
     Observable<ResponseBody> apiHistories(
     );
 
@@ -153,7 +163,7 @@ public interface SkyService {
             @Path("package_id") String packageId
     );
 
-    @POST("/accounts/combine/")
+    @POST("accounts/combine/")
     Observable<ResponseBody> accountsCombine(
             @Field("sharp_bestv") String sharpBestv,
             @Field("timestamp") String timestamp,
@@ -169,7 +179,7 @@ public interface SkyService {
 
 
     @FormUrlEncoded
-    @POST("/api/play/check/")
+    @POST("api/play/check/")
     Call<ResponseBody> playCheck(
             @Field("item") String item,
             @Field("package") String pkg,
@@ -197,7 +207,7 @@ public interface SkyService {
             OkHttpClient mClient = new OkHttpClient.Builder()
                     .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
-                    .addNetworkInterceptor(VodApplication.getHttpParamsInterceptor())
+                    .addInterceptor(VodApplication.getHttpParamsInterceptor())
                     .addNetworkInterceptor(VodApplication.getHttpTrafficInterceptor())
                     .addInterceptor(interceptor)
                     .build();

@@ -29,10 +29,9 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/paytype_width"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <Button
                 android:id="@+id/weixin"
@@ -96,16 +95,12 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/fragment_page"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/fragment_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

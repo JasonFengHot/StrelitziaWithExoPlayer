@@ -1,5 +1,6 @@
 package tv.ismar.account;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
@@ -40,10 +41,16 @@ public class HttpParamsInterceptor implements Interceptor {
         Request request = chain.request();
         Request.Builder requestBuilder = request.newBuilder();
 
-        paramsMap = new HashMap<>();
         IsmartvActivator activator = IsmartvActivator.getInstance();
-        paramsMap.put("device_token", activator.getDeviceToken());
-        paramsMap.put("access_token", activator.getAccessToken());
+        String accessToken = activator.getAuthToken();
+        paramsMap = new HashMap<>();
+
+//        paramsMap.put("device_token", activator.getDeviceToken());
+        paramsMap.put("device_token", "__79BZUv8AiLJ7IroazfLHZXDan35zsrzKeTdSgoDULu0-4Q5ijDhCWBZ0Wp5zulXo");
+        if (!TextUtils.isEmpty(accessToken)) {
+            paramsMap.put("access_token", accessToken);
+        }
+//        paramsMap.put("access_token", "679a0b299408384486bb4783f9f866e8");
 
         // process header params inject
         Headers.Builder headerBuilder = request.headers().newBuilder();

@@ -2,9 +2,11 @@ package tv.ismar.pay;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -19,22 +21,20 @@ import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.widget.MessagePopWindow;
 
 /**
  * Created by huibin on 2016/9/14.
  */
 public class LoginFragment extends Fragment {
-
-
     private Button identifyCodeBtn;
     private EditText edit_identifycode;
     private Button btn_submit;
     private EditText edit_mobile;
     private TextView count_tip;
-    private IsmartCountTimer timeCount;
-    private boolean suspension_window = false;
     private Context mcontext;
 
     private SkyService mSkyService;
@@ -42,8 +42,15 @@ public class LoginFragment extends Fragment {
     private View contentView;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mcontext = context;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSkyService = SkyService.ServiceManager.getService();
     }
 
     @Nullable
@@ -67,6 +74,7 @@ public class LoginFragment extends Fragment {
         edit_identifycode = (EditText) contentView.findViewById(R.id.pay_edit_identifycode);
         identifyCodeBtn = (Button) contentView.findViewById(R.id.pay_identifyCodeBtn);
         btn_submit = (Button) contentView.findViewById(R.id.pay_btn_submit);
+
         btn_submit.setOnHoverListener(onHoverListener);
         identifyCodeBtn.setOnHoverListener(onHoverListener);
         edit_mobile.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -94,10 +102,6 @@ public class LoginFragment extends Fragment {
     }
 
     public static boolean isMobileNumber(String mobiles) {
-//        Pattern p = Pattern
-//                .compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-//        Matcher m = p.matcher(mobiles);
-//        return m.matches();
         if (mobiles.length() == 11) {
             return true;
         } else {
@@ -161,6 +165,9 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void confirmClick(View view) {
                         dialog.dismiss();
+                        Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                        getActivity().startActivity(intent);
+                        getActivity().finish();
                     }
                 },
                 null);
@@ -185,27 +192,26 @@ public class LoginFragment extends Fragment {
     };
 
     private void fetchVerificationCode() {
+        edit_mobile.setText("15370770697");
+        String username = edit_mobile.getText().toString();
         if ("".equals(edit_mobile.getText().toString())) {
             setcount_tipText("请输入手机号");
             return;
         }
-        boolean ismobile = isMobileNumber(edit_mobile.getText()
-                .toString());
+        boolean ismobile = isMobileNumber(username);
         if (!ismobile) {
             setcount_tipText("不是手机号码");
             return;
         }
-        timeCount = new IsmartCountTimer(identifyCodeBtn, R.drawable.person_btn_selector, R.drawable.btn_disabled_bg);
-        timeCount.start();
+//        timeCount = new IsmartCountTimer(identifyCodeBtn, R.drawable.person_btn_selector, R.drawable.btn_disabled_bg);
+//        timeCount.start();
         count_tip.setVisibility(View.VISIBLE);
-
         edit_identifycode.requestFocus();
-
         count_tip.setText("60秒后可再次点击获取验证码       ");
         count_tip.setTextColor(Color.WHITE);
         count_tip.setVisibility(View.VISIBLE);
 
-        String username = "";
+
         mSkyService.accountsAuth(username)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -217,7 +223,6 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        timeCount.cancel();
                         identifyCodeBtn.setEnabled(true);
                         identifyCodeBtn.setBackgroundResource(R.drawable.channel_item_normal);
                         identifyCodeBtn.setText("获取验证码");
@@ -234,103 +239,25 @@ public class LoginFragment extends Fragment {
     }
 
     private void doLogin() {
-        // TODO Auto-generated method stub
-        String identifyCode = edit_identifycode.getText().toString();
-        if ("".equals(identifyCode)) {
-            // count_tip.setText("验证码不能为空!");
+        String username = edit_mobile.getText().toString();
+        String authNumber = edit_identifycode.getText().toString();
+        if ("".equals(authNumber)) {
             setcount_tipText("验证码不能为空!");
             return;
         }
-        if ("".equals(edit_mobile.getText().toString())) {
+        if ("".equals(username)) {
             setcount_tipText("手机号不能为空!");
             return;
         }
-        boolean ismobile = isMobileNumber(edit_mobile.getText()
-                .toString());
+        boolean ismobile = isMobileNumber(username);
         if (!ismobile) {
-            // count_tip.setText("不是手机号码");
             setcount_tipText("不是手机号码");
             return;
         }
-//                mSimpleRestClient.doSendRequest("/accounts/login/", "post",
-//                        "device_token=" + SimpleRestClient.device_token
-//                                + "&username="
-//                                + edit_mobile.getText().toString()
-//                                + "&auth_number=" + identifyCode,
-//                        new HttpPostRequestInterface() {
-//
-//                            @Override
-//                            public void onPrepare() {
-//                                // TODO Auto-generated method stub
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(String info) {
-//                                // TODO Auto-generated method stub
-//                                try {
-//                                    org.json.JSONObject json = new org.json.JSONObject(
-//                                            info);
-//                                    String auth_token = json
-//                                            .getString(VodApplication.AUTH_TOKEN);
-//                                    String zuser_token = json
-//                                            .getString(VodApplication.AUTH_TOKEN);
-//                                    DaisyUtils
-//                                            .getVodApplication(getContext())
-//                                            .getEditor()
-//                                            .putString(
-//                                                    VodApplication.AUTH_TOKEN,
-//                                                    auth_token);
-//                                    DaisyUtils
-//                                            .getVodApplication(getContext())
-//                                            .getEditor()
-//                                            .putString(
-//                                                    VodApplication.MOBILE_NUMBER,
-//                                                    edit_mobile.getText()
-//                                                            .toString());
-//                                    DaisyUtils.getVodApplication(getContext())
-//                                            .save();
-//                                    SimpleRestClient.access_token = auth_token;
-//                                    SimpleRestClient.mobile_number = edit_mobile
-//                                            .getText().toString();
-//                                    SimpleRestClient.zuser_token = json.getString("zuser_token");
-//                                    AccountSharedPrefs accountSharedPrefs = AccountSharedPrefs
-//                                            .getInstance();
-//                                    accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.ZUSER_TOKEN, json.getString("zuser_token"));
-//                                    GetFavoriteByNet();
-//                                    getHistoryByNet();
-//                                    showLoginSuccessPopup();
-//                                    if (callback != null) {
-//                                        callback.onSuccess(auth_token);
-//                                    }
-//                                    String bindflag = DaisyUtils.getVodApplication(mcontext)
-//                                            .getPreferences().getString(VodApplication.BESTTV_AUTH_BIND_FLAG, "");
-//                                    if (StringUtils.isNotEmpty(bindflag) && "privilege".equals(bindflag)) {
-//                                        bindBestTvauth();
-//                                    }
-//
-//                                } catch (JSONException e) {
-//                                    // TODO Auto-generated catch block
-//                                    callback.onFailed(e.toString());
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailed(String error) {
-//                                // TODO Auto-generated method stub
-//                                callback.onFailed(error);
-//                                setcount_tipText("登录失败");
-//                            }
-//
-//                        });
-        String username = "";
-        String authNumber = "";
-
         mSkyService.accountsLogin(username, authNumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
+                .subscribe(new Observer<AccountsLoginEntity>() {
                     @Override
                     public void onCompleted() {
 
@@ -338,15 +265,17 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
+                        setcount_tipText("登录失败");
                     }
 
                     @Override
-                    public void onNext(ResponseBody responseBody) {
-
+                    public void onNext(AccountsLoginEntity entity) {
+                        String username = edit_mobile.getText().toString();
+                        IsmartvActivator.getInstance().saveUserInfo(username, entity.getAuth_token(), entity.getZuser_token());
+                        showLoginSuccessPopup();
                     }
                 });
-
     }
 
 }

@@ -3,10 +3,19 @@ package tv.ismar.pay;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import okhttp3.ResponseBody;
+import rx.Observer;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.network.entity.AccountBalanceEntity;
 
 /**
  * Created by huibin on 9/13/16.
@@ -45,9 +54,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         cardpayFragment = new CardPayFragment();
         balanceFragment = new BalancePayFragment();
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_page, loginFragment)
-                .commit();
+        if (TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken())) {
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_page, loginFragment)
+                    .commit();
+        } else {
+            fetchAccountBalance();
+        }
+
     }
 
 
@@ -65,4 +79,36 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             transaction.replace(R.id.fragment_page, balanceFragment).commit();
         }
     }
+
+    private void fetchAccountBalance() {
+        mSkyService.accountsBalance()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AccountBalanceEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(AccountBalanceEntity entity) {
+                        if (entity.getBalance().floatValue() == 0) {
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_page, weixinFragment)
+                                    .commit();
+                        } else {
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_page, balanceFragment)
+                                    .commit();
+                        }
+                    }
+                });
+    }
+
+
 }

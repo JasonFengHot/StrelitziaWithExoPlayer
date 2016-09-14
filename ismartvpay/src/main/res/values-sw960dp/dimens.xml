@@ -119,5 +119,8 @@
 <dimen name="pay_guanyingcard_card_balance_cancel_textsize">28.44sp</dimen>
 <dimen name="payment_min_height">791.11dp</dimen>
 <dimen name="payment_min_width">1413.33dp</dimen>
+<dimen name="paytype_width">391.11dp</dimen>
+<dimen name="page_min_height">533.33dp</dimen>
+<dimen name="page_min_width">888.89dp</dimen>
 
 </resources>
