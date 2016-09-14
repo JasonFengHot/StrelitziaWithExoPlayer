@@ -1,5 +1,6 @@
 package tv.ismar.player.media;
 
+import android.util.Log;
 import android.view.View;
 
 import com.qiyi.sdk.player.BitStream;
@@ -62,6 +63,7 @@ public class QiyiPlayer extends IsmartvPlayer {
         //设置缓冲事件监听器, 需要时设置
         mPlayer.setOnBufferChangedListener(qiyiBufferChangedListener);
 
+        logVideoStart(0);
         super.setMedia(media);
 
     }
@@ -77,32 +79,59 @@ public class QiyiPlayer extends IsmartvPlayer {
         @Override
         public void onPrepared(IMediaPlayer iMediaPlayer) {
             mCurrentState = STATE_PREPARED;
-            start();
+            if (mOnStateChangedListener != null) {
+                mOnStateChangedListener.onPrepared();
+            }
         }
 
         @Override
         public void onAdStart(IMediaPlayer iMediaPlayer) {
-
+            mIsPlayingAdvertisement = true;
+            if (mOnStateChangedListener != null) {
+                mOnStateChangedListener.onAdStart();
+            }
+            logAdStart("", 0);
         }
 
         @Override
         public void onAdEnd(IMediaPlayer iMediaPlayer) {
-
+            mIsPlayingAdvertisement = false;
+            if (mOnStateChangedListener != null) {
+                mOnStateChangedListener.onAdEnd();
+            }
+            logAdExit("", 0);
         }
 
         @Override
         public void onStarted(IMediaPlayer iMediaPlayer) {
             mCurrentState = STATE_PLAYING;
+            logVideoPlayStart(0, "");
+            if (mCurrentState == STATE_PAUSED) {
+                logVideoContinue(0);
+            }
+            if (mOnStateChangedListener != null) {
+                if (!mIsPlayingAdvertisement) {
+                    mOnStateChangedListener.onStarted();
+                }
+            }
         }
 
         @Override
         public void onPaused(IMediaPlayer iMediaPlayer) {
-
+            logVideoPause(0);
+            if (mOnStateChangedListener != null) {
+                if (!mIsPlayingAdvertisement) {
+                    mOnStateChangedListener.onPaused();
+                }
+            }
         }
 
         @Override
         public void onCompleted(IMediaPlayer iMediaPlayer) {
             mCurrentState = STATE_COMPLETED;
+            if (mOnStateChangedListener != null) {
+                mOnStateChangedListener.onCompleted();
+            }
         }
 
         @Override
@@ -113,6 +142,11 @@ public class QiyiPlayer extends IsmartvPlayer {
         @Override
         public boolean onError(IMediaPlayer iMediaPlayer, ISdkError iSdkError) {
             mCurrentState = STATE_ERROR;
+            Log.e(TAG, "QiYiPlayer onError:" + iSdkError.getCode() + " " + iSdkError.getMsgFromError());
+            logVideoException(iSdkError.getCode(), 0);
+            if (mOnStateChangedListener != null) {
+                mOnStateChangedListener.onError("QiYiPlayer error " + iSdkError.getCode());
+            }
             return false;
         }
     };
@@ -139,26 +173,49 @@ public class QiyiPlayer extends IsmartvPlayer {
     private IMediaPlayer.OnVideoSizeChangedListener qiyiVideoSizeChangedListener = new IMediaPlayer.OnVideoSizeChangedListener() {
         @Override
         public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int i, int i1) {
-
+            if (mOnVideoSizeChangedListener != null) {
+                mOnVideoSizeChangedListener.onVideoSizeChanged(i, i1);
+            }
         }
     };
 
     private IMediaPlayer.OnSeekCompleteListener qiyiSeekCompleteListener = new IMediaPlayer.OnSeekCompleteListener() {
         @Override
         public void onSeekCompleted(IMediaPlayer iMediaPlayer) {
-
+            if (isInPlaybackState()) {
+                logVideoSeekComplete(0, "");
+            }
+            if (mOnStateChangedListener != null) {
+                if (!mIsPlayingAdvertisement) {
+                    mOnStateChangedListener.onSeekComplete();
+                }
+            }
         }
     };
 
     private IMediaPlayer.OnBufferChangedListener qiyiBufferChangedListener = new IMediaPlayer.OnBufferChangedListener() {
         @Override
         public void onBufferStart(IMediaPlayer iMediaPlayer) {
-
+            if (mOnBufferChangedListener != null) {
+                mOnBufferChangedListener.onBufferStart();
+            }
+            mBufferStartTime = System.currentTimeMillis();
         }
 
         @Override
         public void onBufferEnd(IMediaPlayer iMediaPlayer) {
-
+            if (mOnBufferChangedListener != null) {
+                mOnBufferChangedListener.onBufferEnd();
+            }
+            if (mFirstOpen) {
+                mFirstOpen = false;
+                logVideoPlayLoading(0, "", "");
+            } else {
+                logVideoBufferEnd(0, "");
+            }
+            if (mIsPlayingAdvertisement) {
+                logAdBlockend("", 0);
+            }
         }
     };
 
@@ -181,12 +238,22 @@ public class QiyiPlayer extends IsmartvPlayer {
     @Override
     public void release() {
         super.release();
+        logVideoExit(0);
         if (mPlayer != null) {
             mPlayer.stop();
             mPlayer.release();
             mPlayer = null;
 
             mCurrentState = STATE_IDLE;
+            PlayerSdk.getInstance().release();
+        }
+    }
+
+    @Override
+    public void seekTo(int position) {
+        mPlayer.seekTo(position);
+        if (isInPlaybackState()) {
+            logVideoSeek(0);
         }
     }
 
@@ -208,7 +275,7 @@ public class QiyiPlayer extends IsmartvPlayer {
 
     @Override
     public int getAdCountDownTime() {
-        return 0;
+        return mPlayer.getAdCountDownTime();
     }
 
     @Override

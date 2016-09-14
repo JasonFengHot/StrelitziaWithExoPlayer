@@ -2,7 +2,6 @@ package tv.ismar.player.media;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
@@ -91,6 +90,14 @@ public class PlayerBuilder {
         if (mItemEntity == null) {
             Log.e(TAG, "Must call setItemEntity first.");
             throw new IllegalAccessError("Must call setItemEntity first.");
+        }
+        if (mSurfaceView == null) {
+            Log.e(TAG, "Must call setSurfaceView first.");
+            throw new IllegalAccessError("Must call setSurfaceView first.");
+        }
+        if (mContainer == null) {
+            Log.e(TAG, "Must call setContainer first.");
+            throw new IllegalAccessError("Must call setContainer first.");
         }
         IsmartvPlayer ismartvPlayer = null;
         switch (mPlayerMode) {

@@ -18,7 +18,7 @@ public class IsmartvMedia implements Serializable {
     /**
      * subItem pk值
      */
-    private int itemPk;
+    private int subItemPk;
     /**
      * clip pk值
      */
@@ -51,9 +51,9 @@ public class IsmartvMedia implements Serializable {
     private String actor;
     private String genre;
 
-    public IsmartvMedia(int pk, int itemPk) {
+    public IsmartvMedia(int pk, int subItemPk) {
         this.pk = pk;
-        this.itemPk = itemPk;
+        this.subItemPk = subItemPk;
     }
 
     public void setTitle(String title) {
@@ -68,8 +68,8 @@ public class IsmartvMedia implements Serializable {
         return pk;
     }
 
-    public int getItemPk() {
-        return itemPk;
+    public int getSubItemPk() {
+        return subItemPk;
     }
 
     public int getClipPk() {

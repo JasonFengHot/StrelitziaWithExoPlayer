@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tv.ismar.sample">
+    package="tv.ismar.daisy">
 
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <application
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="tv.ismar.daisy.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme.Fullscreen">
@@ -34,7 +34,7 @@
         <!--content provider-->
         <provider
             android:name="cn.ismartv.injectdb.library.content.ContentProvider"
-            android:authorities="tv.ismar.sample"
+            android:authorities="tv.ismar.daisy"
             android:exported="false" />
     </application>
 
