@@ -1,124 +1,123 @@
 <resources>
-<dimen name="pay_person_login_pay_identifyCodeBtn_w">166.67dip</dimen>
-<dimen name="pay_person_login_pay_edit_mobile_pl">8.33dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_h">62.50dip</dimen>
-<dimen name="pay_person_login_linearLayout_h">66.67dip</dimen>
-<dimen name="pay_person_login_pay_edit_mobile_textsize">25.00sp</dimen>
-<dimen name="pay_qrcode_pay_panel_marginleft">41.67dp</dimen>
-<dimen name="pay_person_login_pay_edit_mobile_marginLeft">33.33dip</dimen>
-<dimen name="pay_person_login_pay_count_tip_h">50.00dip</dimen>
-<dimen name="pay_person_login_pay_identifyCodeBtn_h">62.50dip</dimen>
-<dimen name="pay_person_login_textview_textsize">29.17sp</dimen>
-<dimen name="pay_person_login_pay_btn_submit_ml">279.17dip</dimen>
-<dimen name="pay_person_login_textview_w">154.17dip</dimen>
-<dimen name="pay_person_login_pay_identifyCodeBtn_ml">33.33dip</dimen>
-<dimen name="pay_person_login_pay_edit_mobile_w">416.67dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_mt">83.33dip</dimen>
-<dimen name="h3_text_size">25.00sp</dimen>
-<dimen name="pay_person_login_linearLayout2_mt">16.67dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_w">250.00dip</dimen>
+<dimen name="pay_person_login_pay_identifyCodeBtn_w">111.11dip</dimen>
+<dimen name="pay_person_login_pay_edit_mobile_pl">5.56dip</dimen>
+<dimen name="pay_person_login_pay_btn_submit_h">41.67dip</dimen>
+<dimen name="pay_person_login_linearLayout_h">44.44dip</dimen>
+<dimen name="pay_person_login_pay_edit_mobile_textsize">16.67sp</dimen>
+<dimen name="pay_qrcode_pay_panel_marginleft">27.78dp</dimen>
+<dimen name="pay_person_login_pay_edit_mobile_marginLeft">22.22dip</dimen>
+<dimen name="pay_person_login_pay_count_tip_h">33.33dip</dimen>
+<dimen name="pay_person_login_pay_identifyCodeBtn_h">41.67dip</dimen>
+<dimen name="pay_person_login_textview_textsize">19.44sp</dimen>
+<dimen name="pay_person_login_pay_btn_submit_ml">186.11dip</dimen>
+<dimen name="pay_person_login_textview_w">102.78dip</dimen>
+<dimen name="pay_person_login_pay_identifyCodeBtn_ml">22.22dip</dimen>
+<dimen name="pay_person_login_pay_edit_mobile_w">277.78dip</dimen>
+<dimen name="pay_person_login_pay_btn_submit_mt">55.56dip</dimen>
+<dimen name="textsize_30sp">16.67sp</dimen>
+<dimen name="pay_person_login_linearLayout2_mt">11.11dip</dimen>
+<dimen name="pay_person_login_pay_btn_submit_w">166.67dip</dimen>
 
-<dimen name="pay_paymentselect_marginright">25.00dp</dimen>
-<dimen name="pay_paymentselect_hseparate_height">1.67dp</dimen>
-<dimen name="pay_paymentselect_vseparate_width">1.67dp</dimen>
-<dimen name="pay_paymentselect_hseparate_margintop">8.33dp</dimen>
-<dimen name="pay_paymentselect_main_margintop">25.00dp</dimen>
-<dimen name="pay_qrcode_pay_panel_margintop">83.33dp</dimen>
-<dimen name="pay_paymentselect_marginleft">25.00dp</dimen>
-
-
-<dimen name="pay_top_panel_top_login_textsieze">29.17sp</dimen>
-<dimen name="h1_text_size">40.00sp</dimen>
-<dimen name="sakura_h1_text_size">41.67sp</dimen>
-<dimen name="filter_list_item_title_pb">28.33dp</dimen>
-<dimen name="pay_top_panel_merginleft">59.17dp</dimen>
-<dimen name="pay_top_panel_warntitle_textsieze">25.00sp</dimen>
-<dimen name="pay_channel_weixin_height">66.67dp</dimen>
-<dimen name="pay_top_panel_welocome_tip_textsieze">19.17sp</dimen>
-
-<dimen name="vod_player_vodlayout_marginleft">41.67dip</dimen>
-<dimen name="pay_channel_weixin_margintop">50.00dp</dimen>
-<dimen name="pay_channel_weixin_marginleft">16.67dp</dimen>
-<dimen name="pay_channel_weixin_marginright">75.00dp</dimen>
-<dimen name="pay_channel_weixin_textsize">29.17sp</dimen>
-
-<dimen name="pay_guanyingcard_margintop">83.33dp</dimen>
-<dimen name="pay_guanyingcard_card_balance_submit_textsize">26.67sp</dimen>
-<dimen name="pay_guanyingcard_card_balance_cancel_marginleft">66.67dp</dimen>
-<dimen name="pay_guanyingcard_submit_panel_margintop">33.33dp</dimen>
-<dimen name="tv_guide_channel_item_width">156.67dp</dimen>
-<dimen name="pay_guanyingcard_card_balance_package_info_margintop">41.67dp</dimen>
-
-<dimen name="pay_qrcode_pay_qrcodeview_marginleft">33.33dp</dimen>
-<dimen name="pay_qrcode_pay_payinfo_panel_marginleft">33.33dp</dimen>
-<dimen name="pay_qrcode_pay_qrcodeview_margintop">33.33dp</dimen>
-<dimen name="pay_qrcode_pay_payinfo_panel_margintop">66.67dp</dimen>
-<dimen name="pay_qrcode_pay_qrcodeview_marginright">66.67dp</dimen>
-
-<dimen name="pay_shiyuncard_margintop">66.67dp</dimen>
-<dimen name="pay_shiyuncard_input_margintop">41.67dp</dimen>
-<dimen name="pay_shiyuncard_submit_margintop">41.67dp</dimen>
+<dimen name="pay_paymentselect_marginright">16.67dp</dimen>
+<dimen name="pay_paymentselect_hseparate_height">1.11dp</dimen>
+<dimen name="pay_paymentselect_vseparate_width">1.11dp</dimen>
+<dimen name="pay_paymentselect_hseparate_margintop">5.56dp</dimen>
+<dimen name="pay_paymentselect_main_margintop">16.67dp</dimen>
+<dimen name="pay_qrcode_pay_panel_margintop">55.56dp</dimen>
+<dimen name="pay_paymentselect_marginleft">16.67dp</dimen>
 
 
-<dimen name="textsize_72sp">60.00sp</dimen>
-<dimen name="item_newvip_pay_img_height">510.83dp</dimen>
-<dimen name="newvip_item_text_margin">166.67dp</dimen>
-<dimen name="newvip_price_mariginTop">291.67dp</dimen>
-<dimen name="item_newvip_pay_img_width">356.67dp</dimen>
+<dimen name="pay_top_panel_top_login_textsieze">19.44sp</dimen>
+<dimen name="sakura_h1_text_size">27.78sp</dimen>
+<dimen name="filter_list_item_title_pb">18.89dp</dimen>
+<dimen name="pay_top_panel_merginleft">39.44dp</dimen>
+<dimen name="pay_top_panel_warntitle_textsieze">16.67sp</dimen>
+<dimen name="pay_channel_weixin_height">44.44dp</dimen>
+<dimen name="pay_top_panel_welocome_tip_textsieze">12.78sp</dimen>
 
-<dimen name="item_newvip_pay_img_margin_top">142.50dp</dimen>
-<dimen name="item_newvip_pay_title_margin_top">315.83dp</dimen>
+<dimen name="vod_player_vodlayout_marginleft">27.78dip</dimen>
+<dimen name="pay_channel_weixin_margintop">33.33dp</dimen>
+<dimen name="pay_channel_weixin_marginleft">11.11dp</dimen>
+<dimen name="pay_channel_weixin_marginright">50.00dp</dimen>
+<dimen name="pay_channel_weixin_textsize">19.44sp</dimen>
 
-<dimen name="paylayervip_img_height">317.50dp</dimen>
-<dimen name="paylayervip_img_width">226.67dp</dimen>
-<dimen name="textsize_24sp">20.00sp</dimen>
+<dimen name="pay_guanyingcard_margintop">55.56dp</dimen>
+<dimen name="pay_guanyingcard_card_balance_submit_textsize">17.78sp</dimen>
+<dimen name="pay_guanyingcard_card_balance_cancel_marginleft">44.44dp</dimen>
+<dimen name="pay_guanyingcard_submit_panel_margintop">22.22dp</dimen>
+<dimen name="tv_guide_channel_item_width">104.44dp</dimen>
+<dimen name="pay_guanyingcard_card_balance_package_info_margintop">27.78dp</dimen>
 
-<dimen name="paylayervip_scrollview_width">1091.67dp</dimen>
-<dimen name="paylayervip_scrollview_height">383.33dp</dimen>
-<dimen name="paylayervip_layout_width">1216.67dp</dimen>
-<dimen name="vip_pkg_des_marginRight">109.17dp</dimen>
-<dimen name="paylayerpkg_text_marginTop">20.00dp</dimen>
-<dimen name="item_detail_intro_lineSpacingExtra">16.67dp</dimen>
-<dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">29.17dp</dimen>
-<dimen name="filmitem_portrait_detail_intro_lineSpacingExtra">18.33dip</dimen>
-<dimen name="entertainment_detail_intro_lineSpacingExtra">23.33dip</dimen>
-<dimen name="lineSpacing">20.00dp</dimen>
-<dimen name="paylayerpkg_text_marginLeft">60.83dp</dimen>
-<dimen name="paylayervip_layout_height">708.33dp</dimen>
-<dimen name="paylayerpkg_purchase_marginRight">65.83dp</dimen>
-<dimen name="paylayervip_width">33.33dp</dimen>
-<dimen name="paylayerpkg_purchase_width">145.00dp</dimen>
-<dimen name="paylayerpkg_title_marginTop">64.17dp</dimen>
-<dimen name="textsize_48sp">40.00sp</dimen>
-<dimen name="paylayervip_height">66.67dp</dimen>
-<dimen name="paylayerpkg_purchase_height">76.67dp</dimen>
-<dimen name="paylayerpkg_scrollview_margintop">8.33dp</dimen>
+<dimen name="pay_qrcode_pay_qrcodeview_marginleft">22.22dp</dimen>
+<dimen name="pay_qrcode_pay_payinfo_panel_marginleft">22.22dp</dimen>
+<dimen name="pay_qrcode_pay_qrcodeview_margintop">22.22dp</dimen>
+<dimen name="pay_qrcode_pay_payinfo_panel_margintop">44.44dp</dimen>
+<dimen name="pay_qrcode_pay_qrcodeview_marginright">44.44dp</dimen>
 
-<dimen name="newvip_pay_scroll_height">583.33dp</dimen>
-<dimen name="newvip_pay_scroll_width">1250.00dp</dimen>
+<dimen name="pay_shiyuncard_margintop">44.44dp</dimen>
+<dimen name="pay_shiyuncard_input_margintop">27.78dp</dimen>
+<dimen name="pay_shiyuncard_submit_margintop">27.78dp</dimen>
 
-<dimen name="paylayervip_title_mriginTop">116.67dp</dimen>
-<dimen name="paylayvip_mariginleft">60.83dp</dimen>
-<dimen name="paylayervip_des_margintop">20.00dp</dimen>
 
-<dimen name="payvip_item_marginTop">45.83dp</dimen>
-<dimen name="payvip_price_margintop">64.17dp</dimen>
-<dimen name="payvip_duration_marginTop">10.83dp</dimen>
+<dimen name="textsize_72sp">40.00sp</dimen>
+<dimen name="item_newvip_pay_img_height">340.56dp</dimen>
+<dimen name="newvip_item_text_margin">111.11dp</dimen>
+<dimen name="newvip_price_mariginTop">194.44dp</dimen>
+<dimen name="item_newvip_pay_img_width">237.78dp</dimen>
 
-<dimen name="pay_qrcode_pay_payinfo_introduce_textsize">29.17sp</dimen>
-<dimen name="pay_qrcode_pay_payinfo_exprice_textsize">29.17sp</dimen>
-<dimen name="pay_qrcode_pay_payinfo_price_textsize">29.17sp</dimen>
-<dimen name="pay_guanyingcard_card_balance_title_textsize">31.67sp</dimen>
+<dimen name="item_newvip_pay_img_margin_top">95.00dp</dimen>
+<dimen name="item_newvip_pay_title_margin_top">210.56dp</dimen>
 
-<dimen name="pay_shiyuncard_account_label_textsize">26.67sp</dimen>
-<dimen name="pay_shiyuncard_submit_textsize">29.17sp</dimen>
+<dimen name="paylayervip_img_height">211.67dp</dimen>
+<dimen name="paylayervip_img_width">151.11dp</dimen>
+<dimen name="textsize_24sp">13.33sp</dimen>
 
-<dimen name="newip_payitem_margin">19.17dp</dimen>
-<dimen name="newvip_paylayervip_margin">6.67dp</dimen>
-<dimen name="pay_guanyingcard_package_price_textsize">19.17sp</dimen>
-<dimen name="pay_guanyingcard_package_exprice_textsize">19.17sp</dimen>
-<dimen name="pay_guanyingcard_card_balance_cancel_textsize">26.67sp</dimen>
-<dimen name="payment_min_height">741.67dp</dimen>
-<dimen name="payment_min_width">1325.00dp</dimen>
+<dimen name="paylayervip_scrollview_width">727.78dp</dimen>
+<dimen name="paylayervip_scrollview_height">255.56dp</dimen>
+<dimen name="paylayervip_layout_width">811.11dp</dimen>
+<dimen name="vip_pkg_des_marginRight">72.78dp</dimen>
+<dimen name="paylayerpkg_text_marginTop">13.33dp</dimen>
+<dimen name="item_detail_intro_lineSpacingExtra">11.11dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">19.44dp</dimen>
+<dimen name="filmitem_portrait_detail_intro_lineSpacingExtra">12.22dip</dimen>
+<dimen name="entertainment_detail_intro_lineSpacingExtra">15.56dip</dimen>
+<dimen name="lineSpacing">13.33dp</dimen>
+<dimen name="paylayerpkg_text_marginLeft">40.56dp</dimen>
+<dimen name="paylayervip_layout_height">472.22dp</dimen>
+<dimen name="paylayerpkg_purchase_marginRight">43.89dp</dimen>
+<dimen name="paylayervip_width">22.22dp</dimen>
+<dimen name="paylayerpkg_purchase_width">96.67dp</dimen>
+<dimen name="paylayerpkg_title_marginTop">42.78dp</dimen>
+<dimen name="textsize_48sp">26.67sp</dimen>
+<dimen name="paylayervip_height">44.44dp</dimen>
+<dimen name="paylayerpkg_purchase_height">51.11dp</dimen>
+<dimen name="paylayerpkg_scrollview_margintop">5.56dp</dimen>
+
+<dimen name="newvip_pay_scroll_height">388.89dp</dimen>
+<dimen name="newvip_pay_scroll_width">833.33dp</dimen>
+
+<dimen name="paylayervip_title_mriginTop">77.78dp</dimen>
+<dimen name="paylayvip_mariginleft">40.56dp</dimen>
+<dimen name="paylayervip_des_margintop">13.33dp</dimen>
+
+<dimen name="payvip_item_marginTop">30.56dp</dimen>
+<dimen name="payvip_price_margintop">42.78dp</dimen>
+<dimen name="payvip_duration_marginTop">7.22dp</dimen>
+
+<dimen name="pay_qrcode_pay_payinfo_introduce_textsize">19.44sp</dimen>
+<dimen name="pay_qrcode_pay_payinfo_exprice_textsize">19.44sp</dimen>
+<dimen name="pay_qrcode_pay_payinfo_price_textsize">19.44sp</dimen>
+<dimen name="pay_guanyingcard_card_balance_title_textsize">21.11sp</dimen>
+
+<dimen name="pay_shiyuncard_account_label_textsize">17.78sp</dimen>
+<dimen name="pay_shiyuncard_submit_textsize">19.44sp</dimen>
+
+<dimen name="newip_payitem_margin">12.78dp</dimen>
+<dimen name="newvip_paylayervip_margin">4.44dp</dimen>
+<dimen name="pay_guanyingcard_package_price_textsize">12.78sp</dimen>
+<dimen name="pay_guanyingcard_package_exprice_textsize">12.78sp</dimen>
+<dimen name="pay_guanyingcard_card_balance_cancel_textsize">17.78sp</dimen>
+<dimen name="payment_min_height">494.44dp</dimen>
+<dimen name="payment_min_width">883.33dp</dimen>
 
 </resources>

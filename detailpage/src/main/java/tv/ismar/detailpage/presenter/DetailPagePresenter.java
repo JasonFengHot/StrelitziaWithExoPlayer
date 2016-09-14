@@ -22,6 +22,7 @@ import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
+import tv.ismar.pay.PaymentActivity;
 //import tv.ismar.pay.PaymentActivity;
 
 /**
@@ -255,9 +256,14 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void handlePlay() {
-//        Context context = mDetailView.getContext();
-//        Intent intent = new Intent();
-//        intent.setClass(context, PaymentActivity.class);
-//        context.startActivity(intent);
+
+    }
+
+    @Override
+    public void handlePurchase() {
+        Context context = mDetailView.getContext();
+        Intent intent = new Intent();
+        intent.setClass(context, PaymentActivity.class);
+        context.startActivity(intent);
     }
 }

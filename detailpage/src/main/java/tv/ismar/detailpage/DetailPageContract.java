@@ -36,6 +36,8 @@ public interface DetailPageContract {
 
         void handlePlay();
 
+        void handlePurchase();
+
         void requestPlayCheck(String itemPk, String deviceToken, String accessToken);
     }
 }
