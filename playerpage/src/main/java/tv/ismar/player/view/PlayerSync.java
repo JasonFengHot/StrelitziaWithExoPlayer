@@ -121,8 +121,8 @@ public class PlayerSync implements Runnable {
     private HashMap<String, Object> getPublicParams(IsmartvMedia media, Integer quality, Integer speed, String sid, String playerFlag) {
         HashMap<String, Object> tempMap = new HashMap<>();
         tempMap.put(EventProperty.ITEM, media.getPk());
-        if (media.getItemPk() > 0 && media.getPk() != media.getItemPk()) {
-            tempMap.put(EventProperty.SUBITEM, media.getItemPk());
+        if (media.getSubItemPk() > 0 && media.getPk() != media.getSubItemPk()) {
+            tempMap.put(EventProperty.SUBITEM, media.getSubItemPk());
         }
         tempMap.put(EventProperty.TITLE, media.getTitle());
         tempMap.put(EventProperty.CLIP, media.getClipPk());

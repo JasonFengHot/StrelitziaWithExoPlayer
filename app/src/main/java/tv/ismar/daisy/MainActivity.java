@@ -1,4 +1,4 @@
-package tv.ismar.sample;
+package tv.ismar.daisy;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -47,33 +47,31 @@ public interface IPlayer {
     void setOnStateChangedListener(OnStateChangedListener onStateChangedListener);
 
     public interface OnVideoSizeChangedListener {
-        void onVideoSizeChanged(IsmartvPlayer player, int videoWidth, int videoHeight);
+        void onVideoSizeChanged(int videoWidth, int videoHeight);
     }
 
     public interface OnBufferChangedListener {
-        void onBufferStart(IsmartvPlayer player);
+        void onBufferStart();
 
-        void onBufferEnd(IsmartvPlayer player);
+        void onBufferEnd();
     }
 
     public interface OnStateChangedListener {
-        void onPrepared(IsmartvPlayer player);
+        void onPrepared();
 
-        void onAdStart(IsmartvPlayer player);
+        void onAdStart();
 
-        void onAdEnd(IsmartvPlayer player);
+        void onAdEnd();
 
-        void onStarted(IsmartvPlayer player);
+        void onStarted();
 
-        void onPaused(IsmartvPlayer player);
+        void onPaused();
 
-        void onSeekComplete(IsmartvPlayer player);
+        void onSeekComplete();
 
-        void onCompleted(IsmartvPlayer player);
+        void onCompleted();
 
-        void onStopped(IsmartvPlayer player);
-
-        boolean onError(IsmartvPlayer error);
+        boolean onError(String message);
     }
 
     public interface OnDataSourceSetListener {
