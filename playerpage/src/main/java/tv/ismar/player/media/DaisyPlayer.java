@@ -163,9 +163,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
                 logVideoSeekComplete(mSpeed, mMediaIp);
             }
             if (mOnStateChangedListener != null) {
-                if (!mIsPlayingAdvertisement) {
-                    mOnStateChangedListener.onSeekComplete();
-                }
+                mOnStateChangedListener.onSeekComplete();
             }
         }
     };
@@ -244,9 +242,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             mCurrentState = STATE_PLAYING;
 
             if (mOnStateChangedListener != null) {
-                if (!mIsPlayingAdvertisement) {
-                    mOnStateChangedListener.onStarted();
-                }
+                mOnStateChangedListener.onStarted();
             }
         }
     }
@@ -259,9 +255,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             mCurrentState = STATE_PAUSED;
 
             if (mOnStateChangedListener != null) {
-                if (!mIsPlayingAdvertisement) {
-                    mOnStateChangedListener.onPaused();
-                }
+                mOnStateChangedListener.onPaused();
             }
         }
     }

@@ -18,6 +18,7 @@ import java.util.List;
 public class QiyiPlayer extends IsmartvPlayer {
 
     private IMediaPlayer mPlayer;
+    private int previewLength;
 
     public QiyiPlayer() {
         this(PlayerBuilder.MODE_QIYI_PLAYER);
@@ -110,9 +111,7 @@ public class QiyiPlayer extends IsmartvPlayer {
                 logVideoContinue(0);
             }
             if (mOnStateChangedListener != null) {
-                if (!mIsPlayingAdvertisement) {
-                    mOnStateChangedListener.onStarted();
-                }
+                mOnStateChangedListener.onStarted();
             }
         }
 
@@ -120,9 +119,7 @@ public class QiyiPlayer extends IsmartvPlayer {
         public void onPaused(IMediaPlayer iMediaPlayer) {
             logVideoPause(0);
             if (mOnStateChangedListener != null) {
-                if (!mIsPlayingAdvertisement) {
-                    mOnStateChangedListener.onPaused();
-                }
+                mOnStateChangedListener.onPaused();
             }
         }
 
@@ -166,7 +163,10 @@ public class QiyiPlayer extends IsmartvPlayer {
     private IMediaPlayer.OnPreviewInfoListener qiyiPreviewInfoListener = new IMediaPlayer.OnPreviewInfoListener() {
         @Override
         public void onPreviewInfoReady(IMediaPlayer iMediaPlayer, boolean b, int i) {
-
+            Log.d(TAG, "QiYiOnPreview: " + b + ", length = " + i);
+            if (b) {
+                previewLength = i;
+            }
         }
     };
 
@@ -186,9 +186,7 @@ public class QiyiPlayer extends IsmartvPlayer {
                 logVideoSeekComplete(0, "");
             }
             if (mOnStateChangedListener != null) {
-                if (!mIsPlayingAdvertisement) {
-                    mOnStateChangedListener.onSeekComplete();
-                }
+                mOnStateChangedListener.onSeekComplete();
             }
         }
     };
@@ -268,6 +266,9 @@ public class QiyiPlayer extends IsmartvPlayer {
     @Override
     public int getDuration() {
         if (isInPlaybackState()) {
+            if (previewLength > 0) {
+                return previewLength;
+            }
             return mPlayer.getDuration();
         }
         return super.getDuration();

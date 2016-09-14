@@ -23,7 +23,6 @@ import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.pay.PaymentActivity;
-//import tv.ismar.pay.PaymentActivity;
 
 /**
  * Created by huibin on 8/19/16.
