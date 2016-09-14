@@ -599,7 +599,7 @@ public class PlayerSync implements Runnable {
                             + "&modelname=" + DeviceUtils.getModelName()
                             + "&data=" + URLEncoder.encode(jsonContent, "UTF-8")
                             + "&deviceToken=" + IsmartvActivator.getInstance().getDeviceToken()
-                            + "&acessToken=" + IsmartvActivator.getInstance().getAccessToken();
+                            + "&acessToken=" + IsmartvActivator.getInstance().getAuthToken();
 
                     SkyService.ServiceManager.getService().sendPlayerLog(
                             logUrl, IsmartvActivator.getInstance().getSnToken(),

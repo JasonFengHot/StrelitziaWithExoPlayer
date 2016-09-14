@@ -287,8 +287,9 @@ public class IsmartvActivator {
         }
     }
 
-    public String getAccessToken() {
-        return "";
+    public String getAuthToken() {
+        return mSharedPreferences.getString("auth_token", "");
+
     }
 
     public String getSnToken() {
@@ -311,4 +312,36 @@ public class IsmartvActivator {
         editor.putString("log_domain", resultEntity.getLog_Domain());
         editor.commit();
     }
+
+    private void setAuthToken(String authToken) {
+        mSharedPreferences.edit().putString("auth_token", authToken).commit();
+    }
+
+
+    private void setzUserToken(String authToken) {
+        mSharedPreferences.edit().putString("zuser_token", authToken).commit();
+
+    }
+
+    private void setUsername(String username) {
+        mSharedPreferences.edit().putString("username", username).commit();
+    }
+
+
+    public void saveUserInfo(String username, String authToken, String zUserhToken) {
+        setUsername(username);
+        setAuthToken(authToken);
+        setzUserToken(authToken);
+    }
+
+    public void removeUserInfo() {
+        mSharedPreferences.edit().putString("auth_token", "").commit();
+        mSharedPreferences.edit().putString("zuser_token", "").commit();
+        mSharedPreferences.edit().putString("username", "").commit();
+    }
+
+    public String getUsername() {
+        return mSharedPreferences.getString("username", "");
+    }
+
 }

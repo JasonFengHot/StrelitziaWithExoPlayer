@@ -10,15 +10,7 @@ public class ResultEntity {
     private String upgrade_domain;
     private String zdevice_token;
     private String carnation;
-    private String access_token;
 
-    public String getAccessToken() {
-        return access_token;
-    }
-
-    public void setAccessToken(String access_token) {
-        this.access_token = access_token;
-    }
 
     public String getCarnation() {
         return carnation;
@@ -31,6 +23,7 @@ public class ResultEntity {
     public String getZdevice_token() {
         return zdevice_token;
     }
+
     public void setZdevice_token(String zdevice_token) {
         this.zdevice_token = zdevice_token;
     }
