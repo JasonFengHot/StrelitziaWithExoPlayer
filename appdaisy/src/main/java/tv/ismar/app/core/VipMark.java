@@ -25,7 +25,7 @@ public class VipMark {
 
 
     private VipMark() {
-        fetchDpi();
+//        fetchDpi();
     }
 
 
@@ -37,8 +37,7 @@ public class VipMark {
     }
 
 
-    private void fetchDpi() {
-        SkyService skyService = SkyService.ServiceManager.getService();
+    private void fetchDpi(SkyService skyService) {
         skyService.fetchDpi()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())

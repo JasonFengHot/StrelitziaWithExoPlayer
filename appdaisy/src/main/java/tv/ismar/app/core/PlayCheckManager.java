@@ -17,15 +17,15 @@ public class PlayCheckManager {
     private static PlayCheckManager mInstance;
     private SkyService mSkyService;
 
-    public static PlayCheckManager getInstance() {
+    public static PlayCheckManager getInstance(SkyService skyService) {
         if (mInstance == null) {
-            mInstance = new PlayCheckManager();
+            mInstance = new PlayCheckManager(skyService);
         }
         return mInstance;
     }
 
-    public PlayCheckManager() {
-        mSkyService = SkyService.ServiceManager.getService();
+    private PlayCheckManager(SkyService skyService) {
+        mSkyService = skyService;
     }
 
     public void check(String item, final Callback callback) {

@@ -15,6 +15,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -54,7 +55,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void start() {
-        mSkyService = SkyService.ServiceManager.getService();
+        mSkyService = ((BaseActivity)mDetailView.getContext()).mSkyService;
     }
 
     @Override
@@ -263,7 +264,10 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     public void handlePurchase() {
         Context context = mDetailView.getContext();
         Intent intent = new Intent();
-        intent.setClass(context, PaymentActivity.class);
+        intent.putExtra("pk", 709235);
+        intent.putExtra("model", "item");
+
+       intent.setClass(context, PaymentActivity.class);
         context.startActivity(intent);
     }
 }

@@ -251,7 +251,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     }
 
     private void orderCheck(String pkg) {
-        PlayCheckManager.getInstance().checkPkg(pkg, new PlayCheckManager.Callback() {
+        PlayCheckManager.getInstance(mSkyService).checkPkg(pkg, new PlayCheckManager.Callback() {
             @Override
             public void onSuccess(boolean isBuy, int remainDay) {
                 if (isBuy) {

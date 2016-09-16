@@ -1,11 +1,24 @@
 package tv.ismar.pay;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import okhttp3.ResponseBody;
+import retrofit2.Retrofit;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.network.SkyService;
 
 /**
  * Created by huibin on 2016/9/14.
@@ -14,9 +27,17 @@ public class CardPayFragment extends Fragment {
 
     private View contentView;
 
+    private SkyService skyService;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        skyService = ((PaymentActivity) activity).mSkyService;
     }
 
     @Nullable
@@ -30,5 +51,66 @@ public class CardPayFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void cardRecharge(String cardNumber) {
+        String pwd_prefix = cardNumber.substring(0, 10);
+        String sur_prefix = cardNumber.substring(10, 16);
+        String timestamp = System.currentTimeMillis() + "";
+        String sid = "sid";
+        String user = IsmartvActivator.getInstance().getUsername();
+        String user_id = "0";
+        String app_name = "sky";
+        String card_secret = "";
+        try {
+            card_secret = SHA1(user + sur_prefix + timestamp);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        skyService.apiPayVerify(card_secret, app_name, user, user_id, timestamp, sid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+
+                    }
+                });
+    }
+
+
+    private String SHA1(String text) throws NoSuchAlgorithmException,
+            UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        md.update(text.getBytes("iso-8859-1"), 0, text.length());
+        byte[] sha1hash = md.digest();
+        return convertToHex(sha1hash);
+    }
+
+    private String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte b : data) {
+            int halfbyte = (b >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte)
+                        : (char) ('a' + (halfbyte - 10)));
+                halfbyte = b & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
     }
 }

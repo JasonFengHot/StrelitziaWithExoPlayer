@@ -1,5 +1,6 @@
 package tv.ismar.pay;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +42,8 @@ public class LoginFragment extends Fragment {
 
     private View contentView;
 
+    private PaymentActivity activity;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -48,9 +51,15 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (PaymentActivity) activity;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSkyService = SkyService.ServiceManager.getService();
+        mSkyService = activity.mSkyService;
     }
 
     @Nullable
@@ -165,7 +174,12 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void confirmClick(View view) {
                         dialog.dismiss();
+                        PaymentActivity paymentActivity = (PaymentActivity) getActivity();
+                        String model = paymentActivity.getModel();
+                        int pk = paymentActivity.getPk();
                         Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                        intent.putExtra("model", model);
+                        intent.putExtra("pk", pk);
                         getActivity().startActivity(intent);
                         getActivity().finish();
                     }

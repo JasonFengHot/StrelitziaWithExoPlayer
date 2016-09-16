@@ -15,7 +15,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class BaseActivity extends AppCompatActivity {
 
     private LoadingDialog mLoadingDialog;
-    protected SkyService mSkyService;
+    public SkyService mSkyService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

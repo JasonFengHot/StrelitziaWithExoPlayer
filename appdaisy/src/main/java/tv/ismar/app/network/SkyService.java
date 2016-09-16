@@ -1,9 +1,11 @@
 package tv.ismar.app.network;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -23,6 +25,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.internal.operators.OnSubscribeCombineLatest;
+import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
@@ -171,6 +179,46 @@ public interface SkyService {
     );
 
 
+    @FormUrlEncoded
+    @POST("api/play/check/")
+    Call<ResponseBody> playcheck(
+            @Field("item") String item,
+            @Field("package") String pkg,
+            @Field("subitem") String subItem
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/order/purchase/")
+    Call<ResponseBody> orderpurchase(
+            @Field("item") String item,
+            @Field("package") String pkg,
+            @Field("subitem") String subItem
+    );
+
+    @FormUrlEncoded
+    @POST("api/order/create/")
+    Observable<ResponseBody> apiOrderCreate(
+            @Field("wares_id") String waresId,
+            @Field("wares_type") String waresType,
+            @Field("source") String source,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
+
+    @FormUrlEncoded
+    @POST("https://order.tvxio.com/api/pay/verify/")
+    Observable<ResponseBody> apiPayVerify(
+            @Field("card_secret") String card_secret,
+            @Field("app_name") String app_name,
+            @Field("user") String user,
+            @Field("user_id") String user_id,
+            @Field("timestamp") String timestamp,
+            @Field("sid") String sid
+    );
+
+
 //    @GET
 //    Observable<HomePagerEntity> fetchHomePage(
 //            @Url String url
@@ -196,7 +244,7 @@ public interface SkyService {
 //            String accessToken);
 
     class ServiceManager {
-        private static ServiceManager serviceManager;
+        private volatile static ServiceManager serviceManager;
         private static final int DEFAULT_CONNECT_TIMEOUT = 6;
         private static final int DEFAULT_READ_TIMEOUT = 15;
         private SkyService mSkyService;
@@ -204,7 +252,7 @@ public interface SkyService {
         private ServiceManager() {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient mClient = new OkHttpClient.Builder()
+            final OkHttpClient mClient = new OkHttpClient.Builder()
                     .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(VodApplication.getHttpParamsInterceptor())
@@ -212,14 +260,31 @@ public interface SkyService {
                     .addInterceptor(interceptor)
                     .build();
 
+            final CountDownLatch latch = new CountDownLatch(1);
+            final String[] domain = new String[1];
+            new Thread() {
+                @Override
+                public void run() {
+                    domain[0] = IsmartvActivator.getInstance().getApiDomain();
+                    latch.countDown();
+                }
+            }.start();
+
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(appendProtocol("http://sky.tvxio.bestv.com.cn/v3_0/SKY2/tou/"))
+                    .baseUrl(appendProtocol(domain[0]))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
                     .build();
             mSkyService = retrofit.create(SkyService.class);
         }
+
 
         private String appendProtocol(String host) {
             Uri uri = Uri.parse(host);
@@ -235,10 +300,14 @@ public interface SkyService {
         }
 
         public static SkyService getService() {
-            if (serviceManager == null) {
-                serviceManager = new ServiceManager();
+            synchronized (ServiceManager.class) {
+                if (serviceManager == null) {
+                    serviceManager = new ServiceManager();
+                }
             }
             return serviceManager.mSkyService;
         }
+
     }
+
 }

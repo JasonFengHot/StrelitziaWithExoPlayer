@@ -43,14 +43,14 @@ public class HttpParamsInterceptor implements Interceptor {
 
         IsmartvActivator activator = IsmartvActivator.getInstance();
         String accessToken = activator.getAuthToken();
+        String deviceToken = activator.getDeviceToken();
         paramsMap = new HashMap<>();
 
-//        paramsMap.put("device_token", activator.getDeviceToken());
-        paramsMap.put("device_token", "__79BZUv8AiLJ7IroazfLHZXDan35zsrzKeTdSgoDULu0-4Q5ijDhCWBZ0Wp5zulXo");
+        paramsMap.put("device_token", deviceToken );
+
         if (!TextUtils.isEmpty(accessToken)) {
             paramsMap.put("access_token", accessToken);
         }
-//        paramsMap.put("access_token", "679a0b299408384486bb4783f9f866e8");
 
         // process header params inject
         Headers.Builder headerBuilder = request.headers().newBuilder();

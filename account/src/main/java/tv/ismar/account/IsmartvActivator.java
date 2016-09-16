@@ -162,11 +162,8 @@ public class IsmartvActivator {
     }
 
     private ResultEntity active() {
-        String signPath = mContext.getFileStreamPath(SIGN_FILE_NAME).getAbsolutePath();
-        String result = decryptSign(sn, signPath);
-        String publicKey = result.split("\\$\\$\\$")[1];
         String sign = "ismartv=201415&kind=" + kind + "&sn=" + sn;
-        String rsaEncryptResult = encryptWithPublic(sign, publicKey);
+        String rsaEncryptResult = encryptWithPublic(sign);
         try {
             Response<ResultEntity> resultResponse = SKY_Retrofit.create(HttpService.class).
                     trustSecurityActive(sn, manufacture, kind, version, rsaEncryptResult,
@@ -238,7 +235,10 @@ public class IsmartvActivator {
     }
 
 
-    private String encryptWithPublic(String string, String publicKey) {
+    public String encryptWithPublic(String string) {
+        String signPath = mContext.getFileStreamPath(SIGN_FILE_NAME).getAbsolutePath();
+        String result = decryptSign(sn, signPath);
+        String publicKey = result.split("\\$\\$\\$")[1];
         try {
             String input = Md5.md5(string);
             byte[] rsaResult = RSACoder.encryptByPublicKey(input.getBytes(), publicKey);
@@ -270,7 +270,7 @@ public class IsmartvActivator {
         if (TextUtils.isEmpty(apiDomain)) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
-            return resultEntity.getDevice_token();
+            return resultEntity.getDomain();
         } else {
             return apiDomain;
         }
