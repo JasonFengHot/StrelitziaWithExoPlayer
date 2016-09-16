@@ -5,12 +5,15 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import tv.ismar.app.BaseActivity;
@@ -43,6 +46,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private SurfaceView surfaceView;
     private FrameLayout player_container;
     private LinearLayout panel_layout;
+    private SeekBar player_seekBar;
 
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
@@ -82,6 +86,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         surfaceView = findView(R.id.surfaceView);
         player_container = findView(R.id.player_container);
         panel_layout = findView(R.id.panel_layout);
+        player_seekBar = findView(R.id.player_seekBar);
+        player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
         panelShowAnimation = AnimationUtils.loadAnimation(this,
                 R.anim.fly_up);
@@ -192,6 +198,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onPrepared() {
+        mModel.setPanelData(mItemEntity.getTitle());
         mIsmartvPlayer.start();
 
     }
@@ -206,8 +213,12 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         mIsPlayingAd = false;
     }
 
+    // 奇艺播放器在onPrepared时无法获取到影片时长
     @Override
     public void onStarted() {
+        Log.i(TAG, "clipLength:" + mIsmartvPlayer.getDuration());
+        player_seekBar.setMax(mIsmartvPlayer.getDuration());
+        timerStart(0);
         showPanel();
     }
 
@@ -235,6 +246,52 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     public void onVideoSizeChanged(int videoWidth, int videoHeight) {
 
     }
+
+    private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            mModel.updateTimer(progress, mIsmartvPlayer.getDuration());
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
+
+    private void timerStart(int delay) {
+        if (mIsmartvPlayer == null) {
+            Log.e(TAG, "checkTaskStart: mIsmartvPlayer is null.");
+            return;
+        }
+        timerStop();
+        if (delay > 0) {
+            mTimerHandler.postDelayed(timerRunnable, delay);
+        } else {
+            mTimerHandler.post(timerRunnable);
+        }
+    }
+
+    private void timerStop() {
+        mTimerHandler.removeCallbacks(timerRunnable);
+    }
+
+    private Handler mTimerHandler = new Handler();
+
+    private Runnable timerRunnable = new Runnable() {
+        public void run() {
+            if (!mItemEntity.getLiveVideo() && mIsmartvPlayer.isPlaying()) {
+                int currentPosition = mIsmartvPlayer.getCurrentPosition();
+                player_seekBar.setProgress(currentPosition);
+            }
+            mTimerHandler.postDelayed(timerRunnable, 1000);
+        }
+    };
 
     private Handler hidePanelHandler = new Handler();
 
@@ -268,5 +325,27 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             panel_layout.startAnimation(panelHideAnimation);
             panel_layout.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_DPAD_CENTER:
+                    showPanel();
+                    break;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                showPanel();
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 }

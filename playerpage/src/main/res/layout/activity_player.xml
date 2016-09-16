@@ -71,12 +71,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/player_timetext_h"
                         android:layout_marginTop="@dimen/player_timetext_mt"
-                        android:text="hello"
+                        android:text="@{tasks.timer}"
                         android:textColor="@color/color_white"
                         android:textSize="@dimen/h1_text_size" />
 
                     <TextView
-                        android:id="@+id/QualityText"
                         android:layout_width="@dimen/player_qualitytext_w"
                         android:layout_height="@dimen/player_qualitytext_h"
                         android:layout_marginTop="@dimen/player_qualitytext_mt"
@@ -97,7 +96,7 @@
                         android:gravity="center_vertical"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:singleLine="true"
-                        android:text="title"
+                        android:text="@{tasks.itemTitle}"
                         android:textColor="@color/color_white"
                         android:textSize="@dimen/h1_text_size" />
 
