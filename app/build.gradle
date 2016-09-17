@@ -35,3 +35,6 @@ dependencies {
     compile project(':account')
     compile project(':playerpage')
 }
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

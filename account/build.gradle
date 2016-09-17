@@ -100,3 +100,7 @@ artifacts {
 task findConventions << {
     println project.getConvention()
 }
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
