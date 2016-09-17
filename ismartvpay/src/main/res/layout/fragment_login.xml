@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:minHeight="@dimen/page_min_height"
     android:minWidth="@dimen/page_min_width"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/pay_person_login_linearLayout_w"
         android:layout_height="@dimen/pay_person_login_linearLayout_h"
         android:orientation="horizontal">
 
@@ -23,12 +24,10 @@
             android:id="@+id/pay_edit_mobile"
             android:layout_width="@dimen/pay_person_login_pay_edit_mobile_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/pay_person_login_pay_edit_mobile_marginLeft"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:inputType="phone"
-            android:paddingLeft="@dimen/pay_person_login_pay_edit_mobile_pl"
             android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
 
         <Button
@@ -48,14 +47,14 @@
         android:id="@+id/pay_count_tip"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pay_person_login_pay_count_tip_h"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/pay_count_tip_mt"
         android:gravity="center_horizontal"
         android:text="60秒后可再次点击获取验证码"
         android:textSize="@dimen/h3_text_size"
         android:visibility="invisible" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/pay_person_login_linearLayout_w"
         android:layout_height="@dimen/pay_person_login_linearLayout_h"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/pay_person_login_linearLayout2_mt"
@@ -73,12 +72,10 @@
             android:id="@+id/pay_edit_identifycode"
             android:layout_width="@dimen/pay_person_login_pay_edit_mobile_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/pay_person_login_pay_identifyCodeBtn_ml"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:inputType="number"
-            android:paddingLeft="@dimen/pay_person_login_pay_edit_mobile_pl"
             android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
     </LinearLayout>
 
@@ -86,7 +83,7 @@
         android:id="@+id/pay_btn_submit"
         android:layout_width="@dimen/pay_person_login_pay_btn_submit_w"
         android:layout_height="@dimen/pay_person_login_pay_btn_submit_h"
-        android:layout_marginLeft="@dimen/pay_person_login_pay_btn_submit_ml"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/pay_person_login_pay_btn_submit_mt"
         android:background="@drawable/person_btn_selector"
         android:focusable="true"

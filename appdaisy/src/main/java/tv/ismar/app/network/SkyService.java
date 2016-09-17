@@ -42,6 +42,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PayLayerEntity;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
+import tv.ismar.app.network.entity.PayVerifyEntity;
 
 /**
  * Created by huibin on 8/3/16.
@@ -209,7 +210,7 @@ public interface SkyService {
 
     @FormUrlEncoded
     @POST("https://order.tvxio.com/api/pay/verify/")
-    Observable<ResponseBody> apiPayVerify(
+    Observable<PayVerifyEntity> apiPayVerify(
             @Field("card_secret") String card_secret,
             @Field("app_name") String app_name,
             @Field("user") String user,

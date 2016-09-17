@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.repacked.apache.commons.io.FileUtils;
 import com.squareup.picasso.Picasso;
@@ -31,6 +32,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
+import tv.ismar.app.network.entity.ItemEntity;
 
 /**
  * Created by huibin on 9/13/16.
@@ -53,6 +55,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private String model;
     private int pk;
 
+    private ItemEntity mItemEntity;
+    private TextView title;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         aliPayBtn = (Button) findViewById(R.id.alipay);
         cardPayBtn = (Button) findViewById(R.id.videocard);
         balancePayBtn = (Button) findViewById(R.id.balance_pay);
+        title = (TextView) findViewById(R.id.payment_title);
 
         weixinPayBtn.setOnClickListener(this);
         aliPayBtn.setOnClickListener(this);
@@ -81,14 +88,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         cardpayFragment = new CardPayFragment();
         balanceFragment = new BalancePayFragment();
 
-        if (TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken())) {
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_page, loginFragment)
-                    .commit();
-        } else {
-            fetchAccountBalance();
-        }
-
+        fetchItem(pk, model);
     }
 
 
@@ -286,4 +286,37 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         return pk;
     }
 
+    private void fetchItem(int pk, String model) {
+        mSkyService.apiItem(String.valueOf(pk))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ItemEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ItemEntity itemEntity) {
+                        mItemEntity = itemEntity;
+                        title.setText(itemEntity.getTitle());
+                        if (TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken())) {
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_page, loginFragment)
+                                    .commit();
+                        } else {
+                            fetchAccountBalance();
+                        }
+                    }
+                });
+    }
+
+    public ItemEntity getmItemEntity() {
+        return mItemEntity;
+    }
 }

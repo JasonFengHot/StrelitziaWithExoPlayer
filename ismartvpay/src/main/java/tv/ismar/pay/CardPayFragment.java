@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -19,15 +23,19 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.PayVerifyEntity;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 /**
  * Created by huibin on 2016/9/14.
  */
-public class CardPayFragment extends Fragment {
+public class CardPayFragment extends Fragment implements View.OnClickListener {
 
     private View contentView;
-
     private SkyService skyService;
+    private Button submitBtn;
+    private EditText cardNumberEdt;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,9 @@ public class CardPayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         contentView = inflater.inflate(R.layout.fragmet_cardpay, null);
+        submitBtn = (Button) contentView.findViewById(R.id.shiyuncard_submit);
+        cardNumberEdt = (EditText) contentView.findViewById(R.id.shiyuncard_input);
+        submitBtn.setOnClickListener(this);
         return contentView;
     }
 
@@ -61,19 +72,20 @@ public class CardPayFragment extends Fragment {
         String user = IsmartvActivator.getInstance().getUsername();
         String user_id = "0";
         String app_name = "sky";
-        String card_secret = "";
+        String card_secret = null;
         try {
-            card_secret = SHA1(user + sur_prefix + timestamp);
+            card_secret = pwd_prefix + SHA1(user + sur_prefix + timestamp);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
+
         skyService.apiPayVerify(card_secret, app_name, user, user_id, timestamp, sid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
+                .subscribe(new Observer<PayVerifyEntity>() {
                     @Override
                     public void onCompleted() {
 
@@ -85,8 +97,17 @@ public class CardPayFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(ResponseBody responseBody) {
-
+                    public void onNext(PayVerifyEntity entity) {
+                        switch (entity.getStatus()) {
+                            //充值成功,系统将自动为您购买,6s后返回
+                            case "S":
+                                Toast.makeText(getActivity(), "充值成功,系统将自动为您购买,6s后返回", LENGTH_LONG).show();
+                                break;
+                            //充值成功,系统将在第二天8点为您购买,10s后返回
+                            case "T":
+                                Toast.makeText(getActivity(), "充值成功,系统将在第二天8点为您购买,10s后返回", LENGTH_LONG).show();
+                                break;
+                        }
                     }
                 });
     }
@@ -112,5 +133,18 @@ public class CardPayFragment extends Fragment {
             } while (two_halfs++ < 1);
         }
         return buf.toString();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.shiyuncard_submit) {
+            String cardNumber = cardNumberEdt.getText().toString();
+            if (cardNumber.length() == 16 && TextUtils.isDigitsOnly(cardNumber)) {
+                cardRecharge(cardNumber);
+            } else {
+                Toast.makeText(getActivity(), "错误的观影卡密码", LENGTH_LONG).show();
+            }
+        }
     }
 }
