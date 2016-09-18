@@ -12,7 +12,7 @@ import cn.ismartv.injectdb.library.query.Delete;
 import cn.ismartv.injectdb.library.query.Select;
 import rx.Observer;
 import rx.schedulers.Schedulers;
-import tv.ismar.app.database.DpiTable;
+import tv.ismar.app.database.DpiTable2;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.DpiEntity;
 
@@ -54,12 +54,12 @@ public class VipMark {
 
                     @Override
                     public void onNext(List<DpiEntity> dpiEntities) {
-                        new Delete().from(DpiTable.class).execute();
+                        new Delete().from(DpiTable2.class).execute();
                         ActiveAndroid.beginTransaction();
                         try {
                             for (DpiEntity dpiEntity : dpiEntities) {
                                 if (dpiEntity.getApp_name().equals("sky")) {
-                                    DpiTable dpiTable = new DpiTable();
+                                    DpiTable2 dpiTable = new DpiTable2();
                                     dpiTable.pay_type = dpiEntity.getPay_type();
                                     dpiTable.image = dpiEntity.getImage();
                                     dpiTable.cp = dpiEntity.getCp();
@@ -84,10 +84,10 @@ public class VipMark {
         float density = metric.density;  // 屏幕密度（0.75 / 1.0 / 1.5）
         int densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
         String name = String.valueOf((int) (height / density));
-        DpiTable dpiTable = null;
+        DpiTable2 dpiTable = null;
         try {
 
-            dpiTable = new Select().from(DpiTable.class)
+            dpiTable = new Select().from(DpiTable2.class)
                     .where("pay_type = ?", payType)
                     .where("cp = ?", cpId)
                     .orderBy("abs(" + height + " - name) asc")
