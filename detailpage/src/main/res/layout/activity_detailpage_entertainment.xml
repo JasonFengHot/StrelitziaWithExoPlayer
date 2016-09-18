@@ -144,6 +144,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="@{tasks.airDateVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/entertainment_detail_text_space"

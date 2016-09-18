@@ -84,6 +84,11 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
         notifyPropertyChanged(BR.permissionVisibility);
 
+        notifyPropertyChanged(BR.guest);
+        notifyPropertyChanged(BR.guestVisibility);
+        notifyPropertyChanged(BR.emcee);
+        notifyPropertyChanged(BR.emceeVisibility);
+
 
     }
 
@@ -208,7 +213,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     public String getLength() {
         int length;
         try {
-            length = Integer.parseInt(mItemEntity.getClip().getLength());
+            length = Integer.parseInt(mItemEntity.getClip().getLength())/60;
         } catch (NullPointerException e) {
             length = 0;
         }
