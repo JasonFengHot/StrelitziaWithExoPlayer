@@ -118,6 +118,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="@{tasks.areaVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/entertainment_detail_text_space"
@@ -179,6 +180,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:visibility="@{tasks.lengthVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -196,13 +198,14 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:singleLine="true"
-                                android:text="--"
+                                android:text="@{tasks.length}"
                                 android:textColor="@color/color_white"
                                 android:textSize="@dimen/h3_size" />
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="@{tasks.classificationVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/entertainment_detail_text_space"
@@ -221,13 +224,14 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:singleLine="true"
-                                android:text="--"
+                                android:text="@{tasks.classification}"
                                 android:textColor="@color/color_white"
                                 android:textSize="@dimen/h3_size" />
 
                         </LinearLayout>
 
                         <LinearLayout
+                            android:visibility="@{tasks.emceeVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/entertainment_detail_text_space"
@@ -246,7 +250,7 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:singleLine="true"
-                                android:text="--"
+                                android:text="@{tasks.emcee}"
                                 android:textColor="@color/color_white"
                                 android:textSize="@dimen/h3_size" />
 
@@ -255,6 +259,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="@{tasks.guestVisibility}"
                         android:id="@+id/detail_des_container3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -275,7 +280,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
-                            android:text="--"
+                            android:text="@{tasks.guest}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h3_size" />
 

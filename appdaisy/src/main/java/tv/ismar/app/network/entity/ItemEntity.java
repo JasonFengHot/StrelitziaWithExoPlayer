@@ -395,6 +395,25 @@ public class ItemEntity {
         private String[][] director;
         private String[][] genre;
         private String[][] actor;
+        private String[][] guest;
+        private String[][] emcee;
+
+        public String[][] getGuest() {
+            return guest;
+        }
+
+        public void setGuest(String[][] guest) {
+            this.guest = guest;
+        }
+
+        public String[][] getEmcee() {
+            return emcee;
+        }
+
+        public void setEmcee(String[][] emcee) {
+            this.emcee = emcee;
+        }
+
         @SerializedName("air_date")
         private String airDate;
         private String[] area;

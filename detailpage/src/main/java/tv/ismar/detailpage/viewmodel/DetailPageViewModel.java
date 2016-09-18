@@ -244,26 +244,54 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         return mItemEntity.getExpense() != null && mRemandDay <= 0 ? View.VISIBLE : View.GONE;
     }
 
-//    @Bindable
-//    public String getEmcee() {
-//
-//    }
-//
-//    @Bindable
-//    public int getEmceeVisibility() {
-//
-//
-//    }
-//
-//    @Bindable
-//    public String getGuest() {
-//
-//    }
-//
-//    @Bindable
-//    public int getGuestVisibility() {
-//
-//    }
+    @Bindable
+    public String getEmcee() {
+        StringBuffer stringBuffer = new StringBuffer();
+        int length;
+        try {
+            length = mItemEntity.getAttributes().getEmcee().length;
+        } catch (NullPointerException e) {
+            length = 0;
+        }
+        for (int i = 0; i < length; i++) {
+            if (i == length - 1) {
+                stringBuffer.append(mItemEntity.getAttributes().getEmcee()[i][1]);
+            } else {
+                stringBuffer.append(mItemEntity.getAttributes().getEmcee()[i][1]).append(",");
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    @Bindable
+    public int getEmceeVisibility() {
+        return TextUtils.isEmpty(getEmcee()) ? View.GONE : View.VISIBLE;
+
+    }
+
+    @Bindable
+    public String getGuest() {
+        StringBuffer stringBuffer = new StringBuffer();
+        int length;
+        try {
+            length = mItemEntity.getAttributes().getGuest().length;
+        } catch (NullPointerException e) {
+            length = 0;
+        }
+        for (int i = 0; i < length; i++) {
+            if (i == length - 1) {
+                stringBuffer.append(mItemEntity.getAttributes().getGuest()[i][1]);
+            } else {
+                stringBuffer.append(mItemEntity.getAttributes().getGuest()[i][1]).append(",");
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    @Bindable
+    public int getGuestVisibility() {
+        return TextUtils.isEmpty(getGuest()) ? View.GONE : View.VISIBLE;
+    }
 
     @Bindable
     public String getPrice() {
