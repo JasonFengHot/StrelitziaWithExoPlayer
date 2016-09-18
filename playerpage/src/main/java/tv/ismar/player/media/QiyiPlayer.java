@@ -10,7 +10,10 @@ import com.qiyi.sdk.player.ISdkError;
 import com.qiyi.sdk.player.IVideoOverlay;
 import com.qiyi.sdk.player.PlayerSdk;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import tv.ismar.app.network.entity.ClipEntity;
 
 /**
  * Created by longhai on 16-9-12.
@@ -151,14 +154,40 @@ public class QiyiPlayer extends IsmartvPlayer {
     private IMediaPlayer.OnBitStreamInfoListener qiyiBitStreamInfoListener = new IMediaPlayer.OnBitStreamInfoListener() {
         @Override
         public void onBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
-
+            mQualities = new ArrayList<>();
+            for (BitStream bitStream : list) {
+                mQualities.add(bitStreamConvertToQuality(bitStream));
+            }
         }
 
         @Override
         public void onBitStreamSelected(IMediaPlayer iMediaPlayer, BitStream bitStream) {
-
+            mQuality = bitStreamConvertToQuality(bitStream);
         }
     };
+
+    private ClipEntity.Quality bitStreamConvertToQuality(BitStream bitStream) {
+        if (bitStream == BitStream.BITSTREAM_STANDARD) {
+            return ClipEntity.Quality.QUALITY_NORMAL;
+        } else if (bitStream == BitStream.BITSTREAM_HIGH) {
+            return ClipEntity.Quality.QUALITY_MEDIUM;
+        } else if (bitStream == BitStream.BITSTREAM_UNKNOWN) {
+            return ClipEntity.Quality.QUALITY_ADAPTIVE;
+        } else if (bitStream == BitStream.BITSTREAM_720P
+                || bitStream == BitStream.BITSTREAM_720P_DOLBY
+                || bitStream == BitStream.BITSTREAM_720P_H265) {
+            return ClipEntity.Quality.QUALITY_HIGH;
+        } else if (bitStream == BitStream.BITSTREAM_1080P
+                || bitStream == BitStream.BITSTREAM_1080P_DOLBY
+                || bitStream == BitStream.BITSTREAM_1080P_H265) {
+            return ClipEntity.Quality.QUALITY_ULTRA;
+        } else if (bitStream == BitStream.BITSTREAM_4K
+                || bitStream == BitStream.BITSTREAM_4K_DOLBY
+                || bitStream == BitStream.BITSTREAM_4K_H265) {
+            return ClipEntity.Quality.QUALITY_4K;
+        }
+        return ClipEntity.Quality.QUALITY_NORMAL;
+    }
 
     private IMediaPlayer.OnPreviewInfoListener qiyiPreviewInfoListener = new IMediaPlayer.OnPreviewInfoListener() {
         @Override
@@ -260,7 +289,7 @@ public class QiyiPlayer extends IsmartvPlayer {
         if (isInPlaybackState()) {
             return mPlayer.getCurrentPosition();
         }
-        return super.getCurrentPosition();
+        return 0;
     }
 
     @Override
@@ -271,7 +300,7 @@ public class QiyiPlayer extends IsmartvPlayer {
             }
             return mPlayer.getDuration();
         }
-        return super.getDuration();
+        return 0;
     }
 
     @Override
@@ -284,4 +313,29 @@ public class QiyiPlayer extends IsmartvPlayer {
         return isInPlaybackState() && mPlayer.isPlaying();
     }
 
+    @Override
+    public void switchQuality(ClipEntity.Quality quality) {
+        mPlayer.switchBitStream(qualityConvertToBitStream(quality));
+    }
+
+    private BitStream qualityConvertToBitStream(ClipEntity.Quality quality) {
+        switch (quality) {
+            case QUALITY_LOW:
+            case QUALITY_ADAPTIVE:
+            case QUALITY_NORMAL:
+                return BitStream.BITSTREAM_STANDARD;
+            case QUALITY_MEDIUM:
+                return BitStream.BITSTREAM_HIGH;
+            case QUALITY_HIGH:
+                return BitStream.BITSTREAM_720P;
+            case QUALITY_ULTRA:
+                return BitStream.BITSTREAM_1080P;
+            case QUALITY_BLUERAY:
+                return BitStream.BITSTREAM_4K;
+            case QUALITY_4K:
+                return BitStream.BITSTREAM_4K;
+
+        }
+        return BitStream.BITSTREAM_STANDARD;
+    }
 }

@@ -195,10 +195,10 @@ public class LabelImageView extends FrameLayout {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setBackgroundBorder(true);
-                return true;
+                return super.onTouchEvent(event);
             case MotionEvent.ACTION_UP:
                 setBackgroundBorder(false);
-                return true;
+                return super.onTouchEvent(event);
         }
         return super.onTouchEvent(event);
     }

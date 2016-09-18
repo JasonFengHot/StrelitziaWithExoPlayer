@@ -1,5 +1,7 @@
 package tv.ismar.player.media;
 
+import java.util.List;
+
 import tv.ismar.app.network.entity.ClipEntity;
 
 /**
@@ -34,6 +36,12 @@ public interface IPlayer {
     int getAdCountDownTime();
 
     boolean isPlaying();
+
+    ClipEntity.Quality getCurrentQuality();
+
+    List<ClipEntity.Quality> getQulities();
+
+    void switchQuality(ClipEntity.Quality quality);
 
     /**
      * 是否处在可以播放状态

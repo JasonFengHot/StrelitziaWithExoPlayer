@@ -16,5 +16,9 @@
     <dimen name="player_icon_w">24dp</dimen>
     <dimen name="player_icon_h">23.66dp</dimen>
     <dimen name="player_icon_ml">6.33dp</dimen>
+    <dimen name="player_menu_w">173.33dp</dimen>
+    <dimen name="player_menu_padding_tb">53.33dp</dimen>
+    <dimen name="player_menu_padding_l">13.33dp</dimen>
+    <dimen name="player_menu_item_h">40dp</dimen>
 
 </resources>

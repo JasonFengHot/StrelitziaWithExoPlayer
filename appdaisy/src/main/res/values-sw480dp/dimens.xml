@@ -1,11 +1,11 @@
 <resources>
 
-    <dimen name="h0_text_size">21.33dp</dimen>
-    <dimen name="h1_text_size">16.33dp</dimen>
-    <dimen name="h2_text_size">12.33dp</dimen>
-    <dimen name="h3_text_size">10.33dp</dimen>
-    <dimen name="h4_text_size">8.33dp</dimen>
-    <dimen name="h5_text_size">6.33dp</dimen>
+    <dimen name="h0_size">21.33dp</dimen>
+    <dimen name="h1_size">16.33dp</dimen>
+    <dimen name="h2_size">12.33dp</dimen>
+    <dimen name="h3_size">10.33dp</dimen>
+    <dimen name="h4_size">8.33dp</dimen>
+    <dimen name="h5_size">6.33dp</dimen>
 
     <!-- 头部高度 -->
     <dimen name="header_fragment_h">44.66dp</dimen>

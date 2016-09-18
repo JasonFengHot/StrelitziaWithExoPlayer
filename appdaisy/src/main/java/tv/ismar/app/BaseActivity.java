@@ -47,4 +47,11 @@ public class BaseActivity extends AppCompatActivity {
             mLoadingDialog.dismiss();
         }
     }
+
+    public boolean isProgressDialogShow() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            return true;
+        }
+        return false;
+    }
 }

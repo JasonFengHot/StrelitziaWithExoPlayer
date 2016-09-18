@@ -13,11 +13,11 @@
         app:livErrorDrawable="@mipmap/img_error_vertical"
         app:livLabelBackColor="@color/color_label_image_text_back"
         app:livLabelColor="@color/color_white"
-        app:livLabelSize="@dimen/h3_text_size"
+        app:livLabelSize="@dimen/h3_size"
         app:livLabelText=""
         app:livRate="0"
         app:livRateColor="@color/color_focus"
-        app:livRateSize="@dimen/h2_text_size"
+        app:livRateSize="@dimen/h2_size"
         app:livSelectorDrawable="@drawable/vod_img_selector"
         app:livUrl=""
         app:livVipPosition="gone"
@@ -33,7 +33,7 @@
         android:singleLine="true"
         android:text=""
         android:textColor="@color/color_label"
-        android:textSize="@dimen/h2_text_size" />
+        android:textSize="@dimen/h2_size" />
 
 
 </LinearLayout>

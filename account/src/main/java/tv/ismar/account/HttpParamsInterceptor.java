@@ -19,7 +19,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
-import tv.ismar.account.data.ResultEntity;
 
 /**
  * Created by huibin on 8/25/16.

@@ -8,8 +8,7 @@
         <activity
             android:name=".PaymentActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/PaymentActivityDialog">
-
+            android:theme="@style/ActivityDialog">
         </activity>
 
     </application>

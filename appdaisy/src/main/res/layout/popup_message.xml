@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:textSize="@dimen/h3_text_size"/>
+            android:textSize="@dimen/h3_size"/>
 
         <TextView
             android:id="@+id/pop_second_text"
@@ -28,7 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/pop_second_text_margin_top"
             android:gravity="center"
-            android:textSize="@dimen/h3_text_size"
+            android:textSize="@dimen/h3_size"
             android:visibility="gone"/>
 
 
@@ -51,7 +51,7 @@
             android:textColor="@android:color/white"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:textSize="@dimen/h3_text_size"/>
+            android:textSize="@dimen/h3_size"/>
 
         <Button
             android:id="@+id/cancel_btn"
@@ -63,7 +63,7 @@
             android:textColor="@android:color/white"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:textSize="@dimen/h3_text_size"/>
+            android:textSize="@dimen/h3_size"/>
 
     </LinearLayout>
 </RelativeLayout>

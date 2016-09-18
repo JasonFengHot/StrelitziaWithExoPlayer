@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="IsmartvAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -9,13 +9,13 @@
         <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
     </style>
 
-    <style name="AppTheme.Widget" />
+    <style name="IsmartvAppTheme.Widget" />
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
         <item name="fontPath">DroidSansFallback.ttf</item>
     </style>
 
-    <style name="AppTheme.Fullscreen" parent="AppTheme">
+    <style name="IsmartvAppTheme.Fullscreen" parent="IsmartvAppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
