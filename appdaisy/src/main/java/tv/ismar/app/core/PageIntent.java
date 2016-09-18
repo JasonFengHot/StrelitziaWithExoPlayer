@@ -9,10 +9,15 @@ import android.content.Intent;
 public class PageIntent implements PageIntentInterface {
     @Override
     public void toDetailPage(Context context, String contentModel, int pk) {
-
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.detailpage");
+        intent.putExtra(EXTRA_MODEL, contentModel);
+        intent.putExtra(EXTRA_PK, pk);
+        context.startActivity(intent);
     }
 
     @Override
     public void toPayment() {
+
     }
 }

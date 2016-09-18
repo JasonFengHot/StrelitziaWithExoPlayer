@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -65,7 +64,7 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        contentView = inflater.inflate(R.layout.fragment_login, null);
+        contentView = inflater.inflate(R.layout.fragment_pay_login, null);
         return contentView;
     }
 
