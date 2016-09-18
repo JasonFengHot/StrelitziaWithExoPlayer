@@ -175,20 +175,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.i(TAG, "surfaceCreated");
         if (holder != null) {
-            mPlayer = new SmartPlayer();
-            mPlayer.setOnPreparedListenerUrl(smartPreparedListenerUrl);
-            mPlayer.setOnVideoSizeChangedListener(smartVideoSizeChangedListener);
-            mPlayer.setOnCompletionListenerUrl(smartCompletionListenerUrl);
-            mPlayer.setOnInfoListener(smartInfoListener);
-            mPlayer.setOnSeekCompleteListener(smartSeekCompleteListener);
-            mPlayer.setOnTsInfoListener(onTsInfoListener);
-            mPlayer.setOnM3u8IpListener(onM3u8IpListener);
-            mPlayer.setOnErrorListener(smartErrorListener);
-            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mPlayer.setScreenOnWhilePlaying(true);
-            mPlayer.setDataSource(mPaths);
-            mPlayer.setDisplay(holder);
+            openVideo();
 
             if (mOnDataSourceSetListener != null) {
                 mOnDataSourceSetListener.onSuccess();
@@ -198,6 +187,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Log.i(TAG, "surfaceChanged");
     }
 
     @Override
@@ -299,11 +289,37 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
 
     @Override
     public void switchQuality(ClipEntity.Quality quality) {
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.reset();
+            mPlayer.release();
+            mPlayer = null;
+            mCurrentState = STATE_IDLE;
+        }
         String mediaUrl = getQualityUrl(quality);
         if (!Utils.isEmptyText(mediaUrl)) {
-            String[] paths = new String[]{mediaUrl};
-            setMedia(paths);
+            mQuality = quality;
+            mPaths = new String[]{mediaUrl};
+            openVideo();
+            mSurfaceView.invalidate();
+            mPlayer.prepareAsync();
         }
+    }
+
+    private void openVideo() {
+        mPlayer = new SmartPlayer();
+        mPlayer.setOnPreparedListenerUrl(smartPreparedListenerUrl);
+        mPlayer.setOnVideoSizeChangedListener(smartVideoSizeChangedListener);
+        mPlayer.setOnCompletionListenerUrl(smartCompletionListenerUrl);
+        mPlayer.setOnInfoListener(smartInfoListener);
+        mPlayer.setOnSeekCompleteListener(smartSeekCompleteListener);
+        mPlayer.setOnTsInfoListener(onTsInfoListener);
+        mPlayer.setOnM3u8IpListener(onM3u8IpListener);
+        mPlayer.setOnErrorListener(smartErrorListener);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.setScreenOnWhilePlaying(true);
+        mPlayer.setDataSource(mPaths);
+        mPlayer.setDisplay(mHolder);
     }
 
     /**

@@ -119,8 +119,9 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST("api/get/ad/")
+    @POST
     Observable<ResponseBody> fetchAdvertisement(
+            @Url String adUrl,
             @FieldMap HashMap<String, String> paramsMap
     );
 

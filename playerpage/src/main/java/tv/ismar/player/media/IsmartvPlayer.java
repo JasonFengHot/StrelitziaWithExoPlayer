@@ -467,7 +467,12 @@ public abstract class IsmartvPlayer implements IPlayer {
         if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
             mApiGetAdSubsc.unsubscribe();
         }
-        mApiGetAdSubsc = SkyService.ServiceManager.getService().fetchAdvertisement(getAdParam(itemEntity, adPid))
+        SkyService skyService = SkyService.ServiceManager.getService();
+        String adDomain = IsmartvActivator.getInstance().getAdDomain();
+        if (!adDomain.endsWith("/")) {
+            adDomain += "/";
+        }
+        mApiGetAdSubsc = skyService.fetchAdvertisement(adDomain + "api/get/ad/", getAdParam(itemEntity, adPid))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {

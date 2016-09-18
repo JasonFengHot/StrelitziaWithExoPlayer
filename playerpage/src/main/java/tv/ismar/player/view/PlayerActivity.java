@@ -1,28 +1,24 @@
 package tv.ismar.player.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +60,10 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private FrameLayout player_container;
     private LinearLayout panel_layout;
     private SeekBar player_seekBar;
-    private ExpandableListView player_menu_list;
+    private ListView player_menu;
+    private boolean isShowSubMenu = false;
+    private int groupMenuIndex = -1;
+    private MenuAdapter mAdapter;
 
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
@@ -78,6 +77,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private boolean mIsPlayingAd;
     private String[] keys = new String[]{"画面质量", "剧集"};
     private Map<String, List<String>> menuMaps = new HashMap<>();
+    private List<String> menuDatas = new ArrayList<>();
     private GestureDetector mGestureDetector;
 
     @Override
@@ -111,8 +111,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         panel_layout = findView(R.id.panel_layout);
         player_seekBar = findView(R.id.player_seekBar);
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
-        player_menu_list = findView(R.id.player_menu_list);
-        player_menu_list.setOnChildClickListener(onChildClickListener);
+        player_menu = findView(R.id.player_menu);
+        player_menu.setOnItemClickListener(onItemClickListener);
 
         panelShowAnimation = AnimationUtils.loadAnimation(this,
                 R.anim.fly_up);
@@ -270,33 +270,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         mModel.updatePlayerPause();
         timerStart(0);
         showPanel();
-
-        if (menuMaps.isEmpty()) {
-            List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
-            if (qualities != null && qualities.size() > 0) {
-                List<String> qualityString = new ArrayList<>();
-                int i = 0;
-                for (ClipEntity.Quality quality : qualities) {
-                    qualityString.add(ClipEntity.Quality.getString(quality));
-                    // 初始化当前播放分辨率index
-                    if (mIsmartvPlayer.getCurrentQuality() == quality) {
-                        mCurrentQualityIndex = i;
-                    }
-                    i++;
-                }
-                menuMaps.put(keys[0], qualityString);
-            }
-            ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
-            if (subItems != null) {
-                ArrayList<String> teles = new ArrayList<>();
-                for (ItemEntity.SubItem subItem : subItems) {
-                    teles.add(subItem.getTitle());
-                }
-                menuMaps.put(keys[1], teles);
-            }
-            MyExpandableListAdapter adapter = new MyExpandableListAdapter(PlayerActivity.this);
-            player_menu_list.setAdapter(adapter);
-        }
+        initMenuData();
+        setMenuData();
 
     }
 
@@ -360,53 +335,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 }
                 mIsmartvPlayer.seekTo(seekProgress);
             }
-        }
-    };
-
-    private ExpandableListView.OnChildClickListener onChildClickListener = new ExpandableListView.OnChildClickListener() {
-        @Override
-        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-            if (mIsmartvPlayer == null) {
-                return true;
-            }
-            switch (groupPosition) {
-                case 0:
-                    List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
-                    if (!qualities.isEmpty()) {
-                        ClipEntity.Quality quality = mIsmartvPlayer.getQulities().get(childPosition);
-                        if (mIsmartvPlayer.getCurrentQuality() != quality) {
-                            mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
-                            mIsmartvPlayer.switchQuality(quality);
-                            mCurrentQualityIndex = childPosition;
-                            if (player_menu_list.getVisibility() == View.VISIBLE) {
-                                player_menu_list.startAnimation(slideOutRight);
-                                player_menu_list.setVisibility(View.GONE);
-                            }
-                            showProgressDialog(null);
-                        }
-                    }
-                    break;
-                case 1:
-                    if (mCurrentTeleplayIndex != childPosition) {
-                        mediaHistoryPosition = 0;
-                        mCurrentTeleplayIndex = childPosition;
-                        if (player_menu_list.getVisibility() == View.VISIBLE) {
-                            player_menu_list.startAnimation(slideOutRight);
-                            player_menu_list.setVisibility(View.GONE);
-                        }
-                        String sign = "";
-                        String code = "1";
-                        ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
-                        mItemEntity.setTitle(subItem.getTitle());
-                        ItemEntity.Clip clip = subItem.getClip();
-                        if (clip != null) {
-                            mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
-                        }
-                    }
-                    break;
-            }
-            player_menu_list.collapseGroup(groupPosition);
-            return true;
         }
     };
 
@@ -474,13 +402,20 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     }
 
     private void toggleMenuVisiblity() {
-        if (player_menu_list.getVisibility() == View.VISIBLE) {
-            player_menu_list.startAnimation(slideOutRight);
-            player_menu_list.setVisibility(View.GONE);
+        if (player_menu.getVisibility() == View.VISIBLE) {
+            player_menu.startAnimation(slideOutRight);
+            player_menu.setVisibility(View.GONE);
         } else {
-            player_menu_list.startAnimation(slideInRight);
-            player_menu_list.setVisibility(View.VISIBLE);
-            player_menu_list.requestFocus();
+            player_menu.startAnimation(slideInRight);
+            player_menu.setVisibility(View.VISIBLE);
+            player_menu.requestFocus();
+        }
+    }
+
+    private void hideMenu() {
+        if (player_menu.getVisibility() == View.VISIBLE) {
+            player_menu.startAnimation(slideOutRight);
+            player_menu.setVisibility(View.GONE);
         }
     }
 
@@ -492,6 +427,14 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 toggleMenuVisiblity();
                 break;
             case KeyEvent.KEYCODE_BACK:
+                if (player_menu.getVisibility() == View.VISIBLE) {
+                    if (isShowSubMenu) {
+                        setMenuData();
+                    } else {
+                        hideMenu();
+                    }
+                    return true;
+                }
                 finish();
                 break;
         }
@@ -502,7 +445,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 keyCode != KeyEvent.KEYCODE_MENU &&
                 keyCode != KeyEvent.KEYCODE_CALL &&
                 keyCode != KeyEvent.KEYCODE_ENDCALL;
-        if (mIsmartvPlayer.isInPlaybackState() && isKeyCodeSupported && player_menu_list.getVisibility() != View.VISIBLE) {
+        if (mIsmartvPlayer.isInPlaybackState() && isKeyCodeSupported && player_menu.getVisibility() != View.VISIBLE) {
             if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK ||
                     keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                 if (mIsmartvPlayer.isPlaying()) {
@@ -527,7 +470,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 }
                 return true;
             } else {
-                showPanel();
+                toggleMenuVisiblity();
             }
         }
         return super.onKeyDown(keyCode, event);
@@ -554,7 +497,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            if (player_menu_list.getVisibility() == View.VISIBLE) {
+            if (player_menu.getVisibility() == View.VISIBLE) {
                 return true;
             }
             showPanel();
@@ -577,161 +520,171 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 toggleMenuVisiblity();
                 return true;
             }
-            if (player_menu_list.getVisibility() == View.VISIBLE) {
+            if (player_menu.getVisibility() == View.VISIBLE) {
                 return true;
             }
             return false;
         }
     };
 
-    class MyExpandableListAdapter extends BaseExpandableListAdapter {
-
-        private Context mContext;
-
-        public MyExpandableListAdapter(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public void registerDataSetObserver(DataSetObserver observer) {
-
-        }
-
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver observer) {
-
-        }
-
-        @Override
-        public int getGroupCount() {
-            return menuMaps.size();
-        }
-
-        @Override
-        public int getChildrenCount(int groupPosition) {
-            if (groupPosition < keys.length) {
-                return menuMaps.get(keys[groupPosition]).size();
+    private void initMenuData() {
+        if (menuMaps.isEmpty()) {
+            List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
+            if (qualities != null && qualities.size() > 0) {
+                List<String> qualityString = new ArrayList<>();
+                int i = 0;
+                for (ClipEntity.Quality quality : qualities) {
+                    qualityString.add(ClipEntity.Quality.getString(quality));
+                    // 初始化当前播放分辨率index
+                    if (mIsmartvPlayer.getCurrentQuality() == quality) {
+                        mCurrentQualityIndex = i;
+                    }
+                    i++;
+                }
+                menuMaps.put(keys[0], qualityString);
             }
+            ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+            if (subItems != null) {
+                ArrayList<String> teles = new ArrayList<>();
+                for (ItemEntity.SubItem subItem : subItems) {
+                    teles.add(subItem.getTitle());
+                }
+                menuMaps.put(keys[1], teles);
+            }
+
+            mAdapter = new MenuAdapter();
+            player_menu.setAdapter(mAdapter);
+        }
+    }
+
+    private void setMenuData() {
+        if (menuMaps.isEmpty()) {
+            return;
+        }
+        menuDatas.clear();
+        for (Map.Entry<String, List<String>> entry : menuMaps.entrySet()) {
+            menuDatas.add(entry.getKey());
+        }
+        mAdapter.notifyDataSetChanged();
+        player_menu.setSelection(0);
+        groupMenuIndex = -1;
+        isShowSubMenu = false;
+
+    }
+
+    private void setSubMenuData(int groupPosition) {
+        if (menuMaps.isEmpty()) {
+            return;
+        }
+        menuDatas.clear();
+        menuDatas.addAll(menuMaps.get(keys[groupPosition]));
+        mAdapter.notifyDataSetChanged();
+        player_menu.setSelection(0);
+        isShowSubMenu = true;
+    }
+
+    private class MenuAdapter extends BaseAdapter {
+
+        private LayoutInflater mInflater;
+
+        public MenuAdapter() {
+            mInflater = LayoutInflater.from(PlayerActivity.this);
+        }
+
+        @Override
+        public int getCount() {
+            return menuDatas.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return menuDatas.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
             return 0;
         }
 
         @Override
-        public Object getGroup(int groupPosition) {
-            return keys[groupPosition];
-        }
-
-        @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            List<String> children = menuMaps.get(keys[groupPosition]);
-            return children.get(childPosition);
-        }
-
-        @Override
-        public long getGroupId(int groupPosition) {
-            return groupPosition;
-        }
-
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            LinearLayout ll = new LinearLayout(mContext);
-            ll.setOrientation(LinearLayout.HORIZONTAL);
-            TextView textView = getTextView(R.dimen.h0_size);
-            textView.setTag(groupPosition);
-            textView.setText(getGroup(groupPosition).toString());
-            ll.addView(textView);
-            return ll;
-        }
-
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            TextView textView = getTextView(R.dimen.h1_size);
-            textView.setTag(10 + childPosition);
-            textView.setText(getChild(groupPosition, childPosition).toString());
-
-            switch (groupPosition) {
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = mInflater.inflate(R.layout.adapter_player_menu, null);
+            TextView checkBox = (TextView) convertView.findViewById(R.id.adapter_menu_checkBox);
+            TextView textView = (TextView) convertView.findViewById(R.id.adapter_menu_text);
+            textView.setText(menuDatas.get(position));
+            checkBox.setVisibility(View.INVISIBLE);
+            switch (groupMenuIndex) {
                 case 0:
-                    Log.i("LH/", "childPosition:" + childPosition + " qualityIndex:" + mCurrentQualityIndex);
-                    if (childPosition == mCurrentQualityIndex) {
-                        Drawable drawable = getResources().getDrawable(R.drawable.player_menu_indicator);
-                        drawable.setBounds(0, 0, getResources().getDimensionPixelSize(R.dimen.h2_size), getResources().getDimensionPixelSize(R.dimen.h2_size));
-                        textView.setCompoundDrawables(drawable, null, null, null);
+                    Log.i("LH/", "childPosition:" + position + " qualityIndex:" + mCurrentQualityIndex);
+                    if (position == mCurrentQualityIndex) {
+                        checkBox.setVisibility(View.VISIBLE);
                     }
                     break;
                 case 1:
-                    if (childPosition == mCurrentTeleplayIndex) {
-                        Drawable drawable = getResources().getDrawable(R.drawable.player_menu_indicator);
-                        drawable.setBounds(0, 0, getResources().getDimensionPixelSize(R.dimen.h2_size), getResources().getDimensionPixelSize(R.dimen.h2_size));
-                        textView.setCompoundDrawables(drawable, null, null, null);
+                    Log.i("LH/", "childPosition:" + position + " teleplayIndex:" + mCurrentTeleplayIndex);
+                    if (position == mCurrentTeleplayIndex) {
+                        checkBox.setVisibility(View.VISIBLE);
                     }
                     break;
             }
-            return textView;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
-        }
-
-        @Override
-        public boolean areAllItemsEnabled() {
-            return false;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public void onGroupExpanded(int groupPosition) {
-
-        }
-
-        @Override
-        public void onGroupCollapsed(int groupPosition) {
-
-        }
-
-        @Override
-        public long getCombinedChildId(long groupId, long childId) {
-            return 0;
-        }
-
-        @Override
-        public long getCombinedGroupId(long groupId) {
-            return 0;
-        }
-
-        private TextView getTextView(int id) {
-            AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.player_menu_item_h));
-            final TextView textView = new TextView(mContext);
-            textView.setLayoutParams(lp);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(id));
-            textView.setTextColor(getResources().getColor(R.color.color_white));
-
-            textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            convertView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-                        textView.setBackgroundResource(R.color.color_focus);
-                    } else {
-                        textView.setBackgroundResource(android.R.color.transparent);
-                    }
+                    Log.i("LH/", "hasFocus:" + hasFocus);
                 }
             });
-            return textView;
+            return convertView;
         }
     }
+
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (isShowSubMenu) {
+                // 菜单选择
+                if (mIsmartvPlayer == null) {
+                    return;
+                }
+                switch (groupMenuIndex) {
+                    case 0:
+                        List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
+                        if (!qualities.isEmpty()) {
+                            ClipEntity.Quality quality = mIsmartvPlayer.getQulities().get(position);
+                            if (mIsmartvPlayer.getCurrentQuality() != quality) {
+                                mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
+                                mCurrentQualityIndex = position;
+                                timerStop();
+                                hideMenu();
+                                mIsmartvPlayer.switchQuality(quality);
+                                showProgressDialog(null);
+                            }
+                        }
+                        break;
+                    case 1:
+                        if (mCurrentTeleplayIndex != position) {
+                            mediaHistoryPosition = 0;
+                            mCurrentTeleplayIndex = position;
+                            timerStop();
+                            hideMenu();
+                            mIsmartvPlayer.release();
+                            String sign = "";
+                            String code = "1";
+                            ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
+                            mItemEntity.setTitle(subItem.getTitle());
+                            ItemEntity.Clip clip = subItem.getClip();
+                            if (clip != null) {
+                                mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
+                            }
+                            showProgressDialog(null);
+                        }
+                        break;
+                }
+            } else {
+                // 显示子菜单
+                groupMenuIndex = position;
+                setSubMenuData(position);
+            }
+        }
+    };
+
 }
