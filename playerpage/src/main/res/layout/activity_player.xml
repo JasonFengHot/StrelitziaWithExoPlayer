@@ -35,6 +35,19 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
+        <ExpandableListView
+            android:id="@+id/player_menu_list"
+            android:layout_width="@dimen/player_menu_w"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@color/player_menu_bg"
+            android:descendantFocusability="afterDescendants"
+            android:focusable="false"
+            android:listSelector="@android:color/transparent"
+            android:paddingBottom="@dimen/player_menu_padding_tb"
+            android:paddingTop="@dimen/player_menu_padding_tb"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/panel_layout"
             android:layout_width="match_parent"
@@ -73,7 +86,7 @@
                         android:layout_marginTop="@dimen/player_timetext_mt"
                         android:text="@{tasks.timer}"
                         android:textColor="@color/color_white"
-                        android:textSize="@dimen/h1_text_size" />
+                        android:textSize="@dimen/h1_size" />
 
                     <TextView
                         android:layout_width="@dimen/player_qualitytext_w"
@@ -86,7 +99,7 @@
                         android:singleLine="true"
                         android:text="@{tasks.quality}"
                         android:textColor="@color/color_white"
-                        android:textSize="@dimen/h1_text_size" />
+                        android:textSize="@dimen/h1_size" />
 
                     <TextView
                         android:layout_width="@dimen/player_controller_left_w"
@@ -98,7 +111,7 @@
                         android:singleLine="true"
                         android:text="@{tasks.itemTitle}"
                         android:textColor="@color/color_white"
-                        android:textSize="@dimen/h1_text_size" />
+                        android:textSize="@dimen/h1_size" />
 
                 </LinearLayout>
 

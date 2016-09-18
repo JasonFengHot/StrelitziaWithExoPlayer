@@ -5,10 +5,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import tv.ismar.app.network.entity.ClipEntity;
+import tv.ismar.app.util.Utils;
 import tv.ismar.player.SmartPlayer;
 
 /**
@@ -262,7 +262,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         if (isInPlaybackState()) {
             return mPlayer.getCurrentPosition();
         }
-        return super.getCurrentPosition();
+        return 0;
     }
 
     @Override
@@ -270,7 +270,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         if (isInPlaybackState()) {
             return mPlayer.getDuration();
         }
-        return super.getDuration();
+        return 0;
     }
 
     @Override
@@ -297,6 +297,15 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         return isInPlaybackState() && mPlayer.isPlaying();
     }
 
+    @Override
+    public void switchQuality(ClipEntity.Quality quality) {
+        String mediaUrl = getQualityUrl(quality);
+        if (!Utils.isEmptyText(mediaUrl)) {
+            String[] paths = new String[]{mediaUrl};
+            setMedia(paths);
+        }
+    }
+
     /**
      * 获取媒体IP
      */
@@ -306,5 +315,28 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         int index = tmp.indexOf("/");
         ip = tmp.substring(0, index);
         return ip;
+    }
+
+    private String getQualityUrl(ClipEntity.Quality quality) {
+        String qualityUrl = null;
+        switch (quality) {
+            case QUALITY_LOW:
+                return mClipEntity.getLow();
+            case QUALITY_ADAPTIVE:
+                return mClipEntity.getAdaptive();
+            case QUALITY_NORMAL:
+                return mClipEntity.getNormal();
+            case QUALITY_MEDIUM:
+                return mClipEntity.getMedium();
+            case QUALITY_HIGH:
+                return mClipEntity.getHigh();
+            case QUALITY_ULTRA:
+                return mClipEntity.getUltra();
+            case QUALITY_BLUERAY:
+                return mClipEntity.getBlueray();
+            case QUALITY_4K:
+                return mClipEntity.get_4k();
+        }
+        return qualityUrl;
     }
 }

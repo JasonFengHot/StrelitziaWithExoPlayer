@@ -1,20 +1,36 @@
 package tv.ismar.player.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntentInterface;
@@ -37,8 +53,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     private int itemPK = 0;
     private int subItemPk = 0;
-    private int mediaPosition;
+    private int mediaHistoryPosition;
     private int mCurrentTeleplayIndex = 0;
+    private int mCurrentQualityIndex = 0;
     private ItemEntity mItemEntity;
 
     // 播放器
@@ -47,6 +64,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private FrameLayout player_container;
     private LinearLayout panel_layout;
     private SeekBar player_seekBar;
+    private ExpandableListView player_menu_list;
 
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
@@ -55,7 +73,12 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     private Animation panelShowAnimation;
     private Animation panelHideAnimation;
+    private Animation slideInRight;
+    private Animation slideOutRight;
     private boolean mIsPlayingAd;
+    private String[] keys = new String[]{"画面质量", "剧集"};
+    private Map<String, List<String>> menuMaps = new HashMap<>();
+    private GestureDetector mGestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +86,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         Intent intent = getIntent();
         String itemId = intent.getStringExtra(PageIntentInterface.EXTRA_ITEM_ID);
         String subItemId = intent.getStringExtra(PageIntentInterface.EXTRA_SUBITEM_ID);
-        mediaPosition = intent.getIntExtra(PageIntentInterface.EXTRA_MEDIA_POSITION, 0);
+        mediaHistoryPosition = intent.getIntExtra(PageIntentInterface.EXTRA_MEDIA_POSITION, 0);
         subItemId = subItemId == null ? "0" : subItemId;
         try {
             itemPK = Integer.valueOf(itemId);
@@ -88,15 +111,23 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         panel_layout = findView(R.id.panel_layout);
         player_seekBar = findView(R.id.player_seekBar);
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        player_menu_list = findView(R.id.player_menu_list);
+        player_menu_list.setOnChildClickListener(onChildClickListener);
 
         panelShowAnimation = AnimationUtils.loadAnimation(this,
                 R.anim.fly_up);
         panelHideAnimation = AnimationUtils.loadAnimation(this,
                 R.anim.fly_down);
+        slideInRight = AnimationUtils.loadAnimation(this,
+                R.anim.slide_in_right);
+        slideOutRight = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_out_right);
 
         mPresenter.start();
         mPresenter.fetchItem(itemId);
         showProgressDialog(null);
+
+        mGestureDetector = new GestureDetector(this, onGestureListener);
 
     }
 
@@ -145,6 +176,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             // 片源为爱奇艺
             playerMode = PlayerBuilder.MODE_QIYI_PLAYER;
         }
+        initPlayerData(playerMode);
         mIsmartvPlayer = PlayerBuilder.getInstance()
                 .setActivity(PlayerActivity.this)
                 .setPlayerMode(playerMode)
@@ -169,6 +201,10 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         mIsmartvPlayer.setOnStateChangedListener(this);
         mIsmartvPlayer.setOnVideoSizeChangedListener(this);
 
+    }
+
+    private void initPlayerData(byte playerMode) {
+        menuMaps.clear();
     }
 
     @Override
@@ -198,8 +234,21 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onPrepared() {
+        if (mIsmartvPlayer == null) {
+            return;
+        }
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
-        mIsmartvPlayer.start();
+        if (mediaHistoryPosition > 0) {
+            mIsmartvPlayer.seekTo(mediaHistoryPosition);
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
+                    mIsmartvPlayer.start();
+                }
+            }
+        }, 500);
 
     }
 
@@ -221,6 +270,34 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         mModel.updatePlayerPause();
         timerStart(0);
         showPanel();
+
+        if (menuMaps.isEmpty()) {
+            List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
+            if (qualities != null && qualities.size() > 0) {
+                List<String> qualityString = new ArrayList<>();
+                int i = 0;
+                for (ClipEntity.Quality quality : qualities) {
+                    qualityString.add(ClipEntity.Quality.getString(quality));
+                    // 初始化当前播放分辨率index
+                    if (mIsmartvPlayer.getCurrentQuality() == quality) {
+                        mCurrentQualityIndex = i;
+                    }
+                    i++;
+                }
+                menuMaps.put(keys[0], qualityString);
+            }
+            ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+            if (subItems != null) {
+                ArrayList<String> teles = new ArrayList<>();
+                for (ItemEntity.SubItem subItem : subItems) {
+                    teles.add(subItem.getTitle());
+                }
+                menuMaps.put(keys[1], teles);
+            }
+            MyExpandableListAdapter adapter = new MyExpandableListAdapter(PlayerActivity.this);
+            player_menu_list.setAdapter(adapter);
+        }
+
     }
 
     @Override
@@ -283,6 +360,53 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 }
                 mIsmartvPlayer.seekTo(seekProgress);
             }
+        }
+    };
+
+    private ExpandableListView.OnChildClickListener onChildClickListener = new ExpandableListView.OnChildClickListener() {
+        @Override
+        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+            if (mIsmartvPlayer == null) {
+                return true;
+            }
+            switch (groupPosition) {
+                case 0:
+                    List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
+                    if (!qualities.isEmpty()) {
+                        ClipEntity.Quality quality = mIsmartvPlayer.getQulities().get(childPosition);
+                        if (mIsmartvPlayer.getCurrentQuality() != quality) {
+                            mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
+                            mIsmartvPlayer.switchQuality(quality);
+                            mCurrentQualityIndex = childPosition;
+                            if (player_menu_list.getVisibility() == View.VISIBLE) {
+                                player_menu_list.startAnimation(slideOutRight);
+                                player_menu_list.setVisibility(View.GONE);
+                            }
+                            showProgressDialog(null);
+                        }
+                    }
+                    break;
+                case 1:
+                    if (mCurrentTeleplayIndex != childPosition) {
+                        mediaHistoryPosition = 0;
+                        mCurrentTeleplayIndex = childPosition;
+                        if (player_menu_list.getVisibility() == View.VISIBLE) {
+                            player_menu_list.startAnimation(slideOutRight);
+                            player_menu_list.setVisibility(View.GONE);
+                        }
+                        String sign = "";
+                        String code = "1";
+                        ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
+                        mItemEntity.setTitle(subItem.getTitle());
+                        ItemEntity.Clip clip = subItem.getClip();
+                        if (clip != null) {
+                            mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
+                        }
+                    }
+                    break;
+            }
+            player_menu_list.collapseGroup(groupPosition);
+            return true;
         }
     };
 
@@ -349,13 +473,61 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         }
     }
 
+    private void toggleMenuVisiblity() {
+        if (player_menu_list.getVisibility() == View.VISIBLE) {
+            player_menu_list.startAnimation(slideOutRight);
+            player_menu_list.setVisibility(View.GONE);
+        } else {
+            player_menu_list.startAnimation(slideInRight);
+            player_menu_list.setVisibility(View.VISIBLE);
+            player_menu_list.requestFocus();
+        }
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_DPAD_CENTER:
+        Log.i("LH/", "onKeyDown:" + keyCode);
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                toggleMenuVisiblity();
+                break;
+            case KeyEvent.KEYCODE_BACK:
+                finish();
+                break;
+        }
+        boolean isKeyCodeSupported = keyCode != KeyEvent.KEYCODE_BACK &&
+                keyCode != KeyEvent.KEYCODE_VOLUME_UP &&
+                keyCode != KeyEvent.KEYCODE_VOLUME_DOWN &&
+                keyCode != KeyEvent.KEYCODE_VOLUME_MUTE &&
+                keyCode != KeyEvent.KEYCODE_MENU &&
+                keyCode != KeyEvent.KEYCODE_CALL &&
+                keyCode != KeyEvent.KEYCODE_ENDCALL;
+        if (mIsmartvPlayer.isInPlaybackState() && isKeyCodeSupported && player_menu_list.getVisibility() != View.VISIBLE) {
+            if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK ||
+                    keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                if (mIsmartvPlayer.isPlaying()) {
+                    mIsmartvPlayer.pause();
                     showPanel();
-                    break;
+                } else {
+                    mIsmartvPlayer.start();
+                    hidePanel();
+                }
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+                if (!mIsmartvPlayer.isPlaying()) {
+                    mIsmartvPlayer.start();
+                    hidePanel();
+                }
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
+                    || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
+                if (mIsmartvPlayer.isPlaying()) {
+                    mIsmartvPlayer.pause();
+                    showPanel();
+                }
+                return true;
+            } else {
+                showPanel();
             }
         }
         return super.onKeyDown(keyCode, event);
@@ -363,11 +535,203 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                showPanel();
-                break;
+        if (isProgressDialogShow()) {
+            return true;
         }
-        return super.onTouchEvent(event);
+        return mGestureDetector.onTouchEvent(event);
+    }
+
+    GestureDetector.OnGestureListener onGestureListener = new GestureDetector.OnGestureListener() {
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            if (player_menu_list.getVisibility() == View.VISIBLE) {
+                return true;
+            }
+            showPanel();
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (e1.getX() - e2.getX() > 120 || e1.getX() - e2.getX() < -120) {
+                toggleMenuVisiblity();
+                return true;
+            }
+            if (player_menu_list.getVisibility() == View.VISIBLE) {
+                return true;
+            }
+            return false;
+        }
+    };
+
+    class MyExpandableListAdapter extends BaseExpandableListAdapter {
+
+        private Context mContext;
+
+        public MyExpandableListAdapter(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public void registerDataSetObserver(DataSetObserver observer) {
+
+        }
+
+        @Override
+        public void unregisterDataSetObserver(DataSetObserver observer) {
+
+        }
+
+        @Override
+        public int getGroupCount() {
+            return menuMaps.size();
+        }
+
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            if (groupPosition < keys.length) {
+                return menuMaps.get(keys[groupPosition]).size();
+            }
+            return 0;
+        }
+
+        @Override
+        public Object getGroup(int groupPosition) {
+            return keys[groupPosition];
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            List<String> children = menuMaps.get(keys[groupPosition]);
+            return children.get(childPosition);
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            LinearLayout ll = new LinearLayout(mContext);
+            ll.setOrientation(LinearLayout.HORIZONTAL);
+            TextView textView = getTextView(R.dimen.h0_size);
+            textView.setTag(groupPosition);
+            textView.setText(getGroup(groupPosition).toString());
+            ll.addView(textView);
+            return ll;
+        }
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            TextView textView = getTextView(R.dimen.h1_size);
+            textView.setTag(10 + childPosition);
+            textView.setText(getChild(groupPosition, childPosition).toString());
+
+            switch (groupPosition) {
+                case 0:
+                    Log.i("LH/", "childPosition:" + childPosition + " qualityIndex:" + mCurrentQualityIndex);
+                    if (childPosition == mCurrentQualityIndex) {
+                        Drawable drawable = getResources().getDrawable(R.drawable.player_menu_indicator);
+                        drawable.setBounds(0, 0, getResources().getDimensionPixelSize(R.dimen.h2_size), getResources().getDimensionPixelSize(R.dimen.h2_size));
+                        textView.setCompoundDrawables(drawable, null, null, null);
+                    }
+                    break;
+                case 1:
+                    if (childPosition == mCurrentTeleplayIndex) {
+                        Drawable drawable = getResources().getDrawable(R.drawable.player_menu_indicator);
+                        drawable.setBounds(0, 0, getResources().getDimensionPixelSize(R.dimen.h2_size), getResources().getDimensionPixelSize(R.dimen.h2_size));
+                        textView.setCompoundDrawables(drawable, null, null, null);
+                    }
+                    break;
+            }
+            return textView;
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+            return false;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public void onGroupExpanded(int groupPosition) {
+
+        }
+
+        @Override
+        public void onGroupCollapsed(int groupPosition) {
+
+        }
+
+        @Override
+        public long getCombinedChildId(long groupId, long childId) {
+            return 0;
+        }
+
+        @Override
+        public long getCombinedGroupId(long groupId) {
+            return 0;
+        }
+
+        private TextView getTextView(int id) {
+            AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.player_menu_item_h));
+            final TextView textView = new TextView(mContext);
+            textView.setLayoutParams(lp);
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(id));
+            textView.setTextColor(getResources().getColor(R.color.color_white));
+
+            textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        textView.setBackgroundResource(R.color.color_focus);
+                    } else {
+                        textView.setBackgroundResource(android.R.color.transparent);
+                    }
+                }
+            });
+            return textView;
+        }
     }
 }
