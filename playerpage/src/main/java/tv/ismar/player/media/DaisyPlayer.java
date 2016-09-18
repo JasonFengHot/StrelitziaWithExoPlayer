@@ -1,36 +1,15 @@
 package tv.ismar.player.media;
 
 import android.media.AudioManager;
-import android.util.Base64;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import okhttp3.ResponseBody;
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import tv.ismar.app.network.SkyService;
-import tv.ismar.app.network.entity.AdElementEntity;
-import tv.ismar.app.network.entity.ItemEntity;
-import tv.ismar.app.network.exception.OnlyWifiException;
-import tv.ismar.app.util.DeviceUtils;
-import tv.ismar.app.util.Utils;
+import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.player.SmartPlayer;
-import tv.ismar.player.view.AdImageDialog;
 
 /**
  * Created by longhai on 16-9-12.
@@ -42,10 +21,6 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SurfaceHolder mHolder;
     private String mCurrentMediaUrl;
 
-    private Subscription mApiGetAdSubsc;
-    private HashMap<String, Integer> mAdIdMap = new HashMap<>();
-
-    private int mAdvertisementTime[];
     private int mSpeed;
     private String mMediaIp;
 
@@ -320,214 +295,6 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     @Override
     public boolean isPlaying() {
         return isInPlaybackState() && mPlayer.isPlaying();
-    }
-
-    private void fetchAdvertisement(ItemEntity itemEntity, final String adPid) {
-        if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
-            mApiGetAdSubsc.unsubscribe();
-        }
-        mApiGetAdSubsc = SkyService.ServiceManager.getService().fetchAdvertisement(getAdParam(itemEntity, adPid))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mOnDataSourceSetListener != null) {
-                            mOnDataSourceSetListener.onFailed(e.getMessage());
-                        }
-                        e.printStackTrace();
-                        if (e.getClass() == OnlyWifiException.class) {
-                        } else {
-                        }
-
-                        if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
-                            mApiGetAdSubsc.unsubscribe();
-                        }
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        boolean isPlayingPauseAd = false;
-                        boolean hasAd = false;
-                        String[] paths = null;
-                        try {
-                            String result = responseBody.string();
-                            List<AdElementEntity> adElementEntityList = getAdInfo(result, adPid);
-                            if (adElementEntityList != null && !adElementEntityList.isEmpty()) {
-                                if (adPid.equals(AD_MODE_ONPAUSE)) {
-                                    // 视频暂停广告
-                                    AdImageDialog adImageDialog = new AdImageDialog(mContext, mPlayerSync,
-                                            adElementEntityList);
-                                    adImageDialog.show();
-                                    try {
-                                        adImageDialog.show();
-                                    } catch (android.view.WindowManager.BadTokenException e) {
-                                        Log.i(TAG, "Pause advertisement dialog show error.");
-                                        e.printStackTrace();
-                                    }
-                                    isPlayingPauseAd = true;
-                                } else {
-                                    paths = new String[adElementEntityList.size() + 1];
-                                    int i = 0;
-                                    for (AdElementEntity element : adElementEntityList) {
-                                        if ("video".equals(element.getMedia_type())) {
-                                            mAdvertisementTime[i] = element.getDuration();
-                                            paths[i] = element.getMedia_url();
-                                            mAdIdMap.put(paths[i], element.getMedia_id());
-                                            i++;
-                                        }
-                                    }
-                                    hasAd = true;
-                                }
-                            }
-                        } catch (IOException | JSONException e) {
-                            e.printStackTrace();
-                        }
-                        if (isPlayingPauseAd) {
-                            return;
-                        }
-                        // TODO
-                        String mediaUrl = getInitQuality();
-                        if (hasAd) {
-                            mIsPlayingAdvertisement = true;
-                            paths[paths.length - 1] = mediaUrl;
-                        } else {
-                            mIsPlayingAdvertisement = false;
-                            paths = new String[]{mediaUrl};
-                        }
-                        setMedia(paths);
-
-                        if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
-                            mApiGetAdSubsc.unsubscribe();
-                        }
-                    }
-                });
-
-    }
-
-    private List<AdElementEntity> getAdInfo(String result, String adPid) throws JSONException {
-        List<AdElementEntity> adElementEntities = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject(result);
-        int retcode = jsonObject.getInt("retcode");
-        if (retcode == 200) {
-            JSONObject body = jsonObject.getJSONObject("ads");
-            JSONArray arrays = body.getJSONArray(adPid);
-            for (int i = 0; i < arrays.length(); i++) {
-                JSONObject element = arrays.getJSONObject(i);
-                AdElementEntity ad = new AdElementEntity();
-                int elementRetCode = element.getInt("retcode");
-                if (elementRetCode == 200) {
-                    ad.setRetcode(elementRetCode);
-                    ad.setRetmsg(element.getString("retmsg"));
-                    ad.setTitle(element.getString("title"));
-                    ad.setDescription(element.getString("description"));
-                    ad.setMedia_url(element.getString("media_url"));
-                    ad.setMedia_id(element.getInt("media_id"));
-                    ad.setMd5(element.getString("md5"));
-                    ad.setMedia_type(element.getString("media_type"));
-                    ad.setSerial(element.getInt("serial"));
-                    ad.setStart(element.getInt("start"));
-                    ad.setEnd(element.getInt("end"));
-                    ad.setDuration(element.getInt("duration"));
-                    ad.setReport_url(element.getString("report_url"));
-                    adElementEntities.add(ad);
-                }
-            }
-            Collections.sort(adElementEntities, new Comparator<AdElementEntity>() {
-                @Override
-                public int compare(AdElementEntity lhs, AdElementEntity rhs) {
-                    return rhs.getSerial() > lhs.getSerial() ? 1 : -1;
-                }
-            });
-        }
-        return adElementEntities;
-    }
-
-    private HashMap<String, String> getAdParam(ItemEntity itemEntity, String adpid) {
-        HashMap<String, String> adParams = new HashMap<>();
-
-        StringBuffer directorsBuffer = new StringBuffer();
-        StringBuffer actorsBuffer = new StringBuffer();
-        StringBuffer genresBuffer = new StringBuffer();
-        ItemEntity.Attributes attributes = itemEntity.getAttributes();
-        if (attributes != null) {
-            String[][] directors = attributes.getDirector();
-            String[][] actors = attributes.getActor();
-            String[][] genres = attributes.getGenre();
-            if (directors != null) {
-                for (int i = 0; i < directors.length; i++) {
-                    if (i == 0)
-                        directorsBuffer.append("[");
-                    directorsBuffer.append(directors[i][1]);
-                    if (i >= 0 && i != directors.length - 1)
-                        directorsBuffer.append(",");
-                    if (i == directors.length - 1)
-                        directorsBuffer.append("]");
-                }
-            }
-            if (actors != null) {
-                for (int i = 0; i < actors.length; i++) {
-                    if (i == 0)
-                        actorsBuffer.append("[");
-                    actorsBuffer.append(actors[i][1]);
-                    if (i >= 0 && i != actors.length - 1)
-                        actorsBuffer.append(",");
-                    if (i == actors.length - 1)
-                        actorsBuffer.append("]");
-                }
-            }
-            if (genres != null) {
-                for (int i = 0; i < genres.length; i++) {
-                    if (i == 0)
-                        genresBuffer.append("[");
-                    genresBuffer.append(genres[i][1]);
-                    if (i >= 0 && i != genres.length - 1)
-                        genresBuffer.append(",");
-                    if (i == genres.length - 1)
-                        genresBuffer.append("]");
-                }
-            }
-
-        }
-        adParams.put("channel", "");
-        adParams.put("section", "");
-        adParams.put("itemid", String.valueOf(itemEntity.getItemPk()));
-        adParams.put("topic", "");
-        adParams.put("source", "");//fromPage
-        adParams.put("content_model", itemEntity.getContentModel());
-        adParams.put("director", directorsBuffer.toString());
-        adParams.put("actor", actorsBuffer.toString());
-        adParams.put("genre", genresBuffer.toString());
-        adParams.put("clipid", String.valueOf(itemEntity.getClip().getPk()));
-        adParams.put("length", itemEntity.getClip().getLength());
-        adParams.put("live_video", String.valueOf(itemEntity.getLiveVideo()));
-        String vendor = itemEntity.getVendor();
-        if (Utils.isEmptyText(vendor)) {
-            adParams.put("vendor", "");
-        } else {
-            adParams.put("vendor", Base64.encodeToString(vendor.getBytes(), Base64.URL_SAFE));
-        }
-        ItemEntity.Expense expense = itemEntity.getExpense();
-        if (expense == null) {
-            adParams.put("expense", "false");
-        } else {
-            adParams.put("expense", "true");
-        }
-        adParams.put("sn", "");
-        adParams.put("modelName", DeviceUtils.getModelName());
-        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mContext)));
-        adParams.put("province", "");
-        adParams.put("city", "");
-        adParams.put("app", "sky");
-        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
-        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
-        adParams.put("adpid", "['" + adpid + "']");
-        return adParams;
     }
 
     /**

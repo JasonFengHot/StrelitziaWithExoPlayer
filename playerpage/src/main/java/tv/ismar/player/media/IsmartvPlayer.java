@@ -1,7 +1,7 @@
 package tv.ismar.player.media;
 
 import android.app.Activity;
-import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
@@ -12,14 +12,33 @@ import com.qiyi.sdk.player.Parameter;
 import com.qiyi.sdk.player.PlayerSdk;
 import com.qiyi.sdk.player.SdkVideo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
-import tv.ismar.app.VodApplication;
+import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.AccessProxy;
+import tv.ismar.player.view.AdImageDialog;
 import tv.ismar.player.view.PlayerSync;
 
 /**
@@ -46,13 +65,18 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected ItemEntity mItemEntity;
     protected ClipEntity mClipEntity;
     protected PlayerSync mPlayerSync;
+    private Subscription mApiGetAdSubsc;
 
-    protected int mCurrentQuality;
+    // 视云
+    protected HashMap<String, Integer> mAdIdMap = new HashMap<>();
+    protected int mAdvertisementTime[];
+
+    protected ClipEntity.Quality mQuality;
+    protected List<ClipEntity.Quality> mQualities;
     protected boolean mIsPlayingAdvertisement;
     protected SurfaceView mSurfaceView;
     protected FrameLayout mContainer;
 
-    private ClipEntity.Quality mQuality;
     // 奇艺播放器播放电视剧时,无需再次初始化
     private boolean isQiyiSdkInit = false;
 
@@ -125,9 +149,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                     mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken()));
                 }
 //                Log.d(TAG, mClipEntity.toString());
-                String mediaUrl = getInitQuality();
-                String[] paths = new String[]{mediaUrl};
-                setMedia(paths);
+                fetchAdvertisement(mItemEntity, AD_MODE_ONSTART);
                 break;
             case PlayerBuilder.MODE_QIYI_PLAYER:
                 // 片源为爱奇艺
@@ -215,6 +237,16 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     @Override
+    public ClipEntity.Quality getCurrentQuality() {
+        return mQuality;
+    }
+
+    @Override
+    public List<ClipEntity.Quality> getQulities() {
+        return mQualities;
+    }
+
+    @Override
     public boolean isInPlaybackState() {
         return mCurrentState != STATE_ERROR &&
                 mCurrentState != STATE_IDLE &&
@@ -250,112 +282,50 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     }
 
-    protected String getInitQuality() {
-        if (mClipEntity == null) {
-            return null;
-        }
-        if (mQuality != null) {
-            return setQuality(mQuality);
-        }
-        String[] urls = new String[8];
-        urls[0] = mClipEntity.getLow();
-        if (!TextUtils.isEmpty(urls[0])) {
-            mCurrentQuality = 0;
-            mQuality = ClipEntity.Quality.QUALITY_LOW;
-            return urls[0];
-        }
-        urls[1] = mClipEntity.getAdaptive();
-        if (!TextUtils.isEmpty(urls[1])) {
-            mCurrentQuality = 1;
-            mQuality = ClipEntity.Quality.QUALITY_ADAPTIVE;
-            return urls[1];
-        }
-        urls[2] = mClipEntity.getNormal();
-        if (!TextUtils.isEmpty(urls[2])) {
-            mCurrentQuality = 2;
-            mQuality = ClipEntity.Quality.QUALITY_NORMAL;
-            return urls[2];
-        }
-        urls[3] = mClipEntity.getMedium();
-        if (!TextUtils.isEmpty(urls[3])) {
-            mCurrentQuality = 3;
-            mQuality = ClipEntity.Quality.QUALITY_MEDIUM;
-            return urls[3];
-        }
-        urls[4] = mClipEntity.getHigh();
-        if (!TextUtils.isEmpty(urls[4])) {
-            mCurrentQuality = 4;
-            mQuality = ClipEntity.Quality.QUALITY_HIGH;
-            return urls[4];
-        }
-        urls[5] = mClipEntity.getUltra();
-        if (!TextUtils.isEmpty(urls[5])) {
-            mCurrentQuality = 5;
-            mQuality = ClipEntity.Quality.QUALITY_ULTRA;
-            return urls[5];
-        }
-        urls[6] = mClipEntity.getBlueray();
-        if (!TextUtils.isEmpty(urls[6])) {
-            mCurrentQuality = 6;
-            mQuality = ClipEntity.Quality.QUALITY_BLUERAY;
-            return urls[6];
-        }
-        urls[7] = mClipEntity.get_4k();
-        if (!TextUtils.isEmpty(urls[7])) {
-            mCurrentQuality = 7;
-            mQuality = ClipEntity.Quality.QUALITY_4K;
-            return urls[7];
-        }
-        return null;
-    }
-
-    private String setQuality(ClipEntity.Quality quality) {
-        if (mIsPlayingAdvertisement) {
-            if (VodApplication.DEBUG) {
-                Log.e(TAG, "Can't change quality when playing advertisement.");
-            }
-            return null;
-        }
+    private String getQualityUrl(ClipEntity.Quality quality) {
         String qualityUrl = null;
         switch (quality) {
             case QUALITY_LOW:
-                qualityUrl = mClipEntity.getLow();
-                mCurrentQuality = 0;
-                break;
+                return mClipEntity.getLow();
             case QUALITY_ADAPTIVE:
-                qualityUrl = mClipEntity.getAdaptive();
-                mCurrentQuality = 1;
-                break;
+                return mClipEntity.getAdaptive();
             case QUALITY_NORMAL:
-                qualityUrl = mClipEntity.getNormal();
-                mCurrentQuality = 2;
-                break;
+                return mClipEntity.getNormal();
             case QUALITY_MEDIUM:
-                qualityUrl = mClipEntity.getMedium();
-                mCurrentQuality = 3;
-                break;
+                return mClipEntity.getMedium();
             case QUALITY_HIGH:
-                qualityUrl = mClipEntity.getHigh();
-                mCurrentQuality = 4;
-                break;
+                return mClipEntity.getHigh();
             case QUALITY_ULTRA:
-                qualityUrl = mClipEntity.getUltra();
-                mCurrentQuality = 5;
-                break;
+                return mClipEntity.getUltra();
             case QUALITY_BLUERAY:
-                qualityUrl = mClipEntity.getBlueray();
-                mCurrentQuality = 6;
-                break;
+                return mClipEntity.getBlueray();
             case QUALITY_4K:
-                qualityUrl = mClipEntity.get_4k();
-                mCurrentQuality = 7;
-                break;
-        }
-        if (!TextUtils.isEmpty(qualityUrl)) {
-            mQuality = quality;
+                return mClipEntity.get_4k();
         }
         return qualityUrl;
+    }
 
+    private int getQualityIndex(ClipEntity.Quality quality) {
+        switch (quality) {
+            case QUALITY_LOW:
+                return 0;
+            case QUALITY_ADAPTIVE:
+                return 1;
+            case QUALITY_NORMAL:
+                return 2;
+            case QUALITY_MEDIUM:
+                return 3;
+            case QUALITY_HIGH:
+                return 4;
+            case QUALITY_ULTRA:
+                return 5;
+            case QUALITY_BLUERAY:
+                return 6;
+            case QUALITY_4K:
+                return 7;
+            default:
+                return -1;
+        }
     }
 
     // 日志上报相关
@@ -396,9 +366,13 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     protected void logVideoStart(int speed) {
+        int quality = -1;
+        if (mPlayerFlag.equals(PLAYER_FLAG_SMART)) {
+            quality = getQualityIndex(getCurrentQuality());
+        }
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + System.currentTimeMillis());
-        mPlayerSync.videoStart(mMedia, mCurrentQuality, sn, speed, sid, mPlayerFlag);
+        mPlayerSync.videoStart(mMedia, quality, sn, speed, sid, mPlayerFlag);
     }
 
     protected void logVideoPlayLoading(int speed, String mediaIp, String mediaUrl) {
@@ -406,31 +380,31 @@ public abstract class IsmartvPlayer implements IPlayer {
         String sid = Md5.md5(sn + System.currentTimeMillis());
         mPlayerSync.videoPlayLoad(
                 mMedia,
-                mCurrentQuality,
+                getQualityIndex(getCurrentQuality()),
                 (System.currentTimeMillis() - mPlayerOpenTime),
                 speed, mediaIp, sid, mediaUrl, mPlayerFlag);
     }
 
     protected void logVideoPlayStart(int speed, String mediaIp) {
-        mPlayerSync.videoPlayStart(mMedia, mCurrentQuality, speed, mediaIp, mPlayerFlag);
+        mPlayerSync.videoPlayStart(mMedia, getQualityIndex(getCurrentQuality()), speed, mediaIp, mPlayerFlag);
     }
 
     protected void logVideoPause(int speed) {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + System.currentTimeMillis());
-        mPlayerSync.videoPlayPause(mMedia, mCurrentQuality, speed, getCurrentPosition(), sid, mPlayerFlag);
+        mPlayerSync.videoPlayPause(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
     protected void logVideoContinue(int speed) {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + System.currentTimeMillis());
-        mPlayerSync.videoPlayContinue(mMedia, mCurrentQuality, speed, getCurrentPosition(), sid, mPlayerFlag);
+        mPlayerSync.videoPlayContinue(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
     protected void logVideoSeek(int speed) {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + System.currentTimeMillis());
-        mPlayerSync.videoPlaySeek(mMedia, mCurrentQuality, speed, getCurrentPosition(), sid, mPlayerFlag);
+        mPlayerSync.videoPlaySeek(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
     protected void logVideoSeekComplete(int speed, String mediaIp) {
@@ -438,7 +412,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         String sid = Md5.md5(sn + System.currentTimeMillis());
         mPlayerSync.videoPlaySeekBlockend(
                 mMedia,
-                mCurrentQuality,
+                getQualityIndex(getCurrentQuality()),
                 speed,
                 getCurrentPosition(),
                 (System.currentTimeMillis() - mBufferStartTime),
@@ -450,7 +424,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         String sid = Md5.md5(sn + System.currentTimeMillis());
         mPlayerSync.videoPlayBlockend(
                 mMedia,
-                mCurrentQuality,
+                getQualityIndex(getCurrentQuality()),
                 speed,
                 getCurrentPosition(),
                 mediaIp, sid, mPlayerFlag);
@@ -461,7 +435,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         String sid = Md5.md5(sn + System.currentTimeMillis());
         mPlayerSync.videoExit(
                 mMedia,
-                mCurrentQuality,
+                getQualityIndex(getCurrentQuality()),
                 speed,
                 "detail",
                 getCurrentPosition(),
@@ -476,15 +450,294 @@ public abstract class IsmartvPlayer implements IPlayer {
         mPlayerSync.videoExcept(
                 "mediaexception", code,
                 mMedia, speed, sid,
-                mCurrentQuality, getCurrentPosition(),
+                getQualityIndex(getCurrentQuality()), getCurrentPosition(),
                 mPlayerFlag);
     }
 
     protected void logVideoSwitchQuality(String mediaIp) {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + System.currentTimeMillis());
-        mPlayerSync.videoSwitchStream(mMedia, mCurrentQuality, "manual",
+        mPlayerSync.videoSwitchStream(mMedia, getQualityIndex(getCurrentQuality()), "manual",
                 null, sn, mediaIp, sid, mPlayerFlag);
+    }
+
+    protected String initSmartQuality() {
+        if (mClipEntity == null) {
+            return null;
+        }
+        String defaultQualityUrl = null;
+        mQualities = new ArrayList<>();
+        String low = mClipEntity.getLow();
+        if (!Utils.isEmptyText(low)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_LOW);
+            defaultQualityUrl = low;
+            mQuality = ClipEntity.Quality.QUALITY_LOW;
+        }
+        String adaptive = mClipEntity.getAdaptive();
+        if (!Utils.isEmptyText(adaptive)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_ADAPTIVE);
+            defaultQualityUrl = adaptive;
+            mQuality = ClipEntity.Quality.QUALITY_ADAPTIVE;
+        }
+        String normal = mClipEntity.getNormal();
+        if (!Utils.isEmptyText(normal)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_NORMAL);
+            defaultQualityUrl = normal;
+            mQuality = ClipEntity.Quality.QUALITY_NORMAL;
+        }
+        String medium = mClipEntity.getMedium();
+        if (!Utils.isEmptyText(medium)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_MEDIUM);
+            defaultQualityUrl = medium;
+            mQuality = ClipEntity.Quality.QUALITY_MEDIUM;
+        }
+        String high = mClipEntity.getHigh();
+        if (!Utils.isEmptyText(high)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_HIGH);
+            defaultQualityUrl = high;
+            mQuality = ClipEntity.Quality.QUALITY_HIGH;
+        }
+        String ultra = mClipEntity.getUltra();
+        if (!Utils.isEmptyText(ultra)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_ULTRA);
+            defaultQualityUrl = ultra;
+            mQuality = ClipEntity.Quality.QUALITY_ULTRA;
+        }
+        String blueray = mClipEntity.getBlueray();
+        if (!Utils.isEmptyText(blueray)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_BLUERAY);
+            defaultQualityUrl = blueray;
+            mQuality = ClipEntity.Quality.QUALITY_BLUERAY;
+        }
+        String _4k = mClipEntity.get_4k();
+        if (!Utils.isEmptyText(_4k)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_4K);
+            defaultQualityUrl = _4k;
+            mQuality = ClipEntity.Quality.QUALITY_4K;
+        }
+        return defaultQualityUrl;
+    }
+
+    private void fetchAdvertisement(ItemEntity itemEntity, final String adPid) {
+        if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
+            mApiGetAdSubsc.unsubscribe();
+        }
+        mApiGetAdSubsc = SkyService.ServiceManager.getService().fetchAdvertisement(getAdParam(itemEntity, adPid))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e.getClass() == OnlyWifiException.class) {
+                            if (mOnDataSourceSetListener != null) {
+                                mOnDataSourceSetListener.onFailed("Network error.");
+                            }
+                        } else {
+                            String mediaUrl = initSmartQuality();
+                            if (!Utils.isEmptyText(mediaUrl)) {
+                                String[] paths = new String[]{mediaUrl};
+                                setMedia(paths);
+                            }
+
+                            if (mOnDataSourceSetListener != null) {
+                                mOnDataSourceSetListener.onFailed("Get advertisement " + e.getMessage());
+                            }
+                        }
+                        if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
+                            mApiGetAdSubsc.unsubscribe();
+                        }
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        boolean isPlayingPauseAd = false;
+                        boolean hasAd = false;
+                        String[] paths = null;
+                        try {
+                            String result = responseBody.string();
+                            List<AdElementEntity> adElementEntityList = getAdInfo(result, adPid);
+                            if (adElementEntityList != null && !adElementEntityList.isEmpty()) {
+                                if (adPid.equals(AD_MODE_ONPAUSE)) {
+                                    // 视频暂停广告
+                                    AdImageDialog adImageDialog = new AdImageDialog(mContext, mPlayerSync,
+                                            adElementEntityList);
+                                    adImageDialog.show();
+                                    try {
+                                        adImageDialog.show();
+                                    } catch (android.view.WindowManager.BadTokenException e) {
+                                        Log.i(TAG, "Pause advertisement dialog show error.");
+                                        e.printStackTrace();
+                                    }
+                                    isPlayingPauseAd = true;
+                                } else {
+                                    paths = new String[adElementEntityList.size() + 1];
+                                    int i = 0;
+                                    for (AdElementEntity element : adElementEntityList) {
+                                        if ("video".equals(element.getMedia_type())) {
+                                            mAdvertisementTime[i] = element.getDuration();
+                                            paths[i] = element.getMedia_url();
+                                            mAdIdMap.put(paths[i], element.getMedia_id());
+                                            i++;
+                                        }
+                                    }
+                                    hasAd = true;
+                                }
+                            }
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (isPlayingPauseAd) {
+                            return;
+                        }
+                        String mediaUrl = initSmartQuality();
+                        if (!Utils.isEmptyText(mediaUrl)) {
+                            if (hasAd) {
+                                mIsPlayingAdvertisement = true;
+                                paths[paths.length - 1] = mediaUrl;
+                            } else {
+                                mIsPlayingAdvertisement = false;
+                                paths = new String[]{mediaUrl};
+                            }
+                            setMedia(paths);
+                        } else {
+                            if (mOnDataSourceSetListener != null) {
+                                mOnDataSourceSetListener.onFailed("Media address error.");
+                            }
+                        }
+
+                        if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
+                            mApiGetAdSubsc.unsubscribe();
+                        }
+                    }
+                });
+
+    }
+
+    private List<AdElementEntity> getAdInfo(String result, String adPid) throws JSONException {
+        List<AdElementEntity> adElementEntities = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(result);
+        int retcode = jsonObject.getInt("retcode");
+        if (retcode == 200) {
+            JSONObject body = jsonObject.getJSONObject("ads");
+            JSONArray arrays = body.getJSONArray(adPid);
+            for (int i = 0; i < arrays.length(); i++) {
+                JSONObject element = arrays.getJSONObject(i);
+                AdElementEntity ad = new AdElementEntity();
+                int elementRetCode = element.getInt("retcode");
+                if (elementRetCode == 200) {
+                    ad.setRetcode(elementRetCode);
+                    ad.setRetmsg(element.getString("retmsg"));
+                    ad.setTitle(element.getString("title"));
+                    ad.setDescription(element.getString("description"));
+                    ad.setMedia_url(element.getString("media_url"));
+                    ad.setMedia_id(element.getInt("media_id"));
+                    ad.setMd5(element.getString("md5"));
+                    ad.setMedia_type(element.getString("media_type"));
+                    ad.setSerial(element.getInt("serial"));
+                    ad.setStart(element.getInt("start"));
+                    ad.setEnd(element.getInt("end"));
+                    ad.setDuration(element.getInt("duration"));
+                    ad.setReport_url(element.getString("report_url"));
+                    adElementEntities.add(ad);
+                }
+            }
+            Collections.sort(adElementEntities, new Comparator<AdElementEntity>() {
+                @Override
+                public int compare(AdElementEntity lhs, AdElementEntity rhs) {
+                    return rhs.getSerial() > lhs.getSerial() ? 1 : -1;
+                }
+            });
+        }
+        return adElementEntities;
+    }
+
+    private HashMap<String, String> getAdParam(ItemEntity itemEntity, String adpid) {
+        HashMap<String, String> adParams = new HashMap<>();
+
+        StringBuffer directorsBuffer = new StringBuffer();
+        StringBuffer actorsBuffer = new StringBuffer();
+        StringBuffer genresBuffer = new StringBuffer();
+        ItemEntity.Attributes attributes = itemEntity.getAttributes();
+        if (attributes != null) {
+            String[][] directors = attributes.getDirector();
+            String[][] actors = attributes.getActor();
+            String[][] genres = attributes.getGenre();
+            if (directors != null) {
+                for (int i = 0; i < directors.length; i++) {
+                    if (i == 0)
+                        directorsBuffer.append("[");
+                    directorsBuffer.append(directors[i][1]);
+                    if (i >= 0 && i != directors.length - 1)
+                        directorsBuffer.append(",");
+                    if (i == directors.length - 1)
+                        directorsBuffer.append("]");
+                }
+            }
+            if (actors != null) {
+                for (int i = 0; i < actors.length; i++) {
+                    if (i == 0)
+                        actorsBuffer.append("[");
+                    actorsBuffer.append(actors[i][1]);
+                    if (i >= 0 && i != actors.length - 1)
+                        actorsBuffer.append(",");
+                    if (i == actors.length - 1)
+                        actorsBuffer.append("]");
+                }
+            }
+            if (genres != null) {
+                for (int i = 0; i < genres.length; i++) {
+                    if (i == 0)
+                        genresBuffer.append("[");
+                    genresBuffer.append(genres[i][1]);
+                    if (i >= 0 && i != genres.length - 1)
+                        genresBuffer.append(",");
+                    if (i == genres.length - 1)
+                        genresBuffer.append("]");
+                }
+            }
+
+        }
+        adParams.put("channel", "");
+        adParams.put("section", "");
+        adParams.put("itemid", String.valueOf(itemEntity.getItemPk()));
+        adParams.put("topic", "");
+        adParams.put("source", "");//fromPage
+        adParams.put("content_model", itemEntity.getContentModel());
+        adParams.put("director", directorsBuffer.toString());
+        adParams.put("actor", actorsBuffer.toString());
+        adParams.put("genre", genresBuffer.toString());
+        adParams.put("clipid", String.valueOf(itemEntity.getClip().getPk()));
+        adParams.put("length", itemEntity.getClip().getLength());
+        adParams.put("live_video", String.valueOf(itemEntity.getLiveVideo()));
+        String vendor = itemEntity.getVendor();
+        if (Utils.isEmptyText(vendor)) {
+            adParams.put("vendor", "");
+        } else {
+            adParams.put("vendor", Base64.encodeToString(vendor.getBytes(), Base64.URL_SAFE));
+        }
+        ItemEntity.Expense expense = itemEntity.getExpense();
+        if (expense == null) {
+            adParams.put("expense", "false");
+        } else {
+            adParams.put("expense", "true");
+        }
+        adParams.put("sn", "");
+        adParams.put("modelName", DeviceUtils.getModelName());
+        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mContext)));
+        adParams.put("province", "");
+        adParams.put("city", "");
+        adParams.put("app", "sky");
+        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
+        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
+        adParams.put("adpid", "['" + adpid + "']");
+        return adParams;
     }
 
 }

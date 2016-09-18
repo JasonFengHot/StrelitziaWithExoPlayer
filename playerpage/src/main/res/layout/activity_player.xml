@@ -79,12 +79,12 @@
                         android:layout_width="@dimen/player_qualitytext_w"
                         android:layout_height="@dimen/player_qualitytext_h"
                         android:layout_marginTop="@dimen/player_qualitytext_mt"
-                        android:background="@drawable/player_quality_back"
+                        android:background="@{tasks.qualityResource}"
                         android:ellipsize="marquee"
                         android:gravity="center"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:singleLine="true"
-                        android:text="流畅"
+                        android:text="@{tasks.quality}"
                         android:textColor="@color/color_white"
                         android:textSize="@dimen/h1_text_size" />
 
@@ -108,22 +108,20 @@
                     android:layout_centerInParent="true">
 
                     <ImageView
-                        android:id="@+id/FBImage"
                         android:layout_width="@dimen/player_icon_w"
                         android:layout_height="@dimen/player_icon_h"
                         android:clickable="true"
                         android:src="@drawable/selector_player_preview" />
 
                     <ImageView
-                        android:id="@+id/PlayPauseImage"
                         android:layout_width="@dimen/player_icon_w"
                         android:layout_height="@dimen/player_icon_h"
                         android:layout_marginLeft="@dimen/player_icon_ml"
                         android:clickable="true"
-                        android:src="@drawable/selector_player_pause" />
+                        android:onClick="@{() -> tasks.onPlayPause()}"
+                        android:src="@{tasks.getPlayPauseBackgroundRes}" />
 
                     <ImageView
-                        android:id="@+id/FFImage"
                         android:layout_width="@dimen/player_icon_w"
                         android:layout_height="@dimen/player_icon_h"
                         android:layout_marginLeft="@dimen/player_icon_ml"

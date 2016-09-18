@@ -39,6 +39,9 @@ public class IsmartvActivator {
     private static final String SIGN_FILE_NAME = "sign";
     private static final int DEFAULT_CONNECT_TIMEOUT = 2;
     private static final int DEFAULT_READ_TIMEOUT = 5;
+    // execute 方法需要放在子线程中执行
+    private static String SN_TOKEN = "me_uslkvhq2";
+    private static String DEVICE_TOKEN = "ZmZZPCQgcrhDgk2uLrTBXcq42dW1ewNUciZVBIrKmH0=";
 
     private ResultEntity mResult;
 
@@ -255,36 +258,18 @@ public class IsmartvActivator {
     }
 
     public String getDeviceToken() {
-        String deviceToken = mSharedPreferences.getString("device_token", "");
-        if (TextUtils.isEmpty(deviceToken)) {
-            ResultEntity resultEntity = execute();
-            saveAccountInfo(resultEntity);
-            return resultEntity.getDevice_token();
-        } else {
-            return deviceToken;
-        }
+//        String deviceToken = mSharedPreferences.getString("device_token", "");
+        return DEVICE_TOKEN;
     }
 
     public String getApiDomain() {
-        String apiDomain = mSharedPreferences.getString("api_domain", "");
-        if (TextUtils.isEmpty(apiDomain)) {
-            ResultEntity resultEntity = execute();
-            saveAccountInfo(resultEntity);
-            return resultEntity.getDomain();
-        } else {
-            return apiDomain;
-        }
+//        String apiDomain = mSharedPreferences.getString("api_domain", "");
+        return DEFAULT_HOST;
     }
 
     public String getLogDomain() {
         String logDomain = mSharedPreferences.getString("log_domain", "");
-        if (TextUtils.isEmpty(logDomain)) {
-            ResultEntity resultEntity = execute();
-            saveAccountInfo(resultEntity);
-            return resultEntity.getLog_Domain();
-        } else {
-            return logDomain;
-        }
+        return logDomain;
     }
 
     public String getAuthToken() {
@@ -293,14 +278,8 @@ public class IsmartvActivator {
     }
 
     public String getSnToken() {
-        String snToken = mSharedPreferences.getString("sn_token", "");
-        if (TextUtils.isEmpty(snToken)) {
-            ResultEntity resultEntity = execute();
-            saveAccountInfo(resultEntity);
-            return resultEntity.getDevice_token();
-        } else {
-            return snToken;
-        }
+//        String snToken = mSharedPreferences.getString("sn_token", "");
+        return SN_TOKEN;
 
     }
 

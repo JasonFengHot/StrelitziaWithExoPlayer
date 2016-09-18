@@ -122,6 +122,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 if (subItemPk == _subItemPk) {
                     mCurrentTeleplayIndex = i;
                     clip = subItems[i].getClip();
+                    mItemEntity.setTitle(subItems[i].getTitle());
                     break;
                 }
             }
@@ -156,7 +157,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             public void onSuccess() {
                 Log.i(TAG, "player init success.");
                 mIsmartvPlayer.prepareAsync();
-                dismissProgressDialog();
             }
 
             @Override
@@ -198,7 +198,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onPrepared() {
-        mModel.setPanelData(mItemEntity.getTitle());
+        mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
         mIsmartvPlayer.start();
 
     }
@@ -218,23 +218,37 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     public void onStarted() {
         Log.i(TAG, "clipLength:" + mIsmartvPlayer.getDuration());
         player_seekBar.setMax(mIsmartvPlayer.getDuration());
+        mModel.updatePlayerPause();
         timerStart(0);
         showPanel();
     }
 
     @Override
     public void onPaused() {
-
+        mModel.updatePlayerPause();
     }
 
     @Override
     public void onSeekComplete() {
-
+        timerStart(500);
+        showPanel();
     }
 
     @Override
     public void onCompleted() {
-
+        if (mItemEntity.getSubitems() != null && mCurrentTeleplayIndex < mItemEntity.getSubitems().length - 1) {
+            String sign = "";
+            String code = "1";
+            mCurrentTeleplayIndex++;
+            ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
+            mItemEntity.setTitle(subItem.getTitle());
+            ItemEntity.Clip clip = subItem.getClip();
+            if (clip != null) {
+                mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
+                return;
+            }
+        }
+        finish();
     }
 
     @Override
@@ -255,12 +269,20 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-
+            timerStop();
+            hidePanelHandler.removeCallbacks(hidePanelRunnable);
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-
+            if (!mItemEntity.getLiveVideo()) {
+                int seekProgress = seekBar.getProgress();
+                int maxSeek = mIsmartvPlayer.getDuration() - 3 * 1000;
+                if (seekProgress >= maxSeek) {
+                    seekProgress = maxSeek;
+                }
+                mIsmartvPlayer.seekTo(seekProgress);
+            }
         }
     };
 
