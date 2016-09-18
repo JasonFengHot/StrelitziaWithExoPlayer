@@ -41,6 +41,8 @@ public interface IPlayer {
 
     List<ClipEntity.Quality> getQulities();
 
+    void switchQuality(ClipEntity.Quality quality);
+
     /**
      * 是否处在可以播放状态
      */

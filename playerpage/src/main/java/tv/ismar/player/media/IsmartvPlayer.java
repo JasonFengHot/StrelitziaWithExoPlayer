@@ -196,44 +196,8 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     @Override
-    public void prepareAsync() {
-    }
-
-    @Override
-    public void start() {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void seekTo(int position) {
-    }
-
-    @Override
     public void release() {
         isQiyiSdkInit = false;
-    }
-
-    @Override
-    public int getCurrentPosition() {
-        return 0;
-    }
-
-    @Override
-    public int getDuration() {
-        return 0;
-    }
-
-    @Override
-    public int getAdCountDownTime() {
-        return 0;
-    }
-
-    @Override
-    public boolean isPlaying() {
-        return false;
     }
 
     @Override
@@ -280,29 +244,6 @@ public abstract class IsmartvPlayer implements IPlayer {
             mOnDataSourceSetListener.onSuccess();
         }
 
-    }
-
-    private String getQualityUrl(ClipEntity.Quality quality) {
-        String qualityUrl = null;
-        switch (quality) {
-            case QUALITY_LOW:
-                return mClipEntity.getLow();
-            case QUALITY_ADAPTIVE:
-                return mClipEntity.getAdaptive();
-            case QUALITY_NORMAL:
-                return mClipEntity.getNormal();
-            case QUALITY_MEDIUM:
-                return mClipEntity.getMedium();
-            case QUALITY_HIGH:
-                return mClipEntity.getHigh();
-            case QUALITY_ULTRA:
-                return mClipEntity.getUltra();
-            case QUALITY_BLUERAY:
-                return mClipEntity.getBlueray();
-            case QUALITY_4K:
-                return mClipEntity.get_4k();
-        }
-        return qualityUrl;
     }
 
     private int getQualityIndex(ClipEntity.Quality quality) {
@@ -378,9 +319,13 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected void logVideoPlayLoading(int speed, String mediaIp, String mediaUrl) {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + System.currentTimeMillis());
+        int quality = -1;
+        if (mPlayerFlag.equals(PLAYER_FLAG_SMART)) {
+            quality = getQualityIndex(getCurrentQuality());
+        }
         mPlayerSync.videoPlayLoad(
                 mMedia,
-                getQualityIndex(getCurrentQuality()),
+                quality,
                 (System.currentTimeMillis() - mPlayerOpenTime),
                 speed, mediaIp, sid, mediaUrl, mPlayerFlag);
     }
@@ -461,7 +406,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 null, sn, mediaIp, sid, mPlayerFlag);
     }
 
-    protected String initSmartQuality() {
+    private String initSmartQuality() {
         if (mClipEntity == null) {
             return null;
         }

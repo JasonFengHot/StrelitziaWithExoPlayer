@@ -289,7 +289,7 @@ public class QiyiPlayer extends IsmartvPlayer {
         if (isInPlaybackState()) {
             return mPlayer.getCurrentPosition();
         }
-        return super.getCurrentPosition();
+        return 0;
     }
 
     @Override
@@ -300,7 +300,7 @@ public class QiyiPlayer extends IsmartvPlayer {
             }
             return mPlayer.getDuration();
         }
-        return super.getDuration();
+        return 0;
     }
 
     @Override
@@ -313,4 +313,29 @@ public class QiyiPlayer extends IsmartvPlayer {
         return isInPlaybackState() && mPlayer.isPlaying();
     }
 
+    @Override
+    public void switchQuality(ClipEntity.Quality quality) {
+        mPlayer.switchBitStream(qualityConvertToBitStream(quality));
+    }
+
+    private BitStream qualityConvertToBitStream(ClipEntity.Quality quality) {
+        switch (quality) {
+            case QUALITY_LOW:
+            case QUALITY_ADAPTIVE:
+            case QUALITY_NORMAL:
+                return BitStream.BITSTREAM_STANDARD;
+            case QUALITY_MEDIUM:
+                return BitStream.BITSTREAM_HIGH;
+            case QUALITY_HIGH:
+                return BitStream.BITSTREAM_720P;
+            case QUALITY_ULTRA:
+                return BitStream.BITSTREAM_1080P;
+            case QUALITY_BLUERAY:
+                return BitStream.BITSTREAM_4K;
+            case QUALITY_4K:
+                return BitStream.BITSTREAM_4K;
+
+        }
+        return BitStream.BITSTREAM_STANDARD;
+    }
 }

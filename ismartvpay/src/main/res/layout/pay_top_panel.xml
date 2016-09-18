@@ -23,7 +23,7 @@
             android:maxLength="20"
             android:singleLine="true"
             android:text="归来"
-            android:textSize="@dimen/h1_text_size"/>
+            android:textSize="@dimen/h1_size"/>
 
         <TextView
             android:id="@+id/spacer"
@@ -40,7 +40,7 @@
             android:layout_marginTop="@dimen/filter_list_item_title_pb"
             android:text="@string/pay_warntitle"
             android:textColor="#fe8109"
-            android:textSize="@dimen/h3_text_size"/>
+            android:textSize="@dimen/h3_size"/>
     </RelativeLayout>
 
     <!-- top login panel -->
