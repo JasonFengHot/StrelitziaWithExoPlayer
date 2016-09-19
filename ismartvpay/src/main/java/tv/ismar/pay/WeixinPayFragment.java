@@ -58,6 +58,14 @@ public class WeixinPayFragment extends Fragment implements PaymentActivity.Qrcod
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        paymentActivity.purchaseCheck(PaymentActivity.CheckType.OrderPurchase);
+    }
+
+
+
+    @Override
     public void onBitmap(Bitmap bitmap) {
         qrcodeview.setImageBitmap(bitmap);
     }

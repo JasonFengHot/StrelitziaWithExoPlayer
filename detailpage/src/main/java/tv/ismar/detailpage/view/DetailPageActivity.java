@@ -148,6 +148,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
+        mPresenter.requestPlayCheck(String.valueOf(mItemPk), null, null);
         mModel.replaceItem(itemEntity);
     }
 

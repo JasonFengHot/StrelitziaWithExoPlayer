@@ -149,8 +149,8 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         }
 
         playCheckSubsc = mSkyService.apiPlayCheck(itemPk, null, null)
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
                     @Override
                     public void onCompleted() {
@@ -263,7 +263,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     public void handlePurchase() {
         Context context = mDetailView.getContext();
         Intent intent = new Intent();
-        intent.putExtra("pk", 709235);
+        intent.putExtra("pk", mItemEntity.getPk());
         intent.putExtra("model", "item");
 
        intent.setClass(context, PaymentActivity.class);

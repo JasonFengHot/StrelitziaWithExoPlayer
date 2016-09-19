@@ -422,6 +422,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     public void notifyPlayCheck(PlayCheckEntity playCheckEntity) {
         mRemandDay = playCheckEntity.getRemainDay();
         expireDate = playCheckEntity.getExpiry_date();
+        notifyPropertyChanged(BR.purchaseVisibility);
         notifyPropertyChanged(BR.playText);
         notifyPropertyChanged(BR.expireDate);
         notifyPropertyChanged(BR.expireDateVisibility);

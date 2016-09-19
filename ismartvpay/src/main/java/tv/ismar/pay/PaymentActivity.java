@@ -63,6 +63,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             return;
         }
 
+        if (!model.equals("package")){
+            purchaseCheck(CheckType.PlayCheck);
+        }
+
         setContentView(R.layout.activity_payment);
         weixinPayBtn = (Button) findViewById(R.id.weixin);
         aliPayBtn = (Button) findViewById(R.id.alipay);
@@ -84,6 +88,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         fetchItem(pk, model);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -131,7 +140,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    private void purchaseCheck(CheckType checkType) {
+    public void purchaseCheck(CheckType checkType) {
         if ("package".equalsIgnoreCase(model)) {
             orderCheckLoop(checkType, null, String.valueOf(pk), null);
         } else if ("subitem".equalsIgnoreCase(model)) {
@@ -141,14 +150,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private enum CheckType {
+    public enum CheckType {
         PlayCheck,
         OrderPurchase
     }
 
 
     private void orderCheckLoop(final CheckType checkType, final String item, final String pkg, final String subItem) {
-        if (mOrderCheckLoopSubscription != null) {
+        if (mOrderCheckLoopSubscription != null && !mOrderCheckLoopSubscription.isUnsubscribed()) {
             mOrderCheckLoopSubscription.unsubscribe();
         }
         mOrderCheckLoopSubscription = Observable.interval(0, 10, TimeUnit.SECONDS)
@@ -299,10 +308,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                         mItemEntity = itemEntity;
                         title.setText(itemEntity.getTitle());
                         if (TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken())) {
+                            changeLoginStatus(false);
                             FragmentTransaction transaction = getFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, loginFragment)
                                     .commit();
                         } else {
+                            changeLoginStatus(true);
                             fetchAccountBalance();
                         }
                     }
@@ -311,5 +322,33 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     public ItemEntity getmItemEntity() {
         return mItemEntity;
+    }
+
+    private void changeLoginStatus(boolean isLogin) {
+        if (isLogin) {
+            weixinPayBtn.setEnabled(true);
+            aliPayBtn.setEnabled(true);
+            cardPayBtn.setEnabled(true);
+            balancePayBtn.setEnabled(true);
+        } else {
+            weixinPayBtn.setEnabled(false);
+            aliPayBtn.setEnabled(false);
+            cardPayBtn.setEnabled(false);
+            balancePayBtn.setEnabled(false);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        if (mOrderCheckLoopSubscription != null&&!mOrderCheckLoopSubscription.isUnsubscribed()) {
+            mOrderCheckLoopSubscription.unsubscribe();
+        }
+        mOrderCheckLoopSubscription=null;
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

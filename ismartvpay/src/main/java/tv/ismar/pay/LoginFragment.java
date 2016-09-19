@@ -35,7 +35,6 @@ public class LoginFragment extends Fragment {
     private Button btn_submit;
     private EditText edit_mobile;
     private TextView count_tip;
-    private Context mcontext;
 
     private SkyService mSkyService;
 
@@ -43,11 +42,6 @@ public class LoginFragment extends Fragment {
 
     private PaymentActivity activity;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mcontext = context;
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -164,11 +158,11 @@ public class LoginFragment extends Fragment {
     }
 
     private void showLoginSuccessPopup() {
-        String msg = mcontext.getString(R.string.login_success_name);
+        String msg = activity.getString(R.string.login_success_name);
         String phoneNumber = edit_mobile.getText().toString();
-        final MessagePopWindow dialog = new MessagePopWindow(mcontext);
+        final MessagePopWindow dialog = new MessagePopWindow(activity);
         dialog.setFirstMessage(String.format(msg, phoneNumber));
-        dialog.setSecondMessage(mcontext.getString(R.string.login_success));
+        dialog.setSecondMessage(activity.getString(R.string.login_success));
         dialog.showAtLocation(contentView, Gravity.CENTER, 0, 0, new MessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
