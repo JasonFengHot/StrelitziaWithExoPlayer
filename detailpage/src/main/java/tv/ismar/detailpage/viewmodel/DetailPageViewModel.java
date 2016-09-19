@@ -114,6 +114,11 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     }
 
     @Bindable
+    public String getItemHorizontalUrl() {
+        return mItemEntity.getPosterUrl();
+    }
+
+    @Bindable
     public String getDescription() {
         return mItemEntity.getDescription();
     }

@@ -252,7 +252,7 @@
                         android:layout_gravity="right"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/img_error_horizontal"
-                        app:imageUrl="@{tasks.itemPostUrl}" />
+                        app:imageUrl="@{tasks.itemHorizontalUrl}" />
 
                     <ImageView
                         android:id="@+id/detail_right_top_corner"

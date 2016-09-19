@@ -356,12 +356,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 Button button = (Button) payTypeLayout.getChildAt(i);
                 button.setTextColor(getResources().getColor(R.color.white));
                 button.setEnabled(true);
+                button.setFocusable(true);
             }
 
         } else {
             for (int i = 0; i < payTypeLayout.getChildCount(); i++) {
                 Button button = (Button) payTypeLayout.getChildAt(i);
                 button.setTextColor(getResources().getColor(R.color.paychannel_button_disable));
+                button.setFocusable(false);
                 button.setEnabled(false);
             }
         }

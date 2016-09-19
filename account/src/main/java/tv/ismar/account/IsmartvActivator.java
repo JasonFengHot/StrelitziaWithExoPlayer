@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -86,10 +87,10 @@ public class IsmartvActivator {
 
     private IsmartvActivator() {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        manufacture = Build.BRAND;
+        manufacture = Build.BRAND.replace(" ", "_");
         kind = Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
         version = String.valueOf(getAppVersionCode());
-        deviceId = getMacAddress();
+        deviceId = getDeviceId();
         sn = Md5.md5((deviceId + Build.SERIAL).trim());
         fingerprint = Md5.md5(sn);
 
@@ -108,6 +109,16 @@ public class IsmartvActivator {
                 .build();
     }
 
+    private String getDeviceId() {
+        String deviceId = null;
+        try {
+            TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+            deviceId = tm.getDeviceId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return deviceId;
+    }
 
     public ResultEntity execute() {
         if (isSignFileExists()) {
@@ -315,7 +326,7 @@ public class IsmartvActivator {
 
     }
 
-    private void saveAccountInfo(ResultEntity resultEntity) {
+    public void saveAccountInfo(ResultEntity resultEntity) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString("device_token", resultEntity.getDevice_token());
         editor.putString("sn_token", resultEntity.getSn_Token());
@@ -345,6 +356,8 @@ public class IsmartvActivator {
         setAuthToken(authToken);
         setzUserToken(authToken);
     }
+
+
 
     public void removeUserInfo() {
         mSharedPreferences.edit().putString("auth_token", "").commit();

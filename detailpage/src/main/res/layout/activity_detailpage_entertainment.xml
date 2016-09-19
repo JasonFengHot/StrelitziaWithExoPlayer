@@ -72,7 +72,7 @@
                             android:layout_width="@dimen/entertainment_detail_preview_img_w"
                             android:layout_height="@dimen/entertainment_detail_preview_img_h"
                             android:scaleType="centerCrop"
-                            app:imageUrl="@{tasks.itemPostUrl}" />
+                            app:imageUrl="@{tasks.itemHorizontalUrl}" />
 
                         <ImageView
                             android:id="@+id/detail_right_top_corner"
