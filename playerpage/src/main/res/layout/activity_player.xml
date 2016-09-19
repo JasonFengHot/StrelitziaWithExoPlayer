@@ -35,6 +35,45 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="@dimen/player_logo_image_mt"
+            android:layout_marginTop="@dimen/player_logo_image_mt">
+
+            <ImageView
+                android:id="@+id/player_logo_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.8"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/ad_vip_btn"
+                android:layout_width="@dimen/qiyi_ad_width"
+                android:layout_height="@dimen/qiyi_ad_height"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/drawable_ad_btn"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/ad_count_text"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/qiyi_ad_height"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/ad_text_margin_left"
+                android:alpha="0.8"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/h1_size"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
         <ListView
             android:id="@+id/player_menu"
             android:layout_width="@dimen/player_menu_w"
@@ -139,8 +178,8 @@
                         android:layout_width="@dimen/player_icon_w"
                         android:layout_height="@dimen/player_icon_h"
                         android:layout_marginLeft="@dimen/player_icon_ml"
-                        android:onClick="forwardClick"
                         android:clickable="true"
+                        android:onClick="forwardClick"
                         android:src="@drawable/selector_player_next" />
                 </LinearLayout>
             </RelativeLayout>

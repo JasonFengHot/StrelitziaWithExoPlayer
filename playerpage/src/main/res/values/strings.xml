@@ -1,5 +1,6 @@
 <resources>
 
     <string name="player_teleplay">剧集</string>
+    <string name="player_exit">你是否确定退出播放器</string>
 
 </resources>

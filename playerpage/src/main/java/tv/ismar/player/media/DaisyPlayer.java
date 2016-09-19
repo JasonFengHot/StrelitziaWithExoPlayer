@@ -84,11 +84,12 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
                     mIsPlayingAdvertisement = false;
                     if (mOnStateChangedListener != null) {
                         mOnStateChangedListener.onAdEnd();
+                        mOnStateChangedListener.onStarted();
                     }
                     logAdExit(getMediaIp(s), mAdIdMap.get(s));
                 }
             }
-            if (mOnStateChangedListener != null) {
+            if (mAdIdMap.isEmpty() && mOnStateChangedListener != null) {
                 mOnStateChangedListener.onCompleted();
             }
         }
@@ -206,7 +207,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             }
             mCurrentState = STATE_PLAYING;
 
-            if (mOnStateChangedListener != null) {
+            if (!mIsPlayingAdvertisement && mOnStateChangedListener != null) {
                 mOnStateChangedListener.onStarted();
             }
         }
