@@ -1,7 +1,6 @@
 package tv.ismar.app.network;
 
 import android.net.Uri;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,24 +17,16 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.internal.operators.OnSubscribeCombineLatest;
-import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.network.entity.ActiveEntity;
-import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.DpiEntity;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -59,6 +50,14 @@ public interface SkyService {
     Observable<ItemEntity> apiItem(
             @Path("pk") String pk
     );
+
+    @GET("api/{opt}/{pk}/")
+    Observable<ItemEntity> apiOptItem(
+            @Path("pk") String pk,
+            @Path("opt") String opt
+
+    );
+
 
     @FormUrlEncoded
     @POST("api/bookmarks/create/")
@@ -275,7 +274,7 @@ public interface SkyService {
             }.start();
 
             try {
-                latch.await();
+                latch.await(3, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

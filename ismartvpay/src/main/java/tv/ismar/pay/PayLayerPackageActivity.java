@@ -22,6 +22,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PlayCheckManager;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
@@ -166,18 +167,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent();
-//                    String url = SimpleRestClient.root_url + "/api/item/" + itemList.getItem_id() + "/";
-//                    intent.putExtra("url", url);
-//                    String contentMode = itemList.getContent_model();
-//                    if ("movie".equals(contentMode)) {
-//                        intent.setAction("tv.ismar.daisy.PFileItem");
-//                    } else if ("package".equals(contentMode)) {
-//                        intent.setAction("tv.ismar.daisy.packageitem");
-//                    } else {
-//                        intent.setAction("tv.ismar.daisy.Item");
-//                    }
-//                    startActivity(intent);
+                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, itemList.getContent_model(),itemList.getItem_id());
                 }
             });
             if (listLayoutItemNextFocusUpIsSelf == true) {
@@ -223,27 +213,11 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     }
 
     private void buyVideo(int pk, String type, float price) {
-//        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
-//            @Override
-//            public void payResult(boolean result) {
-//                if (result) {
-//                    Intent data = new Intent();
-//                    data.putExtra("result", true);
-//                    setResult(20, data);
-//                    finish();
-//                }
-//            }
-//        });
-//        Item mItem = new Item();
-//        mItem.pk = pk;
-//        Expense expense = new Expense();
-//        expense.price = price;
-//        mItem.expense = expense;
-//        mItem.model_name = type;
-//        mItem.title = entity.getTitle();
-//        mItem.expense.duration = Integer.parseInt(entity.getDuration());
-//        dialog.setItem(mItem);
-//        dialog.show();
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.pay.payment");
+        intent.putExtra(PageIntent.EXTRA_PK, pk);
+        intent.putExtra("model", "package");
+        startActivity(intent);
     }
 
     public void buyPackage() {

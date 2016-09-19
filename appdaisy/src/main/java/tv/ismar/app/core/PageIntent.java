@@ -17,7 +17,24 @@ public class PageIntent implements PageIntentInterface {
     }
 
     @Override
-    public void toPayment() {
-
+    public void toPayment(Context context, String pk, String jumpTo, String cpid, String model) {
+        Intent intent = new Intent();
+        switch (jumpTo) {
+            case "1":
+                intent.setAction("tv.ismar.pay.payment");
+                intent.putExtra(EXTRA_PK, pk);
+                intent.putExtra("model", model);
+                break;
+            case "0":
+                intent.setAction("tv.ismar.pay.pay");
+                intent.putExtra("item_id", pk);
+                break;
+            case "2":
+                intent.setAction("tv.ismar.pay.payvip");
+                intent.putExtra("cpid", cpid);
+                intent.putExtra("item_id", pk);
+                break;
+        }
+        context.startActivity(intent);
     }
 }

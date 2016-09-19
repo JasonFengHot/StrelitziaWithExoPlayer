@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +27,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 
@@ -42,6 +46,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private Button aliPayBtn;
     private Button cardPayBtn;
     private Button balancePayBtn;
+    private ViewGroup payTypeLayout;
 
     private Subscription mOrderCheckLoopSubscription;
 
@@ -56,16 +61,21 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        model = intent.getStringExtra("model");
-        pk = intent.getIntExtra("pk", 0);
 
-        if (TextUtils.isEmpty(model) || pk == 0) {
-            return;
+
+        String itemJson = intent.getStringExtra(PageIntent.EXTRA_ITEM_JSON);
+        if (!TextUtils.isEmpty(itemJson)) {
+            mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+            model = mItemEntity.getContentModel();
+            pk = mItemEntity.getPk();
+                purchaseCheck(CheckType.PlayCheck);
+
+        } else {
+            model = intent.getStringExtra("model");
+            pk = intent.getIntExtra("pk", 0);
+            fetchItem(pk, model);
         }
 
-        if (!model.equals("package")){
-            purchaseCheck(CheckType.PlayCheck);
-        }
 
         setContentView(R.layout.activity_payment);
         weixinPayBtn = (Button) findViewById(R.id.weixin);
@@ -73,6 +83,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         cardPayBtn = (Button) findViewById(R.id.videocard);
         balancePayBtn = (Button) findViewById(R.id.balance_pay);
         title = (TextView) findViewById(R.id.payment_title);
+        payTypeLayout = (ViewGroup) findViewById(R.id.pay_type_layout);
 
         weixinPayBtn.setOnClickListener(this);
         aliPayBtn.setOnClickListener(this);
@@ -85,7 +96,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         cardpayFragment = new CardPayFragment();
         balanceFragment = new BalancePayFragment();
 
-        fetchItem(pk, model);
+
     }
 
     @Override
@@ -141,6 +152,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
 
     public void purchaseCheck(CheckType checkType) {
+        if (mItemEntity.isRepeat_buy()&&checkType==CheckType.PlayCheck){
+            return;
+        }
+
         if ("package".equalsIgnoreCase(model)) {
             orderCheckLoop(checkType, null, String.valueOf(pk), null);
         } else if ("subitem".equalsIgnoreCase(model)) {
@@ -289,7 +304,17 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void fetchItem(int pk, String model) {
-        mSkyService.apiItem(String.valueOf(pk))
+        String opt = null;
+        switch (model) {
+            case "item":
+                opt = "item";
+                break;
+            case "package":
+                opt = "package";
+                break;
+        }
+
+        mSkyService.apiOptItem(String.valueOf(pk), opt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ItemEntity>() {
@@ -307,6 +332,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     public void onNext(ItemEntity itemEntity) {
                         mItemEntity = itemEntity;
                         title.setText(itemEntity.getTitle());
+                        purchaseCheck(CheckType.PlayCheck);
                         if (TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken())) {
                             changeLoginStatus(false);
                             FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -326,24 +352,27 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     private void changeLoginStatus(boolean isLogin) {
         if (isLogin) {
-            weixinPayBtn.setEnabled(true);
-            aliPayBtn.setEnabled(true);
-            cardPayBtn.setEnabled(true);
-            balancePayBtn.setEnabled(true);
+            for (int i = 0; i < payTypeLayout.getChildCount(); i++) {
+                Button button = (Button) payTypeLayout.getChildAt(i);
+                button.setTextColor(getResources().getColor(R.color.white));
+                button.setEnabled(true);
+            }
+
         } else {
-            weixinPayBtn.setEnabled(false);
-            aliPayBtn.setEnabled(false);
-            cardPayBtn.setEnabled(false);
-            balancePayBtn.setEnabled(false);
+            for (int i = 0; i < payTypeLayout.getChildCount(); i++) {
+                Button button = (Button) payTypeLayout.getChildAt(i);
+                button.setTextColor(getResources().getColor(R.color.paychannel_button_disable));
+                button.setEnabled(false);
+            }
         }
     }
 
     @Override
     protected void onStop() {
-        if (mOrderCheckLoopSubscription != null&&!mOrderCheckLoopSubscription.isUnsubscribed()) {
+        if (mOrderCheckLoopSubscription != null && !mOrderCheckLoopSubscription.isUnsubscribed()) {
             mOrderCheckLoopSubscription.unsubscribe();
         }
-        mOrderCheckLoopSubscription=null;
+        mOrderCheckLoopSubscription = null;
         super.onStop();
     }
 

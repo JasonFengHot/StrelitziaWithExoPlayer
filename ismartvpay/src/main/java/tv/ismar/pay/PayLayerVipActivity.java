@@ -22,6 +22,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
 
 /**
@@ -169,26 +170,10 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
     }
 
     private void buyVideo(int pk, String type, float price, int duration, String title) {
-//        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
-//            @Override
-//            public void payResult(boolean result) {
-//                if (result) {
-//                    Intent data = new Intent();
-//                    data.putExtra("result", true);
-//                    setResult(20, data);
-//                    finish();
-//                }
-//            }
-//        });
-//        Item mItem = new Item();
-//        mItem.pk = pk;
-//        mItem.title = title;
-//        Expense expense = new Expense();
-//        expense.price = price;
-//        expense.duration = duration;
-//        mItem.expense = expense;
-//        mItem.model_name = type;
-//        dialog.setItem(mItem);
-//        dialog.show();
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.pay.payment");
+        intent.putExtra(PageIntent.EXTRA_PK, pk);
+        intent.putExtra("model", "package");
+        startActivity(intent);
     }
 }

@@ -59,7 +59,15 @@ public class ItemEntity {
     private String list_url;
     private String item_url;
     private Expense expense;
+    private boolean repeat_buy;
 
+    public boolean isRepeat_buy() {
+        return repeat_buy;
+    }
+
+    public void setRepeat_buy(boolean repeat_buy) {
+        this.repeat_buy = repeat_buy;
+    }
 
     public Expense getExpense() {
         return expense;

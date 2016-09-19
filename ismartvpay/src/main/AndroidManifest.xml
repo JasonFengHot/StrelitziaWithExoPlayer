@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tv.ismar.pay">
+          package="tv.ismar.pay">
 
     <application
         android:allowBackup="true"
@@ -7,8 +7,51 @@
         android:supportsRtl="true">
         <activity
             android:name=".PaymentActivity"
-            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/ActivityDialog">
+            <intent-filter>
+                <action android:name="tv.ismar.pay.payment"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".PayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/IsmartvAppTheme.Fullscreen"
+
+        >
+            <intent-filter>
+                <action android:name="tv.ismar.pay.pay"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".PayLayerVipActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/IsmartvAppTheme.Fullscreen"
+        >
+            <intent-filter>
+                <action android:name="tv.ismar.pay.payvip"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".PayLayerPackageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/IsmartvAppTheme.Fullscreen"
+        >
+            <intent-filter>
+                <action android:name="tv.ismar.pay.paypackage"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
 
     </application>

@@ -1,7 +1,5 @@
 package tv.ismar.detailpage.presenter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -16,6 +14,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -23,7 +22,6 @@ import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
-import tv.ismar.pay.PaymentActivity;
 
 /**
  * Created by huibin on 8/19/16.
@@ -54,7 +52,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void start() {
-        mSkyService = ((BaseActivity)mDetailView.getContext()).mSkyService;
+        mSkyService = ((BaseActivity) mDetailView.getContext()).mSkyService;
     }
 
     @Override
@@ -261,12 +259,9 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void handlePurchase() {
-        Context context = mDetailView.getContext();
-        Intent intent = new Intent();
-        intent.putExtra("pk", mItemEntity.getPk());
-        intent.putExtra("model", "item");
-
-       intent.setClass(context, PaymentActivity.class);
-        context.startActivity(intent);
+        String pk = String.valueOf(mItemEntity.getPk());
+        String jumpTo = String.valueOf(mItemEntity.getExpense().getJump_to());
+        String cpid = String.valueOf(mItemEntity.getExpense().getCpid());
+        new PageIntent().toPayment(mDetailView.getContext(), pk, jumpTo, cpid, "item");
     }
 }

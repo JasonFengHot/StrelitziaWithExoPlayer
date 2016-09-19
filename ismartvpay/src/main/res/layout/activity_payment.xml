@@ -37,6 +37,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/pay_type_layout"
             android:layout_width="@dimen/paytype_width"
             android:layout_height="wrap_content"
             android:gravity="center"
