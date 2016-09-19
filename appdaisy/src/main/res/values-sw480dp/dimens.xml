@@ -17,5 +17,7 @@
     <dimen name="header_fragment_btn_width">53.33dp</dimen>
 
     <dimen name="label_image_padding">7.33dp</dimen>
+    <dimen name="loading_size">29.33dp</dimen>
+    <dimen name="loading_text_mt">6.66dp</dimen>
 
 </resources>

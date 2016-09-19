@@ -120,10 +120,9 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST
+    @POST("api/get/ad/")
     Observable<ResponseBody> fetchAdvertisement(
-            @Url String adUrl,
-            @FieldMap HashMap<String, String> paramsMap
+            @FieldMap HashMap<String, Object> paramsMap
     );
 
     @FormUrlEncoded
@@ -251,7 +250,6 @@ public interface SkyService {
         private static final int DEFAULT_READ_TIMEOUT = 15;
         private SkyService mSkyService;
         private SkyService adSkyService;
-
 
 
         private ServiceManager() {

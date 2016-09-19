@@ -2,19 +2,19 @@ package tv.ismar.app.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import tv.ismar.app.R;
 
-public class LoadingDialog extends Dialog {
-    private final RotateAnimation rotate;
+public class LoadingDialog extends Dialog implements DialogInterface.OnDismissListener {
     private Context mContext;
     private TextView tipTextView;
-    private ImageView img2;
+    private ImageView dialog_back_img;
+    private AnimationDrawable animationDrawable;
 
     public LoadingDialog(Context context, int theme) {
         super(context, theme);
@@ -23,19 +23,19 @@ public class LoadingDialog extends Dialog {
         setCanceledOnTouchOutside(false);
         setCancelable(true);
         tipTextView = (TextView) findViewById(R.id.tipTextView);// 提示文字
-        img2 = (ImageView) findViewById(R.id.dialog_back_img2);
-        // 加载动画
-        rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(2000);
-        rotate.setRepeatCount(-1);
+
+        dialog_back_img = (ImageView) findViewById(R.id.dialog_back_img);
+        dialog_back_img.setBackgroundResource(R.drawable.loading);
+        animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
+        setOnDismissListener(this);
     }
 
     public void showDialog() {
         if (!this.isShowing()) {
-            if (rotate != null) {
-                img2.startAnimation(rotate);
-            }
             show();
+            if (animationDrawable != null && !animationDrawable.isRunning()) {
+                animationDrawable.start();
+            }
         }
     }
 
@@ -55,4 +55,10 @@ public class LoadingDialog extends Dialog {
         tipTextView.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if (animationDrawable != null && animationDrawable.isRunning()) {
+            animationDrawable.stop();
+        }
+    }
 }

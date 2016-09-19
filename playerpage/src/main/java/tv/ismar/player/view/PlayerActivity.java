@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -46,6 +48,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener {
 
     private final String TAG = "LH/PlayerActivity";
+    static final int MSG_SEK_ACTION = 103;
 
     private int itemPK = 0;
     private int subItemPk = 0;
@@ -64,6 +67,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private boolean isShowSubMenu = false;
     private int groupMenuIndex = -1;
     private MenuAdapter mAdapter;
+    private static final int SHORT_STEP = 1000;
+    private boolean isSeeking = false;
 
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
@@ -75,7 +80,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private Animation slideInRight;
     private Animation slideOutRight;
     private boolean mIsPlayingAd;
-    private String[] keys = new String[]{"画面质量", "剧集"};
+    private String[] keys = new String[]{"画面质量", "剧集", "客服中心", "从头播放"};
     private Map<String, List<String>> menuMaps = new HashMap<>();
     private List<String> menuDatas = new ArrayList<>();
     private GestureDetector mGestureDetector;
@@ -222,7 +227,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onBufferStart() {
-        showProgressDialog("视频加载中...");
+        showProgressDialog(null);
 
     }
 
@@ -282,8 +287,10 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onSeekComplete() {
-        timerStart(500);
+        Log.i(TAG, "onSeekComplete");
+        timerStart(1000);
         showPanel();
+        isSeeking = false;
     }
 
     @Override
@@ -333,6 +340,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 if (seekProgress >= maxSeek) {
                     seekProgress = maxSeek;
                 }
+                isSeeking = true;
                 mIsmartvPlayer.seekTo(seekProgress);
             }
         }
@@ -359,7 +367,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     private Runnable timerRunnable = new Runnable() {
         public void run() {
-            if (!mItemEntity.getLiveVideo() && mIsmartvPlayer.isPlaying()) {
+            if (!mItemEntity.getLiveVideo() && mIsmartvPlayer.isPlaying() && !isSeeking) {
                 int currentPosition = mIsmartvPlayer.getCurrentPosition();
                 player_seekBar.setProgress(currentPosition);
             }
@@ -376,6 +384,80 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             hidePanelHandler.removeCallbacks(hidePanelRunnable);
         }
     };
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_SEK_ACTION:
+                    isSeeking = true;
+                    mIsmartvPlayer.seekTo(mediaHistoryPosition);
+                    offsets = 0;
+                    offn = 1;
+                    Log.d(TAG, "MSG_SEK_ACTION seek to " + mediaHistoryPosition);
+                    break;
+            }
+        }
+    };
+
+    private int offsets = 0; // 进度条变化
+    private int offn = 1;
+
+    private void fastForward(int step) {
+        int clipLength = mIsmartvPlayer.getDuration();
+        if (mediaHistoryPosition > clipLength) {
+            player_seekBar.setProgress(clipLength - 3000);
+            return;
+        }
+        if (clipLength > 1000000) {
+            if (offsets != 1 && offsets % 5 != 0) {
+                offsets += step;
+            } else {
+                if (offsets > 0) {
+                    offn = offsets / 5;
+                }
+            }
+            if (offn < 11) {
+                mediaHistoryPosition += clipLength * offn * 0.01;
+            } else {
+                mediaHistoryPosition += clipLength * 0.1;
+            }
+        } else {
+            Log.i(TAG, "clipLength  <= 1000000");
+            mediaHistoryPosition += 10000;
+        }
+
+        if (mediaHistoryPosition > clipLength) {
+            mediaHistoryPosition = clipLength - 3000;
+        }
+        player_seekBar.setProgress(mediaHistoryPosition);
+    }
+
+    private void fastBackward(int step) {
+        int clipLength = mIsmartvPlayer.getDuration();
+        if (mediaHistoryPosition < 0) {
+            player_seekBar.setProgress(0);
+            return;
+        }
+        if (clipLength > 1000000) {
+            if (offsets != 1 && offsets % 5 != 0) {
+                offsets += step;
+            } else {
+                if (offsets > 0) {
+                    offn = offsets / 5;
+                }
+            }
+            if (offn < 11) {
+                mediaHistoryPosition -= clipLength * offn * 0.01;
+            } else {
+                mediaHistoryPosition -= clipLength * 0.1;
+            }
+        } else {
+            mediaHistoryPosition -= 10000;
+        }
+        if (mediaHistoryPosition < 0)
+            mediaHistoryPosition = 0;
+        player_seekBar.setProgress(mediaHistoryPosition);
+    }
 
     private void showPanel() {
         if (panel_layout == null || mIsmartvPlayer == null) {
@@ -402,6 +484,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     }
 
     private void toggleMenuVisiblity() {
+        if (player_menu == null || mIsmartvPlayer == null) {
+            return;
+        }
+        if (mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState())
+            return;
         if (player_menu.getVisibility() == View.VISIBLE) {
             player_menu.startAnimation(slideOutRight);
             player_menu.setVisibility(View.GONE);
@@ -419,9 +506,36 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         }
     }
 
+    public void previousClick(View view) {
+        if (!mItemEntity.getLiveVideo()) {
+            timerStop();
+            showPanel();
+            hidePanelHandler.removeCallbacks(hidePanelRunnable);
+            fastBackward(SHORT_STEP);
+            if (mHandler.hasMessages(MSG_SEK_ACTION))
+                mHandler.removeMessages(MSG_SEK_ACTION);
+            mHandler.sendEmptyMessageDelayed(MSG_SEK_ACTION, 1000);
+        }
+    }
+
+    public void forwardClick(View view) {
+        if (!mItemEntity.getLiveVideo()) {
+            timerStop();
+            showPanel();
+            hidePanelHandler.removeCallbacks(hidePanelRunnable);
+            fastForward(SHORT_STEP);
+            if (mHandler.hasMessages(MSG_SEK_ACTION))
+                mHandler.removeMessages(MSG_SEK_ACTION);
+            mHandler.sendEmptyMessageDelayed(MSG_SEK_ACTION, 1000);
+        }
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.i("LH/", "onKeyDown:" + keyCode);
+        if (mItemEntity == null || mIsmartvPlayer == null) {
+            return true;
+        }
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
                 toggleMenuVisiblity();
@@ -468,6 +582,15 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     mIsmartvPlayer.pause();
                     showPanel();
                 }
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT
+                    || keyCode == KeyEvent.KEYCODE_MEDIA_REWIND) {
+                previousClick(null);
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+                    || keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD
+                    || keyCode == KeyEvent.KEYCODE_FORWARD) {
+                forwardClick(null);
                 return true;
             } else {
                 toggleMenuVisiblity();
@@ -552,6 +675,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 menuMaps.put(keys[1], teles);
             }
 
+            menuMaps.put(keys[2], null);
+            if (!mItemEntity.getLiveVideo()) {
+                menuMaps.put(keys[3], null);
+            }
+
             mAdapter = new MenuAdapter();
             player_menu.setAdapter(mAdapter);
         }
@@ -562,8 +690,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             return;
         }
         menuDatas.clear();
-        for (Map.Entry<String, List<String>> entry : menuMaps.entrySet()) {
-            menuDatas.add(entry.getKey());
+
+        for (String key : keys) {
+            if (menuMaps.containsKey(key)) {
+                menuDatas.add(key);
+            }
         }
         mAdapter.notifyDataSetChanged();
         player_menu.setSelection(0);
@@ -680,9 +811,27 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                         break;
                 }
             } else {
-                // 显示子菜单
                 groupMenuIndex = position;
-                setSubMenuData(position);
+                Log.i(TAG, "groupIndex:" + groupMenuIndex);
+                switch (groupMenuIndex) {
+                    case 0:
+                    case 1:
+                        // 显示子菜单
+                        setSubMenuData(position);
+                        break;
+                    case 2:
+                        // TODO
+                        break;
+                    case 3:
+                        timerStop();
+                        showPanel();
+                        hidePanelHandler.removeCallbacks(hidePanelRunnable);
+                        player_seekBar.setProgress(0);
+                        mediaHistoryPosition = 0;
+                        isSeeking = true;
+                        mIsmartvPlayer.seekTo(0);
+                        break;
+                }
             }
         }
     };

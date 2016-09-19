@@ -124,6 +124,7 @@
                         android:layout_width="@dimen/player_icon_w"
                         android:layout_height="@dimen/player_icon_h"
                         android:clickable="true"
+                        android:onClick="previousClick"
                         android:src="@drawable/selector_player_preview" />
 
                     <ImageView
@@ -138,6 +139,7 @@
                         android:layout_width="@dimen/player_icon_w"
                         android:layout_height="@dimen/player_icon_h"
                         android:layout_marginLeft="@dimen/player_icon_ml"
+                        android:onClick="forwardClick"
                         android:clickable="true"
                         android:src="@drawable/selector_player_next" />
                 </LinearLayout>

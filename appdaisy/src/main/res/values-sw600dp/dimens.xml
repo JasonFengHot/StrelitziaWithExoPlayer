@@ -16,5 +16,7 @@
     <dimen name="header_fragment_divider_h">2.77dp</dimen>
 
     <dimen name="label_image_padding">9.16dp</dimen>
+    <dimen name="loading_size">36.66dp</dimen>
+    <dimen name="loading_text_mt">8.33dp</dimen>
 
 </resources>
