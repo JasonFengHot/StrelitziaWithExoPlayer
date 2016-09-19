@@ -250,6 +250,9 @@ public interface SkyService {
         private static final int DEFAULT_CONNECT_TIMEOUT = 6;
         private static final int DEFAULT_READ_TIMEOUT = 15;
         private SkyService mSkyService;
+        private SkyService adSkyService;
+
+
 
         private ServiceManager() {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -263,11 +266,12 @@ public interface SkyService {
                     .build();
 
             final CountDownLatch latch = new CountDownLatch(1);
-            final String[] domain = new String[1];
+            final String[] domain = new String[2];
             new Thread() {
                 @Override
                 public void run() {
                     domain[0] = IsmartvActivator.getInstance().getApiDomain();
+                    domain[1] = IsmartvActivator.getInstance().getAdDomain();
                     latch.countDown();
                 }
             }.start();
@@ -285,6 +289,15 @@ public interface SkyService {
                     .client(mClient)
                     .build();
             mSkyService = retrofit.create(SkyService.class);
+
+            Retrofit adRetrofit = new Retrofit.Builder()
+                    .baseUrl(appendProtocol(domain[1]))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(mClient)
+                    .build();
+            adSkyService = adRetrofit.create(SkyService.class);
+
         }
 
 
@@ -310,6 +323,14 @@ public interface SkyService {
             return serviceManager.mSkyService;
         }
 
+        public static SkyService getAdService() {
+            synchronized (ServiceManager.class) {
+                if (serviceManager == null) {
+                    serviceManager = new ServiceManager();
+                }
+            }
+            return serviceManager.adSkyService;
+        }
     }
 
 }
