@@ -20,5 +20,10 @@
     <dimen name="player_menu_padding_tb">35.55dp</dimen>
     <dimen name="player_menu_padding_l">8.88dp</dimen>
     <dimen name="player_menu_item_h">26.66dp</dimen>
+    <dimen name="player_logo_image_mt">7.11dp</dimen>
+
+    <dimen name="qiyi_ad_width">77.11dp</dimen>
+    <dimen name="qiyi_ad_height">16dp</dimen>
+    <dimen name="ad_text_margin_left">4.22dp</dimen>
 
 </resources>

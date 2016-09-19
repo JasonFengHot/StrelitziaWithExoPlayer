@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,11 +20,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +40,7 @@ import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Utils;
+import tv.ismar.app.widget.MessagePopWindow;
 import tv.ismar.player.PlayerPageContract;
 import tv.ismar.player.R;
 import tv.ismar.player.databinding.ActivityPlayerBinding;
@@ -48,7 +54,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener {
 
     private final String TAG = "LH/PlayerActivity";
-    static final int MSG_SEK_ACTION = 103;
+    private static final int MSG_SEK_ACTION = 103;
+    private static final int MSG_AD_COUNTDOWN = 104;
 
     private int itemPK = 0;
     private int subItemPk = 0;
@@ -69,6 +76,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private MenuAdapter mAdapter;
     private static final int SHORT_STEP = 1000;
     private boolean isSeeking = false;
+    private ImageView player_logo_image;
+    private ImageView ad_vip_btn;
+    private TextView ad_count_text;
 
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
@@ -118,6 +128,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
         player_menu = findView(R.id.player_menu);
         player_menu.setOnItemClickListener(onItemClickListener);
+        player_logo_image = findView(R.id.player_logo_image);
+        ad_vip_btn = findView(R.id.ad_vip_btn);
+        ad_count_text = findView(R.id.ad_count_text);
 
         panelShowAnimation = AnimationUtils.loadAnimation(this,
                 R.anim.fly_up);
@@ -260,17 +273,48 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     @Override
     public void onAdStart() {
         mIsPlayingAd = true;
+        switch (mIsmartvPlayer.getPlayerMode()) {
+            case PlayerBuilder.MODE_SMART_PLAYER:
+                ad_vip_btn.setVisibility(View.GONE);
+                ad_count_text.setVisibility(View.VISIBLE);
+                break;
+            case PlayerBuilder.MODE_QIYI_PLAYER:
+                ad_vip_btn.setVisibility(View.VISIBLE);
+                ad_count_text.setVisibility(View.VISIBLE);
+                ad_vip_btn.setFocusable(true);
+                ad_vip_btn.requestFocus();
+                break;
+        }
+        mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
     }
 
     @Override
     public void onAdEnd() {
         mIsPlayingAd = false;
+        ad_vip_btn.setVisibility(View.GONE);
+        ad_count_text.setVisibility(View.GONE);
+        mHandler.removeMessages(MSG_AD_COUNTDOWN);
     }
 
     // 奇艺播放器在onPrepared时无法获取到影片时长
     @Override
     public void onStarted() {
-        Log.i(TAG, "clipLength:" + mIsmartvPlayer.getDuration());
+        String logo = mItemEntity.getLogo();
+        Log.i(TAG, "clipLength:" + mIsmartvPlayer.getDuration() + " logo:" + logo);
+        if (!Utils.isEmptyText(logo) && mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+            Picasso.with(this).load(logo).into(player_logo_image, new Callback() {
+                @Override
+                public void onSuccess() {
+                    player_logo_image.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onError() {
+                }
+            });
+
+        }
         player_seekBar.setMax(mIsmartvPlayer.getDuration());
         mModel.updatePlayerPause();
         timerStart(0);
@@ -394,6 +438,19 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     offsets = 0;
                     offn = 1;
                     Log.d(TAG, "MSG_SEK_ACTION seek to " + mediaHistoryPosition);
+                    break;
+                case MSG_AD_COUNTDOWN:
+                    int countDownTime = mIsmartvPlayer.getAdCountDownTime() / 1000;
+                    String time = String.valueOf(countDownTime);
+                    if (countDownTime < 10) {
+                        time = "0" + time;
+                    }
+                    if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                        ad_count_text.setText("广告倒计时" + time);
+                    } else {
+                        ad_count_text.setText("" + time);
+                    }
+                    sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, 1000);
                     break;
             }
         }
@@ -592,6 +649,20 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     || keyCode == KeyEvent.KEYCODE_FORWARD) {
                 forwardClick(null);
                 return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER
+                    || keyCode == KeyEvent.KEYCODE_ENTER
+                    || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
+                if (mIsmartvPlayer.getDuration() > 0 && !mIsPlayingAd) {
+                    showPanel();
+                    if (mIsmartvPlayer.isPlaying()) {
+                        mIsmartvPlayer.pause();
+                    } else {
+                        mIsmartvPlayer.start();
+                    }
+                    return true;
+                }
+            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP) {
+                finish();
             } else {
                 toggleMenuVisiblity();
             }
@@ -811,18 +882,24 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                         break;
                 }
             } else {
-                groupMenuIndex = position;
-                Log.i(TAG, "groupIndex:" + groupMenuIndex);
+                String menu = menuDatas.get(position);
+                for (int i = 0; i < keys.length; i++) {
+                    if (menu.equals(keys[i])) {
+                        groupMenuIndex = i;
+                        break;
+                    }
+                }
                 switch (groupMenuIndex) {
                     case 0:
                     case 1:
                         // 显示子菜单
-                        setSubMenuData(position);
+                        setSubMenuData(groupMenuIndex);
                         break;
                     case 2:
                         // TODO
                         break;
                     case 3:
+                        hideMenu();
                         timerStop();
                         showPanel();
                         hidePanelHandler.removeCallbacks(hidePanelRunnable);
@@ -835,5 +912,21 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             }
         }
     };
+
+//    private void showExitPopup() {
+//        final MessagePopWindow dialog = new MessagePopWindow(this);
+//        dialog.setFirstMessage(getString(R.string.player_exit));
+//        dialog.showAtLocation(contentView, Gravity.CENTER, 0, 0, new MessagePopWindow.ConfirmListener() {
+//                    @Override
+//                    public void confirmClick(View view) {
+//                    }
+//                },
+//                new MessagePopWindow.CancelListener() {
+//                    @Override
+//                    public void cancelClick(View view) {
+//
+//                    }
+//                });
+//    }
 
 }

@@ -59,7 +59,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     public static final int STATE_COMPLETED = 5;
     public static final int STATE_BUFFERING = 6;
     protected int mCurrentState = STATE_IDLE;
-    protected static byte mPlayerMode;
+    protected byte mPlayerMode;
 
     protected Activity mContext;
     protected ItemEntity mItemEntity;
@@ -88,6 +88,10 @@ public abstract class IsmartvPlayer implements IPlayer {
     public IsmartvPlayer(byte mode) {
         mPlayerMode = mode;
         mPlayerSync = new PlayerSync();
+    }
+
+    public byte getPlayerMode() {
+        return mPlayerMode;
     }
 
     public void setContext(Activity context) {
