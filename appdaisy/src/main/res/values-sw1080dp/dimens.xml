@@ -17,6 +17,8 @@
     <dimen name="header_fragment_btn_width">120dp</dimen>
 
     <dimen name="label_image_padding">16.5dp</dimen>
+    <dimen name="loading_size">66dp</dimen>
+    <dimen name="loading_text_mt">15dp</dimen>
 
     <!-- message popwindow -->
     <dimen name="pop_double_line_height">351dp</dimen>

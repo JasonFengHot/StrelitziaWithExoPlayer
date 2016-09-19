@@ -463,16 +463,12 @@ public abstract class IsmartvPlayer implements IPlayer {
         return defaultQualityUrl;
     }
 
-    private void fetchAdvertisement(ItemEntity itemEntity, final String adPid) {
+    private void fetchAdvertisement(final ItemEntity itemEntity, final String adPid) {
         if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
             mApiGetAdSubsc.unsubscribe();
         }
-        SkyService skyService = SkyService.ServiceManager.getService();
-        String adDomain = IsmartvActivator.getInstance().getAdDomain();
-        if (!adDomain.endsWith("/")) {
-            adDomain += "/";
-        }
-        mApiGetAdSubsc = skyService.fetchAdvertisement(adDomain + "api/get/ad/", getAdParam(itemEntity, adPid))
+        SkyService skyService = SkyService.ServiceManager.getAdService();
+        mApiGetAdSubsc = skyService.fetchAdvertisement(getAdParam(itemEntity, adPid))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -495,9 +491,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                                 setMedia(paths);
                             }
 
-                            if (mOnDataSourceSetListener != null) {
-                                mOnDataSourceSetListener.onFailed("Get advertisement " + e.getMessage());
-                            }
+                            Log.e(TAG, "Get advertisement " + e.getMessage());
                         }
                         if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
                             mApiGetAdSubsc.unsubscribe();
@@ -608,8 +602,17 @@ public abstract class IsmartvPlayer implements IPlayer {
         return adElementEntities;
     }
 
-    private HashMap<String, String> getAdParam(ItemEntity itemEntity, String adpid) {
-        HashMap<String, String> adParams = new HashMap<>();
+    private HashMap<String, Object> getAdParam(ItemEntity itemEntity, String adpid) {
+        HashMap<String, Object> adParams = new HashMap<>();
+        adParams.put("adpid", "['" + adpid + "']");
+        adParams.put("sn", IsmartvActivator.getInstance().getSnToken());
+        adParams.put("modelName", DeviceUtils.getModelName());
+        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mContext)));
+        adParams.put("province", "SH");
+        adParams.put("city", "SH");
+        adParams.put("app", "sky");
+        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
+        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
 
         StringBuffer directorsBuffer = new StringBuffer();
         StringBuffer actorsBuffer = new StringBuffer();
@@ -623,7 +626,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 for (int i = 0; i < directors.length; i++) {
                     if (i == 0)
                         directorsBuffer.append("[");
-                    directorsBuffer.append(directors[i][1]);
+                    directorsBuffer.append(directors[i][0]);
                     if (i >= 0 && i != directors.length - 1)
                         directorsBuffer.append(",");
                     if (i == directors.length - 1)
@@ -634,7 +637,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 for (int i = 0; i < actors.length; i++) {
                     if (i == 0)
                         actorsBuffer.append("[");
-                    actorsBuffer.append(actors[i][1]);
+                    actorsBuffer.append(actors[i][0]);
                     if (i >= 0 && i != actors.length - 1)
                         actorsBuffer.append(",");
                     if (i == actors.length - 1)
@@ -645,7 +648,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 for (int i = 0; i < genres.length; i++) {
                     if (i == 0)
                         genresBuffer.append("[");
-                    genresBuffer.append(genres[i][1]);
+                    genresBuffer.append(genres[i][0]);
                     if (i >= 0 && i != genres.length - 1)
                         genresBuffer.append(",");
                     if (i == genres.length - 1)
@@ -656,16 +659,16 @@ public abstract class IsmartvPlayer implements IPlayer {
         }
         adParams.put("channel", "");
         adParams.put("section", "");
-        adParams.put("itemid", String.valueOf(itemEntity.getItemPk()));
+        adParams.put("itemid", itemEntity.getItemPk());
         adParams.put("topic", "");
-        adParams.put("source", "");//fromPage
+        adParams.put("source", "list");//fromPage
         adParams.put("content_model", itemEntity.getContentModel());
         adParams.put("director", directorsBuffer.toString());
         adParams.put("actor", actorsBuffer.toString());
         adParams.put("genre", genresBuffer.toString());
-        adParams.put("clipid", String.valueOf(itemEntity.getClip().getPk()));
-        adParams.put("length", itemEntity.getClip().getLength());
-        adParams.put("live_video", String.valueOf(itemEntity.getLiveVideo()));
+        adParams.put("clipid", itemEntity.getClip().getPk());
+        adParams.put("length", Integer.valueOf(itemEntity.getClip().getLength()));
+        adParams.put("live_video", itemEntity.getLiveVideo());
         String vendor = itemEntity.getVendor();
         if (Utils.isEmptyText(vendor)) {
             adParams.put("vendor", "");
@@ -674,19 +677,10 @@ public abstract class IsmartvPlayer implements IPlayer {
         }
         ItemEntity.Expense expense = itemEntity.getExpense();
         if (expense == null) {
-            adParams.put("expense", "false");
+            adParams.put("expense", false);
         } else {
-            adParams.put("expense", "true");
+            adParams.put("expense", true);
         }
-        adParams.put("sn", "");
-        adParams.put("modelName", DeviceUtils.getModelName());
-        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mContext)));
-        adParams.put("province", "");
-        adParams.put("city", "");
-        adParams.put("app", "sky");
-        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
-        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
-        adParams.put("adpid", "['" + adpid + "']");
         return adParams;
     }
 
