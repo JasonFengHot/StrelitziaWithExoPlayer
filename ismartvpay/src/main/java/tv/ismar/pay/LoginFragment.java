@@ -2,11 +2,11 @@ package tv.ismar.pay;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,9 +17,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.ResponseBody;
+import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
@@ -41,6 +46,8 @@ public class LoginFragment extends Fragment {
     private View contentView;
 
     private PaymentActivity activity;
+
+    private   Subscription countDownSubscription;
 
 
     @Override
@@ -199,6 +206,7 @@ public class LoginFragment extends Fragment {
     };
 
     private void fetchVerificationCode() {
+        edit_mobile.setText("15370770697");
         String username = edit_mobile.getText().toString();
         if ("".equals(edit_mobile.getText().toString())) {
             setcount_tipText("请输入手机号");
@@ -209,13 +217,7 @@ public class LoginFragment extends Fragment {
             setcount_tipText("不是手机号码");
             return;
         }
-//        timeCount = new IsmartCountTimer(identifyCodeBtn, R.drawable.person_btn_selector, R.drawable.btn_disabled_bg);
-//        timeCount.start();
-        count_tip.setVisibility(View.VISIBLE);
-        edit_identifycode.requestFocus();
-        count_tip.setText("60秒后可再次点击获取验证码       ");
-        count_tip.setTextColor(Color.WHITE);
-        count_tip.setVisibility(View.VISIBLE);
+
 
 
         mSkyService.accountsAuth(username)
@@ -237,6 +239,11 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void onNext(ResponseBody responseBody) {
+                        timeCountDown();
+                        count_tip.setText("60秒后可再次点击获取验证码       ");
+                        count_tip.setTextColor(Color.WHITE);
+                        count_tip.setVisibility(View.VISIBLE);
+                        edit_identifycode.requestFocus();
                         count_tip.setText("获取验证码成功，请提交!       ");
                         count_tip.setTextColor(Color.WHITE);
                         count_tip.setVisibility(View.VISIBLE);
@@ -280,6 +287,47 @@ public class LoginFragment extends Fragment {
                         String username = edit_mobile.getText().toString();
                         IsmartvActivator.getInstance().saveUserInfo(username, entity.getAuth_token(), entity.getZuser_token());
                         showLoginSuccessPopup();
+                    }
+                });
+    }
+
+    private void timeCountDown() {
+        final int count = 60;
+        if (countDownSubscription!= null && !countDownSubscription.isUnsubscribed()){
+            countDownSubscription.isUnsubscribed();
+        }
+
+        countDownSubscription= Observable.interval(0, 1, TimeUnit.SECONDS, Schedulers.io())
+                .map(new Func1<Long, Integer>() {
+                    @Override
+                    public Integer call(Long time) {
+                        Log.i("time count down: ", "thread: " + Thread.currentThread().getName());
+                        return count - time.intValue();
+                    }
+                })
+                .take(60)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        identifyCodeBtn.setText("获取验证码");
+                        identifyCodeBtn.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        if (integer == 1){
+                            identifyCodeBtn.setText("获取验证码");
+                            identifyCodeBtn.setEnabled(true);
+                        }else {
+                            identifyCodeBtn.setEnabled(false);
+                            identifyCodeBtn.setText(integer + " s");
+                        }
                     }
                 });
     }
