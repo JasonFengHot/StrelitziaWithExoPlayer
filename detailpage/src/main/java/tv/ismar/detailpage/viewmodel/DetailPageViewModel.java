@@ -55,6 +55,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         mItemEntity = itemEntity;
         itemTitle.set(itemEntity.getTitle());
         notifyPropertyChanged(BR.itemPostUrl);
+        notifyPropertyChanged(BR.itemHorizontalUrl);
         notifyPropertyChanged(BR.description);
         notifyPropertyChanged(BR.purchaseVisibility);
         notifyPropertyChanged(BR.director);
