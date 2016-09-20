@@ -1,5 +1,6 @@
 package tv.ismar.detailpage.presenter;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -38,6 +39,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     private ItemEntity mItemEntity = new ItemEntity();
     private String mContentModel;
+    private ItemEntity[] relatedItemList;
 
 
     public DetailPagePresenter(DetailPageContract.View detailView, String contentModel) {
@@ -172,6 +174,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                 });
     }
 
+
     private PlayCheckEntity calculateRemainDay(String info) {
         PlayCheckEntity playCheckEntity;
         switch (info) {
@@ -214,6 +217,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
                     @Override
                     public void onNext(ItemEntity[] itemEntities) {
+                        relatedItemList = itemEntities;
                         mDetailView.loadItemRelate(itemEntities);
                     }
                 });
@@ -257,11 +261,24 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     }
 
+
     @Override
     public void handlePurchase() {
         String pk = String.valueOf(mItemEntity.getPk());
         String jumpTo = String.valueOf(mItemEntity.getExpense().getJump_to());
         String cpid = String.valueOf(mItemEntity.getExpense().getCpid());
         new PageIntent().toPayment(mDetailView.getContext(), pk, jumpTo, cpid, "item");
+    }
+
+
+    @Override
+    public void handleMoreRelate() {
+        Intent intent = new Intent();
+        if (relatedItemList != null && relatedItemList.length > 0) {
+            intent.putExtra("related_item_json", new Gson().toJson(relatedItemList));
+        }
+        intent.putExtra("item_json", new Gson().toJson(mItemEntity));
+        intent.setAction("tv.ismar.daisy.relateditem");
+        mDetailView.getContext().startActivity(intent);
     }
 }

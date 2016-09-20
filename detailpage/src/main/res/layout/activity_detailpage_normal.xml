@@ -590,6 +590,7 @@
                     android:background="@drawable/s_button_color"
                     android:gravity="center"
                     android:text="@string/more"
+                    android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:textColor="@color/color_white"
                     android:textSize="@dimen/h1_size" />
 
