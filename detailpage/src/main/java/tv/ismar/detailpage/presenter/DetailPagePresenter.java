@@ -281,4 +281,12 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         intent.setAction("tv.ismar.daisy.relateditem");
         mDetailView.getContext().startActivity(intent);
     }
+
+    @Override
+    public void handleEpisode() {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.dramalist");
+        intent.putExtra("item_json", new Gson().toJson(mItemEntity));
+        mDetailView.getContext().startActivity(intent);
+    }
 }

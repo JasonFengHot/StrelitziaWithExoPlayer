@@ -41,5 +41,7 @@ public interface DetailPageContract {
         void requestPlayCheck(String itemPk, String deviceToken, String accessToken);
 
         void handleMoreRelate();
+
+        void handleEpisode();
     }
 }

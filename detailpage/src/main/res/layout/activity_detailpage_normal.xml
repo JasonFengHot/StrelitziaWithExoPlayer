@@ -304,6 +304,7 @@
 
                     <Button
                         android:id="@+id/detail_btn_drama"
+                        android:onClick="@{() -> actionHandler.handleEpisode()}"
                         android:layout_width="@dimen/normal_detail_button3_w"
                         android:layout_height="@dimen/normal_detail_button_h"
                         android:layout_marginLeft="@dimen/normal_detail_button_space"
