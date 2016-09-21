@@ -2,6 +2,7 @@ package tv.ismar.player.view;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -88,6 +89,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     // 菜单焦点态相关
     private int onHoveredPosition = -1;
     private View lastSelectMenu;
+    // loading UI 由于需求改为当前Activity浮层
+    private LinearLayout player_loading;
+    private ImageView dialog_back_img;
+    private TextView tipTextView;
+    private AnimationDrawable animationDrawable;
 
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
@@ -139,6 +145,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         player_logo_image = findView(R.id.player_logo_image);
         ad_vip_btn = findView(R.id.ad_vip_btn);
         ad_count_text = findView(R.id.ad_count_text);
+        player_loading = findView(R.id.player_loading);
+        dialog_back_img = findView(R.id.dialog_back_img);
+        dialog_back_img.setBackgroundResource(R.drawable.loading);
+        animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
+        tipTextView = findView(R.id.tipTextView);
         surfaceView.setOnHoverListener(onHoverListener);
         surfaceView.setOnClickListener(onClickListener);
         player_container.setOnHoverListener(onHoverListener);
@@ -155,7 +166,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
         mPresenter.start();
         mPresenter.fetchItem(itemId);
-        showProgressDialog(null);
+        showBuffer(null);
 
         mGestureDetector = new GestureDetector(this, onGestureListener);
 
@@ -238,7 +249,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             public void onSuccess() {
                 Log.i(TAG, "player init success.");
                 if (mediaHistoryPosition > 0) {
-                    showProgressDialog(HISTORYCONTINUE + getTimeString(mediaHistoryPosition));
+                    showBuffer(HISTORYCONTINUE + getTimeString(mediaHistoryPosition));
                 }
                 mIsmartvPlayer.prepareAsync();
             }
@@ -258,7 +269,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private void initPlayerData(byte playerMode) {
         menuMaps.clear();
         isInit = false;
-        showProgressDialog(PlAYSTART + mItemEntity.getTitle());
+        showBuffer(PlAYSTART + mItemEntity.getTitle());
     }
 
     @Override
@@ -277,16 +288,20 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     @Override
     public void onBufferStart() {
         Log.i(TAG, "onBufferStart");
-        timerStop();
-        showProgressDialog(null);
+        if (!isSeeking) {
+            timerStop();
+            showBuffer(null);
+        }
 
     }
 
     @Override
     public void onBufferEnd() {
         Log.i(TAG, "onBufferEnd");
-        timerStart(500);
-        dismissProgressDialog();
+        if (!isSeeking || mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
+            timerStart(500);
+            hideBuffer();
+        }
 
     }
 
@@ -340,6 +355,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     // 奇艺播放器在onPrepared时无法获取到影片时长
     @Override
     public void onStarted() {
+        Log.i(TAG, "onStarted");
         if (!isInit) {
             String logo = mItemEntity.getLogo();
             Log.i(TAG, "clipLength:" + mIsmartvPlayer.getDuration() + " logo:" + logo);
@@ -366,7 +382,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             timerStart(0);
         }
         showPannelDelayOut();
-        Log.i(TAG, "onStarted");
 
     }
 
@@ -380,16 +395,16 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     public void onSeekComplete() {
         Log.i(TAG, "onSeekComplete");
         if (isSeeking) {
-            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dismissProgressDialog();
-                    }
-                }, 500);
-            } else {
-                dismissProgressDialog();
-            }
+//            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        dismissProgressDialog();
+//                    }
+//                }, 500);
+//            } else {
+//                dismissProgressDialog();
+//            }
             timerStart(500);
             if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.start();
@@ -452,7 +467,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 return;
             }
             isSeeking = true;
-            showProgressDialog(null);
+            showBuffer(null);
             int seekProgress = seekBar.getProgress();
             int maxSeek = mIsmartvPlayer.getDuration() - 3 * 1000;
             if (seekProgress >= maxSeek) {
@@ -491,10 +506,19 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 mTimerHandler.postDelayed(timerRunnable, 500);
                 return;
             }
-            mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
+            int mediaPosition = mIsmartvPlayer.getCurrentPosition();
+            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                if (mCurrentPosition == mediaPosition) {
+                    mTimerHandler.postDelayed(timerRunnable, 500);
+                    return;
+                }
+                if (isBufferShow()) {
+                    hideBuffer();
+                }
+            }
+            mCurrentPosition = mediaPosition;
             player_seekBar.setProgress(mCurrentPosition);
             mTimerHandler.postDelayed(timerRunnable, 500);
-
         }
     };
 
@@ -509,7 +533,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     offn = 1;
                     if (isFastFBClick) {
                         isFastFBClick = false;
-                        showProgressDialog(null);
+                        showBuffer(null);
                     }
                     break;
                 case MSG_AD_COUNTDOWN:
@@ -631,7 +655,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private void toggleMenuVisibility() {
         if (player_menu == null || mIsmartvPlayer == null || isPopWindowShow() || isPanelShow()
                 || mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState()
-                || isProgressDialogShow()) {
+                || isBufferShow()) {
             return;
         }
         if (player_menu.getVisibility() == View.VISIBLE) {
@@ -705,10 +729,10 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         if (mItemEntity == null || mIsmartvPlayer == null) {
             return true;
         }
-        if (mIsPlayingAd) {
-            finish();
-            return true;
-        }
+//        if (mIsPlayingAd) {
+//            if(keyCode == KeyEvent.KEYCODE_BACK){}
+//            return true;
+//        }
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
                 hidePanel();
@@ -725,9 +749,12 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     }
                     return true;
                 }
-                if (!isPopWindowShow()) {
+                if (!isPopWindowShow() && mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState() && !mIsPlayingAd) {
                     showExitPopup();
                     return true;
+                }
+                if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+                    mHandler.removeMessages(MSG_AD_COUNTDOWN);
                 }
                 finish();
                 return true;
@@ -802,7 +829,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
                 case KeyEvent.KEYCODE_FORWARD:
                 case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                    showProgressDialog(null);
+                    showBuffer(null);
                     mHandler.sendEmptyMessageDelayed(MSG_SEK_ACTION, 1000);
                     return true;
             }
@@ -812,7 +839,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (isProgressDialogShow()) {
+        if (isBufferShow()) {
             return true;
         }
         return mGestureDetector.onTouchEvent(event);
@@ -973,18 +1000,17 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     }
                     break;
             }
-            if (lastSelectMenu != null) {
-                lastSelectMenu.setBackgroundResource(R.color.color_focus);
-            }
             convertView.setOnHoverListener(new View.OnHoverListener() {
                 @Override
                 public boolean onHover(View v, MotionEvent event) {
+                    Log.i(TAG, "onHover:" + event.getAction());
                     if (v == null) {
                         return false;
                     }
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_HOVER_ENTER:
                         case MotionEvent.ACTION_HOVER_MOVE:
+                            isKeyDown = false;
                             if (lastSelectMenu != null) {
                                 lastSelectMenu.setBackgroundResource(android.R.color.transparent);
                             }
@@ -993,6 +1019,10 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                             onHoveredPosition = (int) v.getTag(R.id.adapter_menu_text);
                             break;
                         case MotionEvent.ACTION_HOVER_EXIT:
+                            if (isKeyDown) {
+                                onHoveredPosition = -1;
+                                return false;
+                            }
                             if (lastSelectMenu != null) {
                                 lastSelectMenu.setBackgroundResource(android.R.color.transparent);
                             }
@@ -1006,36 +1036,23 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         }
     }
 
+    private boolean isKeyDown = false;
+
     private View.OnKeyListener onItemKeyListener = new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                    if (onHoveredPosition >= 0 && player_menu.getCount() > 2) {
-                        int selection = -1;
-                        if (onHoveredPosition == (player_menu.getCount() - 1)) {
-                            selection = player_menu.getCount() - 1;
-                        } else {
-                            selection = onHoveredPosition + 1;
-                        }
-                        player_menu.setSelection(selection);
-                        lastSelectMenu = player_menu.getChildAt(selection);
-                        mAdapter.notifyDataSetChanged();
-                        onHoveredPosition = -1;
-                    }
-                } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                    if (onHoveredPosition >= 0 && player_menu.getCount() > 2) {
-                        int selection = -1;
-                        if (onHoveredPosition == 0) {
-                            selection = 0;
-                        } else {
-                            selection = onHoveredPosition - 1;
-                        }
-                        player_menu.setSelection(selection);
-                        lastSelectMenu = player_menu.getChildAt(selection);
-                        mAdapter.notifyDataSetChanged();
-                        onHoveredPosition = -1;
-                    }
+                isKeyDown = true;
+                if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && onHoveredPosition >= 0
+                        && player_menu.getCount() > 2) {
+                    mAdapter.notifyDataSetChanged();
+                    player_menu.setSelection(onHoveredPosition);
+                    onHoveredPosition = -1;
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP && onHoveredPosition >= 0
+                        && player_menu.getCount() > 2) {
+                    mAdapter.notifyDataSetChanged();
+                    player_menu.setSelection(onHoveredPosition);
+                    onHoveredPosition = -1;
                 }
             }
             return false;
@@ -1045,11 +1062,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (view != null)
-                view.setBackgroundResource(R.color.color_focus);
+            Log.i(TAG, "onItemSelected:" + view.getTag(R.id.adapter_menu_text) + " position:" + position);
             if (lastSelectMenu != null) {
                 lastSelectMenu.setBackgroundResource(android.R.color.transparent);
             }
+            view.setBackgroundResource(R.color.color_focus);
             lastSelectMenu = view;
         }
 
@@ -1082,7 +1099,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                             if (clip != null) {
                                 mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
                             }
-                            showProgressDialog(null);
+                            showBuffer(null);
                         }
                         break;
                     case 1:
@@ -1095,7 +1112,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                                 mIsmartvPlayer.switchQuality(quality);
                                 if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                                     timerStop();
-                                    showProgressDialog(null);
+                                    showBuffer(null);
                                 }
                                 mModel.updateQuality();
                                 hideMenu();
@@ -1200,7 +1217,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         public void onClick(View v) {
             if (mIsmartvPlayer == null || isPopWindowShow() ||
                     mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState()
-                    || isProgressDialogShow()) {
+                    || isBufferShow()) {
                 return;
             }
             if (mIsmartvPlayer.isPlaying()) {
@@ -1219,6 +1236,35 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         left %= 60000;
         int sec = left / 1000;
         return String.format("%1$02d:%2$02d:%3$02d", hour, min, sec);
+    }
+
+    private void showBuffer(String msg) {
+        if (player_loading.getVisibility() != View.VISIBLE) {
+            if (msg != null) {
+                tipTextView.setText(msg);
+            }
+            player_loading.setVisibility(View.VISIBLE);
+            if (animationDrawable != null && !animationDrawable.isRunning()) {
+                animationDrawable.start();
+            }
+        }
+    }
+
+    private void hideBuffer() {
+        if (player_loading.getVisibility() == View.VISIBLE) {
+            player_loading.setVisibility(View.GONE);
+            tipTextView.setText(getString(R.string.loading_text));
+            if (animationDrawable != null && animationDrawable.isRunning()) {
+                animationDrawable.stop();
+            }
+        }
+    }
+
+    public boolean isBufferShow() {
+        if (player_loading != null && player_loading.getVisibility() == View.VISIBLE) {
+            return true;
+        }
+        return false;
     }
 
 }

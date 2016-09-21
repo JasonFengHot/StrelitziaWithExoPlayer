@@ -107,9 +107,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/player_controller_padding_bottom"
                 android:layout_marginLeft="@dimen/player_controller_margin_lr"
-                android:layout_marginRight="@dimen/player_controller_margin_lr">
+                android:layout_marginRight="@dimen/player_controller_margin_lr"
+                android:paddingBottom="@dimen/player_controller_padding_bottom">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -180,6 +180,31 @@
                         android:src="@drawable/selector_player_next" />
                 </LinearLayout>
             </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/player_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/dialog_back_img"
+                android:layout_width="@dimen/loading_size"
+                android:layout_height="@dimen/loading_size"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:id="@+id/tipTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/loading_text_mt"
+                android:text="@string/loading_text"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/h1_size" />
+
         </LinearLayout>
 
     </FrameLayout>

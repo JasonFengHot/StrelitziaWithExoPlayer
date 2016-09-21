@@ -22,7 +22,7 @@
 
     <!-- pop-->
     <dimen name="pop_btn_width">80dp</dimen>
-    <dimen name="pop_btn_height">24dp</dimen>
+    <dimen name="pop_btn_height">26.66dp</dimen>
     <dimen name="pop_width">389.77dp</dimen>
     <dimen name="pop_height">135.55dp</dimen>
     <dimen name="pop_double_line_height">156dp</dimen>
@@ -31,7 +31,8 @@
     <dimen name="pop_first_text_margin_top">21.77dp</dimen>
     <dimen name="pop_second_text_margin_top">15.55dp</dimen>
     <dimen name="pop_btn_margin_bottom">24dp</dimen>
-    <dimen name="pop_btn_margin_lr">54.66dp</dimen>
+    <dimen name="pop_btn_margin_lr">13.33dp</dimen>
     <dimen name="pop_text_layout_height">48.88dp</dimen>
+    <dimen name="pop_button_mt">35.55dp</dimen>
 
 </resources>

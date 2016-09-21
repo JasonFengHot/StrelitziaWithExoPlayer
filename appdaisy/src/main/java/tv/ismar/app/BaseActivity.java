@@ -32,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    public void showProgressDialog(String msg) {
+    public void showDialog(String msg) {
         if (mLoadingDialog == null) {
             mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         }
@@ -42,14 +42,14 @@ public class BaseActivity extends AppCompatActivity {
         mLoadingDialog.showDialog();
     }
 
-    public void dismissProgressDialog() {
+    public void dismissDialog() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
             mLoadingDialog.setTvText(getString(R.string.loading_text));
         }
     }
 
-    public boolean isProgressDialogShow() {
+    public boolean isDialogShow() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             return true;
         }
