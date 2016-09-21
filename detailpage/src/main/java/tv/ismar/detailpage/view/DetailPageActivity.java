@@ -27,8 +27,11 @@ import tv.ismar.app.widget.LabelImageView;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentBinding;
+import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentSharpBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageMovieBinding;
+import tv.ismar.detailpage.databinding.ActivityDetailpageMovieSharpBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageNormalBinding;
+import tv.ismar.detailpage.databinding.ActivityDetailpageNormalSharpBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 
@@ -44,9 +47,9 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private DetailPageViewModel mModel;
     private DetailPageContract.Presenter mPresenter;
 
-    private ActivityDetailpageMovieBinding mMovieBinding;
-    private ActivityDetailpageEntertainmentBinding mEntertainmentBinding;
-    private ActivityDetailpageNormalBinding mNormalBinding;
+    private ActivityDetailpageMovieSharpBinding mMovieBinding;
+    private ActivityDetailpageEntertainmentSharpBinding mEntertainmentBinding;
+    private ActivityDetailpageNormalSharpBinding mNormalBinding;
     private  DetailPagePresenter mDetailPagePresenter;
     private String content_model;
 
@@ -80,20 +83,20 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
             relViews = 4;
             mHeadTitle = "娱乐综艺";
-            mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment);
+            mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment_sharp);
             mEntertainmentBinding.setTasks(mModel);
             mEntertainmentBinding.setActionHandler(mPresenter);
         } else if ("movie".equals(content_model)) {
             relViews = 6;
             mHeadTitle = "电影";
-            mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie);
+            mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie_sharp);
             mMovieBinding.setTasks(mModel);
             mMovieBinding.setActionHandler(mPresenter);
         } else {
             relViews = 4;
             relFocusTextViews = new TextView[relViews];
             mHeadTitle = "电视剧";
-            mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal);
+            mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal_sharp);
             mNormalBinding.setTasks(mModel);
             mNormalBinding.setActionHandler(mPresenter);
         }

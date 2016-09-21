@@ -1,9 +1,12 @@
 <resources>
 
+    <dimen name="text_size_36sp">36dp</dimen>
+    <dimen name="text_size_24sp">24dp</dimen>
+
     <dimen name="h0_size">48dp</dimen>
-    <dimen name="h1_size">36.75dp</dimen>
-    <dimen name="h2_size">27.75dp</dimen>
-    <dimen name="h3_size">23.25dp</dimen>
+    <dimen name="h1_size">48dp</dimen>
+    <dimen name="h2_size">36dp</dimen>
+    <dimen name="h3_size">30dp</dimen>
     <dimen name="h4_size">18.75dp</dimen>
     <dimen name="h5_size">14.25dp</dimen>
 

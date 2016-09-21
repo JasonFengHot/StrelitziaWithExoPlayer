@@ -1,23 +1,39 @@
 <resources>
 
-    <dimen name="h0_size">32dp</dimen>
-    <dimen name="h1_size">24.5dp</dimen>
-    <dimen name="h2_size">18.5dp</dimen>
-    <dimen name="h3_size">15.5dp</dimen>
-    <dimen name="h4_size">12.5dp</dimen>
-    <dimen name="h5_size">9.5dp</dimen>
+<dimen name="text_size_36sp">24.00dp</dimen>
 
-    <!-- 头部高度 -->
-    <dimen name="header_fragment_h">67dp</dimen>
-    <dimen name="header_fragment_padding_lr">49dp</dimen>
-    <dimen name="header_fragment_padding_bottom">21.5dp</dimen>
-    <dimen name="header_fragment_divider_mr">26.5dp</dimen>
-    <dimen name="header_fragment_divider_w">33.33dp</dimen>
-    <dimen name="header_fragment_divider_h">3.33dp</dimen>
-    <dimen name="header_fragment_btn_width">70dp</dimen>
+<dimen name="h0_size">32.00dp</dimen>
+<dimen name="h1_size">32.00dp</dimen>
+<dimen name="h2_size">24.00dp</dimen>
+<dimen name="h3_size">20.00dp</dimen>
+<dimen name="h4_size">12.50dp</dimen>
+<dimen name="h5_size">9.50dp</dimen>
 
-    <dimen name="label_image_padding">11dp</dimen>
-    <dimen name="loading_size">44dp</dimen>
-    <dimen name="loading_text_mt">10dp</dimen>
+<!-- 头部高度 -->
+<dimen name="header_fragment_h">67.00dp</dimen>
+<dimen name="header_fragment_padding_lr">49.00dp</dimen>
+<dimen name="header_fragment_padding_bottom">21.50dp</dimen>
+<dimen name="header_fragment_divider_mr">26.50dp</dimen>
+<dimen name="header_fragment_divider_w">33.33dp</dimen>
+<dimen name="header_fragment_divider_h">3.33dp</dimen>
+<dimen name="header_fragment_btn_width">80.00dp</dimen>
+
+<dimen name="label_image_padding">11.00dp</dimen>
+<dimen name="loading_size">44.00dp</dimen>
+<dimen name="loading_text_mt">10.00dp</dimen>
+
+<!-- message popwindow -->
+<dimen name="pop_double_line_height">234.00dp</dimen>
+<dimen name="pop_width">584.67dp</dimen>
+<dimen name="pop_height">203.33dp</dimen>
+
+<dimen name="pop_btn_height">36.00dp</dimen>
+<dimen name="pop_text_width">460.67dp</dimen>
+<dimen name="pop_btn_margin_lr">82.00dp</dimen>
+<dimen name="pop_first_text_margin_top">32.67dp</dimen>
+<dimen name="pop_second_text_margin_top">23.33dp</dimen>
+<dimen name="pop_text_layout_height">73.33dp</dimen>
+<dimen name="pop_btn_margin_bottom">36.00dp</dimen>
+<dimen name="pop_btn_width">120.00dp</dimen>
 
 </resources>
