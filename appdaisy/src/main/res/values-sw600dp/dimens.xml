@@ -1,6 +1,8 @@
 <resources>
-
+<dimen name="text_size_48sp">26.67dp</dimen>
 <dimen name="text_size_36sp">20.00dp</dimen>
+<dimen name="text_size_24sp">13.33dp</dimen>
+<dimen name="text_size_60sp">33.33dp</dimen>
 
 <dimen name="h0_size">26.67dp</dimen>
 <dimen name="h1_size">26.67dp</dimen>
@@ -35,5 +37,6 @@
 <dimen name="pop_text_layout_height">61.11dp</dimen>
 <dimen name="pop_btn_margin_bottom">30.00dp</dimen>
 <dimen name="pop_btn_width">100.00dp</dimen>
+<dimen name="head_title_margin_left">22.22dp</dimen>
 
 </resources>

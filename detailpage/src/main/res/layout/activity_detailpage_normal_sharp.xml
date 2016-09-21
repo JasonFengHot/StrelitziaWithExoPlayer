@@ -40,7 +40,8 @@
             android:orientation="horizontal"
             android:paddingLeft="@dimen/normal_detail_content_padding_lr"
             android:paddingRight="@dimen/normal_detail_content_padding_lr"
-            android:paddingTop="@dimen/normal_detail_content_padding_t">
+            android:paddingTop="@dimen/item_title_padding_top"
+        >
 
             <RelativeLayout
                 android:layout_width="@dimen/normal_detail_content_w"
@@ -60,7 +61,7 @@
                         android:singleLine="true"
                         android:text="@{tasks.itemTitle}"
                         android:textColor="@color/color_white"
-                        android:textSize="@dimen/h1_size" />
+                        android:textSize="@dimen/text_size_60sp" />
 
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
@@ -241,6 +242,7 @@
                 </LinearLayout>
 
                 <FrameLayout
+                    android:layout_marginTop="@dimen/preview_margin_top"
                     android:layout_width="@dimen/detailpage_normal_corner_w"
                     android:layout_height="@dimen/normal_detail_preview_img_h"
                     android:layout_alignParentRight="true">
@@ -327,19 +329,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/detail_page_introduction"
-                        android:textColor="@color/color_white"
-                        android:textSize="@dimen/h3_size" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:lineSpacingExtra="@dimen/detail_text_mt3"
-                        android:maxLines="3"
+                        android:maxLines="4"
                         android:text="@{tasks.description}"
                         android:textColor="@color/color_white"
-                        android:textSize="@dimen/h3_size" />
+                        android:textSize="@dimen/text_size_36sp" />
 
                 </LinearLayout>
 
