@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import tv.ismar.app.R;
 
-
 /**
  * Created by huaijie on 9/24/15.
  */
@@ -21,6 +20,7 @@ public class MessagePopWindow extends PopupWindow implements View.OnClickListene
     private TextView secondMessage;
     private ConfirmListener confirmListener;
     private CancelListener cancleListener;
+    public boolean isConfirmClick = false;
 
     private Context mContext;
 
@@ -47,25 +47,25 @@ public class MessagePopWindow extends PopupWindow implements View.OnClickListene
         confirmBtn.setOnClickListener(this);
         cancelBtn.setOnClickListener(this);
         confirmBtn.setOnHoverListener(new View.OnHoverListener() {
-			
-			@Override
-			public boolean onHover(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_HOVER_ENTER || event.getAction() == MotionEvent.ACTION_HOVER_MOVE){
-					v.requestFocus();
-				}
-				return false;
-			}
-		});
+
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+                    v.requestFocus();
+                }
+                return false;
+            }
+        });
         cancelBtn.setOnHoverListener(new View.OnHoverListener() {
-			
-			@Override
-			public boolean onHover(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_HOVER_ENTER || event.getAction() == MotionEvent.ACTION_HOVER_MOVE){
-					v.requestFocus();
-				}
-				return false;
-			}
-		});
+
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+                    v.requestFocus();
+                }
+                return false;
+            }
+        });
         firstMessage = (TextView) contentView.findViewById(R.id.first_text_info);
         secondMessage = (TextView) contentView.findViewById(R.id.pop_second_text);
         setContentView(contentView);
@@ -76,7 +76,7 @@ public class MessagePopWindow extends PopupWindow implements View.OnClickListene
     }
 
 
-    public void setBackgroundRes(int resId){
+    public void setBackgroundRes(int resId) {
         setBackgroundDrawable(mContext.getResources().getDrawable(resId));
     }
 
@@ -107,11 +107,13 @@ public class MessagePopWindow extends PopupWindow implements View.OnClickListene
         if (i == R.id.confirm_btn) {
             if (confirmListener != null) {
                 confirmListener.confirmClick(v);
+                isConfirmClick = true;
             }
 
         } else if (i == R.id.cancel_btn) {
             if (cancleListener != null) {
                 cancleListener.cancelClick(v);
+                isConfirmClick = false;
             }
 
         }
@@ -129,6 +131,7 @@ public class MessagePopWindow extends PopupWindow implements View.OnClickListene
         }
         this.confirmListener = confirmListener;
         this.cancleListener = cancleListener;
+        isConfirmClick = false;
         super.showAtLocation(parent, gravity, x, y);
     }
 }

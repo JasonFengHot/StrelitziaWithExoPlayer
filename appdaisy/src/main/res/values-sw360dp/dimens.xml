@@ -20,4 +20,18 @@
     <dimen name="loading_size">22dp</dimen>
     <dimen name="loading_text_mt">5dp</dimen>
 
+    <!-- pop-->
+    <dimen name="pop_btn_width">60dp</dimen>
+    <dimen name="pop_btn_height">18dp</dimen>
+    <dimen name="pop_width">292.33dp</dimen>
+    <dimen name="pop_height">101.66dp</dimen>
+    <dimen name="pop_double_line_height">117dp</dimen>
+    <dimen name="pop_text_width">230.33dp</dimen>
+    <dimen name="pop_text_height">12.33dp</dimen>
+    <dimen name="pop_first_text_margin_top">16.33dp</dimen>
+    <dimen name="pop_second_text_margin_top">11.66dp</dimen>
+    <dimen name="pop_btn_margin_bottom">18dp</dimen>
+    <dimen name="pop_btn_margin_lr">41dp</dimen>
+    <dimen name="pop_text_layout_height">36.66dp</dimen>
+
 </resources>

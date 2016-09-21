@@ -250,6 +250,29 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     }
 
+    protected String getSmartQualityUrl(ClipEntity.Quality quality) {
+        String qualityUrl = null;
+        switch (quality) {
+            case QUALITY_LOW:
+                return mClipEntity.getLow();
+            case QUALITY_ADAPTIVE:
+                return mClipEntity.getAdaptive();
+            case QUALITY_NORMAL:
+                return mClipEntity.getNormal();
+            case QUALITY_MEDIUM:
+                return mClipEntity.getMedium();
+            case QUALITY_HIGH:
+                return mClipEntity.getHigh();
+            case QUALITY_ULTRA:
+                return mClipEntity.getUltra();
+            case QUALITY_BLUERAY:
+                return mClipEntity.getBlueray();
+            case QUALITY_4K:
+                return mClipEntity.get_4k();
+        }
+        return qualityUrl;
+    }
+
     private int getQualityIndex(ClipEntity.Quality quality) {
         switch (quality) {
             case QUALITY_LOW:
@@ -419,50 +442,38 @@ public abstract class IsmartvPlayer implements IPlayer {
         String low = mClipEntity.getLow();
         if (!Utils.isEmptyText(low)) {
             mQualities.add(ClipEntity.Quality.QUALITY_LOW);
-            defaultQualityUrl = low;
-            mQuality = ClipEntity.Quality.QUALITY_LOW;
         }
         String adaptive = mClipEntity.getAdaptive();
         if (!Utils.isEmptyText(adaptive)) {
             mQualities.add(ClipEntity.Quality.QUALITY_ADAPTIVE);
-            defaultQualityUrl = adaptive;
-            mQuality = ClipEntity.Quality.QUALITY_ADAPTIVE;
         }
         String normal = mClipEntity.getNormal();
         if (!Utils.isEmptyText(normal)) {
             mQualities.add(ClipEntity.Quality.QUALITY_NORMAL);
-            defaultQualityUrl = normal;
-            mQuality = ClipEntity.Quality.QUALITY_NORMAL;
         }
         String medium = mClipEntity.getMedium();
         if (!Utils.isEmptyText(medium)) {
             mQualities.add(ClipEntity.Quality.QUALITY_MEDIUM);
-            defaultQualityUrl = medium;
-            mQuality = ClipEntity.Quality.QUALITY_MEDIUM;
         }
         String high = mClipEntity.getHigh();
         if (!Utils.isEmptyText(high)) {
             mQualities.add(ClipEntity.Quality.QUALITY_HIGH);
-            defaultQualityUrl = high;
-            mQuality = ClipEntity.Quality.QUALITY_HIGH;
         }
         String ultra = mClipEntity.getUltra();
         if (!Utils.isEmptyText(ultra)) {
             mQualities.add(ClipEntity.Quality.QUALITY_ULTRA);
-            defaultQualityUrl = ultra;
-            mQuality = ClipEntity.Quality.QUALITY_ULTRA;
         }
         String blueray = mClipEntity.getBlueray();
         if (!Utils.isEmptyText(blueray)) {
             mQualities.add(ClipEntity.Quality.QUALITY_BLUERAY);
-            defaultQualityUrl = blueray;
-            mQuality = ClipEntity.Quality.QUALITY_BLUERAY;
         }
         String _4k = mClipEntity.get_4k();
         if (!Utils.isEmptyText(_4k)) {
             mQualities.add(ClipEntity.Quality.QUALITY_4K);
-            defaultQualityUrl = _4k;
-            mQuality = ClipEntity.Quality.QUALITY_4K;
+        }
+        if (!mQualities.isEmpty()) {
+            mQuality = mQualities.get(0);
+            defaultQualityUrl = getSmartQualityUrl(mQuality);
         }
         return defaultQualityUrl;
     }

@@ -22,6 +22,7 @@ public class QiyiPlayer extends IsmartvPlayer {
 
     private IMediaPlayer mPlayer;
     private int previewLength;
+    private List<BitStream> bitStreamList;
 
     public QiyiPlayer() {
         this(PlayerBuilder.MODE_QIYI_PLAYER);
@@ -155,6 +156,7 @@ public class QiyiPlayer extends IsmartvPlayer {
         @Override
         public void onBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
             mQualities = new ArrayList<>();
+            bitStreamList = list;
             for (BitStream bitStream : list) {
                 mQualities.add(bitStreamConvertToQuality(bitStream));
             }
@@ -165,29 +167,6 @@ public class QiyiPlayer extends IsmartvPlayer {
             mQuality = bitStreamConvertToQuality(bitStream);
         }
     };
-
-    private ClipEntity.Quality bitStreamConvertToQuality(BitStream bitStream) {
-        if (bitStream == BitStream.BITSTREAM_STANDARD) {
-            return ClipEntity.Quality.QUALITY_NORMAL;
-        } else if (bitStream == BitStream.BITSTREAM_HIGH) {
-            return ClipEntity.Quality.QUALITY_MEDIUM;
-        } else if (bitStream == BitStream.BITSTREAM_UNKNOWN) {
-            return ClipEntity.Quality.QUALITY_ADAPTIVE;
-        } else if (bitStream == BitStream.BITSTREAM_720P
-                || bitStream == BitStream.BITSTREAM_720P_DOLBY
-                || bitStream == BitStream.BITSTREAM_720P_H265) {
-            return ClipEntity.Quality.QUALITY_HIGH;
-        } else if (bitStream == BitStream.BITSTREAM_1080P
-                || bitStream == BitStream.BITSTREAM_1080P_DOLBY
-                || bitStream == BitStream.BITSTREAM_1080P_H265) {
-            return ClipEntity.Quality.QUALITY_ULTRA;
-        } else if (bitStream == BitStream.BITSTREAM_4K
-                || bitStream == BitStream.BITSTREAM_4K_DOLBY
-                || bitStream == BitStream.BITSTREAM_4K_H265) {
-            return ClipEntity.Quality.QUALITY_4K;
-        }
-        return ClipEntity.Quality.QUALITY_NORMAL;
-    }
 
     private IMediaPlayer.OnPreviewInfoListener qiyiPreviewInfoListener = new IMediaPlayer.OnPreviewInfoListener() {
         @Override
@@ -272,7 +251,6 @@ public class QiyiPlayer extends IsmartvPlayer {
             mPlayer = null;
 
             mCurrentState = STATE_IDLE;
-            PlayerSdk.getInstance().release();
         }
     }
 
@@ -316,6 +294,7 @@ public class QiyiPlayer extends IsmartvPlayer {
     @Override
     public void switchQuality(ClipEntity.Quality quality) {
         mPlayer.switchBitStream(qualityConvertToBitStream(quality));
+        mQuality = quality;
     }
 
     private BitStream qualityConvertToBitStream(ClipEntity.Quality quality) {
@@ -327,15 +306,63 @@ public class QiyiPlayer extends IsmartvPlayer {
             case QUALITY_MEDIUM:
                 return BitStream.BITSTREAM_HIGH;
             case QUALITY_HIGH:
+                if (!bitStreamList.isEmpty()) {
+                    if (bitStreamList.contains(BitStream.BITSTREAM_720P)) {
+                        return BitStream.BITSTREAM_720P;
+                    } else if (bitStreamList.contains(BitStream.BITSTREAM_720P_DOLBY)) {
+                        return BitStream.BITSTREAM_720P_DOLBY;
+                    } else if (bitStreamList.contains(BitStream.BITSTREAM_720P_H265)) {
+                        return BitStream.BITSTREAM_720P_H265;
+                    }
+                }
                 return BitStream.BITSTREAM_720P;
             case QUALITY_ULTRA:
+                if (!bitStreamList.isEmpty()) {
+                    if (bitStreamList.contains(BitStream.BITSTREAM_1080P)) {
+                        return BitStream.BITSTREAM_1080P;
+                    } else if (bitStreamList.contains(BitStream.BITSTREAM_1080P_DOLBY)) {
+                        return BitStream.BITSTREAM_1080P_DOLBY;
+                    } else if (bitStreamList.contains(BitStream.BITSTREAM_1080P_H265)) {
+                        return BitStream.BITSTREAM_1080P_H265;
+                    }
+                }
                 return BitStream.BITSTREAM_1080P;
             case QUALITY_BLUERAY:
-                return BitStream.BITSTREAM_4K;
             case QUALITY_4K:
+                if (!bitStreamList.isEmpty()) {
+                    if (bitStreamList.contains(BitStream.BITSTREAM_4K)) {
+                        return BitStream.BITSTREAM_4K;
+                    } else if (bitStreamList.contains(BitStream.BITSTREAM_4K_DOLBY)) {
+                        return BitStream.BITSTREAM_4K_DOLBY;
+                    } else if (bitStreamList.contains(BitStream.BITSTREAM_4K_H265)) {
+                        return BitStream.BITSTREAM_4K_H265;
+                    }
+                }
                 return BitStream.BITSTREAM_4K;
-
         }
         return BitStream.BITSTREAM_STANDARD;
+    }
+
+    private ClipEntity.Quality bitStreamConvertToQuality(BitStream bitStream) {
+        if (bitStream == BitStream.BITSTREAM_STANDARD) {
+            return ClipEntity.Quality.QUALITY_NORMAL;
+        } else if (bitStream == BitStream.BITSTREAM_HIGH) {
+            return ClipEntity.Quality.QUALITY_MEDIUM;
+        } else if (bitStream == BitStream.BITSTREAM_UNKNOWN) {
+            return ClipEntity.Quality.QUALITY_ADAPTIVE;
+        } else if (bitStream == BitStream.BITSTREAM_720P
+                || bitStream == BitStream.BITSTREAM_720P_DOLBY
+                || bitStream == BitStream.BITSTREAM_720P_H265) {
+            return ClipEntity.Quality.QUALITY_HIGH;
+        } else if (bitStream == BitStream.BITSTREAM_1080P
+                || bitStream == BitStream.BITSTREAM_1080P_DOLBY
+                || bitStream == BitStream.BITSTREAM_1080P_H265) {
+            return ClipEntity.Quality.QUALITY_ULTRA;
+        } else if (bitStream == BitStream.BITSTREAM_4K
+                || bitStream == BitStream.BITSTREAM_4K_DOLBY
+                || bitStream == BitStream.BITSTREAM_4K_H265) {
+            return ClipEntity.Quality.QUALITY_4K;
+        }
+        return ClipEntity.Quality.QUALITY_NORMAL;
     }
 }

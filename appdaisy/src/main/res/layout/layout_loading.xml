@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/dialog_back_img"
@@ -15,7 +15,7 @@
         android:id="@+id/tipTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/loading_text_mt"
+        android:layout_marginLeft="@dimen/loading_text_mt"
         android:text="@string/loading_text"
         android:textColor="@color/color_white"
         android:textSize="@dimen/h1_size" />

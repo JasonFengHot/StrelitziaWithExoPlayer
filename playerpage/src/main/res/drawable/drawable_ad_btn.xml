@@ -3,6 +3,7 @@
 
     <item android:drawable="@drawable/ad_vip_btn_focus" android:state_focused="true" />
     <item android:drawable="@drawable/ad_vip_btn_focus" android:state_hovered="true" />
+    <item android:drawable="@drawable/ad_vip_btn_focus" android:state_pressed="true" />
     <item android:drawable="@drawable/ad_vip_btn_normal" />
 
 </selector>

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/popwindow_bg">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/popwindow_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:textSize="@dimen/h3_size"/>
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/h2_size" />
 
         <TextView
             android:id="@+id/pop_second_text"
@@ -28,9 +27,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/pop_second_text_margin_top"
             android:gravity="center"
-            android:textSize="@dimen/h3_size"
-            android:visibility="gone"/>
-
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/h2_size"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -47,11 +46,11 @@
             android:layout_width="@dimen/pop_btn_width"
             android:layout_height="@dimen/pop_btn_height"
             android:background="@drawable/selector_daisy_exit_button"
-            android:text="@string/confirm"
-            android:textColor="@android:color/white"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:textSize="@dimen/h3_size"/>
+            android:text="@string/confirm"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/h2_size" />
 
         <Button
             android:id="@+id/cancel_btn"
@@ -59,11 +58,11 @@
             android:layout_height="@dimen/pop_btn_height"
             android:layout_marginLeft="@dimen/pop_btn_margin_lr"
             android:background="@drawable/selector_daisy_exit_button"
-            android:text="@string/cancel"
-            android:textColor="@android:color/white"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:textSize="@dimen/h3_size"/>
+            android:text="@string/cancel"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/h2_size" />
 
     </LinearLayout>
 </RelativeLayout>

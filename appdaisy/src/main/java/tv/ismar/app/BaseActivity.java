@@ -45,6 +45,7 @@ public class BaseActivity extends AppCompatActivity {
     public void dismissProgressDialog() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
+            mLoadingDialog.setTvText(getString(R.string.loading_text));
         }
     }
 

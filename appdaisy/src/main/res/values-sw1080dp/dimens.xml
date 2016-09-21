@@ -20,18 +20,18 @@
     <dimen name="loading_size">66dp</dimen>
     <dimen name="loading_text_mt">15dp</dimen>
 
-    <!-- message popwindow -->
-    <dimen name="pop_double_line_height">351dp</dimen>
+    <!-- pop-->
+    <dimen name="pop_btn_width">180dp</dimen>
+    <dimen name="pop_btn_height">54dp</dimen>
     <dimen name="pop_width">877dp</dimen>
     <dimen name="pop_height">305dp</dimen>
-
-    <dimen name="pop_btn_height">54dp</dimen>
+    <dimen name="pop_double_line_height">351dp</dimen>
     <dimen name="pop_text_width">691dp</dimen>
-    <dimen name="pop_btn_margin_lr">123dp</dimen>
+    <dimen name="pop_text_height">37dp</dimen>
     <dimen name="pop_first_text_margin_top">49dp</dimen>
     <dimen name="pop_second_text_margin_top">35dp</dimen>
-    <dimen name="pop_text_layout_height">110dp</dimen>
     <dimen name="pop_btn_margin_bottom">54dp</dimen>
-    <dimen name="pop_btn_width">180dp</dimen>
+    <dimen name="pop_btn_margin_lr">123dp</dimen>
+    <dimen name="pop_text_layout_height">110dp</dimen>
 
 </resources>

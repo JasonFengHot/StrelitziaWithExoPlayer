@@ -100,6 +100,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         public boolean onInfo(SmartPlayer smartPlayer, int i, int i1) {
             switch (i) {
                 case SmartPlayer.MEDIA_INFO_BUFFERING_START:
+                case 809:
                     if (mOnBufferChangedListener != null) {
                         mOnBufferChangedListener.onBufferStart();
                     }
@@ -297,7 +298,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             mPlayer = null;
             mCurrentState = STATE_IDLE;
         }
-        String mediaUrl = getQualityUrl(quality);
+        String mediaUrl = getSmartQualityUrl(quality);
         if (!Utils.isEmptyText(mediaUrl)) {
             mQuality = quality;
             mPaths = new String[]{mediaUrl};
@@ -334,26 +335,4 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         return ip;
     }
 
-    private String getQualityUrl(ClipEntity.Quality quality) {
-        String qualityUrl = null;
-        switch (quality) {
-            case QUALITY_LOW:
-                return mClipEntity.getLow();
-            case QUALITY_ADAPTIVE:
-                return mClipEntity.getAdaptive();
-            case QUALITY_NORMAL:
-                return mClipEntity.getNormal();
-            case QUALITY_MEDIUM:
-                return mClipEntity.getMedium();
-            case QUALITY_HIGH:
-                return mClipEntity.getHigh();
-            case QUALITY_ULTRA:
-                return mClipEntity.getUltra();
-            case QUALITY_BLUERAY:
-                return mClipEntity.getBlueray();
-            case QUALITY_4K:
-                return mClipEntity.get_4k();
-        }
-        return qualityUrl;
-    }
 }
