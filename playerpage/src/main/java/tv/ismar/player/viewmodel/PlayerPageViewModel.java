@@ -38,14 +38,18 @@ public class PlayerPageViewModel extends BaseObservable {
         itemTitle.set(title);
         mIsmartvPlayer = ismartvPlayer;
 
-        notifyPropertyChanged(BR.quality);
-        notifyPropertyChanged(BR.qualityResource);
+        updateQuality();
     }
 
     public void updateTimer(int position, int length) {
         mCurrentPosition = position;
         mClipLength = length;
         notifyPropertyChanged(BR.timer);
+    }
+
+    public void updateQuality(){
+        notifyPropertyChanged(BR.quality);
+        notifyPropertyChanged(BR.qualityResource);
     }
 
     public void updatePlayerPause() {

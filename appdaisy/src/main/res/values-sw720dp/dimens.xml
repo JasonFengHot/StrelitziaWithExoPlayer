@@ -39,4 +39,19 @@
 <dimen name="pop_btn_width">120.00dp</dimen>
 <dimen name="head_title_margin_left">26.67dp</dimen>
 
+    <!-- pop-->
+    <dimen name="pop_btn_width">120dp</dimen>
+    <dimen name="pop_btn_height">40dp</dimen>
+    <dimen name="pop_width">584.66dp</dimen>
+    <dimen name="pop_height">203.33dp</dimen>
+    <dimen name="pop_double_line_height">234dp</dimen>
+    <dimen name="pop_text_width">460.66dp</dimen>
+    <dimen name="pop_text_height">24.66dp</dimen>
+    <dimen name="pop_first_text_margin_top">32.66dp</dimen>
+    <dimen name="pop_second_text_margin_top">23.33dp</dimen>
+    <dimen name="pop_btn_margin_bottom">36dp</dimen>
+    <dimen name="pop_btn_margin_lr">20dp</dimen>
+    <dimen name="pop_text_layout_height">73.33dp</dimen>
+    <dimen name="pop_button_mt">53.33dp</dimen>
+
 </resources>

@@ -5,9 +5,9 @@
     <dimen name="text_size_60sp">60dp</dimen>
 
     <dimen name="h0_size">48dp</dimen>
-    <dimen name="h1_size">48dp</dimen>
-    <dimen name="h2_size">36dp</dimen>
-    <dimen name="h3_size">30dp</dimen>
+    <dimen name="h1_size">36.75dp</dimen>
+    <dimen name="h2_size">27.75dp</dimen>
+    <dimen name="h3_size">23.25dp</dimen>
     <dimen name="h4_size">18.75dp</dimen>
     <dimen name="h5_size">14.25dp</dimen>
 
@@ -24,19 +24,21 @@
     <dimen name="loading_size">66dp</dimen>
     <dimen name="loading_text_mt">15dp</dimen>
 
-    <!-- message popwindow -->
-    <dimen name="pop_double_line_height">351dp</dimen>
+    <!-- pop-->
+    <dimen name="pop_btn_width">180dp</dimen>
+    <dimen name="pop_btn_height">60dp</dimen>
     <dimen name="pop_width">877dp</dimen>
     <dimen name="pop_height">305dp</dimen>
-
-    <dimen name="pop_btn_height">54dp</dimen>
+    <dimen name="pop_double_line_height">351dp</dimen>
     <dimen name="pop_text_width">691dp</dimen>
-    <dimen name="pop_btn_margin_lr">123dp</dimen>
+    <dimen name="pop_text_height">37dp</dimen>
     <dimen name="pop_first_text_margin_top">49dp</dimen>
     <dimen name="pop_second_text_margin_top">35dp</dimen>
-    <dimen name="pop_text_layout_height">110dp</dimen>
     <dimen name="pop_btn_margin_bottom">54dp</dimen>
     <dimen name="pop_btn_width">180dp</dimen>
     <dimen name="head_title_margin_left">40dp</dimen>
+    <dimen name="pop_btn_margin_lr">30dp</dimen>
+    <dimen name="pop_text_layout_height">110dp</dimen>
+    <dimen name="pop_button_mt">80dp</dimen>
 
 </resources>
