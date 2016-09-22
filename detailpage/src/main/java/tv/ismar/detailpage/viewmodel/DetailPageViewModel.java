@@ -90,6 +90,9 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         notifyPropertyChanged(BR.emcee);
         notifyPropertyChanged(BR.emceeVisibility);
 
+        notifyPropertyChanged(BR.episodes);
+        notifyPropertyChanged(BR.episodesVisibility);
+
 
     }
 

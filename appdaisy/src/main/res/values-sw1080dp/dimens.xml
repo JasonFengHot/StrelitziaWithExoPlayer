@@ -3,6 +3,7 @@
     <dimen name="text_size_36sp">36dp</dimen>
     <dimen name="text_size_24sp">24dp</dimen>
     <dimen name="text_size_60sp">60dp</dimen>
+    <dimen name="text_size_30sp">30dp</dimen>
 
     <dimen name="h0_size">48dp</dimen>
     <dimen name="h1_size">36.75dp</dimen>
@@ -25,7 +26,6 @@
     <dimen name="loading_text_mt">15dp</dimen>
 
     <!-- pop-->
-    <dimen name="pop_btn_width">180dp</dimen>
     <dimen name="pop_btn_height">60dp</dimen>
     <dimen name="pop_width">877dp</dimen>
     <dimen name="pop_height">305dp</dimen>

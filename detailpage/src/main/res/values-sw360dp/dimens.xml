@@ -28,7 +28,7 @@
 <dimen name="normal_detail_content_padding_t">21.00dp</dimen>
 <dimen name="normal_detail_content_w">378.33dp</dimen>
 <dimen name="normal_detail_text_w">148.50dp</dimen>
-<dimen name="normal_detail_text_h">137.83dp</dimen>
+<dimen name="normal_detail_text_h">151.17dp</dimen>
 <dimen name="normal_detail_text_mt1">10.25dp</dimen>
 <dimen name="normal_detail_text_mt2">10.75dp</dimen>
 <dimen name="normal_detail_preview_img_w">160.25dp</dimen>
@@ -42,7 +42,7 @@
 <dimen name="normal_detail_detail_mt">25.50dp</dimen>
 
 <dimen name="normal_detail_relative_mt">2.25dp</dimen>
-<dimen name="normal_detail_relative_ml">55.50dp</dimen>
+<dimen name="normal_detail_relative_ml">42.17dp</dimen>
 <dimen name="normal_detail_label_image_w">67.25dp</dimen>
 <dimen name="normal_detail_label_image_h">37.50dp</dimen>
 <dimen name="normal_detail_img_mt1">18.33dp</dimen>
@@ -96,5 +96,6 @@
 <dimen name="item_title_padding_top">3.33dp</dimen>
 <dimen name="preview_margin_top">13.33dp</dimen>
 <dimen name="attr_margin_left">26.67dp</dimen>
+<dimen name="preview_img_margin_right">13.33dp</dimen>
 
 </resources>

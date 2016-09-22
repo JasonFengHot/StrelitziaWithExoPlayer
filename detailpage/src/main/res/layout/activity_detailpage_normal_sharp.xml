@@ -75,7 +75,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_type"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -84,7 +84,8 @@
                             android:singleLine="true"
                             android:text="@{tasks.genre}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                     </LinearLayout>
 
@@ -100,7 +101,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_level"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -109,7 +111,8 @@
                             android:singleLine="true"
                             android:text="@{tasks.classification}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                     </LinearLayout>
 
@@ -125,7 +128,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_area"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -134,7 +138,8 @@
                             android:singleLine="true"
                             android:text="@{tasks.area}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                     </LinearLayout>
 
@@ -150,7 +155,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_time"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -159,7 +165,8 @@
                             android:singleLine="true"
                             android:text="@{tasks.airDate}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                     </LinearLayout>
 
@@ -175,7 +182,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_director"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -184,7 +192,8 @@
                             android:singleLine="true"
                             android:text="@{tasks.director}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                     </LinearLayout>
 
@@ -200,7 +209,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_actor"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -209,7 +219,8 @@
                             android:singleLine="true"
                             android:text="@{tasks.actor}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                     </LinearLayout>
 
@@ -225,7 +236,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_episodes"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -234,7 +246,8 @@
                             android:singleLine="true"
                             android:text="@{tasks.episodes}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h3_size" />
+                            android:textSize="@dimen/text_size_30sp"
+                        />
 
                     </LinearLayout>
 
@@ -242,6 +255,7 @@
                 </LinearLayout>
 
                 <FrameLayout
+                    android:layout_marginRight="@dimen/preview_img_margin_right"
                     android:layout_marginTop="@dimen/preview_margin_top"
                     android:layout_width="@dimen/detailpage_normal_corner_w"
                     android:layout_height="@dimen/normal_detail_preview_img_h"
@@ -352,7 +366,6 @@
                 <TextView
                     android:layout_width="@dimen/normal_detail_label_image_w"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/normal_detail_relative_text_mt"
                     android:gravity="center"
                     android:text="@string/recommend_str"
                     android:textColor="@color/color_white"
