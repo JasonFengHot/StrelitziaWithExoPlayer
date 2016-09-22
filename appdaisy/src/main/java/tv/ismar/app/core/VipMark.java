@@ -12,6 +12,7 @@ import cn.ismartv.injectdb.library.query.Delete;
 import cn.ismartv.injectdb.library.query.Select;
 import rx.Observer;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.database.DpiTable2;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.DpiEntity;
@@ -25,7 +26,7 @@ public class VipMark {
 
 
     private VipMark() {
-//        fetchDpi();
+        fetchDpi();
     }
 
 
@@ -37,8 +38,8 @@ public class VipMark {
     }
 
 
-    private void fetchDpi(SkyService skyService) {
-        skyService.fetchDpi()
+    private void fetchDpi() {
+        SkyService.ServiceManager.getService().fetchDpi()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new Observer<List<DpiEntity>>() {
