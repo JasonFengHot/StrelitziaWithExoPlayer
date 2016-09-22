@@ -68,9 +68,9 @@
 <dimen name="entertainment_detail_button3_w">370.00dp</dimen>
 <dimen name="entertainment_detail_button_h">64.67dp</dimen>
 <dimen name="entertainment_detail_button_ml">67.33dp</dimen>
-<dimen name="entertainment_detail_detail_mt">62.67dp</dimen>
+<dimen name="entertainment_detail_detail_mt">27.11dp</dimen>
 
-<dimen name="entertainment_detail_relative_text_mt">67.33dp</dimen>
+<dimen name="entertainment_detail_relative_text_mt">5.11dp</dimen>
 <dimen name="entertainment_detail_label_image_mt">30.00dp</dimen>
 <dimen name="entertainment_detail_label_image_w">299.33dp</dimen>
 <dimen name="entertainment_detail_label_image_h">168.67dp</dimen>

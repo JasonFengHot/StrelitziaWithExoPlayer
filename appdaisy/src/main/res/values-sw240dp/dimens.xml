@@ -4,6 +4,7 @@
 <dimen name="text_size_24sp">5.33dp</dimen>
 <dimen name="text_size_60sp">13.33dp</dimen>
 <dimen name="text_size_30sp">6.67dp</dimen>
+<dimen name="text_size_40sp">8.89dp</dimen>
 
 <dimen name="h0_size">10.67dp</dimen>
 <dimen name="h1_size">8.17dp</dimen>

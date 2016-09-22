@@ -93,6 +93,9 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         notifyPropertyChanged(BR.episodes);
         notifyPropertyChanged(BR.episodesVisibility);
 
+        notifyPropertyChanged(BR.subitemsVisibility);
+
+
 
     }
 
@@ -376,6 +379,15 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
             }
         } catch (NullPointerException e) {
             return View.GONE;
+        }
+    }
+
+    @Bindable
+    public int getSubitemsVisibility() {
+        try {
+            return mItemEntity.getSubitems().length == 0 ?View.INVISIBLE:View.VISIBLE;
+        }catch (NullPointerException e){
+            return View.INVISIBLE;
         }
     }
 
