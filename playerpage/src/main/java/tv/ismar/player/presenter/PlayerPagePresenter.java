@@ -3,6 +3,10 @@ package tv.ismar.player.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -23,7 +27,7 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
     private SkyService mSkyService;
     private Subscription mApiItemSubsc;
     private Subscription mApiMediaUrlSubsc;
-    private ItemEntity mItemEntity;
+    private Subscription mApiHistorySubsc;
     private Context mContext;
 
     public PlayerPagePresenter(Context context, PlayerPageContract.View view) {
@@ -47,15 +51,18 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         if (mApiMediaUrlSubsc != null && !mApiMediaUrlSubsc.isUnsubscribed()) {
             mApiMediaUrlSubsc.unsubscribe();
         }
+        if (mApiHistorySubsc != null && !mApiHistorySubsc.isUnsubscribed()) {
+            mApiHistorySubsc.unsubscribe();
+        }
 
     }
 
     @Override
-    public void fetchItem(String itemId) {
+    public void fetchItem(String itemPk) {
         if (mApiItemSubsc != null && !mApiItemSubsc.isUnsubscribed()) {
             mApiItemSubsc.unsubscribe();
         }
-        mApiItemSubsc = mSkyService.apiItem(itemId)
+        mApiItemSubsc = mSkyService.apiItem(itemPk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ItemEntity>() {
@@ -75,7 +82,6 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
                     @Override
                     public void onNext(ItemEntity itemEntity) {
-                        mItemEntity = itemEntity;
                         playerView.loadItem(itemEntity);
                     }
                 });
@@ -114,4 +120,33 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
     }
 
+    @Override
+    public void sendHistory(HashMap<String, Object> history) {
+        if (mApiHistorySubsc != null && !mApiHistorySubsc.isUnsubscribed()) {
+            mApiHistorySubsc.unsubscribe();
+        }
+
+        mApiHistorySubsc = mSkyService.sendPlayHistory(history)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e.getClass() == OnlyWifiException.class) {
+                            playerView.onHttpInterceptor(e);
+                        } else {
+                            playerView.onHttpFailure(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                    }
+                });
+    }
 }

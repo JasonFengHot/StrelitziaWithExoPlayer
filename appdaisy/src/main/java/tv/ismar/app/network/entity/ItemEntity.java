@@ -60,6 +60,7 @@ public class ItemEntity {
     private String item_url;
     private Expense expense;
     private boolean repeat_buy;
+    private Preview preview;
 
     public boolean isRepeat_buy() {
         return repeat_buy;
@@ -355,6 +356,14 @@ public class ItemEntity {
 
     public void setItemPk(int itemPk) {
         this.itemPk = itemPk;
+    }
+
+    public Preview getPreview() {
+        return preview;
+    }
+
+    public void setPreview(Preview preview) {
+        this.preview = preview;
     }
 
     public class Clip {
@@ -729,6 +738,46 @@ public class ItemEntity {
 
         public void setJump_to(int jump_to) {
             this.jump_to = jump_to;
+        }
+    }
+
+    public class Preview {
+
+        private String url;
+        private int pk;
+        private String length;
+        private boolean seek;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public int getPk() {
+            return pk;
+        }
+
+        public void setPk(int pk) {
+            this.pk = pk;
+        }
+
+        public String getLength() {
+            return length;
+        }
+
+        public void setLength(String length) {
+            this.length = length;
+        }
+
+        public boolean isSeek() {
+            return seek;
+        }
+
+        public void setSeek(boolean seek) {
+            this.seek = seek;
         }
     }
 }

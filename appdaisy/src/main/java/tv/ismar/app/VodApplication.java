@@ -12,6 +12,11 @@ import cn.ismartv.injectdb.library.app.Application;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.VipMark;
+import tv.ismar.app.db.DBHelper;
+import tv.ismar.app.db.FavoriteManager;
+import tv.ismar.app.db.HistoryManager;
+import tv.ismar.app.db.LocalFavoriteManager;
+import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.network.HttpTrafficInterceptor;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -23,9 +28,15 @@ public class VodApplication extends Application {
     private static HttpParamsInterceptor mHttpParamsInterceptor;
     public static final boolean DEBUG = true;
 
+    private static VodApplication instance;
+    private HistoryManager mHistoryManager;
+    private FavoriteManager mFavoriteManager;
+    private DBHelper mDBHelper;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         ActiveAndroid.initialize(this);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
@@ -54,5 +65,40 @@ public class VodApplication extends Application {
 
     public static HttpParamsInterceptor getHttpParamsInterceptor() {
         return mHttpParamsInterceptor;
+    }
+
+    public static VodApplication getAppContext() {
+        return instance;
+    }
+
+    /**
+     * Return this application {@link DBHelper}
+     *
+     * @return The application {@link DBHelper}
+     */
+    public DBHelper getDBHelper() {
+        if (mDBHelper == null) {
+            mDBHelper = new DBHelper(this);
+        }
+        return mDBHelper;
+    }
+
+    /**
+     * Return this application {@link HistoryManager}
+     *
+     * @return The application {@link HistoryManager}
+     */
+    public HistoryManager getHistoryManager() {
+        if (mHistoryManager == null) {
+            mHistoryManager = new LocalHistoryManager(this);
+        }
+        return mHistoryManager;
+    }
+
+    public FavoriteManager getFavoriteManager() {
+        if (mFavoriteManager == null) {
+            mFavoriteManager = new LocalFavoriteManager(this);
+        }
+        return mFavoriteManager;
     }
 }

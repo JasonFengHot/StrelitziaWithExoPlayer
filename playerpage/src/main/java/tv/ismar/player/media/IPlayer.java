@@ -14,7 +14,7 @@ public interface IPlayer {
      *
      * @param clipEntity 媒体播放地址
      */
-    void setDataSource(ClipEntity clipEntity, OnDataSourceSetListener onDataSourceSetListener);
+    void setDataSource(ClipEntity clipEntity, ClipEntity.Quality initQuality, OnDataSourceSetListener onDataSourceSetListener);
 
     /**
      * 播放器准备

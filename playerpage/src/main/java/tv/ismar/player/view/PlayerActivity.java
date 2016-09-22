@@ -29,16 +29,26 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.VodApplication;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.core.PlayCheckManager;
+import tv.ismar.app.db.HistoryManager;
+import tv.ismar.app.entity.DBQuality;
+import tv.ismar.app.entity.History;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Utils;
@@ -63,11 +73,19 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     private int itemPK = 0;
     private int subItemPk = 0;
-    private int mediaHistoryPosition;// 起播位置
     private int mCurrentPosition;// 当前播放位置
     private int mCurrentTeleplayIndex = 0;
     private int mCurrentQualityIndex = 0;
     private ItemEntity mItemEntity;
+    private ClipEntity mClipEntity;
+    private boolean mIsPreview;
+    private boolean isToPaymentPage = false;
+
+    // 历史记录
+    private HistoryManager historyManager;
+    private History mHistory;
+    private int mediaHistoryPosition;// 起播位置
+    private boolean mIsContinue;
 
     // 播放器
     private IsmartvPlayer mIsmartvPlayer;
@@ -114,16 +132,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String itemId = intent.getStringExtra(PageIntentInterface.EXTRA_ITEM_ID);
-        String subItemId = intent.getStringExtra(PageIntentInterface.EXTRA_SUBITEM_ID);
-        mediaHistoryPosition = intent.getIntExtra(PageIntentInterface.EXTRA_MEDIA_POSITION, 0);
-        subItemId = subItemId == null ? "0" : subItemId;
-        try {
-            itemPK = Integer.valueOf(itemId);
-            subItemPk = Integer.valueOf(subItemId);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+        itemPK = intent.getIntExtra(PageIntentInterface.EXTRA_PK, 0);
+        subItemPk = intent.getIntExtra(PageIntentInterface.EXTRA_SUBITEM_PK, 0);
+
         if (itemPK <= 0) {
             finish();
             Log.i(TAG, "itemId can't be null.");
@@ -165,7 +176,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 android.R.anim.slide_out_right);
 
         mPresenter.start();
-        mPresenter.fetchItem(itemId);
+        mPresenter.fetchItem(String.valueOf(itemPK));
         showBuffer(null);
 
         mGestureDetector = new GestureDetector(this, onGestureListener);
@@ -192,17 +203,50 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (isToPaymentPage) {
+            isToPaymentPage = false;
+            if (mItemEntity == null || mPresenter == null) {
+                finish();
+                return;
+            }
+            showBuffer(null);
+            mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
+        }
+    }
+
+    @Override
     protected void onStop() {
-        mPresenter.stop();
+        hidePanel();
+        timerStop();
+        hideMenu();
+        if (mHandler.hasMessages(MSG_SEK_ACTION)) {
+            mHandler.removeMessages(MSG_SEK_ACTION);
+        }
+        if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+            mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        }
+        if (!isToPaymentPage) {
+            if (!mIsPlayingAd) {
+                createHistory(mCurrentPosition);
+                addHistory(mCurrentPosition);
+            }
+            mPresenter.stop();
+        }
         if (mIsmartvPlayer != null) {
             mIsmartvPlayer.release();
         }
-        hidePanel();
         super.onStop();
     }
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
+        if (itemEntity == null) {
+            Toast.makeText(PlayerActivity.this, "不存在该影片.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         mItemEntity = itemEntity;
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity.SubItem[] subItems = itemEntity.getSubitems();
@@ -218,15 +262,46 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 }
             }
         }
-        String sign = "";
-        String code = "1";
-        mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
+        final String sign = "";
+        final String code = "1";
+        final ItemEntity.Clip playCheckClip = clip;
+        mIsPreview = false;
+        if (mItemEntity.getExpense() != null) {
+            PlayCheckManager.getInstance(mSkyService).check(String.valueOf(mItemEntity.getPk()), new PlayCheckManager.Callback() {
+                @Override
+                public void onSuccess(boolean isBuy, int remainDay) {
+                    if (isBuy) {
+                        mPresenter.fetchMediaUrl(playCheckClip.getUrl(), sign, code);
+                    } else {
+                        ItemEntity.Preview preview = mItemEntity.getPreview();
+                        mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
+                        mIsPreview = true;
+                    }
+                }
+
+                @Override
+                public void onFailure() {
+                    Log.e(TAG, "play check fail");
+                    ItemEntity.Preview preview = mItemEntity.getPreview();
+                    mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
+                    mIsPreview = true;
+                }
+            });
+        } else {
+            mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
+        }
 
     }
 
     @Override
     public void loadClip(ClipEntity clipEntity) {
+        if (clipEntity == null) {
+            Toast.makeText(PlayerActivity.this, "获取播放地址错误,将退出播放器.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         Log.d(TAG, clipEntity.toString());
+        mClipEntity = clipEntity;
         String iqiyi = clipEntity.getIqiyi_4_0();
         byte playerMode;
         if (Utils.isEmptyText(iqiyi)) {
@@ -236,7 +311,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             // 片源为爱奇艺
             playerMode = PlayerBuilder.MODE_QIYI_PLAYER;
         }
-        initPlayerData(playerMode);
+        ClipEntity.Quality initQuality = initPlayerData(playerMode);
         mIsmartvPlayer = PlayerBuilder.getInstance()
                 .setActivity(PlayerActivity.this)
                 .setPlayerMode(playerMode)
@@ -244,7 +319,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 .setSurfaceView(surfaceView)
                 .setContainer(player_container)
                 .build();
-        mIsmartvPlayer.setDataSource(clipEntity, new IPlayer.OnDataSourceSetListener() {
+        mIsmartvPlayer.setDataSource(clipEntity, initQuality, new IPlayer.OnDataSourceSetListener() {
             @Override
             public void onSuccess() {
                 Log.i(TAG, "player init success.");
@@ -266,10 +341,28 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     }
 
-    private void initPlayerData(byte playerMode) {
+    private ClipEntity.Quality initPlayerData(byte playerMode) {
+        ClipEntity.Quality initQuality = null;
         menuMaps.clear();
         isInit = false;
+        historyManager = VodApplication.getAppContext().getHistoryManager();
+        String historyUrl = Utils.getItemUrl(itemPK);
+        String isLogin = "no";
+        if (itemPK != subItemPk) {
+            historyUrl = Utils.getSubItemUrl(subItemPk);
+        }
+        if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
+            isLogin = "yes";
+        }
+        mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
+        if (mHistory != null) {
+            initQuality = ClipEntity.Quality.getQuality(mHistory.last_quality);
+            mIsContinue = mHistory.is_continue;
+            mediaHistoryPosition = (int) mHistory.last_position;
+        }
         showBuffer(PlAYSTART + mItemEntity.getTitle());
+        return initQuality;
+
     }
 
     @Override
@@ -415,19 +508,54 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onCompleted() {
-        if (mItemEntity.getSubitems() != null && mCurrentTeleplayIndex < mItemEntity.getSubitems().length - 1) {
-            String sign = "";
-            String code = "1";
-            mCurrentTeleplayIndex++;
-            ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
-            mItemEntity.setTitle(subItem.getTitle());
-            ItemEntity.Clip clip = subItem.getClip();
-            if (clip != null) {
-                mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
-                return;
+        if (mIsPreview) {
+            mIsPreview = false;
+            // new_vip中传递的serialItem都为空
+//            if (mItemEntity.getExpense() == null) {
+//                if (mItemEntity.getPk() != mItemEntity.getItemPk()) {
+//                    Intent intent = new Intent();
+//                    intent.setAction("tv.ismar.daisy.DramaList");
+//                    intent.putExtra("item", serialItem);
+//                    startActivity(intent);
+//                }
+//                finish();
+//                return;
+//            }
+            mIsmartvPlayer.release();
+            if (mItemEntity.getLiveVideo() && "sport".equals(mItemEntity.getContentModel())) {
+                finish();
+            } else {
+                isToPaymentPage = true;
+                ItemEntity.Expense expense = mItemEntity.getExpense();
+                String mode = null;
+                if (1 == mItemEntity.getExpense().getJump_to()) {
+                    mode = "item";
+                }
+                PageIntent pageIntent = new PageIntent();
+                pageIntent.toPayment(this, String.valueOf(mItemEntity.getPk()), String.valueOf(expense.getJump_to()),
+                        String.valueOf(expense.getCpid()), mode);
             }
+        } else {
+            if (mItemEntity.getSubitems() != null && mCurrentTeleplayIndex < mItemEntity.getSubitems().length - 1) {
+                String sign = "";
+                String code = "1";
+                mCurrentTeleplayIndex++;
+                ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
+                mItemEntity.setTitle(subItem.getTitle());
+                subItemPk = subItem.getPk();
+                ItemEntity.Clip clip = subItem.getClip();
+                if (clip != null) {
+                    mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
+                    return;
+                }
+            }
+            Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
+            intent.putExtra("itemPk", String.valueOf(mItemEntity.getPk()));
+            startActivity(intent);
+            mCurrentPosition = 0;
+            addHistory(0);
+            finish();
         }
-        finish();
     }
 
     @Override
@@ -726,13 +854,13 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.i(TAG, "onKeyDown");
         if (mItemEntity == null || mIsmartvPlayer == null) {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                finish();
+            }
             return true;
         }
-//        if (mIsPlayingAd) {
-//            if(keyCode == KeyEvent.KEYCODE_BACK){}
-//            return true;
-//        }
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
                 hidePanel();
@@ -957,6 +1085,61 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         isShowSubMenu = true;
     }
 
+    private void addHistory(int last_position) {
+        if (mItemEntity == null && historyManager == null || mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState()) {
+            return;
+        }
+        History history = new History();
+        history.title = mItemEntity.getTitle();
+        ItemEntity.Expense expense = mItemEntity.getExpense();
+        if (expense != null) {
+            history.price = (int) expense.getPrice();
+            history.paytype = expense.getPay_type();
+            history.cptitle = expense.getCptitle();
+            history.cpid = expense.getCpid();
+            history.cpname = expense.getCpname();
+        } else
+            history.price = 0;
+        history.adlet_url = mItemEntity.getAdletUrl();
+        history.content_model = mItemEntity.getContentModel();
+        history.is_complex = mItemEntity.getIsComplex();
+        history.last_position = last_position;
+        history.last_quality = mIsmartvPlayer.getCurrentQuality().getValue();
+        String itemUrl = mItemEntity.getItem_url();
+        if (Utils.isEmptyText(itemUrl)) {
+            itemUrl = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getPk();
+        }
+        history.url = itemUrl;
+        ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+        if (subItems != null && subItems.length > 0) {
+            history.sub_url = subItems[mCurrentTeleplayIndex].getUrl();
+        }
+        history.is_continue = mIsContinue;
+        if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()))
+            historyManager.addHistory(history, "yes");
+        else
+            historyManager.addHistory(history, "no");
+    }
+
+    private void createHistory(int length) {
+        if (mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState() || "".equals(IsmartvActivator.getInstance().getAuthToken())) {
+            return;// 不登录不必上传
+        }
+        int offset = length;
+        if (length == mIsmartvPlayer.getDuration()) {
+            offset = -1;
+        }
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("offset", offset);
+        if (itemPK != subItemPk) {
+            params.put("subitem", subItemPk);
+        } else {
+            params.put("item", itemPK);
+        }
+        mPlayerPagePresenter.sendHistory(params);
+
+    }
+
     private class MenuAdapter extends BaseAdapter {
 
         private LayoutInflater mInflater;
@@ -1095,6 +1278,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                             String code = "1";
                             ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
                             mItemEntity.setTitle(subItem.getTitle());
+                            subItemPk = subItem.getPk();
                             ItemEntity.Clip clip = subItem.getClip();
                             if (clip != null) {
                                 mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
@@ -1117,6 +1301,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                                 mModel.updateQuality();
                                 hideMenu();
                                 mAdapter.notifyDataSetChanged();
+                                // 写入数据库
+                                historyManager.addOrUpdateQuality(new DBQuality(0,
+                                        "", mIsmartvPlayer.getCurrentQuality().getValue()));
                             }
                         }
                         break;

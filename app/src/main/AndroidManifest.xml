@@ -25,7 +25,7 @@
 
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="daisy.db" />
+            android:value="daisy_app.db" />
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="15" />

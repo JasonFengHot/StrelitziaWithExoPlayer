@@ -9,8 +9,41 @@ public class ClipEntity {
 
     public enum Quality {
 
-        QUALITY_LOW, QUALITY_ADAPTIVE, QUALITY_NORMAL, QUALITY_MEDIUM,
-        QUALITY_HIGH, QUALITY_ULTRA, QUALITY_BLUERAY, QUALITY_4K;
+        QUALITY_LOW(0), QUALITY_ADAPTIVE(1), QUALITY_NORMAL(2), QUALITY_MEDIUM(3),
+        QUALITY_HIGH(4), QUALITY_ULTRA(5), QUALITY_BLUERAY(6), QUALITY_4K(7);
+
+        private int value;
+
+        Quality(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static Quality getQuality(int value) {
+            switch (value) {
+                case 0:
+                    return QUALITY_LOW;
+                case 1:
+                    return QUALITY_ADAPTIVE;
+                case 2:
+                    return QUALITY_NORMAL;
+                case 3:
+                    return QUALITY_MEDIUM;
+                case 4:
+                    return QUALITY_HIGH;
+                case 5:
+                    return QUALITY_ULTRA;
+                case 6:
+                    return QUALITY_BLUERAY;
+                case 7:
+                    return QUALITY_4K;
+                default:
+                    return null;
+            }
+        }
 
         public static String getString(Quality type) {
             switch (type) {

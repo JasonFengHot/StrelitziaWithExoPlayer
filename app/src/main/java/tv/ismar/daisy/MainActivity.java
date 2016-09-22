@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SyncUtils.CreateSyncAccount(this);
+//        SyncUtils.CreateSyncAccount(this);
 
         Button demo_detail_btn1 = (Button) findViewById(R.id.demo_detail_btn1);
         demo_detail_btn1.setOnClickListener(new View.OnClickListener() {
@@ -98,17 +98,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void onMovieClick(View view) {
         Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
-        intent.putExtra(PageIntentInterface.EXTRA_ITEM_ID, "81025");
-        intent.putExtra(PageIntentInterface.EXTRA_MEDIA_POSITION, 0);
+        intent.putExtra(PageIntentInterface.EXTRA_PK, 81025);
         startActivity(intent);
 
     }
 
     public void onTelevisionClick(View view) {
         Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
-        intent.putExtra(PageIntentInterface.EXTRA_ITEM_ID, "707894");
-        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_ID, "409844");
-        intent.putExtra(PageIntentInterface.EXTRA_MEDIA_POSITION, 0);
+        intent.putExtra(PageIntentInterface.EXTRA_PK, 707894);
+        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, 409844);
+        startActivity(intent);
+    }
+
+    public void onPayMovieClick(View view) {
+        Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+        intent.putExtra(PageIntentInterface.EXTRA_PK, 706220);
         startActivity(intent);
     }
 

@@ -1,8 +1,9 @@
 package tv.ismar.player;
 
+import java.util.HashMap;
+
 import tv.ismar.app.BasePresenter;
 import tv.ismar.app.BaseView;
-import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 
@@ -21,9 +22,11 @@ public interface PlayerPageContract {
 
     interface Presenter extends BasePresenter {
 
-        void fetchItem(String itemId);
+        void fetchItem(String itemPk);
 
         void fetchMediaUrl(String clipUrl, String sign, String code);
+
+        void sendHistory(HashMap<String, Object> history);
 
     }
 

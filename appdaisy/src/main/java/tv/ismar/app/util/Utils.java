@@ -5,6 +5,10 @@ import android.text.TextUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import tv.ismar.account.IsmartvActivator;
 
 /**
  * Created by beaver on 16-8-22.
@@ -74,5 +78,49 @@ public class Utils {
         String strDate = year + "-" + month + "-" + day + " " + h + ":"
                 + min + ":" + sec;
         return strDate;
+    }
+
+    public static int getItemPk(String url) {
+        int id = 0;
+        try {
+//            if (url.contains("/item/")) {
+//                isSubItem[0] = false;
+//            } else {
+//                isSubItem[0] = true;
+//            }
+            Pattern p = Pattern.compile("/(\\d+)/?$");
+            Matcher m = p.matcher(url);
+            if (m.find()) {
+                String idStr = m.group(1);
+                if (idStr != null) {
+                    id = Integer.parseInt(idStr);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public static String getItemUrl(int pk) {
+        String url = "/api/item/" + pk + "/";
+        String apiDomain = IsmartvActivator.getInstance().getApiDomain();
+        if (!apiDomain.startsWith("http://") && !apiDomain.startsWith("https://")) {
+            url = "http://" + apiDomain + url;
+        } else {
+            url = apiDomain + url;
+        }
+        return url;
+    }
+
+    public static String getSubItemUrl(int subPk) {
+        String url = "/api/subitem/" + subPk + "/";
+        String apiDomain = IsmartvActivator.getInstance().getApiDomain();
+        if (!apiDomain.startsWith("http://") && !apiDomain.startsWith("https://")) {
+            url = "http://" + apiDomain + url;
+        } else {
+            url = apiDomain + url;
+        }
+        return url;
     }
 }

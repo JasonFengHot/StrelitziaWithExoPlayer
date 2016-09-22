@@ -30,6 +30,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
+import tv.ismar.app.VodApplication;
+import tv.ismar.app.entity.DBQuality;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
@@ -111,7 +113,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     @Override
-    public void setDataSource(ClipEntity clipEntity, OnDataSourceSetListener onDataSourceSetListener) {
+    public void setDataSource(ClipEntity clipEntity, ClipEntity.Quality initQuality, OnDataSourceSetListener onDataSourceSetListener) {
         if (clipEntity == null || mPlayerMode == 0) {
             throw new IllegalArgumentException("IsmartvPlayer setDataSource invalidate.");
         }
@@ -153,7 +155,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                     mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken()));
                 }
 //                Log.d(TAG, mClipEntity.toString());
-                fetchAdvertisement(mItemEntity, AD_MODE_ONSTART);
+                fetchAdvertisement(mItemEntity, initQuality, AD_MODE_ONSTART);
                 break;
             case PlayerBuilder.MODE_QIYI_PLAYER:
                 // 片源为爱奇艺
@@ -433,7 +435,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 null, sn, mediaIp, sid, mPlayerFlag);
     }
 
-    private String initSmartQuality() {
+    private String initSmartQuality(ClipEntity.Quality initQuality) {
         if (mClipEntity == null) {
             return null;
         }
@@ -472,13 +474,17 @@ public abstract class IsmartvPlayer implements IPlayer {
             mQualities.add(ClipEntity.Quality.QUALITY_4K);
         }
         if (!mQualities.isEmpty()) {
-            mQuality = mQualities.get(0);
+            if (initQuality != null) {
+                mQuality = initQuality;
+            } else {
+                mQuality = mQualities.get(0);
+            }
             defaultQualityUrl = getSmartQualityUrl(mQuality);
         }
         return defaultQualityUrl;
     }
 
-    private void fetchAdvertisement(final ItemEntity itemEntity, final String adPid) {
+    private void fetchAdvertisement(final ItemEntity itemEntity, final ClipEntity.Quality initQuality, final String adPid) {
         if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
             mApiGetAdSubsc.unsubscribe();
         }
@@ -500,7 +506,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                                 mOnDataSourceSetListener.onFailed("Network error.");
                             }
                         } else {
-                            String mediaUrl = initSmartQuality();
+                            String mediaUrl = initSmartQuality(initQuality);
                             if (!Utils.isEmptyText(mediaUrl)) {
                                 String[] paths = new String[]{mediaUrl};
                                 setMedia(paths);
@@ -555,7 +561,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                         if (isPlayingPauseAd) {
                             return;
                         }
-                        String mediaUrl = initSmartQuality();
+                        String mediaUrl = initSmartQuality(initQuality);
                         if (!Utils.isEmptyText(mediaUrl)) {
                             if (hasAd) {
                                 mIsPlayingAdvertisement = true;

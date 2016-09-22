@@ -51,6 +51,11 @@ public interface SkyService {
             @Path("pk") String pk
     );
 
+    @GET("api/subitem/{pk}/")
+    Observable<ItemEntity.SubItem> apiSubItem(
+            @Path("pk") String pk
+    );
+
     @GET("api/{opt}/{pk}/")
     Observable<ItemEntity> apiOptItem(
             @Path("pk") String pk,
@@ -132,6 +137,13 @@ public interface SkyService {
             @Field("modelname") String modelname,
             @Field("data") String data
     );
+
+    @FormUrlEncoded
+    @POST("api/histories/create/")
+    Observable<ResponseBody> sendPlayHistory(
+            @FieldMap HashMap<String, Object> paramsMap
+    );
+
 
     @FormUrlEncoded
     @POST("accounts/login/")

@@ -9,9 +9,8 @@ public interface PageIntentInterface {
     String EXTRA_MODEL = "content_model";
     String EXTRA_PK = "pk";
     String EXTRA_ITEM_JSON = "item_json";
-    String EXTRA_ITEM_ID = "itemId";
-    String EXTRA_SUBITEM_ID = "subItemId";
-    String EXTRA_MEDIA_POSITION = "mediaPosition";
+    // 电视剧等多集片子集pk,与文档相同
+    String EXTRA_SUBITEM_PK = "sub_item_pk";
 
     void toDetailPage(Context context, String contentModel, int pk);
 
