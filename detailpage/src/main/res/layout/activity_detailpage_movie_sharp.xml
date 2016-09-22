@@ -17,9 +17,9 @@
     </data>
 
     <LinearLayout
-        android:background="#0e163a"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#0e163a"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
@@ -90,7 +90,7 @@
                             android:singleLine="true"
                             android:text="@{tasks.itemTitle}"
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h1_size"/>
+                            android:textSize="@dimen/text_size_60sp"/>
 
                         <LinearLayout
                             android:layout_width="@dimen/movie_detail_text_w"
@@ -105,7 +105,8 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_type"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -115,7 +116,8 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.genre}"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                         </LinearLayout>
 
@@ -132,7 +134,8 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_level"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -142,7 +145,8 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.classification}"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                         </LinearLayout>
 
@@ -159,7 +163,8 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_area"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -169,7 +174,8 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.area}"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                         </LinearLayout>
 
@@ -186,7 +192,8 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_time"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -196,7 +203,8 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.airDate}"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                         </LinearLayout>
 
@@ -213,7 +221,8 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_director"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -223,7 +232,8 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.director}"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                         </LinearLayout>
 
@@ -240,7 +250,8 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_actor"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -250,7 +261,8 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.actor}"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                         </LinearLayout>
 
@@ -263,21 +275,14 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:includeFontPadding="false"
-                                android:text="@string/detail_page_introduction"
-                                android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:includeFontPadding="false"
                                 android:lineSpacingExtra="@dimen/detail_text_mt3"
                                 android:maxLines="3"
                                 android:text="@{tasks.description}"
                                 android:textColor="@color/color_white"
-                                android:textSize="@dimen/h3_size"/>
+                                android:textSize="@dimen/text_size_24sp"
+                            />
 
                         </LinearLayout>
 
@@ -406,7 +411,7 @@
                             app:livLabelText=""
                             app:livRate="0"
                             app:livRateColor="@color/color_focus"
-                            app:livRateSize="@dimen/h2_size"
+                            app:livRateSize="@dimen/text_size_30sp"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
                             app:livVipPosition="gone"
@@ -423,7 +428,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                     </LinearLayout>
 
@@ -448,7 +453,7 @@
                             app:livLabelText=""
                             app:livRate="0"
                             app:livRateColor="@color/color_focus"
-                            app:livRateSize="@dimen/h2_size"
+                            app:livRateSize="@dimen/text_size_30sp"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
                             app:livVipPosition="gone"
@@ -465,7 +470,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                     </LinearLayout>
 
@@ -490,7 +495,7 @@
                             app:livLabelText=""
                             app:livRate="0"
                             app:livRateColor="@color/color_focus"
-                            app:livRateSize="@dimen/h2_size"
+                            app:livRateSize="@dimen/text_size_30sp"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
                             app:livVipPosition="gone"
@@ -507,7 +512,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                     </LinearLayout>
 
@@ -532,7 +537,7 @@
                             app:livLabelText=""
                             app:livRate="0"
                             app:livRateColor="@color/color_focus"
-                            app:livRateSize="@dimen/h2_size"
+                            app:livRateSize="@dimen/text_size_30sp"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
                             app:livVipPosition="gone"
@@ -549,7 +554,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                     </LinearLayout>
 
@@ -574,7 +579,7 @@
                             app:livLabelText=""
                             app:livRate="0"
                             app:livRateColor="@color/color_focus"
-                            app:livRateSize="@dimen/h2_size"
+                            app:livRateSize="@dimen/text_size_30sp"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
                             app:livVipPosition="gone"
@@ -591,7 +596,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                     </LinearLayout>
 
@@ -616,7 +621,7 @@
                             app:livLabelText=""
                             app:livRate="0"
                             app:livRateColor="@color/color_focus"
-                            app:livRateSize="@dimen/h2_size"
+                            app:livRateSize="@dimen/text_size_30sp"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
                             app:livVipPosition="gone"
@@ -633,7 +638,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                     </LinearLayout>
 

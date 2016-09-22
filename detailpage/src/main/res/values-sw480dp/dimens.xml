@@ -14,7 +14,7 @@
 <dimen name="movie_detail_button_h">41.33dp</dimen>
 <dimen name="movie_detail_button_space">8.33dp</dimen>
 
-<dimen name="movie_detail_relative_mt">27.33dp</dimen>
+<dimen name="movie_detail_relative_mt">5.11dp</dimen>
 <dimen name="movie_detail_relative_text_mt">34.67dp</dimen>
 <dimen name="movie_detail_relative_text_ml">16.00dp</dimen>
 <dimen name="movie_detail_relative_img_ml">16.33dp</dimen>
@@ -39,7 +39,7 @@
 <dimen name="normal_detail_button_h">32.33dp</dimen>
 <dimen name="normal_detail_button_mt">33.00dp</dimen>
 <dimen name="normal_detail_button_space">23.00dp</dimen>
-<dimen name="normal_detail_detail_mt">34.00dp</dimen>
+<dimen name="normal_detail_detail_mt">16.22dp</dimen>
 
 <dimen name="normal_detail_relative_mt">3.00dp</dimen>
 <dimen name="normal_detail_relative_ml">56.22dp</dimen>

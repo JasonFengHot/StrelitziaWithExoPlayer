@@ -124,6 +124,9 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
     @Bindable
     public String getDescription() {
+        if (!TextUtils.isEmpty(mItemEntity.getDescription())){
+          return   mContext.getString(R.string.detail_page_introduction) + mItemEntity.getDescription();
+        }
         return mItemEntity.getDescription();
     }
 
