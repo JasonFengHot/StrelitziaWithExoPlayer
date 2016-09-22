@@ -119,4 +119,8 @@ public class PlayerBuilder {
         return ismartvPlayer;
     }
 
+    public void release(){
+        sInstance = null;
+    }
+
 }

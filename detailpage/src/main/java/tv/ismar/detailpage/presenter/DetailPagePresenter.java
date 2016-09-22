@@ -1,5 +1,6 @@
 package tv.ismar.detailpage.presenter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -16,6 +17,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -40,9 +42,11 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     private ItemEntity mItemEntity = new ItemEntity();
     private String mContentModel;
     private ItemEntity[] relatedItemList;
+    private Context mContext;
 
 
-    public DetailPagePresenter(DetailPageContract.View detailView, String contentModel) {
+    public DetailPagePresenter(Context context, DetailPageContract.View detailView, String contentModel) {
+        mContext = context;
         mContentModel = contentModel;
         mDetailView = detailView;
         mDetailView.setPresenter(this);
@@ -258,6 +262,8 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void handlePlay() {
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toPlayPage(mContext, mItemEntity.getPk(), 0);
 
     }
 

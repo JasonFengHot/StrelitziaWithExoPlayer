@@ -38,4 +38,13 @@ public class PageIntent implements PageIntentInterface {
         }
         context.startActivity(intent);
     }
+
+    @Override
+    public void toPlayPage(Context context, int pk, int sub_item_pk) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.Play");
+        intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
+        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, sub_item_pk);
+        context.startActivity(intent);
+    }
 }

@@ -15,4 +15,6 @@ public interface PageIntentInterface {
     void toDetailPage(Context context, String contentModel, int pk);
 
     void toPayment(Context context, String pk, String jumpTo, String cpid, String model);
+
+    void toPlayPage(Context context, int pk, int sub_item_pk);
 }

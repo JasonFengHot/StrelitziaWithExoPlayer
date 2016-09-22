@@ -238,6 +238,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             mPlayer = null;
 
             mCurrentState = STATE_IDLE;
+            PlayerBuilder.getInstance().release();
         }
     }
 

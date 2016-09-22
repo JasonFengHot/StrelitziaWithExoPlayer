@@ -111,12 +111,12 @@ public class IsmartvActivator {
 
     private String getDeviceId() {
         String deviceId = "test";
-//        try {
-//            TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-//            deviceId = tm.getDeviceId();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+            deviceId = tm.getDeviceId();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return deviceId;
     }
 

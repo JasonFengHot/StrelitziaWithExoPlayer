@@ -77,7 +77,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
             finish();
             return;
         }
-        mDetailPagePresenter = new DetailPagePresenter(this, content_model);
+        mDetailPagePresenter = new DetailPagePresenter(DetailPageActivity.this, this, content_model);
         mModel = new DetailPageViewModel(this, mDetailPagePresenter);
         if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
 

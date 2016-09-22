@@ -251,6 +251,7 @@ public class QiyiPlayer extends IsmartvPlayer {
             mPlayer = null;
 
             mCurrentState = STATE_IDLE;
+            PlayerBuilder.getInstance().release();
         }
     }
 

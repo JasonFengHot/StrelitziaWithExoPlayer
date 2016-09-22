@@ -284,6 +284,7 @@
                         android:layout_height="@dimen/normal_detail_button_h"
                         android:background="@drawable/selector_normal_play"
                         android:gravity="center"
+                        android:onClick="@{() -> actionHandler.handlePlay()}"
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@{tasks.playText}"
                         android:textColor="@color/color_white"
