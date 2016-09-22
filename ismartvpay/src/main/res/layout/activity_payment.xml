@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/payment_min_width"
-    android:layout_height="@dimen/payment_min_height"
-    android:minHeight="@dimen/payment_min_height"
-    android:minWidth="@dimen/payment_min_width"
-    android:orientation="vertical">
+              android:layout_width="@dimen/payment_min_width"
+              android:layout_height="@dimen/payment_min_height"
+              android:minHeight="@dimen/payment_min_height"
+              android:minWidth="@dimen/payment_min_width"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/payment_title_h"
         android:layout_marginLeft="@dimen/payment_title_ml"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
-            android:textSize="@dimen/textsize_48sp"
             android:id="@+id/payment_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textsize_48sp"/>
 
         <TextView
             android:id="@+id/login_tip"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_tip_mt"
+            android:text="@string/pay_warntitle"
+            android:textColor="#fe8109"
+            android:textSize="@dimen/text_size_30sp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="@dimen/username_mr"
+            android:textSize="@dimen/text_size_24sp"/>
 
     </LinearLayout>
 
@@ -30,7 +44,7 @@
         android:layout_height="@dimen/payment_h_divider"
         android:layout_marginLeft="@dimen/payment_divider_margin"
         android:layout_marginRight="@dimen/payment_divider_margin"
-        android:background="@drawable/divider_person" />
+        android:background="@drawable/divider_person"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -54,7 +68,7 @@
                 android:focusableInTouchMode="false"
                 android:text="@string/weixinpay_button_title"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/pay_channel_weixin_textsize" />
+                android:textSize="@dimen/pay_channel_weixin_textsize"/>
 
             <Button
                 android:id="@+id/alipay"
@@ -66,7 +80,7 @@
                 android:focusableInTouchMode="false"
                 android:text="@string/zhifubao_pay_button_title"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/pay_channel_weixin_textsize" />
+                android:textSize="@dimen/pay_channel_weixin_textsize"/>
 
             <Button
                 android:id="@+id/videocard"
@@ -78,7 +92,7 @@
                 android:focusableInTouchMode="false"
                 android:text="@string/guanyingcard_pay_button_title"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/pay_channel_weixin_textsize" />
+                android:textSize="@dimen/pay_channel_weixin_textsize"/>
 
             <Button
                 android:id="@+id/balance_pay"
@@ -90,7 +104,7 @@
                 android:focusableInTouchMode="false"
                 android:text="@string/yu_e_pay_button_title"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/pay_channel_weixin_textsize" />
+                android:textSize="@dimen/pay_channel_weixin_textsize"/>
 
 
         </LinearLayout>
@@ -100,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/payment_divider_margin"
             android:layout_marginTop="@dimen/payment_divider_margin"
-            android:background="@drawable/portrait_divider_person" />
+            android:background="@drawable/portrait_divider_person"/>
 
         <FrameLayout
             android:id="@+id/fragment_page"

@@ -121,7 +121,7 @@
 <dimen name="payment_min_width">1413.33dp</dimen>
 <dimen name="paytype_width">391.11dp</dimen>
 <dimen name="page_min_height">533.33dp</dimen>
-<dimen name="page_min_width">888.89dp</dimen>
+<dimen name="page_min_width">1066.67dp</dimen>
 <dimen name="payment_title_mt">106.67dp</dimen>
 <dimen name="payment_title_ml">80.00dp</dimen>
 <dimen name="payment_title_h">222.22dp</dimen>
@@ -136,5 +136,9 @@
 <dimen name="balance_layout_ml">266.67dp</dimen>
 <dimen name="card_input_ml">44.44dp</dimen>
 <dimen name="pay_channel_weixin_width">337.78dp</dimen>
+<dimen name="login_edit_ml">26.67dp</dimen>
+<dimen name="login_edit_h">71.11dp</dimen>
+<dimen name="login_tip_mt">26.67dp</dimen>
+<dimen name="username_mr">35.56dp</dimen>
 
 </resources>

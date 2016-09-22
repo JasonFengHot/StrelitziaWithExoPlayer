@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:minHeight="@dimen/page_min_height"
-    android:minWidth="@dimen/page_min_width"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:minHeight="@dimen/page_min_height"
+              android:minWidth="@dimen/page_min_width"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="@dimen/pay_person_login_linearLayout_w"
         android:layout_height="@dimen/pay_person_login_linearLayout_h"
+        android:layout_marginLeft="@dimen/login_edit_ml"
         android:orientation="horizontal">
 
         <TextView
@@ -18,17 +19,19 @@
             android:gravity="center"
             android:text="手机号:"
             android:textColor="#FFF8F8FF"
-            android:textSize="@dimen/pay_person_login_textview_textsize" />
+            android:textSize="@dimen/pay_person_login_textview_textsize"/>
 
         <EditText
             android:id="@+id/pay_edit_mobile"
             android:layout_width="@dimen/pay_person_login_pay_edit_mobile_w"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/login_edit_h"
+            android:background="@android:drawable/edit_text"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:inputType="phone"
-            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
+            android:textColor="#000000"
+            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
 
         <Button
             android:id="@+id/pay_identifyCodeBtn"
@@ -40,7 +43,7 @@
             android:focusableInTouchMode="false"
             android:text="获取验证码"
             android:textColor="#FFF8F8FF"
-            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
+            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
     </LinearLayout>
 
     <TextView
@@ -51,12 +54,13 @@
         android:gravity="center_horizontal"
         android:text="60秒后可再次点击获取验证码"
         android:textSize="@dimen/h3_size"
-        android:visibility="invisible" />
+        android:visibility="invisible"/>
 
     <LinearLayout
         android:layout_width="@dimen/pay_person_login_linearLayout_w"
         android:layout_height="@dimen/pay_person_login_linearLayout_h"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/login_edit_ml"
         android:layout_marginTop="@dimen/pay_person_login_linearLayout2_mt"
         android:orientation="horizontal">
 
@@ -66,17 +70,19 @@
             android:gravity="center"
             android:text="验证码:"
             android:textColor="#FFF8F8FF"
-            android:textSize="@dimen/pay_person_login_textview_textsize" />
+            android:textSize="@dimen/pay_person_login_textview_textsize"/>
 
         <EditText
             android:id="@+id/pay_edit_identifycode"
             android:layout_width="@dimen/pay_person_login_pay_edit_mobile_w"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/login_edit_h"
+            android:background="@android:drawable/edit_text"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:inputType="number"
-            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
+            android:textColor="#000000"
+            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
     </LinearLayout>
 
     <Button
@@ -90,6 +96,6 @@
         android:focusableInTouchMode="false"
         android:text="提交"
         android:textColor="#FFF8F8FF"
-        android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
+        android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
 
 </LinearLayout>

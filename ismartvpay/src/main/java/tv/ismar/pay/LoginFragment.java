@@ -76,6 +76,11 @@ public class LoginFragment extends Fragment {
         initView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        edit_mobile.requestFocus();
+    }
 
     private void initView() {
         count_tip = (TextView) contentView.findViewById(R.id.pay_count_tip);
@@ -99,8 +104,6 @@ public class LoginFragment extends Fragment {
                 doLogin();
             }
         });
-
-
         identifyCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

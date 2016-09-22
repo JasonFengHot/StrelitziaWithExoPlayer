@@ -55,6 +55,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     private ItemEntity mItemEntity;
     private TextView title;
+    private TextView loginTip;
+    private TextView username;
 
 
     @Override
@@ -84,6 +86,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         balancePayBtn = (Button) findViewById(R.id.balance_pay);
         title = (TextView) findViewById(R.id.payment_title);
         payTypeLayout = (ViewGroup) findViewById(R.id.pay_type_layout);
+        loginTip = (TextView)findViewById(R.id.login_tip);
+        username = (TextView)findViewById(R.id.username);
 
         weixinPayBtn.setOnClickListener(this);
         aliPayBtn.setOnClickListener(this);
@@ -334,11 +338,14 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                         title.setText(itemEntity.getTitle());
                         purchaseCheck(CheckType.PlayCheck);
                         if (TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken())) {
+
                             changeLoginStatus(false);
                             FragmentTransaction transaction = getFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, loginFragment)
                                     .commit();
                         } else {
+
+
                             changeLoginStatus(true);
                             fetchAccountBalance();
                         }
@@ -352,14 +359,19 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     private void changeLoginStatus(boolean isLogin) {
         if (isLogin) {
+            username.setText(String.format(getString(R.string.welocome_tip),IsmartvActivator.getInstance().getUsername()));
+            loginTip.setVisibility(View.GONE);
             for (int i = 0; i < payTypeLayout.getChildCount(); i++) {
                 Button button = (Button) payTypeLayout.getChildAt(i);
                 button.setTextColor(getResources().getColor(R.color.white));
                 button.setEnabled(true);
                 button.setFocusable(true);
+
             }
+            payTypeLayout.getChildAt(3).requestFocus();
 
         } else {
+            loginTip.setVisibility(View.VISIBLE);
             for (int i = 0; i < payTypeLayout.getChildCount(); i++) {
                 Button button = (Button) payTypeLayout.getChildAt(i);
                 button.setTextColor(getResources().getColor(R.color.paychannel_button_disable));
