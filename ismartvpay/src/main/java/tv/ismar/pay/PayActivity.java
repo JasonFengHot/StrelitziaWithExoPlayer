@@ -21,6 +21,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.PayLayerEntity;
 
@@ -210,38 +211,11 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     }
 
     private void buyVideo(int pk, String type, float price, String duration, String title) {
-//        PaymentDialog dialog = new PaymentDialog(this, R.style.PaymentDialog, new PaymentDialog.OrderResultListener() {
-//            @Override
-//            public void payResult(boolean result) {
-//                if (result) {
-//                    Intent data = new Intent();
-//                    data.putExtra("result", true);
-//                    setResult(20, data);
-//                    finish();
-//                }
-//            }
-//        });
-//        Item mItem = new Item();
-//        mItem.pk = pk;
-//        Expense expense = new Expense();
-//        expense.price = price;
-//        mItem.expense = expense;
-//        mItem.model_name = type;
-//        mItem.title = title;
-//        mItem.expense.duration = Integer.parseInt(duration);
-//        dialog.setItem(mItem);
-//        dialog.show();
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.pay.payment");
+        intent.putExtra(PageIntent.EXTRA_PK, pk);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("model", "item");
+        startActivity(intent);
     }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        if (resultCode == 20) {
-            setResult(20, data);
-            finish();
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
 }

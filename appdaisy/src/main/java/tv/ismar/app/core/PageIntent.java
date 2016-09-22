@@ -19,6 +19,7 @@ public class PageIntent implements PageIntentInterface {
     @Override
     public void toPayment(Context context, String pk, String jumpTo, String cpid, String model) {
         Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         switch (jumpTo) {
             case "1":
                 intent.setAction("tv.ismar.pay.payment");
