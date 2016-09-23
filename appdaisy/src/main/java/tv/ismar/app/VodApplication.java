@@ -52,7 +52,7 @@ public class VodApplication extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
-        VipMark.getInstance();
+
     }
 
     public static VodApplication get(Context context) {

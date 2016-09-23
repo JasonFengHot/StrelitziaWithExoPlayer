@@ -23,4 +23,9 @@
     <string name="minute">分钟</string>
     <string name="update_to_episode">(更新至%1$d集)</string>
     <string name="yuan">￥</string>
+
+    <string name="vod_bookmark_add_success">收藏成功</string>
+    <string name="vod_bookmark_add_unsuccess">收藏失败</string>
+    <string name="vod_bookmark_remove_success">取消收藏成功</string>
+    <string name="vod_bookmark_remove_unsuccess">取消收藏失败</string>
 </resources>

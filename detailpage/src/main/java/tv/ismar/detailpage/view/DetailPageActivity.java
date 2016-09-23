@@ -1,22 +1,19 @@
 package tv.ismar.detailpage.view;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
@@ -24,13 +21,11 @@ import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.Constants;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LabelImageView;
+import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
-import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentSharpBinding;
-import tv.ismar.detailpage.databinding.ActivityDetailpageMovieBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageMovieSharpBinding;
-import tv.ismar.detailpage.databinding.ActivityDetailpageNormalBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageNormalSharpBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
@@ -50,7 +45,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private ActivityDetailpageMovieSharpBinding mMovieBinding;
     private ActivityDetailpageEntertainmentSharpBinding mEntertainmentBinding;
     private ActivityDetailpageNormalSharpBinding mNormalBinding;
-    private  DetailPagePresenter mDetailPagePresenter;
+    private DetailPagePresenter mDetailPagePresenter;
     private String content_model;
 
 
@@ -68,34 +63,49 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private HeadFragment headFragment;
     private String mHeadTitle;
 
+    private LoadingDialog mLoadingDialog;
+
+    private volatile boolean itemIsLoad;
+    private volatile boolean relateIsLoad;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
+        mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+                DetailPageActivity.this.finish();
+            }
+        });
+        mLoadingDialog.showDialog();
+
         content_model = getIntent().getStringExtra(EXTRA_MODEL);
         mItemPk = getIntent().getIntExtra(EXTRA_PK, -1);
-        if (TextUtils.isEmpty(content_model)||  mItemPk == -1) {
+        if (TextUtils.isEmpty(content_model) || mItemPk == -1) {
             finish();
             return;
         }
         mDetailPagePresenter = new DetailPagePresenter(DetailPageActivity.this, this, content_model);
         mModel = new DetailPageViewModel(this, mDetailPagePresenter);
-        if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
 
+        mHeadTitle = getModelType(content_model);
+
+        if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
             relViews = 4;
-            mHeadTitle = "娱乐综艺";
             mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment_sharp);
             mEntertainmentBinding.setTasks(mModel);
             mEntertainmentBinding.setActionHandler(mPresenter);
         } else if ("movie".equals(content_model)) {
             relViews = 6;
-            mHeadTitle = "电影";
             mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie_sharp);
             mMovieBinding.setTasks(mModel);
             mMovieBinding.setActionHandler(mPresenter);
         } else {
             relViews = 4;
             relFocusTextViews = new TextView[relViews];
-            mHeadTitle = "电视剧";
             mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal_sharp);
             mNormalBinding.setTasks(mModel);
             mNormalBinding.setActionHandler(mPresenter);
@@ -114,10 +124,9 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         headFragment.setHeadTitle(mHeadTitle);
 
         Log.i(TAG, Constants.TEST);
-        getLoaderManager().initLoader(0, null, mModel);
         mPresenter.start();
-        mPresenter.fetchItem(String.valueOf(mItemPk), null, null);
-        mPresenter.fetchItemRelate(String.valueOf(mItemPk), null, null);
+        mPresenter.fetchItem(String.valueOf(mItemPk));
+        mPresenter.fetchItemRelate(String.valueOf(mItemPk));
 
     }
 
@@ -125,7 +134,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.requestPlayCheck(String.valueOf(mItemPk), null, null);
+        mPresenter.requestPlayCheck(String.valueOf(mItemPk));
     }
 
     @Override
@@ -151,8 +160,10 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
-        mPresenter.requestPlayCheck(String.valueOf(mItemPk), null, null);
+        mPresenter.requestPlayCheck(String.valueOf(mItemPk));
         mModel.replaceItem(itemEntity);
+        itemIsLoad = true;
+        hideLoading();
     }
 
 
@@ -199,6 +210,14 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
 
         }
+        relateIsLoad = true;
+        hideLoading();
+    }
+
+    private void hideLoading() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
+            mLoadingDialog.dismiss();
+        }
     }
 
     private View.OnClickListener relateItemOnClickListener = new View.OnClickListener() {
@@ -215,7 +234,70 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     }
 
     @Override
+    public void notifyBookmark(boolean mark, boolean isSuccess) {
+        mModel.notifyBookmark(mark, isSuccess);
+        if (mark) {
+            if (isSuccess) {
+                showToast(getString(R.string.vod_bookmark_add_success));
+            } else {
+                showToast(getString(R.string.vod_bookmark_add_unsuccess));
+            }
+        } else {
+            if (isSuccess) {
+                showToast(getString(R.string.vod_bookmark_remove_success));
+            } else {
+                showToast(getString(R.string.vod_bookmark_remove_unsuccess));
+            }
+        }
+    }
+
+    @Override
     public Context getContext() {
         return this;
+    }
+
+    private String getModelType(String content_model) {
+        String resourceType = null;
+        if (content_model.equals("movie")) {
+            resourceType = "电影";
+            // teleplay 为电视剧trailer
+        } else if (content_model.equals("teleplay")) {
+            resourceType = "电视剧";
+            // variety 为综艺
+        } else if (content_model.equals("variety")) {
+            resourceType = "综艺";
+            // documentary 为纪录片
+        } else if (content_model.equals("documentary")) {
+            resourceType = "纪录片";
+            // entertainment 为娱乐
+        } else if (content_model.equals("entertainment")) {
+            resourceType = "娱乐";
+            // trailer 为片花
+        } else if (content_model.equals("trailer")) {
+            resourceType = "片花";
+            // music 为音乐
+        } else if (content_model.equals("music")) {
+            resourceType = "音乐";
+            // comic 为喜剧
+        } else if (content_model.equals("comic")) {
+            resourceType = "喜剧";
+            // sport 为体育
+        } else if (content_model.equals("sport")) {
+            resourceType = "体育";
+        }
+        return resourceType;
+    }
+
+
+    private void showToast(String text) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.simple_toast, null);
+        TextView toastText = (TextView) layout.findViewById(R.id.toast_text);
+        toastText.setText(text);
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 }

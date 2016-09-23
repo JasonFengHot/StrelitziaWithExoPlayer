@@ -2,6 +2,7 @@ package tv.ismar.detailpage.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -15,16 +16,20 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.database.BookmarkTable;
+import tv.ismar.app.db.FavoriteManager;
+import tv.ismar.app.entity.Favorite;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
+import tv.ismar.detailpage.R;
 
 /**
  * Created by huibin on 8/19/16.
@@ -62,7 +67,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     }
 
     @Override
-    public void fetchItem(String pk, String deviceToken, String accessToken) {
+    public void fetchItem(String pk) {
         if (apiItemSubsc != null && !apiItemSubsc.isUnsubscribed()) {
             apiItemSubsc.unsubscribe();
         }
@@ -95,7 +100,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
 
     @Override
-    public void createBookmarks(String pk, String deviceToken, String accessToken) {
+    public void createBookmarks(String pk) {
         if (bookmarksSubsc != null && !bookmarksSubsc.isUnsubscribed()) {
             bookmarksSubsc.unsubscribe();
         }
@@ -110,6 +115,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        mDetailView.notifyBookmark(true, false);
                         e.printStackTrace();
                     }
 
@@ -121,7 +127,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     }
 
     @Override
-    public void removeBookmarks(String pk, String deviceToken, String accessToken) {
+    public void removeBookmarks(String pk) {
         if (removeBookmarksSubsc != null && !removeBookmarksSubsc.isUnsubscribed()) {
             removeBookmarksSubsc.unsubscribe();
         }
@@ -136,6 +142,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        mDetailView.notifyBookmark(false, false);
                         e.printStackTrace();
                     }
 
@@ -147,7 +154,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     }
 
     @Override
-    public void requestPlayCheck(String itemPk, String deviceToken, String accessToken) {
+    public void requestPlayCheck(String itemPk) {
         if (playCheckSubsc != null && !playCheckSubsc.isUnsubscribed()) {
             playCheckSubsc.unsubscribe();
         }
@@ -201,7 +208,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     }
 
     @Override
-    public void fetchItemRelate(String pk, String deviceToken, String accessToken) {
+    public void fetchItemRelate(String pk) {
         if (itemRelateSubsc != null && !itemRelateSubsc.isUnsubscribed()) {
             itemRelateSubsc.unsubscribe();
         }
@@ -249,15 +256,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void handleBookmark() {
-        BookmarkTable bookmarkTable = new Select().from(BookmarkTable.class).where("pk = ?", mItemEntity.getPk()).executeSingle();
-        if (bookmarkTable != null) {
-            bookmarkTable.delete();
-        } else {
-            bookmarkTable = new BookmarkTable();
-            bookmarkTable.pk = mItemEntity.getPk();
-            bookmarkTable.title = mItemEntity.getTitle();
-            bookmarkTable.save();
-        }
+        addFavorite();
     }
 
     @Override
@@ -295,4 +294,83 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         intent.putExtra("item_json", new Gson().toJson(mItemEntity));
         mDetailView.getContext().startActivity(intent);
     }
+
+    private void addFavorite() {
+        VodApplication vodApplication = (VodApplication) mContext.getApplicationContext();
+        FavoriteManager favoriteManager = vodApplication.getModuleFavoriteManager();
+        String url = mItemEntity.getItem_url();
+        if (TextUtils.isEmpty(url)){
+            url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getPk() + "/";
+        }
+        if (isFavorite()) {
+            String isnet = "";
+            if (isLogin()) {
+                isnet = "yes";
+                deleteFavoriteByNet();
+            } else {
+                isnet = "no";
+            }
+            favoriteManager.deleteFavoriteByUrl(url, isnet);
+            mDetailView.notifyBookmark(false, true);
+        } else {
+            Favorite favorite = new Favorite();
+            favorite.title = mItemEntity.getTitle();
+            favorite.adlet_url = mItemEntity.getAdletUrl();
+            favorite.content_model = mItemEntity.getContentModel();
+            favorite.url = url;
+            favorite.quality = mItemEntity.getQuality();
+            favorite.is_complex = mItemEntity.getIsComplex();
+            if (mItemEntity.getExpense() != null) {
+                favorite.cpid = mItemEntity.getExpense().getCpid();
+                favorite.cpname = mItemEntity.getExpense().getCpname();
+                favorite.cptitle = mItemEntity.getExpense().getCptitle();
+                favorite.paytype = mItemEntity.getExpense().pay_type;
+            }
+
+            if (isLogin()) {
+                favorite.isnet = "yes";
+                createBookmarks(String.valueOf(mItemEntity.getPk()));
+            } else {
+                favorite.isnet = "no";
+            }
+
+            favoriteManager.addFavorite(favorite, favorite.isnet);
+            mDetailView.notifyBookmark(true, true);
+        }
+    }
+
+
+    public boolean isFavorite() {
+        VodApplication vodApplication = (VodApplication) mContext.getApplicationContext();
+        FavoriteManager favoriteManager = vodApplication.getModuleFavoriteManager();
+        String url = mItemEntity.getItem_url();
+        if (TextUtils.isEmpty(url)){
+            url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getPk() + "/";
+        }
+        Favorite favorite;
+        if (isLogin()) {
+            favorite = favoriteManager.getFavoriteByUrl(url, "yes");
+        } else {
+            favorite = favoriteManager.getFavoriteByUrl(url, "no");
+        }
+
+        if (favorite != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isLogin() {
+        if (TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername())) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void deleteFavoriteByNet() {
+        removeBookmarks(String.valueOf(mItemEntity.getPk()));
+    }
+
 }

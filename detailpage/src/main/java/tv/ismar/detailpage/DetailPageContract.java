@@ -18,19 +18,21 @@ public interface DetailPageContract {
 
         void notifyPlayCheck(PlayCheckEntity playCheckEntity);
 
+        void notifyBookmark(boolean mark, boolean isSuccess);
+
         Context getContext();
 
     }
 
 
     interface Presenter extends BasePresenter {
-        void fetchItem(String pk, String deviceToken, String accessToken);
+        void fetchItem(String pk);
 
-        void createBookmarks(String pk, String deviceToken, String accessToken);
+        void createBookmarks(String pk);
 
-        void fetchItemRelate(String pk, String deviceToken, String accessToken);
+        void fetchItemRelate(String pk);
 
-        void removeBookmarks(String pk, String deviceToken, String accessToken);
+        void removeBookmarks(String pk);
 
         void handleBookmark();
 
@@ -38,7 +40,7 @@ public interface DetailPageContract {
 
         void handlePurchase();
 
-        void requestPlayCheck(String itemPk, String deviceToken, String accessToken);
+        void requestPlayCheck(String itemPk);
 
         void handleMoreRelate();
 
