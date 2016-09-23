@@ -112,6 +112,7 @@ public class PlayerBuilder {
             Log.e(TAG, "Not support player mode.");
             throw new IllegalAccessError("Not support player mode.");
         }
+        Log.e(TAG, "new IsmartvPlayer success.");
         ismartvPlayer.setContext(mContext);
         ismartvPlayer.setItemEntity(mItemEntity);
         ismartvPlayer.setSurfaceView(mSurfaceView);
@@ -119,7 +120,12 @@ public class PlayerBuilder {
         return ismartvPlayer;
     }
 
-    public void release(){
+    public void release() {
+        mPlayerMode = -1;
+        mContext = null;
+        mItemEntity = null;
+        mSurfaceView = null;
+        mContainer = null;
         sInstance = null;
     }
 

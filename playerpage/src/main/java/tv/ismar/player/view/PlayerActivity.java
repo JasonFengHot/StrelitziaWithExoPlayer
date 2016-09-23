@@ -344,7 +344,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         ClipEntity.Quality initQuality = null;
         menuMaps.clear();
         isInit = false;
-        historyManager = VodApplication.getAppContext().getModuleHistoryManager();
+        historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
         String historyUrl = Utils.getItemUrl(itemPK);
         String isLogin = "no";
         if (itemPK != subItemPk) {

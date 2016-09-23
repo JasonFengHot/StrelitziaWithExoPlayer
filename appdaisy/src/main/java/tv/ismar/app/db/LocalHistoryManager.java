@@ -26,7 +26,7 @@ public class LocalHistoryManager implements HistoryManager {
     private DBHelper mDBHelper;
 
     public LocalHistoryManager(Context context) {
-        mDBHelper = VodApplication.getAppContext().getModuleDBHelper();
+        mDBHelper = VodApplication.getModuleAppContext().getModuleDBHelper();
         mHistories = mDBHelper.getAllHistories("no");
     }
 
