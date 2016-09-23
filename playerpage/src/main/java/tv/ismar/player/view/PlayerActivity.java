@@ -185,7 +185,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         surfaceView.setOnClickListener(onClickListener);
         player_container.setOnHoverListener(onHoverListener);
         player_container.setOnClickListener(onClickListener);
-        dialog_back_img.setBackgroundResource(R.drawable.loading);
+        dialog_back_img.setBackgroundResource(R.drawable.module_loading);
         animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
         player_menu.setOnItemClickListener(onItemClickListener);

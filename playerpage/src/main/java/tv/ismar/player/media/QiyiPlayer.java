@@ -244,8 +244,8 @@ public class QiyiPlayer extends IsmartvPlayer {
     @Override
     public void release() {
         super.release();
-        logVideoExit(0);
         if (mPlayer != null) {
+            logVideoExit(0);
             mPlayer.stop();
             mPlayer.release();
             mPlayer = null;

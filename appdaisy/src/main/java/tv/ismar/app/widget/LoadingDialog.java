@@ -25,7 +25,7 @@ public class LoadingDialog extends Dialog implements DialogInterface.OnDismissLi
         tipTextView = (TextView) findViewById(R.id.tipTextView);// 提示文字
 
         dialog_back_img = (ImageView) findViewById(R.id.dialog_back_img);
-        dialog_back_img.setBackgroundResource(R.drawable.loading);
+        dialog_back_img.setBackgroundResource(R.drawable.module_loading);
         animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
         setOnDismissListener(this);
     }
