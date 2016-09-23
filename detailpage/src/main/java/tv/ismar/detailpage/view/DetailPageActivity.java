@@ -87,23 +87,22 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         }
         mDetailPagePresenter = new DetailPagePresenter(DetailPageActivity.this, this, content_model);
         mModel = new DetailPageViewModel(this, mDetailPagePresenter);
-        if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
 
+        mHeadTitle = getModelType(content_model);
+
+        if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
             relViews = 4;
-            mHeadTitle = "娱乐综艺";
             mEntertainmentBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_entertainment_sharp);
             mEntertainmentBinding.setTasks(mModel);
             mEntertainmentBinding.setActionHandler(mPresenter);
         } else if ("movie".equals(content_model)) {
             relViews = 6;
-            mHeadTitle = "电影";
             mMovieBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_movie_sharp);
             mMovieBinding.setTasks(mModel);
             mMovieBinding.setActionHandler(mPresenter);
         } else {
             relViews = 4;
             relFocusTextViews = new TextView[relViews];
-            mHeadTitle = "电视剧";
             mNormalBinding = DataBindingUtil.setContentView(this, R.layout.activity_detailpage_normal_sharp);
             mNormalBinding.setTasks(mModel);
             mNormalBinding.setActionHandler(mPresenter);
@@ -213,7 +212,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         hideLoading();
     }
 
-    private void hideLoading(){
+    private void hideLoading() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
             mLoadingDialog.dismiss();
         }
@@ -235,5 +234,37 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     @Override
     public Context getContext() {
         return this;
+    }
+
+    private String getModelType(String content_model) {
+        String resourceType = null;
+        if (content_model.equals("movie")) {
+            resourceType = "电影";
+            // teleplay 为电视剧trailer
+        } else if (content_model.equals("teleplay")) {
+            resourceType = "电视剧";
+            // variety 为综艺
+        } else if (content_model.equals("variety")) {
+            resourceType = "综艺";
+            // documentary 为纪录片
+        } else if (content_model.equals("documentary")) {
+            resourceType = "纪录片";
+            // entertainment 为娱乐
+        } else if (content_model.equals("entertainment")) {
+            resourceType = "娱乐";
+            // trailer 为片花
+        } else if (content_model.equals("trailer")) {
+            resourceType = "片花";
+            // music 为音乐
+        } else if (content_model.equals("music")) {
+            resourceType = "音乐";
+            // comic 为喜剧
+        } else if (content_model.equals("comic")) {
+            resourceType = "喜剧";
+            // sport 为体育
+        } else if (content_model.equals("sport")) {
+            resourceType = "体育";
+        }
+        return resourceType;
     }
 }
