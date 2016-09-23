@@ -555,6 +555,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 subItemPk = subItem.getPk();
                 ItemEntity.Clip clip = subItem.getClip();
                 if (clip != null) {
+                    hidePanel();
+                    timerStop();
+                    hideMenu();
                     mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
                     return;
                 }
