@@ -29,11 +29,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,20 +148,13 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         player_container = findView(R.id.player_container);
         panel_layout = findView(R.id.panel_layout);
         player_seekBar = findView(R.id.player_seekBar);
-        player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
         player_menu = findView(R.id.player_menu);
         player_logo_image = findView(R.id.player_logo_image);
         ad_vip_btn = findView(R.id.ad_vip_btn);
         ad_count_text = findView(R.id.ad_count_text);
         player_loading = findView(R.id.player_loading);
         dialog_back_img = findView(R.id.dialog_back_img);
-        dialog_back_img.setBackgroundResource(R.drawable.loading);
-        animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
         tipTextView = findView(R.id.tipTextView);
-        surfaceView.setOnHoverListener(onHoverListener);
-        surfaceView.setOnClickListener(onClickListener);
-        player_container.setOnHoverListener(onHoverListener);
-        player_container.setOnClickListener(onClickListener);
 
         panelShowAnimation = AnimationUtils.loadAnimation(this,
                 R.anim.fly_up);
@@ -174,12 +164,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 R.anim.slide_in_right);
         slideOutRight = AnimationUtils.loadAnimation(this,
                 android.R.anim.slide_out_right);
-
-        mPresenter.start();
-        mPresenter.fetchItem(String.valueOf(itemPK));
-        showBuffer(null);
-
-        mGestureDetector = new GestureDetector(this, onGestureListener);
 
         ad_vip_btn.setOnHoverListener(new View.OnHoverListener() {
             @Override
@@ -196,11 +180,24 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             }
         });
 
+        mGestureDetector = new GestureDetector(this, onGestureListener);
+        surfaceView.setOnHoverListener(onHoverListener);
+        surfaceView.setOnClickListener(onClickListener);
+        player_container.setOnHoverListener(onHoverListener);
+        player_container.setOnClickListener(onClickListener);
+        dialog_back_img.setBackgroundResource(R.drawable.loading);
+        animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
+        player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
         player_menu.setOnItemClickListener(onItemClickListener);
         player_menu.setOnItemSelectedListener(onItemSelectedListener);
         player_menu.setOnKeyListener(onItemKeyListener);
 
+        mPresenter.start();
+        mPresenter.fetchItem(String.valueOf(itemPK));
+        showBuffer(null);
+
     }
+
 
     @Override
     protected void onResume() {
@@ -233,9 +230,10 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 addHistory(mCurrentPosition);
             }
             mPresenter.stop();
-        }
-        if (mIsmartvPlayer != null) {
-            mIsmartvPlayer.release();
+            if (mIsmartvPlayer != null) {
+                mIsmartvPlayer.release();
+                mIsmartvPlayer = null;
+            }
         }
         super.onStop();
     }
@@ -270,6 +268,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             PlayCheckManager.getInstance(mSkyService).check(String.valueOf(mItemEntity.getPk()), new PlayCheckManager.Callback() {
                 @Override
                 public void onSuccess(boolean isBuy, int remainDay) {
+                    Log.e(TAG, "play check isBuy:" + isBuy + " " + remainDay);
                     if (isBuy) {
                         mPresenter.fetchMediaUrl(playCheckClip.getUrl(), sign, code);
                     } else {
@@ -319,6 +318,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 .setSurfaceView(surfaceView)
                 .setContainer(player_container)
                 .build();
+        mIsmartvPlayer.setOnBufferChangedListener(this);
+        mIsmartvPlayer.setOnStateChangedListener(this);
+        mIsmartvPlayer.setOnVideoSizeChangedListener(this);
         mIsmartvPlayer.setDataSource(clipEntity, initQuality, new IPlayer.OnDataSourceSetListener() {
             @Override
             public void onSuccess() {
@@ -335,9 +337,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 Toast.makeText(PlayerActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
-        mIsmartvPlayer.setOnBufferChangedListener(this);
-        mIsmartvPlayer.setOnStateChangedListener(this);
-        mIsmartvPlayer.setOnVideoSizeChangedListener(this);
 
     }
 
@@ -345,7 +344,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         ClipEntity.Quality initQuality = null;
         menuMaps.clear();
         isInit = false;
-        historyManager = VodApplication.getAppContext().getHistoryManager();
+        historyManager = VodApplication.getAppContext().getModuleHistoryManager();
         String historyUrl = Utils.getItemUrl(itemPK);
         String isLogin = "no";
         if (itemPK != subItemPk) {
@@ -403,8 +402,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         if (mIsmartvPlayer == null) {
             return;
         }
+        Log.i(TAG, "onPrepared:" + mediaHistoryPosition);
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
-        if (mediaHistoryPosition > 0) {
+        if (mediaHistoryPosition > 0 && !mIsPreview) {
             mIsmartvPlayer.seekTo(mediaHistoryPosition);
         }
         new Handler().postDelayed(new Runnable() {
@@ -521,7 +521,17 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 //                finish();
 //                return;
 //            }
+            hidePanel();
+            timerStop();
+            hideMenu();
+            if (mHandler.hasMessages(MSG_SEK_ACTION)) {
+                mHandler.removeMessages(MSG_SEK_ACTION);
+            }
+            if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+                mHandler.removeMessages(MSG_AD_COUNTDOWN);
+            }
             mIsmartvPlayer.release();
+            mIsmartvPlayer = null;
             if (mItemEntity.getLiveVideo() && "sport".equals(mItemEntity.getContentModel())) {
                 finish();
             } else {
@@ -799,6 +809,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         if (player_menu.getVisibility() == View.VISIBLE) {
             player_menu.startAnimation(slideOutRight);
             player_menu.setVisibility(View.GONE);
+            isShowSubMenu = false;
         }
     }
 
@@ -1274,6 +1285,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                             timerStop();
                             hideMenu();
                             mIsmartvPlayer.release();
+                            mIsmartvPlayer = null;
                             String sign = "";
                             String code = "1";
                             ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];

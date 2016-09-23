@@ -39,6 +39,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         mContainer.setVisibility(View.GONE);
         mHolder = mSurfaceView.getHolder();//SurfaceHolder是SurfaceView的控制接口
         mHolder.addCallback(this); //因为这个类实现了SurfaceHolder.Callback接口，所以回调参数直接this
+        mSurfaceView.invalidate();
         logVideoStart(mSpeed);
         super.setMedia(urls);
 

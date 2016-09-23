@@ -65,7 +65,7 @@ public class PlayerPageViewModel extends BaseObservable {
 
     @Bindable
     public String getQuality() {
-        if (mIsmartvPlayer == null) {
+        if (mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState()) {
             return "";
         }
         switch (mIsmartvPlayer.getCurrentQuality()) {
@@ -86,7 +86,7 @@ public class PlayerPageViewModel extends BaseObservable {
 
     @Bindable
     public Drawable getQualityResource() {
-        if (mIsmartvPlayer == null) {
+        if (mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState()) {
             return new ColorDrawable(0);
         }
         Log.i("LH/", "quality:" + mIsmartvPlayer.getCurrentQuality());

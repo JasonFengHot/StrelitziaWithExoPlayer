@@ -28,15 +28,15 @@ public class VodApplication extends Application {
     private static HttpParamsInterceptor mHttpParamsInterceptor;
     public static final boolean DEBUG = true;
 
-    private static VodApplication instance;
-    private HistoryManager mHistoryManager;
-    private FavoriteManager mFavoriteManager;
-    private DBHelper mDBHelper;
+    private static VodApplication appInstance;
+    private HistoryManager mModuleHistoryManager;
+    private FavoriteManager mModuleFavoriteManager;
+    private DBHelper mModuleDBHelper;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
+        appInstance = this;
         ActiveAndroid.initialize(this);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
@@ -68,7 +68,7 @@ public class VodApplication extends Application {
     }
 
     public static VodApplication getAppContext() {
-        return instance;
+        return appInstance;
     }
 
     /**
@@ -76,11 +76,11 @@ public class VodApplication extends Application {
      *
      * @return The application {@link DBHelper}
      */
-    public DBHelper getDBHelper() {
-        if (mDBHelper == null) {
-            mDBHelper = new DBHelper(this);
+    public DBHelper getModuleDBHelper() {
+        if (mModuleDBHelper == null) {
+            mModuleDBHelper = new DBHelper(this);
         }
-        return mDBHelper;
+        return mModuleDBHelper;
     }
 
     /**
@@ -88,17 +88,17 @@ public class VodApplication extends Application {
      *
      * @return The application {@link HistoryManager}
      */
-    public HistoryManager getHistoryManager() {
-        if (mHistoryManager == null) {
-            mHistoryManager = new LocalHistoryManager(this);
+    public HistoryManager getModuleHistoryManager() {
+        if (mModuleHistoryManager == null) {
+            mModuleHistoryManager = new LocalHistoryManager(this);
         }
-        return mHistoryManager;
+        return mModuleHistoryManager;
     }
 
-    public FavoriteManager getFavoriteManager() {
-        if (mFavoriteManager == null) {
-            mFavoriteManager = new LocalFavoriteManager(this);
+    public FavoriteManager getModuleFavoriteManager() {
+        if (mModuleFavoriteManager == null) {
+            mModuleFavoriteManager = new LocalFavoriteManager(this);
         }
-        return mFavoriteManager;
+        return mModuleFavoriteManager;
     }
 }

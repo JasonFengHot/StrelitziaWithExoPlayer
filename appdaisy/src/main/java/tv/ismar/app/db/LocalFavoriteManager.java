@@ -21,7 +21,7 @@ public class LocalFavoriteManager implements FavoriteManager {
     private DBHelper mDBHelper;
 
     public LocalFavoriteManager(Context context) {
-        mDBHelper = VodApplication.getAppContext().getDBHelper();
+        mDBHelper = VodApplication.getAppContext().getModuleDBHelper();
         mFavorites = mDBHelper.getAllFavorites("no");
     }
 

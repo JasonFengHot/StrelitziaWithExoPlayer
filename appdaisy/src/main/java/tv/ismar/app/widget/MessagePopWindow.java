@@ -106,14 +106,15 @@ public class MessagePopWindow extends PopupWindow implements View.OnClickListene
         int i = v.getId();
         if (i == R.id.confirm_btn) {
             if (confirmListener != null) {
-                confirmListener.confirmClick(v);
                 isConfirmClick = true;
+                confirmListener.confirmClick(v);
+
             }
 
         } else if (i == R.id.cancel_btn) {
             if (cancleListener != null) {
-                cancleListener.cancelClick(v);
                 isConfirmClick = false;
+                cancleListener.cancelClick(v);
             }
 
         }
