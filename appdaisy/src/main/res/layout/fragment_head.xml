@@ -25,7 +25,7 @@
                 android:layout_marginLeft="@dimen/head_title_margin_left"
                 android:gravity="center"
                 android:text="@string/app_name"
-                android:textColor="@color/color_white"
+                android:textColor="@color/module_color_white"
                 android:textSize="@dimen/text_size_48sp"
                 android:visibility="invisible"/>
 
@@ -36,7 +36,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/header_fragment_text_space"
                 android:layout_toRightOf="@id/head_title"
-                android:background="@color/color_white"
+                android:background="@color/module_color_white"
                 android:visibility="invisible"/>
 
             <TextView
@@ -46,7 +46,7 @@
                 android:layout_marginLeft="@dimen/header_fragment_text_space"
                 android:layout_toRightOf="@id/head_divider"
                 android:text="subTitle"
-                android:textColor="@color/color_white"
+                android:textColor="@color/module_color_white"
                 android:textSize="@dimen/text_size_36sp"
                 android:visibility="gone"/>
 
@@ -57,7 +57,7 @@
                 android:layout_marginLeft="@dimen/header_fragment_text_space"
                 android:layout_toRightOf="@id/head_subTitle"
                 android:text="weather"
-                android:textColor="@color/color_white"
+                android:textColor="@color/module_color_white"
                 android:textSize="@dimen/h3_size"
                 android:visibility="invisible"/>
 
@@ -80,7 +80,7 @@
                 android:focusable="true"
                 app:ib_drawable="@drawable/usercenter_indicator"
                 app:ib_text="@string/vod_title_history"
-                app:ib_textColor="@color/color_white"
+                app:ib_textColor="@color/module_color_white"
                 app:ib_textSize="@dimen/h3_size"
                 app:ib_wrapContent="true"/>
 
@@ -92,7 +92,7 @@
                 android:focusable="true"
                 app:ib_drawable="@drawable/usercenter_indicator"
                 app:ib_text="@string/vod_title_favorite"
-                app:ib_textColor="@color/color_white"
+                app:ib_textColor="@color/module_color_white"
                 app:ib_textSize="@dimen/h3_size"
                 app:ib_wrapContent="true"/>
 
@@ -104,7 +104,7 @@
                 android:focusable="true"
                 app:ib_drawable="@drawable/usercenter_indicator"
                 app:ib_text="@string/vod_title_center"
-                app:ib_textColor="@color/color_white"
+                app:ib_textColor="@color/module_color_white"
                 app:ib_textSize="@dimen/h3_size"
                 app:ib_wrapContent="true"/>
 
@@ -116,7 +116,7 @@
                 android:focusable="true"
                 app:ib_drawable="@drawable/usercenter_indicator"
                 app:ib_text="@string/vod_title_search"
-                app:ib_textColor="@color/color_white"
+                app:ib_textColor="@color/module_color_white"
                 app:ib_textSize="@dimen/h3_size"
                 app:ib_wrapContent="true"/>
 

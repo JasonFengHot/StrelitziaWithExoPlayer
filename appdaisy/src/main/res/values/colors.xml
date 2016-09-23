@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="color_white">#FFFFFF</color>
-    <color name="color_focus">#ff9c3c</color>
+    <color name="module_color_white">#FFFFFF</color>
+    <color name="module_color_focus">#ff9c3c</color>
     <color name="color_rate">#ff9000</color>
     <color name="color_btn_grey">#33ffffff</color>
     <color name="color_btn_disable">#7f7f7f</color>

@@ -204,6 +204,15 @@ public abstract class IsmartvPlayer implements IPlayer {
     @Override
     public void release() {
         isQiyiSdkInit = false;
+        mCurrentState = STATE_IDLE;
+        mContext = null;
+        mItemEntity = null;
+        mClipEntity = null;
+        mOnDataSourceSetListener = null;
+        mOnVideoSizeChangedListener = null;
+        mOnBufferChangedListener = null;
+        mOnStateChangedListener = null;
+        isQiyiSdkInit = false;
     }
 
     @Override
@@ -253,6 +262,9 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     protected String getSmartQualityUrl(ClipEntity.Quality quality) {
+        if(quality == null){
+            return "";
+        }
         String qualityUrl = null;
         switch (quality) {
             case QUALITY_LOW:
@@ -276,6 +288,9 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     private int getQualityIndex(ClipEntity.Quality quality) {
+        if(quality == null){
+            return -1;
+        }
         switch (quality) {
             case QUALITY_LOW:
                 return 0;

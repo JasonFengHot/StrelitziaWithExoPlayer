@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:textColor="@color/color_white"
+            android:textColor="@color/module_color_white"
             android:textSize="@dimen/h2_size" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/pop_second_text_margin_top"
             android:gravity="center"
-            android:textColor="@color/color_white"
+            android:textColor="@color/module_color_white"
             android:textSize="@dimen/h2_size"
             android:visibility="gone" />
 
@@ -57,7 +57,7 @@
                 android:id="@+id/cancel_btn"
                 android:layout_width="@dimen/pop_btn_width"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/pop_btn_margin_lr"
+                android:layout_marginLeft="@dimen/module_pop_btn_margin_lr"
                 android:background="@drawable/selector_daisy_exit_button"
                 android:focusable="true"
                 android:focusableInTouchMode="true"

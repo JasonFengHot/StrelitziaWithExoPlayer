@@ -49,7 +49,7 @@ import tv.ismar.app.entity.History;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Utils;
-import tv.ismar.app.widget.MessagePopWindow;
+import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.player.PlayerPageContract;
 import tv.ismar.player.R;
 import tv.ismar.player.databinding.ActivityPlayerBinding;
@@ -185,7 +185,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         surfaceView.setOnClickListener(onClickListener);
         player_container.setOnHoverListener(onHoverListener);
         player_container.setOnClickListener(onClickListener);
-        dialog_back_img.setBackgroundResource(R.drawable.loading);
+        dialog_back_img.setBackgroundResource(R.drawable.module_loading);
         animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
         player_menu.setOnItemClickListener(onItemClickListener);
@@ -224,11 +224,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
+        if (!mIsPlayingAd) {
+            createHistory(mCurrentPosition);
+            addHistory(mCurrentPosition);
+        }
         if (!isToPaymentPage) {
-            if (!mIsPlayingAd) {
-                createHistory(mCurrentPosition);
-                addHistory(mCurrentPosition);
-            }
             mPresenter.stop();
             if (mIsmartvPlayer != null) {
                 mIsmartvPlayer.release();
@@ -1208,7 +1208,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                             if (lastSelectMenu != null) {
                                 lastSelectMenu.setBackgroundResource(android.R.color.transparent);
                             }
-                            v.setBackgroundResource(R.color.color_focus);
+                            v.setBackgroundResource(R.color.module_color_focus);
                             lastSelectMenu = v;
                             onHoveredPosition = (int) v.getTag(R.id.adapter_menu_text);
                             break;
@@ -1260,7 +1260,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             if (lastSelectMenu != null) {
                 lastSelectMenu.setBackgroundResource(android.R.color.transparent);
             }
-            view.setBackgroundResource(R.color.color_focus);
+            view.setBackgroundResource(R.color.module_color_focus);
             lastSelectMenu = view;
         }
 
@@ -1303,6 +1303,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                         if (!qualities.isEmpty()) {
                             ClipEntity.Quality quality = mIsmartvPlayer.getQulities().get(position);
                             if (mIsmartvPlayer.getCurrentQuality() != quality) {
+                                hideMenu();
+                                mAdapter.notifyDataSetChanged();
                                 mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
                                 mCurrentQualityIndex = position;
                                 mIsmartvPlayer.switchQuality(quality);
@@ -1311,8 +1313,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                                     showBuffer(null);
                                 }
                                 mModel.updateQuality();
-                                hideMenu();
-                                mAdapter.notifyDataSetChanged();
                                 // 写入数据库
                                 historyManager.addOrUpdateQuality(new DBQuality(0,
                                         "", mIsmartvPlayer.getCurrentQuality().getValue()));
@@ -1349,7 +1349,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         }
     };
 
-    private MessagePopWindow popDialog;
+    private ModuleMessagePopWindow popDialog;
 
     private boolean isPopWindowShow() {
         return popDialog != null && popDialog.isShowing();
@@ -1366,16 +1366,16 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         }
         timerStop();
         mIsmartvPlayer.pause();
-        popDialog = new MessagePopWindow(this);
+        popDialog = new ModuleMessagePopWindow(this);
         popDialog.setFirstMessage(getString(R.string.player_exit));
-        popDialog.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new MessagePopWindow.ConfirmListener() {
+        popDialog.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
                         popDialog.dismiss();
                         finish();
                     }
                 },
-                new MessagePopWindow.CancelListener() {
+                new ModuleMessagePopWindow.CancelListener() {
                     @Override
                     public void cancelClick(View view) {
                         popDialog.dismiss();

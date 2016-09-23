@@ -23,6 +23,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
 
     private int mSpeed;
     private String mMediaIp;
+    private static boolean isSurfaceInit;
 
     public DaisyPlayer() {
         this(PlayerBuilder.MODE_SMART_PLAYER);
@@ -37,10 +38,16 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         mPaths = urls;
         mSurfaceView.setVisibility(View.VISIBLE);
         mContainer.setVisibility(View.GONE);
-        mHolder = mSurfaceView.getHolder();//SurfaceHolder是SurfaceView的控制接口
-        mHolder.addCallback(this); //因为这个类实现了SurfaceHolder.Callback接口，所以回调参数直接this
-        mSurfaceView.invalidate();
+        mHolder = mSurfaceView.getHolder();
+        mHolder.addCallback(this);
         logVideoStart(mSpeed);
+        Log.i(TAG, "setMedia");
+        if (isSurfaceInit && mHolder != null) {
+            openVideo();
+            if (mOnDataSourceSetListener != null) {
+                mOnDataSourceSetListener.onSuccess();
+            }
+        }
         super.setMedia(urls);
 
     }
@@ -179,12 +186,13 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i(TAG, "surfaceCreated");
-        if (holder != null) {
-            openVideo();
-
+        mHolder = holder;
+        if (holder != null && !isSurfaceInit) {
             if (mOnDataSourceSetListener != null) {
+                openVideo();
                 mOnDataSourceSetListener.onSuccess();
             }
+            isSurfaceInit = true;
         }
     }
 
@@ -195,6 +203,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.i(TAG, "surfaceDestroyed");
+        mHolder = null;
+        isSurfaceInit = false;
         if (isInPlaybackState() && mPlayer != null && mPlayer.isPlaying()) {
             pause();
         }
@@ -302,11 +313,12 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         }
         String mediaUrl = getSmartQualityUrl(quality);
         if (!Utils.isEmptyText(mediaUrl)) {
-            mQuality = quality;
             mPaths = new String[]{mediaUrl};
-            openVideo();
-            mSurfaceView.invalidate();
-            mPlayer.prepareAsync();
+
+            mQuality = quality;
+            setMedia(mPaths);
+//            openVideo();
+//            mPlayer.prepareAsync();
         }
     }
 
