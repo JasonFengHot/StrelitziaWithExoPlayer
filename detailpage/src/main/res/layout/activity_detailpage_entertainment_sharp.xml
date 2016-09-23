@@ -57,7 +57,7 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:text="@{tasks.itemTitle}"
-                        android:textColor="@color/color_white"
+                        android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_40sp" />
 
                     <FrameLayout
@@ -103,7 +103,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/detail_page_type"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -113,7 +113,7 @@
                                 android:ellipsize="end"
                                 android:singleLine="true"
                                 android:text="@{tasks.genre}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -131,7 +131,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/detail_page_area"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -141,7 +141,7 @@
                                 android:ellipsize="end"
                                 android:singleLine="true"
                                 android:text="@{tasks.area}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -159,7 +159,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/detail_page_time"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -169,7 +169,7 @@
                                 android:ellipsize="end"
                                 android:singleLine="true"
                                 android:text="@{tasks.airDate}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -197,7 +197,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/detail_page_length"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -207,7 +207,7 @@
                                 android:ellipsize="end"
                                 android:singleLine="true"
                                 android:text="@{tasks.length}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -225,7 +225,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/detail_page_level"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -235,7 +235,7 @@
                                 android:ellipsize="end"
                                 android:singleLine="true"
                                 android:text="@{tasks.classification}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -253,7 +253,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/detail_page_presenter"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -263,7 +263,7 @@
                                 android:ellipsize="end"
                                 android:singleLine="true"
                                 android:text="@{tasks.emcee}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_30sp"
                             />
 
@@ -285,7 +285,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_guest"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                         />
 
@@ -295,7 +295,7 @@
                             android:ellipsize="end"
                             android:singleLine="true"
                             android:text="@{tasks.guest}"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                         />
 
@@ -319,7 +319,7 @@
                             android:onClick="@{() -> actionHandler.handlePlay()}"
                             android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
                             android:text="@{tasks.playText}"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h1_size" />
 
                         <Button
@@ -332,7 +332,7 @@
                             android:gravity="center"
                             android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
                             android:text="@string/video_list"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h1_size"
                             android:visibility="@{tasks.subitemsVisibility}" />
 
@@ -346,7 +346,7 @@
                             android:onClick="@{() -> actionHandler.handleBookmark()}"
                             android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
                             android:text="@{tasks.bookmarkText}"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h1_size" />
 
                     </LinearLayout>
@@ -373,7 +373,7 @@
                 android:lineSpacingExtra="@dimen/entertainment_detail_text_mt2"
                 android:lines="2"
                 android:text="@{tasks.description}"
-                android:textColor="@color/color_white"
+                android:textColor="@color/module_color_white"
                 android:textSize="@dimen/text_size_30sp"
             />
 
@@ -384,7 +384,7 @@
                 android:layout_marginRight="@dimen/entertainment_detail_content_padding_lr"
                 android:layout_marginTop="@dimen/entertainment_detail_relative_text_mt"
                 android:text="@string/recommend_str"
-                android:textColor="@color/color_white"
+                android:textColor="@color/module_color_white"
                 android:textSize="@dimen/h1_size" />
 
             <RelativeLayout
@@ -406,7 +406,7 @@
                     android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:gravity="center"
                     android:text="@string/movie_more"
-                    android:textColor="@color/color_white"
+                    android:textColor="@color/module_color_white"
                     android:textSize="@dimen/h1_size" />
 
                 <LinearLayout
@@ -432,11 +432,11 @@
                             app:livContentPadding="21dp"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -453,7 +453,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size" />
 
                     </LinearLayout>
@@ -474,11 +474,11 @@
                             app:livContentPadding="21dp"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -495,7 +495,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size" />
 
                     </LinearLayout>
@@ -516,11 +516,11 @@
                             app:livContentPadding="21dp"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -537,7 +537,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size" />
 
                     </LinearLayout>
@@ -558,11 +558,11 @@
                             app:livContentPadding="21dp"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -579,7 +579,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size" />
 
                     </LinearLayout>

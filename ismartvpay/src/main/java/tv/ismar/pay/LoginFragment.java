@@ -29,7 +29,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
-import tv.ismar.app.widget.MessagePopWindow;
+import tv.ismar.app.widget.ModuleMessagePopWindow;
 
 /**
  * Created by huibin on 2016/9/14.
@@ -170,10 +170,10 @@ public class LoginFragment extends Fragment {
     private void showLoginSuccessPopup() {
         String msg = activity.getString(R.string.login_success_name);
         String phoneNumber = edit_mobile.getText().toString();
-        final MessagePopWindow dialog = new MessagePopWindow(activity);
+        final ModuleMessagePopWindow dialog = new ModuleMessagePopWindow(activity);
         dialog.setFirstMessage(String.format(msg, phoneNumber));
         dialog.setSecondMessage(activity.getString(R.string.login_success));
-        dialog.showAtLocation(contentView, Gravity.CENTER, 0, 0, new MessagePopWindow.ConfirmListener() {
+        dialog.showAtLocation(contentView, Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
                         dialog.dismiss();

@@ -13,7 +13,7 @@ import tv.ismar.app.R;
 /**
  * Created by huaijie on 9/24/15.
  */
-public class MessagePopWindow extends PopupWindow implements View.OnClickListener {
+public class ModuleMessagePopWindow extends PopupWindow implements View.OnClickListener {
     private Button confirmBtn;
     private Button cancelBtn;
     private TextView firstMessage;
@@ -33,15 +33,15 @@ public class MessagePopWindow extends PopupWindow implements View.OnClickListene
     }
 
 
-    public MessagePopWindow(Context context) {
+    public ModuleMessagePopWindow(Context context) {
         mContext = context;
-        int width = (int) (context.getResources().getDimension(R.dimen.pop_width));
-        int height = (int) (context.getResources().getDimension(R.dimen.pop_height));
+        int width = (int) (context.getResources().getDimension(R.dimen.module_pop_width));
+        int height = (int) (context.getResources().getDimension(R.dimen.module_pop_height));
 
         setWidth(width);
         setHeight(height);
 
-        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_message, null);
+        View contentView = LayoutInflater.from(context).inflate(R.layout.module_popup_message, null);
         confirmBtn = (Button) contentView.findViewById(R.id.confirm_btn);
         cancelBtn = (Button) contentView.findViewById(R.id.cancel_btn);
         confirmBtn.setOnClickListener(this);
@@ -89,13 +89,13 @@ public class MessagePopWindow extends PopupWindow implements View.OnClickListene
     }
 
     public void setSecondMessage(int messageId) {
-        setHeight((int) (mContext.getResources().getDimension(R.dimen.pop_double_line_height)));
+        setHeight((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
         secondMessage.setVisibility(View.VISIBLE);
         secondMessage.setText(messageId);
     }
 
     public void setSecondMessage(String message) {
-        setHeight((int) (mContext.getResources().getDimension(R.dimen.pop_double_line_height)));
+        setHeight((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
         secondMessage.setVisibility(View.VISIBLE);
         secondMessage.setText(message);
     }

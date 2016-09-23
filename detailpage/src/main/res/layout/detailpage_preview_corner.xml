@@ -26,7 +26,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@{tasks.expireDate}"
-            android:textColor="@color/color_white"
+            android:textColor="@color/module_color_white"
             android:textSize="@dimen/h5_size"
             android:visibility="@{tasks.expireDateVisibility}"/>
 
@@ -37,7 +37,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="仅限VIP观看"
-            android:textColor="@color/color_white"
+            android:textColor="@color/module_color_white"
             android:textSize="@dimen/h5_size"
             android:visibility="@{tasks.permissionVisibility}"/>
 
@@ -48,7 +48,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@{tasks.price}"
-            android:textColor="@color/color_white"
+            android:textColor="@color/module_color_white"
             android:textSize="@dimen/h5_size"
             android:visibility="@{tasks.priceVisibility}"/>
 

@@ -89,7 +89,7 @@
                             android:includeFontPadding="false"
                             android:singleLine="true"
                             android:text="@{tasks.itemTitle}"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h1_size"/>
 
                         <LinearLayout
@@ -104,7 +104,7 @@
                                 android:layout_height="wrap_content"
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_type"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                             <TextView
@@ -114,7 +114,7 @@
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="@{tasks.genre}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                         </LinearLayout>
@@ -131,7 +131,7 @@
                                 android:layout_height="wrap_content"
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_level"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                             <TextView
@@ -141,7 +141,7 @@
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="@{tasks.classification}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                         </LinearLayout>
@@ -158,7 +158,7 @@
                                 android:layout_height="wrap_content"
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_area"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                             <TextView
@@ -168,7 +168,7 @@
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="@{tasks.area}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                         </LinearLayout>
@@ -185,7 +185,7 @@
                                 android:layout_height="wrap_content"
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_time"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                             <TextView
@@ -195,7 +195,7 @@
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="@{tasks.airDate}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                         </LinearLayout>
@@ -212,7 +212,7 @@
                                 android:layout_height="wrap_content"
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_director"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                             <TextView
@@ -222,7 +222,7 @@
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="@{tasks.director}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                         </LinearLayout>
@@ -239,7 +239,7 @@
                                 android:layout_height="wrap_content"
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_actor"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                             <TextView
@@ -249,7 +249,7 @@
                                 android:includeFontPadding="false"
                                 android:singleLine="true"
                                 android:text="@{tasks.actor}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                         </LinearLayout>
@@ -265,7 +265,7 @@
                                 android:layout_height="wrap_content"
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_introduction"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                             <TextView
@@ -276,7 +276,7 @@
                                 android:lineSpacingExtra="@dimen/detail_text_mt3"
                                 android:maxLines="3"
                                 android:text="@{tasks.description}"
-                                android:textColor="@color/color_white"
+                                android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/h3_size"/>
 
                         </LinearLayout>
@@ -299,7 +299,7 @@
                             android:onClick="@{() -> actionHandler.handlePlay()}"
                             android:paddingLeft="@dimen/movie_detail_button_padding_left"
                             android:text="@{tasks.playText}"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h0_size"/>
 
                         <Button
@@ -311,7 +311,7 @@
                             android:gravity="center"
                             android:paddingLeft="@dimen/movie_detail_button_padding_left"
                             android:text="@string/video_buy"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h0_size"
                             android:onClick="@{() -> actionHandler.handlePurchase()}"
                             android:visibility="@{tasks.purchaseVisibility}"/>
@@ -326,7 +326,7 @@
                             android:onClick="@{() -> actionHandler.handleBookmark()}"
                             android:paddingLeft="@dimen/movie_detail_button_padding_left"
                             android:text="@{tasks.bookmarkText}"
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h0_size"/>
 
                     </LinearLayout>
@@ -360,7 +360,7 @@
                     android:layout_marginTop="@dimen/movie_detail_relative_text_mt"
                     android:ems="1"
                     android:text="@string/recommend_str"
-                    android:textColor="@color/color_white"
+                    android:textColor="@color/module_color_white"
                     android:textSize="@dimen/h1_size"/>
 
                 <Button
@@ -373,7 +373,7 @@
                     android:gravity="center"
                     android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:text="@string/movie_more"
-                    android:textColor="@color/color_white"
+                    android:textColor="@color/module_color_white"
                     android:textSize="@dimen/h1_size"/>
 
                 <LinearLayout
@@ -401,11 +401,11 @@
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -422,7 +422,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
@@ -443,11 +443,11 @@
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -464,7 +464,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
@@ -485,11 +485,11 @@
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -506,7 +506,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
@@ -527,11 +527,11 @@
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -548,7 +548,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
@@ -569,11 +569,11 @@
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -590,7 +590,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
@@ -611,11 +611,11 @@
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
-                            app:livLabelColor="@color/color_white"
+                            app:livLabelColor="@color/module_color_white"
                             app:livLabelSize="@dimen/h3_size"
                             app:livLabelText=""
                             app:livRate="0"
-                            app:livRateColor="@color/color_focus"
+                            app:livRateColor="@color/module_color_focus"
                             app:livRateSize="@dimen/h2_size"
                             app:livSelectorDrawable="@drawable/vod_img_selector"
                             app:livUrl=""
@@ -632,7 +632,7 @@
                             android:gravity="center"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/color_white"
+                            android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
