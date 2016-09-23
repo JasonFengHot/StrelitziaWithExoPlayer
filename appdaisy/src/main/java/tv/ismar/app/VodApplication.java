@@ -67,7 +67,7 @@ public class VodApplication extends Application {
         return mHttpParamsInterceptor;
     }
 
-    public static VodApplication getAppContext() {
+    public static VodApplication getModuleAppContext() {
         return appInstance;
     }
 
