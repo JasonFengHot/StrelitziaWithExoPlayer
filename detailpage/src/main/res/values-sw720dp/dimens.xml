@@ -98,4 +98,9 @@
 <dimen name="attr_margin_left">53.33dp</dimen>
 <dimen name="preview_img_margin_right">26.67dp</dimen>
 
+<!-- Toast -->
+<dimen name="toast_layout_W">354.67dip</dimen>
+<dimen name="toast_layout_H">114.67dip</dimen>
+<dimen name="toast_textsize">26.67sp</dimen>
+<dimen name="toast_padding">26.67dip</dimen>
 </resources>

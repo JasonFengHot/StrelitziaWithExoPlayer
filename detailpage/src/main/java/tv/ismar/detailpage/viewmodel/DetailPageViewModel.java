@@ -1,42 +1,31 @@
 package tv.ismar.detailpage.viewmodel;
 
 import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-import cn.ismartv.injectdb.library.content.ContentProvider;
-import cn.ismartv.injectdb.library.query.Select;
 import tv.ismar.app.core.VipMark;
-import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.detailpage.BR;
-import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 
 /**
  * Created by huibin on 8/08/06.
  */
-public class DetailPageViewModel extends BaseObservable implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DetailPageViewModel extends BaseObservable {
     private Context mContext;
     private final DetailPagePresenter mPresenter;
     public ObservableField<String> itemTitle;
@@ -95,8 +84,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
         notifyPropertyChanged(BR.subitemsVisibility);
 
-
-
+        notifyPropertyChanged(BR.bookmarkText);
     }
 
 
@@ -127,8 +115,8 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
     @Bindable
     public String getDescription() {
-        if (!TextUtils.isEmpty(mItemEntity.getDescription())){
-          return   mContext.getString(R.string.detail_page_introduction) + mItemEntity.getDescription();
+        if (!TextUtils.isEmpty(mItemEntity.getDescription())) {
+            return mContext.getString(R.string.detail_page_introduction) + mItemEntity.getDescription();
         }
         return mItemEntity.getDescription();
     }
@@ -228,7 +216,7 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     public String getLength() {
         int length;
         try {
-            length = Integer.parseInt(mItemEntity.getClip().getLength())/60;
+            length = Integer.parseInt(mItemEntity.getClip().getLength()) / 60;
         } catch (NullPointerException e) {
             length = 0;
         }
@@ -385,8 +373,8 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     @Bindable
     public int getSubitemsVisibility() {
         try {
-            return mItemEntity.getSubitems().length == 0 ?View.GONE:View.VISIBLE;
-        }catch (NullPointerException e){
+            return mItemEntity.getSubitems().length == 0 ? View.GONE : View.VISIBLE;
+        } catch (NullPointerException e) {
             return View.GONE;
         }
     }
@@ -425,8 +413,8 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
                     return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
                             mContext.getString(R.string.video_play);
                 } else {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) + " " + subItems[subItems.length -1].getSubtitle():
-                    mContext.getString(R.string.video_play) + " " + subItems[subItems.length -1].getSubtitle();
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) + " " + subItems[subItems.length - 1].getSubtitle() :
+                            mContext.getString(R.string.video_play) + " " + subItems[subItems.length - 1].getSubtitle();
                 }
 
             default:
@@ -438,8 +426,8 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
 
     @Bindable
     public String getBookmarkText() {
-        BookmarkTable bookmarkTable = new Select().from(BookmarkTable.class).where("pk = ?", mItemEntity.getPk()).executeSingle();
-        return bookmarkTable == null ? mContext.getString(R.string.video_favorite) : mContext.getString(R.string.video_favorite_);
+
+        return mPresenter.isFavorite() ? mContext.getString(R.string.video_favorite_) : mContext.getString(R.string.video_favorite);
     }
 
 
@@ -481,21 +469,11 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
         return TextUtils.isEmpty(getClassification()) ? View.GONE : View.VISIBLE;
     }
 
+    public void notifyBookmark(boolean mark, boolean isSuccess) {
+        if (isSuccess ) {
+            notifyPropertyChanged(BR.bookmarkText);
+        }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(mContext, ContentProvider.createUri(BookmarkTable.class, null), null, null, null, null);
+
     }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        notifyPropertyChanged(BR.bookmarkText);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        notifyPropertyChanged(BR.bookmarkText);
-    }
-
-
 }

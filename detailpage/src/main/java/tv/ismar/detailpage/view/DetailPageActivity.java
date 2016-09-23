@@ -6,8 +6,11 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
@@ -121,10 +124,9 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         headFragment.setHeadTitle(mHeadTitle);
 
         Log.i(TAG, Constants.TEST);
-        getLoaderManager().initLoader(0, null, mModel);
         mPresenter.start();
-        mPresenter.fetchItem(String.valueOf(mItemPk), null, null);
-        mPresenter.fetchItemRelate(String.valueOf(mItemPk), null, null);
+        mPresenter.fetchItem(String.valueOf(mItemPk));
+        mPresenter.fetchItemRelate(String.valueOf(mItemPk));
 
     }
 
@@ -132,7 +134,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.requestPlayCheck(String.valueOf(mItemPk), null, null);
+        mPresenter.requestPlayCheck(String.valueOf(mItemPk));
     }
 
     @Override
@@ -158,7 +160,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
-        mPresenter.requestPlayCheck(String.valueOf(mItemPk), null, null);
+        mPresenter.requestPlayCheck(String.valueOf(mItemPk));
         mModel.replaceItem(itemEntity);
         itemIsLoad = true;
         hideLoading();
@@ -232,6 +234,24 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     }
 
     @Override
+    public void notifyBookmark(boolean mark, boolean isSuccess) {
+        mModel.notifyBookmark(mark, isSuccess);
+        if (mark) {
+            if (isSuccess) {
+                showToast(getString(R.string.vod_bookmark_add_success));
+            } else {
+                showToast(getString(R.string.vod_bookmark_add_unsuccess));
+            }
+        } else {
+            if (isSuccess) {
+                showToast(getString(R.string.vod_bookmark_remove_success));
+            } else {
+                showToast(getString(R.string.vod_bookmark_remove_unsuccess));
+            }
+        }
+    }
+
+    @Override
     public Context getContext() {
         return this;
     }
@@ -266,5 +286,18 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
             resourceType = "体育";
         }
         return resourceType;
+    }
+
+
+    private void showToast(String text) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.simple_toast, null);
+        TextView toastText = (TextView) layout.findViewById(R.id.toast_text);
+        toastText.setText(text);
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 }
