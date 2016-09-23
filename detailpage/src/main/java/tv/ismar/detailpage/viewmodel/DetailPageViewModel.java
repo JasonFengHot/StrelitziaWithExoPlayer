@@ -385,9 +385,9 @@ public class DetailPageViewModel extends BaseObservable implements LoaderManager
     @Bindable
     public int getSubitemsVisibility() {
         try {
-            return mItemEntity.getSubitems().length == 0 ?View.INVISIBLE:View.VISIBLE;
+            return mItemEntity.getSubitems().length == 0 ?View.GONE:View.VISIBLE;
         }catch (NullPointerException e){
-            return View.INVISIBLE;
+            return View.GONE;
         }
     }
 

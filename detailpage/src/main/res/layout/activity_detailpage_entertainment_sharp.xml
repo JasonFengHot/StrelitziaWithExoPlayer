@@ -322,19 +322,6 @@
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h1_size" />
 
-                        <Button
-                            android:id="@+id/detail_btn_drama"
-                            android:onClick="@{() -> actionHandler.handleEpisode()}"
-                            android:layout_width="@dimen/entertainment_detail_button2_w"
-                            android:layout_height="@dimen/entertainment_detail_button_h"
-                            android:layout_marginLeft="@dimen/entertainment_detail_button_ml"
-                            android:background="@drawable/selector_entertainment_episodes"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
-                            android:text="@string/video_list"
-                            android:textColor="@color/color_white"
-                            android:textSize="@dimen/h1_size"
-                            android:visibility="@{tasks.subitemsVisibility}" />
 
                         <Button
                             android:id="@+id/detail_btn_collect"
@@ -348,6 +335,20 @@
                             android:text="@{tasks.bookmarkText}"
                             android:textColor="@color/color_white"
                             android:textSize="@dimen/h1_size" />
+
+                        <Button
+                            android:id="@+id/detail_btn_drama"
+                            android:onClick="@{() -> actionHandler.handleEpisode()}"
+                            android:layout_width="@dimen/entertainment_detail_button2_w"
+                            android:layout_height="@dimen/entertainment_detail_button_h"
+                            android:layout_marginLeft="@dimen/entertainment_detail_button_ml"
+                            android:background="@drawable/selector_entertainment_episodes"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
+                            android:text="@string/video_list"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/h1_size"
+                            android:visibility="@{tasks.subitemsVisibility}" />
 
                     </LinearLayout>
 
