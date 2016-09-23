@@ -1,22 +1,16 @@
 package tv.ismar.detailpage.view;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
@@ -24,13 +18,11 @@ import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.Constants;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LabelImageView;
+import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
-import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentSharpBinding;
-import tv.ismar.detailpage.databinding.ActivityDetailpageMovieBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageMovieSharpBinding;
-import tv.ismar.detailpage.databinding.ActivityDetailpageNormalBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageNormalSharpBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
@@ -50,7 +42,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private ActivityDetailpageMovieSharpBinding mMovieBinding;
     private ActivityDetailpageEntertainmentSharpBinding mEntertainmentBinding;
     private ActivityDetailpageNormalSharpBinding mNormalBinding;
-    private  DetailPagePresenter mDetailPagePresenter;
+    private DetailPagePresenter mDetailPagePresenter;
     private String content_model;
 
 
@@ -68,12 +60,28 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     private HeadFragment headFragment;
     private String mHeadTitle;
 
+    private LoadingDialog mLoadingDialog;
+
+    private volatile boolean itemIsLoad;
+    private volatile boolean relateIsLoad;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
+        mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+                DetailPageActivity.this.finish();
+            }
+        });
+        mLoadingDialog.showDialog();
+
         content_model = getIntent().getStringExtra(EXTRA_MODEL);
         mItemPk = getIntent().getIntExtra(EXTRA_PK, -1);
-        if (TextUtils.isEmpty(content_model)||  mItemPk == -1) {
+        if (TextUtils.isEmpty(content_model) || mItemPk == -1) {
             finish();
             return;
         }
@@ -153,6 +161,8 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     public void loadItem(ItemEntity itemEntity) {
         mPresenter.requestPlayCheck(String.valueOf(mItemPk), null, null);
         mModel.replaceItem(itemEntity);
+        itemIsLoad = true;
+        hideLoading();
     }
 
 
@@ -198,6 +208,14 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
             }
 
 
+        }
+        relateIsLoad = true;
+        hideLoading();
+    }
+
+    private void hideLoading(){
+        if (mLoadingDialog != null && mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
+            mLoadingDialog.dismiss();
         }
     }
 
