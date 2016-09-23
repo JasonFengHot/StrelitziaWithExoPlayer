@@ -224,11 +224,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
+        if (!mIsPlayingAd) {
+            createHistory(mCurrentPosition);
+            addHistory(mCurrentPosition);
+        }
         if (!isToPaymentPage) {
-            if (!mIsPlayingAd) {
-                createHistory(mCurrentPosition);
-                addHistory(mCurrentPosition);
-            }
             mPresenter.stop();
             if (mIsmartvPlayer != null) {
                 mIsmartvPlayer.release();
@@ -1303,6 +1303,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                         if (!qualities.isEmpty()) {
                             ClipEntity.Quality quality = mIsmartvPlayer.getQulities().get(position);
                             if (mIsmartvPlayer.getCurrentQuality() != quality) {
+                                hideMenu();
+                                mAdapter.notifyDataSetChanged();
                                 mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
                                 mCurrentQualityIndex = position;
                                 mIsmartvPlayer.switchQuality(quality);
@@ -1311,8 +1313,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                                     showBuffer(null);
                                 }
                                 mModel.updateQuality();
-                                hideMenu();
-                                mAdapter.notifyDataSetChanged();
                                 // 写入数据库
                                 historyManager.addOrUpdateQuality(new DBQuality(0,
                                         "", mIsmartvPlayer.getCurrentQuality().getValue()));

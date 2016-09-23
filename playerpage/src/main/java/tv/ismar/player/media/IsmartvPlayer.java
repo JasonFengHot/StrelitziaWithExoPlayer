@@ -204,6 +204,15 @@ public abstract class IsmartvPlayer implements IPlayer {
     @Override
     public void release() {
         isQiyiSdkInit = false;
+        mCurrentState = STATE_IDLE;
+        mContext = null;
+        mItemEntity = null;
+        mClipEntity = null;
+        mOnDataSourceSetListener = null;
+        mOnVideoSizeChangedListener = null;
+        mOnBufferChangedListener = null;
+        mOnStateChangedListener = null;
+        isQiyiSdkInit = false;
     }
 
     @Override
