@@ -69,7 +69,8 @@
                             android:layout_gravity="right|top"
                             android:scaleType="centerCrop"
                             android:visibility="@{tasks.vipMarkVisibility}"
-                            app:vipMark="@{tasks.vipMarkUrl}"/>
+                            app:vipMark="@{tasks.vipMarkUrl}"
+                        />
 
                     </FrameLayout>
 
