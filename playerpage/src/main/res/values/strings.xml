@@ -1,6 +1,9 @@
 <resources>
 
-    <string name="player_teleplay">剧集</string>
+    <string name="player_menu_teleplay">剧集选择</string>
+    <string name="player_menu_quality">画面质量</string>
+    <string name="player_menu_kefu">客服中心</string>
+    <string name="player_menu_restart">从头播放</string>
     <string name="player_exit">你是否确定退出播放器</string>
 
 </resources>
