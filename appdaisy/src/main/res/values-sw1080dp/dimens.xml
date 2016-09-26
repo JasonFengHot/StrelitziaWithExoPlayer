@@ -5,6 +5,7 @@
     <dimen name="text_size_60sp">60dp</dimen>
     <dimen name="text_size_30sp">30dp</dimen>
     <dimen name="text_size_40sp">40dp</dimen>
+    <dimen name="text_size_18sp">18dp</dimen>
 
     <dimen name="h0_size">48dp</dimen>
     <dimen name="h1_size">36.75dp</dimen>
