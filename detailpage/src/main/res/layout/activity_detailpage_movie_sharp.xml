@@ -41,6 +41,7 @@
             android:paddingTop="@dimen/movie_detail_content_padding_t">
 
             <FrameLayout
+                android:visibility="@{tasks.itemLayoutVisibility}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

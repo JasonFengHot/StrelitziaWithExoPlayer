@@ -32,6 +32,7 @@ public class DetailPageViewModel extends BaseObservable {
     private ItemEntity mItemEntity = new ItemEntity();
     private int mRemandDay = 0;
     private String expireDate;
+    private boolean itemIsload = false;
 
 
     public DetailPageViewModel(Context context, DetailPagePresenter presenter) {
@@ -85,6 +86,11 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.subitemsVisibility);
 
         notifyPropertyChanged(BR.bookmarkText);
+
+        itemIsload = true;
+
+        notifyPropertyChanged(BR.itemLayoutVisibility);
+
     }
 
 
@@ -470,10 +476,13 @@ public class DetailPageViewModel extends BaseObservable {
     }
 
     public void notifyBookmark(boolean mark, boolean isSuccess) {
-        if (isSuccess ) {
+        if (isSuccess) {
             notifyPropertyChanged(BR.bookmarkText);
         }
+    }
 
-
+    @Bindable
+    public int getItemLayoutVisibility() {
+        return itemIsload ? View.VISIBLE : View.INVISIBLE;
     }
 }
