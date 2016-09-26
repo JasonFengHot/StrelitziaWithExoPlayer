@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tv.ismar.app.R;
@@ -32,14 +34,19 @@ public class ModuleMessagePopWindow extends PopupWindow implements View.OnClickL
         void confirmClick(View view);
     }
 
+    int height;
 
     public ModuleMessagePopWindow(Context context) {
         mContext = context;
-        int width = (int) (context.getResources().getDimension(R.dimen.module_pop_width));
-        int height = (int) (context.getResources().getDimension(R.dimen.module_pop_height));
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = wm.getDefaultDisplay().getWidth();
+        int screenHeight = wm.getDefaultDisplay().getHeight();
 
-        setWidth(width);
-        setHeight(height);
+        int width = (int) (context.getResources().getDimension(R.dimen.module_pop_width));
+        height = (int) (context.getResources().getDimension(R.dimen.module_pop_height));
+
+        setWidth(screenWidth);
+        setHeight(screenHeight);
 
         View contentView = LayoutInflater.from(context).inflate(R.layout.module_popup_message, null);
         confirmBtn = (Button) contentView.findViewById(R.id.confirm_btn);
@@ -68,9 +75,19 @@ public class ModuleMessagePopWindow extends PopupWindow implements View.OnClickL
         });
         firstMessage = (TextView) contentView.findViewById(R.id.first_text_info);
         secondMessage = (TextView) contentView.findViewById(R.id.pop_second_text);
-        setContentView(contentView);
+        RelativeLayout relativeLayout = new RelativeLayout(mContext);
+//        relativeLayout.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.popwindow_bg));
+        RelativeLayout.LayoutParams layoutParams;
+        layoutParams = new RelativeLayout.LayoutParams(width, height);
+        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-        setBackgroundDrawable(context.getResources().getDrawable(R.drawable.popwindow_bg));
+        relativeLayout.addView(contentView, layoutParams);
+
+
+        setContentView(relativeLayout);
+
+        setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.pop_bg_drawable));
+
         setFocusable(true);
 
     }
@@ -89,13 +106,13 @@ public class ModuleMessagePopWindow extends PopupWindow implements View.OnClickL
     }
 
     public void setSecondMessage(int messageId) {
-        setHeight((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
+        height = ((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
         secondMessage.setVisibility(View.VISIBLE);
         secondMessage.setText(messageId);
     }
 
     public void setSecondMessage(String message) {
-        setHeight((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
+        height = ((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
         secondMessage.setVisibility(View.VISIBLE);
         secondMessage.setText(message);
     }

@@ -209,6 +209,7 @@ public class LoginFragment extends Fragment {
     };
 
     private void fetchVerificationCode() {
+        edit_mobile.setText("15370770697");
         String username = edit_mobile.getText().toString();
         if ("".equals(edit_mobile.getText().toString())) {
             setcount_tipText("请输入手机号");
@@ -220,6 +221,8 @@ public class LoginFragment extends Fragment {
             return;
         }
 
+
+        showLoginSuccessPopup();
 
 
         mSkyService.accountsAuth(username)
