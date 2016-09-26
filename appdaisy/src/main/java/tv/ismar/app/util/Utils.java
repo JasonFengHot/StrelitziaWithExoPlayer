@@ -81,13 +81,11 @@ public class Utils {
     }
 
     public static int getItemPk(String url) {
+        if (isEmptyText(url)) {
+            return -1;
+        }
         int id = 0;
         try {
-//            if (url.contains("/item/")) {
-//                isSubItem[0] = false;
-//            } else {
-//                isSubItem[0] = true;
-//            }
             Pattern p = Pattern.compile("/(\\d+)/?$");
             Matcher m = p.matcher(url);
             if (m.find()) {

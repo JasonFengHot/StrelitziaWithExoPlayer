@@ -46,6 +46,7 @@
                 android:id="@+id/confirm_btn"
                 android:layout_width="@dimen/pop_btn_width"
                 android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/module_pop_btn_margin_lr"
                 android:background="@drawable/selector_daisy_exit_button"
                 android:focusable="true"
                 android:focusableInTouchMode="true"

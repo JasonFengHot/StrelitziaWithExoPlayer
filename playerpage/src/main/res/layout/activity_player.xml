@@ -53,6 +53,7 @@
                 android:id="@+id/ad_vip_btn"
                 android:layout_width="@dimen/qiyi_ad_width"
                 android:layout_height="@dimen/qiyi_ad_height"
+                android:onClick="onBuyVip"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/drawable_ad_btn"

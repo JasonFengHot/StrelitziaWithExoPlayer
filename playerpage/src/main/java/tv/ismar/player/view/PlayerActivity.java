@@ -1,5 +1,6 @@
 package tv.ismar.player.view;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
@@ -11,19 +12,15 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -32,10 +29,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
@@ -56,6 +51,8 @@ import tv.ismar.player.databinding.ActivityPlayerBinding;
 import tv.ismar.player.media.IPlayer;
 import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.media.PlayerBuilder;
+import tv.ismar.player.media.PlayerMenu;
+import tv.ismar.player.media.PlayerMenuItem;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
 
@@ -67,16 +64,22 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private static final String PlAYSTART = "即将放映：";
     private static final int MSG_SEK_ACTION = 103;
     private static final int MSG_AD_COUNTDOWN = 104;
+    // 以下为弹出菜单id
+    private static final int MENU_QUALITY_ID_START = 0;// 码率起始id
+    private static final int MENU_QUALITY_ID_END = 8;// 码率结束id
+    private static final int MENU_TELEPLAY_ID_START = 100;// 电视剧等多集影片起始id
+    private static final int MENU_KEFU_ID = 20;// 客服中心
+    private static final int MENU_RESTART = 30;// 从头播放
 
-    private int itemPK = 0;
-    private int subItemPk = 0;
+    private int itemPK = 0;// 当前影片pk值,通过/api/item/{pk}可获取详细信息
+    private int subItemPk = 0;// 当前多集片pk值,通过/api/subitem/{pk}可获取详细信息
     private int mCurrentPosition;// 当前播放位置
-    private int mCurrentTeleplayIndex = 0;
-    private int mCurrentQualityIndex = 0;
+    //    private int mCurrentTeleplayIndex = 0;
+    //    private int mCurrentQualityIndex = 0;
     private ItemEntity mItemEntity;
-    private ClipEntity mClipEntity;
+    //    private ClipEntity mClipEntity;
     private boolean mIsPreview;
-    private boolean isToPaymentPage = false;
+    private boolean isNeedResume = false;
 
     // 历史记录
     private HistoryManager historyManager;
@@ -90,10 +93,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private FrameLayout player_container;
     private LinearLayout panel_layout;
     private SeekBar player_seekBar;
-    private ListView player_menu;
-    private boolean isShowSubMenu = false;
-    private int groupMenuIndex = -1;
-    private MenuAdapter mAdapter;
+    private PlayerMenu playerMenu;
     private static final int SHORT_STEP = 1000;
     private boolean isSeeking = false;
     private boolean isFastFBClick = false;
@@ -101,9 +101,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private ImageView ad_vip_btn;
     private TextView ad_count_text;
     private boolean isInit = false;
-    // 菜单焦点态相关
-    private int onHoveredPosition = -1;
-    private View lastSelectMenu;
+    private boolean mIsPlayingAd;
     // loading UI 由于需求改为当前Activity浮层
     private LinearLayout player_loading;
     private ImageView dialog_back_img;
@@ -117,12 +115,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     private Animation panelShowAnimation;
     private Animation panelHideAnimation;
-    private Animation slideInRight;
-    private Animation slideOutRight;
-    private boolean mIsPlayingAd;
-    private String[] keys = new String[]{"剧集选择", "画面质量", "客服中心", "从头播放"};
-    private Map<String, List<String>> menuMaps = new HashMap<>();
-    private List<String> menuDatas = new ArrayList<>();
+
     private GestureDetector mGestureDetector;
 
     @Override
@@ -148,7 +141,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         player_container = findView(R.id.player_container);
         panel_layout = findView(R.id.panel_layout);
         player_seekBar = findView(R.id.player_seekBar);
-        player_menu = findView(R.id.player_menu);
         player_logo_image = findView(R.id.player_logo_image);
         ad_vip_btn = findView(R.id.ad_vip_btn);
         ad_count_text = findView(R.id.ad_count_text);
@@ -160,10 +152,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 R.anim.fly_up);
         panelHideAnimation = AnimationUtils.loadAnimation(this,
                 R.anim.fly_down);
-        slideInRight = AnimationUtils.loadAnimation(this,
-                R.anim.slide_in_right);
-        slideOutRight = AnimationUtils.loadAnimation(this,
-                android.R.anim.slide_out_right);
 
         ad_vip_btn.setOnHoverListener(new View.OnHoverListener() {
             @Override
@@ -188,9 +176,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         dialog_back_img.setBackgroundResource(R.drawable.module_loading);
         animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
-        player_menu.setOnItemClickListener(onItemClickListener);
-        player_menu.setOnItemSelectedListener(onItemSelectedListener);
-        player_menu.setOnKeyListener(onItemKeyListener);
 
         mPresenter.start();
         mPresenter.fetchItem(String.valueOf(itemPK));
@@ -198,12 +183,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (isToPaymentPage) {
-            isToPaymentPage = false;
+        if (isNeedResume) {
+            isNeedResume = false;
             if (mItemEntity == null || mPresenter == null) {
                 finish();
                 return;
@@ -228,7 +212,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             createHistory(mCurrentPosition);
             addHistory(mCurrentPosition);
         }
-        if (!isToPaymentPage) {
+        if (!isNeedResume) {
             mPresenter.stop();
             if (mIsmartvPlayer != null) {
                 mIsmartvPlayer.release();
@@ -236,6 +220,22 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             }
         }
         super.onStop();
+    }
+
+    public void onBuyVip(View view) {
+        if (mIsmartvPlayer == null) {
+            return;
+        }
+        mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        ad_vip_btn.setVisibility(View.GONE);
+        ad_count_text.setVisibility(View.GONE);
+        isNeedResume = true;
+        mIsmartvPlayer.release();
+        mIsmartvPlayer = null;
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toPayment(this,
+                String.valueOf(mItemEntity.getPk()),
+                "2", "2", null);
     }
 
     @Override
@@ -249,13 +249,17 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity.SubItem[] subItems = itemEntity.getSubitems();
         if (subItemPk > 0 && subItems != null) {
+            int history_sub_item = initHistorySubItemPk();
+            if (history_sub_item > 0) {
+                subItemPk = history_sub_item;
+            }
             // 获取当前要播放的电视剧Clip
             for (int i = 0; i < subItems.length; i++) {
                 int _subItemPk = subItems[i].getPk();
                 if (subItemPk == _subItemPk) {
-                    mCurrentTeleplayIndex = i;
                     clip = subItems[i].getClip();
                     mItemEntity.setTitle(subItems[i].getTitle());
+                    mItemEntity.setClip(clip);
                     break;
                 }
             }
@@ -300,7 +304,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             return;
         }
         Log.d(TAG, clipEntity.toString());
-        mClipEntity = clipEntity;
         String iqiyi = clipEntity.getIqiyi_4_0();
         byte playerMode;
         if (Utils.isEmptyText(iqiyi)) {
@@ -340,16 +343,38 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     }
 
+    private int initHistorySubItemPk() {
+        if (historyManager == null) {
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+        }
+        if (itemPK != subItemPk) {
+            String historyUrl = Utils.getSubItemUrl(subItemPk);
+            String isLogin = "no";
+            if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
+                isLogin = "yes";
+            }
+            mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
+            if (mHistory != null) {
+                int sub_item_pk = Utils.getItemPk(mHistory.sub_url);
+                if (sub_item_pk > 0) {
+                    return sub_item_pk;
+                }
+            }
+        }
+        return -1;
+    }
+
     private ClipEntity.Quality initPlayerData(byte playerMode) {
+        if (historyManager == null) {
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+        }
         ClipEntity.Quality initQuality = null;
-        menuMaps.clear();
         isInit = false;
-        historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
         String historyUrl = Utils.getItemUrl(itemPK);
-        String isLogin = "no";
         if (itemPK != subItemPk) {
             historyUrl = Utils.getSubItemUrl(subItemPk);
         }
+        String isLogin = "no";
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
             isLogin = "yes";
         }
@@ -420,6 +445,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onAdStart() {
+        Log.i(TAG, "onAdStart");
         mIsPlayingAd = true;
         switch (mIsmartvPlayer.getPlayerMode()) {
             case PlayerBuilder.MODE_SMART_PLAYER:
@@ -439,6 +465,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onAdEnd() {
+        Log.i(TAG, "onAdEnd");
         mIsPlayingAd = false;
         ad_vip_btn.setVisibility(View.GONE);
         ad_count_text.setVisibility(View.GONE);
@@ -466,22 +493,25 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
             }
             player_seekBar.setMax(mIsmartvPlayer.getDuration());
-            initMenuData();
-            setMenuData();
+            player_seekBar.setPadding(0, 0, 0, 0);
             isInit = true;
         }
-        mModel.updatePlayerPause();
-        if (!isSeeking) {
-            timerStart(0);
+        if (!mIsPlayingAd) {
+            mModel.updatePlayerPause();
+            if (!isSeeking) {
+                timerStart(0);
+            }
+            showPannelDelayOut();
         }
-        showPannelDelayOut();
 
     }
 
     @Override
     public void onPaused() {
+        Log.i(TAG, "onPaused");
         timerStop();
         mModel.updatePlayerPause();
+        showPannelDelayOut();
     }
 
     @Override
@@ -508,6 +538,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onCompleted() {
+        hidePanel();
+        timerStop();
+        hideMenu();
         if (mIsPreview) {
             mIsPreview = false;
             // new_vip中传递的serialItem都为空
@@ -521,9 +554,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 //                finish();
 //                return;
 //            }
-            hidePanel();
-            timerStop();
-            hideMenu();
             if (mHandler.hasMessages(MSG_SEK_ACTION)) {
                 mHandler.removeMessages(MSG_SEK_ACTION);
             }
@@ -535,7 +565,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             if (mItemEntity.getLiveVideo() && "sport".equals(mItemEntity.getContentModel())) {
                 finish();
             } else {
-                isToPaymentPage = true;
+                isNeedResume = true;
                 ItemEntity.Expense expense = mItemEntity.getExpense();
                 String mode = null;
                 if (1 == mItemEntity.getExpense().getJump_to()) {
@@ -546,20 +576,23 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                         String.valueOf(expense.getCpid()), mode);
             }
         } else {
-            if (mItemEntity.getSubitems() != null && mCurrentTeleplayIndex < mItemEntity.getSubitems().length - 1) {
-                String sign = "";
-                String code = "1";
-                mCurrentTeleplayIndex++;
-                ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
-                mItemEntity.setTitle(subItem.getTitle());
-                subItemPk = subItem.getPk();
-                ItemEntity.Clip clip = subItem.getClip();
-                if (clip != null) {
-                    hidePanel();
-                    timerStop();
-                    hideMenu();
-                    mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
-                    return;
+            ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+            if (subItems != null) {
+                for (int i = 0; i < subItems.length; i++) {
+                    if (subItemPk == subItems[i].getPk() && i < subItems.length - 1) {
+                        ItemEntity.SubItem nextItem = subItems[i + 1];
+                        if (nextItem != null && nextItem.getClip() != null) {
+                            String sign = "";
+                            String code = "1";
+                            mItemEntity.setTitle(nextItem.getTitle());
+                            mItemEntity.setClip(nextItem.getClip());
+                            subItemPk = nextItem.getPk();
+                            mPresenter.fetchMediaUrl(nextItem.getClip().getUrl(), sign, code);
+                            showBuffer(null);
+                            addHistory(0);
+                            return;
+                        }
+                    }
                 }
             }
             Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
@@ -622,6 +655,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private void timerStart(int delay) {
         if (mIsmartvPlayer == null) {
             Log.e(TAG, "checkTaskStart: mIsmartvPlayer is null.");
+            return;
+        }
+        if (mIsPlayingAd) {
             return;
         }
         if (delay > 0) {
@@ -753,10 +789,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         player_seekBar.setProgress(mCurrentPosition);
     }
 
-    private boolean isMenuShow() {
-        return player_menu != null && player_menu.getVisibility() == View.VISIBLE;
-    }
-
     private boolean isPanelShow() {
         return panel_layout != null && panel_layout.getVisibility() == View.VISIBLE;
     }
@@ -792,29 +824,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             hidePanel();
         }
     };
-
-    private void toggleMenuVisibility() {
-        if (player_menu == null || mIsmartvPlayer == null || isPopWindowShow() || isPanelShow()
-                || mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState()
-                || isBufferShow()) {
-            return;
-        }
-        if (player_menu.getVisibility() == View.VISIBLE) {
-            hideMenu();
-        } else {
-            player_menu.startAnimation(slideInRight);
-            player_menu.setVisibility(View.VISIBLE);
-            player_menu.requestFocus();
-        }
-    }
-
-    private void hideMenu() {
-        if (player_menu.getVisibility() == View.VISIBLE) {
-            player_menu.startAnimation(slideOutRight);
-            player_menu.setVisibility(View.GONE);
-            isShowSubMenu = false;
-        }
-    }
 
     public void previousClick(View view) {
         if (!mItemEntity.getLiveVideo()) {
@@ -875,22 +884,19 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             }
             return true;
         }
+        if (isMenuShow()) {
+            return true;
+        }
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
+            case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_DPAD_DOWN:
                 hidePanel();
                 if (!isMenuShow()) {
-                    toggleMenuVisibility();
+                    showMenu();
                 }
                 return true;
             case KeyEvent.KEYCODE_BACK:
-                if (isMenuShow()) {
-                    if (isShowSubMenu) {
-                        setMenuData();
-                    } else {
-                        hideMenu();
-                    }
-                    return true;
-                }
                 if (!isPopWindowShow() && mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState() && !mIsPlayingAd) {
                     showExitPopup();
                     return true;
@@ -929,7 +935,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
-                    showPannelDelayOut();
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
@@ -1000,7 +1005,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            if (player_menu.getVisibility() == View.VISIBLE) {
+            if (playerMenu.isVisible()) {
                 return true;
             }
             showPannelDelayOut();
@@ -1019,85 +1024,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (e1.getX() - e2.getX() > 120 || e1.getX() - e2.getX() < -120) {
-                toggleMenuVisibility();
-                return true;
-            }
-            if (player_menu.getVisibility() == View.VISIBLE) {
-                return true;
-            }
             return false;
         }
     };
-
-    private void initMenuData() {
-        if (menuMaps.isEmpty()) {
-            // 剧集
-            ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
-            if (subItems != null) {
-                ArrayList<String> teles = new ArrayList<>();
-                for (ItemEntity.SubItem subItem : subItems) {
-                    teles.add(subItem.getTitle());
-                }
-                menuMaps.put(keys[0], teles);
-            }
-
-            // 画面质量
-            List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
-            if (qualities != null && qualities.size() > 0) {
-                List<String> qualityString = new ArrayList<>();
-                int i = 0;
-                for (ClipEntity.Quality quality : qualities) {
-                    qualityString.add(ClipEntity.Quality.getString(quality));
-                    // 初始化当前播放分辨率index
-                    if (mIsmartvPlayer.getCurrentQuality() == quality) {
-                        mCurrentQualityIndex = i;
-                    }
-                    i++;
-                }
-                menuMaps.put(keys[1], qualityString);
-            }
-
-            // 客服中心
-            menuMaps.put(keys[2], null);
-            // 从头播放
-            if (!mItemEntity.getLiveVideo()) {
-                menuMaps.put(keys[3], null);
-            }
-
-            mAdapter = new MenuAdapter();
-            player_menu.setAdapter(mAdapter);
-        }
-    }
-
-    private void setMenuData() {
-        if (menuMaps.isEmpty()) {
-            return;
-        }
-        menuDatas.clear();
-
-        for (String key : keys) {
-            if (menuMaps.containsKey(key)) {
-                menuDatas.add(key);
-            }
-        }
-        mAdapter.notifyDataSetChanged();
-        player_menu.setSelection(0);
-        groupMenuIndex = -1;
-        isShowSubMenu = false;
-
-    }
-
-    private void setSubMenuData(int groupPosition) {
-        if (menuMaps.isEmpty()) {
-            return;
-        }
-        menuDatas.clear();
-        menuDatas.addAll(menuMaps.get(keys[groupPosition]));
-        mAdapter.notifyDataSetChanged();
-        player_menu.setSelection(0);
-        isShowSubMenu = true;
-    }
 
     private void addHistory(int last_position) {
         if (mItemEntity == null && historyManager == null || mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState()) {
@@ -1119,14 +1048,14 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         history.is_complex = mItemEntity.getIsComplex();
         history.last_position = last_position;
         history.last_quality = mIsmartvPlayer.getCurrentQuality().getValue();
-        String itemUrl = mItemEntity.getItem_url();
-        if (Utils.isEmptyText(itemUrl)) {
-            itemUrl = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getPk();
+        String apiDomain = IsmartvActivator.getInstance().getApiDomain();
+        if (!apiDomain.startsWith("http://") && !apiDomain.startsWith("https://")) {
+            apiDomain = "http://" + apiDomain;
         }
-        history.url = itemUrl;
+        history.url = apiDomain + "/api/item/" + itemPK;
         ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
         if (subItems != null && subItems.length > 0) {
-            history.sub_url = subItems[mCurrentTeleplayIndex].getUrl();
+            history.sub_url = apiDomain + "/api/subitem/" + subItemPk;
         }
         history.is_continue = mIsContinue;
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()))
@@ -1154,203 +1083,150 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     }
 
-    private class MenuAdapter extends BaseAdapter {
-
-        private LayoutInflater mInflater;
-
-        public MenuAdapter() {
-            mInflater = LayoutInflater.from(PlayerActivity.this);
-        }
-
-        @Override
-        public int getCount() {
-            return menuDatas.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return menuDatas.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = mInflater.inflate(R.layout.adapter_player_menu, null);
-            TextView checkBox = (TextView) convertView.findViewById(R.id.adapter_menu_checkBox);
-            TextView textView = (TextView) convertView.findViewById(R.id.adapter_menu_text);
-            textView.setText(menuDatas.get(position));
-            checkBox.setVisibility(View.INVISIBLE);
-            convertView.setTag(R.id.adapter_menu_text, position);
-            switch (groupMenuIndex) {
-                case 0:
-                    if (position == mCurrentTeleplayIndex) {
-                        checkBox.setVisibility(View.VISIBLE);
-                    }
-                    break;
-                case 1:
-                    if (position == mCurrentQualityIndex) {
-                        checkBox.setVisibility(View.VISIBLE);
-                    }
-                    break;
-            }
-            convertView.setOnHoverListener(new View.OnHoverListener() {
-                @Override
-                public boolean onHover(View v, MotionEvent event) {
-                    Log.i(TAG, "onHover:" + event.getAction());
-                    if (v == null) {
-                        return false;
-                    }
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_HOVER_ENTER:
-                        case MotionEvent.ACTION_HOVER_MOVE:
-                            isKeyDown = false;
-                            if (lastSelectMenu != null) {
-                                lastSelectMenu.setBackgroundResource(android.R.color.transparent);
-                            }
-                            v.setBackgroundResource(R.color.module_color_focus);
-                            lastSelectMenu = v;
-                            onHoveredPosition = (int) v.getTag(R.id.adapter_menu_text);
-                            break;
-                        case MotionEvent.ACTION_HOVER_EXIT:
-                            if (isKeyDown) {
-                                onHoveredPosition = -1;
-                                return false;
-                            }
-                            if (lastSelectMenu != null) {
-                                lastSelectMenu.setBackgroundResource(android.R.color.transparent);
-                            }
-                            onHoveredPosition = -1;
-                            break;
-                    }
-                    return false;
+    private boolean createMenu() {
+        playerMenu = new PlayerMenu(this);
+        // 添加电视剧子集
+        PlayerMenuItem subMenu;
+        ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+        if (subItems != null && subItems.length > 0) {
+            subMenu = playerMenu.addSubMenu(MENU_TELEPLAY_ID_START, getResources().getString(R.string.player_menu_teleplay));
+            for (ItemEntity.SubItem subItem : subItems) {
+                boolean isSelected = false;
+                if (subItemPk == subItem.getPk()) {
+                    isSelected = true;
                 }
-            });
-            return convertView;
+                subMenu.addItem(subItem.getPk(), subItem.getTitle(), isSelected);
+            }
+        }
+        // 添加分辨率
+        subMenu = playerMenu.addSubMenu(MENU_QUALITY_ID_START, getResources().getString(R.string.player_menu_quality));
+        List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
+        if (!qualities.isEmpty()) {
+            for (int i = 0; i < qualities.size(); i++) {
+                ClipEntity.Quality quality = qualities.get(i);
+                String qualityName = ClipEntity.Quality.getString(quality);
+                boolean isSelected = false;
+                if (mIsmartvPlayer.getCurrentQuality() == quality) {
+                    isSelected = true;
+                }
+                // quality id从0开始,此处加1
+                subMenu.addItem(quality.getValue() + 1, qualityName, isSelected);
+            }
+        }
+        // 添加客服
+        playerMenu.addItem(MENU_KEFU_ID, getResources().getString(R.string.player_menu_kefu));
+        // 添加从头播放
+        if (mItemEntity != null && !mItemEntity.getLiveVideo()) {
+            playerMenu.addItem(MENU_RESTART, getResources().getString(R.string.player_menu_restart));
+        }
+        return true;
+    }
+
+    public boolean onMenuClicked(PlayerMenu menu, int id) {
+        if (mIsmartvPlayer == null) {
+            return false;
+        }
+        boolean ret = false;
+        if (id > MENU_QUALITY_ID_START && id <= MENU_QUALITY_ID_END) {
+            // id值为quality值+1
+            int qualityValue = id - 1;
+            ClipEntity.Quality clickQuality = ClipEntity.Quality.getQuality(qualityValue);
+            if (clickQuality == null || clickQuality == mIsmartvPlayer.getCurrentQuality()) {
+                // 为空或者点击的码率和当前设置码率相同
+                return false;
+            }
+            mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
+            mIsmartvPlayer.switchQuality(clickQuality);
+            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                timerStop();
+                showBuffer(null);
+            }
+            mModel.updateQuality();
+            // 写入数据库
+            historyManager.addOrUpdateQuality(new DBQuality(0, "", mIsmartvPlayer.getCurrentQuality().getValue()));
+            ret = true;
+        } else if (id > MENU_TELEPLAY_ID_START) {
+            // id值为subItem pk值
+            if (id == subItemPk) {
+                return false;
+            }
+            for (ItemEntity.SubItem subItem : mItemEntity.getSubitems()) {
+                if (subItem.getPk() == id) {
+                    mediaHistoryPosition = 0;
+                    timerStop();
+                    mIsmartvPlayer.release();
+                    mIsmartvPlayer = null;
+                    ItemEntity.Clip clip = subItem.getClip();
+                    String sign = "";
+                    String code = "1";
+                    mItemEntity.setTitle(subItem.getTitle());
+                    mItemEntity.setClip(clip);
+                    subItemPk = subItem.getPk();
+                    if (clip != null) {
+                        mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
+                    }
+                    showBuffer(null);
+                    ret = true;
+                    break;
+                }
+            }
+        } else if (id == MENU_KEFU_ID) {
+            Intent intent = new Intent();
+            try {
+                intent.setAction("cn.ismartv.speedtester.feedback");
+            } catch (ActivityNotFoundException e) {
+                intent.setAction("cn.ismar.sakura.launcher");
+            }
+            startActivity(intent);
+            ret = true;
+        } else if (id == MENU_RESTART) {
+            showPannelDelayOut();
+            player_seekBar.setProgress(0);
+            mIsmartvPlayer.seekTo(0);
+            mediaHistoryPosition = 0;
+            ret = true;
+        }
+        return ret;
+    }
+
+    public void onMenuCloseed(PlayerMenu menu) {
+        // do nothing
+    }
+
+    private void showMenu() {
+        if (!isMenuShow()) {
+            if (isPanelShow()) {
+                hidePanel();
+            }
+            createMenu();
+            playerMenu.show();
         }
     }
 
-    private boolean isKeyDown = false;
+    private void hideMenu() {
+        if (isMenuShow()) {
+            playerMenu.hide();
+        }
+    }
 
-    private View.OnKeyListener onItemKeyListener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                isKeyDown = true;
-                if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && onHoveredPosition >= 0
-                        && player_menu.getCount() > 2) {
-                    mAdapter.notifyDataSetChanged();
-                    player_menu.setSelection(onHoveredPosition);
-                    onHoveredPosition = -1;
-                } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP && onHoveredPosition >= 0
-                        && player_menu.getCount() > 2) {
-                    mAdapter.notifyDataSetChanged();
-                    player_menu.setSelection(onHoveredPosition);
-                    onHoveredPosition = -1;
-                }
-            }
+    private boolean isMenuShow() {
+        if (playerMenu == null) {
             return false;
         }
-    };
+        return playerMenu.isVisible();
+    }
 
-    private AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Log.i(TAG, "onItemSelected:" + view.getTag(R.id.adapter_menu_text) + " position:" + position);
-            if (lastSelectMenu != null) {
-                lastSelectMenu.setBackgroundResource(android.R.color.transparent);
-            }
-            view.setBackgroundResource(R.color.module_color_focus);
-            lastSelectMenu = view;
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-    };
-
-    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (isShowSubMenu) {
-                // 菜单选择
-                if (mIsmartvPlayer == null) {
-                    return;
-                }
-                switch (groupMenuIndex) {
-                    case 0:
-                        if (mCurrentTeleplayIndex != position) {
-                            mediaHistoryPosition = 0;
-                            mCurrentTeleplayIndex = position;
-                            timerStop();
-                            hideMenu();
-                            mIsmartvPlayer.release();
-                            mIsmartvPlayer = null;
-                            String sign = "";
-                            String code = "1";
-                            ItemEntity.SubItem subItem = mItemEntity.getSubitems()[mCurrentTeleplayIndex];
-                            mItemEntity.setTitle(subItem.getTitle());
-                            subItemPk = subItem.getPk();
-                            ItemEntity.Clip clip = subItem.getClip();
-                            if (clip != null) {
-                                mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
-                            }
-                            showBuffer(null);
-                        }
-                        break;
-                    case 1:
-                        List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
-                        if (!qualities.isEmpty()) {
-                            ClipEntity.Quality quality = mIsmartvPlayer.getQulities().get(position);
-                            if (mIsmartvPlayer.getCurrentQuality() != quality) {
-                                hideMenu();
-                                mAdapter.notifyDataSetChanged();
-                                mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
-                                mCurrentQualityIndex = position;
-                                mIsmartvPlayer.switchQuality(quality);
-                                if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
-                                    timerStop();
-                                    showBuffer(null);
-                                }
-                                mModel.updateQuality();
-                                // 写入数据库
-                                historyManager.addOrUpdateQuality(new DBQuality(0,
-                                        "", mIsmartvPlayer.getCurrentQuality().getValue()));
-                            }
-                        }
-                        break;
-                }
-            } else {
-                String menu = menuDatas.get(position);
-                for (int i = 0; i < keys.length; i++) {
-                    if (menu.equals(keys[i])) {
-                        groupMenuIndex = i;
-                        break;
-                    }
-                }
-                switch (groupMenuIndex) {
-                    case 0:
-                    case 1:
-                        // 显示子菜单
-                        setSubMenuData(groupMenuIndex);
-                        break;
-                    case 2:
-                        // TODO
-                        break;
-                    case 3:
-                        hideMenu();
-                        showPannelDelayOut();
-                        player_seekBar.setProgress(0);
-                        mIsmartvPlayer.seekTo(0);
-                        mediaHistoryPosition = 0;
-                        break;
-                }
-            }
-        }
-    };
+//    private Handler hideMenuHandler = new Handler();
+//
+//    private Runnable hideMenuRunnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            if (playerMenu != null) {
+//                playerMenu.hide();
+//            }
+//            hideMenuHandler.removeCallbacks(hideMenuRunnable);
+//        }
+//    };
 
     private ModuleMessagePopWindow popDialog;
 
@@ -1405,7 +1281,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             int what = event.getAction();
             switch (what) {
                 case MotionEvent.ACTION_HOVER_MOVE:
-                    if (!mIsPlayingAd) {
+                    if (!mIsPlayingAd && isInit) {
                         showPannelDelayOut();
                     }
                     break;
@@ -1419,7 +1295,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         public void onClick(View v) {
             if (mIsmartvPlayer == null || isPopWindowShow() ||
                     mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState()
-                    || isBufferShow()) {
+                    || isBufferShow() || isMenuShow()) {
                 return;
             }
             if (mIsmartvPlayer.isPlaying()) {
