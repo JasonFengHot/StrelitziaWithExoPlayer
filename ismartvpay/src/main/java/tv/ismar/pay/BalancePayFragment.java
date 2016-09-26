@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -121,7 +122,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Toast.makeText(activity, "支付失败!", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -134,6 +135,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                         }
                         float result = new JsonParser().parse(json).getAsJsonObject().get("balance").getAsFloat();
                         balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), result));
+                        getActivity().finish();
                     }
                 });
 
