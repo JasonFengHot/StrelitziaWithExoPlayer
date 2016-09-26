@@ -221,10 +221,6 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-
-        showLoginSuccessPopup();
-
-
         mSkyService.accountsAuth(username)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

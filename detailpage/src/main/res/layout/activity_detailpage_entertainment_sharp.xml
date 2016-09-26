@@ -315,12 +315,11 @@
                         android:layout_below="@id/detail_des_container3"
                         android:layout_marginTop="@dimen/entertainment_detail_button_mt"
                         android:orientation="horizontal">
-
                         <Button
                             android:id="@+id/detail_btn_play"
-                            android:layout_width="@dimen/entertainment_detail_button3_w"
+                            android:layout_width="@{tasks.playTextWidthIsLong ? @dimen/entertainment_detail_button3_w : @dimen/movie_detail_button_w, default=wrap_content}"
                             android:layout_height="@dimen/entertainment_detail_button_h"
-                            android:background="@drawable/selector_entertainment_play"
+                            android:background="@{tasks.playTextWidthIsLong ? @drawable/selector_entertainment_play : @drawable/selector_normal_play}"
                             android:gravity="center"
                             android:onClick="@{() -> actionHandler.handlePlay()}"
                             android:paddingLeft="@dimen/entertainment_detail_button_padding_left"

@@ -8,6 +8,7 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -63,7 +64,7 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.lengthVisibility);
         notifyPropertyChanged(BR.classification);
         notifyPropertyChanged(BR.classificationVisibility);
-
+        notifyPropertyChanged(BR.playTextWidthIsLong);
         notifyPropertyChanged(BR.playText);
 
         notifyPropertyChanged(BR.vipMarkUrl);
@@ -427,6 +428,31 @@ public class DetailPageViewModel extends BaseObservable {
             default:
                 return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
                         mContext.getString(R.string.video_play);
+        }
+
+    }
+
+    @BindingAdapter("android:layout_width")
+    public static void setLayoutWidth(View view, float width) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = (int)width;
+        view.setLayoutParams(layoutParams);
+    }
+
+    @Bindable
+    public boolean getPlayTextWidthIsLong() {
+        switch (mPresenter.getContentModel()) {
+            case "entertainment":
+            case "variety":
+                ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+                if (subItems == null || subItems.length == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+
+            default:
+               return false;
         }
 
     }
