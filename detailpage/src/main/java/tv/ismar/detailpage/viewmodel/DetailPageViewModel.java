@@ -15,6 +15,9 @@ import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -325,6 +328,11 @@ public class DetailPageViewModel extends BaseObservable {
     @Bindable
     public int getPriceVisibility() {
         try {
+
+            if (getExpireDateVisibility() == View.VISIBLE){
+                return View.GONE;
+            }
+
             if (mItemEntity.getExpense().getPay_type() == 3 || mItemEntity.getExpense().getPay_type() == 0) {
 
                 return View.GONE;
@@ -477,7 +485,21 @@ public class DetailPageViewModel extends BaseObservable {
 
     @Bindable
     public String getExpireDate() {
-        return expireDate;
+        if (!TextUtils.isEmpty(expireDate)) {
+            SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date sourceDate = null;
+            try {
+                sourceDate = sourceFormat.parse(expireDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy年MM月dd日");
+            String targetDate = targetFormat.format(sourceDate);
+            return "有效期至" + targetDate;
+        } else {
+            return expireDate;
+        }
     }
 
     @Bindable
