@@ -34,7 +34,6 @@ public class DetailPageViewModel extends BaseObservable {
     private String expireDate;
     private boolean itemIsload = false;
 
-
     public DetailPageViewModel(Context context, DetailPagePresenter presenter) {
         mContext = context;
         mPresenter = presenter;
@@ -87,12 +86,14 @@ public class DetailPageViewModel extends BaseObservable {
 
         notifyPropertyChanged(BR.bookmarkText);
 
-        itemIsload = true;
 
-        notifyPropertyChanged(BR.itemLayoutVisibility);
 
     }
 
+    public void showLayout(){
+        itemIsload = true;
+        notifyPropertyChanged(BR.itemLayoutVisibility);
+    }
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {

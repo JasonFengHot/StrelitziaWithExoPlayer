@@ -218,6 +218,8 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         if (mLoadingDialog != null && mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
             mLoadingDialog.dismiss();
         }
+
+        mModel.showLayout();
     }
 
     private View.OnClickListener relateItemOnClickListener = new View.OnClickListener() {

@@ -118,5 +118,6 @@
     <color name="channel_item_frame">#ff9c3c</color>
 
     <color name="iqiyi_ad_btn_color">#33ffffff</color>
+    <color name="window_bg">#0e163a</color>
 
 </resources>

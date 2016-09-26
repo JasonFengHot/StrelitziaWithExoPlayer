@@ -70,7 +70,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
             model = mItemEntity.getContentModel();
             pk = mItemEntity.getPk();
-                purchaseCheck(CheckType.PlayCheck);
+            purchaseCheck(CheckType.PlayCheck);
 
         } else {
             model = intent.getStringExtra("model");
@@ -80,14 +80,16 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
 
         setContentView(R.layout.activity_payment);
+
+
         weixinPayBtn = (Button) findViewById(R.id.weixin);
         aliPayBtn = (Button) findViewById(R.id.alipay);
         cardPayBtn = (Button) findViewById(R.id.videocard);
         balancePayBtn = (Button) findViewById(R.id.balance_pay);
         title = (TextView) findViewById(R.id.payment_title);
         payTypeLayout = (ViewGroup) findViewById(R.id.pay_type_layout);
-        loginTip = (TextView)findViewById(R.id.login_tip);
-        username = (TextView)findViewById(R.id.username);
+        loginTip = (TextView) findViewById(R.id.login_tip);
+        username = (TextView) findViewById(R.id.username);
 
         weixinPayBtn.setOnClickListener(this);
         aliPayBtn.setOnClickListener(this);
@@ -156,7 +158,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
 
     public void purchaseCheck(CheckType checkType) {
-        if (mItemEntity.isRepeat_buy()&&checkType==CheckType.PlayCheck){
+        if (mItemEntity.isRepeat_buy() && checkType == CheckType.PlayCheck) {
             return;
         }
 
@@ -359,7 +361,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     private void changeLoginStatus(boolean isLogin) {
         if (isLogin) {
-            username.setText(String.format(getString(R.string.welocome_tip),IsmartvActivator.getInstance().getUsername()));
+            username.setText(String.format(getString(R.string.welocome_tip), IsmartvActivator.getInstance().getUsername()));
             loginTip.setVisibility(View.GONE);
             for (int i = 0; i < payTypeLayout.getChildCount(); i++) {
                 Button button = (Button) payTypeLayout.getChildAt(i);
@@ -379,6 +381,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 button.setEnabled(false);
             }
         }
+        if (payTypeLayout.getVisibility() == View.INVISIBLE)
+            payTypeLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
