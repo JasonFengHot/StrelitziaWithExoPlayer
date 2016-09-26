@@ -47,7 +47,7 @@ public class PlayerPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.timer);
     }
 
-    public void updateQuality(){
+    public void updateQuality() {
         notifyPropertyChanged(BR.quality);
         notifyPropertyChanged(BR.qualityResource);
     }

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 
+import java.io.IOException;
 import java.util.Map;
 
 import tv.ismar.app.network.entity.ClipEntity;
@@ -176,6 +177,16 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             mCurrentState = STATE_ERROR;
             Log.e(TAG, "SmartPlayer onError:" + i + " " + i1);
             logVideoException(String.valueOf(i), mSpeed);
+            int currentPlayIndex = mPlayer.getCurrentPlayUrl();
+            if (mPaths != null && currentPlayIndex != mPaths.length - 1) {
+                try {
+                    Log.d(TAG, "Play ad error.");
+                    mPlayer.playUrl(currentPlayIndex + 1);
+                    return false;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             if (mOnStateChangedListener != null) {
                 mOnStateChangedListener.onError("SmartPlayer error " + i);
             }

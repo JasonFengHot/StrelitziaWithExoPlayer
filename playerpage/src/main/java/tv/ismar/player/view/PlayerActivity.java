@@ -79,7 +79,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private ItemEntity mItemEntity;
     //    private ClipEntity mClipEntity;
     private boolean mIsPreview;
-    private boolean isToPaymentPage = false;
+    private boolean isNeedResume = false;
 
     // 历史记录
     private HistoryManager historyManager;
@@ -115,7 +115,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     private Animation panelShowAnimation;
     private Animation panelHideAnimation;
-
 
     private GestureDetector mGestureDetector;
 
@@ -184,12 +183,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (isToPaymentPage) {
-            isToPaymentPage = false;
+        if (isNeedResume) {
+            isNeedResume = false;
             if (mItemEntity == null || mPresenter == null) {
                 finish();
                 return;
@@ -214,7 +212,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             createHistory(mCurrentPosition);
             addHistory(mCurrentPosition);
         }
-        if (!isToPaymentPage) {
+        if (!isNeedResume) {
             mPresenter.stop();
             if (mIsmartvPlayer != null) {
                 mIsmartvPlayer.release();
@@ -222,6 +220,22 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             }
         }
         super.onStop();
+    }
+
+    public void onBuyVip(View view) {
+        if (mIsmartvPlayer == null) {
+            return;
+        }
+        mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        ad_vip_btn.setVisibility(View.GONE);
+        ad_count_text.setVisibility(View.GONE);
+        isNeedResume = true;
+        mIsmartvPlayer.release();
+        mIsmartvPlayer = null;
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toPayment(this,
+                String.valueOf(mItemEntity.getPk()),
+                "2", "2", null);
     }
 
     @Override
@@ -235,12 +249,17 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity.SubItem[] subItems = itemEntity.getSubitems();
         if (subItemPk > 0 && subItems != null) {
+            int history_sub_item = initHistorySubItemPk();
+            if (history_sub_item > 0) {
+                subItemPk = history_sub_item;
+            }
             // 获取当前要播放的电视剧Clip
             for (int i = 0; i < subItems.length; i++) {
                 int _subItemPk = subItems[i].getPk();
                 if (subItemPk == _subItemPk) {
                     clip = subItems[i].getClip();
                     mItemEntity.setTitle(subItems[i].getTitle());
+                    mItemEntity.setClip(clip);
                     break;
                 }
             }
@@ -324,15 +343,38 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     }
 
+    private int initHistorySubItemPk() {
+        if (historyManager == null) {
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+        }
+        if (itemPK != subItemPk) {
+            String historyUrl = Utils.getSubItemUrl(subItemPk);
+            String isLogin = "no";
+            if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
+                isLogin = "yes";
+            }
+            mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
+            if (mHistory != null) {
+                int sub_item_pk = Utils.getItemPk(mHistory.sub_url);
+                if (sub_item_pk > 0) {
+                    return sub_item_pk;
+                }
+            }
+        }
+        return -1;
+    }
+
     private ClipEntity.Quality initPlayerData(byte playerMode) {
+        if (historyManager == null) {
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+        }
         ClipEntity.Quality initQuality = null;
         isInit = false;
-        historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
         String historyUrl = Utils.getItemUrl(itemPK);
-        String isLogin = "no";
         if (itemPK != subItemPk) {
             historyUrl = Utils.getSubItemUrl(subItemPk);
         }
+        String isLogin = "no";
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
             isLogin = "yes";
         }
@@ -403,6 +445,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onAdStart() {
+        Log.i(TAG, "onAdStart");
         mIsPlayingAd = true;
         switch (mIsmartvPlayer.getPlayerMode()) {
             case PlayerBuilder.MODE_SMART_PLAYER:
@@ -422,6 +465,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onAdEnd() {
+        Log.i(TAG, "onAdEnd");
         mIsPlayingAd = false;
         ad_vip_btn.setVisibility(View.GONE);
         ad_count_text.setVisibility(View.GONE);
@@ -449,20 +493,25 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
             }
             player_seekBar.setMax(mIsmartvPlayer.getDuration());
+            player_seekBar.setPadding(0, 0, 0, 0);
             isInit = true;
         }
-        mModel.updatePlayerPause();
-        if (!isSeeking) {
-            timerStart(0);
+        if (!mIsPlayingAd) {
+            mModel.updatePlayerPause();
+            if (!isSeeking) {
+                timerStart(0);
+            }
+            showPannelDelayOut();
         }
-        showPannelDelayOut();
 
     }
 
     @Override
     public void onPaused() {
+        Log.i(TAG, "onPaused");
         timerStop();
         mModel.updatePlayerPause();
+        showPannelDelayOut();
     }
 
     @Override
@@ -516,7 +565,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             if (mItemEntity.getLiveVideo() && "sport".equals(mItemEntity.getContentModel())) {
                 finish();
             } else {
-                isToPaymentPage = true;
+                isNeedResume = true;
                 ItemEntity.Expense expense = mItemEntity.getExpense();
                 String mode = null;
                 if (1 == mItemEntity.getExpense().getJump_to()) {
@@ -536,9 +585,11 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                             String sign = "";
                             String code = "1";
                             mItemEntity.setTitle(nextItem.getTitle());
+                            mItemEntity.setClip(nextItem.getClip());
                             subItemPk = nextItem.getPk();
                             mPresenter.fetchMediaUrl(nextItem.getClip().getUrl(), sign, code);
                             showBuffer(null);
+                            addHistory(0);
                             return;
                         }
                     }
@@ -604,6 +655,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private void timerStart(int delay) {
         if (mIsmartvPlayer == null) {
             Log.e(TAG, "checkTaskStart: mIsmartvPlayer is null.");
+            return;
+        }
+        if (mIsPlayingAd) {
             return;
         }
         if (delay > 0) {
@@ -881,7 +935,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
-                    showPannelDelayOut();
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
@@ -995,10 +1048,14 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         history.is_complex = mItemEntity.getIsComplex();
         history.last_position = last_position;
         history.last_quality = mIsmartvPlayer.getCurrentQuality().getValue();
-        history.url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + itemPK;
+        String apiDomain = IsmartvActivator.getInstance().getApiDomain();
+        if (!apiDomain.startsWith("http://") && !apiDomain.startsWith("https://")) {
+            apiDomain = "http://" + apiDomain;
+        }
+        history.url = apiDomain + "/api/item/" + itemPK;
         ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
         if (subItems != null && subItems.length > 0) {
-            history.sub_url = IsmartvActivator.getInstance().getApiDomain() + "/api/subitem/" + subItemPk;
+            history.sub_url = apiDomain + "/api/subitem/" + subItemPk;
         }
         history.is_continue = mIsContinue;
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()))
@@ -1099,11 +1156,12 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     timerStop();
                     mIsmartvPlayer.release();
                     mIsmartvPlayer = null;
+                    ItemEntity.Clip clip = subItem.getClip();
                     String sign = "";
                     String code = "1";
                     mItemEntity.setTitle(subItem.getTitle());
+                    mItemEntity.setClip(clip);
                     subItemPk = subItem.getPk();
-                    ItemEntity.Clip clip = subItem.getClip();
                     if (clip != null) {
                         mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
                     }
@@ -1223,7 +1281,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             int what = event.getAction();
             switch (what) {
                 case MotionEvent.ACTION_HOVER_MOVE:
-                    if (!mIsPlayingAd) {
+                    if (!mIsPlayingAd && isInit) {
                         showPannelDelayOut();
                     }
                     break;
@@ -1237,7 +1295,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         public void onClick(View v) {
             if (mIsmartvPlayer == null || isPopWindowShow() ||
                     mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState()
-                    || isBufferShow()) {
+                    || isBufferShow() || isMenuShow()) {
                 return;
             }
             if (mIsmartvPlayer.isPlaying()) {
