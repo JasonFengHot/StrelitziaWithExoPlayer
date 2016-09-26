@@ -56,6 +56,7 @@
             android:layout_width="@dimen/paytype_width"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:visibility="invisible"
             android:orientation="vertical">
 
             <Button

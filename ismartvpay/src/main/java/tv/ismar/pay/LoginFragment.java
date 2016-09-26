@@ -220,8 +220,6 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-
-
         mSkyService.accountsAuth(username)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

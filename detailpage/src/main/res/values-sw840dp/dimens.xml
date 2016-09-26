@@ -17,11 +17,11 @@
 <dimen name="movie_detail_relative_mt">8.94dp</dimen>
 <dimen name="movie_detail_relative_text_mt">60.67dp</dimen>
 <dimen name="movie_detail_relative_text_ml">28.00dp</dimen>
-<dimen name="movie_detail_relative_img_ml">28.58dp</dimen>
-<dimen name="movie_detail_relative_img_mr">10.50dp</dimen>
+<dimen name="movie_detail_relative_img_ml">9.14dp</dimen>
+<dimen name="movie_detail_relative_img_mr">6.61dp</dimen>
 <dimen name="movie_detail_label_image_w">191.33dp</dimen>
-<dimen name="movie_detail_label_image_h">266.58dp</dimen>
-<dimen name="movie_detail_relative_img_space">12.83dp</dimen>
+<dimen name="movie_detail_label_image_h">276.69dp</dimen>
+<dimen name="movie_detail_relative_img_space">7.78dp</dimen>
 <dimen name="movie_detail_more_w">77.00dp</dimen>
 
 <dimen name="normal_detail_content_padding_lr">57.17dp</dimen>
@@ -103,4 +103,5 @@
 <dimen name="toast_layout_H">133.78dip</dimen>
 <dimen name="toast_textsize">31.11sp</dimen>
 <dimen name="toast_padding">31.11dip</dimen>
+<dimen name="movie_relate_width">793.33dp</dimen>
 </resources>

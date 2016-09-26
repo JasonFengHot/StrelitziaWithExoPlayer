@@ -8,12 +8,16 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -32,7 +36,7 @@ public class DetailPageViewModel extends BaseObservable {
     private ItemEntity mItemEntity = new ItemEntity();
     private int mRemandDay = 0;
     private String expireDate;
-
+    private boolean itemIsload = false;
 
     public DetailPageViewModel(Context context, DetailPagePresenter presenter) {
         mContext = context;
@@ -63,7 +67,7 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.lengthVisibility);
         notifyPropertyChanged(BR.classification);
         notifyPropertyChanged(BR.classificationVisibility);
-
+        notifyPropertyChanged(BR.playTextWidthIsLong);
         notifyPropertyChanged(BR.playText);
 
         notifyPropertyChanged(BR.vipMarkUrl);
@@ -85,8 +89,15 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.subitemsVisibility);
 
         notifyPropertyChanged(BR.bookmarkText);
+
+
+
     }
 
+    public void showLayout(){
+        itemIsload = true;
+        notifyPropertyChanged(BR.itemLayoutVisibility);
+    }
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
@@ -317,6 +328,11 @@ public class DetailPageViewModel extends BaseObservable {
     @Bindable
     public int getPriceVisibility() {
         try {
+
+            if (getExpireDateVisibility() == View.VISIBLE){
+                return View.GONE;
+            }
+
             if (mItemEntity.getExpense().getPay_type() == 3 || mItemEntity.getExpense().getPay_type() == 0) {
 
                 return View.GONE;
@@ -424,6 +440,31 @@ public class DetailPageViewModel extends BaseObservable {
 
     }
 
+    @BindingAdapter("android:layout_width")
+    public static void setLayoutWidth(View view, float width) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = (int)width;
+        view.setLayoutParams(layoutParams);
+    }
+
+    @Bindable
+    public boolean getPlayTextWidthIsLong() {
+        switch (mPresenter.getContentModel()) {
+            case "entertainment":
+            case "variety":
+                ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+                if (subItems == null || subItems.length == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+
+            default:
+               return false;
+        }
+
+    }
+
     @Bindable
     public String getBookmarkText() {
 
@@ -444,7 +485,21 @@ public class DetailPageViewModel extends BaseObservable {
 
     @Bindable
     public String getExpireDate() {
-        return expireDate;
+        if (!TextUtils.isEmpty(expireDate)) {
+            SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date sourceDate = null;
+            try {
+                sourceDate = sourceFormat.parse(expireDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy年MM月dd日");
+            String targetDate = targetFormat.format(sourceDate);
+            return "有效期至" + targetDate;
+        } else {
+            return expireDate;
+        }
     }
 
     @Bindable
@@ -470,10 +525,13 @@ public class DetailPageViewModel extends BaseObservable {
     }
 
     public void notifyBookmark(boolean mark, boolean isSuccess) {
-        if (isSuccess ) {
+        if (isSuccess) {
             notifyPropertyChanged(BR.bookmarkText);
         }
+    }
 
-
+    @Bindable
+    public int getItemLayoutVisibility() {
+        return itemIsload ? View.VISIBLE : View.INVISIBLE;
     }
 }

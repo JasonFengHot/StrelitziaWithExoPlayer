@@ -27,7 +27,7 @@
             android:singleLine="true"
             android:text="@{tasks.expireDate}"
             android:textColor="@color/module_color_white"
-            android:textSize="@dimen/h5_size"
+            android:textSize="@dimen/text_size_18sp"
             android:visibility="@{tasks.expireDateVisibility}"/>
 
         <TextView
@@ -38,7 +38,7 @@
             android:singleLine="true"
             android:text="仅限VIP观看"
             android:textColor="@color/module_color_white"
-            android:textSize="@dimen/h5_size"
+            android:textSize="@dimen/text_size_18sp"
             android:visibility="@{tasks.permissionVisibility}"/>
 
         <TextView
@@ -49,7 +49,7 @@
             android:singleLine="true"
             android:text="@{tasks.price}"
             android:textColor="@color/module_color_white"
-            android:textSize="@dimen/h5_size"
+            android:textSize="@dimen/text_size_18sp"
             android:visibility="@{tasks.priceVisibility}"/>
 
     </RelativeLayout>

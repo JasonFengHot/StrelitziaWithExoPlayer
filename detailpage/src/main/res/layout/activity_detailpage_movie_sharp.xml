@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -23,6 +24,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
+        android:visibility="@{tasks.itemLayoutVisibility}"
         tools:context=".view.DetailPageActivity">
 
         <fragment
@@ -41,6 +43,7 @@
             android:paddingTop="@dimen/movie_detail_content_padding_t">
 
             <FrameLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -69,7 +72,8 @@
                             android:layout_gravity="right|top"
                             android:scaleType="centerCrop"
                             android:visibility="@{tasks.vipMarkVisibility}"
-                            app:vipMark="@{tasks.vipMarkUrl}"/>
+                            app:vipMark="@{tasks.vipMarkUrl}"
+                        />
 
                     </FrameLayout>
 
@@ -314,11 +318,11 @@
                             android:layout_marginLeft="@dimen/movie_detail_button_space"
                             android:background="@drawable/selector_movie_buy"
                             android:gravity="center"
+                            android:onClick="@{() -> actionHandler.handlePurchase()}"
                             android:paddingLeft="@dimen/movie_detail_button_padding_left"
                             android:text="@string/video_buy"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h0_size"
-                            android:onClick="@{() -> actionHandler.handlePurchase()}"
                             android:visibility="@{tasks.purchaseVisibility}"/>
 
                         <Button

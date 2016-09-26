@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "television");
-                intent.putExtra(EXTRA_PK, 709292);
+                intent.putExtra(EXTRA_PK, 692464);
                 startActivity(intent);
             }
         });
@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "entertainment");
-                intent.putExtra(EXTRA_PK, 704627);
+                intent.putExtra(EXTRA_PK, 709235);
+//                intent.putExtra(EXTRA_PK, 704627);
+
                 startActivity(intent);
             }
         });

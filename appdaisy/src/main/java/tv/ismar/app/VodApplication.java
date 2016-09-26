@@ -52,7 +52,6 @@ public class VodApplication extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
-
     }
 
     public static VodApplication get(Context context) {

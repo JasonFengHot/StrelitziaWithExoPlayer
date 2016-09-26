@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+
+>
 
     <data>
 
-        <import type="android.view.View" />
+        <import type="android.view.View"/>
 
         <variable
             name="tasks"
-            type="tv.ismar.detailpage.viewmodel.DetailPageViewModel" />
+            type="tv.ismar.detailpage.viewmodel.DetailPageViewModel"/>
 
         <variable
             name="actionHandler"
-            type="tv.ismar.detailpage.DetailPageContract.Presenter" />
+            type="tv.ismar.detailpage.DetailPageContract.Presenter"/>
     </data>
 
     <LinearLayout
@@ -23,6 +25,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
+        android:visibility="@{tasks.itemLayoutVisibility}"
         tools:context=".view.DetailPageActivity">
 
         <fragment
@@ -30,7 +33,7 @@
             android:name="tv.ismar.app.ui.HeadFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:layout="@layout/fragment_head" />
+            tools:layout="@layout/fragment_head"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +61,7 @@
                         android:singleLine="true"
                         android:text="@{tasks.itemTitle}"
                         android:textColor="@color/module_color_white"
-                        android:textSize="@dimen/text_size_40sp" />
+                        android:textSize="@dimen/text_size_40sp"/>
 
                     <FrameLayout
                         android:id="@+id/detail_preview_frame"
@@ -72,14 +75,17 @@
                             android:layout_width="@dimen/entertainment_detail_preview_img_w"
                             android:layout_height="@dimen/entertainment_detail_preview_img_h"
                             android:scaleType="centerCrop"
-                            app:imageUrl="@{tasks.itemHorizontalUrl}" />
+                            app:imageUrl="@{tasks.itemHorizontalUrl}"/>
 
                         <ImageView
                             android:id="@+id/detail_right_top_corner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|top"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:visibility="@{tasks.vipMarkVisibility}"
+                            app:vipMark="@{tasks.vipMarkUrl}"
+                        />
 
                     </FrameLayout>
 
@@ -120,12 +126,12 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="@{tasks.areaVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/entertainment_detail_text_space"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="@{tasks.areaVisibility}">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -148,12 +154,12 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="@{tasks.airDateVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/entertainment_detail_text_space"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="@{tasks.airDateVisibility}">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -187,11 +193,11 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:visibility="@{tasks.lengthVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="@{tasks.lengthVisibility}">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -214,12 +220,12 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="@{tasks.classificationVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/entertainment_detail_text_space"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="@{tasks.classificationVisibility}">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -242,12 +248,12 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="@{tasks.emceeVisibility}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/entertainment_detail_text_space"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="@{tasks.emceeVisibility}">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -272,14 +278,14 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="@{tasks.guestVisibility}"
                         android:id="@+id/detail_des_container3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@id/detail_des_container2"
                         android:layout_below="@id/detail_des_container2"
                         android:layout_marginTop="@dimen/detail_text_mt3"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="@{tasks.guestVisibility}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -309,18 +315,17 @@
                         android:layout_below="@id/detail_des_container3"
                         android:layout_marginTop="@dimen/entertainment_detail_button_mt"
                         android:orientation="horizontal">
-
                         <Button
                             android:id="@+id/detail_btn_play"
-                            android:layout_width="@dimen/entertainment_detail_button3_w"
+                            android:layout_width="@{tasks.playTextWidthIsLong ? @dimen/entertainment_detail_button3_w : @dimen/movie_detail_button_w, default=wrap_content}"
                             android:layout_height="@dimen/entertainment_detail_button_h"
-                            android:background="@drawable/selector_entertainment_play"
+                            android:background="@{tasks.playTextWidthIsLong ? @drawable/selector_entertainment_play : @drawable/selector_normal_play}"
                             android:gravity="center"
                             android:onClick="@{() -> actionHandler.handlePlay()}"
                             android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
                             android:text="@{tasks.playText}"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h1_size" />
+                            android:textSize="@dimen/h1_size"/>
 
 
                         <Button
@@ -334,21 +339,21 @@
                             android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
                             android:text="@{tasks.bookmarkText}"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h1_size" />
+                            android:textSize="@dimen/h1_size"/>
 
                         <Button
                             android:id="@+id/detail_btn_drama"
-                            android:onClick="@{() -> actionHandler.handleEpisode()}"
                             android:layout_width="@dimen/entertainment_detail_button2_w"
                             android:layout_height="@dimen/entertainment_detail_button_h"
                             android:layout_marginLeft="@dimen/entertainment_detail_button_ml"
                             android:background="@drawable/selector_entertainment_episodes"
                             android:gravity="center"
+                            android:onClick="@{() -> actionHandler.handleEpisode()}"
                             android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
                             android:text="@string/video_list"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h1_size"
-                            android:visibility="@{tasks.subitemsVisibility}" />
+                            android:visibility="@{tasks.subitemsVisibility}"/>
 
                     </LinearLayout>
 
@@ -360,7 +365,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginLeft="@dimen/detailpage_entertainment_corner_ml" />
+                    android:layout_marginLeft="@dimen/detailpage_entertainment_corner_ml"/>
 
             </FrameLayout>
 
@@ -386,7 +391,7 @@
                 android:layout_marginTop="@dimen/entertainment_detail_relative_text_mt"
                 android:text="@string/recommend_str"
                 android:textColor="@color/module_color_white"
-                android:textSize="@dimen/h1_size" />
+                android:textSize="@dimen/h1_size"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -404,11 +409,11 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/s_button_color"
                     android:ems="1"
-                    android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:gravity="center"
+                    android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:text="@string/movie_more"
                     android:textColor="@color/module_color_white"
-                    android:textSize="@dimen/h1_size" />
+                    android:textSize="@dimen/h1_size"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -443,7 +448,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl="" />
+                            app:livVipUrl=""/>
 
                         <TextView
                             android:id="@+id/rel_1_text"
@@ -455,7 +460,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size" />
+                            android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
 
@@ -485,7 +490,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl="" />
+                            app:livVipUrl=""/>
 
                         <TextView
                             android:id="@+id/rel_2_text"
@@ -497,7 +502,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size" />
+                            android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
 
@@ -527,7 +532,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl="" />
+                            app:livVipUrl=""/>
 
                         <TextView
                             android:id="@+id/rel_3_text"
@@ -539,7 +544,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size" />
+                            android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
 
@@ -569,7 +574,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl="" />
+                            app:livVipUrl=""/>
 
                         <TextView
                             android:id="@+id/rel_4_text"
@@ -581,7 +586,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size" />
+                            android:textSize="@dimen/h2_size"/>
 
                     </LinearLayout>
 
