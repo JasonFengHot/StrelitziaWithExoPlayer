@@ -182,7 +182,6 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "onActivityResult: " + resultCode);
         if (resultCode == PaymentActivity.PAYMENT_SUCCESS_CODE) {
             setResult(PaymentActivity.PAYMENT_SUCCESS_CODE, data);
             finish();

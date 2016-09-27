@@ -42,6 +42,8 @@
     <dimen name="module_pop_btn_margin_lr">30dp</dimen>
     <dimen name="pop_text_layout_height">110dp</dimen>
     <dimen name="pop_button_mt">80dp</dimen>
+    <dimen name="loading_min_width">372dp</dimen>
+    <dimen name="loading_min_height">132dp</dimen>
 
 
 </resources>

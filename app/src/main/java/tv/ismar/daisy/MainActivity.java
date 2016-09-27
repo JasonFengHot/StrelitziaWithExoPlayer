@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "entertainment");
-                intent.putExtra(EXTRA_PK, 709235);
-//                intent.putExtra(EXTRA_PK, 704627);
+//                intent.putExtra(EXTRA_PK, 709235);
+                intent.putExtra(EXTRA_PK, 704627);
 
                 startActivity(intent);
             }
