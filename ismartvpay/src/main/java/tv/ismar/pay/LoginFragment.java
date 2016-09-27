@@ -177,14 +177,6 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void confirmClick(View view) {
                         dialog.dismiss();
-                        PaymentActivity paymentActivity = (PaymentActivity) getActivity();
-                        String model = paymentActivity.getModel();
-                        int pk = paymentActivity.getPk();
-                        Intent intent = new Intent(getActivity(), PaymentActivity.class);
-                        intent.putExtra("model", model);
-                        intent.putExtra("pk", pk);
-                        getActivity().startActivity(intent);
-                        getActivity().finish();
                     }
                 },
                 null);
@@ -209,6 +201,7 @@ public class LoginFragment extends Fragment {
     };
 
     private void fetchVerificationCode() {
+        edit_mobile.setText("15370770697");
         String username = edit_mobile.getText().toString();
         if ("".equals(edit_mobile.getText().toString())) {
             setcount_tipText("请输入手机号");
@@ -286,6 +279,9 @@ public class LoginFragment extends Fragment {
                     public void onNext(AccountsLoginEntity entity) {
                         String username = edit_mobile.getText().toString();
                         IsmartvActivator.getInstance().saveUserInfo(username, entity.getAuth_token(), entity.getZuser_token());
+
+                        activity.fetchAccountBalance();
+                        activity.changeLoginStatus(true);
                         showLoginSuccessPopup();
                     }
                 });

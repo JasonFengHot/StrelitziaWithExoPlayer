@@ -3,6 +3,7 @@ package tv.ismar.pay;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ import tv.ismar.app.network.entity.PayLayerVipEntity;
  * Created by huaijie on 4/12/16.
  */
 public class PayLayerVipActivity extends BaseActivity implements OnHoverListener, View.OnFocusChangeListener {
+    private static final String TAG = "PayLayerVipActivity";
     private ImageView tmp;
     private TvHorizontalScrollView mTvHorizontalScrollView;
     private LinearLayout scrollViewLayout;
@@ -171,9 +173,20 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
 
     private void buyVideo(int pk, String type, float price, int duration, String title) {
         Intent intent = new Intent();
-        intent.setAction("tv.ismar.pay.payment");
+//        intent.setAction("tv.ismar.pay.payment");
+        intent.setClass(this, PaymentActivity.class);
         intent.putExtra(PageIntent.EXTRA_PK, pk);
         intent.putExtra("model", "package");
-        startActivity(intent);
+        startActivityForResult(intent, PaymentActivity.PAYMENT_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult: " + resultCode);
+        if (resultCode == PaymentActivity.PAYMENT_SUCCESS_CODE) {
+            setResult(PaymentActivity.PAYMENT_SUCCESS_CODE, data);
+            finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

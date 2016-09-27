@@ -58,6 +58,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private TextView loginTip;
     private TextView username;
 
+    public static final int PAYMENT_REQUEST_CODE = 0xd6;
+    public static final int PAYMENT_SUCCESS_CODE = 0x5c;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +131,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void fetchAccountBalance() {
+    public void fetchAccountBalance() {
         mSkyService.accountsBalance()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -233,6 +238,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(String responseBody) {
                         if (responseBody != null && !"0".equals(responseBody)) {
+                            setResult(PAYMENT_SUCCESS_CODE);
                             finish();
                         }
                     }
@@ -346,8 +352,6 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                             transaction.replace(R.id.fragment_page, loginFragment)
                                     .commit();
                         } else {
-
-
                             changeLoginStatus(true);
                             fetchAccountBalance();
                         }
@@ -359,7 +363,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         return mItemEntity;
     }
 
-    private void changeLoginStatus(boolean isLogin) {
+    public void changeLoginStatus(boolean isLogin) {
         if (isLogin) {
             username.setText(String.format(getString(R.string.welocome_tip), IsmartvActivator.getInstance().getUsername()));
             loginTip.setVisibility(View.GONE);

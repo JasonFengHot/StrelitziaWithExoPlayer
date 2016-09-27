@@ -27,6 +27,8 @@ import tv.ismar.app.core.PlayCheckManager;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 
+import static tv.ismar.pay.PaymentActivity.PAYMENT_REQUEST_CODE;
+
 /**
  * Created by huaijie on 4/12/16.
  */
@@ -217,7 +219,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         intent.setAction("tv.ismar.pay.payment");
         intent.putExtra(PageIntent.EXTRA_PK, pk);
         intent.putExtra("model", "package");
-        startActivity(intent);
+        startActivityForResult(intent, PAYMENT_REQUEST_CODE);
     }
 
     public void buyPackage() {
@@ -266,5 +268,14 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             buyPackage();
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == PaymentActivity.PAYMENT_SUCCESS_CODE) {
+            setResult(PaymentActivity.PAYMENT_SUCCESS_CODE, data);
+            finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

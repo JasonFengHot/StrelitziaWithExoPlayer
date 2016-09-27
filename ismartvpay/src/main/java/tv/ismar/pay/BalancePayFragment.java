@@ -135,7 +135,8 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                         }
                         float result = new JsonParser().parse(json).getAsJsonObject().get("balance").getAsFloat();
                         balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), result));
-                        getActivity().finish();
+                        activity.setResult(PaymentActivity.PAYMENT_SUCCESS_CODE);
+                        activity.finish();
                     }
                 });
 

@@ -25,6 +25,8 @@ import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.PayLayerEntity;
 
+import static tv.ismar.pay.PaymentActivity.PAYMENT_REQUEST_CODE;
+
 /**
  * Created by huaijie on 4/11/16.
  */
@@ -122,7 +124,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
                     intent.putExtra("cpid", String.valueOf(payLayerEntity.getCpid()));
                     intent.putExtra("item_id", mItemId);
                     intent.setClass(PayActivity.this, PayLayerVipActivity.class);
-                    startActivityForResult(intent, 20);
+                    startActivityForResult(intent, PAYMENT_REQUEST_CODE);
                 }
             });
             scrollViewLayout.addView(vipItem, layoutParams);
@@ -174,7 +176,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
                     Intent intent = new Intent();
                     intent.putExtra("package_id", String.valueOf(newVipPackage.getPackage_pk()));
                     intent.setClass(PayActivity.this, PayLayerPackageActivity.class);
-                    startActivityForResult(intent, 20);
+                    startActivityForResult(intent, PAYMENT_REQUEST_CODE);
                 }
             });
             scrollViewLayout.addView(item, layoutParams);
@@ -216,6 +218,16 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
         intent.putExtra(PageIntent.EXTRA_PK, pk);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("model", "item");
-        startActivity(intent);
+        startActivityForResult(intent, PAYMENT_REQUEST_CODE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (resultCode == PaymentActivity.PAYMENT_SUCCESS_CODE){
+                setResult(PaymentActivity.PAYMENT_SUCCESS_CODE, data);
+                finish();
+            }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
