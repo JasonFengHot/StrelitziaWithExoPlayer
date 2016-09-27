@@ -249,10 +249,13 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         showBuffer(PlAYSTART + mItemEntity.getTitle());
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity.SubItem[] subItems = itemEntity.getSubitems();
-        if (subItemPk > 0 && subItems != null) {
+        if (subItems != null && subItems.length > 0) {
             int history_sub_item = initHistorySubItemPk();
             if (history_sub_item > 0) {
                 subItemPk = history_sub_item;
+            }
+            if(subItemPk <= 0){
+                subItemPk = subItems[0].getPk();
             }
             // 获取当前要播放的电视剧Clip
             for (int i = 0; i < subItems.length; i++) {
