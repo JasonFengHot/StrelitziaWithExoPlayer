@@ -109,3 +109,6 @@ task findConventions << {
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
+tasks.withType(org.gradle.api.tasks.javadoc.Javadoc) {
+    options.encoding = "UTF-8"
+}
