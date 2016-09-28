@@ -1,4 +1,6 @@
 package tv.ismar.pay;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -102,7 +104,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         String timestamp = null;
         String sign = null;
         {
-            timestamp = System.currentTimeMillis() + "";
+            timestamp = TrueTime.now().getTime() + "";
             IsmartvActivator activator = IsmartvActivator.getInstance();
             String encode = "sn=" + activator.getSnToken()
                     + "&source=sky" + "&timestamp=" + timestamp

@@ -1,4 +1,6 @@
 package tv.ismar.player.view;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 /**
  * Created by Beaver on 2016/6/2.
@@ -556,7 +558,7 @@ public class PlayerSync implements Runnable {
         JSONObject logJson = new JSONObject();
         try {
             JSONObject propertiesJson = new JSONObject();
-            propertiesJson.put("time", System.currentTimeMillis() / 1000);
+            propertiesJson.put("time", TrueTime.now().getTime() / 1000);
             if (propertiesMap != null) {
                 Set<String> set = propertiesMap.keySet();
                 for (String key : set) {

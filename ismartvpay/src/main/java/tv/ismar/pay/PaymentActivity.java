@@ -1,4 +1,6 @@
 package tv.ismar.pay;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -254,7 +256,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
 
         if (type == OderType.sky) {
-            timestamp = System.currentTimeMillis() + "";
+            timestamp = TrueTime.now().getTime() + "";
             IsmartvActivator activator = IsmartvActivator.getInstance();
             String encode = "sn=" + activator.getSnToken()
                     + "&source=sky" + "&timestamp=" + timestamp

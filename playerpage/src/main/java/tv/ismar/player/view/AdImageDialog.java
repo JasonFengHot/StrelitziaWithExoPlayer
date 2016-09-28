@@ -1,4 +1,6 @@
 package tv.ismar.player.view;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -78,7 +80,7 @@ public class AdImageDialog extends Dialog {
             }
         });
 
-        mDuration = System.currentTimeMillis();
+        mDuration = TrueTime.now().getTime();
 
         if (sensorTimer == null) {
             sensorTimer = new Timer();
@@ -155,7 +157,7 @@ public class AdImageDialog extends Dialog {
     public void dismiss() {
         cancelTimer();
         super.dismiss();
-        mDuration = System.currentTimeMillis() - mDuration;
+        mDuration = TrueTime.now().getTime() - mDuration;
         mPlayerSync.pause_ad_play(
                 mAdElementEntityList.get(mCurrentAdIndex).getTitle(),
                 mAdElementEntityList.get(mCurrentAdIndex).getMedia_id(),

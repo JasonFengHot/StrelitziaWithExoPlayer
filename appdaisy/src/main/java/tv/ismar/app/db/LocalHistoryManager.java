@@ -1,4 +1,5 @@
 package tv.ismar.app.db;
+import cn.ismartv.turetime.TrueTime;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -38,7 +39,7 @@ public class LocalHistoryManager implements HistoryManager {
             throw new RuntimeException("url or title can not be null");
         }
 
-        long currentTimeMillis = System.currentTimeMillis();
+        long currentTimeMillis = TrueTime.now().getTime();
         if (mHistories != null && mHistories.size() > 0) {
             for (History history : mHistories) {
                 if (url.equals(history.url) && history.id != 0) {
@@ -99,7 +100,7 @@ public class LocalHistoryManager implements HistoryManager {
             throw new RuntimeException("history or history's field should not be null");
         }
 
-        long currentTimeMillis = System.currentTimeMillis();
+        long currentTimeMillis = TrueTime.now().getTime();
         History h = getHistoryByUrl(history.url, isnet);
         if (h != null) {
             h.last_position = history.last_position;

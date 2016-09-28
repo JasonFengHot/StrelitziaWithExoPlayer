@@ -1,4 +1,6 @@
 package tv.ismar.player.media;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 import android.app.Activity;
 import android.util.Base64;
@@ -118,7 +120,7 @@ public abstract class IsmartvPlayer implements IPlayer {
             throw new IllegalArgumentException("IsmartvPlayer setDataSource invalidate.");
         }
         mMedia = new IsmartvMedia(mItemEntity.getItemPk(), mItemEntity.getPk());
-        mPlayerOpenTime = System.currentTimeMillis();
+        mPlayerOpenTime = TrueTime.now().getTime();
         mClipEntity = new ClipEntity();
         mOnDataSourceSetListener = onDataSourceSetListener;
         switch (mPlayerMode) {
@@ -173,7 +175,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 // 初始化奇艺播放器,放在此处原因在于accessToken会发生变化,初始化成功后加载视频
                 Parameter extraParams = new Parameter();
                 //debug code
-                final long time = System.currentTimeMillis();
+                final long time = TrueTime.now().getTime();
                 extraParams.setInitPlayerSdkAfter(0);  //SDK初始化在调用initialize之后delay一定时间开始执行, 单位为毫秒.
                 extraParams.setCustomerAppVersion(String.valueOf(DeviceUtils.getVersionCode(mContext)));      //传入客户App版本号
                 extraParams.setDeviceId(IsmartvActivator.getInstance().getSnToken());   //传入deviceId, VIP项目必传, 登录和鉴权使用
@@ -183,7 +185,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                             @Override
                             public void onSuccess() {
                                 isQiyiSdkInit = true;
-                                Log.i(TAG, "QiYiSdk init success:" + (System.currentTimeMillis() - time));
+                                Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time));
                                 String[] array = mClipEntity.getIqiyi_4_0().split(":");
                                 SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip());
                                 setMedia(qiyiInfo);
@@ -326,7 +328,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         // 播放广告
         mPlayerSync.ad_play_load(
                 mMedia,
-                (System.currentTimeMillis() - mPlayerOpenTime),
+                (TrueTime.now().getTime() - mPlayerOpenTime),
                 mediaIp,
                 mediaId,
                 mPlayerFlag);
@@ -335,7 +337,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected void logAdBlockend(String mediaIp, int mediaId) {
         mPlayerSync.ad_play_blockend(
                 mMedia,
-                (System.currentTimeMillis() - mBufferStartTime),
+                (TrueTime.now().getTime() - mBufferStartTime),
                 mediaIp,
                 mediaId,
                 mPlayerFlag);
@@ -344,7 +346,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected void logAdExit(String mediaIp, int mediaId) {
         mPlayerSync.ad_play_exit(
                 mMedia,
-                (System.currentTimeMillis() - mPlayerOpenTime),
+                (TrueTime.now().getTime() - mPlayerOpenTime),
                 mediaIp,
                 mediaId,
                 mPlayerFlag);
@@ -356,13 +358,13 @@ public abstract class IsmartvPlayer implements IPlayer {
             quality = getQualityIndex(getCurrentQuality());
         }
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoStart(mMedia, quality, sn, speed, sid, mPlayerFlag);
     }
 
     protected void logVideoPlayLoading(int speed, String mediaIp, String mediaUrl) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         int quality = -1;
         if (mPlayerFlag.equals(PLAYER_FLAG_SMART)) {
             quality = getQualityIndex(getCurrentQuality());
@@ -370,7 +372,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         mPlayerSync.videoPlayLoad(
                 mMedia,
                 quality,
-                (System.currentTimeMillis() - mPlayerOpenTime),
+                (TrueTime.now().getTime() - mPlayerOpenTime),
                 speed, mediaIp, sid, mediaUrl, mPlayerFlag);
     }
 
@@ -380,37 +382,37 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     protected void logVideoPause(int speed) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoPlayPause(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
     protected void logVideoContinue(int speed) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoPlayContinue(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
     protected void logVideoSeek(int speed) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoPlaySeek(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
     protected void logVideoSeekComplete(int speed, String mediaIp) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoPlaySeekBlockend(
                 mMedia,
                 getQualityIndex(getCurrentQuality()),
                 speed,
                 getCurrentPosition(),
-                (System.currentTimeMillis() - mBufferStartTime),
+                (TrueTime.now().getTime() - mBufferStartTime),
                 mediaIp, sid, mPlayerFlag);
     }
 
     protected void logVideoBufferEnd(int speed, String mediaIp) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoPlayBlockend(
                 mMedia,
                 getQualityIndex(getCurrentQuality()),
@@ -421,21 +423,21 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     protected void logVideoExit(int speed) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoExit(
                 mMedia,
                 getQualityIndex(getCurrentQuality()),
                 speed,
                 "detail",
                 getCurrentPosition(),
-                (System.currentTimeMillis() - mPlayerOpenTime),
+                (TrueTime.now().getTime() - mPlayerOpenTime),
                 sid,
                 mPlayerFlag);
     }
 
     protected void logVideoException(String code, int speed) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoExcept(
                 "mediaexception", code,
                 mMedia, speed, sid,
@@ -445,7 +447,7 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     protected void logVideoSwitchQuality(String mediaIp) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + System.currentTimeMillis());
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
         mPlayerSync.videoSwitchStream(mMedia, getQualityIndex(getCurrentQuality()), "manual",
                 null, sn, mediaIp, sid, mPlayerFlag);
     }

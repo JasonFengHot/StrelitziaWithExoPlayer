@@ -1,4 +1,6 @@
 package tv.ismar.pay;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -129,7 +131,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void bindBestTvAuth() {
-//        long timestamp = System.currentTimeMillis();
+//        long timestamp = TrueTime.now().getTime();
 //        Activator activator = Activator.getInstance(getContext());
 //        String mac = DeviceUtils.getLocalMacAddress(mcontext);
 //        mac = mac.replace("-", "").replace(":", "");

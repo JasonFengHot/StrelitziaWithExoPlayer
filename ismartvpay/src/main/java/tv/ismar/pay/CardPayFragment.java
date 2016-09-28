@@ -1,4 +1,6 @@
 package tv.ismar.pay;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -67,7 +69,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener {
     private void cardRecharge(String cardNumber) {
         String pwd_prefix = cardNumber.substring(0, 10);
         String sur_prefix = cardNumber.substring(10, 16);
-        String timestamp = System.currentTimeMillis() + "";
+        String timestamp = TrueTime.now().getTime() + "";
         String sid = "sid";
         String user = IsmartvActivator.getInstance().getUsername();
         String user_id = "0";

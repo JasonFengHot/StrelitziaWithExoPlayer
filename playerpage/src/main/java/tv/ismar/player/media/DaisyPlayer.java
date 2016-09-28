@@ -1,4 +1,6 @@
 package tv.ismar.player.media;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 import android.media.AudioManager;
 import android.util.Log;
@@ -113,7 +115,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
                     if (mOnBufferChangedListener != null) {
                         mOnBufferChangedListener.onBufferStart();
                     }
-                    mBufferStartTime = System.currentTimeMillis();
+                    mBufferStartTime = TrueTime.now().getTime();
                     break;
                 case SmartPlayer.MEDIA_INFO_BUFFERING_END:
                 case 3:

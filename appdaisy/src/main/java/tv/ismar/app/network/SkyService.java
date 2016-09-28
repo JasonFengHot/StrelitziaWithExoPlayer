@@ -42,7 +42,7 @@ public interface SkyService {
 
     @GET
     Observable<ItemEntity> apiItemByUrl(
-            @Url String url
+            @Url String urlP
     );
 
 

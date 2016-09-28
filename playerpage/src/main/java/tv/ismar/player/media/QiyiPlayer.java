@@ -1,4 +1,6 @@
 package tv.ismar.player.media;
+import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.turetime.TrueTime;
 
 import android.util.Log;
 import android.view.View;
@@ -205,7 +207,7 @@ public class QiyiPlayer extends IsmartvPlayer {
             if (mOnBufferChangedListener != null) {
                 mOnBufferChangedListener.onBufferStart();
             }
-            mBufferStartTime = System.currentTimeMillis();
+            mBufferStartTime = TrueTime.now().getTime();
         }
 
         @Override
