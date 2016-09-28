@@ -77,6 +77,7 @@ dependencies {
     compile project(':appdaisy')
     compile project(':account')
     compile project(':ismartvpay')
+    compile project(':playerpage')
 }
 
 task sourcesJar(type: Jar) {

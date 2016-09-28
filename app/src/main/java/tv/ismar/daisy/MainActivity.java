@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "movie");
-                intent.putExtra(EXTRA_PK, 709235);
+                intent.putExtra(EXTRA_PK, 81025);
                 startActivity(intent);
             }
         });

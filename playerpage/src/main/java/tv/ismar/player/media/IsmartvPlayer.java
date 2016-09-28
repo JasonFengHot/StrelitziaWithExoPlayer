@@ -89,6 +89,8 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected OnBufferChangedListener mOnBufferChangedListener;
     protected OnStateChangedListener mOnStateChangedListener;
 
+    private long testFetchAdTime;
+
     public IsmartvPlayer(byte mode) {
         mPlayerMode = mode;
         mPlayerSync = new PlayerSync();
@@ -264,7 +266,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     protected String getSmartQualityUrl(ClipEntity.Quality quality) {
-        if(quality == null){
+        if (quality == null) {
             return "";
         }
         String qualityUrl = null;
@@ -290,7 +292,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     private int getQualityIndex(ClipEntity.Quality quality) {
-        if(quality == null){
+        if (quality == null) {
             return -1;
         }
         switch (quality) {
@@ -501,7 +503,12 @@ public abstract class IsmartvPlayer implements IPlayer {
         return defaultQualityUrl;
     }
 
+    public boolean isPlayingAd() {
+        return mIsPlayingAdvertisement;
+    }
+
     private void fetchAdvertisement(final ItemEntity itemEntity, final ClipEntity.Quality initQuality, final String adPid) {
+        testFetchAdTime = System.currentTimeMillis();
         if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
             mApiGetAdSubsc.unsubscribe();
         }
@@ -539,6 +546,7 @@ public abstract class IsmartvPlayer implements IPlayer {
 
                     @Override
                     public void onNext(ResponseBody responseBody) {
+                        Log.d(TAG, "testFetchAdTime:" + (System.currentTimeMillis() - testFetchAdTime));
                         boolean isPlayingPauseAd = false;
                         boolean hasAd = false;
                         String[] paths = null;
@@ -560,6 +568,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                                     isPlayingPauseAd = true;
                                 } else {
                                     paths = new String[adElementEntityList.size() + 1];
+                                    mAdvertisementTime = new int[adElementEntityList.size()];
                                     int i = 0;
                                     for (AdElementEntity element : adElementEntityList) {
                                         if ("video".equals(element.getMedia_type())) {

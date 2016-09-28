@@ -117,6 +117,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private Animation panelHideAnimation;
 
     private GestureDetector mGestureDetector;
+    private long testLoadItemTime, testLoadClipTime, testPlayCheckTime, testBeforePreparedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +178,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         animationDrawable = (AnimationDrawable) dialog_back_img.getBackground();
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
+        testLoadItemTime = System.currentTimeMillis();
+        testBeforePreparedTime = System.currentTimeMillis();
         mPresenter.start();
         mPresenter.fetchItem(String.valueOf(itemPK));
         showBuffer(null);
@@ -240,6 +243,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
+        Log.d(TAG, "testLoadItemTime:" + (System.currentTimeMillis() - testLoadItemTime));
+        testPlayCheckTime = System.currentTimeMillis();
         if (itemEntity == null) {
             Toast.makeText(PlayerActivity.this, "不存在该影片.", Toast.LENGTH_SHORT).show();
             finish();
@@ -254,7 +259,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             if (history_sub_item > 0) {
                 subItemPk = history_sub_item;
             }
-            if(subItemPk <= 0){
+            if (subItemPk <= 0) {
                 subItemPk = subItems[0].getPk();
             }
             // 获取当前要播放的电视剧Clip
@@ -276,6 +281,8 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             PlayCheckManager.getInstance(mSkyService).check(String.valueOf(mItemEntity.getPk()), new PlayCheckManager.Callback() {
                 @Override
                 public void onSuccess(boolean isBuy, int remainDay) {
+                    Log.d(TAG, "testPlayCheckTime:" + (System.currentTimeMillis() - testPlayCheckTime));
+                    testLoadClipTime = System.currentTimeMillis();
                     Log.e(TAG, "play check isBuy:" + isBuy + " " + remainDay);
                     if (isBuy) {
                         mPresenter.fetchMediaUrl(playCheckClip.getUrl(), sign, code);
@@ -302,6 +309,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void loadClip(ClipEntity clipEntity) {
+        Log.d(TAG, "testLoadClipTime:" + (System.currentTimeMillis() - testLoadClipTime));
         if (clipEntity == null) {
             Toast.makeText(PlayerActivity.this, "获取播放地址错误,将退出播放器.", Toast.LENGTH_SHORT).show();
             finish();
@@ -426,22 +434,39 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onPrepared() {
+        Log.i(TAG, "testBeforePreparedTime:" + (System.currentTimeMillis() - testBeforePreparedTime));
         if (mIsmartvPlayer == null) {
             return;
         }
-        Log.i(TAG, "onPrepared:" + mediaHistoryPosition);
+        // 视云播放器需要判断是否有广告
+        mIsPlayingAd = mIsmartvPlayer.isPlayingAd();
+        Log.i(TAG, "onPrepared:" + mediaHistoryPosition + " playingAd:" + mIsPlayingAd);
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
+
+        if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER && mIsPlayingAd) {
+            mIsmartvPlayer.start();
+        } else {
+            preparedToStart();
+        }
+
+    }
+
+    private void preparedToStart() {
         if (mediaHistoryPosition > 0 && !mIsPreview) {
             mIsmartvPlayer.seekTo(mediaHistoryPosition);
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
-                    mIsmartvPlayer.start();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
+                        mIsmartvPlayer.start();
+                    }
                 }
+            }, 500);
+        } else {
+            if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
+                mIsmartvPlayer.start();
             }
-        }, 500);
+        }
 
     }
 
@@ -500,6 +525,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         }
         if (!mIsPlayingAd) {
             mModel.updatePlayerPause();
+            Log.i(TAG, "onStarted-seeking:" + isSeeking);
             if (!isSeeking) {
                 timerStart(0);
             } else {
@@ -521,16 +547,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     public void onSeekComplete() {
         Log.i(TAG, "onSeekComplete");
         if (isSeeking) {
-//            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        dismissProgressDialog();
-//                    }
-//                }, 500);
-//            } else {
-//                dismissProgressDialog();
-//            }
             timerStart(500);
             if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.start();

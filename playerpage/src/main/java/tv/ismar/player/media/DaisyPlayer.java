@@ -90,18 +90,31 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         public void onCompletion(SmartPlayer smartPlayer, String s) {
             mCurrentState = STATE_COMPLETED;
             if (mIsPlayingAdvertisement && !mAdIdMap.isEmpty()) {
+                int mediaId = mAdIdMap.get(s);
                 mAdIdMap.remove(s);
                 if (mAdIdMap.isEmpty()) {
-                    mIsPlayingAdvertisement = false;
                     if (mOnStateChangedListener != null) {
                         mOnStateChangedListener.onAdEnd();
-                        mOnStateChangedListener.onStarted();
                     }
-                    logAdExit(getMediaIp(s), mAdIdMap.get(s));
+                    logAdExit(getMediaIp(s), mediaId);
+                    mIsPlayingAdvertisement = false;
                 }
-            }
-            if (mAdIdMap.isEmpty() && mOnStateChangedListener != null) {
-                mOnStateChangedListener.onCompleted();
+                int currentIndex = smartPlayer.getCurrentPlayUrl();
+                try {
+                    if (currentIndex >= 0 && currentIndex < mPaths.length - 1) { // 如果当前播放的为第一个影片的话，则准备播放第二个影片。
+                        currentIndex++;
+                        smartPlayer.playUrl(currentIndex); // 准备播放第二个影片，传入参数为1，第二个影片在数组中的下标。会再一次调用onPrepared
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onError("Play next media error.");
+                    }
+                }
+            } else {
+                if (mOnStateChangedListener != null) {
+                    mOnStateChangedListener.onCompleted();
+                }
             }
         }
     };
@@ -307,7 +320,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
                 totalAdTime += mAdvertisementTime[i];
             }
         }
-        return totalAdTime - getCurrentPosition();
+        return totalAdTime * 1000 - getCurrentPosition();
     }
 
     @Override

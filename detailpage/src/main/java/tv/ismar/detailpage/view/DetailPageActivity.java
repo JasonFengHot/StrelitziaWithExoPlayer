@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,6 +14,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.VipMark;
@@ -24,6 +30,7 @@ import tv.ismar.app.widget.LabelImageView;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
+import tv.ismar.detailpage.SmartPlayerDownVideo;
 import tv.ismar.detailpage.databinding.ActivityDetailpageEntertainmentSharpBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageMovieSharpBinding;
 import tv.ismar.detailpage.databinding.ActivityDetailpageNormalSharpBinding;
@@ -67,6 +74,13 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
 
     private volatile boolean itemIsLoad;
     private volatile boolean relateIsLoad;
+
+    private ItemEntity mItemEntity;
+    private SmartPlayerDownVideo smartPlayerDownVideo;
+    private int mRemandDay = 0;
+    // 定时器
+    private Timer mTimer;
+    private MyTimerTask myTimerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,11 +149,28 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     protected void onResume() {
         super.onResume();
         mPresenter.requestPlayCheck(String.valueOf(mItemPk));
+
+        if (mItemEntity != null) {
+            if (smartPlayerDownVideo == null) {
+                smartPlayerDownVideo = new SmartPlayerDownVideo(DetailPageActivity.this, mItemEntity);
+            }
+            boolean isPreview = mItemEntity.getExpense() != null && mRemandDay <= 0;
+            smartPlayerDownVideo.startDownload(isPreview);
+            executeStop();
+
+        }
     }
 
     @Override
     protected void onStop() {
+        String sn = IsmartvActivator.getInstance().getSnToken();
+        Log.i("LH/", "sn:" + sn);
         mPresenter.stop();
+        if (smartPlayerDownVideo != null && smartPlayerDownVideo.isDownloading()) {
+            smartPlayerDownVideo.stopDownload();
+            smartPlayerDownVideo = null;
+        }
+        cancelTimer();
         super.onStop();
     }
 
@@ -164,6 +195,8 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         mModel.replaceItem(itemEntity);
         itemIsLoad = true;
         hideLoading();
+
+        mItemEntity = itemEntity;
     }
 
 
@@ -233,6 +266,15 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
     @Override
     public void notifyPlayCheck(PlayCheckEntity playCheckEntity) {
         mModel.notifyPlayCheck(playCheckEntity);
+        mRemandDay = playCheckEntity.getRemainDay();
+        if (mItemEntity != null) {
+            if (smartPlayerDownVideo == null) {
+                smartPlayerDownVideo = new SmartPlayerDownVideo(DetailPageActivity.this, mItemEntity);
+            }
+            boolean isPreview = mItemEntity.getExpense() != null && mRemandDay <= 0;
+            smartPlayerDownVideo.startDownload(isPreview);
+            executeStop();
+        }
     }
 
     @Override
@@ -301,5 +343,42 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
         toast.show();
+    }
+
+    private void executeStop() {
+        if (mTimer == null) {
+            mTimer = new Timer();
+            myTimerTask = new MyTimerTask();
+            mTimer.schedule(myTimerTask, 5 * 60 * 1000);
+        }
+    }
+
+    private void cancelTimer(){
+        if (myTimerTask != null) {
+            myTimerTask.cancel();
+            myTimerTask = null;
+        }
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+            System.gc();
+        }
+    }
+
+    class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    if (smartPlayerDownVideo != null && smartPlayerDownVideo.isDownloading()) {
+                        smartPlayerDownVideo.stopDownload();
+                    }
+                    cancelTimer();
+                }
+            });
+        }
+
     }
 }
