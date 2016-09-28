@@ -160,6 +160,7 @@ public class QiyiPlayer extends IsmartvPlayer {
             mQualities = new ArrayList<>();
             bitStreamList = list;
             for (BitStream bitStream : list) {
+                Log.i(TAG, "bitStream:" + bitStream.getValue());
                 mQualities.add(bitStreamConvertToQuality(bitStream));
             }
         }

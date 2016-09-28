@@ -246,12 +246,16 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             return;
         }
         mItemEntity = itemEntity;
+        showBuffer(PlAYSTART + mItemEntity.getTitle());
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity.SubItem[] subItems = itemEntity.getSubitems();
-        if (subItemPk > 0 && subItems != null) {
+        if (subItems != null && subItems.length > 0) {
             int history_sub_item = initHistorySubItemPk();
             if (history_sub_item > 0) {
                 subItemPk = history_sub_item;
+            }
+            if(subItemPk <= 0){
+                subItemPk = subItems[0].getPk();
             }
             // 获取当前要播放的电视剧Clip
             for (int i = 0; i < subItems.length; i++) {
@@ -328,9 +332,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             @Override
             public void onSuccess() {
                 Log.i(TAG, "player init success.");
-                if (mediaHistoryPosition > 0) {
-                    showBuffer(HISTORYCONTINUE + getTimeString(mediaHistoryPosition));
-                }
                 mIsmartvPlayer.prepareAsync();
             }
 
@@ -348,13 +349,15 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
         }
         if (itemPK != subItemPk) {
-            String historyUrl = Utils.getSubItemUrl(subItemPk);
+            String historyUrl = Utils.getItemUrl(itemPK);
             String isLogin = "no";
             if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
                 isLogin = "yes";
             }
             mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
             if (mHistory != null) {
+                mediaHistoryPosition = (int) mHistory.last_position;
+                showBuffer(HISTORYCONTINUE + getTimeString(mediaHistoryPosition));
                 int sub_item_pk = Utils.getItemPk(mHistory.sub_url);
                 if (sub_item_pk > 0) {
                     return sub_item_pk;
@@ -371,9 +374,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         ClipEntity.Quality initQuality = null;
         isInit = false;
         String historyUrl = Utils.getItemUrl(itemPK);
-        if (itemPK != subItemPk) {
-            historyUrl = Utils.getSubItemUrl(subItemPk);
-        }
         String isLogin = "no";
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
             isLogin = "yes";
@@ -383,8 +383,10 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             initQuality = ClipEntity.Quality.getQuality(mHistory.last_quality);
             mIsContinue = mHistory.is_continue;
             mediaHistoryPosition = (int) mHistory.last_position;
+            showBuffer(HISTORYCONTINUE + getTimeString(mediaHistoryPosition));
+        } else {
+            showBuffer(PlAYSTART + mItemEntity.getTitle());
         }
-        showBuffer(PlAYSTART + mItemEntity.getTitle());
         return initQuality;
 
     }
@@ -500,8 +502,9 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             mModel.updatePlayerPause();
             if (!isSeeking) {
                 timerStart(0);
+            } else {
+                showPannelDelayOut();
             }
-            showPannelDelayOut();
         }
 
     }
@@ -1048,14 +1051,10 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         history.is_complex = mItemEntity.getIsComplex();
         history.last_position = last_position;
         history.last_quality = mIsmartvPlayer.getCurrentQuality().getValue();
-        String apiDomain = IsmartvActivator.getInstance().getApiDomain();
-        if (!apiDomain.startsWith("http://") && !apiDomain.startsWith("https://")) {
-            apiDomain = "http://" + apiDomain;
-        }
-        history.url = apiDomain + "/api/item/" + itemPK;
+        history.url = Utils.getItemUrl(itemPK);
         ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
         if (subItems != null && subItems.length > 0) {
-            history.sub_url = apiDomain + "/api/subitem/" + subItemPk;
+            history.sub_url = Utils.getSubItemUrl(subItemPk);
         }
         history.is_continue = mIsContinue;
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()))
