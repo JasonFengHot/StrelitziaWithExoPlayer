@@ -1,4 +1,5 @@
 package tv.ismar.player.media;
+
 import cn.ismartv.turetime.TrueTime;
 import cn.ismartv.turetime.TrueTime;
 
@@ -499,6 +500,10 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mQuality = mQualities.get(0);
             }
             defaultQualityUrl = getSmartQualityUrl(mQuality);
+            if (Utils.isEmptyText(defaultQualityUrl)) {
+                Log.i(TAG, "Get init quality error, use default quality.");
+                defaultQualityUrl = getSmartQualityUrl(mQualities.get(0));
+            }
         }
         return defaultQualityUrl;
     }

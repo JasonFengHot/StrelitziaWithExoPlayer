@@ -297,11 +297,13 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 public void onFailure() {
                     Log.e(TAG, "play check fail");
                     ItemEntity.Preview preview = mItemEntity.getPreview();
+                    testLoadClipTime = System.currentTimeMillis();
                     mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
                     mIsPreview = true;
                 }
             });
         } else {
+            testLoadClipTime = System.currentTimeMillis();
             mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
         }
 
@@ -606,6 +608,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                             mItemEntity.setTitle(nextItem.getTitle());
                             mItemEntity.setClip(nextItem.getClip());
                             subItemPk = nextItem.getPk();
+                            testLoadClipTime = System.currentTimeMillis();
                             mPresenter.fetchMediaUrl(nextItem.getClip().getUrl(), sign, code);
                             showBuffer(null);
                             addHistory(0);
@@ -1103,7 +1106,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         // 添加电视剧子集
         PlayerMenuItem subMenu;
         ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
-        if (subItems != null && subItems.length > 0) {
+        if (subItems != null && subItems.length > 0 && !mIsPreview) {
             subMenu = playerMenu.addSubMenu(MENU_TELEPLAY_ID_START, getResources().getString(R.string.player_menu_teleplay));
             for (ItemEntity.SubItem subItem : subItems) {
                 boolean isSelected = false;
@@ -1178,6 +1181,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     mItemEntity.setClip(clip);
                     subItemPk = subItem.getPk();
                     if (clip != null) {
+                        testLoadClipTime = System.currentTimeMillis();
                         mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
                     }
                     showBuffer(null);
@@ -1189,10 +1193,12 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             Intent intent = new Intent();
             try {
                 intent.setAction("cn.ismartv.speedtester.feedback");
+                startActivity(intent);
             } catch (ActivityNotFoundException e) {
+                Log.e(TAG, "Click kefu but 'cn.ismartv.speedtester.feedback' not found.");
                 intent.setAction("cn.ismar.sakura.launcher");
+                startActivity(intent);
             }
-            startActivity(intent);
             ret = true;
         } else if (id == MENU_RESTART) {
             showPannelDelayOut();
