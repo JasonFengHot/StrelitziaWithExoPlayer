@@ -37,7 +37,7 @@ import tv.ismar.account.data.ResultEntity;
 public class IsmartvActivator {
     private static final String TAG = "IsmartvActivator";
     private static final String DEFAULT_HOST = "http://sky.tvxio.com";
-    private static final String SIGN_FILE_NAME = "sign";
+    private static final String SIGN_FILE_NAME = "sign1";
     private static final int DEFAULT_CONNECT_TIMEOUT = 2;
     private static final int DEFAULT_READ_TIMEOUT = 5;
 
