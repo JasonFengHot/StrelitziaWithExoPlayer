@@ -318,7 +318,7 @@
                         <TextView
                             android:focusable="true"
                             android:id="@+id/detail_btn_play"
-                            android:layout_width="@{tasks.playTextWidthIsLong ? @dimen/entertainment_detail_play_short_w : @dimen/entertainment_detail_button3_w, default=wrap_content}"
+                            android:layout_width="@{tasks.playTextWidthIsLong ? @dimen/entertainment_detail_button3_w : @dimen/entertainment_detail_play_short_w, default=wrap_content}"
                             android:layout_height="@dimen/entertainment_detail_button_h"
                             android:background="@{tasks.playTextWidthIsLong ? @drawable/selector_entertainment_play : @drawable/selector_normal_play}"
                             android:gravity="center"
