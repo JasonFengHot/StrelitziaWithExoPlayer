@@ -332,6 +332,7 @@
                         android:background="@drawable/selector_normal_episodes"
                         android:gravity="center"
                         android:onClick="@{() -> actionHandler.handleEpisode()}"
+                        android:visibility="@{tasks.episodesVisibility}"
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@string/video_list"
                         android:textColor="@color/module_color_white"

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "television");
-                intent.putExtra(EXTRA_PK, 692464);
+                intent.putExtra(EXTRA_PK, 709157);
                 startActivity(intent);
             }
         });
