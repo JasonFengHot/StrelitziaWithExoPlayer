@@ -86,6 +86,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private History mHistory;
     private int mediaHistoryPosition;// 起播位置
     private boolean mIsContinue;
+    private boolean mIsSwitchQuality;
 
     // 播放器
     private IsmartvPlayer mIsmartvPlayer;
@@ -117,7 +118,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     private Animation panelHideAnimation;
 
     private GestureDetector mGestureDetector;
-    private long testLoadItemTime, testLoadClipTime, testPlayCheckTime, testBeforePreparedTime;
+    private long testLoadItemTime, testLoadClipTime, testPlayCheckTime, testPreparedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +180,6 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
         testLoadItemTime = System.currentTimeMillis();
-        testBeforePreparedTime = System.currentTimeMillis();
         mPresenter.start();
         mPresenter.fetchItem(String.valueOf(itemPK));
         showBuffer(null);
@@ -251,6 +251,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             return;
         }
         mItemEntity = itemEntity;
+        final String previewTitle = mItemEntity.getTitle();
         showBuffer(PlAYSTART + mItemEntity.getTitle());
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity.SubItem[] subItems = itemEntity.getSubitems();
@@ -288,6 +289,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                         mPresenter.fetchMediaUrl(playCheckClip.getUrl(), sign, code);
                     } else {
                         ItemEntity.Preview preview = mItemEntity.getPreview();
+                        mItemEntity.setTitle(previewTitle);
                         mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
                         mIsPreview = true;
                     }
@@ -298,6 +300,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                     Log.e(TAG, "play check fail");
                     ItemEntity.Preview preview = mItemEntity.getPreview();
                     testLoadClipTime = System.currentTimeMillis();
+                    mItemEntity.setTitle(previewTitle);
                     mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
                     mIsPreview = true;
                 }
@@ -343,6 +346,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             public void onSuccess() {
                 Log.i(TAG, "player init success.");
                 mIsmartvPlayer.prepareAsync();
+                testPreparedTime = System.currentTimeMillis();
             }
 
             @Override
@@ -436,7 +440,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
 
     @Override
     public void onPrepared() {
-        Log.i(TAG, "testBeforePreparedTime:" + (System.currentTimeMillis() - testBeforePreparedTime));
+        Log.d(TAG, "testPreparedTime:" + (System.currentTimeMillis() - testPreparedTime));
         if (mIsmartvPlayer == null) {
             return;
         }
@@ -454,7 +458,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
     }
 
     private void preparedToStart() {
-        if (mediaHistoryPosition > 0 && !mIsPreview) {
+        if (mediaHistoryPosition > 0 && (!mIsPreview || mIsSwitchQuality)) {
             mIsmartvPlayer.seekTo(mediaHistoryPosition);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -469,6 +473,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
                 mIsmartvPlayer.start();
             }
         }
+        mIsSwitchQuality = false;
 
     }
 
@@ -1155,6 +1160,7 @@ public class PlayerActivity extends BaseActivity implements PlayerPageContract.V
             }
             mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
             mIsmartvPlayer.switchQuality(clickQuality);
+            mIsSwitchQuality = true;
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                 timerStop();
                 showBuffer(null);

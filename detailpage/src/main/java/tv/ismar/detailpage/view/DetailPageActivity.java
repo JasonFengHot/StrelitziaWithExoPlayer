@@ -166,7 +166,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
         String sn = IsmartvActivator.getInstance().getSnToken();
         Log.i("LH/", "sn:" + sn);
         mPresenter.stop();
-        if (smartPlayerDownVideo != null && smartPlayerDownVideo.isDownloading()) {
+        if (smartPlayerDownVideo != null) {
             smartPlayerDownVideo.stopDownload();
             smartPlayerDownVideo = null;
         }
@@ -372,7 +372,7 @@ public class DetailPageActivity extends BaseActivity implements DetailPageContra
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    if (smartPlayerDownVideo != null && smartPlayerDownVideo.isDownloading()) {
+                    if (smartPlayerDownVideo != null) {
                         smartPlayerDownVideo.stopDownload();
                     }
                     cancelTimer();
