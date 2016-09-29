@@ -60,7 +60,6 @@
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:singleLine="true"
                         android:text="@{tasks.itemTitle}"
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_60sp"/>

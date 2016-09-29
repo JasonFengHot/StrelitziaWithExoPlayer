@@ -371,4 +371,8 @@ public class IsmartvActivator {
         return mSharedPreferences.getString("username", "");
     }
 
+    public void setSn(String sn){
+        this.sn = sn;
+    }
+
 }
