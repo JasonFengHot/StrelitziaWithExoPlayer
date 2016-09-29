@@ -6,7 +6,6 @@ gradle -q -b appdaisy/build.gradle bintrayUpload
 gradle -q -b playerpage/build.gradle bintrayUpload
 
 
-gradle -q -b /Volumes/Hello/Project/Daisy/build.gradle clean build
 
 
 
