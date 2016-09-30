@@ -4,9 +4,3 @@ gradle -q -b account/build.gradle bintrayUpload
 gradle -q -b ismartvpay/build.gradle bintrayUpload
 gradle -q -b appdaisy/build.gradle bintrayUpload
 gradle -q -b playerpage/build.gradle bintrayUpload
-
-
-
-
-
-
