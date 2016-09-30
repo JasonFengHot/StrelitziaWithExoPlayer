@@ -25,8 +25,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:visibility="@{tasks.itemLayoutVisibility}"
-        tools:context=".view.DetailPageActivity">
+        android:visibility="@{tasks.itemLayoutVisibility}">
 
         <fragment
             android:id="@+id/detail_head"
