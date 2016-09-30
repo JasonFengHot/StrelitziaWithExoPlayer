@@ -6,4 +6,7 @@
     <string name="player_menu_restart">从头播放</string>
     <string name="player_exit">你是否确定退出播放器</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -14,15 +14,15 @@ public interface PlayerPageContract {
 
     interface View extends BaseView<Presenter> {
 
-        void loadItem(ItemEntity itemEntity);
+        void loadPlayerItem(ItemEntity itemEntity);
 
-        void loadClip(ClipEntity clipEntity);
+        void loadPlayerClip(ClipEntity clipEntity);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void fetchItem(String itemPk);
+        void fetchPlayerItem(String itemPk);
 
         void fetchMediaUrl(String clipUrl, String sign, String code);
 

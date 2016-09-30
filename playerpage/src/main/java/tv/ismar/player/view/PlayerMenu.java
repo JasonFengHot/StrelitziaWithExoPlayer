@@ -1,5 +1,6 @@
-package tv.ismar.player.media;
+package tv.ismar.player.view;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -13,12 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import tv.ismar.player.R;
-import tv.ismar.player.view.PlayerActivity;
 
 public class PlayerMenu extends PlayerMenuItem {
     private static final String TAG = "PlayerMenu";
 
-    private PlayerActivity activity;
+    private Context context;
     private Animation showAnimation;
     private Animation hideAnimation;
     private ListView listView;
@@ -29,10 +29,24 @@ public class PlayerMenu extends PlayerMenuItem {
     private View lastSelectMenu;
     private int onHoveredPosition = -1;
 
-    public PlayerMenu(PlayerActivity act) {
+    private OnCreateMenuListener onCreateMenuListener;
+
+    public void setOnCreateMenuListener(OnCreateMenuListener listener) {
+        onCreateMenuListener = listener;
+    }
+
+    public interface OnCreateMenuListener {
+
+        boolean onMenuClicked(PlayerMenu playerMenu, int id);
+
+        void onMenuCloseed(PlayerMenu playerMenu);
+
+    }
+
+    public PlayerMenu(Context ctx, ListView view) {
         super(-1, "");
-        activity = act;
-        listView = (ListView) activity.findViewById(R.id.player_menu);
+        context = ctx;
+        listView = view;
         listView.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -81,9 +95,9 @@ public class PlayerMenu extends PlayerMenuItem {
                 return false;
             }
         });
-        showAnimation = AnimationUtils.loadAnimation(activity,
+        showAnimation = AnimationUtils.loadAnimation(context,
                 R.anim.slide_in_right);
-        hideAnimation = AnimationUtils.loadAnimation(activity,
+        hideAnimation = AnimationUtils.loadAnimation(context,
                 android.R.anim.slide_out_right);
     }
 
@@ -112,7 +126,7 @@ public class PlayerMenu extends PlayerMenuItem {
             sel = selection;
         }
 
-        listView.setAdapter(new ArrayAdapter<String>(activity, R.layout.adapter_player_menu,
+        listView.setAdapter(new ArrayAdapter<String>(context, R.layout.adapter_player_menu,
                 R.id.adapter_menu_text, titles) {
             public View getView(int position, View convertView, ViewGroup parent) {
                 convertView = super.getView(position, convertView, parent);
@@ -182,7 +196,8 @@ public class PlayerMenu extends PlayerMenuItem {
                                     sub.selected = false;
                                 }
                             }
-                            if (activity.onMenuClicked(PlayerMenu.this, item.id)) {
+                            if (onCreateMenuListener != null &&
+                                    onCreateMenuListener.onMenuClicked(PlayerMenu.this, item.id)) {
                                 hide();
                             }
                         }
@@ -242,7 +257,9 @@ public class PlayerMenu extends PlayerMenuItem {
             listView.startAnimation(hideAnimation);
             listView.setVisibility(View.GONE);
             listView.setSelection(-1);
-            activity.onMenuCloseed(this);
+            if (onCreateMenuListener != null) {
+                onCreateMenuListener.onMenuCloseed(PlayerMenu.this);
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.widget.LoadingDialog;
@@ -55,4 +56,9 @@ public class BaseActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    public View getRootView() {
+        return ((ViewGroup) (getWindow().getDecorView().findViewById(android.R.id.content))).getChildAt(0);
+    }
+
 }

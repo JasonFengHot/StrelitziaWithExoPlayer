@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
 import rx.Observer;
@@ -58,7 +57,7 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
     }
 
     @Override
-    public void fetchItem(String itemPk) {
+    public void fetchPlayerItem(String itemPk) {
         if (mApiItemSubsc != null && !mApiItemSubsc.isUnsubscribed()) {
             mApiItemSubsc.unsubscribe();
         }
@@ -82,7 +81,7 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
                     @Override
                     public void onNext(ItemEntity itemEntity) {
-                        playerView.loadItem(itemEntity);
+                        playerView.loadPlayerItem(itemEntity);
                     }
                 });
 
@@ -114,7 +113,7 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
                     @Override
                     public void onNext(ClipEntity clipEntity) {
-                        playerView.loadClip(clipEntity);
+                        playerView.loadPlayerClip(clipEntity);
                     }
                 });
 

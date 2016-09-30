@@ -1,4 +1,4 @@
-package tv.ismar.player.media;
+package tv.ismar.player.view;
 
 import java.util.ArrayList;
 
