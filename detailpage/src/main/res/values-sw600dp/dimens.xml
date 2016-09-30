@@ -27,7 +27,7 @@
 <dimen name="normal_detail_content_padding_lr">40.83dp</dimen>
 <dimen name="normal_detail_content_padding_t">35.00dp</dimen>
 <dimen name="normal_detail_content_w">630.56dp</dimen>
-<dimen name="normal_detail_text_w">247.50dp</dimen>
+<dimen name="normal_detail_text_w">294.44dp</dimen>
 <dimen name="normal_detail_text_h">251.94dp</dimen>
 <dimen name="normal_detail_text_mt1">17.08dp</dimen>
 <dimen name="normal_detail_text_mt2">17.92dp</dimen>
