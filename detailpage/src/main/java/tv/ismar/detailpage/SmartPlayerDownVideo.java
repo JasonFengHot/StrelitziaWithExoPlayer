@@ -47,7 +47,6 @@ public class SmartPlayerDownVideo {
     private ItemEntity mItemEntity;
     private ClipEntity mClipEntity;
     private String[] mPaths;
-    private boolean isDownloading;
 
     private HistoryManager mHistoryManager;
     private History mHistory;
@@ -67,10 +66,6 @@ public class SmartPlayerDownVideo {
     private void reset() {
         historyPosition = 0;
         historyQuality = null;
-        isDownloading = false;
-        if (mSmartPlayer != null) {
-            mSmartPlayer = null;
-        }
     }
 
     public void startDownload(boolean isPreview) {
@@ -125,15 +120,11 @@ public class SmartPlayerDownVideo {
         if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
             mApiGetAdSubsc.unsubscribe();
         }
-        if (isDownloading() && mSmartPlayer != null) {
+        if (mSmartPlayer != null) {
             mSmartPlayer.releaseDownload();
+            mSmartPlayer = null;
         }
-        reset();
 
-    }
-
-    public boolean isDownloading() {
-        return isDownloading;
     }
 
     private void downClip(String clipUrl) {
@@ -255,7 +246,6 @@ public class SmartPlayerDownVideo {
                             }
                             mSmartPlayer = new SmartPlayer(true);
                             mSmartPlayer.startDownload(IsmartvActivator.getInstance().getSnToken(), mPaths, historyPosition);
-                            isDownloading = true;
                         } else {
                             Log.e(TAG, "Video address error.");
                         }
