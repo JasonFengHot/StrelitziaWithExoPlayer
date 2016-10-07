@@ -144,9 +144,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         headFragment = (HeadFragment) getChildFragmentManager().findFragmentById(R.id.detail_head);
         headFragment.setHeadTitle(mHeadTitle);
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
-        return textView;
+        return contentView;
     }
 
     @Override
