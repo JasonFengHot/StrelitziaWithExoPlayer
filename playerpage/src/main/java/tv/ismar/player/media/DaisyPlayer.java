@@ -70,6 +70,8 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             if (mOnStateChangedListener != null) {
                 mOnStateChangedListener.onPrepared();
             }
+            if(mHolder != null)
+            mHolder.setFixedSize(smartPlayer.getVideoWidth(), smartPlayer.getVideoHeight());
             if (mIsPlayingAdvertisement && !mAdIdMap.isEmpty()) {
                 logAdStart(getMediaIp(mCurrentMediaUrl), mAdIdMap.get(mCurrentMediaUrl));
             }
@@ -82,6 +84,8 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             if (mOnVideoSizeChangedListener != null) {
                 mOnVideoSizeChangedListener.onVideoSizeChanged(i, i1);
             }
+            if(mHolder != null)
+                mHolder.setFixedSize(smartPlayer.getVideoWidth(), smartPlayer.getVideoHeight());
         }
     };
 
@@ -225,6 +229,10 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.i(TAG, "surfaceChanged");
+        if(mPlayer != null) {
+            mHolder.setFixedSize(1920,1080);
+            mPlayer.setDisplay(mHolder);
+        }
     }
 
     @Override

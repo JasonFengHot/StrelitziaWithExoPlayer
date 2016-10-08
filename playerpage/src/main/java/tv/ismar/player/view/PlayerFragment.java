@@ -1141,6 +1141,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showBuffer(String msg) {
+        if(mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying())
+             return;
         if (player_buffer_layout.getVisibility() != View.VISIBLE) {
             if (msg != null) {
                 player_buffer_text.setText(msg);

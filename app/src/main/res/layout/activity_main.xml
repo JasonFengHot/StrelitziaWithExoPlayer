@@ -94,6 +94,14 @@
 
         </LinearLayout>
 
+        <VideoView
+            android:id="@+id/linked_video"
+            android:layout_width="980dp"
+            android:layout_height="332dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
+
     </LinearLayout>
 
 
