@@ -1066,6 +1066,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
             mIsmartvPlayer.switchQuality(clickQuality);
             mIsSwitchQuality = true;
+            isSeeking = true;
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                 timerStop();
                 showBuffer(null);

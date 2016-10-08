@@ -86,12 +86,21 @@ public class IsmartvActivator {
     }
 
     private IsmartvActivator() {
+        FileInputStream inputStream = null;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         manufacture = Build.BRAND.replace(" ", "_");
         kind = Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
         version = String.valueOf(getAppVersionCode());
         deviceId = getDeviceId();
-        sn = Md5.md5((deviceId + Build.SERIAL).trim());
+        try {
+            inputStream = mContext.openFileInput("sn");
+            int length = inputStream.available();
+            byte[] bytes = new byte[length];
+            inputStream.read(bytes);
+            String mac = new String(bytes, "UTF-8");
+            inputStream.close();
+            this.sn = mac;
+        }catch (Exception e){}
         fingerprint = Md5.md5(sn);
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
