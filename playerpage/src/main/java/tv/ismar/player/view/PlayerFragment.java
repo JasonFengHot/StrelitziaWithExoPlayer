@@ -122,6 +122,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private PlayerPagePresenter mPlayerPagePresenter;
     private boolean isNeedReload = false;
     private boolean isPlayInDetailPage;
+    public boolean onPlayerFragment = true;
     private Animation panelShowAnimation;
     private Animation panelHideAnimation;
     public static final String AD_MODE_ONSTART = "qiantiepian";
@@ -165,6 +166,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         if (!(getActivity() instanceof BaseActivity)) {
             if (isPlayInDetailPage) {
+                onPlayerFragment = false;
                 onHidePlayerPageListener.onHide();
             } else {
                 getActivity().finish();
@@ -404,7 +406,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.i(TAG, "onPrepared:" + mediaHistoryPosition + " playingAd:" + mIsPlayingAd);
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
 
-        if (!isPlayInDetailPage) {
+        if (onPlayerFragment) {
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER && mIsPlayingAd) {
                 mIsmartvPlayer.start();
             } else {
@@ -415,7 +417,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     public void detailPageClickPlay() {
-        if (isPlayInDetailPage) {
+        if (isPlayInDetailPage && mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState()) {
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER && mIsPlayingAd) {
                 mIsmartvPlayer.start();
             } else {
@@ -424,8 +426,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
     }
 
-    public void initPlayer(){
-        if(mIsmartvPlayer != null){
+    public void initPlayer() {
+        if (mIsmartvPlayer != null) {
             mIsmartvPlayer.release();
             mIsmartvPlayer = null;
         }
@@ -542,17 +544,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         timerStop();
         if (mIsPreview) {
             mIsPreview = false;
-            // new_vip中传递的serialItem都为空
-//            if (mItemEntity.getExpense() == null) {
-//                if (mItemEntity.getPk() != mItemEntity.getItemPk()) {
-//                    Intent intent = new Intent();
-//                    intent.setAction("tv.ismar.daisy.DramaList");
-//                    intent.putExtra("item", serialItem);
-//                    startActivity(intent);
-//                }
-//                finish();
-//                return;
-//            }
             if (mItemEntity.getLiveVideo() && "sport".equals(mItemEntity.getContentModel())) {
                 if (isPlayInDetailPage) {
                     onHidePlayerPageListener.onHide();

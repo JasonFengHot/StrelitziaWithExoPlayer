@@ -26,7 +26,6 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     private DetailPageFragment detailPageFragment;
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
-    private boolean isInDetailPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +38,9 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             return;
         }
 
-        isInDetailPage = true;
         playerFragment = PlayerFragment.newInstance(mItemPk, 0, true);
         playerFragment.setOnHidePlayerPageListener(this);
+        playerFragment.onPlayerFragment = false;
         detailPageFragment = DetailPageFragment.newInstance(mItemPk, content_model);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -63,8 +62,8 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         fragmentTransaction.hide(detailPageFragment);
         fragmentTransaction.show(playerFragment);
         fragmentTransaction.commit();
+        playerFragment.onPlayerFragment = true;
         playerFragment.detailPageClickPlay();
-        isInDetailPage = false;
 
     }
 
@@ -77,7 +76,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (playerFragment != null && !isInDetailPage && playerFragment.onKeyDown(keyCode, event)) {
+        if (playerFragment != null && playerFragment.onPlayerFragment && playerFragment.onKeyDown(keyCode, event)) {
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -85,7 +84,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (playerFragment != null && !isInDetailPage && playerFragment.onKeyUp(keyCode, event)) {
+        if (playerFragment != null && playerFragment.onPlayerFragment && playerFragment.onKeyUp(keyCode, event)) {
             return true;
         }
         return super.onKeyUp(keyCode, event);
@@ -93,7 +92,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!isInDetailPage && playerFragment != null && playerFragment.isBufferShow()) {
+        if (playerFragment != null && playerFragment.onPlayerFragment && playerFragment.isBufferShow()) {
             return true;
         }
         return mGestureDetector.onTouchEvent(event);
@@ -143,7 +142,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             finish();
             return;
         }
-        isInDetailPage = true;
+        playerFragment.onPlayerFragment = false;
         playerFragment.initPlayer();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.hide(playerFragment);
