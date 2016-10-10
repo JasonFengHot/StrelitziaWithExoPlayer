@@ -64,8 +64,10 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private volatile boolean itemIsLoad;
     private volatile boolean relateIsLoad;
     private ItemEntity mItemEntity;
+    private ItemEntity[] relateItems;
     private int mRemandDay = 0;
     private BaseActivity mActivity;
+
 
     public DetailPageFragment() {
         // Required empty public constructor
@@ -182,6 +184,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
+        relateItems = itemEntities;
         for (int i = 0; i < itemEntities.length && i < relViews; i++) {
             switch (content_model) {
                 case "movie":
@@ -192,8 +195,15 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
                     break;
 
             }
-            relRelImageViews[i].setTag(itemEntities[i]);
+            relRelImageViews[i].setTag(i);
             relRelImageViews[i].setOnClickListener(relateItemOnClickListener);
+            relRelImageViews[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    int position = (int) v.getTag();
+                    relTextViews[position].setSelected(true);
+                }
+            });
 
             ItemEntity.Expense expense = itemEntities[i].getExpense();
             if (expense != null && !Utils.isEmptyText(expense.getCptitle())) {
@@ -226,6 +236,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         relateIsLoad = true;
         hideLoading();
     }
+
+
 
     @Override
     public void notifyPlayCheck(PlayCheckEntity playCheckEntity) {
@@ -277,7 +289,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private View.OnClickListener relateItemOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ItemEntity item = (ItemEntity) v.getTag();
+            ItemEntity item = relateItems[(int) v.getTag()];
             new PageIntent().toDetailPage(getContext(), item.getContentModel(), item.getPk());
         }
     };

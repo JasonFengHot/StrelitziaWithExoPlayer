@@ -62,6 +62,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     public static final int PAYMENT_REQUEST_CODE = 0xd6;
     public static final int PAYMENT_SUCCESS_CODE = 0x5c;
+    public static final int PAYMENT_FAILURE_CODE = 0xd2;
 
 
 

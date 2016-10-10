@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,21 +87,12 @@ public class IsmartvActivator {
     }
 
     private IsmartvActivator() {
-        FileInputStream inputStream = null;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         manufacture = Build.BRAND.replace(" ", "_");
         kind = Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
         version = String.valueOf(getAppVersionCode());
         deviceId = getDeviceId();
-        try {
-            inputStream = mContext.openFileInput("sn");
-            int length = inputStream.available();
-            byte[] bytes = new byte[length];
-            inputStream.read(bytes);
-            String mac = new String(bytes, "UTF-8");
-            inputStream.close();
-            this.sn = mac;
-        }catch (Exception e){}
+        sn = generateSn();
         fingerprint = Md5.md5(sn);
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -170,7 +162,8 @@ public class IsmartvActivator {
             Response<ResponseBody> response = SKY_Retrofit.create(HttpService.class).trustGetlicence(fingerprint, sn, manufacture, "1")
                     .execute();
             if (response.errorBody() == null) {
-                writeToSign(response.body().bytes());
+                String result =  response.body().string();
+                writeToSign(result.getBytes());
                 return active();
             } else {
                 return null;
@@ -382,6 +375,15 @@ public class IsmartvActivator {
 
     public void setSn(String sn){
         this.sn = sn;
+    }
+
+    private String  generateSn(){
+        String  sn ;
+       sn =Md5.md5(Build.SERIAL + "dafdasdf");
+        if ("noaddress".equals(this.sn)) {
+            this.sn = Md5.md5(getDeviceId() + Build.SERIAL);
+        }
+        return sn;
     }
 
 }

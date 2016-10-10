@@ -449,20 +449,7 @@ public class DetailPageViewModel extends BaseObservable {
 
     @Bindable
     public boolean getPlayTextWidthIsLong() {
-        switch (mPresenter.getContentModel()) {
-            case "entertainment":
-            case "variety":
-                ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
-                if (subItems == null || subItems.length == 0) {
-                    return false;
-                } else {
-                    return true;
-                }
-
-            default:
-               return false;
-        }
-
+        return getPlayText().length() > 2;
     }
 
     @Bindable
