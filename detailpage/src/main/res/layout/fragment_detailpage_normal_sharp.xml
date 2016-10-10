@@ -414,6 +414,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h2_size"/>
 
@@ -466,6 +468,8 @@
 
                         <TextView
                             android:id="@+id/rel_2_text"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
@@ -520,6 +524,8 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
                             android:id="@+id/rel_3_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -575,6 +581,8 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
                             android:id="@+id/rel_4_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

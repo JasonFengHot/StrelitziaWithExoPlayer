@@ -201,7 +201,11 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     int position = (int) v.getTag();
-                    relTextViews[position].setSelected(true);
+                    if (hasFocus) {
+                        relTextViews[position].setSelected(true);
+                    } else {
+                        relTextViews[position].setSelected(false);
+                    }
                 }
             });
 
