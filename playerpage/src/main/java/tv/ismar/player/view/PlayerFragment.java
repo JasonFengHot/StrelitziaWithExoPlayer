@@ -604,7 +604,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (mItemEntity.getLiveVideo()) {
+            if (mItemEntity == null || mItemEntity.getLiveVideo()) {
                 return;
             }
             mModel.updateTimer(progress, mIsmartvPlayer.getDuration());
