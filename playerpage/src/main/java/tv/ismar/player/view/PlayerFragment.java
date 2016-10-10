@@ -270,8 +270,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
-        createHistory(mCurrentPosition);
-        addHistory(mCurrentPosition);
         mIsmartvPlayer.release();
         mIsmartvPlayer = null;
         switch (type) {
@@ -438,15 +436,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void preparedToStart() {
         if (mediaHistoryPosition > 0) {
-            mIsmartvPlayer.seekTo(mediaHistoryPosition);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
-                        mIsmartvPlayer.start();
+            if (mIsPreview && mediaHistoryPosition >= mIsmartvPlayer.getDuration()) {
+                goOtherPage(EVENT_COMPLETE_BUY);
+            } else {
+                mIsmartvPlayer.seekTo(mediaHistoryPosition);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
+                            mIsmartvPlayer.start();
+                        }
                     }
-                }
-            }, 500);
+                }, 500);
+            }
         } else {
             if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.start();
@@ -551,6 +553,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     getActivity().finish();
                 }
             } else {
+                createHistory(mIsmartvPlayer.getDuration());
+                addHistory(mIsmartvPlayer.getDuration());
                 goOtherPage(EVENT_COMPLETE_BUY);
             }
         } else {
@@ -1209,6 +1213,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
             }
         } else if (id == MENU_KEFU_ID) {
+            createHistory(mCurrentPosition);
+            addHistory(mCurrentPosition);
             goOtherPage(EVENT_CLICK_KEFU);
             ret = true;
         } else if (id == MENU_RESTART) {
