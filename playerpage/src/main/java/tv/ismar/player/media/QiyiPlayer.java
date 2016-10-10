@@ -302,14 +302,13 @@ public class QiyiPlayer extends IsmartvPlayer {
     }
 
     private BitStream qualityConvertToBitStream(ClipEntity.Quality quality) {
+        // 更改为new_vip分支显示样式
         switch (quality) {
             case QUALITY_LOW:
             case QUALITY_ADAPTIVE:
-            case QUALITY_NORMAL:
-                return BitStream.BITSTREAM_STANDARD;
-            case QUALITY_MEDIUM:
+            case QUALITY_NORMAL:// 流畅
                 return BitStream.BITSTREAM_HIGH;
-            case QUALITY_HIGH:
+            case QUALITY_MEDIUM:// 高清
                 if (!bitStreamList.isEmpty()) {
                     if (bitStreamList.contains(BitStream.BITSTREAM_720P)) {
                         return BitStream.BITSTREAM_720P;
@@ -320,7 +319,7 @@ public class QiyiPlayer extends IsmartvPlayer {
                     }
                 }
                 return BitStream.BITSTREAM_720P;
-            case QUALITY_ULTRA:
+            case QUALITY_HIGH:// 超清
                 if (!bitStreamList.isEmpty()) {
                     if (bitStreamList.contains(BitStream.BITSTREAM_1080P)) {
                         return BitStream.BITSTREAM_1080P;
@@ -331,6 +330,9 @@ public class QiyiPlayer extends IsmartvPlayer {
                     }
                 }
                 return BitStream.BITSTREAM_1080P;
+            case QUALITY_ULTRA:
+                Log.e(TAG, "Only support normal, medium, high quality.");
+                break;
             case QUALITY_BLUERAY:
             case QUALITY_4K:
                 if (!bitStreamList.isEmpty()) {
@@ -348,20 +350,33 @@ public class QiyiPlayer extends IsmartvPlayer {
     }
 
     private ClipEntity.Quality bitStreamConvertToQuality(BitStream bitStream) {
+//        for (BitStream d : mBitStreamList) {
+//            if (d.equals(BitStream.BITSTREAM_HIGH)) {
+//                avalibleRate[0] = true;
+//                // currQuality = 0;
+//            } else if (d.equals(BitStream.BITSTREAM_720P)) {
+//                avalibleRate[1] = true;
+//                // currQuality = 1;
+//            } else if (d.equals(BitStream.BITSTREAM_1080P)) {
+//                avalibleRate[2] = true;
+//                // currQuality = 2;
+//            }
+//        }
+        // 更改为以上显示方式
         if (bitStream == BitStream.BITSTREAM_STANDARD) {
             return ClipEntity.Quality.QUALITY_NORMAL;
         } else if (bitStream == BitStream.BITSTREAM_HIGH) {
-            return ClipEntity.Quality.QUALITY_MEDIUM;
+            return ClipEntity.Quality.QUALITY_NORMAL;
         } else if (bitStream == BitStream.BITSTREAM_UNKNOWN) {
             return ClipEntity.Quality.QUALITY_ADAPTIVE;
         } else if (bitStream == BitStream.BITSTREAM_720P
                 || bitStream == BitStream.BITSTREAM_720P_DOLBY
                 || bitStream == BitStream.BITSTREAM_720P_H265) {
-            return ClipEntity.Quality.QUALITY_HIGH;
+            return ClipEntity.Quality.QUALITY_MEDIUM;
         } else if (bitStream == BitStream.BITSTREAM_1080P
                 || bitStream == BitStream.BITSTREAM_1080P_DOLBY
                 || bitStream == BitStream.BITSTREAM_1080P_H265) {
-            return ClipEntity.Quality.QUALITY_ULTRA;
+            return ClipEntity.Quality.QUALITY_HIGH;
         } else if (bitStream == BitStream.BITSTREAM_4K
                 || bitStream == BitStream.BITSTREAM_4K_DOLBY
                 || bitStream == BitStream.BITSTREAM_4K_H265) {
