@@ -26,14 +26,14 @@ task clean(type: Delete) {
 }
 
 ext {
-    androidCompileSdkVersion = 23
-    androidBuildToolsVersion = '23.0.2'
+    androidCompileSdkVersion = 24
+    androidBuildToolsVersion = '24.0.0'
     androidMinSdkVersion = 15
-    androidTargetSdkVersion = 22
+    androidTargetSdkVersion = 24
 
     supportLibraryVersion = '23.0.0'
 
-    moduleVersion = '1.87'
+    moduleVersion = '1.85'
 
 
     dependencies = [
