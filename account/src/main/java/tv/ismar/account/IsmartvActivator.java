@@ -36,6 +36,10 @@ import tv.ismar.account.data.ResultEntity;
  * Created by huaijie on 5/17/16.
  */
 public class IsmartvActivator {
+    static {
+        System.loadLibrary("native-lib");
+    }
+
     private static final String TAG = "IsmartvActivator";
     private static final String DEFAULT_HOST = "http://sky.tvxio.com";
     private static final String SIGN_FILE_NAME = "sign1";
@@ -162,7 +166,7 @@ public class IsmartvActivator {
             Response<ResponseBody> response = SKY_Retrofit.create(HttpService.class).trustGetlicence(fingerprint, sn, manufacture, "1")
                     .execute();
             if (response.errorBody() == null) {
-                String result =  response.body().string();
+                String result = response.body().string();
                 writeToSign(result.getBytes());
                 return active();
             } else {
@@ -362,7 +366,6 @@ public class IsmartvActivator {
     }
 
 
-
     public void removeUserInfo() {
         mSharedPreferences.edit().putString("auth_token", "").commit();
         mSharedPreferences.edit().putString("zuser_token", "").commit();
@@ -373,17 +376,20 @@ public class IsmartvActivator {
         return mSharedPreferences.getString("username", "");
     }
 
-    public void setSn(String sn){
+    public void setSn(String sn) {
         this.sn = sn;
     }
 
-    private String  generateSn(){
-        String  sn ;
-       sn =Md5.md5(Build.SERIAL + "dafdasdf");
-        if ("noaddress".equals(this.sn)) {
-            this.sn = Md5.md5(getDeviceId() + Build.SERIAL);
+    private String generateSn() {
+        String mysn;
+        mysn = stringFromJNI();
+        if ("noaddress".equals(mysn)) {
+            mysn = Md5.md5(getDeviceId() + Build.SERIAL);
         }
-        return sn;
+        Log.d(TAG, "sn: " + mysn);
+        return mysn;
     }
+
+    public native String stringFromJNI();
 
 }
