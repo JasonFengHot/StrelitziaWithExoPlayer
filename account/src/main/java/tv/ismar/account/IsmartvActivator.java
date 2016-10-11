@@ -362,6 +362,7 @@ public class IsmartvActivator {
     public void saveUserInfo(String username, String authToken, String zUserhToken) {
         setUsername(username);
         setAuthToken(authToken);
+
         setzUserToken(authToken);
     }
 
@@ -383,6 +384,7 @@ public class IsmartvActivator {
     private String generateSn() {
         String mysn;
         mysn = stringFromJNI();
+        mysn = helloMd5(mysn);
         if ("noaddress".equals(mysn)) {
             mysn = Md5.md5(getDeviceId() + Build.SERIAL);
         }
@@ -391,5 +393,8 @@ public class IsmartvActivator {
     }
 
     public native String stringFromJNI();
+
+
+    public native String helloMd5(String str);
 
 }

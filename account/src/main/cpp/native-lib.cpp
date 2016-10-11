@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <string>
+#include "md5.h"
 
 extern "C"
 JNIEXPORT jstring JNICALL
@@ -31,10 +32,37 @@ Java_tv_ismar_account_IsmartvActivator_stringFromJNI(JNIEnv *env, jobject instan
 }
 
 extern "C"
-jstring
-Java_cn_ismartv_myapplication_MainActivity_stringFromJNI(
-        JNIEnv* env,
-        jobject /* this */) {
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
+uint8_t *MD5(unsigned char *data, size_t len, uint8_t *out) {
+    MD5_CTX ctx;
+    static uint8_t digest[16];
+
+    /* TODO(fork): remove this static buffer. */
+    if (out == NULL) {
+        out = digest;
+    }
+
+    MD5Init(&ctx);
+    MD5Update(&ctx, data, len);
+    MD5Final(out, &ctx);
+
+    return out;
 }
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_tv_ismar_account_IsmartvActivator_helloMd5(JNIEnv *env, jobject instance, jstring str_) {
+    const char *source = env->GetStringUTFChars(str_, 0);
+    unsigned char md[16];
+    int i;
+    char tmp[3] = {'\0'}, buf[33] = {'\0'};
+    MD5((unsigned char *) source, strlen(source), md);
+    for (i = 0; i < 16; i++) {
+        sprintf(tmp, "%2.2x", md[i]);
+        strcat(buf, tmp);
+    }
+    env->ReleaseStringUTFChars(str_, source);
+    return env->NewStringUTF(buf);
+}
+
+
+
