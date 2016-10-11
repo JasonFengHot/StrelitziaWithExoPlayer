@@ -33,7 +33,7 @@ ext {
 
     supportLibraryVersion = '23.0.0'
 
-    moduleVersion = '1.85'
+    moduleVersion = '1.86'
 
 
     dependencies = [
