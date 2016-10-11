@@ -127,6 +127,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private Animation panelHideAnimation;
     public static final String AD_MODE_ONSTART = "qiantiepian";
     public static final String AD_MODE_ONPAUSE = "zanting";
+    private AdImageDialog adImageDialog;
 
     private long testLoadItemTime, testLoadClipTime, testPlayCheckTime, testPreparedTime;
 
@@ -517,6 +518,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             } else {
                 showPannelDelayOut();
             }
+        }
+        if(adImageDialog != null && adImageDialog.isShowing()){
+            adImageDialog.dismiss();
         }
     }
 
@@ -1005,7 +1009,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             return;
         }
         // 视频暂停广告
-        AdImageDialog adImageDialog = new AdImageDialog(getActivity(), pauseAdList);
+        adImageDialog = new AdImageDialog(getActivity(), pauseAdList);
         try {
             adImageDialog.show();
         } catch (android.view.WindowManager.BadTokenException e) {
@@ -1310,6 +1314,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
             if (mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.pause();
+                mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE);
             } else {
                 mIsmartvPlayer.start();
             }
@@ -1450,6 +1455,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
+                    mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE);
                 } else {
                     mIsmartvPlayer.start();
                 }
@@ -1470,6 +1476,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
+                    mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE);
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
