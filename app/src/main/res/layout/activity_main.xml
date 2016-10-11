@@ -30,8 +30,10 @@
                 android:id="@+id/demo_detail_btn1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/s_button_color"
                 android:padding="8dp"
                 android:text="电影"
+                android:textColor="@color/module_color_white"
                 android:textSize="18sp" />
 
             <Button
@@ -39,8 +41,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:background="@drawable/s_button_color"
                 android:padding="8dp"
                 android:text="电视剧"
+                android:textColor="@color/module_color_white"
                 android:textSize="18sp" />
 
             <Button
@@ -48,8 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:background="@drawable/s_button_color"
                 android:padding="8dp"
                 android:text="娱乐综艺"
+                android:textColor="@color/module_color_white"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -69,27 +75,33 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/s_button_color"
                 android:onClick="onMovieClick"
                 android:padding="8dp"
                 android:text="单集节目"
+                android:textColor="@color/module_color_white"
                 android:textSize="18sp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:background="@drawable/s_button_color"
                 android:onClick="onTelevisionClick"
                 android:padding="8dp"
                 android:text="多集节目"
+                android:textColor="@color/module_color_white"
                 android:textSize="18sp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:background="@drawable/s_button_color"
                 android:onClick="onPayMovieClick"
                 android:padding="8dp"
                 android:text="付费节目"
+                android:textColor="@color/module_color_white"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -98,9 +110,9 @@
             android:id="@+id/linked_video"
             android:layout_width="980dp"
             android:layout_height="332dp"
+            android:layout_marginTop="16dp"
             android:focusable="false"
-            android:focusableInTouchMode="false"
-            />
+            android:focusableInTouchMode="false" />
 
     </LinearLayout>
 

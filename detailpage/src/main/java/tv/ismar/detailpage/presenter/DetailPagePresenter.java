@@ -30,6 +30,7 @@ import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
+import tv.ismar.detailpage.view.DetailPageActivity;
 
 /**
  * Created by huibin on 8/19/16.
@@ -49,6 +50,11 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     private ItemEntity[] relatedItemList;
     private Context mContext;
 
+    private DetailPageActivity detailPageActivity;
+
+    public void setActivity(DetailPageActivity activity){
+        detailPageActivity = activity;
+    }
 
     public DetailPagePresenter(Context context, DetailPageContract.View detailView, String contentModel) {
         mContext = context;
@@ -261,8 +267,9 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void handlePlay() {
-        PageIntent pageIntent = new PageIntent();
-        pageIntent.toPlayPage(mContext, mItemEntity.getPk(), 0);
+        if(detailPageActivity != null){
+            detailPageActivity.goPlayer();
+        }
 
     }
 

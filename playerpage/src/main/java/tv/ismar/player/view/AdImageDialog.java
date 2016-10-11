@@ -1,6 +1,4 @@
 package tv.ismar.player.view;
-import cn.ismartv.turetime.TrueTime;
-import cn.ismartv.turetime.TrueTime;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -24,6 +22,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.ismartv.turetime.TrueTime;
 import tv.ismar.app.network.entity.AdElementEntity;
 
 /**
@@ -43,14 +42,14 @@ public class AdImageDialog extends Dialog {
     private ImageView imageView;
     private Button button;
 
-    public AdImageDialog(Context context, PlayerSync playerSync, List<AdElementEntity> adElementEntityList) {
+    public AdImageDialog(Context context, List<AdElementEntity> adElementEntityList) {
         super(context);
         mContext = context;
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         width = wm.getDefaultDisplay().getWidth();
         height = wm.getDefaultDisplay().getHeight();
         mAdElementEntityList = adElementEntityList;
-        mPlayerSync = playerSync;
+        mPlayerSync = new PlayerSync();
 
         setWindowProperty();
     }

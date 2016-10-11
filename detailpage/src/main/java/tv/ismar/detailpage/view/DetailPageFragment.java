@@ -34,7 +34,7 @@ import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 
 public class DetailPageFragment extends Fragment implements DetailPageContract.View {
 
-    private static final String TAG = "DetailPageFragment";
+    private static final String TAG = "LH/DetailPageFragment";
     private static final String ARG_PK = "ARG_PK";
     private static final String ARG_CONTENT_MODEL = "ARG_CONTENT_MODEL";
 
@@ -96,6 +96,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         mActivity = (BaseActivity) getActivity();
         mDetailPagePresenter = new DetailPagePresenter(mActivity, this, content_model);
+        mDetailPagePresenter.setActivity((DetailPageActivity) getActivity());
         mModel = new DetailPageViewModel(mActivity, mDetailPagePresenter);
 
         mLoadingDialog = new LoadingDialog(mActivity, R.style.LoadingDialog);
@@ -112,6 +113,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e(TAG, "onCreateView");
         View contentView;
         mHeadTitle = getModelType(content_model);
         if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
