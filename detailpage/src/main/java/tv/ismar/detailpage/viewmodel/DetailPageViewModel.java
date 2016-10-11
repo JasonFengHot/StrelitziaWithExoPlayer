@@ -91,10 +91,9 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.bookmarkText);
 
 
-
     }
 
-    public void showLayout(){
+    public void showLayout() {
         itemIsload = true;
         notifyPropertyChanged(BR.itemLayoutVisibility);
     }
@@ -329,7 +328,7 @@ public class DetailPageViewModel extends BaseObservable {
     public int getPriceVisibility() {
         try {
 
-            if (getExpireDateVisibility() == View.VISIBLE){
+            if (getExpireDateVisibility() == View.VISIBLE) {
                 return View.GONE;
             }
 
@@ -414,7 +413,21 @@ public class DetailPageViewModel extends BaseObservable {
 
     @Bindable
     public int getEpisodesVisibility() {
-        return TextUtils.isEmpty(getEpisodes()) ? View.GONE : View.VISIBLE;
+
+        if (!TextUtils.isEmpty(getEpisodes())) {
+            if (mItemEntity.getExpense() != null) {
+                if (mRemandDay > 0) {
+                    return View.VISIBLE;
+                } else {
+                    return View.GONE;
+                }
+            } else {
+                return View.VISIBLE;
+            }
+
+        } else {
+            return View.GONE;
+        }
     }
 
     @Bindable
@@ -443,7 +456,7 @@ public class DetailPageViewModel extends BaseObservable {
     @BindingAdapter("android:layout_width")
     public static void setLayoutWidth(View view, float width) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.width = (int)width;
+        layoutParams.width = (int) width;
         view.setLayoutParams(layoutParams);
     }
 

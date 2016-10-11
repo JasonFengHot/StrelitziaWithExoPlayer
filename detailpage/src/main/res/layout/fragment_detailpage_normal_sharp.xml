@@ -92,7 +92,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/detail_text_mt3"
+                        android:layout_marginTop="@dimen/detail_text_mt4"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.classificationVisibility}">
 
@@ -119,7 +119,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/detail_text_mt3"
+                        android:layout_marginTop="@dimen/detail_text_mt4"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.areaVisibility}">
 
@@ -146,7 +146,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/detail_text_mt3"
+                        android:layout_marginTop="@dimen/detail_text_mt4"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.airDateVisibility}">
 
@@ -173,7 +173,7 @@
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/detail_text_mt3"
+                        android:layout_marginTop="@dimen/detail_text_mt4"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.directorVisibility}">
 
@@ -200,7 +200,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/detail_text_mt3"
+                        android:layout_marginTop="@dimen/detail_text_mt4"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.actorVisibility}">
 
@@ -227,7 +227,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/detail_text_mt3"
+                        android:layout_marginTop="@dimen/detail_text_mt4"
                         android:orientation="horizontal"
                         android:visibility="@{tasks.episodesVisibility}">
 
@@ -310,6 +310,20 @@
                         android:textSize="@dimen/h1_size"/>
 
                     <Button
+                        android:id="@+id/detail_btn_buy"
+                        android:layout_width="@dimen/normal_detail_button1_w"
+                        android:layout_height="@dimen/normal_detail_button_h"
+                        android:background="@drawable/selector_normal_play"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/normal_detail_button_space"
+                        android:onClick="@{() -> actionHandler.handlePurchase()}"
+                        android:paddingLeft="@dimen/normal_detail_button_padding_left"
+                        android:text="@string/video_buy"
+                        android:textColor="@color/module_color_white"
+                        android:visibility="@{tasks.purchaseVisibility}"
+                        android:textSize="@dimen/h1_size"/>
+
+                    <Button
                         android:id="@+id/detail_btn_collect"
                         android:layout_width="@dimen/normal_detail_button2_w"
                         android:layout_height="@dimen/normal_detail_button_h"
@@ -349,7 +363,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:lineSpacingExtra="@dimen/detail_text_mt3"
+                        android:lineSpacingExtra="@dimen/normal_linespacingextra"
                         android:maxLines="4"
                         android:text="@{tasks.description}"
                         android:textColor="@color/module_color_white"

@@ -2,7 +2,7 @@
 
 <dimen name="detail_text_mt1">12.67dp</dimen>
 <dimen name="detail_text_mt2">14.00dp</dimen>
-<dimen name="detail_text_mt3">15.33dp</dimen>
+<dimen name="detail_text_mt3">37.33dp</dimen>
 
 <dimen name="movie_detail_preview_img_w">299.33dp</dimen>
 <dimen name="movie_detail_preview_img_h">419.33dp</dimen>
@@ -105,4 +105,6 @@
 <dimen name="toast_textsize">35.56sp</dimen>
 <dimen name="toast_padding">35.56dip</dimen>
 <dimen name="movie_relate_width">906.67dp</dimen>
+<dimen name="normal_linespacingextra">17.78dp</dimen>
+<dimen name="detail_text_mt4">26.67dp</dimen>
 </resources>
