@@ -182,6 +182,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         panelHideAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.fly_down);
         mPresenter.start();
+        Log.e(TAG, "Version1.89.");
     }
 
     @Override
