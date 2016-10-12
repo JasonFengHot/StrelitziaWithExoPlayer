@@ -520,7 +520,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 showPannelDelayOut();
             }
         }
-        if(adImageDialog != null && adImageDialog.isShowing()){
+        if (adImageDialog != null && adImageDialog.isShowing()) {
             adImageDialog.dismiss();
         }
     }
@@ -1077,7 +1077,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void addHistory(int last_position) {
-        if (mItemEntity == null && historyManager == null || mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState()) {
+        if (mItemEntity == null && historyManager == null || mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState() || mIsPlayingAd) {
             return;
         }
         History history = new History();
@@ -1109,7 +1109,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void createHistory(int length) {
-        if (mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState() || "".equals(IsmartvActivator.getInstance().getAuthToken())) {
+        if (mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState() || mIsPlayingAd || "".equals(IsmartvActivator.getInstance().getAuthToken())) {
             return;// 不登录不必上传
         }
         int offset = length;

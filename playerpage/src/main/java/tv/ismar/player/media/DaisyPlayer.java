@@ -1,16 +1,15 @@
 package tv.ismar.player.media;
 
-import cn.ismartv.turetime.TrueTime;
-import cn.ismartv.turetime.TrueTime;
-
 import android.media.AudioManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
+import cn.ismartv.turetime.TrueTime;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.SmartPlayer;
@@ -79,9 +78,17 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
 
     private SmartPlayer.OnVideoSizeChangedListener smartVideoSizeChangedListener = new SmartPlayer.OnVideoSizeChangedListener() {
         @Override
-        public void onVideoSizeChanged(SmartPlayer smartPlayer, int i, int i1) {
+        public void onVideoSizeChanged(SmartPlayer smartPlayer, int width, int height) {
+            Log.i(TAG, "onVideoSizeChangedDaisy:" + width + " " + height);
+            if (mHolder == null || mPlayer == null) {
+                return;
+            }
+            int[] outputSize = computeVideoSize(width, height);
+            Log.i(TAG, "outSize:" + Arrays.toString(outputSize));
+            mHolder.setFixedSize(outputSize[0], outputSize[1]);
+            mPlayer.setDisplay(mHolder);
             if (mOnVideoSizeChangedListener != null) {
-                mOnVideoSizeChangedListener.onVideoSizeChanged(i, i1);
+                mOnVideoSizeChangedListener.onVideoSizeChanged(width, height);
             }
         }
     };
