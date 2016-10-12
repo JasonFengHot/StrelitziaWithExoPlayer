@@ -23,10 +23,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PlayCheckManager;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 
+import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
 import static tv.ismar.pay.PaymentActivity.PAYMENT_REQUEST_CODE;
 
 /**
@@ -169,7 +171,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, itemList.getContent_model(),itemList.getItem_id());
+                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, unknown.name(),itemList.getItem_id());
                 }
             });
             if (listLayoutItemNextFocusUpIsSelf == true) {

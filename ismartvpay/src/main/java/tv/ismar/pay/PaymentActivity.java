@@ -1,6 +1,4 @@
 package tv.ismar.pay;
-import cn.ismartv.turetime.TrueTime;
-import cn.ismartv.turetime.TrueTime;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -20,6 +18,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import cn.ismartv.turetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Observer;

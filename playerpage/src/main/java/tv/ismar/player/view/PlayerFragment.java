@@ -40,6 +40,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.PlayCheckManager;
 import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.entity.DBQuality;
@@ -57,6 +58,9 @@ import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.media.PlayerBuilder;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
+
+import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
+import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
 
 public class PlayerFragment extends Fragment implements PlayerPageContract.View, PlayerMenu.OnCreateMenuListener,
         IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener {
@@ -277,9 +281,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         switch (type) {
             case EVENT_CLICK_VIP_BUY:
                 PageIntent pageIntent1 = new PageIntent();
-                pageIntent1.toPayment(getActivity(),
-                        String.valueOf(mItemEntity.getPk()),
-                        "2", "2", null);
+                PaymentInfo paymentInfo = new PaymentInfo(item, mItemEntity.getPk(), mItemEntity.getExpense().getJump_to(),mItemEntity.getExpense().getCpid());
+                pageIntent1.toPayment(getActivity(), unknown.name(), paymentInfo);
                 if (isPlayInDetailPage) {
                     onHidePlayerPageListener.onHide();
                 } else {

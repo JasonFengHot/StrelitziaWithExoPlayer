@@ -8,33 +8,43 @@ import android.content.Intent;
  */
 public class PageIntent implements PageIntentInterface {
     @Override
-    public void toDetailPage(Context context, String contentModel, int pk) {
+    public void toDetailPage(Context context, String fromPage, int pk) {
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.detailpage");
-        intent.putExtra(EXTRA_MODEL, contentModel);
         intent.putExtra(EXTRA_PK, pk);
+        intent.putExtra(EXTRA_FROMPAGE, fromPage);
         context.startActivity(intent);
     }
 
     @Override
-    public void toPayment(Context context, String pk, String jumpTo, String cpid, String model) {
+    public void toDetailPage(Context context, String fromPage, String json) {
         Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        switch (jumpTo) {
-            case "1":
+        intent.setAction("tv.ismar.daisy.detailpage");
+        intent.putExtra(EXTRA_FROMPAGE, fromPage);
+        intent.putExtra(EXTRA_ITEM_JSON, json);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void toPayment(Context context, String fromPage, PaymentInfo paymentInfo) {
+        Intent intent = new Intent();
+        switch (paymentInfo.getJumpTo()) {
+            case 1:
                 intent.setAction("tv.ismar.pay.payment");
-                intent.putExtra(EXTRA_PK, pk);
-                intent.putExtra("model", model);
+                intent.putExtra(EXTRA_PK, paymentInfo.getPk());
+                intent.putExtra(EXTRA_PRODUCT_CATEGORY, paymentInfo.getCategory());
                 break;
-            case "0":
+            case 0:
                 intent.setAction("tv.ismar.pay.pay");
-                intent.putExtra("item_id", pk);
+                intent.putExtra("item_id", paymentInfo.getPk());
                 break;
-            case "2":
+            case 2:
                 intent.setAction("tv.ismar.pay.payvip");
-                intent.putExtra("cpid", cpid);
-                intent.putExtra("item_id", pk);
+                intent.putExtra("cpid", paymentInfo.getCpid());
+                intent.putExtra("item_id", paymentInfo.getPk());
                 break;
+            default:
+                throw new IllegalArgumentException();
         }
         context.startActivity(intent);
     }

@@ -20,6 +20,7 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.db.FavoriteManager;
 import tv.ismar.app.entity.Favorite;
@@ -31,6 +32,10 @@ import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.view.DetailPageActivity;
+
+import static tv.ismar.app.core.PageIntentInterface.*;
+import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
+import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
 
 /**
  * Created by huibin on 8/19/16.
@@ -276,10 +281,11 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void handlePurchase() {
-        String pk = String.valueOf(mItemEntity.getPk());
-        String jumpTo = String.valueOf(mItemEntity.getExpense().getJump_to());
-        String cpid = String.valueOf(mItemEntity.getExpense().getCpid());
-        new PageIntent().toPayment(mDetailView.getContext(), pk, jumpTo, cpid, "item");
+        int pk = mItemEntity.getPk();
+        int jumpTo = mItemEntity.getExpense().getJump_to();
+        int cpid = mItemEntity.getExpense().getCpid();
+        PaymentInfo paymentInfo = new PaymentInfo(item, pk, jumpTo, cpid);
+        new PageIntent().toPayment(mDetailView.getContext(), unknown.name(), paymentInfo);
     }
 
 

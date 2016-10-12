@@ -2,7 +2,7 @@
 
 <dimen name="detail_text_mt1">7.92dp</dimen>
 <dimen name="detail_text_mt2">8.75dp</dimen>
-<dimen name="detail_text_mt3">23.33dp</dimen>
+<dimen name="detail_text_mt3">9.58dp</dimen>
 
 <dimen name="movie_detail_preview_img_w">187.08dp</dimen>
 <dimen name="movie_detail_preview_img_h">262.08dp</dimen>
