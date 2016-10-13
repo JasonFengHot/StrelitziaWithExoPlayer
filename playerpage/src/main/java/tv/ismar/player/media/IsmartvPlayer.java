@@ -264,10 +264,6 @@ public abstract class IsmartvPlayer implements IPlayer {
     // 调用奇艺播放器
     protected void setMedia(IMedia media) {
         mCurrentState = STATE_IDLE;
-        if (mOnDataSourceSetListener != null) {
-            mOnDataSourceSetListener.onSuccess();
-        }
-
     }
 
     protected String getSmartQualityUrl(ClipEntity.Quality quality) {
@@ -514,6 +510,37 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     public boolean isPlayingAd() {
         return mIsPlayingAdvertisement;
+    }
+
+    protected int[] computeVideoSize(int videoWidth, int videoHeight) {
+        if (mContext == null) {
+            return null;
+        }
+        int[] size = new int[2];
+        int screenWidth = DeviceUtils.getDisplayPixelWidth(mContext);
+        int screenHeight = DeviceUtils.getDisplayPixelHeight(mContext);
+        double dw = screenWidth;
+        double dh = screenHeight;
+        if (videoWidth == videoHeight) {
+            if (dw > dh) {
+                dw = screenHeight;
+            } else {
+                dh = screenWidth;
+            }
+        } else {
+            double dar = dw / dh;
+            double ar = videoWidth / videoHeight;
+            if (dar < ar) {
+                double widthScale = videoWidth / dw;
+                dh = videoHeight / widthScale;
+            } else {
+                double heightScale = videoHeight / dh;
+                dw = videoWidth / heightScale;
+            }
+        }
+        size[0] = (int) Math.ceil(dw);
+        size[1] = (int) Math.ceil(dh);
+        return size;
     }
 
 }
