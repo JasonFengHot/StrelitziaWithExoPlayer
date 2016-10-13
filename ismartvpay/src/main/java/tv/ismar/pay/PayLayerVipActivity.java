@@ -44,9 +44,9 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         setContentView(R.layout.activity_paylayervip);
         initViews();
         Intent intent = getIntent();
-        String cpid = intent.getStringExtra("cpid");
-        String itemId = intent.getStringExtra("item_id");
-        payLayerVip(cpid, itemId);
+        int cpid = intent.getIntExtra("cpid", -1);
+        int itemId = intent.getIntExtra("item_id", -1);
+        payLayerVip(String.valueOf(cpid), String.valueOf(itemId));
     }
 
     private void initViews() {

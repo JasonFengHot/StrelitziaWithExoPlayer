@@ -57,9 +57,9 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         setContentView(R.layout.activity_paylayerpackage);
         initViews();
         Intent intent = getIntent();
-        String packageId = intent.getStringExtra("package_id");
-        payLayerPackage(packageId);
-        orderCheck(packageId);
+        int packageId = intent.getIntExtra("package_id", -1);
+        payLayerPackage(String.valueOf(packageId));
+        orderCheck(String.valueOf(packageId));
     }
 
     private void initViews() {

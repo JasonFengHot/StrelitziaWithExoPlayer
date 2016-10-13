@@ -29,6 +29,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 
@@ -51,7 +52,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     private Subscription mOrderCheckLoopSubscription;
 
-    private String model;
+    private String category;
     private int pk;
 
     private ItemEntity mItemEntity;
@@ -70,19 +71,17 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-
-
+        category = intent.getStringExtra(PageIntentInterface.EXTRA_PRODUCT_CATEGORY);
         String itemJson = intent.getStringExtra(PageIntent.EXTRA_ITEM_JSON);
+
         if (!TextUtils.isEmpty(itemJson)) {
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
-            model = mItemEntity.getContentModel();
             pk = mItemEntity.getPk();
             purchaseCheck(CheckType.PlayCheck);
 
         } else {
-            model = intent.getStringExtra("model");
             pk = intent.getIntExtra("pk", 0);
-            fetchItem(pk, model);
+            fetchItem(pk, category);
         }
 
 
@@ -169,9 +168,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             return;
         }
 
-        if ("package".equalsIgnoreCase(model)) {
+        if ("_package".equalsIgnoreCase(category)) {
             orderCheckLoop(checkType, null, String.valueOf(pk), null);
-        } else if ("subitem".equalsIgnoreCase(model)) {
+        } else if ("subitem".equalsIgnoreCase(category)) {
             orderCheckLoop(checkType, null, null, String.valueOf(pk));
         } else {
             orderCheckLoop(checkType, String.valueOf(pk), null, null);
@@ -249,7 +248,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     public void createOrder(final OderType type, final QrcodeCallback callback) {
         String waresId = String.valueOf(pk);
-        String waresType = model;
+        String waresType = category;
         String source = type.name();
         String timestamp = null;
         String sign = null;
@@ -261,7 +260,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             String encode = "sn=" + activator.getSnToken()
                     + "&source=sky" + "&timestamp=" + timestamp
                     + "&wares_id=" + pk + "&wares_type="
-                    + model;
+                    + category;
             sign = activator.encryptWithPublic(encode);
         }
 
@@ -309,7 +308,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     public String getModel() {
-        return model;
+        return category;
     }
 
 

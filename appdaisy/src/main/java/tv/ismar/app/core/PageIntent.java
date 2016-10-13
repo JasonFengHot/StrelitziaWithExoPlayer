@@ -1,5 +1,6 @@
 package tv.ismar.app.core;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -29,16 +30,16 @@ public class PageIntent implements PageIntentInterface {
     public void toPayment(Context context, String fromPage, PaymentInfo paymentInfo) {
         Intent intent = new Intent();
         switch (paymentInfo.getJumpTo()) {
-            case 1:
+            case PAYMENT:
                 intent.setAction("tv.ismar.pay.payment");
                 intent.putExtra(EXTRA_PK, paymentInfo.getPk());
-                intent.putExtra(EXTRA_PRODUCT_CATEGORY, paymentInfo.getCategory());
+                intent.putExtra(EXTRA_PRODUCT_CATEGORY, paymentInfo.getCategory().toString());
                 break;
-            case 0:
+            case PAY:
                 intent.setAction("tv.ismar.pay.pay");
                 intent.putExtra("item_id", paymentInfo.getPk());
                 break;
-            case 2:
+            case PAYVIP:
                 intent.setAction("tv.ismar.pay.payvip");
                 intent.putExtra("cpid", paymentInfo.getCpid());
                 intent.putExtra("item_id", paymentInfo.getPk());
@@ -47,6 +48,30 @@ public class PageIntent implements PageIntentInterface {
                 throw new IllegalArgumentException();
         }
         context.startActivity(intent);
+    }
+
+    @Override
+    public void toPaymentForResult(Activity activity, String fromPage, PaymentInfo paymentInfo) {
+        Intent intent = new Intent();
+        switch (paymentInfo.getJumpTo()) {
+            case PAYMENT:
+                intent.setAction("tv.ismar.pay.payment");
+                intent.putExtra(EXTRA_PK, paymentInfo.getPk());
+                intent.putExtra(EXTRA_PRODUCT_CATEGORY, paymentInfo.getCategory().toString());
+                break;
+            case PAY:
+                intent.setAction("tv.ismar.pay.pay");
+                intent.putExtra("item_id", paymentInfo.getPk());
+                break;
+            case PAYVIP:
+                intent.setAction("tv.ismar.pay.payvip");
+                intent.putExtra("cpid", paymentInfo.getCpid());
+                intent.putExtra("item_id", paymentInfo.getPk());
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        activity.startActivityForResult(intent, PAYMENT_REQUEST_CODE);
     }
 
     @Override

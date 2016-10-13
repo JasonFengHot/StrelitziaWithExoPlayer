@@ -22,9 +22,14 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.network.SkyService;
+import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
+import tv.ismar.app.core.PageIntentInterface.ProductCategory;
 import tv.ismar.app.network.entity.PayLayerEntity;
 
+import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
+import static tv.ismar.app.core.PageIntentInterface.PAYMENT;
+import static tv.ismar.app.core.PageIntentInterface.PAYVIP;
 import static tv.ismar.pay.PaymentActivity.PAYMENT_REQUEST_CODE;
 
 /**
@@ -36,7 +41,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     private LinearLayout scrollViewLayout;
     private TvHorizontalScrollView mTvHorizontalScrollView;
     private ImageView tmp;
-    private String mItemId;
+    private int mItemId;
 
 
     @Override
@@ -49,8 +54,8 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
         Picasso.with(this).load(R.drawable.newvip_bg).fit().centerCrop().into(pay_back);
         initViews();
         Intent intent = getIntent();
-        mItemId = intent.getStringExtra("item_id");
-        payLayer(mItemId);
+        mItemId = intent.getIntExtra("item_id", -1);
+        payLayer(String.valueOf(mItemId));
 //        payLayer("675300");
     }
 
@@ -121,10 +126,13 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.putExtra("cpid", String.valueOf(payLayerEntity.getCpid()));
+                    intent.putExtra("cpid", payLayerEntity.getCpid());
                     intent.putExtra("item_id", mItemId);
                     intent.setClass(PayActivity.this, PayLayerVipActivity.class);
                     startActivityForResult(intent, PAYMENT_REQUEST_CODE);
+
+                    PaymentInfo paymentInfo = new PaymentInfo(mItemId, payLayerEntity.getCpid(), PAYVIP);
+                    new PageIntent().toPaymentForResult(PayActivity.this, unknown.toString(), paymentInfo );
                 }
             });
             scrollViewLayout.addView(vipItem, layoutParams);
@@ -174,7 +182,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.putExtra("package_id", String.valueOf(newVipPackage.getPackage_pk()));
+                    intent.putExtra("package_id", newVipPackage.getPackage_pk());
                     intent.setClass(PayActivity.this, PayLayerPackageActivity.class);
                     startActivityForResult(intent, PAYMENT_REQUEST_CODE);
                 }
@@ -213,21 +221,17 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     }
 
     private void buyVideo(int pk, String type, float price, String duration, String title) {
-        Intent intent = new Intent();
-        intent.setAction("tv.ismar.pay.payment");
-        intent.putExtra(PageIntent.EXTRA_PK, pk);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("model", "item");
-        startActivityForResult(intent, PAYMENT_REQUEST_CODE);
+        PaymentInfo paymentInfo = new PaymentInfo(ProductCategory.item, pk, PAYMENT);
+        new PageIntent().toPaymentForResult(this, unknown.toString(), paymentInfo);
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (resultCode == PaymentActivity.PAYMENT_SUCCESS_CODE){
-                setResult(PaymentActivity.PAYMENT_SUCCESS_CODE, data);
-                finish();
-            }
+        if (resultCode == PaymentActivity.PAYMENT_SUCCESS_CODE) {
+            setResult(PaymentActivity.PAYMENT_SUCCESS_CODE, data);
+            finish();
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

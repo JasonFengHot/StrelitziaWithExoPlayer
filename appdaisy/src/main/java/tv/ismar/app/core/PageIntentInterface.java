@@ -1,5 +1,6 @@
 package tv.ismar.app.core;
 
+import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -15,12 +16,23 @@ public interface PageIntentInterface {
 
     String EXTRA_PRODUCT_CATEGORY = "product_category";
 
+    int PAYMENT_REQUEST_CODE = 0xd6;
+    int PAYMENT_SUCCESS_CODE = 0x5c;
+    int PAYMENT_FAILURE_CODE = 0xd2;
+
+    int PAYMENT = 1;
+    int PAY = 0;
+    int PAYVIP = 2;
+
+
 
     void toDetailPage(Context context, String contentModel, int pk);
 
     void toDetailPage(Context context, String fromPage, String json);
 
     void toPayment(Context context, String fromPage, PaymentInfo paymentInfo);
+
+    void toPaymentForResult(Activity context, String fromPage, PaymentInfo paymentInfo);
 
     void toPlayPage(Context context, int pk, int sub_item_pk);
 
@@ -30,10 +42,21 @@ public interface PageIntentInterface {
 
     enum ProductCategory {
         item,
-        _package
+        Package,
+        subitem;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
     }
 
     class PaymentInfo {
+        private ProductCategory category;
+        private int pk;
+        private int jumpTo;
+        private int cpid;
+
         public PaymentInfo(ProductCategory category, int pk, int jumpTo, int cpid) {
             this.category = category;
             this.pk = pk;
@@ -41,10 +64,17 @@ public interface PageIntentInterface {
             this.cpid = cpid;
         }
 
-        private ProductCategory category;
-        private int pk;
-        private int jumpTo;
-        private int cpid;
+        public PaymentInfo(ProductCategory category, int pk, int jumpTo) {
+            this.category = category;
+            this.pk = pk;
+            this.jumpTo = jumpTo;
+        }
+
+        public PaymentInfo(int pk, int jumpTo, int cpid) {
+            this.pk = pk;
+            this.jumpTo = jumpTo;
+            this.cpid = cpid;
+        }
 
         public ProductCategory getCategory() {
             return category;
