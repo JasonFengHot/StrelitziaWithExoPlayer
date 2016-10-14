@@ -29,6 +29,7 @@ public class PlayerActivity extends BaseActivity {
         Intent intent = getIntent();
         itemPK = intent.getIntExtra(PageIntentInterface.EXTRA_PK, 0);
         subItemPk = intent.getIntExtra(PageIntentInterface.EXTRA_SUBITEM_PK, 0);
+        String source = intent.getStringExtra(PageIntentInterface.EXTRA_SOURCE);
 
         if (itemPK <= 0) {
             finish();
@@ -36,7 +37,7 @@ public class PlayerActivity extends BaseActivity {
             return;
         }
 
-        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, false);
+        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, false, source);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity_player_container, playerFragment)

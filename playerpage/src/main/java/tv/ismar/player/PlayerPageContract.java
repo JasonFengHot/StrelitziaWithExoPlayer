@@ -5,6 +5,7 @@ import java.util.List;
 
 import tv.ismar.app.BasePresenter;
 import tv.ismar.app.BaseView;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -34,7 +35,7 @@ public interface PlayerPageContract {
 
         void sendHistory(HashMap<String, Object> history);
 
-        void fetchAdvertisement(ItemEntity itemEntity, String adPid);
+        void fetchAdvertisement(ItemEntity itemEntity, String adPid, String source);
 
     }
 

@@ -1,6 +1,7 @@
 package tv.ismar.player.view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -135,6 +136,8 @@ public class PlayerMenu extends PlayerMenuItem {
                 PlayerMenuItem curr = getCurrMenu();
                 int id = position;
                 TextView checkbox = (TextView) convertView.findViewById(R.id.adapter_menu_checkBox);
+                Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+                checkbox.setTypeface(typeface);
                 if (curr.subItems.get(id).selected) {
                     if (curr.subItems.get(id).id != 0 && curr.subItems.get(id).id != 100 & curr.subItems.get(id).id != 20 && curr.subItems.get(id).id != 30)
                         checkbox.setVisibility(View.VISIBLE);

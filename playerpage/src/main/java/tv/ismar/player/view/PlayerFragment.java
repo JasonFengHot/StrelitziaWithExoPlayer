@@ -67,6 +67,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private static final String ARG_PK = "ARG_PK";
     private static final String ARG_SUB_PK = "ARG_SUB_PK";
+    private static final String ARG_SOURCE = "ARG_SOURCE";
     private static final String ARG_IN_DETAIL_PAGE = "ARG_IN_DETAIL_PAGE";
     private static final String HISTORYCONTINUE = "上次放映：";
     private static final String PlAYSTART = "即将放映：";
@@ -120,14 +121,17 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private PlayerPageViewModel mModel;
     private PlayerPageContract.Presenter mPresenter;
     private PlayerPagePresenter mPlayerPagePresenter;
-    private boolean isNeedReload = false;
+    private boolean isNeedOnResume = false;
+    private boolean isClickKeFu = false;
     private boolean isPlayInDetailPage;
     public boolean onPlayerFragment = true;
     private Animation panelShowAnimation;
     private Animation panelHideAnimation;
     public static final String AD_MODE_ONSTART = "qiantiepian";
     public static final String AD_MODE_ONPAUSE = "zanting";
+    private String source;
     private AdImageDialog adImageDialog;
+    public boolean goFinishPageOnResume = false;
 
     private long testLoadItemTime, testLoadClipTime, testPlayCheckTime, testPreparedTime;
 
@@ -147,12 +151,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     }
 
-    public static PlayerFragment newInstance(int pk, int subPk, boolean playInDetailPage) {
+    public static PlayerFragment newInstance(int pk, int subPk, boolean playInDetailPage, String source) {
         PlayerFragment fragment = new PlayerFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PK, pk);
         args.putInt(ARG_SUB_PK, subPk);
         args.putBoolean(ARG_IN_DETAIL_PAGE, playInDetailPage);
+        args.putString(ARG_SOURCE, source);
         fragment.setArguments(args);
         return fragment;
     }
@@ -164,6 +169,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             itemPK = getArguments().getInt(ARG_PK);
             subItemPk = getArguments().getInt(ARG_SUB_PK);
             isPlayInDetailPage = getArguments().getBoolean(ARG_IN_DETAIL_PAGE);
+            source = getArguments().getString(ARG_SOURCE);
         }
         if (!(getActivity() instanceof BaseActivity)) {
             if (isPlayInDetailPage) {
@@ -235,7 +241,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         player_container.setOnClickListener(onClickListener);
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
-        if (!isNeedReload) {
+        if (!isNeedOnResume && !isClickKeFu) {
             fetchItemData();
         }
 
@@ -243,8 +249,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "resultCode:" + resultCode + " request:" + requestCode);
         if (requestCode == PAYMENT_REQUEST_CODE) {
             if (resultCode != PAYMENT_SUCCESS_CODE) {
+                isNeedOnResume = false;
                 if (isPlayInDetailPage) {
                     onHidePlayerPageListener.onHide();
                 } else {
@@ -276,18 +284,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsmartvPlayer = null;
         switch (type) {
             case EVENT_CLICK_VIP_BUY:
-                PageIntent pageIntent1 = new PageIntent();
-                pageIntent1.toPayment(getActivity(),
-                        String.valueOf(mItemEntity.getPk()),
-                        "2", "2", null);
-                if (isPlayInDetailPage) {
-                    onHidePlayerPageListener.onHide();
-                } else {
-                    getActivity().finish();
-                }
+                isNeedOnResume = true;
+                toPayPage(String.valueOf(mItemEntity.getPk()), "2", "2", "");
                 break;
             case EVENT_CLICK_KEFU:
-                isNeedReload = true;
+                isClickKeFu = true;
                 Intent intent = new Intent();
                 try {
                     intent.setAction("cn.ismartv.speedtester.feedback");
@@ -299,13 +300,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 break;
             case EVENT_COMPLETE_BUY:
-                isNeedReload = true;
+                isNeedOnResume = true;
                 ItemEntity.Expense expense = mItemEntity.getExpense();
                 String mode = null;
                 if (1 == mItemEntity.getExpense().getJump_to()) {
                     mode = "item";
                 }
-                previewCompleted(String.valueOf(mItemEntity.getPk()), String.valueOf(expense.getJump_to()),
+                toPayPage(String.valueOf(mItemEntity.getPk()), String.valueOf(expense.getJump_to()),
                         String.valueOf(expense.getCpid()), mode);
                 break;
         }
@@ -314,7 +315,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onResume() {
         super.onResume();
-        if (isNeedReload) {
+        if (isNeedOnResume || isClickKeFu) {
+            isNeedOnResume = false;
+            isClickKeFu = false;
             // 试看完成进入购买页面后返回
             if (mItemEntity == null || mPresenter == null) {
                 if (isPlayInDetailPage) {
@@ -343,7 +346,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             createHistory(mCurrentPosition);
             addHistory(mCurrentPosition);
         }
-        if (!isNeedReload) {
+        if (!isNeedOnResume && !isClickKeFu) {
             mPresenter.stop();
             if (mIsmartvPlayer != null) {
                 mIsmartvPlayer.release();
@@ -589,7 +592,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mCurrentPosition = 0;
             addHistory(0);
             if (isPlayInDetailPage) {
-                onHidePlayerPageListener.onHide();
+                // 再次进入详情页时,需要处理逻辑
+                goFinishPageOnResume = true;
             } else {
                 getActivity().finish();
             }
@@ -957,9 +961,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mClipEntity = clipEntity;
         mIsPlayingAd = false;
         String iqiyi = mClipEntity.getIqiyi_4_0();
-        if (!mIsPreview && Utils.isEmptyText(iqiyi) && !isNeedReload) {
+        if (!mIsPreview && Utils.isEmptyText(iqiyi) && !isClickKeFu) {
             // 获取前贴片广告
-            mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONSTART);
+            mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONSTART, source);
         } else {
             createPlayer(null);
         }
@@ -1057,7 +1061,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         ClipEntity.Quality initQuality = null;
         isInit = false;
-        isNeedReload = false;
         String historyUrl = Utils.getItemUrl(itemPK);
         String isLogin = "no";
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
@@ -1315,7 +1318,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
             if (mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.pause();
-                mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE);
+                mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE, source);
             } else {
                 mIsmartvPlayer.start();
             }
@@ -1384,7 +1387,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         });
     }
 
-    private void previewCompleted(String pk, String jumpTo, String cpid, String model) {
+    private void toPayPage(String pk, String jumpTo, String cpid, String model) {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         switch (jumpTo) {
@@ -1456,7 +1459,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
-                    mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE);
+                    mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE, source);
                 } else {
                     mIsmartvPlayer.start();
                 }
@@ -1477,7 +1480,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
-                    mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE);
+                    mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE, source);
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:

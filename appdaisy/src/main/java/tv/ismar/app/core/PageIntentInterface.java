@@ -11,6 +11,7 @@ public interface PageIntentInterface {
     String EXTRA_ITEM_JSON = "item_json";
     // 电视剧等多集片子集pk,与文档相同
     String EXTRA_SUBITEM_PK = "sub_item_pk";
+    String EXTRA_SOURCE = "source";
 
     void toDetailPage(Context context, String contentModel, int pk);
 
