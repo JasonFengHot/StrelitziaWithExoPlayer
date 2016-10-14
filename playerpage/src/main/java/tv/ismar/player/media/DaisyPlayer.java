@@ -79,7 +79,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnVideoSizeChangedListener smartVideoSizeChangedListener = new SmartPlayer.OnVideoSizeChangedListener() {
         @Override
         public void onVideoSizeChanged(SmartPlayer smartPlayer, int width, int height) {
-            Log.i(TAG, "onVideoSizeChangedDaisy:" + width + " " + height);
+            Log.i(TAG, "onVideoSizeChanged:" + width + " " + height);
             if (mHolder == null || mPlayer == null) {
                 return;
             }
@@ -232,7 +232,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.i(TAG, "surfaceChanged");
+        Log.i(TAG, "surfaceChanged:" + width + " " + height);
         if (mPlayer != null) {
             mPlayer.setDisplay(mHolder);
         }
