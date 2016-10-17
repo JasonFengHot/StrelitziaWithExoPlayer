@@ -481,6 +481,8 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.expireDateVisibility);
         notifyPropertyChanged(BR.priceVisibility);
         notifyPropertyChanged(BR.permissionVisibility);
+        notifyPropertyChanged(BR.episodesVisibility);
+        notifyPropertyChanged(BR.subitemsVisibility);
     }
 
     @Bindable
