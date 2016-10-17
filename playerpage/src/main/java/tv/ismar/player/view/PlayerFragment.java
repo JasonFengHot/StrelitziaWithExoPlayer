@@ -589,6 +589,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
             intent.putExtra("itemPk", String.valueOf(mItemEntity.getPk()));
             startActivity(intent);
+            if(player_seekBar != null){
+                player_seekBar.setProgress(0);
+            }
             mCurrentPosition = 0;
             addHistory(0);
             if (isPlayInDetailPage) {
