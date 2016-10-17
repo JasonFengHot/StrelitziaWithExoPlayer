@@ -108,9 +108,9 @@
 
         <VideoView
             android:id="@+id/linked_video"
-            android:layout_width="980dp"
-            android:layout_height="332dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="@dimen/linked_video_width"
+            android:layout_height="@dimen/linked_video_height"
+            android:layout_marginTop="@dimen/linked_video_mt"
             android:focusable="false"
             android:focusableInTouchMode="false" />
 

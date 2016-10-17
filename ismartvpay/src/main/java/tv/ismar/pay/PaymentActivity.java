@@ -65,8 +65,6 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public static final int PAYMENT_FAILURE_CODE = 0xd2;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,11 +162,17 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
 
     public void purchaseCheck(CheckType checkType) {
-        if (mItemEntity.isRepeat_buy() && checkType == CheckType.PlayCheck) {
-            return;
+        purchaseCheck(checkType, false);
+    }
+
+    public void purchaseCheck(CheckType checkType, boolean forceCheck) {
+        if (!forceCheck) {
+            if (mItemEntity.isRepeat_buy() && checkType == CheckType.PlayCheck) {
+                return;
+            }
         }
 
-        if ("_package".equalsIgnoreCase(category)) {
+        if ("package".equalsIgnoreCase(category)) {
             orderCheckLoop(checkType, null, String.valueOf(pk), null);
         } else if ("subitem".equalsIgnoreCase(category)) {
             orderCheckLoop(checkType, null, null, String.valueOf(pk));
@@ -317,15 +321,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void fetchItem(int pk, String model) {
-        String opt = null;
-        switch (model) {
-            case "item":
-                opt = "item";
-                break;
-            case "package":
-                opt = "package";
-                break;
-        }
+        String opt = model;
 
         mSkyService.apiOptItem(String.valueOf(pk), opt)
                 .subscribeOn(Schedulers.io())

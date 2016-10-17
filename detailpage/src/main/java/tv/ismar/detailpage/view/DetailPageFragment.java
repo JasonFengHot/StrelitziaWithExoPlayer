@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
@@ -350,6 +349,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
         for (int i = 0; i < relViews; i++) {
             relRelImageViews[i] = (LabelImageView) contentView.findViewById(mRelImageViewIds[i]);
+            relRelImageViews[i].setVisibility(View.VISIBLE);
             relTextViews[i] = (TextView) contentView.findViewById(mRelTextViewIds[i]);
             if (!content_model.equals("variety") && !content_model.equals("entertainment") && !content_model.equals("movie")) {
                 relFocusTextViews[i] = (TextView) contentView.findViewById(mRelTextViewFocusIds[i]);

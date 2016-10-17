@@ -280,6 +280,7 @@ public class LoginFragment extends Fragment {
 
                         activity.fetchAccountBalance();
                         activity.changeLoginStatus(true);
+                        activity.purchaseCheck(PaymentActivity.CheckType.PlayCheck, true);
                         showLoginSuccessPopup();
                     }
                 });
