@@ -21,6 +21,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
@@ -169,12 +170,12 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
     }
 
     @Override
-    public void fetchAdvertisement(final ItemEntity itemEntity, final String adPid) {
+    public void fetchAdvertisement(final ItemEntity itemEntity, final String adPid, String source) {
         if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
             mApiGetAdSubsc.unsubscribe();
         }
         SkyService skyService = SkyService.ServiceManager.getAdService();
-        mApiGetAdSubsc = skyService.fetchAdvertisement(getAdParam(itemEntity, adPid))
+        mApiGetAdSubsc = skyService.fetchAdvertisement(getAdParam(itemEntity, adPid, source))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -225,7 +226,7 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
                 });
     }
 
-    private HashMap<String, Object> getAdParam(ItemEntity itemEntity, String adpid) {
+    private HashMap<String, Object> getAdParam(ItemEntity itemEntity, String adpid, String source) {
         HashMap<String, Object> adParams = new HashMap<>();
         adParams.put("adpid", "['" + adpid + "']");
         adParams.put("sn", IsmartvActivator.getInstance().getSnToken());
@@ -284,7 +285,11 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         adParams.put("section", "");
         adParams.put("itemid", itemEntity.getItemPk());
         adParams.put("topic", "");
-        adParams.put("source", "list");//fromPage
+        Log.i(TAG, "GetAdParam-Source:" + source);
+        if (Utils.isEmptyText(source)) {
+            source = Source.UNKNOWN.getValue();
+        }
+        adParams.put("source", source);//fromPage
         adParams.put("content_model", itemEntity.getContentModel());
         adParams.put("director", directorsBuffer.toString());
         adParams.put("actor", actorsBuffer.toString());

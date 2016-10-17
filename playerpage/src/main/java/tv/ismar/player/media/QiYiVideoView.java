@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.widget.VideoView;
 
 import com.qiyi.sdk.player.BitStream;
 import com.qiyi.sdk.player.IMedia;
@@ -12,11 +11,9 @@ import com.qiyi.sdk.player.IMediaPlayer;
 import com.qiyi.sdk.player.ISdkError;
 import com.qiyi.sdk.player.IVideoOverlay;
 import com.qiyi.sdk.player.PlayerSdk;
-import com.qiyi.sdk.player.VideoRatio;
 import com.qiyi.sdk.player.VideoSurfaceView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cn.ismartv.turetime.TrueTime;
@@ -68,11 +65,6 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.i("LH/", "surfaceChangedQiYi:" + width + " " + height);
-        if (mPlayer != null && mVideoOverlay != null) {
-            mVideoOverlay.getVideoSurfaceView().getHolder().setFixedSize(width, height);
-            mVideoOverlay.getVideoSurfaceView().requestLayout();
-            mPlayer.setDisplay(mVideoOverlay);
-        }
     }
 
     @Override
@@ -279,14 +271,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     private IMediaPlayer.OnVideoSizeChangedListener qiyiVideoSizeChangedListener = new IMediaPlayer.OnVideoSizeChangedListener() {
         @Override
         public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int width, int height) {
-            if (mHolder == null || mPlayer == null) {
-                return;
-            }
-            int[] outputSize = mIsmartvPlayer.computeVideoSize(width, height);
-            Log.i(TAG, "outSize:" + Arrays.toString(outputSize));
-            mVideoOverlay.getVideoSurfaceView().getHolder().setFixedSize(outputSize[0], outputSize[1]);
-            mVideoOverlay.getVideoSurfaceView().requestLayout();
-            mPlayer.setDisplay(mVideoOverlay);
+            Log.i("LH/", "onVideoSizeChangedQiYi:" + width + " " + height);
             if (mIsmartvPlayer.mOnVideoSizeChangedListener != null) {
                 mIsmartvPlayer.mOnVideoSizeChangedListener.onVideoSizeChanged(width, height);
             }

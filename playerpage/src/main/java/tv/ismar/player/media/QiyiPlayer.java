@@ -33,10 +33,6 @@ public class QiyiPlayer extends IsmartvPlayer {
         videoSurfaceView = new QiYiVideoView(mContext);
         IVideoOverlay videoOverlay = PlayerSdk.getInstance().createVideoOverlay(mContainer, videoSurfaceView);
         videoSurfaceView.setPlayer(media, videoOverlay, this);
-//        int screenWidth = DeviceUtils.getDisplayPixelWidth(mContext);
-//        int screenHeight = DeviceUtils.getDisplayPixelHeight(mContext);
-//        int[] outputSize = computeVideoSize(screenWidth, screenHeight);
-//        videoOverlay.getVideoSurfaceView().getHolder().setFixedSize(outputSize[0], outputSize[1]);
         //创建IVideoOverlay对象, 如需修改SurfaceView, 请继承VideoSurfaceView
         //mSurfaceView = new MyVideoSurfaceView(getApplicationContext());
         //mVideoOverlay = PlaySdk.getInstance().createVideoOverlay(mWindowedParent, mSurfaceView);

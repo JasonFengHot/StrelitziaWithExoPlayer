@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.detailpage.R;
 import tv.ismar.player.view.PlayerFragment;
 
@@ -26,6 +27,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     private DetailPageFragment detailPageFragment;
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
+    private boolean viewInit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,13 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         setContentView(R.layout.activity_detailpage);
         content_model = getIntent().getStringExtra(EXTRA_MODEL);
         mItemPk = getIntent().getIntExtra(EXTRA_PK, -1);
+        String source = getIntent().getStringExtra(PageIntentInterface.EXTRA_SOURCE);
         if (TextUtils.isEmpty(content_model) || mItemPk == -1) {
             finish();
             return;
         }
 
-        playerFragment = PlayerFragment.newInstance(mItemPk, 0, true);
+        playerFragment = PlayerFragment.newInstance(mItemPk, 0, true, source);
         playerFragment.setOnHidePlayerPageListener(this);
         playerFragment.onPlayerFragment = false;
         detailPageFragment = DetailPageFragment.newInstance(mItemPk, content_model);
@@ -55,6 +58,12 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     @Override
     protected void onResume() {
         super.onResume();
+        if (viewInit || (playerFragment != null && playerFragment.goFinishPageOnResume)) {
+            // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
+            onHide();
+        }
+        viewInit = true;
+
     }
 
     public void goPlayer() {
@@ -155,6 +164,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     protected void onDestroy() {
         playerFragment = null;
         detailPageFragment = null;
+        viewInit = false;
         super.onDestroy();
     }
 }

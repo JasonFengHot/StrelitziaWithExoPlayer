@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onTelevisionClick(View view) {
         Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
-        intent.putExtra(PageIntentInterface.EXTRA_PK, 708841);
+        intent.putExtra(PageIntentInterface.EXTRA_PK, 710394);
 //        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, 409844);
         startActivity(intent);
     }
