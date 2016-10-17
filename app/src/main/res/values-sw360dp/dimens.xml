@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<dimen name="linked_video_width">326.67dp</dimen>
+<dimen name="linked_video_height">110.67dp</dimen>
+<dimen name="linked_video_mt">5.33dp</dimen>
+</resources>
