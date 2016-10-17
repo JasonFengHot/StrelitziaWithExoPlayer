@@ -8,11 +8,12 @@ import android.content.Intent;
  */
 public class PageIntent implements PageIntentInterface {
     @Override
-    public void toDetailPage(Context context, String contentModel, int pk) {
+    public void toDetailPage(Context context, String contentModel, int pk, String source) {
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.detailpage");
         intent.putExtra(EXTRA_MODEL, contentModel);
         intent.putExtra(EXTRA_PK, pk);
+        intent.putExtra(EXTRA_SOURCE, source);
         context.startActivity(intent);
     }
 
@@ -40,11 +41,12 @@ public class PageIntent implements PageIntentInterface {
     }
 
     @Override
-    public void toPlayPage(Context context, int pk, int sub_item_pk) {
+    public void toPlayPage(Context context, int pk, int sub_item_pk, String source) {
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.Player");
         intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
         intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, sub_item_pk);
+        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
         context.startActivity(intent);
     }
 }

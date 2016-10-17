@@ -13,9 +13,9 @@ public interface PageIntentInterface {
     String EXTRA_SUBITEM_PK = "sub_item_pk";
     String EXTRA_SOURCE = "source";
 
-    void toDetailPage(Context context, String contentModel, int pk);
+    void toDetailPage(Context context, String contentModel, int pk, String source);
 
     void toPayment(Context context, String pk, String jumpTo, String cpid, String model);
 
-    void toPlayPage(Context context, int pk, int sub_item_pk);
+    void toPlayPage(Context context, int pk, int sub_item_pk, String source);
 }

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
@@ -296,7 +297,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         @Override
         public void onClick(View v) {
             ItemEntity item = relateItems[(int) v.getTag()];
-            new PageIntent().toDetailPage(getContext(), item.getContentModel(), item.getPk());
+            new PageIntent().toDetailPage(getContext(), item.getContentModel(), item.getPk(), Source.RELATED.getValue());
         }
     };
 
