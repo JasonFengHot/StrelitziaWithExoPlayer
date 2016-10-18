@@ -86,19 +86,10 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         apiItemSubsc = mSkyService.apiItem(pk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ItemEntity>() {
+                .subscribe(detailPageActivity.new BaseObserver<ItemEntity>() {
                     @Override
                     public void onCompleted() {
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        if (e.getClass() == OnlyWifiException.class) {
-                            mDetailView.onHttpInterceptor(e);
-                        } else {
-                            mDetailView.onHttpFailure(e);
-                        }
                     }
 
                     @Override

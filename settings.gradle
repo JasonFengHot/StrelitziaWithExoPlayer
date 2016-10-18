@@ -1,1 +1,1 @@
-include ':app', ':appdaisy', ':detailpage', ':account', ':playerpage', ':ismartvpay'
+include ':app', ':appdaisy', ':detailpage', ':account', ':playerpage', ':ismartvpay', ':homepage', ':listpage', ':usercenter'

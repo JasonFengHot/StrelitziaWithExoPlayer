@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import rx.Observer;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.widget.LoadingDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -17,12 +18,16 @@ public class BaseActivity extends AppCompatActivity {
 
     private LoadingDialog mLoadingDialog;
     public SkyService mSkyService;
+    private static View mRootView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSkyService = SkyService.ServiceManager.getService();
+        mRootView = getWindow().getDecorView();
     }
+
 
     protected <T extends View> T findView(int resId) {
         return (T) (findViewById(resId));
@@ -61,4 +66,14 @@ public class BaseActivity extends AppCompatActivity {
         return ((ViewGroup) (getWindow().getDecorView().findViewById(android.R.id.content))).getChildAt(0);
     }
 
+    private  void showNetWorkErrorDialog(Throwable e) {
+//        mRootView
+    }
+
+    public  abstract class BaseObserver<T> implements Observer<T> {
+        @Override
+        public void onError(Throwable e) {
+            showNetWorkErrorDialog(e);
+        }
+    }
 }
