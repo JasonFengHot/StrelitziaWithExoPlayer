@@ -141,7 +141,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             TextView itemTitle = (TextView) itemView.findViewById(R.id.title);
             itemTitle.setText(itemList.getTitle());
             ImageView expense_txt = (ImageView) itemView.findViewById(R.id.expense_txt);
-            if (itemList.getCptitle() != null && "" != itemList.getCptitle()) {
+            if (!TextUtils.isEmpty(itemList.getCptitle() )) {
                 String imageUrl = VipMark.getInstance().getImage(this, itemList.getPay_type(), itemList.getCpid());
                 Picasso.with(this).load(imageUrl).into(expense_txt);
 
