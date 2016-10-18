@@ -25,6 +25,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PlayCheckManager;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 
@@ -171,7 +172,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, unknown.name(),itemList.getItem_id());
+                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, Source.UNKNOWN.getValue(),itemList.getItem_id());
                 }
             });
             if (listLayoutItemNextFocusUpIsSelf == true) {

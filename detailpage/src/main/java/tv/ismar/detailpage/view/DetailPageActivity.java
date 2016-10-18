@@ -1,7 +1,6 @@
 package tv.ismar.detailpage.view;
 
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -19,14 +18,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.entity.ItemEntity;
-import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.detailpage.R;
 import tv.ismar.player.view.PlayerFragment;
 
-import static tv.ismar.app.core.PageIntentInterface.EXTRA_FROMPAGE;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
-import static tv.ismar.app.core.PageIntentInterface.EXTRA_MODEL;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 
 /**
  * Created by huibin on 8/18/16.
@@ -35,12 +32,13 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     private static final String TAG = "DetailPageActivity";
 
     private Subscription apiItemSubsc;
-    private String fromPage;
+    private String source;
     private ItemEntity mItemEntity;
 
     private DetailPageFragment detailPageFragment;
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
+    private boolean viewInit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
         int itemPK = intent.getIntExtra(EXTRA_PK, -1);
         String itemJson = intent.getStringExtra(EXTRA_ITEM_JSON);
-        fromPage = intent.getStringExtra(EXTRA_FROMPAGE);
+        source = intent.getStringExtra(EXTRA_SOURCE);
 
         if (TextUtils.isEmpty(itemJson) && itemPK == -1){
             finish();
@@ -73,6 +71,12 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     @Override
     protected void onResume() {
         super.onResume();
+        if (viewInit || (playerFragment != null && playerFragment.goFinishPageOnResume)) {
+            // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
+            onHide();
+        }
+        viewInit = true;
+
     }
 
     public void goPlayer() {
@@ -173,6 +177,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     protected void onDestroy() {
         playerFragment = null;
         detailPageFragment = null;
+        viewInit = false;
         super.onDestroy();
     }
 
@@ -203,10 +208,10 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     }
 
     private void loadFragment(){
-        playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, true);
+        playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, true, source);
         playerFragment.setOnHidePlayerPageListener(this);
         playerFragment.onPlayerFragment = false;
-        detailPageFragment = DetailPageFragment.newInstance(fromPage,new Gson().toJson(mItemEntity));
+        detailPageFragment = DetailPageFragment.newInstance(source,new Gson().toJson(mItemEntity));
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.activity_detail_container, playerFragment);

@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
@@ -34,9 +35,8 @@ import tv.ismar.detailpage.databinding.FragmentDetailpageNormalSharpBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 
-import static tv.ismar.app.core.PageIntentInterface.EXTRA_FROMPAGE;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
-import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 
 public class DetailPageFragment extends Fragment implements DetailPageContract.View {
     private static final String TAG = "LH/DetailPageFragment";
@@ -84,7 +84,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public static DetailPageFragment newInstance(String fromPage,String itemJson) {
         DetailPageFragment fragment = new DetailPageFragment();
         Bundle args = new Bundle();
-        args.putString(EXTRA_FROMPAGE, fromPage);
+        args.putString(EXTRA_SOURCE, fromPage);
         args.putString(EXTRA_ITEM_JSON, itemJson);
         fragment.setArguments(args);
         return fragment;
@@ -95,7 +95,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             Bundle bundle = getArguments();
-            fromPage = bundle.getString(EXTRA_FROMPAGE);
+            fromPage = bundle.getString(EXTRA_SOURCE);
             String itemJson = bundle.getString(EXTRA_ITEM_JSON);
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
         }
@@ -272,7 +272,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         @Override
         public void onClick(View v) {
             ItemEntity item = relateItems[(int) v.getTag()];
-            new PageIntent().toDetailPage(getContext(), unknown.name(), item.getPk());
+            new PageIntent().toDetailPage(getContext(),Source.RELATED.getValue(), item.getPk());
         }
     };
 

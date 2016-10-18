@@ -9,19 +9,20 @@ import android.content.Intent;
  */
 public class PageIntent implements PageIntentInterface {
     @Override
-    public void toDetailPage(Context context, String fromPage, int pk) {
+    public void toDetailPage(Context context, String source, int pk) {
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.detailpage");
         intent.putExtra(EXTRA_PK, pk);
-        intent.putExtra(EXTRA_FROMPAGE, fromPage);
+        intent.putExtra(EXTRA_SOURCE, source);
         context.startActivity(intent);
     }
 
+
     @Override
-    public void toDetailPage(Context context, String fromPage, String json) {
+    public void toDetailPage(Context context, String source, String json) {
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.detailpage");
-        intent.putExtra(EXTRA_FROMPAGE, fromPage);
+        intent.putExtra(EXTRA_SOURCE, source);
         intent.putExtra(EXTRA_ITEM_JSON, json);
         context.startActivity(intent);
     }
@@ -74,12 +75,13 @@ public class PageIntent implements PageIntentInterface {
         activity.startActivityForResult(intent, PAYMENT_REQUEST_CODE);
     }
 
-    @Override
-    public void toPlayPage(Context context, int pk, int sub_item_pk) {
+
+    public void toPlayPage(Context context, int pk, int sub_item_pk, String source) {
         Intent intent = new Intent();
-        intent.setAction("tv.ismar.daisy.Play");
+        intent.setAction("tv.ismar.daisy.Player");
         intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
         intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, sub_item_pk);
+        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
         context.startActivity(intent);
     }
 }

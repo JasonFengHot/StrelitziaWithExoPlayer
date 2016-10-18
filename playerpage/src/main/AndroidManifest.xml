@@ -23,7 +23,7 @@
             android:theme="@style/IsmartvAppTheme.Fullscreen">
 
             <intent-filter>
-                <action android:name="tv.ismar.daisy.Play" />
+                <action android:name="tv.ismar.daisy.Player" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
