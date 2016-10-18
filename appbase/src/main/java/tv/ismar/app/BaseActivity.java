@@ -18,7 +18,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private LoadingDialog mLoadingDialog;
     public SkyService mSkyService;
-    private static View mRootView;
+    private  View mRootView;
 
 
     @Override
