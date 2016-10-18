@@ -185,7 +185,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Log.e(TAG, "Activity must be extends BaseActivity.");
             return;
         }
-        mPlayerPagePresenter = new PlayerPagePresenter(getActivity().getApplicationContext(), this);
+        mPlayerPagePresenter = new PlayerPagePresenter((PlayerActivity) getActivity(), this);
         mModel = new PlayerPageViewModel(getActivity(), mPlayerPagePresenter);
         panelShowAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.fly_up);
@@ -376,15 +376,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mPresenter = presenter;
     }
 
-    @Override
-    public void onHttpFailure(Throwable e) {
-
-    }
-
-    @Override
-    public void onHttpInterceptor(Throwable e) {
-
-    }
 
     @Override
     public void onBufferStart() {

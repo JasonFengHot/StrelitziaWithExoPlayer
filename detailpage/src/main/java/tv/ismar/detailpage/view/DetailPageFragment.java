@@ -106,8 +106,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             return;
         }
         mActivity = (BaseActivity) getActivity();
-        mDetailPagePresenter = new DetailPagePresenter(mActivity, this, mItemEntity.getContentModel());
-        mDetailPagePresenter.setActivity((DetailPageActivity) getActivity());
+        mDetailPagePresenter = new DetailPagePresenter((DetailPageActivity)getActivity(), this, mItemEntity.getContentModel());
         mModel = new DetailPageViewModel(mActivity, mDetailPagePresenter);
 
         mLoadingDialog = new LoadingDialog(mActivity, R.style.LoadingDialog);
@@ -250,15 +249,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mPresenter = presenter;
     }
 
-    @Override
-    public void onHttpFailure(Throwable e) {
-
-    }
-
-    @Override
-    public void onHttpInterceptor(Throwable e) {
-
-    }
 
     private void hideLoading() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
