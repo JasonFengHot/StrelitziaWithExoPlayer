@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
@@ -33,8 +35,10 @@ import tv.ismar.detailpage.databinding.FragmentDetailpageNormalSharpBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 
-public class DetailPageFragment extends Fragment implements DetailPageContract.View {
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 
+public class DetailPageFragment extends Fragment implements DetailPageContract.View {
     private static final String TAG = "LH/DetailPageFragment";
     private static final String ARG_PK = "ARG_PK";
     private static final String ARG_CONTENT_MODEL = "ARG_CONTENT_MODEL";
@@ -57,8 +61,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private TextView[] relFocusTextViews;
     private LoadingDialog mLoadingDialog;
 
-    private int mItemPk;
-    private String content_model;
+    //传递参数
+    private String fromPage;
 
     private HeadFragment headFragment;
     private String mHeadTitle;
@@ -70,15 +74,18 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private BaseActivity mActivity;
 
 
+
+
     public DetailPageFragment() {
         // Required empty public constructor
     }
 
-    public static DetailPageFragment newInstance(int pk, String content_model) {
+
+    public static DetailPageFragment newInstance(String fromPage,String itemJson) {
         DetailPageFragment fragment = new DetailPageFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PK, pk);
-        args.putString(ARG_CONTENT_MODEL, content_model);
+        args.putString(EXTRA_SOURCE, fromPage);
+        args.putString(EXTRA_ITEM_JSON, itemJson);
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,17 +94,19 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mItemPk = getArguments().getInt(ARG_PK);
-            content_model = getArguments().getString(ARG_CONTENT_MODEL);
+            Bundle bundle = getArguments();
+            fromPage = bundle.getString(EXTRA_SOURCE);
+            String itemJson = bundle.getString(EXTRA_ITEM_JSON);
+            mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
         }
+
         if (!(getActivity() instanceof BaseActivity)) {
             getActivity().finish();
             Log.e(TAG, "Activity must be extends BaseActivity.");
             return;
         }
         mActivity = (BaseActivity) getActivity();
-        mDetailPagePresenter = new DetailPagePresenter(mActivity, this, content_model);
-        mDetailPagePresenter.setActivity((DetailPageActivity) getActivity());
+        mDetailPagePresenter = new DetailPagePresenter((DetailPageActivity)getActivity(), this, mItemEntity.getContentModel());
         mModel = new DetailPageViewModel(mActivity, mDetailPagePresenter);
 
         mLoadingDialog = new LoadingDialog(mActivity, R.style.LoadingDialog);
@@ -112,44 +121,9 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.e(TAG, "onCreateView");
-        View contentView;
-        mHeadTitle = getModelType(content_model);
-        if (("variety".equals(content_model) || "entertainment".equals(content_model))) {
-            relViews = 4;
-            mEntertainmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_entertainment_sharp, container, false);
-            mEntertainmentBinding.setTasks(mModel);
-            mEntertainmentBinding.setActionHandler(mPresenter);
-            contentView = mEntertainmentBinding.getRoot();
-        } else if ("movie".equals(content_model)) {
-            relViews = 6;
-            mMovieBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_movie_sharp, container, false);
-            mMovieBinding.setTasks(mModel);
-            mMovieBinding.setActionHandler(mPresenter);
-            contentView = mMovieBinding.getRoot();
-        } else {
-            relViews = 4;
-            relFocusTextViews = new TextView[relViews];
-            mNormalBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_normal_sharp, container, false);
-            mNormalBinding.setTasks(mModel);
-            mNormalBinding.setActionHandler(mPresenter);
-            contentView = mNormalBinding.getRoot();
-        }
-        relRelImageViews = new LabelImageView[relViews];
-        relTextViews = new TextView[relViews];
-
-        for (int i = 0; i < relViews; i++) {
-            relRelImageViews[i] = (LabelImageView) contentView.findViewById(mRelImageViewIds[i]);
-            relTextViews[i] = (TextView) contentView.findViewById(mRelTextViewIds[i]);
-            if (!content_model.equals("variety") && !content_model.equals("entertainment") && !content_model.equals("movie")) {
-                relFocusTextViews[i] = (TextView) contentView.findViewById(mRelTextViewFocusIds[i]);
-            }
-        }
-        headFragment = (HeadFragment) getChildFragmentManager().findFragmentById(R.id.detail_head);
-        headFragment.setHeadTitle(mHeadTitle);
-        return contentView;
+        return loadItemModel(inflater, container, mItemEntity);
     }
 
     @Override
@@ -157,14 +131,14 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         super.onViewCreated(view, savedInstanceState);
         Log.i(TAG, Constants.TEST);
         mPresenter.start();
-        mPresenter.fetchItem(String.valueOf(mItemPk));
-        mPresenter.fetchItemRelate(String.valueOf(mItemPk));
+        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
+        mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.requestPlayCheck(String.valueOf(mItemPk));
+        mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
     }
 
     @Override
@@ -177,7 +151,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
-        mPresenter.requestPlayCheck(String.valueOf(mItemPk));
+        mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
         mModel.replaceItem(itemEntity);
         itemIsLoad = true;
         hideLoading();
@@ -189,7 +163,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void loadItemRelate(ItemEntity[] itemEntities) {
         relateItems = itemEntities;
         for (int i = 0; i < itemEntities.length && i < relViews; i++) {
-            switch (content_model) {
+            switch (mItemEntity.getContentModel()) {
                 case "movie":
                     relRelImageViews[i].setLivUrl(itemEntities[i].getList_url());
                     break;
@@ -232,7 +206,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             }
             relTextViews[i].setText(itemEntities[i].getTitle());
 
-            if (!content_model.equals("variety") && !content_model.equals("entertainment") && !content_model.equals("movie")) {
+            if (!mItemEntity.getContentModel().equals("variety") && !mItemEntity.getContentModel().equals("entertainment") && !mItemEntity.getContentModel().equals("movie")) {
                 relFocusTextViews[i].setText(itemEntities[i].getFocus());
             } else {
                 relRelImageViews[i].setLivLabelText(itemEntities[i].getFocus());
@@ -275,15 +249,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mPresenter = presenter;
     }
 
-    @Override
-    public void onHttpFailure(Throwable e) {
-
-    }
-
-    @Override
-    public void onHttpInterceptor(Throwable e) {
-
-    }
 
     private void hideLoading() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
@@ -297,7 +262,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         @Override
         public void onClick(View v) {
             ItemEntity item = relateItems[(int) v.getTag()];
-            new PageIntent().toDetailPage(getContext(), item.getContentModel(), item.getPk(), Source.RELATED.getValue());
+            new PageIntent().toDetailPage(getContext(),Source.RELATED.getValue(), item.getPk());
         }
     };
 
@@ -343,5 +308,45 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(layout);
         toast.show();
+    }
+
+    private View loadItemModel(LayoutInflater inflater, ViewGroup container, ItemEntity itemEntity) {
+        View contentView;
+        String content_model = itemEntity.getContentModel();
+        mHeadTitle = getModelType(content_model);
+        if ((("variety".equals(content_model) && mItemEntity.getExpense() == null))|| "entertainment".equals(content_model)) {
+            relViews = 4;
+            mEntertainmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_entertainment_sharp, container, false);
+            mEntertainmentBinding.setTasks(mModel);
+            mEntertainmentBinding.setActionHandler(mPresenter);
+            contentView = mEntertainmentBinding.getRoot();
+        } else if ("movie".equals(content_model)) {
+            relViews = 6;
+            mMovieBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_movie_sharp, container, false);
+            mMovieBinding.setTasks(mModel);
+            mMovieBinding.setActionHandler(mPresenter);
+            contentView = mMovieBinding.getRoot();
+        } else {
+            relViews = 4;
+            relFocusTextViews = new TextView[relViews];
+            mNormalBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_normal_sharp, container, false);
+            mNormalBinding.setTasks(mModel);
+            mNormalBinding.setActionHandler(mPresenter);
+            contentView = mNormalBinding.getRoot();
+        }
+        relRelImageViews = new LabelImageView[relViews];
+        relTextViews = new TextView[relViews];
+
+        for (int i = 0; i < relViews; i++) {
+            relRelImageViews[i] = (LabelImageView) contentView.findViewById(mRelImageViewIds[i]);
+            relRelImageViews[i].setVisibility(View.VISIBLE);
+            relTextViews[i] = (TextView) contentView.findViewById(mRelTextViewIds[i]);
+            if (!content_model.equals("variety") && !content_model.equals("entertainment") && !content_model.equals("movie")) {
+                relFocusTextViews[i] = (TextView) contentView.findViewById(mRelTextViewFocusIds[i]);
+            }
+        }
+        headFragment = (HeadFragment) getChildFragmentManager().findFragmentById(R.id.detail_head);
+        headFragment.setHeadTitle(mHeadTitle);
+        return contentView;
     }
 }

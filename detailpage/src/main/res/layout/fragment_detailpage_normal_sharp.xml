@@ -399,6 +399,7 @@
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
+                        android:visibility="invisible"
                         android:id="@+id/rel_1_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
@@ -456,6 +457,7 @@
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
+                        android:visibility="invisible"
                         android:id="@+id/rel_2_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
@@ -513,6 +515,7 @@
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
+                        android:visibility="invisible"
                         android:id="@+id/rel_3_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
@@ -570,6 +573,7 @@
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
+                        android:visibility="invisible"
                         android:id="@+id/rel_4_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"

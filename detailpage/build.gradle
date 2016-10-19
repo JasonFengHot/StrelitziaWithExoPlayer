@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'plugin.transfer'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -73,10 +73,10 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'cn.ismartv.truetime:library:1.1'
-    compile project(':appdaisy')
+    compile 'cn.ismartv.truetime:library:1.2'
+    compile project(':appbase')
     compile project(':account')
-    compile project(':ismartvpay')
+    compile project(':paypage')
     compile project(':playerpage')
 }
 

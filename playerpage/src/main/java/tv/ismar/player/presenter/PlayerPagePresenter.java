@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.ResponseBody;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -27,11 +26,11 @@ import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
-import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.SPUtils;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.PlayerPageContract;
+import tv.ismar.player.view.PlayerActivity;
 import tv.ismar.player.view.PlayerFragment;
 
 /**
@@ -236,12 +235,12 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         adParams.put("adpid", "['" + adpid + "']");
         adParams.put("sn", IsmartvActivator.getInstance().getSnToken());
         adParams.put("modelName", DeviceUtils.getModelName());
-        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mContext)));
+        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mActivity)));
         adParams.put("province", SPUtils.getValue(InitializeProcess.PROVINCE_PY, ""));
         adParams.put("city", "SH");
         adParams.put("app", "sky");
-        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
-        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
+        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mActivity) + "," + DeviceUtils.getDisplayPixelHeight(mActivity));
+        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mActivity)));
 
         StringBuffer directorsBuffer = new StringBuffer();
         StringBuffer actorsBuffer = new StringBuffer();

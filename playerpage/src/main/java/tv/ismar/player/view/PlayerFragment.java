@@ -40,6 +40,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.PlayCheckManager;
 import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.entity.DBQuality;
@@ -57,6 +58,9 @@ import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.media.PlayerBuilder;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
+
+import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
+import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
 
 public class PlayerFragment extends Fragment implements PlayerPageContract.View, PlayerMenu.OnCreateMenuListener,
         IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener {
@@ -181,7 +185,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Log.e(TAG, "Activity must be extends BaseActivity.");
             return;
         }
-        mPlayerPagePresenter = new PlayerPagePresenter(getActivity().getApplicationContext(), this);
+        mPlayerPagePresenter = new PlayerPagePresenter((PlayerActivity) getActivity(), this);
         mModel = new PlayerPageViewModel(getActivity(), mPlayerPagePresenter);
         panelShowAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.fly_up);
@@ -378,15 +382,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mPresenter = presenter;
     }
 
-    @Override
-    public void onHttpFailure(Throwable e) {
-
-    }
-
-    @Override
-    public void onHttpInterceptor(Throwable e) {
-
-    }
 
     @Override
     public void onBufferStart() {

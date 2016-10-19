@@ -1,16 +1,13 @@
 package tv.ismar.detailpage.presenter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.text.ParseException;
 
-import cn.ismartv.injectdb.library.query.Select;
 import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.Subscription;
@@ -20,17 +17,18 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.database.BookmarkTable;
 import tv.ismar.app.db.FavoriteManager;
 import tv.ismar.app.entity.Favorite;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
-import tv.ismar.app.network.exception.OnlyWifiException;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
-import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.view.DetailPageActivity;
+
+import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
+import static tv.ismar.app.core.PageIntentInterface.PaymentInfo;
+import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
 
 /**
  * Created by huibin on 8/19/16.
@@ -48,16 +46,12 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     private ItemEntity mItemEntity = new ItemEntity();
     private String mContentModel;
     private ItemEntity[] relatedItemList;
-    private Context mContext;
 
     private DetailPageActivity detailPageActivity;
 
-    public void setActivity(DetailPageActivity activity){
-        detailPageActivity = activity;
-    }
 
-    public DetailPagePresenter(Context context, DetailPageContract.View detailView, String contentModel) {
-        mContext = context;
+    public DetailPagePresenter(DetailPageActivity activity, DetailPageContract.View detailView, String contentModel) {
+        detailPageActivity = activity;
         mContentModel = contentModel;
         mDetailView = detailView;
         mDetailView.setPresenter(this);
@@ -81,19 +75,10 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         apiItemSubsc = mSkyService.apiItem(pk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ItemEntity>() {
+                .subscribe(detailPageActivity.new BaseObserver<ItemEntity>() {
                     @Override
                     public void onCompleted() {
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        if (e.getClass() == OnlyWifiException.class) {
-                            mDetailView.onHttpInterceptor(e);
-                        } else {
-                            mDetailView.onHttpFailure(e);
-                        }
                     }
 
                     @Override
@@ -113,7 +98,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         bookmarksSubsc = mSkyService.apiBookmarksCreate(pk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
+                .subscribe(detailPageActivity.new BaseObserver<ResponseBody>() {
                     @Override
                     public void onCompleted() {
 
@@ -122,7 +107,6 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mDetailView.notifyBookmark(true, false);
-                        e.printStackTrace();
                     }
 
                     @Override
@@ -168,14 +152,9 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         playCheckSubsc = mSkyService.apiPlayCheck(itemPk, null, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
+                .subscribe(detailPageActivity.new BaseObserver<ResponseBody>() {
                     @Override
                     public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
 
                     }
 
@@ -221,14 +200,9 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         itemRelateSubsc = mSkyService.apiTvRelate(pk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ItemEntity[]>() {
+                .subscribe(detailPageActivity.new BaseObserver<ItemEntity[]>() {
                     @Override
                     public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
 
                     }
 
@@ -276,10 +250,11 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void handlePurchase() {
-        String pk = String.valueOf(mItemEntity.getPk());
-        String jumpTo = String.valueOf(mItemEntity.getExpense().getJump_to());
-        String cpid = String.valueOf(mItemEntity.getExpense().getCpid());
-        new PageIntent().toPayment(mDetailView.getContext(), pk, jumpTo, cpid, "item");
+        int pk = mItemEntity.getPk();
+        int jumpTo = mItemEntity.getExpense().getJump_to();
+        int cpid = mItemEntity.getExpense().getCpid();
+        PaymentInfo paymentInfo = new PaymentInfo(item, pk, jumpTo, cpid);
+        new PageIntent().toPayment(mDetailView.getContext(), unknown.name(), paymentInfo);
     }
 
 
@@ -303,7 +278,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     }
 
     private void addFavorite() {
-        VodApplication vodApplication = (VodApplication) mContext.getApplicationContext();
+        VodApplication vodApplication = (VodApplication) detailPageActivity.getApplicationContext();
         FavoriteManager favoriteManager = vodApplication.getModuleFavoriteManager();
         String url = mItemEntity.getItem_url();
         if (TextUtils.isEmpty(url)){
@@ -348,7 +323,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
 
     public boolean isFavorite() {
-        VodApplication vodApplication = (VodApplication) mContext.getApplicationContext();
+        VodApplication vodApplication = (VodApplication) detailPageActivity.getApplicationContext();
         FavoriteManager favoriteManager = vodApplication.getModuleFavoriteManager();
         String url = mItemEntity.getItem_url();
         if (TextUtils.isEmpty(url)){

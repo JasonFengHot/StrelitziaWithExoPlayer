@@ -1,20 +1,29 @@
 package tv.ismar.detailpage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.google.gson.Gson;
+
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.detailpage.R;
 import tv.ismar.player.view.PlayerFragment;
 
-import static tv.ismar.app.core.PageIntentInterface.EXTRA_MODEL;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 
 /**
  * Created by huibin on 8/18/16.
@@ -22,8 +31,10 @@ import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
 public class DetailPageActivity extends BaseActivity implements PlayerFragment.OnHidePlayerPageListener {
     private static final String TAG = "DetailPageActivity";
 
-    private int mItemPk;
-    private String content_model;
+    private Subscription apiItemSubsc;
+    private String source;
+    private ItemEntity mItemEntity;
+
     private DetailPageFragment detailPageFragment;
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
@@ -33,27 +44,29 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailpage);
-        content_model = getIntent().getStringExtra(EXTRA_MODEL);
-        mItemPk = getIntent().getIntExtra(EXTRA_PK, -1);
-        String source = getIntent().getStringExtra(PageIntentInterface.EXTRA_SOURCE);
-        if (TextUtils.isEmpty(content_model) || mItemPk == -1) {
+        Intent intent = getIntent();
+
+        int itemPK = intent.getIntExtra(EXTRA_PK, -1);
+        String itemJson = intent.getStringExtra(EXTRA_ITEM_JSON);
+        source = intent.getStringExtra(EXTRA_SOURCE);
+
+        if (TextUtils.isEmpty(itemJson) && itemPK == -1){
             finish();
             return;
         }
 
-        playerFragment = PlayerFragment.newInstance(mItemPk, 0, true, source);
-        playerFragment.setOnHidePlayerPageListener(this);
-        playerFragment.onPlayerFragment = false;
-        detailPageFragment = DetailPageFragment.newInstance(mItemPk, content_model);
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
-        fragmentTransaction.add(R.id.activity_detail_container, detailPageFragment);
-        fragmentTransaction.commit();
+        if (!TextUtils.isEmpty(itemJson)){
+            mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+            loadFragment();
+        }else {
+            fetchItem(String.valueOf(itemPK));
+        }
 
         mGestureDetector = new GestureDetector(this, onGestureListener);
 
     }
+
+
 
     @Override
     protected void onResume() {
@@ -166,5 +179,43 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         detailPageFragment = null;
         viewInit = false;
         super.onDestroy();
+    }
+
+    public void fetchItem(String pk) {
+        if (apiItemSubsc != null && !apiItemSubsc.isUnsubscribed()) {
+            apiItemSubsc.unsubscribe();
+        }
+
+        apiItemSubsc = mSkyService.apiItem(pk)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ItemEntity>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ItemEntity itemEntity) {
+                        mItemEntity  = itemEntity;
+                       loadFragment();
+                    }
+                });
+    }
+
+    private void loadFragment(){
+        playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, true, source);
+        playerFragment.setOnHidePlayerPageListener(this);
+        playerFragment.onPlayerFragment = false;
+        detailPageFragment = DetailPageFragment.newInstance(source,new Gson().toJson(mItemEntity));
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
+        fragmentTransaction.add(R.id.activity_detail_container, detailPageFragment);
+        fragmentTransaction.commit();
     }
 }
