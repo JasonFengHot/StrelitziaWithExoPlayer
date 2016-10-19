@@ -1,23 +1,49 @@
-package cn.ismartv.plugin;
+package cn.ismartv.plugin
+
+import com.android.build.gradle.BaseExtension
+import groovy.transform.CompileStatic
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+
+import java.text.DecimalFormat;
 
 /**
  * Created by huibin on 10/18/16.
  */
-
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-
-import java.text.DecimalFormat
-
 public class PluginImpl implements Plugin<Project> {
-    void apply(Project project) {
-        project.task('testTask') << {
-            doTest();
+    private Project project;
 
-            println "Hello gradle plugin"
+    void apply(Project project) {
+        this.project = project;
+        project.task('transferDpi') << {
+            doTest()
         }
     }
 
+    public void doTest() {
+        doTransfer(240);
+        doTransfer(360);
+        doTransfer(480);
+        doTransfer(600);
+        doTransfer(720);
+        doTransfer(840);
+        doTransfer(960);
+    }
+
+    @CompileStatic
+    private BaseExtension getAndroidExtension() {
+        return project.extensions.getByName('android') as BaseExtension
+    }
+
+    private File getResFile() {
+        Set<File> files = getAndroidExtension().getSourceSets().getByName("main").getRes().srcDirs
+        for (File f : files) {
+            if (f.name.equals("res")) {
+                return f;
+            }
+        }
+        return null;
+    }
 
     BufferedReader reader = null;
     BufferedWriter writer = null;
@@ -27,8 +53,9 @@ public class PluginImpl implements Plugin<Project> {
     private void doTransfer(Integer width) {
         try {
             // 构造BufferedReader对象
-            reader = new BufferedReader(new FileReader("/Volumes/Ismartv/Projects/GradlePluginSample/app/src/main/res/values/dimens.xml"));
-            File file = new File("/Volumes/Ismartv/Projects/GradlePluginSample/app/src/main/res/values-sw" + width + "dp/dimens.xml");
+            reader = new BufferedReader(new FileReader(new File(getResFile(), "values-sw1080dp/dimens.xml")));
+            File file = new File(new File(new File(getResFile(), "values-sw" + width + "dp/dimens.xml")));
+
             if (file.exists()) {
                 file.delete();
             }
@@ -51,8 +78,6 @@ public class PluginImpl implements Plugin<Project> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private String convert(String origin, Double rate) {
@@ -84,16 +109,5 @@ public class PluginImpl implements Plugin<Project> {
             origin = pref + dd + unit + "</dimen>";
         }
         return origin;
-    }
-
-    public void doTest() {
-        doTransfer(240);
-        doTransfer(360);
-        doTransfer(480);
-        doTransfer(600);
-        doTransfer(720);
-        doTransfer(840);
-        doTransfer(960);
-        doTransfer(1080);
     }
 }
