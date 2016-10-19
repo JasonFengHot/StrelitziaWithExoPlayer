@@ -2,6 +2,9 @@ package tv.ismar.app.util;
 
 import android.text.TextUtils;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -120,5 +123,17 @@ public class Utils {
             url = apiDomain + url;
         }
         return url;
+    }
+
+    public static String getMd5Code(String string) {
+        String value = "";
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(string.getBytes());
+            value = new BigInteger(1, messageDigest.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return value;
     }
 }
