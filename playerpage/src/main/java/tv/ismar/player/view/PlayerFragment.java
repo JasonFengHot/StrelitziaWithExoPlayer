@@ -288,16 +288,22 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 toPayPage(String.valueOf(mItemEntity.getPk()), "2", "2", "");
                 break;
             case EVENT_CLICK_KEFU:
+                // 此处需要等Menu动画结束之后再跳转Activity
                 isClickKeFu = true;
-                Intent intent = new Intent();
-                try {
-                    intent.setAction("cn.ismartv.speedtester.feedback");
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Log.e(TAG, "Click kefu but 'cn.ismartv.speedtester.feedback' not found.");
-                    intent.setAction("cn.ismar.sakura.launcher");
-                    startActivity(intent);
-                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent();
+                        try {
+                            intent.setAction("cn.ismartv.speedtester.feedback");
+                            startActivity(intent);
+                        } catch (ActivityNotFoundException e) {
+                            Log.e(TAG, "Click kefu but 'cn.ismartv.speedtester.feedback' not found.");
+                            intent.setAction("cn.ismar.sakura.launcher");
+                            startActivity(intent);
+                        }
+                    }
+                }, 400);
                 break;
             case EVENT_COMPLETE_BUY:
                 isNeedOnResume = true;
@@ -466,18 +472,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public void onAdStart() {
         Log.i(TAG, "onAdStart");
         mIsPlayingAd = true;
-        switch (mIsmartvPlayer.getPlayerMode()) {
-            case PlayerBuilder.MODE_SMART_PLAYER:
-                ad_vip_btn.setVisibility(View.GONE);
-                ad_count_text.setVisibility(View.VISIBLE);
-                break;
-            case PlayerBuilder.MODE_QIYI_PLAYER:
-                ad_vip_btn.setVisibility(View.VISIBLE);
-                ad_count_text.setVisibility(View.VISIBLE);
-                ad_vip_btn.setFocusable(true);
-                ad_vip_btn.requestFocus();
-                break;
-        }
+        ad_vip_btn.setVisibility(View.VISIBLE);
+        ad_count_text.setVisibility(View.VISIBLE);
+        ad_vip_btn.setFocusable(true);
+        ad_vip_btn.requestFocus();
+//        switch (mIsmartvPlayer.getPlayerMode()) {
+//            case PlayerBuilder.MODE_SMART_PLAYER:
+//                ad_vip_btn.setVisibility(View.GONE);
+//                ad_count_text.setVisibility(View.VISIBLE);
+//                break;
+//            case PlayerBuilder.MODE_QIYI_PLAYER:
+//
+//                break;
+//        }
         mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
     }
 
@@ -718,11 +725,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     if (countDownTime < 10) {
                         time = "0" + time;
                     }
-                    if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
-                        ad_count_text.setText("广告倒计时" + time);
-                    } else {
-                        ad_count_text.setText("" + time);
-                    }
+                    ad_count_text.setText("" + time);
                     sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, 1000);
                     break;
             }

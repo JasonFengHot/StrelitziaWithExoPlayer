@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- district-->
+    <string-array name="district">
+        <item>华北</item>
+        <item>华东</item>
+        <item>华南</item>
+        <item>华中</item>
+        <item>西南</item>
+        <item>西北</item>
+        <item>东北</item>
+    </string-array>
+
+    <string-array name="isp">
+        <item>电信</item>
+        <item>联通</item>
+        <item>移动</item>
+        <item>铁通</item>
+        <item>长宽</item>
+        <item>其它</item>
+    </string-array>
+
+    <string-array name="china_north">
+        <item>北京,BJ</item>
+        <item>天津,TJ</item>
+        <item>河北,HE</item>
+        <item>山西,SX</item>
+        <item>山东,SD</item>
+        <item>内蒙古,NM</item>
+    </string-array>
+
+    <string-array name="china_east">
+        <item>上海,SH</item>
+        <item>江苏,JS</item>
+        <item>浙江,ZJ</item>
+    </string-array>
+
+    <string-array name="china_south">
+        <item>广东,GD</item>
+        <item>福建,FJ</item>
+        <item>海南,HI</item>
+        <item>香港,HK</item>
+        <item>澳门,AM</item>
+        <item>台湾,TW</item>
+    </string-array>
+
+    <string-array name="china_center">
+        <item>河南,HA</item>
+        <item>湖北,HB</item>
+        <item>湖南,HN</item>
+        <item>安徽,AH</item>
+        <item>江西,JX</item>
+    </string-array>
+
+    <string-array name="china_southwest">
+        <item>重庆,CQ</item>
+        <item>云南,YN</item>
+        <item>广西,GX</item>
+        <item>贵州,GZ</item>
+        <item>四川,SC</item>
+    </string-array>
+
+    <string-array name="china_northwest">
+        <item>新疆,XJ</item>
+        <item>甘肃,GS</item>
+        <item>陕西,SN</item>
+        <item>青海,QH</item>
+        <item>西藏,XZ</item>
+        <item>宁夏,NX</item>
+    </string-array>
+
+    <string-array name="china_northeast">
+        <item>辽宁,LN</item>
+        <item>黑龙江,HL</item>
+        <item>吉林,JL</item>
+    </string-array>
+</resources>
