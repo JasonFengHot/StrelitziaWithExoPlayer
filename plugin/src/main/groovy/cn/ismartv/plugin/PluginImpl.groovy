@@ -16,7 +16,13 @@ public class PluginImpl implements Plugin<Project> {
     void apply(Project project) {
         this.project = project;
         project.task('transferDpi') << {
-            doTest()
+            File file = new File(getResFile(), "values-sw1080dp/dimens.xml");
+            if (file.exists()) {
+                doTest();
+                println(project.name + " ===> " + "transfer success!!!");
+            } else {
+                println(project.name + " ===> " + "values - sw1080dp / dimens.xml not exist !!!  transfer error!!!");
+            }
         }
     }
 
@@ -54,7 +60,7 @@ public class PluginImpl implements Plugin<Project> {
         try {
             // 构造BufferedReader对象
             reader = new BufferedReader(new FileReader(new File(getResFile(), "values-sw1080dp/dimens.xml")));
-            File file = new File(new File(new File(getResFile(), "values-sw" + width + "dp/dimens.xml")));
+            File file = new File(getResFile(), "values-sw" + width + "dp/dimens.xml");
 
             if (file.exists()) {
                 file.delete();

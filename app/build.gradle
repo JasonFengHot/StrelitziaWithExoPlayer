@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'plugin.test'
+apply plugin: 'plugin.transfer'
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
