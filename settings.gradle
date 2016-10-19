@@ -1,1 +1,1 @@
-include ':app', ':appbase', ':detailpage', ':account', ':playerpage', ':paypage', ':homepage', ':listpage', ':usercenter', ':statistics', ':plugin'
+include ':app', ':appbase', ':detailpage', ':account', ':playerpage', ':paypage', ':homepage', ':listpage', ':usercenter', ':statistics'
