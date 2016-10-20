@@ -46,7 +46,6 @@ public class InitializeProcess implements Runnable {
     public static final String PROVINCE = "province";
     public static final String CITY = "city";
     public static final String PROVINCE_PY = "province_py";
-    public static final String CITY_PY = "city_py";
     public static final String ISP = "isp";
     public static final String IP = "ip";
     public static final String GEO_ID = "geo_id";
