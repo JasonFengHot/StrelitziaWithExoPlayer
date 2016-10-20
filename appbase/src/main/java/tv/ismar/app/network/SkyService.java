@@ -17,9 +17,11 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.account.IsmartvActivator;
@@ -34,6 +36,7 @@ import tv.ismar.app.network.entity.PayLayerEntity;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
 import tv.ismar.app.network.entity.PayVerifyEntity;
+import tv.ismar.app.network.entity.VersionInfoV2Entity;
 
 /**
  * Created by huibin on 8/3/16.
@@ -245,6 +248,23 @@ public interface SkyService {
             @Field("package") String pkg,
             @Field("subitem") String subItem
     );
+
+    @GET("api/v2/upgrade/")
+    Observable<VersionInfoV2Entity> appUpgrade(
+            @Query("sn") String sn,
+            @Query("manu") String manu,
+            @Query("app") String app,
+            @Query("modelname") String modelName,
+            @Query("loc") String location,
+            @Query("ver") int versionCode
+    );
+
+    @GET
+    @Streaming
+    Observable<ResponseBody> download(
+            @Url String url,
+            @Header("RANGE") String range
+    );
 //
 //    @GET("/api/package/relate/{pkg}/")
 //    Observable<Item[]> packageRelate(
@@ -261,6 +281,7 @@ public interface SkyService {
         private static final int DEFAULT_READ_TIMEOUT = 15;
         private SkyService mSkyService;
         private SkyService adSkyService;
+        private SkyService upgradeService;
 
 
         private ServiceManager() {
@@ -275,12 +296,13 @@ public interface SkyService {
                     .build();
 
             final CountDownLatch latch = new CountDownLatch(1);
-            final String[] domain = new String[2];
+            final String[] domain = new String[3];
             new Thread() {
                 @Override
                 public void run() {
                     domain[0] = IsmartvActivator.getInstance().getApiDomain();
                     domain[1] = IsmartvActivator.getInstance().getAdDomain();
+                    domain[2] = IsmartvActivator.getInstance().getUpgradeDomain();
                     latch.countDown();
                 }
             }.start();
@@ -306,6 +328,15 @@ public interface SkyService {
                     .client(mClient)
                     .build();
             adSkyService = adRetrofit.create(SkyService.class);
+
+            Retrofit upgradeRetrofit = new Retrofit.Builder()
+                    .baseUrl(appendProtocol(domain[2]))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(mClient)
+                    .build();
+
+            upgradeService = upgradeRetrofit.create(SkyService.class);
 
         }
 
@@ -339,6 +370,15 @@ public interface SkyService {
                 }
             }
             return serviceManager.adSkyService;
+        }
+
+        public static SkyService getUpgradeService() {
+            synchronized (ServiceManager.class) {
+                if (serviceManager == null) {
+                    serviceManager = new ServiceManager();
+                }
+            }
+            return serviceManager.upgradeService;
         }
     }
 

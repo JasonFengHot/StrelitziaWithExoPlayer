@@ -41,7 +41,8 @@ public class IsmartvActivator {
     }
 
     private static final String TAG = "IsmartvActivator";
-    private static final String DEFAULT_HOST = "http://sky.tvxio.com";
+    private static final String SKY_HOST = "http://sky.tvxio.com";
+    private static final String SKY_HOST_TEST = "http://peachtest.tvxio.com";
     private static final String SIGN_FILE_NAME = "sign1";
     private static final int DEFAULT_CONNECT_TIMEOUT = 2;
     private static final int DEFAULT_READ_TIMEOUT = 5;
@@ -109,7 +110,7 @@ public class IsmartvActivator {
 
         SKY_Retrofit = new Retrofit.Builder()
                 .client(client)
-                .baseUrl(DEFAULT_HOST)
+                .baseUrl(SKY_HOST)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
@@ -293,6 +294,17 @@ public class IsmartvActivator {
         }
     }
 
+    public String getUpgradeDomain() {
+        String upgradeDomain= mSharedPreferences.getString("upgrade_domain", "");
+        if (TextUtils.isEmpty(upgradeDomain)) {
+            ResultEntity resultEntity = execute();
+            saveAccountInfo(resultEntity);
+            return resultEntity.getUpgrade_domain();
+        } else {
+            return upgradeDomain;
+        }
+    }
+
     public String getAdDomain() {
         // 广告测试地址
 //        return "124.42.65.66:8082";
@@ -341,6 +353,7 @@ public class IsmartvActivator {
         editor.putString("api_domain", resultEntity.getDomain());
         editor.putString("log_domain", resultEntity.getLog_Domain());
         editor.putString("ad_domain", resultEntity.getAd_domain());
+        editor.putString("upgrade_domain", resultEntity.getUpgrade_domain());
         editor.commit();
     }
 

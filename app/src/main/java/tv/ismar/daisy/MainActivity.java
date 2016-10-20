@@ -12,6 +12,7 @@ import android.widget.VideoView;
 
 import tv.ismar.account.SyncUtils;
 import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.update.UpdateService;
 import tv.ismar.detailpage.view.DetailPageActivity;
 import tv.ismar.player.view.PlayerActivity;
 
@@ -25,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent();
+        intent.setClass(this, UpdateService.class);
+        startService(intent);
 //        SyncUtils.CreateSyncAccount(this);
 
         Button demo_detail_btn1 = (Button) findViewById(R.id.demo_detail_btn1);
@@ -124,5 +129,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(PageIntentInterface.EXTRA_PK, 706220);
         startActivity(intent);
     }
+
+
 
 }
