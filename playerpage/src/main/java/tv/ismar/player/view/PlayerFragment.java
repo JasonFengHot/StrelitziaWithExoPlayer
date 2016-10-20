@@ -185,7 +185,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Log.e(TAG, "Activity must be extends BaseActivity.");
             return;
         }
-        mPlayerPagePresenter = new PlayerPagePresenter((PlayerActivity) getActivity(), this);
+        mPlayerPagePresenter = new PlayerPagePresenter((BaseActivity) getActivity(), this);
         mModel = new PlayerPageViewModel(getActivity(), mPlayerPagePresenter);
         panelShowAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.fly_up);

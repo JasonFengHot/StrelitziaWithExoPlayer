@@ -1,6 +1,5 @@
 package tv.ismar.player.presenter;
 
-import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
@@ -20,6 +19,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.network.SkyService;
@@ -45,10 +45,10 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
     private Subscription mApiMediaUrlSubsc;
     private Subscription mApiHistorySubsc;
     private Subscription mApiGetAdSubsc;
-    private Context mContext;
+    private BaseActivity mActivity;
 
-    public PlayerPagePresenter(Context context, PlayerPageContract.View view) {
-        mContext = context;
+    public PlayerPagePresenter(BaseActivity activity, PlayerPageContract.View view) {
+        mActivity = activity;
         playerView = view;
         playerView.setPresenter(this);
 
@@ -85,19 +85,9 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         mApiItemSubsc = mSkyService.apiItem(itemPk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ItemEntity>() {
+                .subscribe(mActivity.new BaseObserver<ItemEntity>() {
                     @Override
                     public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "apiItem:" + e.getMessage());
-                        if (e.getClass() == OnlyWifiException.class) {
-                            playerView.onHttpInterceptor(e);
-                        } else {
-                            playerView.onHttpFailure(e);
-                        }
                     }
 
                     @Override
@@ -116,20 +106,10 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         mApiMediaUrlSubsc = mSkyService.fetchMediaUrl(clipUrl, sign, code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ClipEntity>() {
+                .subscribe(mActivity.new BaseObserver<ClipEntity>() {
                     @Override
                     public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        if (e.getClass() == OnlyWifiException.class) {
-                            playerView.onHttpInterceptor(e);
-                        } else {
-                            playerView.onHttpFailure(e);
-                        }
                     }
 
                     @Override
@@ -149,19 +129,9 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         mApiHistorySubsc = mSkyService.sendPlayHistory(history)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
+                .subscribe(mActivity.new BaseObserver<ResponseBody>() {
                     @Override
                     public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        if (e.getClass() == OnlyWifiException.class) {
-                            playerView.onHttpInterceptor(e);
-                        } else {
-                            playerView.onHttpFailure(e);
-                        }
                     }
 
                     @Override
@@ -179,7 +149,7 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         mApiGetAdSubsc = skyService.fetchAdvertisement(getAdParam(itemEntity, adPid, source))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
+                .subscribe(mActivity.new BaseObserver<ResponseBody>() {
                     @Override
                     public void onCompleted() {
 
@@ -187,18 +157,11 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
-                        if (e.getClass() == OnlyWifiException.class) {
-                            playerView.onHttpInterceptor(e);
-                        } else {
-                            playerView.onHttpFailure(e);
                             if (adPid.equals(PlayerFragment.AD_MODE_ONPAUSE)) {
                                 playerView.loadPauseAd(null);
                             } else {
                                 playerView.loadAdvertisement(null);
                             }
-                        }
-
                     }
 
                     @Override
