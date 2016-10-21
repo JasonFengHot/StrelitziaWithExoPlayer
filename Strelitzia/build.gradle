@@ -1,4 +1,4 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'plugin.transfer'
 
 android {
@@ -8,6 +8,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.androidMinSdkVersion
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        applicationId "tv.ismar.daisy"
         versionCode 1
         versionName "1.0"
     }
@@ -26,15 +27,34 @@ android {
         abortOnError false
     }
 
+    signingConfigs {
+        release {
+            storeFile file("key.keystore")
+            storePassword "8271454abc"
+            keyAlias "iriskey"
+            keyPassword "8271454abc"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
 }
 
 dependencies {
-    Map<String, String> dependencies = rootProject.ext.dependencies;
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'cn.ismartv.truetime:library:1.2'
-    compile project(':appbase')
+    compile project(':detailpage')
+    compile project(':account')
+    compile project(':playerpage')
 }
-
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }

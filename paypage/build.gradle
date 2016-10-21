@@ -1,48 +1,5 @@
 apply plugin: 'com.android.library'
-
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'plugin.transfer'
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-def projectName = "ismartv_pay"
-def versionTag = rootProject.ext.moduleVersion
-def groupId = "tv.ismar.pay"
-def siteUrl = 'git@github.com:JasonFengIce/videocache.git'
-def gitUrl = 'git@github.com:JasonFengIce/videocache.gitt'
-
-
-version = versionTag
-group = groupId
-
-
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            packaging 'aar'
-        }
-    }
-}
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    publish = true
-    pkg {
-        repo = 'maven'
-        name = projectName
-        desc = 'Ismartv Pay'
-        websiteUrl = siteUrl
-        issueTrackerUrl = 'https://github.com/bintray/bintray-examples/issues'
-        vcsUrl = gitUrl
-        licenses = ['Apache-2.0']
-        labels = ['aar', 'android']
-        publicDownloadNumbers = true
-    }
-}
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -74,39 +31,12 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile 'cn.ismartv.truetime:library:1.2'
     compile 'cn.ismartv.tvhorizontalscrollview:tvhorizontalscrollview:1.3'
     compile 'com.example.foregroundimageview:foregroundimageview:1.0'
     compile project(':appbase')
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-task findConventions << {
-    println project.getConvention()
-}
 tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-tasks.withType(org.gradle.api.tasks.javadoc.Javadoc) {
     options.encoding = "UTF-8"
 }

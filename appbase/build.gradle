@@ -1,47 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'plugin.transfer'
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-def projectName = "ismartv_app"
-def versionTag = rootProject.ext.moduleVersion
-def groupId = "tv.ismar.app"
-def siteUrl = 'git@github.com:JasonFengIce/videocache.git'
-def gitUrl = 'git@github.com:JasonFengIce/videocache.gitt'
-
-
-version = versionTag
-group = groupId
-
-
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            packaging 'aar'
-        }
-    }
-}
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    publish = true
-    pkg {
-        repo = 'maven'
-        name = projectName
-        desc = 'Ismartv App'
-        websiteUrl = siteUrl
-        issueTrackerUrl = 'https://github.com/bintray/bintray-examples/issues'
-        vcsUrl = gitUrl
-        licenses = ['Apache-2.0']
-        labels = ['aar', 'android']
-        publicDownloadNumbers = true
-    }
-}
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -68,10 +27,9 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies;
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile dependencies.appCompat
     compile dependencies.recyclerView
-    compile 'cn.ismartv.truetime:library:1.1'
+    compile 'cn.ismartv.truetime:library:1.2'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
@@ -81,35 +39,9 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'cn.ismartv.injectdb:injectdb:1.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
-
     compile project(path: ':account')
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-task findConventions << {
-    println project.getConvention()
-}
 tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-tasks.withType(org.gradle.api.tasks.javadoc.Javadoc) {
     options.encoding = "UTF-8"
 }
