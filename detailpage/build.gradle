@@ -30,7 +30,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile 'cn.ismartv.truetime:library:1.2'
     compile project(':appbase')
     compile project(':account')
