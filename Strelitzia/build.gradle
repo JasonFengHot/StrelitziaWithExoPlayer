@@ -27,6 +27,25 @@ android {
         abortOnError false
     }
 
+    signingConfigs {
+        release {
+            storeFile file("key.keystore")
+            storePassword "8271454abc"
+            keyAlias "iriskey"
+            keyPassword "8271454abc"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
 }
 
 dependencies {
