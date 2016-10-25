@@ -1,4 +1,4 @@
-package tv.ismar.player.media;
+package tv.ismar.app.eventsender;
 
 import java.io.Serializable;
 

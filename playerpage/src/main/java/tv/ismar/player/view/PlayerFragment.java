@@ -425,6 +425,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mIsmartvPlayer.release();
             mIsmartvPlayer = null;
         }
+        player_logo_image.setVisibility(View.GONE);
+        mIsPlayingAd = false;
+        ad_vip_btn.setVisibility(View.GONE);
+        ad_count_text.setVisibility(View.GONE);
         hideMenu();
         hidePanel();
         fetchItemData();
@@ -1060,8 +1064,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void addHistory(int last_position) {
-        if (mItemEntity == null && historyManager == null || mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState() || mIsPlayingAd) {
+        if (mItemEntity == null || mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState() || mIsPlayingAd) {
             return;
+        }
+        if (historyManager == null) {
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
         }
         History history = new History();
         history.title = mItemEntity.getTitle();
@@ -1343,8 +1350,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     public void confirmClick(View view) {
                         popDialog.dismiss();
                         if (isPlayInDetailPage) {
-                            onHidePlayerPageListener.onHide();
+                            createHistory(mCurrentPosition);
                             addHistory(mCurrentPosition);
+                            onHidePlayerPageListener.onHide();
                         } else {
                             getActivity().finish();
                         }
@@ -1410,9 +1418,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     mHandler.removeMessages(MSG_AD_COUNTDOWN);
                 }
                 if (isPlayInDetailPage) {
-                    mIsPlayingAd = false;
-                    ad_vip_btn.setVisibility(View.GONE);
-                    ad_count_text.setVisibility(View.GONE);
                     onHidePlayerPageListener.onHide();
                 } else {
                     getActivity().finish();
