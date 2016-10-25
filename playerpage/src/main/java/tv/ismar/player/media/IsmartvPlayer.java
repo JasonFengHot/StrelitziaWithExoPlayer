@@ -58,6 +58,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected boolean mIsPlayingAdvertisement;
     protected SurfaceView mSurfaceView;
     protected FrameLayout mContainer;
+    protected int mStartPosition;
 
     // 奇艺播放器播放电视剧时,无需再次初始化
     private boolean isQiyiSdkInit = false;
@@ -90,6 +91,10 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     public void setContainer(FrameLayout container) {
         mContainer = container;
+    }
+
+    public void setStartPosition(int startPosition){
+        mStartPosition = startPosition;
     }
 
     @Override
@@ -175,7 +180,7 @@ public abstract class IsmartvPlayer implements IPlayer {
 
                 if (isQiyiSdkInit) {
                     String[] array = mClipEntity.getIqiyi_4_0().split(":");
-                    SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip());
+                    SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mStartPosition);
                     setMedia(qiyiInfo);
                     return;
                 }
@@ -194,7 +199,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                                 isQiyiSdkInit = true;
                                 Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time));
                                 String[] array = mClipEntity.getIqiyi_4_0().split(":");
-                                SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip());
+                                SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(),mStartPosition);
                                 setMedia(qiyiInfo);
                             }
 

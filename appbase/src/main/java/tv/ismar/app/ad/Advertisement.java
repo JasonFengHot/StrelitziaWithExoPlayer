@@ -1,5 +1,6 @@
-package tv.ismar.player.presenter;
+package tv.ismar.app.ad;
 
+import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
@@ -7,188 +8,69 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
-import tv.ismar.app.BaseActivity;
-import tv.ismar.app.ad.Advertisement;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.Source;
-import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AdElementEntity;
-import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.SPUtils;
 import tv.ismar.app.util.Utils;
-import tv.ismar.player.PlayerPageContract;
-import tv.ismar.player.view.PlayerActivity;
-import tv.ismar.player.view.PlayerFragment;
 
 /**
- * Created by longhai on 16-9-8.
+ * Created by longhai on 16-10-24.
  */
-public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
-    private final String TAG = "LH/PlayerPagePresenter";
-    private PlayerPageContract.View playerView;
-    private SkyService mSkyService;
-    private Subscription mApiItemSubsc;
-    private Subscription mApiMediaUrlSubsc;
-    private Subscription mApiHistorySubsc;
+public class Advertisement {
+
+    private static final String TAG = "LH/Advertisement";
+
+    public static final String AD_MODE_ONSTART = "qiantiepian"; // 视频播放前(视频广告)
+    public static final String AD_MODE_ONPAUSE = "zanting";     // 视频暂停时(图片广告)
+    public static final String AD_MODE_ = "kaishi";             // 进入首页前(图片,视频广告)
+
     private Subscription mApiGetAdSubsc;
-    private BaseActivity mActivity;
+    private Context mContext;
 
-    public PlayerPagePresenter(BaseActivity activity, PlayerPageContract.View view) {
-        mActivity = activity;
-        playerView = view;
-        playerView.setPresenter(this);
+    private OnVideoPlayAdListener mOnVideoPlayAdListener;
+    private OnAppStartAdListener mOnAppStartAdListener;
+
+    public Advertisement(Context context) {
+        mContext = context;
+    }
+
+    public void setOnVideoPlayListener(OnVideoPlayAdListener onVideoPlayAdListener) {
+        mOnVideoPlayAdListener = onVideoPlayAdListener;
+    }
+
+    public void setOnAppStartListener(OnAppStartAdListener onAppStartAdListener) {
+        mOnAppStartAdListener = onAppStartAdListener;
+    }
+
+    public interface OnVideoPlayAdListener {
+
+        public void loadPauseAd();
+
+        public void loadVideoStartAd();
+    }
+
+    public interface OnAppStartAdListener {
+
+        public void loadPictureAd();
+
+        public void loadVideoAd();
 
     }
 
-    @Override
-    public void start() {
-        mSkyService = SkyService.ServiceManager.getService();
-
-    }
-
-    @Override
-    public void stop() {
-        if (mApiItemSubsc != null && !mApiItemSubsc.isUnsubscribed()) {
-            mApiItemSubsc.unsubscribe();
-        }
-        if (mApiMediaUrlSubsc != null && !mApiMediaUrlSubsc.isUnsubscribed()) {
-            mApiMediaUrlSubsc.unsubscribe();
-        }
-        if (mApiHistorySubsc != null && !mApiHistorySubsc.isUnsubscribed()) {
-            mApiHistorySubsc.unsubscribe();
-        }
-        if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
-            mApiGetAdSubsc.unsubscribe();
-        }
-
-    }
-
-    @Override
-    public void fetchPlayerItem(String itemPk) {
-        if (mApiItemSubsc != null && !mApiItemSubsc.isUnsubscribed()) {
-            mApiItemSubsc.unsubscribe();
-        }
-        mApiItemSubsc = mSkyService.apiItem(itemPk)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<ItemEntity>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onNext(ItemEntity itemEntity) {
-                        playerView.loadPlayerItem(itemEntity);
-                    }
-                });
-
-    }
-
-    @Override
-    public void fetchMediaUrl(String clipUrl, String sign, String code) {
-        if (mApiMediaUrlSubsc != null && !mApiMediaUrlSubsc.isUnsubscribed()) {
-            mApiMediaUrlSubsc.unsubscribe();
-        }
-        mApiMediaUrlSubsc = mSkyService.fetchMediaUrl(clipUrl, sign, code)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<ClipEntity>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onNext(ClipEntity clipEntity) {
-                        playerView.loadPlayerClip(clipEntity);
-                    }
-                });
-
-    }
-
-    @Override
-    public void sendHistory(HashMap<String, Object> history) {
-        if (mApiHistorySubsc != null && !mApiHistorySubsc.isUnsubscribed()) {
-            mApiHistorySubsc.unsubscribe();
-        }
-
-        mApiHistorySubsc = mSkyService.sendPlayHistory(history)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                    }
-                });
-    }
-
-    @Override
     public void fetchAdvertisement(final ItemEntity itemEntity, final String adPid, String source) {
-        if (mApiGetAdSubsc != null && !mApiGetAdSubsc.isUnsubscribed()) {
-            mApiGetAdSubsc.unsubscribe();
-        }
-        SkyService skyService = SkyService.ServiceManager.getAdService();
-        mApiGetAdSubsc = skyService.fetchAdvertisement(getAdParam(itemEntity, adPid, source))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                            if (adPid.equals(Advertisement.AD_MODE_ONPAUSE)) {
-                                playerView.loadPauseAd(null);
-                            } else {
-                                playerView.loadAdvertisement(null);
-                            }
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        String result = null;
-                        try {
-                            result = responseBody.string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (Utils.isEmptyText(result)) {
-                            if (adPid.equals(Advertisement.AD_MODE_ONPAUSE)) {
-                                playerView.loadPauseAd(null);
-                            } else {
-                                playerView.loadAdvertisement(null);
-                            }
-                            return;
-                        }
-                        List<AdElementEntity> adElementEntityList = getAdInfo(result, adPid);
-                        if (adPid.equals(Advertisement.AD_MODE_ONPAUSE)) {
-                            playerView.loadPauseAd(adElementEntityList);
-                        } else {
-                            playerView.loadAdvertisement(adElementEntityList);
-                        }
-                    }
-                });
     }
 
     private HashMap<String, Object> getAdParam(ItemEntity itemEntity, String adpid, String source) {
@@ -199,12 +81,12 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         adParams.put("adpid", "['" + adpid + "']");
         adParams.put("sn", IsmartvActivator.getInstance().getSnToken());
         adParams.put("modelName", DeviceUtils.getModelName());
-        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mActivity)));
+        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mContext)));
         adParams.put("province", SPUtils.getValue(InitializeProcess.PROVINCE_PY, ""));
         adParams.put("city", "SH");
         adParams.put("app", "sky");
-        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mActivity) + "," + DeviceUtils.getDisplayPixelHeight(mActivity));
-        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mActivity)));
+        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
+        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
 
         StringBuffer directorsBuffer = new StringBuffer();
         StringBuffer actorsBuffer = new StringBuffer();
@@ -321,4 +203,5 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         }
         return adElementEntities;
     }
+
 }
