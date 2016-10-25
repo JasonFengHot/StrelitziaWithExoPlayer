@@ -29,6 +29,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -154,12 +155,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     }
 
-    public static PlayerFragment newInstance(int pk, int subPk, boolean playInDetailPage, String source) {
+    public static PlayerFragment newInstance(int pk, int subPk, String itemJson, String source) {
         PlayerFragment fragment = new PlayerFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PK, pk);
         args.putInt(ARG_SUB_PK, subPk);
-        args.putBoolean(ARG_IN_DETAIL_PAGE, playInDetailPage);
+        args.putString(ARG_IN_DETAIL_PAGE, itemJson);
         args.putString(ARG_SOURCE, source);
         fragment.setArguments(args);
         return fragment;
@@ -171,7 +172,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (getArguments() != null) {
             itemPK = getArguments().getInt(ARG_PK);
             subItemPk = getArguments().getInt(ARG_SUB_PK);
-            isPlayInDetailPage = getArguments().getBoolean(ARG_IN_DETAIL_PAGE);
+            String itemJson = getArguments().getString(ARG_IN_DETAIL_PAGE);
+            if (Utils.isEmptyText(itemJson)) {
+                isPlayInDetailPage = false;
+            } else {
+                isPlayInDetailPage = true;
+                mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+            }
             source = getArguments().getString(ARG_SOURCE);
         }
         if (!(getActivity() instanceof BaseActivity)) {
@@ -270,7 +277,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void fetchItemData() {
         showBuffer(null);
         testLoadItemTime = System.currentTimeMillis();
-        mPresenter.fetchPlayerItem(String.valueOf(itemPK));
+        if (mItemEntity == null) {
+            mPresenter.fetchPlayerItem(String.valueOf(itemPK));
+        } else {
+            loadPlayerItem(mItemEntity);
+        }
+
     }
 
     /**

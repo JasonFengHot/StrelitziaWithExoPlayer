@@ -9,6 +9,7 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
 
@@ -40,6 +41,8 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     private GestureDetector mGestureDetector;
     private boolean viewInit;
 
+    private FrameLayout activity_detail_container;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,8 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             finish();
             return;
         }
+
+        activity_detail_container = (FrameLayout) findViewById(R.id.activity_detail_container);
 
         if (!TextUtils.isEmpty(itemJson)){
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
@@ -208,10 +213,12 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     }
 
     private void loadFragment(){
-        playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, true, source);
+        String itemJson = new Gson().toJson(mItemEntity);
+        playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, itemJson, source);
         playerFragment.setOnHidePlayerPageListener(this);
         playerFragment.onPlayerFragment = false;
-        detailPageFragment = DetailPageFragment.newInstance(source,new Gson().toJson(mItemEntity));
+        detailPageFragment = DetailPageFragment.newInstance(source, itemJson);
+        detailPageFragment.showLoading(this);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.activity_detail_container, playerFragment);

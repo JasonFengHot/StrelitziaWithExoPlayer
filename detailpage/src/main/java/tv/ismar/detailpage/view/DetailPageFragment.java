@@ -1,5 +1,6 @@
 package tv.ismar.detailpage.view;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -109,15 +110,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mDetailPagePresenter = new DetailPagePresenter((DetailPageActivity)getActivity(), this, mItemEntity.getContentModel());
         mModel = new DetailPageViewModel(mActivity, mDetailPagePresenter);
 
-        mLoadingDialog = new LoadingDialog(mActivity, R.style.LoadingDialog);
-        mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                dialog.dismiss();
-                mActivity.finish();
-            }
-        });
-        mLoadingDialog.showDialog();
     }
 
     @Override
@@ -131,7 +123,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         super.onViewCreated(view, savedInstanceState);
         Log.i(TAG, Constants.TEST);
         mPresenter.start();
-        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
+//        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
+        loadItem(mItemEntity);
         mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
     }
 
@@ -249,6 +242,18 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mPresenter = presenter;
     }
 
+    public void showLoading(Context context){
+        mLoadingDialog = new LoadingDialog(context, R.style.LoadingDialog);
+        mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+                mActivity.finish();
+            }
+        });
+        mLoadingDialog.showDialog();
+
+    }
 
     private void hideLoading() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
