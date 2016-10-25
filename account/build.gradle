@@ -77,7 +77,7 @@ android {
 }
 
 dependencies {
-    Map<String, String> dependencies = rootProject.ext.dependencies;
+    Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'cn.ismartv.truetime:library:1.1'
     compile dependencies.appCompat
@@ -89,6 +89,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.5'
     compile 'io.reactivex:rxandroid:1.2.1'
     testCompile 'junit:junit:4.12'
+    compile files('src/main/jniLibs/QiyiPlayerSdk-r50441.jar')
+    compile files('src/main/jniLibs/accessProxy.jar')
 }
 
 task sourcesJar(type: Jar) {

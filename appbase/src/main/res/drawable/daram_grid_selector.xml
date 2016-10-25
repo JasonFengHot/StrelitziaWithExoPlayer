@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--     <item android:drawable="@drawable/drama_selected" android:state_focused="true"/> -->
+<!--     <item android:drawable="@drawable/watch_no" android:state_window_focused="false"/> -->
+    
+    
+    
+<!-- <item android:drawable="@drawable/vod_detail_series_episode_focus" android:state_selected="true"/>-->
+<!--<item android:drawable="@drawable/vod_detail_series_episode_focus" android:state_pressed="true"></item>-->
+<item android:drawable="@drawable/vod_detail_series_episode_focus" android:state_focused="true"></item>
+<item android:drawable="@drawable/vod_detail_series_episode_backgroud" />
+</selector>

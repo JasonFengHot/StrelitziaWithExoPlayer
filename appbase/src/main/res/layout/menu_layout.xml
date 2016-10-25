@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/menu_menulistview_W"
+    android:layout_height="match_parent">
+    <ListView
+        android:id="@+id/menu_list"
+        android:layout_width="@dimen/menu_menulistview_W"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:listSelector="@color/_ff9c3c"
+        android:foreground="@color/player_menu_fg"
+        android:background="@color/player_menu_bg"
+        android:paddingTop="@dimen/menu_list_PaddingTB"
+        android:paddingBottom="@dimen/menu_list_PaddingTB">
+        
+    </ListView>
+</RelativeLayout>

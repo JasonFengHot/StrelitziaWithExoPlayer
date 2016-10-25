@@ -15,7 +15,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by beaver on 16-8-19.
  */
 public class BaseActivity extends AppCompatActivity {
-
+    public static final String ACTION_CONNECT_ERROR = "tv.ismar.daisy.CONNECT_ERROR";
     private LoadingDialog mLoadingDialog;
     public SkyService mSkyService;
     private  View mRootView;

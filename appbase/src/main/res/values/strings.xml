@@ -4,12 +4,33 @@
     <string name="vod_title_favorite">我的收藏</string>
     <string name="vod_title_center">个人中心</string>
     <string name="vod_title_search">搜索</string>
-
+    <string name="degree">度</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
 
     <string name="login_success_name">恭喜&#160;%1$s&#160;</string>
     <string name="login_success">您已成功登录视云影院！</string>
     <string name="loading_text">正在加载…</string>
+    <string name="vod_get_data_error">无法从服务器获取数据，请稍后重试。</string>
+    <string name="vod_i_know">我知道了</string>
+    <string name="vod_retry">重试</string>
+    <string name="vod_ok">确定</string>
+    <string name="vod_cancel">取消</string>
+    <string name="item_offline">抱歉，该片已下线</string>
+    <string name="delete_history">删除记录</string>
+    <string name="front_page">首页</string>
+    <string name="filter">筛选</string>
+    <string name="loading">正在加载&#8230;</string>
+    <string name="vod_movielist_title_history">历史记录</string>
+    <string name="guide_user_center">个人中心</string>
+    <string name="guide_my_favorite">我的收藏</string>
+    <string name="guide_search">搜索</string>
+    <!-- menu title -->
+    <string name="kefucentertitle">客服中心</string>
+    <string name="orderlisttitle">订购列表</string>
+    <string name="playfromstarttitle">从头播放</string>
+    <string name="interested_video">您可能对这些影片感兴趣</string>
+    <string name="dialog_setting">网络设置</string>
+    <string name="onload">正在加载</string>
 
 </resources>

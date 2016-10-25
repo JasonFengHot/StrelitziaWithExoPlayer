@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tv_guide_top_section_padding">14dp</dimen>
+    <dimen name="filmitem_portrait_detail_title_mt">28dip</dimen>
+    <dimen name="filmitem_portrait_detail_title_w">798dip</dimen>
+    <dimen name="filmitem_portrait_detail_title_h">54dip</dimen>
+    <dimen name="filmitem_portrait_detail_title_size">48sp</dimen>
+    <dimen name="item_detail_more_content_marginT">50dip</dimen>
+    <dimen name="item_detail_btn_layout_marginB">5dip</dimen>
+
+    <!-- zjq -->
+    <dimen name="top_panel_view_height">112dip</dimen>
+    <dimen name="divider_margin_MLR">26dip</dimen>
+    <!-- list_view -->
+    <dimen name="list_view_search_H">60dip</dimen>
+    <dimen name="list_view_search_ML">990dip</dimen>
+
+    <dimen name="history_collect_shadow_mt">352dip</dimen>
+    <dimen name="vod_player_titletext_marginleft">220dip</dimen>
+    <dimen name="related_view_hgridview_horizontalSpace">115dip</dimen>
+    <!-- package detail item -->
+    <dimen name="package_item_default_W">364dip</dimen>
+    <dimen name="package_item_default_H">224dip</dimen>
+    <dimen name="package_item_ItemImage_W">320dip</dimen>
+    <dimen name="package_item_ItemImage_H">180dip</dimen>
+    <dimen name="package_item_ItemImage_MT">22dip</dimen>
+    <dimen name="package_item_ItemText_MT">7dip</dimen>
+    <dimen name="package_item_ItemText_PLR">8dip</dimen>
+    <!-- recommend -->
+    <dimen name="recommend_item__W">230dip</dimen>
+    <dimen name="recommend_item_image__H">150dip</dimen>
+    <dimen name="vod_payment_packageDescribe_textsize">30sp</dimen>
+    <dimen name="vod_payment_price_textsize">24sp</dimen>
+    <dimen name="filmitem_portrait_filter_divider_h">1dip</dimen>
+</resources>

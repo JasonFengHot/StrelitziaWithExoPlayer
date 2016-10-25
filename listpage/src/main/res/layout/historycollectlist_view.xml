@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sakura="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/large_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/arrow_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_panel_view_height"
+        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/channel_label"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/gridview_channel_label_marginleft"
+        android:layout_marginRight="@dimen/gridview_channel_label_marginright"
+        android:gravity="center"
+        android:textColor="#FFBBBBBB"
+        android:textSize="@dimen/gridview_channel_label_textsize" />
+    <ImageView
+        android:id="@+id/gridview_line"
+        android:layout_marginLeft="@dimen/gridview_line_ML"
+        android:layout_width="@dimen/gridview_main_gridview_line_W"
+        android:layout_height="@dimen/gridview_main_gridview_line_H"
+        android:background="@drawable/listview_p_divider"
+        android:visibility="visible" />
+                  
+           <Button
+           android:visibility="gone"
+           android:layout_width="wrap_content"
+           android:layout_height="@dimen/list_view_search_H"
+           android:layout_marginLeft="@dimen/list_view_search_ML"
+           android:layout_gravity="center_vertical"
+           android:focusable="true"
+           android:id="@+id/list_view_search"
+           android:background="@drawable/search_btn_bg_selector" />
+</LinearLayout>
+
+    <ImageView
+            android:layout_marginLeft="@dimen/divider_margin_MLR"
+            android:layout_marginRight="@dimen/divider_margin_MLR"
+            android:layout_width="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/orderlistdivide"
+            android:layout_height="1dp"/>
+    <LinearLayout
+        android:id="@+id/tabs_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gridview_channel_panel_height"
+        android:layout_marginLeft="@dimen/channel_section_tabs_layout_marginLeft"
+        android:orientation="horizontal"
+         android:visibility="gone"
+        >
+           <ImageView
+            android:id="@+id/arrow_left"
+            android:layout_width="@dimen/grid_view_main_arrow_left_W"
+            android:layout_height="@dimen/grid_view_main_arrow_left_H"
+            android:layout_marginTop="@dimen/grid_view_main_arrow_left_marginT"
+            android:background="@drawable/arrow_left_selector"
+            android:visibility="invisible" 
+           />
+           
+        <tv.ismar.app.widget.ScrollableSectionList
+            android:visibility="gone"
+            android:id="@+id/section_tabs"
+            android:layout_width="@dimen/gridview_channel_section_tabs_width"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+             android:focusable="false" 
+             android:focusableInTouchMode="false">
+        </tv.ismar.app.widget.ScrollableSectionList>
+
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="@dimen/grid_view_main_arrow_left_W"
+            android:layout_height="@dimen/grid_view_main_arrow_left_H"
+            android:layout_marginTop="@dimen/grid_view_main_arrow_left_marginT"
+            android:background="@drawable/arrow_right_selector"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
+    <!--<org.sakuratya.horizontal.ui.HGridView-->
+            <!--android:paddingTop="3dip"-->
+            <!--android:id="@+id/h_grid_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--sakura:horizontalSpacing="@dimen/gridview_main_panel_horizontalSpacing"-->
+            <!--sakura:numRows="3"-->
+            <!--sakura:rowHeight="@dimen/gridview_main_panel_rowHeight"-->
+            <!--sakura:selectorDrawable="@drawable/vod_gv_selector"-->
+            <!--sakura:verticalSpacing="@dimen/gridview_main_panel_verticalSpacing"-->
+            <!--sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"-->
+            <!--sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"-->
+            <!--sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"-->
+            <!--sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"-->
+            <!--android:layout_marginTop="19dip"-->
+            <!--android:layout_marginBottom="97dip"-->
+            <!-->-->
+    <!--</org.sakuratya.horizontal.ui.HGridView>-->
+
+<RelativeLayout
+                android:id="@+id/gideview_layuot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <Button
+            android:visibility="invisible"
+            android:clickable="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/left_shadow"
+            android:layout_width="@dimen/filter_portraitresult_shadow_w"
+            android:layout_height="@dimen/filter_portraitresult_shadow_h"
+            android:background="@drawable/channel_arrow_left"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginLeft="@dimen/filter_portraitresult_shadow_ml"
+            android:layout_marginTop="@dimen/history_collect_shadow_mt"
+            />
+    <Button
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:id="@+id/right_shadow"
+            android:layout_width="@dimen/filter_portraitresult_shadow_w"
+            android:layout_height="@dimen/filter_portraitresult_shadow_h"
+            android:background="@drawable/channel_arrow_right"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginTop="@dimen/history_collect_shadow_mt"
+            android:layout_marginRight="@dimen/filter_portraitresult_shadow_ml"/>
+        <tv.ismar.app.ui.HGridView
+            android:layout_toLeftOf="@id/right_shadow"
+            android:layout_toRightOf="@id/left_shadow"
+            android:id="@+id/h_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            sakura:horizontalSpacing="@dimen/related_view_hgridview_horizontalSpace"
+            sakura:numRows="3"
+            sakura:rowHeight="@dimen/filter_result_list_view_rowHeight"
+            sakura:selectorDrawable="@drawable/vod_gv_selector"
+            sakura:verticalSpacing="0dip"
+            sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"
+            sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"
+            sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"
+            sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
+            android:paddingTop="@dimen/filter_result_list_filter_grid_pl"
+            android:layout_marginTop="@dimen/filmitem_portrait_middle_btn_ml"
+            android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
+            android:layout_marginLeft="@dimen/filter_result_list_filter_grid_ml"
+            android:layout_marginRight="@dimen/filter_result_list_filter_grid_ml"
+            android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
+            android:paddingLeft="@dimen/filter_result_list_filter_grid_pl">
+    </tv.ismar.app.ui.HGridView>
+
+</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/no_video_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gridview_no_video_container_height"
+        android:layout_marginLeft="@dimen/gridview_no_video_container_marginLeft"
+        android:layout_marginRight="@dimen/gridview_no_video_container_marginLeft"
+        android:visibility="gone" >
+        
+        <TextView 
+            android:id="@+id/collect_or_history_txt"
+            android:layout_height="@dimen/grid_view_main_collect_or_history_txt_H"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/grid_view_main_collect_or_history_txt_MT"
+            android:textColor="#FFBBBBBB"
+            android:textSize="@dimen/grid_view_main_collect_or_history_txt_textsize"
+            android:paddingLeft="@dimen/grid_view_main_collect_or_history_txt_PL"/>
+        <TextView 
+            android:id="@+id/recommend_txt"
+            android:layout_height="@dimen/grid_view_main_recommend_txt_H"
+            android:layout_width="match_parent"
+            android:text="@string/interested_video"
+            android:textColor="#FF999999"
+            android:textSize="@dimen/grid_view_main_recommend_txt_size"
+            android:paddingLeft="@dimen/grid_view_main_recommend_txt_PL"
+            android:layout_below="@id/collect_or_history_txt"/>
+       
+       <tv.ismar.app.ui.ZGridView
+        android:id="@+id/recommend_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/grid_view_main_recommend_gridview_H"
+        android:layout_marginLeft="@dimen/grid_view_main_recommend_txt_PL"
+        android:layout_marginRight="@dimen/grid_view_main_recommend_txt_PL"
+        sakura:horizontalSpace="@dimen/grid_view_main_horizontalSpace"
+        sakura:listSelector="@drawable/vod_gv_selector"
+        sakura:numColumns="6"
+        android:paddingLeft="@dimen/variety_dramalist_gridview_plr"
+        android:paddingRight="@dimen/variety_dramalist_gridview_plr"
+        sakura:stretchMode="columnWidth"
+        sakura:selectorLeftPadding="@dimen/ZGridView_recommend_selectorLeftPadding"
+        sakura:selectorTopPadding="@dimen/ZGridView_recommend_selectorTopPadding"
+        sakura:selectorRightPadding="@dimen/ZGridView_recommend_selectorRightPadding"
+        sakura:selectorBottomPadding="@dimen/ZGridView_recommend_selectorBottomPadding"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/grid_view_main_divider_MT"
+         />
+
+        <!--<GridView-->
+                <!--android:descendantFocusability="afterDescendants"-->
+                <!--android:id="@+id/recommend_gridview"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/grid_view_main_recommend_gridview_H"-->
+                <!--android:layout_marginLeft="@dimen/grid_view_main_recommend_txt_PL"-->
+                <!--android:layout_marginRight="@dimen/grid_view_main_recommend_txt_PL"-->
+                <!--android:horizontalSpacing="@dimen/grid_view_main_horizontalSpace"-->
+                <!--android:stretchMode="columnWidth"-->
+                <!--android:numColumns="6"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_marginBottom="@dimen/grid_view_main_divider_MT"-->
+                <!--/>-->
+    </RelativeLayout>
+
+</LinearLayout>
