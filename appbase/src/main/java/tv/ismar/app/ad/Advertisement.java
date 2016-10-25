@@ -8,16 +8,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import rx.Observer;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.Source;
+import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.DeviceUtils;
@@ -34,9 +40,10 @@ public class Advertisement {
 
     public static final String AD_MODE_ONSTART = "qiantiepian"; // 视频播放前(视频广告)
     public static final String AD_MODE_ONPAUSE = "zanting";     // 视频暂停时(图片广告)
-    public static final String AD_MODE_ = "kaishi";             // 进入首页前(图片,视频广告)
+    public static final String AD_MODE_APPSTART = "kaishi";             // 进入首页前(图片,视频广告)
 
-    private Subscription mApiGetAdSubsc;
+    private Subscription mApiVideoStartSubsc;
+    private Subscription mApiAppStartSubsc;
     private Context mContext;
 
     private OnVideoPlayAdListener mOnVideoPlayAdListener;
@@ -54,26 +61,146 @@ public class Advertisement {
         mOnAppStartAdListener = onAppStartAdListener;
     }
 
+    public void stopSubscription() {
+        if (mApiVideoStartSubsc != null && !mApiVideoStartSubsc.isUnsubscribed()) {
+            mApiVideoStartSubsc.unsubscribe();
+        }
+        if (mApiAppStartSubsc != null && !mApiAppStartSubsc.isUnsubscribed()) {
+            mApiAppStartSubsc.unsubscribe();
+        }
+    }
+
     public interface OnVideoPlayAdListener {
 
-        public void loadPauseAd();
+        public void loadPauseAd(List<AdElementEntity> adList);
 
-        public void loadVideoStartAd();
+        public void loadVideoStartAd(List<AdElementEntity> adList);
     }
 
     public interface OnAppStartAdListener {
 
-        public void loadPictureAd();
-
-        public void loadVideoAd();
+        public void loadAppStartAd(List<AdElementEntity> adList);
 
     }
 
-    public void fetchAdvertisement(final ItemEntity itemEntity, final String adPid, String source) {
+    public void fetchVideoStartAd(final ItemEntity itemEntity, final String adPid, String source) {
+        if (mApiVideoStartSubsc != null && !mApiVideoStartSubsc.isUnsubscribed()) {
+            mApiVideoStartSubsc.unsubscribe();
+        }
+        SkyService skyService = SkyService.ServiceManager.getAdService();
+        mApiVideoStartSubsc = skyService.fetchAdvertisement(getPlayerAdParam(itemEntity, adPid, source))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (mApiVideoStartSubsc != null && !mApiVideoStartSubsc.isUnsubscribed()) {
+                            mApiVideoStartSubsc.unsubscribe();
+                        }
+
+                        if (mOnVideoPlayAdListener != null) {
+                            if (adPid.equals(Advertisement.AD_MODE_ONPAUSE)) {
+                                mOnVideoPlayAdListener.loadPauseAd(null);
+                            } else {
+                                mOnVideoPlayAdListener.loadVideoStartAd(null);
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        if (mApiVideoStartSubsc != null && !mApiVideoStartSubsc.isUnsubscribed()) {
+                            mApiVideoStartSubsc.unsubscribe();
+                        }
+
+                        String result = null;
+                        try {
+                            result = responseBody.string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (Utils.isEmptyText(result) || mOnVideoPlayAdListener == null) {
+                            if (adPid.equals(Advertisement.AD_MODE_ONPAUSE)) {
+                                mOnVideoPlayAdListener.loadPauseAd(null);
+                            } else {
+                                mOnVideoPlayAdListener.loadVideoStartAd(null);
+                            }
+                            return;
+                        }
+
+                        List<AdElementEntity> adElementEntityList = getAdInfo(result, adPid);
+                        if (adPid.equals(Advertisement.AD_MODE_ONPAUSE)) {
+                            mOnVideoPlayAdListener.loadPauseAd(adElementEntityList);
+                        } else {
+                            mOnVideoPlayAdListener.loadVideoStartAd(adElementEntityList);
+                        }
+                    }
+                });
 
     }
 
-    private HashMap<String, Object> getAdParam(ItemEntity itemEntity, String adpid, String source) {
+    public void fetchAppStartAd(final String adPid) {
+        if (mApiAppStartSubsc != null && !mApiAppStartSubsc.isUnsubscribed()) {
+            mApiAppStartSubsc.unsubscribe();
+        }
+        SkyService skyService = SkyService.ServiceManager.getAdService();
+        mApiAppStartSubsc = skyService.fetchAdvertisement(getAppStartParam(adPid))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (mApiAppStartSubsc != null && !mApiAppStartSubsc.isUnsubscribed()) {
+                            mApiAppStartSubsc.unsubscribe();
+                        }
+
+                        if (mOnAppStartAdListener != null) {
+                            mOnAppStartAdListener.loadAppStartAd(null);
+                        }
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        if (mApiAppStartSubsc != null && !mApiAppStartSubsc.isUnsubscribed()) {
+                            mApiAppStartSubsc.unsubscribe();
+                        }
+
+                        String result = null;
+                        try {
+                            result = responseBody.string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (mOnAppStartAdListener == null) {
+                            Log.d(TAG, "mOnAppStartAdListener null.");
+                            return;
+                        }
+                        if (Utils.isEmptyText(result)) {
+                            mOnAppStartAdListener.loadAppStartAd(null);
+                            return;
+                        }
+
+                        List<AdElementEntity> adElementEntityList = getAdInfo(result, adPid);
+                        mOnAppStartAdListener.loadAppStartAd(adElementEntityList);
+                    }
+                });
+
+    }
+
+    private HashMap<String, Object> getPlayerAdParam(ItemEntity itemEntity, String adpid, String source) {
         Log.i(TAG, "pro:" + SPUtils.getValue(InitializeProcess.PROVINCE, ""));
         Log.i(TAG, "proPy:" + SPUtils.getValue(InitializeProcess.PROVINCE_PY, ""));
         Log.i(TAG, "city:" + SPUtils.getValue(InitializeProcess.CITY, ""));
@@ -83,7 +210,7 @@ public class Advertisement {
         adParams.put("modelName", DeviceUtils.getModelName());
         adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mContext)));
         adParams.put("province", SPUtils.getValue(InitializeProcess.PROVINCE_PY, ""));
-        adParams.put("city", "SH");
+        adParams.put("city", "");
         adParams.put("app", "sky");
         adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
         adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
@@ -159,6 +286,34 @@ public class Advertisement {
         } else {
             adParams.put("expense", true);
         }
+        return adParams;
+    }
+
+    private HashMap<String, Object> getAppStartParam(String adpid) {
+        HashMap<String, Object> adParams = new HashMap<>();
+        adParams.put("adpid", "['" + adpid + "']");
+        adParams.put("sn", IsmartvActivator.getInstance().getSnToken());
+        adParams.put("modelName", DeviceUtils.getModelName());
+        adParams.put("version", String.valueOf(DeviceUtils.getVersionCode(mContext)));
+        adParams.put("province", SPUtils.getValue(InitializeProcess.PROVINCE_PY, ""));
+        adParams.put("city", "");
+        adParams.put("app", "sky");
+        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
+        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
+        adParams.put("channel", " ");
+        adParams.put("section", " ");
+        adParams.put("itemid", " ");
+        adParams.put("topic", " ");
+        adParams.put("source", "power");
+        adParams.put("content_model", " ");
+        adParams.put("director", " ");
+        adParams.put("actor", " ");
+        adParams.put("genre", " ");
+        adParams.put("clipid", " ");
+        adParams.put("length", " ");
+        adParams.put("live_video", " ");
+        adParams.put("vendor", " ");
+        adParams.put("expense", " ");
         return adParams;
     }
 

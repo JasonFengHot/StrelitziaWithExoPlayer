@@ -4,21 +4,16 @@ import cn.ismartv.turetime.TrueTime;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.db.DBHelper.DBFields;
 import tv.ismar.app.entity.DBQuality;
 import tv.ismar.app.entity.History;
-import tv.ismar.app.eventsender.EventReporter;
-import tv.ismar.app.network.entity.EventProperty;
-import tv.ismar.app.util.Utils;
+import tv.ismar.app.reporter.EventReporter;
 
 public class LocalHistoryManager implements HistoryManager {
 

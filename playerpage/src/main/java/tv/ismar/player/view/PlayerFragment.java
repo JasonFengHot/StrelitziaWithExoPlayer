@@ -60,13 +60,12 @@ import tv.ismar.player.media.PlayerBuilder;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
 
-import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
-import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
-
 public class PlayerFragment extends Fragment implements PlayerPageContract.View, PlayerMenu.OnCreateMenuListener,
-        IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener {
+        IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener,
+        Advertisement.OnVideoPlayAdListener {
 
     private final String TAG = "LH/PlayerFragment";
+    private static final String PLAYER_VERSION = "1.96";
     public static final int PAYMENT_REQUEST_CODE = 0xd6;
     public static final int PAYMENT_SUCCESS_CODE = 0x5c;
 
@@ -135,6 +134,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private String source;
     private AdImageDialog adImageDialog;
     public boolean goFinishPageOnResume = false;
+    private Advertisement mAdvertisement;
 
     private long testLoadItemTime, testLoadClipTime, testPlayCheckTime, testPreparedTime;
 
@@ -191,7 +191,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         panelHideAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.fly_down);
         mPresenter.start();
-        Log.e(TAG, "Version1.89.");
+        mAdvertisement = new Advertisement(getActivity());
+        mAdvertisement.setOnVideoPlayListener(this);
+        Log.e(TAG, "Version:" + PLAYER_VERSION);
     }
 
     @Override
@@ -344,6 +346,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         hidePanel();
         timerStop();
         hideMenu();
+        if (mAdvertisement != null) {
+            mAdvertisement.stopSubscription();
+        }
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
@@ -946,7 +951,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         String iqiyi = mClipEntity.getIqiyi_4_0();
         if (!mIsPreview && Utils.isEmptyText(iqiyi) && !isClickKeFu) {
             // 获取前贴片广告
-            mPresenter.fetchAdvertisement(mItemEntity, Advertisement.AD_MODE_ONSTART, source);
+            mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONSTART, source);
         } else {
             createPlayer(null);
         }
@@ -1008,7 +1013,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     @Override
-    public void loadAdvertisement(List<AdElementEntity> adList) {
+    public void loadVideoStartAd(List<AdElementEntity> adList) {
         if (adList != null && !adList.isEmpty()) {
             mIsPlayingAd = true;
         }
@@ -1305,7 +1310,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
             if (mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.pause();
-                mPresenter.fetchAdvertisement(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+                mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
             } else {
                 mIsmartvPlayer.start();
             }
@@ -1432,7 +1437,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
-                    mPresenter.fetchAdvertisement(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+                    mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
                 } else {
                     mIsmartvPlayer.start();
                 }
@@ -1453,7 +1458,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
-                    mPresenter.fetchAdvertisement(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+                    mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:

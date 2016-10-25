@@ -1,4 +1,4 @@
-package tv.ismar.app.eventsender;
+package tv.ismar.app.reporter;
 
 import android.text.TextUtils;
 import android.util.Base64;

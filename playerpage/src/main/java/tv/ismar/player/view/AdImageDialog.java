@@ -23,6 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.ismartv.turetime.TrueTime;
+import tv.ismar.app.reporter.EventReporter;
 import tv.ismar.app.network.entity.AdElementEntity;
 
 /**
@@ -36,7 +37,7 @@ public class AdImageDialog extends Dialog {
     private int width;
     private int height;
     private long mDuration;
-    private PlayerSync mPlayerSync;
+    private EventReporter mEventReporter;
     private List<AdElementEntity> mAdElementEntityList;
     private int mCurrentAdIndex = 0;
     private ImageView imageView;
@@ -49,7 +50,7 @@ public class AdImageDialog extends Dialog {
         width = wm.getDefaultDisplay().getWidth();
         height = wm.getDefaultDisplay().getHeight();
         mAdElementEntityList = adElementEntityList;
-        mPlayerSync = new PlayerSync();
+        mEventReporter = new EventReporter();
 
         setWindowProperty();
     }
@@ -102,7 +103,7 @@ public class AdImageDialog extends Dialog {
                 public void run() {
                     if (imageView != null && button != null) {
                         AdElementEntity element = mAdElementEntityList.get(mCurrentAdIndex);
-                        mPlayerSync.pause_ad_download(element.getTitle(), element.getMedia_id(), element.getMedia_url(), "bestv");
+                        mEventReporter.pause_ad_download(element.getTitle(), element.getMedia_id(), element.getMedia_url(), "bestv");
 
                         Picasso.with(mContext).load(element.getMedia_url())
                                 .into(imageView, new com.squareup.picasso.Callback() {
@@ -157,7 +158,7 @@ public class AdImageDialog extends Dialog {
         cancelTimer();
         super.dismiss();
         mDuration = TrueTime.now().getTime() - mDuration;
-        mPlayerSync.pause_ad_play(
+        mEventReporter.pause_ad_play(
                 mAdElementEntityList.get(mCurrentAdIndex).getTitle(),
                 mAdElementEntityList.get(mCurrentAdIndex).getMedia_id(),
                 mAdElementEntityList.get(mCurrentAdIndex).getMedia_url(),
