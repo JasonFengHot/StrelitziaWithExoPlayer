@@ -1,5 +1,6 @@
 package tv.ismar.detailpage.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +20,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
 import tv.ismar.player.view.PlayerFragment;
 
@@ -40,8 +42,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
     private boolean viewInit;
-
-    private FrameLayout activity_detail_container;
+    public LoadingDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             return;
         }
 
-        activity_detail_container = (FrameLayout) findViewById(R.id.activity_detail_container);
-
+        showDialog();
         if (!TextUtils.isEmpty(itemJson)){
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
             loadFragment();
@@ -218,11 +218,22 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         playerFragment.setOnHidePlayerPageListener(this);
         playerFragment.onPlayerFragment = false;
         detailPageFragment = DetailPageFragment.newInstance(source, itemJson);
-        detailPageFragment.showLoading(this);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
         fragmentTransaction.add(R.id.activity_detail_container, detailPageFragment);
         fragmentTransaction.commit();
+    }
+
+    public void showDialog(){
+        mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
+        mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        mLoadingDialog.showDialog();
     }
 }
