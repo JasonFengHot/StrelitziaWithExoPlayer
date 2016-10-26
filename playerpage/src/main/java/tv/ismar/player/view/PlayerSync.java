@@ -1,6 +1,6 @@
 package tv.ismar.player.view;
-import cn.ismartv.turetime.TrueTime;
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 
 /**
  * Created by Beaver on 2016/6/2.

@@ -1,5 +1,4 @@
 package tv.ismar.app.db;
-import cn.ismartv.turetime.TrueTime;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.db.DBHelper.DBFields;

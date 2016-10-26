@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
 import tv.ismar.app.network.entity.AdElementEntity;

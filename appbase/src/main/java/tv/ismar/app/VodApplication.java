@@ -1,8 +1,7 @@
 package tv.ismar.app;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.Intent;
 
 import com.squareup.picasso.Picasso;
 
@@ -14,13 +13,13 @@ import cn.ismartv.injectdb.library.app.Application;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.InitializeProcess;
-import tv.ismar.app.core.VipMark;
 import tv.ismar.app.db.DBHelper;
 import tv.ismar.app.db.FavoriteManager;
 import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.network.HttpTrafficInterceptor;
+import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -62,6 +61,13 @@ public class VodApplication extends Application {
         if (NetworkUtils.isConnected(this)) {
             new Thread(new InitializeProcess(this)).start();
         }
+        checkUpgrade();
+    }
+
+    private void checkUpgrade() {
+        Intent intent = new Intent();
+        intent.setClass(this, UpdateService.class);
+        startService(intent);
     }
 
     public static VodApplication get(Context context) {

@@ -29,7 +29,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile dependencies.appCompat
     compile dependencies.recyclerView
-    compile 'cn.ismartv.truetime:library:1.2'
+    compile 'cn.ismartv.truetime:library:1.3'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
@@ -39,6 +39,8 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'cn.ismartv.injectdb:injectdb:1.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'com.blankj:utilcode:1.3.0'
+    compile 'cn.ismartv.downloader:library:1.13'
     compile project(path: ':account')
 }
 
