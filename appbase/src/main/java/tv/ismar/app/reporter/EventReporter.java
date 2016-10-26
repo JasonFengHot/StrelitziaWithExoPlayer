@@ -1,10 +1,4 @@
-package tv.ismar.player.view;
-import cn.ismartv.truetime.TrueTime;
-import cn.ismartv.truetime.TrueTime;
-
-/**
- * Created by Beaver on 2016/6/2.
- */
+package tv.ismar.app.reporter;
 
 import android.text.TextUtils;
 import android.util.Base64;
@@ -21,18 +15,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import cn.ismartv.turetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.entity.History;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.util.DeviceUtils;
-import tv.ismar.player.media.IsmartvMedia;
+import tv.ismar.app.util.Utils;
 
-public class PlayerSync implements Runnable {
+/**
+ * Created by longhai on 2016/6/2.
+ */
+
+public class EventReporter implements Runnable {
 
     private static final String TAG = "LH/PlayerSync";
 
@@ -112,13 +113,10 @@ public class PlayerSync implements Runnable {
      * 暂停广告异常
      */
     public static final String PAUSE_AD_EXCEPT = "pause_ad_except";
-
-    private boolean isRunning = false;
-    private static List<String> syncMessages = new ArrayList<>();
-
-    public void setIsRunning(boolean run) {
-        isRunning = run;
-    }
+    /**
+     * 视频存入历史
+     */
+    public static final String VIDEO_HISTORY = "video_history";
 
     private HashMap<String, Object> getPublicParams(IsmartvMedia media, Integer quality, Integer speed, String sid, String playerFlag) {
         HashMap<String, Object> tempMap = new HashMap<>();
@@ -523,6 +521,22 @@ public class PlayerSync implements Runnable {
         addMessageList(eventName, tempMap);
     }
 
+    public void addHistory(History history) {
+        HashMap<String, Object> properties = new HashMap<String, Object>();
+        int item_id = Utils.getItemPk(history.url);
+        properties.put(EventProperty.ITEM, item_id);
+        if (history.sub_url != null) {
+            int sub_id = Utils.getItemPk(history.sub_url);
+            properties.put(EventProperty.SUBITEM, sub_id);
+        }
+        properties.put(EventProperty.TITLE, history.title);
+        properties.put(EventProperty.POSITION, history.last_position);
+        properties.put("userid", IsmartvActivator.getInstance().getDeviceToken());
+        String eventName = VIDEO_HISTORY;
+        addMessageList(eventName, properties);
+
+    }
+
     private String switchQuality(Integer currQuality) {
         String quality = "";
         switch (currQuality) {
@@ -578,71 +592,82 @@ public class PlayerSync implements Runnable {
     public void run() {
         while (isRunning) {
             try {
-                Thread.sleep(10 * 1000);
+                Thread.sleep(10 * 60 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 Log.i(TAG, "Log send thread interrupted.");
             }
+            sendLogger();
 
-            if (TextUtils.isEmpty(IsmartvActivator.getInstance().getLogDomain())) {
-                Log.i(TAG, "Log domain null.");
-                return;
-            }
-            String logUrl = IsmartvActivator.getInstance().getLogDomain() + "/log";
-            if (!syncMessages.isEmpty()) {
-                try {
-                    JSONArray jsonArray = new JSONArray();
-                    for (String s : syncMessages) {
-                        jsonArray.put(new JSONObject(s));
-                    }
-                    String jsonContent = Base64
-                            .encodeToString(jsonArray.toString().getBytes("UTF-8"), Base64.URL_SAFE);
-                    String content = "sn=" + IsmartvActivator.getInstance().getSnToken()
-                            + "&modelname=" + DeviceUtils.getModelName()
-                            + "&data=" + URLEncoder.encode(jsonContent, "UTF-8")
-                            + "&deviceToken=" + IsmartvActivator.getInstance().getDeviceToken()
-                            + "&acessToken=" + IsmartvActivator.getInstance().getAuthToken();
+        }
 
-                    SkyService.ServiceManager.getService().sendPlayerLog(
-                            logUrl, IsmartvActivator.getInstance().getSnToken(),
-                            DeviceUtils.getModelName(), URLEncoder.encode(jsonContent, "UTF-8")
-                    ).subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<ResponseBody>() {
-                                @Override
-                                public void onCompleted() {
+    }
 
+    private Subscription eventSubscription;
+    private boolean isRunning = false;
+    private static List<String> syncMessages = new ArrayList<>();
+
+    public void setIsRunning(boolean run) {
+        isRunning = run;
+    }
+
+    public void sendLogger() {
+        if (eventSubscription != null && !eventSubscription.isUnsubscribed()) {
+            eventSubscription.unsubscribe();
+        }
+        if (TextUtils.isEmpty(IsmartvActivator.getInstance().getLogDomain())) {
+            Log.i(TAG, "Log domain null.");
+            return;
+        }
+        String logUrl = IsmartvActivator.getInstance().getLogDomain() + "/log";
+        if (!syncMessages.isEmpty()) {
+            try {
+                JSONArray jsonArray = new JSONArray();
+                for (String s : syncMessages) {
+                    jsonArray.put(new JSONObject(s));
+                }
+                String jsonContent = Base64
+                        .encodeToString(jsonArray.toString().getBytes("UTF-8"), Base64.URL_SAFE);
+
+                eventSubscription = SkyService.ServiceManager.getService().sendPlayerLog(
+                        logUrl, IsmartvActivator.getInstance().getSnToken(),
+                        DeviceUtils.getModelName(), URLEncoder.encode(jsonContent, "UTF-8")
+                ).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ResponseBody>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(ResponseBody responseBody) {
+                                if (responseBody != null) {
+                                    syncMessages.clear();
                                 }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(ResponseBody responseBody) {
-                                    if (responseBody != null) {
-                                        syncMessages.clear();
+                                if (VodApplication.DEBUG) {
+                                    try {
+                                        Log.i(TAG, "Log send result: " + responseBody.string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
-                                    if (VodApplication.DEBUG) {
-                                        try {
-                                            Log.i(TAG, "Log send result: " + responseBody.string());
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
                                 }
-                            });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    if (VodApplication.DEBUG) {
-                        Log.i(TAG, "Log send json data error.");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    if (VodApplication.DEBUG) {
-                        Log.i(TAG, "Log send post data error.");
-                    }
+                            }
+                        });
+            } catch (JSONException e) {
+                e.printStackTrace();
+                if (VodApplication.DEBUG) {
+                    Log.i(TAG, "Log send json data error.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                if (VodApplication.DEBUG) {
+                    Log.i(TAG, "Log send post data error.");
                 }
             }
         }

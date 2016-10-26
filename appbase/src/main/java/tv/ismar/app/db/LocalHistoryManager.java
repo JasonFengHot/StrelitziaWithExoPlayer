@@ -1,21 +1,19 @@
 package tv.ismar.app.db;
 
+import cn.ismartv.turetime.TrueTime;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import cn.ismartv.truetime.TrueTime;
-import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.db.DBHelper.DBFields;
 import tv.ismar.app.entity.DBQuality;
 import tv.ismar.app.entity.History;
-import tv.ismar.app.network.entity.EventProperty;
-import tv.ismar.app.util.Utils;
+import tv.ismar.app.reporter.EventReporter;
 
 public class LocalHistoryManager implements HistoryManager {
 
@@ -190,20 +188,8 @@ public class LocalHistoryManager implements HistoryManager {
         @Override
         protected Void doInBackground(History... params) {
             if (params != null && params.length > 0) {
-                History history = params[0];
-                HashMap<String, Object> properties = new HashMap<String, Object>();
-                int item_id = Utils.getItemPk(history.url);
-                properties.put(EventProperty.ITEM, item_id);
-                if (history.sub_url != null) {
-                    int sub_id = Utils.getItemPk(history.sub_url);
-                    properties.put(EventProperty.SUBITEM, sub_id);
-                }
-                properties.put(EventProperty.TITLE, history.title);
-                properties.put(EventProperty.POSITION, history.last_position);
-                properties.put("userid", IsmartvActivator.getInstance().getDeviceToken());
-
-                // TODO 上传历史记录至服务器
-//                NetworkUtils.SaveLogToLocal(NetworkUtils.VIDEO_HISTORY, properties);
+                EventReporter eventReporter = new EventReporter();
+                eventReporter.addHistory(params[0]);
             }
             return null;
         }

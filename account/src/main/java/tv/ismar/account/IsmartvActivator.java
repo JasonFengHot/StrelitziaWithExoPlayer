@@ -309,15 +309,15 @@ public class IsmartvActivator {
 
     public String getAdDomain() {
         // 广告测试地址
-//        return "124.42.65.66:8082";
-        String adDomain = mSharedPreferences.getString("ad_domain", "");
-        if (TextUtils.isEmpty(adDomain)) {
-            ResultEntity resultEntity = execute();
-            saveAccountInfo(resultEntity);
-            return resultEntity.getAd_domain();
-        } else {
-            return adDomain;
-        }
+        return "124.42.65.66:8082";
+//        String adDomain = mSharedPreferences.getString("ad_domain", "");
+//        if (TextUtils.isEmpty(adDomain)) {
+//            ResultEntity resultEntity = execute();
+//            saveAccountInfo(resultEntity);
+//            return resultEntity.getAd_domain();
+//        } else {
+//            return adDomain;
+//        }
     }
 
     public String getLogDomain() {

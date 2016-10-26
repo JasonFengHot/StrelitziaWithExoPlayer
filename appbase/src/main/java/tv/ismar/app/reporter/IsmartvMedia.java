@@ -1,4 +1,4 @@
-package tv.ismar.player.media;
+package tv.ismar.app.reporter;
 
 import java.io.Serializable;
 

@@ -37,7 +37,7 @@ public class PlayerActivity extends BaseActivity {
             return;
         }
 
-        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, false, source);
+        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, null, source);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity_player_container, playerFragment)

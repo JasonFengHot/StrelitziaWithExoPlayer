@@ -1,6 +1,8 @@
 package tv.ismar.detailpage.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -9,6 +11,7 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
 
@@ -18,6 +21,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
 import tv.ismar.player.view.PlayerFragment;
 
@@ -39,10 +43,12 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
     private boolean viewInit;
+    public LoadingDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.activity_detailpage);
         Intent intent = getIntent();
 
@@ -55,6 +61,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             return;
         }
 
+        showDialog();
         if (!TextUtils.isEmpty(itemJson)){
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
             loadFragment();
@@ -208,14 +215,27 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     }
 
     private void loadFragment(){
-        playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, true, source);
+        String itemJson = new Gson().toJson(mItemEntity);
+        playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, itemJson, source);
         playerFragment.setOnHidePlayerPageListener(this);
         playerFragment.onPlayerFragment = false;
-        detailPageFragment = DetailPageFragment.newInstance(source,new Gson().toJson(mItemEntity));
+        detailPageFragment = DetailPageFragment.newInstance(source, itemJson);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
         fragmentTransaction.add(R.id.activity_detail_container, detailPageFragment);
         fragmentTransaction.commit();
+    }
+
+    public void showDialog(){
+        mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
+        mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        mLoadingDialog.showDialog();
     }
 }
