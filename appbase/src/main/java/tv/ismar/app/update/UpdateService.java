@@ -50,6 +50,8 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     private VersionInfoV2Entity mVersionInfoV2Entity;
 
+    public static final int INSTALL_SILENT = 0x7c;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -69,12 +71,16 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand");
-        fetchAppUpgrade();
+        if (INSTALL_SILENT == intent.getIntExtra("install_type", 0)) {
+            fetchAppUpgrade(true);
+        } else {
+            fetchAppUpgrade(false);
+        }
         return super.onStartCommand(intent, flags, startId);
 
     }
 
-    private void checkUpgrade(final VersionInfoV2Entity versionInfoV2Entity) {
+    private void checkUpgrade(final VersionInfoV2Entity versionInfoV2Entity, final boolean isInstallSilent) {
         Log.i(TAG, "server version code ---> " + versionInfoV2Entity.getApplication().getVersion());
         PackageInfo packageInfo = null;
         try {
@@ -115,10 +121,10 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                             public void run() {
                                 String path = apkFile.getAbsolutePath();
                                 Log.d(TAG, "install apk path: " + path);
-                                boolean installSilentSuccess = installAppSilent(path);
-                                Log.d(TAG, "installSilentSuccess: " + installSilentSuccess);
-
-                                if (!installSilentSuccess) {
+                                if (isInstallSilent) {
+                                    boolean installSilentSuccess = installAppSilent(path);
+                                    Log.d(TAG, "installSilentSuccess: " + installSilentSuccess);
+                                } else {
                                     Bundle bundle = new Bundle();
                                     bundle.putStringArrayList("msgs", versionInfoV2Entity.getApplication().getUpdate());
                                     bundle.putString("path", apkFile.getAbsolutePath());
@@ -177,7 +183,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     }
 
 
-    private void fetchAppUpgrade() {
+    private void fetchAppUpgrade(final boolean isInstallSilent) {
         String sn = "le_1y39rh8c";
         String manu = "BYD";
         String app = "sky";
@@ -204,7 +210,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                     @Override
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
                         mVersionInfoV2Entity = versionInfoV2Entity;
-                        checkUpgrade(versionInfoV2Entity);
+                        checkUpgrade(versionInfoV2Entity, isInstallSilent);
                     }
                 });
     }

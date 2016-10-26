@@ -141,7 +141,7 @@ public class BaseActivity extends AppCompatActivity {
         updatePopupWindow.setFocusable(true);
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 0.7f;
+        params.alpha = 0.15f;
         getWindow().setAttributes(params);
 
         updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
