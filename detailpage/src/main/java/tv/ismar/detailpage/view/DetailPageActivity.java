@@ -2,6 +2,7 @@ package tv.ismar.detailpage.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -47,6 +48,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.activity_detailpage);
         Intent intent = getIntent();
 
