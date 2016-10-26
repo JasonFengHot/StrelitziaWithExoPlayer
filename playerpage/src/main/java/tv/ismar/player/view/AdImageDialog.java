@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.reporter.EventReporter;
 import tv.ismar.app.network.entity.AdElementEntity;
 

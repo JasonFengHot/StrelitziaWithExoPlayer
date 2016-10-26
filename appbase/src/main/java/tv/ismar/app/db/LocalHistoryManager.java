@@ -1,6 +1,6 @@
 package tv.ismar.app.db;
 
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.ContentValues;
 import android.content.Context;
