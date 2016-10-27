@@ -3,6 +3,7 @@
     package="tv.ismar.daisy">
 
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+
     <application
         android:name="tv.ismar.app.VodApplication"
         android:allowBackup="true"
@@ -10,18 +11,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/IsmartvAppTheme">
+
         <activity
-            android:name="tv.ismar.daisy.MainActivity"
+            android:name=".AdvertisementActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/IsmartvAppTheme.Fullscreen" />
 
         <meta-data
             android:name="AA_DB_NAME"
@@ -30,8 +39,7 @@
             android:name="AA_DB_VERSION"
             android:value="15" />
 
-
-        <!--content provider-->
+        <!-- content provider -->
         <provider
             android:name="cn.ismartv.injectdb.library.content.ContentProvider"
             android:authorities="tv.ismar.daisy"

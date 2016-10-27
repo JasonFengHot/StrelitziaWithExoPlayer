@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,7 +137,7 @@ public class Advertisement {
                             return;
                         }
 
-                        List<AdElementEntity> adElementEntityList = getAdInfo(result, adPid);
+                        List<AdElementEntity> adElementEntityList = parseAdResult(result, adPid);
                         if (adPid.equals(Advertisement.AD_MODE_ONPAUSE)) {
                             mOnVideoPlayAdListener.loadPauseAd(adElementEntityList);
                         } else {
@@ -193,7 +195,7 @@ public class Advertisement {
                             return;
                         }
 
-                        List<AdElementEntity> adElementEntityList = getAdInfo(result, adPid);
+                        List<AdElementEntity> adElementEntityList = parseAdResult(result, adPid);
                         mOnAppStartAdListener.loadAppStartAd(adElementEntityList);
                     }
                 });
@@ -317,7 +319,7 @@ public class Advertisement {
         return adParams;
     }
 
-    private List<AdElementEntity> getAdInfo(String result, String adPid) {
+    private List<AdElementEntity> parseAdResult(String result, String adPid) {
         List<AdElementEntity> adElementEntities = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(result);
@@ -327,22 +329,9 @@ public class Advertisement {
                 JSONArray arrays = body.getJSONArray(adPid);
                 for (int i = 0; i < arrays.length(); i++) {
                     JSONObject element = arrays.getJSONObject(i);
-                    AdElementEntity ad = new AdElementEntity();
                     int elementRetCode = element.getInt("retcode");
                     if (elementRetCode == 200) {
-                        ad.setRetcode(elementRetCode);
-                        ad.setRetmsg(element.getString("retmsg"));
-                        ad.setTitle(element.getString("title"));
-                        ad.setDescription(element.getString("description"));
-                        ad.setMedia_url(element.getString("media_url"));
-                        ad.setMedia_id(element.getInt("media_id"));
-                        ad.setMd5(element.getString("md5"));
-                        ad.setMedia_type(element.getString("media_type"));
-                        ad.setSerial(element.getInt("serial"));
-                        ad.setStart(element.getInt("start"));
-                        ad.setEnd(element.getInt("end"));
-                        ad.setDuration(element.getInt("duration"));
-                        ad.setReport_url(element.getString("report_url"));
+                        AdElementEntity ad = new Gson().fromJson(element.toString(), AdElementEntity.class);
                         adElementEntities.add(ad);
                     }
                 }
