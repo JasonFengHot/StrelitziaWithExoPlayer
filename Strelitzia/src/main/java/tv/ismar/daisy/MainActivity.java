@@ -3,15 +3,15 @@ package tv.ismar.daisy;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.VideoView;
 
-import tv.ismar.account.SyncUtils;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.ad.AdsUpdateService;
+import tv.ismar.account.SyncUtils;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.detailpage.view.DetailPageActivity;
@@ -93,14 +93,16 @@ public class MainActivity extends BaseActivity {
 //        densityDpi240
 //        scaledDensity:1.5
 
-        VideoView linked_video = (VideoView)findViewById(R.id.linked_video);
+        VideoView linked_video = (VideoView) findViewById(R.id.linked_video);
         linked_video.setVideoPath("http://vdata.tvxio.com/topvideo/a2ffb394233a370b26fb1bbb590b0ceb.mp4?sn=oncall");
-        linked_video.setOnPreparedListener(new MediaPlayer.OnPreparedListener(){
-          public  void onPrepared(MediaPlayer mp){
-              mp.start();
-          }
+        linked_video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
 
         });
+
+        startAdsService();
     }
 
     public int px2dip(float pxValue) {
@@ -128,6 +130,10 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
-
+    private void startAdsService() {
+        Intent intent = new Intent();
+        intent.setClass(this, AdsUpdateService.class);
+        startService(intent);
+    }
 
 }

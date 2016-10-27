@@ -16,6 +16,8 @@
 
         <service android:name=".update.UpdateService"/>
 
+        <service android:name=".ad.AdsUpdateService" />
+
         <receiver android:name=".receiver.BootUpdateReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
