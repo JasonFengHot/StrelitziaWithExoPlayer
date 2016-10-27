@@ -70,6 +70,7 @@ public class VodApplication extends Application {
     private void checkUpgrade() {
         Intent intent = new Intent();
         intent.setClass(this, UpdateService.class);
+        intent.putExtra("install_type", 0);
         startService(intent);
     }
 
