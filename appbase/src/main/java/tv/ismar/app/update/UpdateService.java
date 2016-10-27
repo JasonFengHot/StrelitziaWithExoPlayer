@@ -70,8 +70,9 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand");
-        if (INSTALL_SILENT == intent.getIntExtra("install_type", 0)) {
+        int installType = intent.getIntExtra("install_type", 0);
+        Log.d(TAG, "onStartCommand: " + installType);
+        if (INSTALL_SILENT == installType) {
             fetchAppUpgrade(true);
         } else {
             fetchAppUpgrade(false);

@@ -2,6 +2,7 @@ package tv.ismar.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +29,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Created by beaver on 16-8-19.
  */
 public class VodApplication extends Application {
+    private static final String TAG = VodApplication.class.getSimpleName();
     private static HttpTrafficInterceptor mHttpTrafficInterceptor;
     private static HttpParamsInterceptor mHttpParamsInterceptor;
     public static final boolean DEBUG = true;
@@ -40,6 +42,7 @@ public class VodApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d(TAG, "onCreate");
         SPUtils.init(this);
         appInstance = this;
         ActiveAndroid.initialize(this);
