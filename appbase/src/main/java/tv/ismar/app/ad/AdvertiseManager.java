@@ -17,7 +17,7 @@ import java.util.List;
 
 import cn.ismartv.injectdb.library.query.Delete;
 import cn.ismartv.injectdb.library.query.Select;
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
