@@ -11,6 +11,7 @@ import android.widget.VideoView;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.ad.AdsUpdateService;
+import tv.ismar.account.SyncUtils;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.detailpage.view.DetailPageActivity;
@@ -27,9 +28,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent();
-        intent.setClass(this, UpdateService.class);
-        startService(intent);
 //        SyncUtils.CreateSyncAccount(this);
 
         Button demo_detail_btn1 = (Button) findViewById(R.id.demo_detail_btn1);

@@ -45,5 +45,18 @@
 <dimen name="loading_min_width">124.00dp</dimen>
 <dimen name="loading_min_height">44.00dp</dimen>
 
+<dimen name="update_confirm_button_margin_bottom">16.67dp</dimen>
+<dimen name="app_update_btn_marginTop">10.00dp</dimen>
+<dimen name="update_notice_textsize">13.33sp</dimen>
+<dimen name="update_confirm_button_width">83.33dp</dimen>
+<dimen name="update_title_textsize">12.00sp</dimen>
+<dimen name="update_msg_textsize">10.00sp</dimen>
+<dimen name="update_notice_margin_top">20.00dp</dimen>
+<dimen name="app_update_text_marginBottom">6.67dp</dimen>
+<dimen name="update_confirm_button_height">20.00dp</dimen>
+<dimen name="app_update_bg_height">292.33dp</dimen>
+<dimen name="app_update_bg_width">169.67dp</dimen>
+<dimen name="app_update_content_margin_left">40.00dp</dimen>
+<dimen name="app_update_line_margin_">8.33dp</dimen>
 
 </resources>

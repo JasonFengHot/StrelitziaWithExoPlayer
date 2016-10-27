@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.SmartPlayer;

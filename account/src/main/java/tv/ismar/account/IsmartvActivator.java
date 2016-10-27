@@ -196,6 +196,8 @@ public class IsmartvActivator {
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
             return null;
         }
     }
