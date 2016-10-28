@@ -15,7 +15,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import cn.ismartv.injectdb.library.query.Delete;
 import cn.ismartv.injectdb.library.query.Select;
 import cn.ismartv.truetime.TrueTime;
 import okhttp3.Callback;
@@ -32,7 +31,6 @@ public class AdvertiseManager {
 
     private static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
     private static final String LAUNCH_APP_ADVERTISEMENT = "launch_app";
-    public static final String EXTRA_LAUNCH_APP_AD = "extra_launch_app_ad";
     public static final String TYPE_IMAGE = "image";
     public static final String TYPE_VIDEO = "video";
     public static final String AD_DIR = "ad";
@@ -92,12 +90,6 @@ public class AdvertiseManager {
     }
 
     public void updateAppLaunchAdvertisement(List<AdElementEntity> adElementEntityList) {
-        try {
-            fileUtils.deleteDir(mContext.getFilesDir() + "/" + AdvertiseManager.AD_DIR);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        new Delete().from(AdvertiseTable.class).execute();
         for (AdElementEntity adElementEntity : adElementEntityList) {
             String downlaodUrl = adElementEntity.getMedia_url();
             String filePath = mContext.getFilesDir() + "/" + AD_DIR + "/" + FileUtils.getFileByUrl(adElementEntity.getMedia_url());
