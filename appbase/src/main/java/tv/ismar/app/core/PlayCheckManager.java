@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import tv.ismar.app.network.SkyService;
 
@@ -32,7 +34,7 @@ public class PlayCheckManager {
         mSkyService.playCheck(
                 item, null, null).enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
-            public void onResponse(Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.errorBody() != null) {
                     callback.onFailure();
                 } else {
@@ -46,7 +48,7 @@ public class PlayCheckManager {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onFailure();
             }
         });
@@ -56,7 +58,7 @@ public class PlayCheckManager {
         mSkyService.playCheck(
                 null, pkg, null).enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
-            public void onResponse(Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.errorBody() != null) {
                     callback.onFailure();
                 } else {
@@ -70,7 +72,7 @@ public class PlayCheckManager {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onFailure();
             }
         });
