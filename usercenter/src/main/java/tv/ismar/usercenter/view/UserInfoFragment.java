@@ -1,4 +1,4 @@
-package tv.ismar.usercenter;
+package tv.ismar.usercenter.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,12 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.usercenter.presenter.UserInfoPresenter;
+import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
+
 /**
  * Created by huibin on 10/27/16.
  */
 
-public class HelpFragment extends Fragment {
-    private static final String TAG = HelpFragment.class.getSimpleName();
+public class UserInfoFragment extends Fragment {
+    private static final String TAG = UserInfoFragment.class.getSimpleName();
+    private UserInfoViewModel mViewModel;
+
+    public static UserInfoFragment newInstance() {
+        return new UserInfoFragment();
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -90,5 +99,9 @@ public class HelpFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach");
+    }
+
+    public void setViewModel(UserInfoViewModel viewModel) {
+        mViewModel = viewModel;
     }
 }

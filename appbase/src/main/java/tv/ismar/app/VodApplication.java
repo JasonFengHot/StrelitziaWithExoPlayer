@@ -65,7 +65,7 @@ public class VodApplication extends Application {
         if (NetworkUtils.isConnected(this)) {
             new Thread(new InitializeProcess(this)).start();
         }
-        checkUpgrade();
+//        checkUpgrade();
     }
 
     private void checkUpgrade() {

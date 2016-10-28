@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="tasks"
+            type="tv.ismar.usercenter.viewmodel.UserInfoViewModel"/>
+
+        <variable
+            name="actionHandler"
+            type="tv.ismar.usercenter.presenter.UserInfoPresenter"/>
+    </data>
+
+
+    <LinearLayout
+        android:background="#947272"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </LinearLayout>
+</layout>
+

@@ -11,11 +11,10 @@ import android.widget.VideoView;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.ad.AdsUpdateService;
-import tv.ismar.account.SyncUtils;
 import tv.ismar.app.core.PageIntentInterface;
-import tv.ismar.app.update.UpdateService;
 import tv.ismar.detailpage.view.DetailPageActivity;
 import tv.ismar.player.view.PlayerActivity;
+import tv.ismar.usercenter.view.UserCenterActivity;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_MODEL;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
@@ -136,4 +135,9 @@ public class MainActivity extends BaseActivity {
         startService(intent);
     }
 
+
+    public void userCenter(View view) {
+        Intent intent = new Intent(this, UserCenterActivity.class);
+        startActivity(intent);
+    }
 }

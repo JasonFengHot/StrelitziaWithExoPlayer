@@ -9,4 +9,8 @@
     <dimen name="user_center_container_width">1430dp</dimen>
     <dimen name="user_center_container_marginLeft">20dp</dimen>
     <dimen name="usercenter_vertical_divider_line_width">41dp</dimen>
+    <dimen name="horizontal_divider_ml">26dp</dimen>
+    <dimen name="horizontal_divider_mr">26dp</dimen>
+    <dimen name="usercenter_fragment_indicator_item_text_size">48sp</dimen>
+    <dimen name="usercenter_indicator_minH">95dp</dimen>
 </resources>

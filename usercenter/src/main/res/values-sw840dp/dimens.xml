@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<dimen name="tv_guide_top_section_padding">10.89dp</dimen>
+<dimen name="usercenter_activity_top_layout_height">77.00dp</dimen>
+<dimen name="usercenter_vertical_divider_line2_width">0.78dp</dimen>
+<dimen name="usercenter_horizontal_divider_line_height">0.78dp</dimen>
+<dimen name="usercenter_fragment_indicator_layout_width">322.78dp</dimen>
+<dimen name="user_center_container_height">746.67dp</dimen>
+<dimen name="user_center_container_width">1112.22dp</dimen>
+<dimen name="user_center_container_marginLeft">15.56dp</dimen>
+<dimen name="usercenter_vertical_divider_line_width">31.89dp</dimen>
+<dimen name="horizontal_divider_ml">20.22dp</dimen>
+<dimen name="horizontal_divider_mr">20.22dp</dimen>
+<dimen name="usercenter_fragment_indicator_item_text_size">37.33sp</dimen>
+<dimen name="usercenter_indicator_minH">73.89dp</dimen>
+</resources>

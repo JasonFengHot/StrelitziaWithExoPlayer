@@ -1,4 +1,4 @@
-package tv.ismar.usercenter;
+package tv.ismar.usercenter.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,12 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.usercenter.viewmodel.LocationViewModel;
+
 /**
  * Created by huibin on 10/27/16.
  */
 
-public class PurchaseFragment extends Fragment {
-    private static final String TAG = PurchaseFragment.class.getSimpleName();
+public class LocationFragment extends Fragment {
+    private static final String TAG = LocationFragment.class.getSimpleName();
+    private LocationViewModel mViewModel;
+
+    public static LocationFragment newInstance() {
+        return new LocationFragment();
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -90,5 +98,9 @@ public class PurchaseFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach");
+    }
+
+    public void setViewModel(LocationViewModel viewModel) {
+        mViewModel = viewModel;
     }
 }

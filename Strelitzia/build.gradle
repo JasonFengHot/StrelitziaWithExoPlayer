@@ -54,6 +54,7 @@ dependencies {
     compile project(':detailpage')
     compile project(':account')
     compile project(':playerpage')
+    compile project(path: ':usercenter')
 }
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"

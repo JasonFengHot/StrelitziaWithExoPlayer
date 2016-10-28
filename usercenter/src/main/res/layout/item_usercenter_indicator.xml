@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/usercenter_indicator_minH"
+    >
+
+        <ImageView
+            android:id="@+id/text_focus_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/usercenter_indicator_focused"
+            android:visibility="invisible"
+        />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+        >
+
+            <TextView
+                android:id="@+id/indicator_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/usercenter_fragment_indicator_item_text_size"
+            />
+
+            <ImageView
+                android:id="@+id/text_select_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/indicator_image"
+                android:visibility="invisible"
+            />
+
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/hover_focus_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/usercenter_indicator_selected"
+            android:visibility="invisible"
+        />
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/usercenter_indicator_deivider"/>
+
+</LinearLayout>

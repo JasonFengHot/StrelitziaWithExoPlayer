@@ -1,4 +1,4 @@
-package tv.ismar.usercenter;
+package tv.ismar.usercenter.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,12 +9,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.usercenter.HelpContract;
+import tv.ismar.usercenter.databinding.FragmentHelpBinding;
+import tv.ismar.usercenter.viewmodel.HelpViewModel;
+
 /**
  * Created by huibin on 10/27/16.
  */
 
-public class LocationFragment extends Fragment {
-    private static final String TAG = LocationFragment.class.getSimpleName();
+public class HelpFragment extends Fragment implements HelpContract.View {
+    private static final String TAG = HelpFragment.class.getSimpleName();
+
+
+    private HelpContract.Presenter mPresenter;
+    private HelpViewModel mViewModel;
+
+    public static HelpFragment newInstance() {
+        return new HelpFragment();
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -33,6 +46,10 @@ public class LocationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
+
+        FragmentHelpBinding helpBinding = FragmentHelpBinding.inflate(inflater, container, false);
+//        helpBinding.setTasks();
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -90,5 +107,14 @@ public class LocationFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach");
+    }
+
+    public void setViewModel(HelpViewModel viewModel) {
+        mViewModel = viewModel;
+    }
+
+    @Override
+    public void setPresenter(HelpContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }
