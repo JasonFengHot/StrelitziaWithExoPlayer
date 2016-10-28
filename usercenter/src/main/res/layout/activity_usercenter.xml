@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+>
+
+    <LinearLayout
+        android:id="@+id/large_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--<tv.ismar.daisy.ui.widget.LaunchHeaderLayout-->
+        <!--android:id="@+id/top_column_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/usercenter_activity_top_layout_height"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="@dimen/tv_guide_top_section_padding"-->
+        <!--android:paddingRight="@dimen/tv_guide_top_section_padding"/>-->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/usercenter_horizontal_divider_line_height"
+            android:layout_marginLeft="@dimen/horizontal_divider_ml"
+            android:layout_marginRight="@dimen/horizontal_divider_mr"
+            android:scaleType="fitXY"
+            android:src="@drawable/horizontal_divider_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/user_center_indicator_layout"
+                android:layout_width="@dimen/usercenter_fragment_indicator_layout_width"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"/>
+
+            <ImageView
+                android:id="@+id/vertical_divider_line"
+                android:layout_width="@dimen/usercenter_vertical_divider_line_width"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:src="@drawable/_000000000"/>
+
+            <ImageView
+                android:layout_width="@dimen/usercenter_vertical_divider_line2_width"
+                android:layout_height="match_parent"
+                android:src="@drawable/vertical_divider_line"/>
+
+
+            <FrameLayout
+                android:id="@+id/user_center_container"
+                android:layout_width="@dimen/user_center_container_width"
+                android:layout_height="@dimen/user_center_container_height"
+                android:layout_marginLeft="@dimen/user_center_container_marginLeft"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

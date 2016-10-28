@@ -16,7 +16,7 @@ import com.qiyi.sdk.player.VideoSurfaceView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.network.entity.ClipEntity;
 
 /**

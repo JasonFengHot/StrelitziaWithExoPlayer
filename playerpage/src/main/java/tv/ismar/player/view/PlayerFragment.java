@@ -29,6 +29,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -38,6 +39,7 @@ import java.util.List;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.ad.Advertisement;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
@@ -59,13 +61,12 @@ import tv.ismar.player.media.PlayerBuilder;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
 
-import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
-import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
-
 public class PlayerFragment extends Fragment implements PlayerPageContract.View, PlayerMenu.OnCreateMenuListener,
-        IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener {
+        IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener,
+        Advertisement.OnVideoPlayAdListener {
 
     private final String TAG = "LH/PlayerFragment";
+    private static final String PLAYER_VERSION = "1.96";
     public static final int PAYMENT_REQUEST_CODE = 0xd6;
     public static final int PAYMENT_SUCCESS_CODE = 0x5c;
 
@@ -131,11 +132,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public boolean onPlayerFragment = true;
     private Animation panelShowAnimation;
     private Animation panelHideAnimation;
-    public static final String AD_MODE_ONSTART = "qiantiepian";
-    public static final String AD_MODE_ONPAUSE = "zanting";
     private String source;
     private AdImageDialog adImageDialog;
     public boolean goFinishPageOnResume = false;
+    private Advertisement mAdvertisement;
 
     private long testLoadItemTime, testLoadClipTime, testPlayCheckTime, testPreparedTime;
 
@@ -155,12 +155,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     }
 
-    public static PlayerFragment newInstance(int pk, int subPk, boolean playInDetailPage, String source) {
+    public static PlayerFragment newInstance(int pk, int subPk, String itemJson, String source) {
         PlayerFragment fragment = new PlayerFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PK, pk);
         args.putInt(ARG_SUB_PK, subPk);
-        args.putBoolean(ARG_IN_DETAIL_PAGE, playInDetailPage);
+        args.putString(ARG_IN_DETAIL_PAGE, itemJson);
         args.putString(ARG_SOURCE, source);
         fragment.setArguments(args);
         return fragment;
@@ -172,7 +172,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (getArguments() != null) {
             itemPK = getArguments().getInt(ARG_PK);
             subItemPk = getArguments().getInt(ARG_SUB_PK);
-            isPlayInDetailPage = getArguments().getBoolean(ARG_IN_DETAIL_PAGE);
+            String itemJson = getArguments().getString(ARG_IN_DETAIL_PAGE);
+            if (Utils.isEmptyText(itemJson)) {
+                isPlayInDetailPage = false;
+            } else {
+                isPlayInDetailPage = true;
+                mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+            }
             source = getArguments().getString(ARG_SOURCE);
         }
         if (!(getActivity() instanceof BaseActivity)) {
@@ -192,7 +198,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         panelHideAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.fly_down);
         mPresenter.start();
-        Log.e(TAG, "Version1.89.");
+        mAdvertisement = new Advertisement(getActivity());
+        mAdvertisement.setOnVideoPlayListener(this);
+        Log.e(TAG, "Version:" + PLAYER_VERSION);
     }
 
     @Override
@@ -269,7 +277,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void fetchItemData() {
         showBuffer(null);
         testLoadItemTime = System.currentTimeMillis();
-        mPresenter.fetchPlayerItem(String.valueOf(itemPK));
+        if (mItemEntity == null) {
+            mPresenter.fetchPlayerItem(String.valueOf(itemPK));
+        } else {
+            loadPlayerItem(mItemEntity);
+        }
+
     }
 
     /**
@@ -289,7 +302,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         switch (type) {
             case EVENT_CLICK_VIP_BUY:
                 isNeedOnResume = true;
-                toPayPage(String.valueOf(mItemEntity.getPk()), "2", "2", "");
+                toPayPage(mItemEntity.getPk(), 2, 2, null);
                 break;
             case EVENT_CLICK_KEFU:
                 // 此处需要等Menu动画结束之后再跳转Activity
@@ -312,12 +325,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             case EVENT_COMPLETE_BUY:
                 isNeedOnResume = true;
                 ItemEntity.Expense expense = mItemEntity.getExpense();
-                String mode = null;
+                PageIntentInterface.ProductCategory mode = null;
                 if (1 == mItemEntity.getExpense().getJump_to()) {
-                    mode = "item";
+                    mode = PageIntentInterface.ProductCategory.item;
                 }
-                toPayPage(String.valueOf(mItemEntity.getPk()), String.valueOf(expense.getJump_to()),
-                        String.valueOf(expense.getCpid()), mode);
+                toPayPage(mItemEntity.getPk(), expense.getJump_to(), expense.getCpid(), mode);
                 break;
         }
     }
@@ -346,6 +358,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         hidePanel();
         timerStop();
         hideMenu();
+        if (mAdvertisement != null) {
+            mAdvertisement.stopSubscription();
+        }
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
@@ -411,22 +426,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
 
         if (onPlayerFragment) {
-            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER && mIsPlayingAd) {
-                mIsmartvPlayer.start();
-            } else {
-                preparedToStart();
-            }
+            preparedToStart();
         }
 
     }
 
     public void detailPageClickPlay() {
         if (isPlayInDetailPage && mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState()) {
-            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER && mIsPlayingAd) {
-                mIsmartvPlayer.start();
-            } else {
-                preparedToStart();
-            }
+            preparedToStart();
         }
     }
 
@@ -435,28 +442,20 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mIsmartvPlayer.release();
             mIsmartvPlayer = null;
         }
+        player_logo_image.setVisibility(View.GONE);
+        mIsPlayingAd = false;
+        ad_vip_btn.setVisibility(View.GONE);
+        ad_count_text.setVisibility(View.GONE);
         hideMenu();
         hidePanel();
         fetchItemData();
     }
 
     private void preparedToStart() {
-        if (mediaHistoryPosition > 0) {
-            if (mIsPreview && mediaHistoryPosition >= mIsmartvPlayer.getDuration()) {
-                goOtherPage(EVENT_COMPLETE_BUY);
-            } else {
-                mIsmartvPlayer.seekTo(mediaHistoryPosition);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
-                            mIsmartvPlayer.start();
-                        }
-                    }
-                }, 500);
-            }
+        if (mIsPreview && mediaHistoryPosition > 0 && mediaHistoryPosition >= mIsmartvPlayer.getDuration()) {
+            goOtherPage(EVENT_COMPLETE_BUY);
         } else {
-            if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
+            if (!mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.start();
             }
         }
@@ -591,7 +590,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
             intent.putExtra("itemPk", String.valueOf(mItemEntity.getPk()));
             startActivity(intent);
-            if(player_seekBar != null){
+            if (player_seekBar != null) {
                 player_seekBar.setProgress(0);
             }
             mCurrentPosition = 0;
@@ -964,7 +963,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         String iqiyi = mClipEntity.getIqiyi_4_0();
         if (!mIsPreview && Utils.isEmptyText(iqiyi) && !isClickKeFu) {
             // 获取前贴片广告
-            mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONSTART, source);
+            mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONSTART, source);
         } else {
             createPlayer(null);
         }
@@ -988,6 +987,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 .setItemEntity(mItemEntity)
                 .setSurfaceView(surfaceView)
                 .setContainer(player_container)
+                .setStartPosition(mediaHistoryPosition)
                 .build();
         mIsmartvPlayer.setOnBufferChangedListener(this);
         mIsmartvPlayer.setOnStateChangedListener(this);
@@ -1025,7 +1025,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     @Override
-    public void loadAdvertisement(List<AdElementEntity> adList) {
+    public void loadVideoStartAd(List<AdElementEntity> adList) {
         if (adList != null && !adList.isEmpty()) {
             mIsPlayingAd = true;
         }
@@ -1081,8 +1081,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void addHistory(int last_position) {
-        if (mItemEntity == null && historyManager == null || mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState() || mIsPlayingAd) {
+        if (mItemEntity == null || mIsmartvPlayer == null || !mIsmartvPlayer.isInPlaybackState() || mIsPlayingAd) {
             return;
+        }
+        if (historyManager == null) {
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
         }
         History history = new History();
         history.title = mItemEntity.getTitle();
@@ -1319,7 +1322,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
             if (mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.pause();
-                mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE, source);
+                mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
             } else {
                 mIsmartvPlayer.start();
             }
@@ -1364,8 +1367,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     public void confirmClick(View view) {
                         popDialog.dismiss();
                         if (isPlayInDetailPage) {
-                            onHidePlayerPageListener.onHide();
+                            createHistory(mCurrentPosition);
                             addHistory(mCurrentPosition);
+                            onHidePlayerPageListener.onHide();
                         } else {
                             getActivity().finish();
                         }
@@ -1388,26 +1392,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         });
     }
 
-    private void toPayPage(String pk, String jumpTo, String cpid, String model) {
-        Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        switch (jumpTo) {
-            case "1":
-                intent.setAction("tv.ismar.pay.payment");
-                intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
-                intent.putExtra("model", model);
-                break;
-            case "0":
-                intent.setAction("tv.ismar.pay.pay");
-                intent.putExtra("item_id", pk);
-                break;
-            case "2":
-                intent.setAction("tv.ismar.pay.payvip");
-                intent.putExtra("cpid", cpid);
-                intent.putExtra("item_id", pk);
-                break;
-        }
-        startActivityForResult(intent, PAYMENT_REQUEST_CODE);
+    private void toPayPage(int pk, int jumpTo, int cpid, PageIntentInterface.ProductCategory model) {
+        Log.d(TAG, "toPayPage:" + pk + " to:" + jumpTo + " cpid:" + cpid);
+        PageIntent pageIntent = new PageIntent();
+        PageIntentInterface.PaymentInfo paymentInfo = new PaymentInfo(model, pk, jumpTo, cpid);
+        pageIntent.toPaymentForResult(getActivity(), source, paymentInfo);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -1460,7 +1449,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
-                    mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE, source);
+                    mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
                 } else {
                     mIsmartvPlayer.start();
                 }
@@ -1481,7 +1470,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsmartvPlayer.pause();
-                    mPresenter.fetchAdvertisement(mItemEntity, AD_MODE_ONPAUSE, source);
+                    mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:

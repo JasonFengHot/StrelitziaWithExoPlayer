@@ -23,9 +23,10 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import retrofit2.GsonConverterFactory;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import tv.ismar.account.core.Md5;
 import tv.ismar.account.core.http.HttpService;
 import tv.ismar.account.core.rsa.RSACoder;
@@ -41,7 +42,8 @@ public class IsmartvActivator {
     }
 
     private static final String TAG = "IsmartvActivator";
-    private static final String DEFAULT_HOST = "http://sky.tvxio.com";
+    private static final String SKY_HOST = "http://sky.tvxio.com";
+    private static final String SKY_HOST_TEST = "http://peachtest.tvxio.com";
     private static final String SIGN_FILE_NAME = "sign1";
     private static final int DEFAULT_CONNECT_TIMEOUT = 2;
     private static final int DEFAULT_READ_TIMEOUT = 5;
@@ -109,7 +111,7 @@ public class IsmartvActivator {
 
         SKY_Retrofit = new Retrofit.Builder()
                 .client(client)
-                .baseUrl(DEFAULT_HOST)
+                .baseUrl(SKY_HOST)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
@@ -195,6 +197,8 @@ public class IsmartvActivator {
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
             return null;
         }
     }
@@ -293,17 +297,28 @@ public class IsmartvActivator {
         }
     }
 
-    public String getAdDomain() {
-        // 广告测试地址
-//        return "124.42.65.66:8082";
-        String adDomain = mSharedPreferences.getString("ad_domain", "");
-        if (TextUtils.isEmpty(adDomain)) {
+    public String getUpgradeDomain() {
+        String upgradeDomain= mSharedPreferences.getString("upgrade_domain", "");
+        if (TextUtils.isEmpty(upgradeDomain)) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
-            return resultEntity.getAd_domain();
+            return resultEntity.getUpgrade_domain();
         } else {
-            return adDomain;
+            return upgradeDomain;
         }
+    }
+
+    public String getAdDomain() {
+        // 广告测试地址
+        return "124.42.65.66:8082";
+//        String adDomain = mSharedPreferences.getString("ad_domain", "");
+//        if (TextUtils.isEmpty(adDomain)) {
+//            ResultEntity resultEntity = execute();
+//            saveAccountInfo(resultEntity);
+//            return resultEntity.getAd_domain();
+//        } else {
+//            return adDomain;
+//        }
     }
 
     public String getLogDomain() {
@@ -341,6 +356,7 @@ public class IsmartvActivator {
         editor.putString("api_domain", resultEntity.getDomain());
         editor.putString("log_domain", resultEntity.getLog_Domain());
         editor.putString("ad_domain", resultEntity.getAd_domain());
+        editor.putString("upgrade_domain", resultEntity.getUpgrade_domain());
         editor.commit();
     }
 

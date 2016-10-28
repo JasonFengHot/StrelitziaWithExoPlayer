@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<dimen name="linked_video_width">217.78dp</dimen>
+<dimen name="linked_video_height">73.78dp</dimen>
+<dimen name="linked_video_mt">3.56dp</dimen>
+<dimen name="ad_timer_wh">15.56dp</dimen>
+<dimen name="ad_timer_mt">11.11dp</dimen>
+<dimen name="ad_timer_mr">22.22dp</dimen>
+</resources>

@@ -1,6 +1,8 @@
 package tv.ismar.player.media;
 
 import android.media.AudioManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -9,7 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.SmartPlayer;
@@ -67,12 +69,23 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         public void onPrepared(SmartPlayer smartPlayer, String s) {
             mCurrentMediaUrl = s;
             mCurrentState = STATE_PREPARED;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onPrepared();
+            long delayTime = 0;
+            if (mStartPosition > 0 && !mIsPlayingAdvertisement) {
+                mPlayer.seekTo(mStartPosition);
+                delayTime = 500;
             }
-            if (mIsPlayingAdvertisement && !mAdIdMap.isEmpty()) {
-                logAdStart(getMediaIp(mCurrentMediaUrl), mAdIdMap.get(mCurrentMediaUrl));
-            }
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onPrepared();
+                    }
+                    if (mIsPlayingAdvertisement && !mAdIdMap.isEmpty()) {
+                        logAdStart(getMediaIp(mCurrentMediaUrl), mAdIdMap.get(mCurrentMediaUrl));
+                    }
+                }
+            }, delayTime);
+
         }
     };
 

@@ -29,6 +29,7 @@ public class PlayerBuilder {
     private ItemEntity mItemEntity;
     private SurfaceView mSurfaceView;
     private FrameLayout mContainer;
+    private int mStartPosition = 0;
 
     // Removes the default public constructor
     private PlayerBuilder() {
@@ -78,6 +79,11 @@ public class PlayerBuilder {
         return this;
     }
 
+    public PlayerBuilder setStartPosition(int startPosition) {
+        mStartPosition = startPosition;
+        return this;
+    }
+
     public IsmartvPlayer build() {
         if (mPlayerMode <= 0) {
             Log.e(TAG, "Must call setPlayerMode first.");
@@ -117,6 +123,7 @@ public class PlayerBuilder {
         ismartvPlayer.setItemEntity(mItemEntity);
         ismartvPlayer.setSurfaceView(mSurfaceView);
         ismartvPlayer.setContainer(mContainer);
+        ismartvPlayer.setStartPosition(mStartPosition);
         return ismartvPlayer;
     }
 

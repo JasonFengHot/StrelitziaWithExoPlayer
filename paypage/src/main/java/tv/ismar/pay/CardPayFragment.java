@@ -1,6 +1,6 @@
 package tv.ismar.pay;
-import cn.ismartv.turetime.TrueTime;
-import cn.ismartv.turetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
+import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.app.Fragment;

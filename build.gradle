@@ -6,9 +6,7 @@ buildscript {
         maven { url "https://dl.bintray.com/fonddream/maven/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'cn.ismartv.plugin:plugin:1.0.1'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -34,18 +32,21 @@ ext {
     androidTargetSdkVersion = 22
 
     supportLibraryVersion = '23.0.0'
+    retrofitVersion = "2.1.0"
+    okhttpVersion = "3.4.1"
 
     moduleVersion = '1.96'
 
-
     dependencies = [
 
-            appCompat   : "com.android.support:appcompat-v7:$supportLibraryVersion",
-            cardView    : "com.android.support:cardview-v7:$supportLibraryVersion",
-            recyclerView: "com.android.support:recyclerview-v7:$supportLibraryVersion",
-//            retrofit: "com.squareup.retrofit2:retrofit:$retrofitVersion",
-//            retrofitConverterGson: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
-//            retrofitAdapterRxJava: "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+            appCompat               : "com.android.support:appcompat-v7:$supportLibraryVersion",
+            cardView                : "com.android.support:cardview-v7:$supportLibraryVersion",
+            recyclerView            : "com.android.support:recyclerview-v7:$supportLibraryVersion",
+            retrofit                : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitConverterGson   : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofitAdapterRxJava   : "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+            okhttp                  : "com.squareup.okhttp3:okhttp:$okhttpVersion",
+            okhttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 //            picasso: 'com.squareup.picasso:picasso:2.5.2',
 //            rxAndroid: 'io.reactivex:rxandroid:1.1.0',
 //            circleImageView: 'de.hdodenhof:circleimageview:1.3.0',

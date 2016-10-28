@@ -1,29 +1,29 @@
 <resources>
 
-    <dimen name="player_seekBar_max_h">10.55dp</dimen>
-    <dimen name="player_seekBar_thumbOffset">16.66dp</dimen>
-    <dimen name="player_controller_margin_lr">27.77dp</dimen>
-    <dimen name="player_controller_padding_bottom">4.44dp</dimen>
-    <dimen name="player_controller_left_w">333.33dp</dimen>
-    <dimen name="player_timetext_h">25dp</dimen>
-    <dimen name="player_timetext_mt">5.55dp</dimen>
-    <dimen name="player_qualitytext_w">53.88dp</dimen>
-    <dimen name="player_qualitytext_h">26.66dp</dimen>
-    <dimen name="player_qualitytext_mt">6.66dp</dimen>
-    <dimen name="player_qualitytext_back_corner">8.33dp</dimen>
-    <dimen name="player_titletext_h">30dp</dimen>
-    <dimen name="player_titletext_mt">8.88dp</dimen>
-    <dimen name="player_icon_w">40dp</dimen>
-    <dimen name="player_icon_h">39.44dp</dimen>
-    <dimen name="player_icon_ml">10.55dp</dimen>
-    <dimen name="player_menu_w">288.88dp</dimen>
-    <dimen name="player_menu_padding_tb">88.88dp</dimen>
-    <dimen name="player_menu_padding_l">22.22dp</dimen>
-    <dimen name="player_menu_item_h">66.66dp</dimen>
-    <dimen name="player_logo_image_mt">17.77dp</dimen>
+<dimen name="player_seekBar_max_h">10.56dp</dimen>
+<dimen name="player_seekBar_thumbOffset">16.67dp</dimen>
+<dimen name="player_controller_margin_lr">27.78dp</dimen>
+<dimen name="player_controller_padding_bottom">4.44dp</dimen>
+<dimen name="player_controller_left_w">333.33dp</dimen>
+<dimen name="player_timetext_h">25.00dp</dimen>
+<dimen name="player_timetext_mt">5.56dp</dimen>
+<dimen name="player_qualitytext_w">53.89dp</dimen>
+<dimen name="player_qualitytext_h">26.67dp</dimen>
+<dimen name="player_qualitytext_mt">6.67dp</dimen>
+<dimen name="player_qualitytext_back_corner">8.33dp</dimen>
+<dimen name="player_titletext_h">30.00dp</dimen>
+<dimen name="player_titletext_mt">8.89dp</dimen>
+<dimen name="player_icon_w">40.00dp</dimen>
+<dimen name="player_icon_h">39.44dp</dimen>
+<dimen name="player_icon_ml">10.56dp</dimen>
+<dimen name="player_menu_w">288.89dp</dimen>
+<dimen name="player_menu_padding_tb">88.89dp</dimen>
+<dimen name="player_menu_padding_l">22.22dp</dimen>
+<dimen name="player_menu_item_h">66.67dp</dimen>
+<dimen name="player_logo_image_mt">17.78dp</dimen>
 
-    <dimen name="qiyi_ad_width">192.77dp</dimen>
-    <dimen name="qiyi_ad_height">40dp</dimen>
-    <dimen name="ad_text_margin_left">10.55dp</dimen>
+<dimen name="qiyi_ad_width">192.78dp</dimen>
+<dimen name="qiyi_ad_height">40.00dp</dimen>
+<dimen name="ad_text_margin_left">10.56dp</dimen>
 
 </resources>
