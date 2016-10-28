@@ -2,6 +2,7 @@ package tv.ismar.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 
 import com.squareup.picasso.Picasso;
@@ -68,10 +69,15 @@ public class VodApplication extends Application {
     }
 
     private void checkUpgrade() {
-        Intent intent = new Intent();
-        intent.setClass(this, UpdateService.class);
-        intent.putExtra("install_type", 0);
-        startService(intent);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.setClass(VodApplication.this, UpdateService.class);
+                intent.putExtra("install_type", 0);
+                startService(intent);
+            }
+        }, 1000 * 7);
     }
 
     public static VodApplication get(Context context) {
