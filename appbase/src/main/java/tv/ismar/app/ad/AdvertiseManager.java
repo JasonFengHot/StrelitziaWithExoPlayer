@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import cn.ismartv.injectdb.library.query.Select;
 import cn.ismartv.truetime.TrueTime;
+import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -153,12 +154,12 @@ public class AdvertiseManager {
         Request request = new Request.Builder().url(downloadUrl).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 new EventReporter().bootAdvExcept(BOOT_ADV_DOWNLOAD_EXCEPTION_CODE, BOOT_ADV_DOWNLOAD_EXCEPTION_STRING);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 InputStream is = null;
                 byte[] buf = new byte[2048];
                 int len = 0;
@@ -194,7 +195,6 @@ public class AdvertiseManager {
 
             }
         });
-
     }
 
 }

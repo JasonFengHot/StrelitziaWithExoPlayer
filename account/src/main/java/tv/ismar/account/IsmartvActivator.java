@@ -23,9 +23,10 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import retrofit2.GsonConverterFactory;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import tv.ismar.account.core.Md5;
 import tv.ismar.account.core.http.HttpService;
 import tv.ismar.account.core.rsa.RSACoder;

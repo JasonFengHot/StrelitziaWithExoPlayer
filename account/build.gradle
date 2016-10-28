@@ -41,10 +41,11 @@ dependencies {
     compile 'cn.ismartv.truetime:library:1.3'
     compile dependencies.appCompat
     compile 'com.google.guava:guava:18.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
-    compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+    compile dependencies.retrofit
+    compile dependencies.retrofitConverterGson
+    compile dependencies.retrofitAdapterRxJava
+    compile dependencies.okhttp
+    compile dependencies.okhttpLoggingInterceptor
     compile 'com.google.code.gson:gson:2.5'
     compile 'io.reactivex:rxandroid:1.2.1'
 }
