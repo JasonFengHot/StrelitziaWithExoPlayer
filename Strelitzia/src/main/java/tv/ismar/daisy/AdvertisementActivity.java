@@ -115,6 +115,8 @@ public class AdvertisementActivity extends BaseActivity {
         @Override
         public void onCompletion(MediaPlayer mp) {
             if (playIndex == launchAds.size() - 1) {
+                mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                goNextPage();
                 return;
             }
             playLaunchAd(playIndex++);
@@ -129,7 +131,7 @@ public class AdvertisementActivity extends BaseActivity {
                     if (ad_timer == null) {
                         return;
                     }
-                    if (countAdTime == 0) {
+                    if (!isPlayingVideo && countAdTime == 0) {
                         mHandler.removeMessages(MSG_AD_COUNTDOWN);
                         goNextPage();
                         return;
@@ -138,7 +140,9 @@ public class AdvertisementActivity extends BaseActivity {
                         ad_timer.setVisibility(View.VISIBLE);
                     }
                     ad_timer.setText(String.valueOf(countAdTime));
+                    int refreshTime;
                     if (!isPlayingVideo) {
+                        refreshTime = 1000;
                         if (currentImageAdCountDown == 0 && !isStartImageCountDown) {
                             currentImageAdCountDown = launchAds.get(playIndex).duration;
                             isStartImageCountDown = true;
@@ -152,9 +156,10 @@ public class AdvertisementActivity extends BaseActivity {
                         }
                         countAdTime--;
                     } else {
+                        refreshTime = 500;
                         countAdTime = getAdCountDownTime();
                     }
-                    sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, 1000);
+                    sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, refreshTime);
                     break;
             }
         }
@@ -190,6 +195,6 @@ public class AdvertisementActivity extends BaseActivity {
                 totalAdTime += launchAds.get(i).duration;
             }
         }
-        return totalAdTime - ad_video.getCurrentPosition() / 1000;
+        return totalAdTime - ad_video.getCurrentPosition() / 1000 - 1;
     }
 }

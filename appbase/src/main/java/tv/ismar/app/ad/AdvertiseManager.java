@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import cn.ismartv.injectdb.library.query.Select;
 import cn.ismartv.truetime.TrueTime;
@@ -144,7 +145,10 @@ public class AdvertiseManager {
 
     private void downLoadFile(String downloadUrl, final String filePath, final AdElementEntity adElementEntity) {
         if (mOkHttpClient == null) {
-            mOkHttpClient = new OkHttpClient();
+            mOkHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(6, TimeUnit.SECONDS)
+                    .readTimeout(1, TimeUnit.HOURS)
+                    .build();
         }
         Request request = new Request.Builder().url(downloadUrl).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
