@@ -235,7 +235,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             Log.e(TAG, "QiYiPlayer onError:" + iSdkError.getCode() + " " + iSdkError.getMsgFromError());
             mIsmartvPlayer.logVideoException(iSdkError.getCode(), 0);
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                mIsmartvPlayer.mOnStateChangedListener.onError("QiYiPlayer error " + iSdkError.getCode());
+                mIsmartvPlayer.mOnStateChangedListener.onError(iSdkError.getMsgFromError());
             }
             return false;
         }

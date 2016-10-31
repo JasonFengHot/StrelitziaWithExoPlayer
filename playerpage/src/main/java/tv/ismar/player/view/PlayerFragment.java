@@ -606,6 +606,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public boolean onError(String message) {
+        // TODO 统一处理错误提示语,包含底层的onError和播放过程中自行判断的网络请求,注意重复回调问题
         return false;
     }
 
@@ -684,6 +685,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 return;
             }
             int mediaPosition = mIsmartvPlayer.getCurrentPosition();
+            // TODO 超过一定时长需要判断网络是否正常,网络不正常时需提示用户
+            // TODO 用户去连接网络过程是否推出播放器,涉及到底层下载文件问题
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                 if (mCurrentPosition == mediaPosition) {
                     mTimerHandler.postDelayed(timerRunnable, 500);

@@ -19,7 +19,12 @@ public class FileUtils {
             URL url = new URL(httpUrl);
             String file = url.getFile();
             File localFile = new File(file);
-            return localFile.getName();
+            String fileName = localFile.getName();
+            if (fileName.contains("?")) {
+                int index = fileName.indexOf("?");
+                fileName = fileName.substring(0, index);
+            }
+            return fileName;
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return "";
