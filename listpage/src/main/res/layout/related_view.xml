@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:sakura="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/large_layout"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_detail_text"
+        android:layout_width="@dimen/gridview_channel_label_width"
+        android:layout_height="@dimen/gridview_channel_label_height"
+        android:layout_marginLeft="@dimen/gridview_channel_label_marginleft"
+        android:layout_marginRight="@dimen/gridview_channel_label_marginright"
+        android:layout_marginTop="@dimen/related_view_title_marginTop"
+        android:gravity="center"
+        android:padding="@dimen/gridview_channel_label_padding"
+        android:text="@string/related_view"
+        android:textColor="#FFBBBBBB"
+        android:textSize="@dimen/gridview_channel_label_textsize" />
+
+    <ImageView
+        android:layout_width="@dimen/related_view_img_W"
+        android:layout_height="@dimen/related_view_img_H"
+        android:src="@drawable/related_watermark"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gridview_channel_panel_height"
+        android:orientation="horizontal" >
+       <ImageView
+            android:id="@+id/arrow_left"
+            android:layout_width="@dimen/grid_view_main_arrow_left_W"
+            android:layout_height="@dimen/grid_view_main_arrow_left_H"
+            android:layout_marginTop="@dimen/grid_view_main_arrow_left_marginT"
+            android:background="@drawable/arrow_left_selector"
+            android:layout_marginLeft="@dimen/related_view_tabs_marginleft"     
+            android:visibility="invisible" />
+        <tv.ismar.view.RelateScrollableSectionList
+            android:id="@+id/related_section_tabs"
+            android:layout_width="@dimen/gridview_channel_section_tabs_width"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scrollbars="none" >
+        </tv.ismar.view.RelateScrollableSectionList>
+
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="@dimen/grid_view_main_arrow_left_W"
+            android:layout_height="@dimen/grid_view_main_arrow_left_H"
+            android:layout_marginTop="@dimen/grid_view_main_arrow_left_marginT"
+            android:background="@drawable/arrow_right_selector"
+            android:visibility="invisible" />
+    </LinearLayout>
+<!--     <GridView -->
+<!--     android:id="@+id/related_list" -->
+<!--     android:layout_width="match_parent" -->
+<!--     android:layout_height="match_parent" -->
+<!--     android:layout_marginLeft="@dimen/related_view_list_marginleft" -->
+<!--     android:layout_marginRight="@dimen/related_view_list_marginright" -->
+<!--     android:layout_marginTop="@dimen/related_view_list_margintop" -->
+<!--     android:numColumns="4" -->
+<!--     android:horizontalSpacing="@dimen/related_view_list_horizontalspacing" -->
+<!--     android:verticalSpacing="@dimen/related_view_list_verticalspacing" -->
+<!--     android:stretchMode="columnWidth" -->
+<!--     android:columnWidth="@dimen/related_view_list_columnwidth" -->
+    
+<!--     android:listSelector="@drawable/channel_item_selector"> -->
+<!--     </GridView> -->
+    <ProgressBar
+            android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin"
+            android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"
+            android:id="@+id/section_percentage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/channel_section_tabs_percentage_H"
+            android:progressDrawable="@drawable/progressbg"
+            android:indeterminateOnly="false"
+            android:indeterminate="false"
+            android:minHeight="@dimen/gridview_main_panel_labelTextMarginBottom"
+            android:maxHeight="@dimen/gridview_main_panel_labelTextMarginBottom"
+            android:mirrorForRtl="true"
+            android:visibility="visible" />
+    <tv.ismar.app.ui.ZGridView
+        android:visibility="gone"
+        android:id="@+id/related_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/related_view_list_marginleft"
+        android:layout_marginRight="@dimen/related_view_list_marginright"
+        android:layout_marginTop="@dimen/related_view_list_margintop"
+        sakura:columnWidth="@dimen/gridview_item_image_W"
+        sakura:horizontalSpace="@dimen/related_view_hgridview_horizontalSpace"
+        sakura:listSelector="@drawable/vod_gv_selector"
+        sakura:numColumns="4"
+        sakura:verticalSpace="0dip"
+        android:padding="@dimen/related_view_gridview_ltr"
+        sakura:selectorLeftPadding="@dimen/ZGridView_related_selectorLeftPadding"
+        sakura:selectorTopPadding="@dimen/ZGridView_related_selectorTopPadding"
+        sakura:selectorRightPadding="@dimen/ZGridView_related_selectorRightPadding"
+        sakura:selectorBottomPadding="@dimen/ZGridView_related_selectorBottomPadding" >
+    </tv.ismar.app.ui.ZGridView>
+
+    <tv.ismar.app.ui.ZGridView
+            android:layout_marginTop="@dimen/related_view_list_margintop"
+            android:visibility="gone"
+            android:id="@+id/prelated_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/related_view_list_marginleft"
+            android:layout_marginRight="@dimen/related_view_list_marginright"
+            sakura:columnWidth="@dimen/related_view_gridview_W"
+            sakura:horizontalSpace="@dimen/filter_portraitresult_filter_grid_horizontalSpacing"
+            sakura:listSelector="@drawable/vod_gv_selector"
+            sakura:numColumns="6"
+            sakura:verticalSpace="0dip"
+            android:paddingLeft="@dimen/related_view_gridview_ltr"
+            android:paddingRight="@dimen/related_view_gridview_ltr"
+            android:paddingTop="@dimen/related_view_gridview_ltr"
+            sakura:selectorLeftPadding="@dimen/related_view_gridview_selector_PL"
+            sakura:selectorTopPadding="@dimen/related_view_gridview_selector_PT"
+            sakura:selectorRightPadding="@dimen/related_view_gridview_selector_PR"
+            sakura:selectorBottomPadding="@dimen/related_view_gridview_selector_PB">
+    </tv.ismar.app.ui.ZGridView>
+
+    <!--<dimen name="HGridView_related_pselectionLeftPadding">19dip</dimen>-->
+    <!--<dimen name="HGridView_related_pselectionTopPadding">20dip</dimen>-->
+    <!--<dimen name="HGridView_related_pselectionRightPadding">19dip</dimen>-->
+    <!--<dimen name="HGridView_related_pselectionBottomPadding">-29dip</dimen>-->
+</LinearLayout>

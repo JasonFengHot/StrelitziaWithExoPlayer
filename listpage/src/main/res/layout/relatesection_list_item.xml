@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/channel_section_tabs_W"
+    android:layout_height="match_parent"
+    android:id="@+id/section_item_layout"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+ >
+    
+        <ProgressBar
+        android:id="@+id/section_percentage"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/channel_section_tabs_percentage_H"
+        android:progressDrawable="@drawable/section_percentage_noselected"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:indeterminate="false"
+        android:paddingLeft="@dimen/channel_section_tabs_percentage_PLR"
+        android:paddingRight="@dimen/channel_section_tabs_percentage_PLR"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/section_label"
+        android:layout_above="@id/section_percentage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/channel_section_tabs_label_textsize"
+        android:textColor="#FFBBBBBB"
+        android:singleLine="true"
+        android:gravity="center"/>
+</RelativeLayout>

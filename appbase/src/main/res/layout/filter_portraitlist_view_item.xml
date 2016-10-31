@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/filter_item_layout">
+    <tv.ismar.app.ui.view.LabelImageView
+            android:layout_width="@dimen/list_item_preview_img_w"
+            android:layout_height="@dimen/list_item_preview_img_h"
+            android:id="@+id/filter_list_item_preview_img"
+            android:background="@drawable/list_item_ppreview_bg"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
+            android:paddingTop="@dimen/gridview_item_image_PaddingT"
+            android:paddingBottom="@dimen/gridview_item_image_PaddingB"
+            android:paddingLeft="@dimen/gridview_item_image_PaddingL"
+            android:paddingRight="@dimen/gridview_item_image_PaddingR"
+            labelimage:focuspaddingtop="0.9"
+            labelimage:focustextpaddingtop="0.97"
+            labelimage:maxfocustitle="10"
+            labelimage:focustextsize="@dimen/item_detail_detail_price_textsize"
+            labelimage:focusbackground="#b3303030"
+            />
+    <TextView
+        android:paddingTop="@dimen/search_line_height"
+        android:layout_width="@dimen/list_item_preview_img_w"
+        android:layout_height="match_parent"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/filter_list_item_preview_img"
+        android:textSize="@dimen/gridview_item_title_textsize"
+        android:id="@+id/filter_list_item_title"
+        android:textColor="#FFF8F8FF"
+        />
+    <TextView
+            android:id="@+id/ItemBeanScore"
+            android:layout_width="@dimen/list_vip_score_w"
+            android:layout_height="@dimen/list_vip_score_h"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/list_vip_score_mr"
+            android:layout_marginTop="@dimen/list_vip_score_horizon_mt"
+            android:gravity="center"
+            android:textColor="#ff9000"
+            android:textSize="@dimen/score_tag_txt_size"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    <ImageView
+            android:id="@+id/expense_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone" >
+    </ImageView>
+</RelativeLayout>

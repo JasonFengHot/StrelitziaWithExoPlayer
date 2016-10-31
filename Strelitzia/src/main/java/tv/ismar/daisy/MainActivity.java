@@ -61,6 +61,39 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        Button channel= (Button) findViewById(R.id.channel);
+        channel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setAction("tv.ismar.daisy.Channel");
+                intent.putExtra("channel", "chinesemovie");
+                intent.putExtra("url", "http://sky.tvxio.bestv.com.cn/v3_0/SKY2/tou0/api/tv/sections/chinesemovie/");
+                intent.putExtra("title", "华语电影");
+                intent.putExtra("portraitflag", 2);
+                startActivity(intent);
+            }
+        });
+        Button history= (Button) findViewById(R.id.history);
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setAction("tv.ismar.daisy.Channel");
+                intent.putExtra("channel", "histories");
+                startActivity(intent);
+            }
+        });
+        Button favorite= (Button) findViewById(R.id.favorit);
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setAction("tv.ismar.daisy.Channel");
+                intent.putExtra("channel", "$bookmarks");
+                startActivity(intent);
+            }
+        });
 
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);

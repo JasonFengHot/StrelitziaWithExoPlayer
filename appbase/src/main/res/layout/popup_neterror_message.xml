@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:background="@drawable/popwindow_bg">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pop_text_layout_height"
+        android:layout_marginTop="@dimen/pop_first_text_margin_top"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/alert_info_text"
+            android:layout_width="@dimen/pop_text_width"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="@dimen/h3_text_size" />
+
+        <TextView
+            android:id="@+id/pop_second_text"
+            android:layout_width="@dimen/pop_text_width"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/pop_second_text_margin_top"
+            android:gravity="center"
+            android:textSize="@dimen/h3_text_size"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pop_btn_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/pop_btn_margin_bottom"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/positive_button"
+            android:layout_width="@dimen/pop_btn_width"
+            android:layout_height="@dimen/pop_btn_height"
+            android:background="@drawable/selector_daisy_exit_button"
+            android:text="@string/vod_ok"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/h3_text_size" />
+
+        <Button
+            android:id="@+id/negative_btn"
+            android:layout_width="@dimen/pop_btn_width"
+            android:layout_height="@dimen/pop_btn_height"
+            android:layout_marginLeft="@dimen/pop_btn_margin_lr"
+            android:background="@drawable/selector_daisy_exit_button"
+            android:text="@string/dialog_setting"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/h3_text_size" />
+
+    </LinearLayout>
+</RelativeLayout>

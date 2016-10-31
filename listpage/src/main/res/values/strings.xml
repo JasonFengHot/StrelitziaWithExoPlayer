@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">listpage</string>
+    <string name="interested_video">您可能对这些影片感兴趣</string>
+    <string name="no_collect_record">没有收藏记录</string>
+    <string name="vod_bookmark_clear">清空收藏记录</string>
+    <string name="vod_history_clear">清空历史记录</string>
+    <string name="no_history_record">没有历史记录</string>
+    <string name="vod_movielist_today">今天</string>
+    <string name="vod_movielist_yesterday">昨天</string>
+    <string name="vod_movielist_recent">更早</string>
+    <string name="related_view">关联视频</string>
+    <string name="no_related_video">关联视频当前不可用</string>
+    <string name="same_category_clip">同类型影片</string>
 </resources>
