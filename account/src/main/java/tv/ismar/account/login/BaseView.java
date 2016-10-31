@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package tv.ismar.usercenter;
+package tv.ismar.account.login;
 
-import tv.ismar.usercenter.presenter.BasePresenter;
+public interface BaseView<T> {
 
-/**
- * This specifies the contract between the view and the presenter.
- */
-public interface LoginContract {
+    void setPresenter(T presenter);
 
-    interface View extends BaseView<Presenter>{
-
-    }
-
-    interface Presenter extends BasePresenter {
-
-    }
 }

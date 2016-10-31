@@ -8,18 +8,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import tv.ismar.account.login.LoginFragment;
+import tv.ismar.account.login.LoginPresenter;
+import tv.ismar.account.login.LoginViewModel;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.util.ActivityUtils;
 import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.presenter.HelpPresenter;
 import tv.ismar.usercenter.presenter.LocationPresenter;
-import tv.ismar.usercenter.presenter.LoginPresenter;
 import tv.ismar.usercenter.presenter.ProductPresenter;
 import tv.ismar.usercenter.presenter.PurchaseHistoryPresenter;
 import tv.ismar.usercenter.presenter.UserInfoPresenter;
 import tv.ismar.usercenter.viewmodel.HelpViewModel;
 import tv.ismar.usercenter.viewmodel.LocationViewModel;
-import tv.ismar.usercenter.viewmodel.LoginViewModel;
 import tv.ismar.usercenter.viewmodel.ProductViewModel;
 import tv.ismar.usercenter.viewmodel.PurchaseHistoryViewModel;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;

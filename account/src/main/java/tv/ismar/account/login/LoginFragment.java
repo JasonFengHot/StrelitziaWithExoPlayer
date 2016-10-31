@@ -1,4 +1,4 @@
-package tv.ismar.usercenter.view;
+package tv.ismar.account.login;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,9 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import tv.ismar.usercenter.LoginContract;
-import tv.ismar.usercenter.databinding.FragmentLoginBinding;
-import tv.ismar.usercenter.viewmodel.LoginViewModel;
+import tv.ismar.account.databinding.FragmentLoginBinding;
+
 
 /**
  * Created by huibin on 10/27/16.

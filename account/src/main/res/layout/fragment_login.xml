@@ -7,11 +7,11 @@
 
         <variable
             name="tasks"
-            type="tv.ismar.usercenter.viewmodel.LoginViewModel"/>
+            type="tv.ismar.account.login.LoginViewModel"/>
 
         <variable
             name="actionHandler"
-            type="tv.ismar.usercenter.LoginContract.Presenter"/>
+            type="tv.ismar.account.login.LoginContract.Presenter"/>
     </data>
 
 

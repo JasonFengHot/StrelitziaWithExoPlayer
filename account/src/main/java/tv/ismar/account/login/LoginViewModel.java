@@ -1,9 +1,7 @@
-package tv.ismar.usercenter.viewmodel;
+package tv.ismar.account.login;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
-
-import tv.ismar.usercenter.presenter.LoginPresenter;
 
 /**
  * Created by huibin on 10/28/16.
