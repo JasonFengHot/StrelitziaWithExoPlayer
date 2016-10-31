@@ -9,16 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import tv.ismar.usercenter.presenter.UserInfoPresenter;
+import tv.ismar.usercenter.UserInfoContract;
+import tv.ismar.usercenter.databinding.FragmentUserinfoBinding;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 
 /**
  * Created by huibin on 10/27/16.
  */
 
-public class UserInfoFragment extends Fragment {
+public class UserInfoFragment extends Fragment implements UserInfoContract.View {
     private static final String TAG = UserInfoFragment.class.getSimpleName();
     private UserInfoViewModel mViewModel;
+    private UserInfoContract.Presenter mPresenter;
 
     public static UserInfoFragment newInstance() {
         return new UserInfoFragment();
@@ -42,7 +44,12 @@ public class UserInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        return super.onCreateView(inflater, container, savedInstanceState);
+        FragmentUserinfoBinding userinfoBinding = FragmentUserinfoBinding.inflate(inflater, container, false);
+        userinfoBinding.setTasks(mViewModel);
+        userinfoBinding.setActionHandler(mPresenter);
+
+        View root = userinfoBinding.getRoot();
+        return root;
     }
 
     @Override
@@ -103,5 +110,10 @@ public class UserInfoFragment extends Fragment {
 
     public void setViewModel(UserInfoViewModel viewModel) {
         mViewModel = viewModel;
+    }
+
+    @Override
+    public void setPresenter(UserInfoContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

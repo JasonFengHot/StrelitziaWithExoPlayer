@@ -13,4 +13,66 @@
 <dimen name="horizontal_divider_mr">14.44dp</dimen>
 <dimen name="usercenter_fragment_indicator_item_text_size">26.67sp</dimen>
 <dimen name="usercenter_indicator_minH">52.78dp</dimen>
+
+<dimen name="usercenter_help_contact_margin_left">75.00dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_icon_margin_top">19.44dp</dimen>
+<dimen name="usercenter_help_helpcenter_text_margin_top">33.33dp</dimen>
+<dimen name="usercenter_help_icon_margin_top">47.22dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_margin_top">27.78dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_margin_left">36.11dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_text_size">20.00dp</dimen>
+<dimen name="usercenter_help_shipinkefu_margin_top">11.11dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_margin_right">22.22dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">13.33dp</dimen>
+
+<dimen name="usercenter_info_association_pop_height">483.33dp</dimen>
+<dimen name="user_info_item_vertical_spacing">22.22dp</dimen>
+<dimen name="usercenter_info_layout_margin_left">22.22dp</dimen>
+<dimen name="h4_text_size">16.67sp</dimen>
+<dimen name="user_center_logout_height">22.22dp</dimen>
+<dimen name="userinfo_balance_title_width">77.78dp</dimen>
+<dimen name="userinfo_association_marginLeft">11.11dp</dimen>
+<dimen name="userinfo_deviceName_title_width">77.78dp</dimen>
+<dimen name="userinfo_phoneNumber_title_width">77.78dp</dimen>
+<dimen name="userinfo_snNumber_title_width">77.78dp</dimen>
+<dimen name="userinfo_association_prompt_marigin_lr">11.11dp</dimen>
+<dimen name="person_login_phone_view_ML">22.22dip</dimen>
+<dimen name="userinfo_changeButton_marginLeft">11.11dp</dimen>
+<dimen name="userinfo_privilege_title_width">77.78dp</dimen>
+<dimen name="usercenter_info_association_pop_widht">761.11dp</dimen>
+<dimen name="userinfo_association_width">55.56dp</dimen>
+
+
+<dimen name="page_min_width">666.67dp</dimen>
+<dimen name="login_edit_ml">16.67dp</dimen>
+<dimen name="pay_person_login_pay_identifyCodeBtn_w">111.11dip</dimen>
+<dimen name="pay_person_login_pay_btn_submit_h">41.67dip</dimen>
+<dimen name="pay_person_login_linearLayout_h">63.89dp</dimen>
+<dimen name="pay_person_login_pay_edit_mobile_textsize">16.67sp</dimen>
+<dimen name="page_min_height">333.33dp</dimen>
+<dimen name="pay_person_login_pay_count_tip_h">33.33dip</dimen>
+<dimen name="pay_count_tip_mt">5.56dp</dimen>
+<dimen name="pay_person_login_pay_identifyCodeBtn_h">41.67dip</dimen>
+<dimen name="pay_person_login_textview_textsize">19.44sp</dimen>
+<dimen name="pay_person_login_textview_w">102.78dip</dimen>
+<dimen name="pay_person_login_pay_identifyCodeBtn_ml">22.22dip</dimen>
+<dimen name="pay_person_login_pay_edit_mobile_w">277.78dip</dimen>
+<dimen name="pay_person_login_pay_btn_submit_mt">55.56dip</dimen>
+<dimen name="pay_person_login_linearLayout_w">527.78dp</dimen>
+<dimen name="pay_person_login_linearLayout2_mt">11.11dip</dimen>
+<dimen name="pay_person_login_pay_btn_submit_w">166.67dip</dimen>
+<dimen name="login_edit_h">44.44dp</dimen>
+
+<dimen name="userinfo_privilege_layout_marginTop">27.78dp</dimen>
+<dimen name="help_title_icon_w">233.33dp</dimen>
+<dimen name="help_title_icon_h">66.67dp</dimen>
+<dimen name="ismartv_icon_w">194.44dp</dimen>
+
+<dimen name="usercenter_storefragment_packagelist_item_image_width">186.67dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_image_height">105.00dp</dimen>
+<dimen name="h2_text_size">20.00sp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_layout_marginRight">3.89dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_text_height">34.44dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_text_width">186.67dp</dimen>
+
 </resources>

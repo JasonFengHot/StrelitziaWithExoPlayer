@@ -16,6 +16,7 @@
 
 package tv.ismar.usercenter;
 
+import tv.ismar.app.network.entity.YouHuiDingGouEntity;
 import tv.ismar.usercenter.presenter.BasePresenter;
 
 /**
@@ -24,10 +25,11 @@ import tv.ismar.usercenter.presenter.BasePresenter;
 public interface ProductContract {
 
     interface View extends BaseView<Presenter>{
-
+        void loadProductItem(YouHuiDingGouEntity entity);
     }
 
     interface Presenter extends BasePresenter {
+        void fetchProduct();
 
     }
 }

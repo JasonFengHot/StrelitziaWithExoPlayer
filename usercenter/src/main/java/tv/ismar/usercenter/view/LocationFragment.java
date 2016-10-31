@@ -9,15 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.usercenter.LocationContract;
+import tv.ismar.usercenter.databinding.FragmentLocationBinding;
 import tv.ismar.usercenter.viewmodel.LocationViewModel;
 
 /**
  * Created by huibin on 10/27/16.
  */
 
-public class LocationFragment extends Fragment {
+public class LocationFragment extends Fragment implements LocationContract.View {
     private static final String TAG = LocationFragment.class.getSimpleName();
     private LocationViewModel mViewModel;
+    private LocationContract.Presenter mPresenter;
 
     public static LocationFragment newInstance() {
         return new LocationFragment();
@@ -41,7 +44,12 @@ public class LocationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        return super.onCreateView(inflater, container, savedInstanceState);
+        FragmentLocationBinding locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
+        locationBinding.setTasks(mViewModel);
+        locationBinding.setActionHandler(mPresenter);
+
+        View root = locationBinding.getRoot();
+        return root;
     }
 
     @Override
@@ -102,5 +110,10 @@ public class LocationFragment extends Fragment {
 
     public void setViewModel(LocationViewModel viewModel) {
         mViewModel = viewModel;
+    }
+
+    @Override
+    public void setPresenter(LocationContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

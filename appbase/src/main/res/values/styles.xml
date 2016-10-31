@@ -19,6 +19,7 @@
     <style name="IsmartvAppTheme.Fullscreen" parent="IsmartvAppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:screenOrientation">sensorLandscape</item>
         <item name="android:windowFullscreen">true</item>
 
     </style>

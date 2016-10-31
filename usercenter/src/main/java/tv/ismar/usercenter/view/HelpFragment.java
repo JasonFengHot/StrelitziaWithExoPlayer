@@ -48,9 +48,10 @@ public class HelpFragment extends Fragment implements HelpContract.View {
         Log.d(TAG, "onCreateView");
 
         FragmentHelpBinding helpBinding = FragmentHelpBinding.inflate(inflater, container, false);
-//        helpBinding.setTasks();
-
-        return super.onCreateView(inflater, container, savedInstanceState);
+        helpBinding.setTasks(mViewModel);
+        helpBinding.setActionHandler(mPresenter);
+        View root = helpBinding.getRoot();
+        return root;
     }
 
     @Override

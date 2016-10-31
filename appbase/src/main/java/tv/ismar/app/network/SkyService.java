@@ -38,11 +38,17 @@ import tv.ismar.app.network.entity.PayLayerPackageEntity;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
 import tv.ismar.app.network.entity.PayVerifyEntity;
 import tv.ismar.app.network.entity.VersionInfoV2Entity;
+import tv.ismar.app.network.entity.YouHuiDingGouEntity;
 
 /**
  * Created by huibin on 8/3/16.
  */
 public interface SkyService {
+
+    @GET("api/tv/section/youhuidinggou/")
+    Observable<YouHuiDingGouEntity> apiYouhuidinggou(
+
+    );
 
     @GET
     Observable<ItemEntity> apiItemByUrl(

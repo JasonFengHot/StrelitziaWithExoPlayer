@@ -11,7 +11,7 @@
 
         <variable
             name="actionHandler"
-            type="tv.ismar.usercenter.presenter.PurchaseHistoryPresenter"/>
+            type="tv.ismar.usercenter.PurchaseHistoryContract.Presenter"/>
     </data>
 
 

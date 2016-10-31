@@ -4,25 +4,34 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import tv.ismar.app.network.entity.YouHuiDingGouEntity;
+import tv.ismar.usercenter.ProductContract;
+import tv.ismar.usercenter.databinding.FragmentProductBinding;
 import tv.ismar.usercenter.viewmodel.ProductViewModel;
 
 /**
  * Created by huibin on 10/27/16.
  */
 
-public class ProductFragment extends Fragment {
+public class ProductFragment extends Fragment implements ProductContract.View {
     private static final String TAG = ProductFragment.class.getSimpleName();
     private ProductViewModel mViewModel;
+    private ProductContract.Presenter mPresenter;
 
     public static ProductFragment newInstance() {
         return new ProductFragment();
     }
 
+
+    private RecyclerView mRecyclerView;
 
     @Override
     public void onAttach(Context context) {
@@ -41,7 +50,13 @@ public class ProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        return super.onCreateView(inflater, container, savedInstanceState);
+        FragmentProductBinding productBinding = FragmentProductBinding.inflate(inflater, container, false);
+        productBinding.setTasks(mViewModel);
+        productBinding.setActionHandler(mPresenter);
+
+        mRecyclerView = productBinding.recyclerview;
+        View root = productBinding.getRoot();
+        return root;
     }
 
     @Override
@@ -66,6 +81,7 @@ public class ProductFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        mPresenter.start();
 
     }
 
@@ -103,4 +119,78 @@ public class ProductFragment extends Fragment {
     public void setViewModel(ProductViewModel viewModel) {
         mViewModel = viewModel;
     }
+
+    @Override
+    public void setPresenter(ProductContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void loadProductItem(YouHuiDingGouEntity entity) {
+
+    }
+
+
+//    class ProductAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
+//
+//
+//        @Override
+//        public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+//            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_recycler, viewGroup, false);
+//
+//            view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                @Override
+//                public void onFocusChange(View v, boolean hasFocus) {
+//                    if (hasFocus) {
+//                        AnimationSet animationSet = new AnimationSet(true);
+//                        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1.5f, 1, 1.5f,
+//                                Animation.RELATIVE_TO_SELF, 0.5f,
+//                                Animation.RELATIVE_TO_SELF, 0.5f);
+//                        scaleAnimation.setDuration(200);
+//                        animationSet.addAnimation(scaleAnimation);
+//                        animationSet.setFillAfter(true);
+//                        v.startAnimation(animationSet);
+//
+//                    } else {
+//                        AnimationSet animationSet = new AnimationSet(true);
+//                        ScaleAnimation scaleAnimation = new ScaleAnimation(1.5f, 1f, 1.5f, 1f,
+//                                Animation.RELATIVE_TO_SELF, 0.5f,
+//                                Animation.RELATIVE_TO_SELF, 0.5f);
+//                        scaleAnimation.setDuration(200);
+//                        animationSet.addAnimation(scaleAnimation);
+//                        animationSet.setFillAfter(true);
+//                        v.startAnimation(animationSet);
+//                    }
+//                }
+//            });
+//
+//            view.bringToFront();
+//            MyViewHolder holder = new MyViewHolder(view);
+//
+//
+//            return holder;
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
+////            myViewHolder.textView.setText(datas.get(i));
+//
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return datas.size();
+//        }
+//    }
+//
+//    class ProductViewHolder extends RecyclerView.ViewHolder {
+//        private ImageView mImageView;
+//        private TextView mTextView;
+//
+//        public ProductViewHolder(View itemView) {
+//            super(itemView);
+//
+////            mImageView = (ImageView) itemView.findViewById(R.id.);
+//        }
+//    }
 }

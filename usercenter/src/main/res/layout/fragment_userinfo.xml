@@ -11,15 +11,234 @@
 
         <variable
             name="actionHandler"
-            type="tv.ismar.usercenter.presenter.UserInfoPresenter"/>
+            type="tv.ismar.usercenter.UserInfoContract.Presenter"/>
     </data>
 
 
-    <LinearLayout
-        android:background="#947272"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:focusable="true">
+
+        <LinearLayout
+            android:id="@+id/userinfo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/phone_number_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
+                android:layout_marginRight="@dimen/usercenter_info_layout_margin_left"
+                android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
+            >
+
+                <TextView
+                    android:id="@+id/account_text"
+                    android:layout_width="@dimen/userinfo_phoneNumber_title_width"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="账号："
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/h4_text_size"/>
+
+                <TextView
+                    android:id="@+id/phone_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/account_text"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/h4_text_size"/>
+
+
+                <Button
+                    android:id="@+id/change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/user_center_logout_height"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/userinfo_changeButton_marginLeft"
+                    android:layout_toRightOf="@id/phone_number"
+                    android:background="@drawable/selector_daisy_button_style"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:text="@string/change_account"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/h4_text_size"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/exit_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/user_center_logout_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/selector_daisy_button_style"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:text="@string/exit_account"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/h4_text_size"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/sn_number_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
+                android:layout_marginRight="@dimen/usercenter_info_layout_margin_left"
+                android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/userinfo_snNumber_title_width"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="SN："
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/h4_text_size"/>
+
+                <TextView
+                    android:id="@+id/device_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/h4_text_size"/>
+
+
+                <TextView
+                    android:id="@+id/association_prompt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/userinfo_association_prompt_marigin_lr"
+                    android:layout_marginRight="@dimen/userinfo_association_prompt_marigin_lr"
+                    android:gravity="center_vertical"
+                    android:text="@string/association_prompt"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/h4_text_size"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/association_button"
+                    android:layout_width="@dimen/userinfo_association_width"
+                    android:layout_height="@dimen/user_center_logout_height"
+                    android:layout_marginLeft="@dimen/userinfo_association_marginLeft"
+                    android:background="@drawable/selector_daisy_button_style"
+                    android:text="@string/association"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/h4_text_size"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
+                android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/userinfo_deviceName_title_width"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="设备："
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h4_text_size"/>
+
+                <TextView
+                    android:id="@+id/device_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/h4_text_size"/>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
+                android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/userinfo_balance_title_width"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="余额："
+                    android:textColor="#FFF8F8FF"
+                    android:textSize="@dimen/h4_text_size"/>
+
+                <TextView
+                    android:id="@+id/remain_money_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="#FFF8F8FF"
+                    android:textSize="@dimen/h4_text_size"/>
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
+                android:layout_marginTop="@dimen/userinfo_privilege_layout_marginTop">
+
+                <TextView
+                    android:id="@+id/privilege_txt"
+                    android:layout_width="@dimen/userinfo_privilege_title_width"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="特权："
+                    android:textColor="#FFF8F8FF"
+                    android:textSize="@dimen/h4_text_size">
+
+                </TextView>
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="@dimen/person_login_phone_view_ML"
+                    android:layout_toRightOf="@id/privilege_txt">
+
+                    <LinearLayout
+                        android:id="@+id/privilegelist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:descendantFocusability="afterDescendants"
+                        android:focusable="true"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+                </ScrollView>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/association_phone_layout"
+            android:layout_width="@dimen/usercenter_info_association_pop_widht"
+            android:layout_height="@dimen/usercenter_info_association_pop_height"
+            android:layout_centerInParent="true"></FrameLayout>
+    </RelativeLayout>
+
 </layout>
 

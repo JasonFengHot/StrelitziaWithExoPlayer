@@ -91,7 +91,7 @@ public class UserCenterActivity extends BaseActivity {
             TextView textView = (TextView) frameLayout.findViewById(R.id.indicator_text);
             textView.setText(res);
             frameLayout.setTag(res);
-//            frameLayout.setOnClickListener(this);
+            frameLayout.setOnClickListener(indicatorViewOnClickListener);
 //            frameLayout.setOnFocusChangeListener(this);
 //            frameLayout.setOnHoverListener(mOnHoverListener);
             frameLayout.setNextFocusRightId(R.id.vertical_divider_line);
@@ -123,14 +123,10 @@ public class UserCenterActivity extends BaseActivity {
 
     private void selectProduct() {
 
-        mProductFragment =
-                (ProductFragment) getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-        if (mProductFragment == null) {
-            // Create the fragment
-            mProductFragment = ProductFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), mProductFragment, R.id.user_center_container);
-        }
+        // Create the fragment
+        mProductFragment = ProductFragment.newInstance();
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mProductFragment, R.id.user_center_container);
 
         // Create the presenter
         mProductPresenter = new ProductPresenter(mProductFragment);
@@ -143,14 +139,10 @@ public class UserCenterActivity extends BaseActivity {
 
     private void selectUserInfo() {
 
-        mUserInfoFragment =
-                (UserInfoFragment) getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-        if (mUserInfoFragment == null) {
-            // Create the fragment
-            mUserInfoFragment = UserInfoFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), mUserInfoFragment, R.id.user_center_container);
-        }
+        // Create the fragment
+        mUserInfoFragment = UserInfoFragment.newInstance();
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mUserInfoFragment, R.id.user_center_container);
 
         // Create the presenter
         mUserInfoPresenter = new UserInfoPresenter(mUserInfoFragment);
@@ -163,14 +155,10 @@ public class UserCenterActivity extends BaseActivity {
 
     private void selectLogin() {
 
-        mLoginFragment =
-                (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-        if (mLoginFragment == null) {
-            // Create the fragment
-            mLoginFragment = LoginFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), mLoginFragment, R.id.user_center_container);
-        }
+        // Create the fragment
+        mLoginFragment = LoginFragment.newInstance();
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mLoginFragment, R.id.user_center_container);
 
         // Create the presenter
         mLoginPresenter = new LoginPresenter(mLoginFragment);
@@ -183,14 +171,10 @@ public class UserCenterActivity extends BaseActivity {
 
     private void selectPurchaseHistory() {
 
-        mPurchaseHistoryFragment =
-                (PurchaseHistoryFragment) getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-        if (mPurchaseHistoryFragment == null) {
-            // Create the fragment
-            mPurchaseHistoryFragment = PurchaseHistoryFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), mPurchaseHistoryFragment, R.id.user_center_container);
-        }
+        // Create the fragment
+        mPurchaseHistoryFragment = PurchaseHistoryFragment.newInstance();
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mPurchaseHistoryFragment, R.id.user_center_container);
 
         // Create the presenter
         mPurchaseHistoryPresenter = new PurchaseHistoryPresenter(mPurchaseHistoryFragment);
@@ -202,15 +186,10 @@ public class UserCenterActivity extends BaseActivity {
     }
 
     private void selectHelp() {
-
-        mHelpFragment =
-                (HelpFragment) getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-        if (mHelpFragment == null) {
-            // Create the fragment
-            mHelpFragment = HelpFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), mHelpFragment, R.id.user_center_container);
-        }
+        // Create the fragment
+        mHelpFragment = HelpFragment.newInstance();
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mHelpFragment, R.id.user_center_container);
 
         // Create the presenter
         mHelpPresenter = new HelpPresenter(mHelpFragment);
@@ -223,14 +202,10 @@ public class UserCenterActivity extends BaseActivity {
 
     private void selectLocation() {
 
-        mLocationFragment =
-                (LocationFragment) getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-        if (mLocationFragment == null) {
-            // Create the fragment
-            mLocationFragment = LocationFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), mLocationFragment, R.id.user_center_container);
-        }
+        // Create the fragment
+        mLocationFragment = LocationFragment.newInstance();
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mLocationFragment, R.id.user_center_container);
 
         // Create the presenter
         mLocationPresenter = new LocationPresenter(mLocationFragment);
@@ -239,6 +214,6 @@ public class UserCenterActivity extends BaseActivity {
                 new LocationViewModel(getApplicationContext(), mLocationPresenter);
 
         mLocationFragment.setViewModel(locationViewModel);
-    }
 
+    }
 }

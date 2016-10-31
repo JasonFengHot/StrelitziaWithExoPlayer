@@ -9,15 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.usercenter.LoginContract;
+import tv.ismar.usercenter.databinding.FragmentLoginBinding;
 import tv.ismar.usercenter.viewmodel.LoginViewModel;
 
 /**
  * Created by huibin on 10/27/16.
  */
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginContract.View {
     private static final String TAG = LoginFragment.class.getSimpleName();
     private LoginViewModel mViewModel;
+    private LoginContract.Presenter mPresenter;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -41,7 +44,12 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        return super.onCreateView(inflater, container, savedInstanceState);
+        FragmentLoginBinding loginBinding = FragmentLoginBinding.inflate(inflater, container, false);
+        loginBinding.setTasks(mViewModel);
+        loginBinding.setActionHandler(mPresenter);
+
+        View root = loginBinding.getRoot();
+        return root;
     }
 
     @Override
@@ -102,5 +110,10 @@ public class LoginFragment extends Fragment {
 
     public void setViewModel(LoginViewModel viewModel) {
         mViewModel = viewModel;
+    }
+
+    @Override
+    public void setPresenter(LoginContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

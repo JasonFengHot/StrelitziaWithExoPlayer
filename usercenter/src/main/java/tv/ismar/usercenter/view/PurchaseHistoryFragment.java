@@ -9,15 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.usercenter.PurchaseHistoryContract;
+import tv.ismar.usercenter.databinding.FragmentPurchasehistoryBinding;
 import tv.ismar.usercenter.viewmodel.PurchaseHistoryViewModel;
 
 /**
  * Created by huibin on 10/27/16.
  */
 
-public class PurchaseHistoryFragment extends Fragment {
+public class PurchaseHistoryFragment extends Fragment implements PurchaseHistoryContract.View {
     private static final String TAG = PurchaseHistoryFragment.class.getSimpleName();
     private PurchaseHistoryViewModel mViewModel;
+    private PurchaseHistoryContract.Presenter mPresenter;
 
 
     public static PurchaseHistoryFragment newInstance() {
@@ -41,7 +44,11 @@ public class PurchaseHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        return super.onCreateView(inflater, container, savedInstanceState);
+        FragmentPurchasehistoryBinding purchasehistoryBinding = FragmentPurchasehistoryBinding.inflate(inflater, container, false);
+        purchasehistoryBinding.setTasks(mViewModel);
+        purchasehistoryBinding.setActionHandler(mPresenter);
+        View root = purchasehistoryBinding.getRoot();
+        return root;
     }
 
     @Override
@@ -102,5 +109,10 @@ public class PurchaseHistoryFragment extends Fragment {
 
     public void setViewModel(PurchaseHistoryViewModel viewModel) {
         mViewModel = viewModel;
+    }
+
+    @Override
+    public void setPresenter(PurchaseHistoryContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }
