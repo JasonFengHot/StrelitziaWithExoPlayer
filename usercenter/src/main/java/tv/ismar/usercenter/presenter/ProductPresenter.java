@@ -18,16 +18,16 @@ public class ProductPresenter implements ProductContract.Presenter {
     private ProductFragment mFragment;
 
     public ProductPresenter(ProductFragment productFragment) {
+        productFragment.setPresenter(this);
         mFragment = productFragment;
-        mActivity = (UserCenterActivity) productFragment.getActivity();
-        mSkyService = mActivity.mSkyService;
-
     }
 
 
     @Override
     public void start() {
-
+        mActivity = (UserCenterActivity) mFragment.getActivity();
+        mSkyService = mActivity.mSkyService;
+        fetchProduct();
     }
 
 

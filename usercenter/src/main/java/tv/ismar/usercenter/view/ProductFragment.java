@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +13,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 import tv.ismar.app.network.entity.YouHuiDingGouEntity;
 import tv.ismar.usercenter.ProductContract;
+import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.databinding.FragmentProductBinding;
 import tv.ismar.usercenter.viewmodel.ProductViewModel;
 
@@ -127,70 +133,57 @@ public class ProductFragment extends Fragment implements ProductContract.View {
 
     @Override
     public void loadProductItem(YouHuiDingGouEntity entity) {
-
+        ProductAdapter adapter = new ProductAdapter(getContext(), entity.getObjects());
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4 ));
+        mRecyclerView.setAdapter(adapter);
     }
 
 
-//    class ProductAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
-//
-//
-//        @Override
-//        public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-//            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_recycler, viewGroup, false);
-//
-//            view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                @Override
-//                public void onFocusChange(View v, boolean hasFocus) {
-//                    if (hasFocus) {
-//                        AnimationSet animationSet = new AnimationSet(true);
-//                        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1.5f, 1, 1.5f,
-//                                Animation.RELATIVE_TO_SELF, 0.5f,
-//                                Animation.RELATIVE_TO_SELF, 0.5f);
-//                        scaleAnimation.setDuration(200);
-//                        animationSet.addAnimation(scaleAnimation);
-//                        animationSet.setFillAfter(true);
-//                        v.startAnimation(animationSet);
-//
-//                    } else {
-//                        AnimationSet animationSet = new AnimationSet(true);
-//                        ScaleAnimation scaleAnimation = new ScaleAnimation(1.5f, 1f, 1.5f, 1f,
-//                                Animation.RELATIVE_TO_SELF, 0.5f,
-//                                Animation.RELATIVE_TO_SELF, 0.5f);
-//                        scaleAnimation.setDuration(200);
-//                        animationSet.addAnimation(scaleAnimation);
-//                        animationSet.setFillAfter(true);
-//                        v.startAnimation(animationSet);
-//                    }
-//                }
-//            });
-//
-//            view.bringToFront();
-//            MyViewHolder holder = new MyViewHolder(view);
-//
-//
-//            return holder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
-////            myViewHolder.textView.setText(datas.get(i));
-//
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return datas.size();
-//        }
-//    }
-//
-//    class ProductViewHolder extends RecyclerView.ViewHolder {
-//        private ImageView mImageView;
-//        private TextView mTextView;
-//
-//        public ProductViewHolder(View itemView) {
-//            super(itemView);
-//
-////            mImageView = (ImageView) itemView.findViewById(R.id.);
-//        }
-//    }
+    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
+        private Context mContext;
+
+        private List<YouHuiDingGouEntity.Object> mObjects;
+
+
+        public ProductAdapter(Context context, List<YouHuiDingGouEntity.Object> objects) {
+            mContext = context;
+            mObjects = objects;
+        }
+
+        @Override
+
+        public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_product_list, viewGroup, false);
+            ProductViewHolder holder = new ProductViewHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(ProductViewHolder holder, int position) {
+            YouHuiDingGouEntity.Object item = mObjects.get(position);
+            holder.mTextView.setText(item.getTitle());
+            if (item.getPoster_url().trim().length() == 0) {
+                Picasso.with(mContext).load(R.drawable.list_item_preview_bg).into(holder.mImageView);
+            } else {
+                Picasso.with(mContext).load(item.getPoster_url()).into(holder.mImageView);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return mObjects.size();
+        }
+    }
+
+    private class ProductViewHolder extends RecyclerView.ViewHolder {
+        private ImageView mImageView;
+        private TextView mTextView;
+
+        public ProductViewHolder(View itemView) {
+            super(itemView);
+
+            mImageView = (ImageView) itemView.findViewById(R.id.package_list_image);
+            mTextView = (TextView) itemView.findViewById(R.id.package_list_title);
+        }
+    }
 }
