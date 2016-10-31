@@ -16,6 +16,7 @@
 
 package tv.ismar.usercenter;
 
+import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.usercenter.presenter.BasePresenter;
 
 /**
@@ -23,11 +24,15 @@ import tv.ismar.usercenter.presenter.BasePresenter;
  */
 public interface UserInfoContract {
 
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
+        void loadPrivilege(AccountPlayAuthEntity entity);
 
     }
 
     interface Presenter extends BasePresenter {
+        void fetchBalance();
+
+        void fetchPrivilege();
 
     }
 }

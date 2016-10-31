@@ -34,6 +34,7 @@
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
                 android:layout_marginRight="@dimen/usercenter_info_layout_margin_left"
                 android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
+                android:visibility="@{tasks.usernameVisibility}"
             >
 
                 <TextView
@@ -53,6 +54,7 @@
                     android:layout_toRightOf="@id/account_text"
                     android:gravity="center_vertical"
                     android:singleLine="true"
+                    android:text="@{tasks.username}"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/h4_text_size"/>
 
@@ -112,6 +114,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="true"
+                    android:text="@{tasks.snCode}"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/h4_text_size"/>
 
@@ -159,6 +162,7 @@
                     android:id="@+id/device_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{tasks.deviceName}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/h4_text_size"/>
 
@@ -187,6 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:text="@{tasks.balance}"
                     android:textColor="#FFF8F8FF"
                     android:textSize="@dimen/h4_text_size"/>
             </LinearLayout>
@@ -237,7 +242,7 @@
             android:id="@+id/association_phone_layout"
             android:layout_width="@dimen/usercenter_info_association_pop_widht"
             android:layout_height="@dimen/usercenter_info_association_pop_height"
-            android:layout_centerInParent="true"></FrameLayout>
+            android:layout_centerInParent="true"/>
     </RelativeLayout>
 
 </layout>

@@ -27,13 +27,12 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
-import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemList;
-import tv.ismar.app.entity.Section;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
+import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.network.entity.ActiveEntity;
 import tv.ismar.app.network.entity.ClipEntity;
@@ -50,6 +49,12 @@ import tv.ismar.app.network.entity.YouHuiDingGouEntity;
  * Created by huibin on 8/3/16.
  */
 public interface SkyService {
+    @FormUrlEncoded
+    @POST("accounts/playauths/")
+    Observable<AccountPlayAuthEntity> accountsPlayauths(
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
 
     @GET("api/tv/section/youhuidinggou/")
     Observable<YouHuiDingGouEntity> apiYouhuidinggou(
@@ -60,6 +65,7 @@ public interface SkyService {
     Observable<ItemEntity> apiItemByUrl(
             @Url String urlP
     );
+
     @GET
     Observable<ItemList> getItemListChannel(
             @Url String url
@@ -69,14 +75,17 @@ public interface SkyService {
     Observable<ItemEntity> apiItem(
             @Path("pk") String pk
     );
+
     @GET("api/tv/sections/{channel}")
     Observable<SectionList> getSectionlist(
             @Path("channel") String channel
     );
+
     @GET("api/tv/retrieval/{channel}")
     Observable<ResponseBody> getFilters(
             @Path("channel") String channel
     );
+
     @GET("api/tv/filtrate/${content_model}/{filterCondition}/1/")
     Observable<ItemList> getFilterRequest(
             @Path("content_model") String channel,
@@ -89,6 +98,7 @@ public interface SkyService {
             @Path("area") String area,
             @Path("page") int page
     );
+
     @GET("api/tv/filtrate/{movie}/{genre}/{page}/")
     Observable<ResponseBody> fetchFiltrate(
             @Path("movie") String movie,
@@ -103,35 +113,44 @@ public interface SkyService {
             @Path("filterCondition") String filterCondition,
             @Path("page") int page
     );
+
     @GET
     Observable<SectionList> getSections(
             @Url String url
     );
+
     @GET("api/histories/")
     Observable<Item[]> getHistoryByNet(
     );
+
     @POST("api/histories/empty/")
     Observable<ResponseBody> emptyHistory(
     );
+
     @GET("api/bookmarks/")
     Observable<Item[]> getBookmarks(
     );
+
     @POST("api/bookmarks/empty/")
     Observable<ResponseBody> emptyBookmarks(
     );
+
     @GET("api/tv/relate/{pk}/")
     Observable<Item[]> getRelatedArray(
             @Path("pk") Integer pk
     );
+
     @GET("api/tv/filtrate/${content_model}/{slug}*{template}/")
     Observable<ItemList> getRelatedItemByInfo(
             @Path("content_model") String content_model,
             @Path("slug") String slug,
             @Path("template") int template
     );
+
     @GET("api/tv/section/tvhome/")
     Observable<VideoEntity> getTvHome(
     );
+
     @GET("api/item/{pk}")
     Observable<Item> getClickItem(
             @Path("pk") int pk

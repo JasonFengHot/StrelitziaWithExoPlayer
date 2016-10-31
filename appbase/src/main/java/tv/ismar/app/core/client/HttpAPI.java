@@ -10,7 +10,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import tv.ismar.app.core.usercenter.AccountPlayAuthEntity;
+import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.network.entity.AccountBalanceEntity;

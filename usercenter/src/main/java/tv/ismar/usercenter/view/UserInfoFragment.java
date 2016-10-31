@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.usercenter.UserInfoContract;
 import tv.ismar.usercenter.databinding.FragmentUserinfoBinding;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
@@ -74,6 +75,7 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View 
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        mPresenter.start();
 
     }
 
@@ -115,5 +117,10 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View 
     @Override
     public void setPresenter(UserInfoContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void loadPrivilege(AccountPlayAuthEntity entity) {
+
     }
 }

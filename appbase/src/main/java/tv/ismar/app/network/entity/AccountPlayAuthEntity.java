@@ -1,4 +1,4 @@
-package tv.ismar.app.core.usercenter;
+package tv.ismar.app.network.entity;
 
 import java.util.ArrayList;
 

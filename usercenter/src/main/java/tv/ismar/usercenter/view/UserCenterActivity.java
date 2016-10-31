@@ -148,7 +148,7 @@ public class UserCenterActivity extends BaseActivity {
         mUserInfoPresenter = new UserInfoPresenter(mUserInfoFragment);
 
         UserInfoViewModel userInfoViewModel =
-                new UserInfoViewModel(getApplicationContext(), mProductPresenter);
+                new UserInfoViewModel(getApplicationContext(), mUserInfoPresenter);
 
         mUserInfoFragment.setViewModel(userInfoViewModel);
     }
