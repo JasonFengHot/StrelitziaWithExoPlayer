@@ -1,6 +1,7 @@
 package tv.ismar.player.media;
 
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -21,6 +22,7 @@ import tv.ismar.player.SmartPlayer;
  */
 public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback {
 
+    private static final String ERROR_DEFAULT_MSG = "播放器错误";
     private SmartPlayer mPlayer;
     private String[] mPaths;
     private SurfaceHolder mHolder;
@@ -128,8 +130,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Log.e(TAG, "smartPlayer play next video IOException.");
                     if (mOnStateChangedListener != null) {
-                        mOnStateChangedListener.onError("Play next media error.");
+                        mOnStateChangedListener.onError(ERROR_DEFAULT_MSG);
                     }
                 }
             } else {
@@ -223,8 +226,20 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
                     e.printStackTrace();
                 }
             }
+            String errorMsg = ERROR_DEFAULT_MSG;
+            switch (i){
+                case SmartPlayer.PROXY_DOWNLOAD_M3U8_ERROR:
+                    errorMsg = "视频文件下载失败";
+                    break;
+                case SmartPlayer.PROXY_PARSER_M3U8_ERROR:
+                    errorMsg = "视频文件解析失败";
+                    break;
+                case MediaPlayer.MEDIA_ERROR_IO:
+                    errorMsg = "网络错误";
+                    break;
+            }
             if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onError("SmartPlayer error " + i);
+                mOnStateChangedListener.onError(errorMsg);
             }
             return false;
         }
