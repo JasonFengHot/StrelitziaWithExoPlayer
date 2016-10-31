@@ -36,6 +36,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Item;
@@ -43,8 +47,7 @@ import tv.ismar.app.entity.ItemCollection;
 import tv.ismar.app.entity.ItemList;
 import tv.ismar.app.entity.Section;
 import tv.ismar.app.entity.SectionList;
-import tv.ismar.app.exception.ItemOfflineException;
-import tv.ismar.app.exception.NetworkException;
+import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.adapter.HGridAdapterImpl;
@@ -90,7 +93,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     private boolean isInitTaskLoading;
 
-    private InitTask mInitTask;
+  //  private InitTask mInitTask;
 
     private ConcurrentHashMap<Integer, GetItemListTask> mCurrentLoadingTask = new ConcurrentHashMap<Integer, GetItemListTask>();
 
@@ -109,6 +112,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     private Button right_shadow;
     private LaunchHeaderLayout weatherFragment;
     private InitPlayerTool tool;
+    private SkyService skyService;
     public void setIsPOrtrait(boolean isPortrait) {
         this.isPortrait = isPortrait;
     }
@@ -296,19 +300,23 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             mLoadingDialog = new LoadingDialog(getActivity(),R.style.LoadingDialog);
             mLoadingDialog.setTvText(getResources().getString(R.string.loading));
             mLoadingDialog.setOnCancelListener(mLoadingCancelListener);
+        //    mLoadingDialog.show();
+            mLoadingDialog.showDialog();
             if (!isPortrait)
                 fragmentView = inflater.inflate(R.layout.list_view, container, false);
             else
                 fragmentView = inflater.inflate(R.layout.listportrait, container, false);
             initViews(fragmentView);
-            mInitTask = new InitTask();
-            mInitTask.execute(mUrl, mChannel);
+            skyService=SkyService.ServiceManager.getService();
+            getData(mUrl,mChannel);
+//            mInitTask = new InitTask();
+//            mInitTask.execute(mUrl, mChannel);
             // Add data collection.
             HashMap<String, Object> properties = new HashMap<String, Object>();
             properties.put(EventProperty.CATEGORY, mChannel);
             properties.put(EventProperty.TITLE, mTitle);
 
-        //    new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CHANNEL_IN, properties);10/21注
+           new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CHANNEL_IN, properties);
         }
 
         return fragmentView;
@@ -357,6 +365,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     }
 
     private void doFilterRequest() {
+        Log.i("onNext","channelFragment");
         String s = mChannel;
         String url = "http://cordadmintest.tvxio.com/api/tv/retrieval/" + mChannel + "/";
         mRestClient.doTopicRequest(url, "get", "", new SimpleRestClient.HttpPostRequestInterface() {
@@ -488,149 +497,263 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         mMenuFragment.setOnMenuItemClickedListener(this);
     }
 
-    class InitTask extends AsyncTask<String, Void, Integer> {
-
-        String url;
-        String channel;
-        int nextSection = 0;
-
-        private final static int RESULT_NETWORKEXCEPTION = -1;
-        private final static int RESUTL_CANCELED = -2;
-        private final static int RESULT_SUCCESS = 0;
-
-        @Override
-        protected void onPreExecute() {
-            if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
-                mLoadingDialog.show();
-            }
-            isInitTaskLoading = true;
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            try {
-                url = params[0];
-                channel = params[1];
-                if (!isChannelUrl(url)) {
-                //    mSectionList = mRestClient.getSectionsByChannel(channel);
-                    for (int i = 0; i < mSectionList.size() && !isCancelled(); i++) {
-                //        if (NetworkUtils.urlEquals(url, mSectionList.get(i).url)) {
-                            nextSection = i;
-                            break;
-                        }
-               //     }
-                }
-                if (mSectionList == null && !isCancelled()) {
-                //    mSectionList = mRestClient.getSections(url);
-//					try{
-//						HttpClient httpClient = new DefaultHttpClient();
-//						//仿地址链接直接跟参数，如：http://127.0.0.1:8080/test/test.php?name=;
-//						HttpGet httpGet = new HttpGet(url);
-//						HttpResponse httpResponse = httpClient.execute(httpGet);
-//						if(httpResponse.getStatusLine().getStatusCode()==200){
-//						String result = EntityUtils.toString(httpResponse.getEntity(),"UTF-8");
-//						Log.i("qqq", "result="+result);
-//						mSectionList = mRestClient.getsectionss(result);
-//						}
-//						}catch(Exception e){}
-                }
-                if (mSectionList != null) {
-
-                    SectionList tmp = new SectionList();
-                    for (Section s : mSectionList) {
-                        if (s.count != 0) {
-                            tmp.add(s);
-                        }
-                    }
-                    mSectionList = tmp;
-                    mItemCollections = new ArrayList<ItemCollection>();
-                    for (int i = 0; i < mSectionList.size(); i++) {
-                        Section section = mSectionList.get(i);
-                        int num_pages = (int) Math.ceil((float) section.count / (float) ItemCollection.NUM_PER_PAGE);
-                        if (num_pages == 0) {
-                            num_pages = num_pages + 1;
-                        }
-                        ItemCollection itemCollection = new ItemCollection(num_pages, section.count, section.slug, section.title);
-                        mItemCollections.add(itemCollection);
-                    }
-                }
-                if (isCancelled()) {
-                    return RESUTL_CANCELED;
-                } else {
-                    return RESULT_SUCCESS;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return RESULT_NETWORKEXCEPTION;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-                mLoadingDialog.dismiss();
-            }
-            isInitTaskLoading = false;
-            weatherFragment.setVisibility(View.VISIBLE);
-
-            // right_shadow.setVisibility(View.VISIBLE);
-            //top_column_layout.setSecondChannelVisable();
-            percentage.setVisibility(View.VISIBLE);
-            if (result != RESULT_SUCCESS) {
-                //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
-                return;
-            }
-            try {
-                if (mSectionList != null) {
-                    if (mSectionList.size() > 5) {
-                        arrow_right.setVisibility(View.VISIBLE);
-                    }
-
-                        mScrollableSectionList.init(mSectionList, getResources().getDimensionPixelSize(R.dimen.gridview_channel_section_tabs_width), false);
-                    //	btn_search.setNextFocusDownId(R.id.section_item_layout);
-                    mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections);
-                    if (isPortrait)
-                        mHGridAdapter.setIsPortrait(true);
-
-                    mHGridAdapter.setList(mItemCollections);
-                    if (mHGridAdapter.getCount() > 0) {
-                        mHGridView.setAdapter(mHGridAdapter);
-                        mHGridView.setFocusable(true);
-                        mHGridView.requestFocus();
-//                        mHGridView.setSelection(6);
-                        mScrollableSectionList.mGridView = mHGridView;
-//						mHGridView.setHorizontalFadingEdgeEnabled(true);
-//                        if(isPortrait){
-//                            mHGridView.setFadingEdgeLength(155);
+//    class InitTask extends AsyncTask<String, Void, Integer> {
+//
+//        String url;
+//        String channel;
+//        int nextSection = 0;
+//
+//        private final static int RESULT_NETWORKEXCEPTION = -1;
+//        private final static int RESUTL_CANCELED = -2;
+//        private final static int RESULT_SUCCESS = 0;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
+//                mLoadingDialog.show();
+//            }
+//            isInitTaskLoading = true;
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Integer doInBackground(String... params) {
+//            try {
+//                url = params[0];
+//                channel = params[1];
+//                Log.i("ischannel",isChannelUrl(url)+"");
+//                if (!isChannelUrl(url)) {
+//                 //   mSectionList = mRestClient.getSectionsByChannel(channel);
+//                    skyService.getSectionlist(channel).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(((BaseActivity) getActivity()).new BaseObserver<SectionList>() {
+//                        @Override
+//                        public void onCompleted() {
+//
 //                        }
-//                        else{
-//                            mHGridView.setFadingEdgeLength(200);
+//
+//                        @Override
+//                        public void onNext(SectionList sections) {
+//                            Log.i("ischannel","onNext  "+sections.toString());
+//                            mSectionList=new SectionList();
+//                            mSectionList.addAll(sections);
+//                            Log.i("ischannel","mSectionList: "+mSectionList.toString());
 //                        }
-                       mHGridAdapter.hg = mHGridView;
-                        int num_rows = mHGridView.getRows();
-                        int totalColumnsOfSectionX = (int) Math.ceil((float) mItemCollections.get(nextSection).count / (float) num_rows);
-                        mScrollableSectionList.setPercentage(nextSection + 1, (int) (1f / (float) totalColumnsOfSectionX * 100f));
-                        checkSectionChanged(nextSection + 1);
+//                    });
+//
+//
+//                    for (int i = 0; i < mSectionList.size() && !isCancelled(); i++) {
+//                        if (NetworkUtils.urlEquals(url, mSectionList.get(i).url)) {
+//                            nextSection = i;
+//                            break;
+//                        }
+//                    }
+//                }
+//                if (mSectionList == null && !isCancelled()) {
+//                  //  mSectionList = mRestClient.getSections(url);
+//                    skyService.getSections(url).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(((BaseActivity) getActivity()).new BaseObserver<SectionList>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(SectionList sections) {
+//                            Log.i("ischannel","onTureNext  "+sections.toString());
+//                            mSectionList=new SectionList();
+//                            mSectionList.addAll(sections);
+//                        }
+//                    });
+//
+////					try{
+////						HttpClient httpClient = new DefaultHttpClient();
+////						//仿地址链接直接跟参数，如：http://127.0.0.1:8080/test/test.php?name=;
+////						HttpGet httpGet = new HttpGet(url);
+////						HttpResponse httpResponse = httpClient.execute(httpGet);
+////						if(httpResponse.getStatusLine().getStatusCode()==200){
+////						String result = EntityUtils.toString(httpResponse.getEntity(),"UTF-8");
+////						Log.i("qqq", "result="+result);
+////						mSectionList = mRestClient.getsectionss(result);
+////						}
+////						}catch(Exception e){}
+//                }
+//                if (mSectionList != null) {
+//
+//                    SectionList tmp = new SectionList();
+//                    for (Section s : mSectionList) {
+//                        if (s.count != 0) {
+//                            tmp.add(s);
+//                        }
+//                    }
+//                    mSectionList = tmp;
+//                    mItemCollections = new ArrayList<ItemCollection>();
+//                    for (int i = 0; i < mSectionList.size(); i++) {
+//                        Section section = mSectionList.get(i);
+//                        int num_pages = (int) Math.ceil((float) section.count / (float) ItemCollection.NUM_PER_PAGE);
+//                        if (num_pages == 0) {
+//                            num_pages = num_pages + 1;
+//                        }
+//                        ItemCollection itemCollection = new ItemCollection(num_pages, section.count, section.slug, section.title);
+//                        mItemCollections.add(itemCollection);
+//                    }
+//                }
+//                if (isCancelled()) {
+//                    return RESUTL_CANCELED;
+//                } else {
+//                    return RESULT_SUCCESS;
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return RESULT_NETWORKEXCEPTION;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Integer result) {
+//            if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+//                mLoadingDialog.dismiss();
+//            }
+//            isInitTaskLoading = false;
+//            weatherFragment.setVisibility(View.VISIBLE);
+//
+//            // right_shadow.setVisibility(View.VISIBLE);
+//            //top_column_layout.setSecondChannelVisable();
+//            percentage.setVisibility(View.VISIBLE);
+//            if (result != RESULT_SUCCESS) {
+//                //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
+//                return;
+//            }
+//            try {
+//                if (mSectionList != null) {
+//                    if (mSectionList.size() > 5) {
+//                        arrow_right.setVisibility(View.VISIBLE);
+//                    }
+//
+//                        mScrollableSectionList.init(mSectionList, getResources().getDimensionPixelSize(R.dimen.gridview_channel_section_tabs_width), false);
+//                    //	btn_search.setNextFocusDownId(R.id.section_item_layout);
+//                    mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections);
+//                    if (isPortrait)
+//                        mHGridAdapter.setIsPortrait(true);
+//
+//                    mHGridAdapter.setList(mItemCollections);
+//                    if (mHGridAdapter.getCount() > 0) {
+//                        mHGridView.setAdapter(mHGridAdapter);
+//                        mHGridView.setFocusable(true);
+//                        mHGridView.requestFocus();
+////                        mHGridView.setSelection(6);
+//                        mScrollableSectionList.mGridView = mHGridView;
+////						mHGridView.setHorizontalFadingEdgeEnabled(true);
+////                        if(isPortrait){
+////                            mHGridView.setFadingEdgeLength(155);
+////                        }
+////                        else{
+////                            mHGridView.setFadingEdgeLength(200);
+////                        }
+//                       mHGridAdapter.hg = mHGridView;
+//                        int num_rows = mHGridView.getRows();
+//                        int totalColumnsOfSectionX = (int) Math.ceil((float) mItemCollections.get(nextSection).count / (float) num_rows);
+//                        mScrollableSectionList.setPercentage(nextSection + 1, (int) (1f / (float) totalColumnsOfSectionX * 100f));
+//                        checkSectionChanged(nextSection + 1);
+//                    }
+//
+//                } else {
+//                    //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+////			new GetItemListTask().execute();
+//            super.onPostExecute(result);
+//        }
+//
+//    }
+    private  int nextSection=0;
+    public void getData(final String url,String channel){
+            if (mSectionList == null) {
+                skyService.getSections(url).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(((BaseActivity) getActivity())
+                                           .new BaseObserver<SectionList>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                            @Override
+                    public void onNext(SectionList sections) {
+                        if(!isChannelUrl(url)){
+                            for (int i = 0; i < sections.size(); i++) {
+                                if (NetworkUtils.urlEquals(url, sections.get(i).url)) {
+                                    nextSection = i;
+                                    break;
+                                }
+                            }
+                        }
+                        SectionList tmp = new SectionList();
+                        for (Section s : sections) {
+                            if (s.count != 0) {
+                                tmp.add(s);
+                            }
+                        }
+                        mSectionList = tmp;
+                        mItemCollections = new ArrayList<ItemCollection>();
+                        for (int i = 0; i < mSectionList.size(); i++) {
+                            Section section = mSectionList.get(i);
+                            int num_pages = (int) Math.ceil((float) section.count / (float) ItemCollection.NUM_PER_PAGE);
+                            if (num_pages == 0) {
+                                num_pages = num_pages + 1;
+                            }
+                            ItemCollection itemCollection = new ItemCollection(num_pages, section.count, section.slug, section.title);
+                            mItemCollections.add(itemCollection);
+                        }
+                        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                            mLoadingDialog.dismiss();
+                        }
+                        weatherFragment.setVisibility(View.VISIBLE);
+                        percentage.setVisibility(View.VISIBLE);
+                        try {
+                            if (mSectionList != null) {
+                                if (mSectionList.size() > 5) {
+                                    arrow_right.setVisibility(View.VISIBLE);
+                                }
+
+                                mScrollableSectionList.init(mSectionList, getResources().getDimensionPixelSize(R.dimen.gridview_channel_section_tabs_width), false);
+                                mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections);
+                                if (isPortrait)
+                                    mHGridAdapter.setIsPortrait(true);
+
+                                mHGridAdapter.setList(mItemCollections);
+                                if (mHGridAdapter.getCount() > 0) {
+                                    mHGridView.setAdapter(mHGridAdapter);
+                                    mHGridView.setFocusable(true);
+                                    mHGridView.requestFocus();
+                                    mScrollableSectionList.mGridView = mHGridView;
+                                    mHGridAdapter.hg = mHGridView;
+                                    int num_rows = mHGridView.getRows();
+                                    int totalColumnsOfSectionX = (int) Math.ceil((float) mItemCollections.get(nextSection).count / (float) num_rows);
+                                    mScrollableSectionList.setPercentage(nextSection + 1, (int) (1f / (float) totalColumnsOfSectionX * 100f));
+                                    checkSectionChanged(nextSection + 1);
+                                }
+
+                            } else {
+                                //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } else {
-                    //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+                            @Override
+                            public void onError(Throwable e) {
+                                super.onError(e);
+                                mLoadingDialog.dismiss();
+                            }
+                        });
             }
-//			new GetItemListTask().execute();
-            super.onPostExecute(result);
-        }
-
     }
 
     class GetItemListTask extends AsyncTask<Object, Void, ItemList> {
 
         private Integer index;
         private String slug;
-
+        private  ItemList mItemList;
         @Override
         protected void onCancelled() {
             mCurrentLoadingTask.remove(index);
@@ -639,58 +762,90 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
         @Override
         protected ItemList doInBackground(Object... params) {
-            try {
-                index = (Integer) params[0];
-
-                mCurrentLoadingTask.put(index, this);
-                int[] sectionAndPage = getSectionAndPageFromIndex(index);
-                int sectionIndex = sectionAndPage[0];
-                // page in api must start at 1.
-                int page = sectionAndPage[1] + 1;
-                Section section = mSectionList.get(sectionIndex);
-                slug = section.slug;
-                String url = section.url + page + "/";
-               ItemList itemList = mRestClient.getItemList(url);
-                if (isCancelled()) {
-                    return null;
-                } else {
-                   return itemList;
-                }
-            } catch (Exception e) {
-                if (e instanceof ItemOfflineException) {
-                    HashMap<String, Object> exceptionProperties = new HashMap<String, Object>();
-                    exceptionProperties.put(EventProperty.CODE, "nocategory");
-                    exceptionProperties.put(EventProperty.CONTENT, "get category error : " + ((ItemOfflineException) e).getUrl());
-                    exceptionProperties.put(EventProperty.SECTION, slug);
-                    NetworkUtils.SaveLogToLocal(NetworkUtils.CATEGORY_EXCEPT, exceptionProperties);
-                } else if (e instanceof NetworkException) {
-                    HashMap<String, Object> exceptionProperties = new HashMap<String, Object>();
-                    exceptionProperties.put(EventProperty.CODE, "networkconnerror");
-                    exceptionProperties.put(EventProperty.CONTENT, "network connect error : " + ((ItemOfflineException) e).getUrl());
-                    exceptionProperties.put(EventProperty.SECTION, slug);
-                    NetworkUtils.SaveLogToLocal(NetworkUtils.CATEGORY_EXCEPT, exceptionProperties);
-                }
-                e.printStackTrace();
+//            try {
+//                index = (Integer) params[0];
+//
+//                mCurrentLoadingTask.put(index, this);
+//                int[] sectionAndPage = getSectionAndPageFromIndex(index);
+//                int sectionIndex = sectionAndPage[0];
+//                // page in api must start at 1.
+//                int page = sectionAndPage[1] + 1;
+//                Section section = mSectionList.get(sectionIndex);
+//                slug = section.slug;
+//                String url = section.url + page + "/";
+//             //  ItemList itemList = mRestClient.getItemList(url);
+//                if (isCancelled()) {
+//                    return null;
+//                } else {
+//                   return mItemList;
+//                }
+//            } catch (Exception e) {
+//                if (e instanceof ItemOfflineException) {
+//                    HashMap<String, Object> exceptionProperties = new HashMap<String, Object>();
+//                    exceptionProperties.put(EventProperty.CODE, "nocategory");
+//                    exceptionProperties.put(EventProperty.CONTENT, "get category error : " + ((ItemOfflineException) e).getUrl());
+//                    exceptionProperties.put(EventProperty.SECTION, slug);
+//                    NetworkUtils.SaveLogToLocal(NetworkUtils.CATEGORY_EXCEPT, exceptionProperties);
+//                } else if (e instanceof NetworkException) {
+//                    HashMap<String, Object> exceptionProperties = new HashMap<String, Object>();
+//                    exceptionProperties.put(EventProperty.CODE, "networkconnerror");
+//                    exceptionProperties.put(EventProperty.CONTENT, "network connect error : " + ((ItemOfflineException) e).getUrl());
+//                    exceptionProperties.put(EventProperty.SECTION, slug);
+//                    NetworkUtils.SaveLogToLocal(NetworkUtils.CATEGORY_EXCEPT, exceptionProperties);
+//                }
+//                e.printStackTrace();
                 return null;
-            }
+ //           }
         }
 
         @Override
         protected void onPostExecute(ItemList itemList) {
-            mCurrentLoadingTask.remove(index);
-            if (itemList != null && itemList.objects != null) {
-                int sectionIndex = getSectionAndPageFromIndex(index)[0];
-                int page = getSectionAndPageFromIndex(index)[1];
-                ItemCollection itemCollection = mItemCollections.get(sectionIndex);
-                itemCollection.fillItems(page, itemList.objects);
-                mHGridAdapter.setList(mItemCollections);
-            } else {
-                //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, new GetItemListTask(), new Object[]{index});
-            }
+//            mCurrentLoadingTask.remove(index);
+//            if (itemList != null && itemList.objects != null) {
+//                int sectionIndex = getSectionAndPageFromIndex(index)[0];
+//                int page = getSectionAndPageFromIndex(index)[1];
+//                ItemCollection itemCollection = mItemCollections.get(sectionIndex);
+//                itemCollection.fillItems(page, itemList.objects);
+//                mHGridAdapter.setList(mItemCollections);
+//                mHGridAdapter.notifyDataSetChanged();
+//            } else {
+//                //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, new GetItemListTask(), new Object[]{index});
+//            }
         }
 
     }
+    private String slug;
+    public void getItemList( final Integer index){
+       // mCurrentLoadingTask.put(index);
+        int[] sectionAndPage = getSectionAndPageFromIndex(index);
+        int sectionIndex = sectionAndPage[0];
+        // page in api must start at 1.
+        int page = sectionAndPage[1] + 1;
+        Section section = mSectionList.get(sectionIndex);
+        slug = section.slug;
+        String url = section.url + page + "/";
+        skyService.getItemListChannel(url).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(((ChannelListActivity) getActivity()).new BaseObserver<ItemList>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onNext(ItemList itemList) {
+                mLoadingDialog.dismiss();
+              //  mCurrentLoadingTask.remove(index);
+                if (itemList != null && itemList.objects != null) {
+                    int sectionIndex = getSectionAndPageFromIndex(index)[0];
+                    int page = getSectionAndPageFromIndex(index)[1];
+                    ItemCollection itemCollection = mItemCollections.get(sectionIndex);
+                    itemCollection.fillItems(page, itemList.objects);
+                    mHGridAdapter.setList(mItemCollections);
+                } else {
+                    //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, new GetItemListTask(), new Object[]{index});
+                }
+            }
+        });
+    }
     private ScrollableSectionList.OnSectionSelectChangedListener mOnSectionSelectChangedListener = new ScrollableSectionList.OnSectionSelectChangedListener() {
 
         @Override
@@ -765,9 +920,9 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     	super.onDestroyView();
     	if(tool != null)
     		tool.removeAsycCallback();
-        if (mInitTask != null && mInitTask.getStatus() != AsyncTask.Status.FINISHED) {
-            mInitTask.cancel(true);
-        }
+//        if (mInitTask != null && mInitTask.getStatus() != AsyncTask.Status.FINISHED) {
+//            mInitTask.cancel(true);
+//        }
 		if (mSectionList == null || mCurrentSectionIndex < 0)
 			return;
         // Add data collection.
@@ -786,7 +941,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 //		new NetworkUtils.DataCollectionTask().execute(
 //				NetworkUtils.VIDEO_CATEGORY_OUT, mSectionProperties);10/21注
 
-        mInitTask = null;
+        //mInitTask = null;
         mSectionList = null;
         mScrollableSectionList = null;
     }
@@ -904,7 +1059,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             for (int i = 0; i < needToLoadComposedIndex.size(); i++) {
                 int composedIndex = needToLoadComposedIndex.get(i);
                 if (!currentLoadingTask.containsKey(composedIndex)) {
-                    new GetItemListTask().execute(composedIndex);
+                 //   new GetItemListTask().execute(composedIndex);
+                    getItemList(composedIndex);
                 }
             }
             Log.d(TAG, currentLoadingTask.size() + " tasks in currentLoadingTask: ");
@@ -950,28 +1106,32 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                     mSectionProperties.remove(EventProperty.SECTION);
                     Intent intent = new Intent();
                     if (item.is_complex) {
-                        if (!isPortrait) {
-                            if (item.content_model.equals("variety") || item.content_model.equals("entertainment")) {
-                                //综艺详情
-                                if (item.expense != null) {
-                                    intent.setAction("tv.ismar.daisy.Item");
-                                } else {
-                                    intent.setAction("tv.ismar.daisy.EntertainmentItem");
-                                }
-                            } else if (item.content_model.equals("movie") ){
-                                intent.setAction("tv.ismar.daisy.PFileItem");
-                            }else {
-                                intent.setAction("tv.ismar.daisy.Item");
-                            }
-                        } else {
-                            intent.setAction("tv.ismar.daisy.PFileItem");
-                        }
-                        intent.putExtra("url", item.url);
-                        intent.putExtra("title", mTitle);
-                        intent.putExtra("channel", mChannel);
-                        intent.putExtra("fromPage", "list");
-                        intent.putExtra(EventProperty.SECTION, s.slug);
-                        startActivity(intent);
+//                        if (!isPortrait) {
+//                            if (item.content_model.equals("variety") || item.content_model.equals("entertainment")) {
+//                                //综艺详情
+//                                if (item.expense != null) {
+//                                    intent.setAction("tv.ismar.daisy.Item");
+//                                } else {
+//                                    intent.setAction("tv.ismar.daisy.EntertainmentItem");
+//                                }
+//                            } else if (item.content_model.equals("movie") ){
+//                                intent.setAction("tv.ismar.daisy.PFileItem");
+//                            }else {
+//                                intent.setAction("tv.ismar.daisy.Item");
+//                            }
+//                        } else {
+//                            intent.setAction("tv.ismar.daisy.PFileItem");
+//                        }
+//                        intent.putExtra("url", item.url);
+//                        intent.putExtra("title", mTitle);
+//                        intent.putExtra("channel", mChannel);
+//                        intent.putExtra("fromPage", "list");
+//                        intent.putExtra(EventProperty.SECTION, s.slug);
+//                        startActivity(intent);
+                        boolean[] isSubItem = new boolean[1];
+                        int pk = SimpleRestClient.getItemId(item.url, isSubItem);
+                        PageIntent pageIntent=new PageIntent();
+                        pageIntent.toDetailPage(getActivity(),"list",pk);
                     } else {
                         tool = new InitPlayerTool(getActivity());
                         tool.fromPage = "list";

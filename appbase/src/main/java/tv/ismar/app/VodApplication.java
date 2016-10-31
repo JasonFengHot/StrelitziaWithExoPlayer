@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -105,6 +106,10 @@ public class VodApplication extends Application {
     }
     public static void setDevice_Token() {
         SimpleRestClient.device_token = mPreferences.getString(VodApplication.DEVICE_TOKEN, "");
+    }
+    public VodApplication() {
+        mLowMemoryListeners = new ArrayList<WeakReference<OnLowMemoryListener>>();
+     //   mActivityPool = new ConcurrentHashMap<String, Activity>();
     }
     public static VodApplication get(Context context) {
         return (VodApplication) context.getApplicationContext();
@@ -212,5 +217,24 @@ public class VodApplication extends Application {
             mImageCache = new ImageCache(this);
         }
         return mImageCache;
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        int i = 0;
+        while (i < mLowMemoryListeners.size()) {
+            final OnLowMemoryListener listener = mLowMemoryListeners.get(i).get();
+            if (listener == null) {
+                mLowMemoryListeners.remove(i);
+            } else {
+                listener.onLowMemoryReceived();
+                i++;
+            }
+        }
+    }
+    @Override
+    public void onTrimMemory(int level) {
+        // TODO Auto-generated method stub
+        super.onTrimMemory(level);
     }
 }

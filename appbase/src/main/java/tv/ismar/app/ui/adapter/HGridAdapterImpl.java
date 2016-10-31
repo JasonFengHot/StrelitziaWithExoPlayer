@@ -193,11 +193,11 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection> implements As
                     else{
                         holder.price.setVisibility(View.GONE);
                     }
-					if (isPortrait) {
-						holder.previewImage.setUrl(item.list_url);
-					} else {
-						holder.previewImage.setUrl(item.adlet_url);
-					}
+						if (isPortrait) {
+							holder.previewImage.setUrl(item.list_url);
+						} else {
+							holder.previewImage.setUrl(item.adlet_url);
+						}
                     if(isPortrait){
                         if(item.focus!=null){
                             holder.previewImage.setFocustitle(item.focus);

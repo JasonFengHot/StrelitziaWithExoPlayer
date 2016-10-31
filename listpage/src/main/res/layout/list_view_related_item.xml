@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/list_item_layout">
+
+    <tv.ismar.app.ui.view.LabelImageView
+        android:layout_width="@dimen/filter_list_item_title_w"
+        android:layout_height="@dimen/filter_list_item_preview_img_h"
+        android:id="@+id/list_item_preview_img"
+        android:background="@drawable/list_item_preview_bg"
+        android:layout_alignParentTop="true"
+        android:paddingTop="@dimen/gridview_item_image_PaddingT"
+        android:paddingBottom="@dimen/gridview_item_image_PaddingB"
+        android:paddingLeft="@dimen/gridview_item_image_PaddingL"
+        android:paddingRight="@dimen/gridview_item_image_PaddingR"
+        labelimage:focuspaddingtop="0.90"
+        labelimage:focustextsize="@dimen/entertainment_vaiety_channel_title_textsize"
+        labelimage:focusbackground="#b3303030"
+        labelimage:maxfocustitle="10"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:paddingBottom="@dimen/related_view_hgridview_item_pb"
+        android:paddingTop="@dimen/related_view_hgridview_item_pt"
+        android:layout_width="@dimen/filter_list_item_title_w"
+        android:layout_height="@dimen/related_view_hgridview_item_textview_h"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/list_item_preview_img"
+        android:textSize="@dimen/entertainment_vaiety_channel_title_textsize"
+        android:id="@+id/list_item_title"
+        android:textColor="#FFF8F8FF"
+       />
+    <TextView
+            android:id="@+id/ItemBeanScore"
+            android:layout_width="@dimen/list_vip_score_w"
+            android:layout_height="@dimen/list_vip_score_h"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/list_vip_score_mr"
+            android:layout_marginTop="@dimen/list_vip_score_mt"
+            android:gravity="center"
+            android:textColor="#ff9000"
+            android:textSize="@dimen/score_tag_txt_size"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/expense_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="visible" >
+    </ImageView>
+    <ImageView
+        android:layout_width="@dimen/gridview_item_quality_img_H"
+        android:layout_height="@dimen/gridview_item_quality_img_W"
+        android:layout_alignTop="@id/list_item_preview_img"
+        android:layout_alignRight="@id/list_item_preview_img"
+        android:layout_marginTop="@dimen/gridview_item_quality_img_marginT"
+        android:layout_marginRight="@dimen/gridview_item_quality_img_marginR"
+        android:id="@+id/list_item_quality_label"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

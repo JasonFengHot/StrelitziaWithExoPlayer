@@ -3,10 +3,10 @@ package tv.ismar.app.core;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.google.common.util.concurrent.AbstractScheduledService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.qiyi.sdk.utils.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Attribute;
 import tv.ismar.app.entity.ChannelList;
@@ -34,6 +37,7 @@ import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.SportGame;
 import tv.ismar.app.exception.ItemOfflineException;
 import tv.ismar.app.exception.NetworkException;
+import tv.ismar.app.network.SkyService;
 
 public class SimpleRestClient {
 	// public String root_url = "http://cord.tvxio.com";
@@ -59,14 +63,15 @@ public class SimpleRestClient {
 	public static int densityDpi;
 	public static int screenWidth;
 	public static int screenHeight;
-
 	private Gson gson;
+	private SkyService skyService;
 
 	public SimpleRestClient() {
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Attribute.class,
 				new AttributeDeserializer());
 		gson = gsonBuilder.create();
+		skyService=SkyService.ServiceManager.getService();
 	}
 
 	public Item[] getItems(String str) {
@@ -211,6 +216,7 @@ public class SimpleRestClient {
 			String url = root_url + "/api/tv/sections/" + channel + "/";
 			String jsonStr = NetworkUtils.getJsonStr(url, "");
 			SectionList list = gson.fromJson(jsonStr, SectionList.class);
+
 			return list;
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
@@ -276,7 +282,7 @@ public class SimpleRestClient {
 		try {
 			String url = root_url + path;
 			String jsonStr = NetworkUtils.getJsonStr(url, "");
-			if(StringUtils.isEmpty(jsonStr))
+			if(TextUtils.isEmpty(jsonStr))
 				throw new NetworkException("空数据");
 			JSONObject rootObject = new JSONObject(jsonStr);
 			JSONArray livingArray = rootObject.getJSONArray("living");

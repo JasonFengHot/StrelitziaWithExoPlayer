@@ -5,9 +5,9 @@ import android.net.Uri;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-import retrofit2.GsonConverterFactory;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import tv.ismar.account.HttpLoggingInterceptor;
+import retrofit2.converter.gson.GsonConverterFactory;
 import tv.ismar.app.core.SimpleRestClient;
 
 

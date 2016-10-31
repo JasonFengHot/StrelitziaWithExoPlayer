@@ -18,16 +18,25 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
+import com.google.common.util.concurrent.AbstractScheduledService;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
+import okhttp3.ResponseBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
 import tv.ismar.app.entity.ItemList;
 import tv.ismar.app.exception.ItemOfflineException;
 import tv.ismar.app.exception.NetworkException;
+import tv.ismar.app.network.SkyService;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.adapter.HGridFilterAdapterImpl;
 import tv.ismar.app.ui.view.AlertDialogFragment;
@@ -64,6 +73,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
     private Button right_shadow;
     private float rate;
     private InitPlayerTool tool;
+    private SkyService skyService;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rate = DaisyUtils.getVodApplication(getActivity()).getRate(getActivity());
@@ -77,6 +87,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                fragmentView = inflater.inflate(R.layout.filter_result_list_view,container,false);
              else
                fragmentView = inflater.inflate(R.layout.filter_portraitresult_list_view,container,false);
+            skyService=SkyService.ServiceManager.getService();
             doFilterRequest();
         }
         return fragmentView;
@@ -108,8 +119,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 			filterBtn.setOnHoverListener(onHoverListener);
                 url = SimpleRestClient.root_url+"/api/tv/filtrate/"+"$"+"movie"+"/"+"area*10022$10261$10263$10378$10479$10483$10484$10494"+"/1";
                 isNoData = true;
-                mInitTask = new InitItemTask();
-                new InitItemTask().execute();
+                doFilterRequest();
             }
         mHGridView.leftbtn = left_shadow;
         mHGridView.rightbtn = right_shadow;
@@ -350,13 +360,97 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
             }
         }
     }
-    private void doFilterRequest(){
-      //http://v2.sky.tvxio.com/v2_0/SKY/dto/api/tv/retrieval/" + mChannel + "/
-     //api/tv/filtrate/$variety/genre*10008!area*10003/1
-        url = SimpleRestClient.root_url+"/api/tv/filtrate/"+"$"+content_model+"/"+filterCondition+"/1";
+    public void getItemList(final Integer index){
+        int[] sectionAndPage = getSectionAndPageFromIndex(index);
+        int page = sectionAndPage[1] + 1;
+        if (!isNoData) {
+            skyService.getFilterRequestHaveData(content_model,filterCondition,page).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(((BaseActivity) getActivity()).new BaseObserver<ItemList>() {
+                        @Override
+                        public void onCompleted() {
 
-        mInitTask = new InitItemTask();
-        new InitItemTask().execute();
+                        }
+
+                        @Override
+                        public void onNext(ItemList itemList) {
+                            if(itemList!=null && itemList.objects!=null) {
+                                int sectionIndex = getSectionAndPageFromIndex(index)[0];
+                                int page = getSectionAndPageFromIndex(index)[1];
+                                ItemCollection itemCollection = mItemCollections.get(sectionIndex);
+                                itemCollection.fillItems(page, itemList.objects);
+                                mHGridAdapter.setList(mItemCollections);
+                            } else {
+                                showDialog();
+                            }
+                        }
+                    });
+        }else{
+            skyService.getFilterRequestNodata("movie","area\\*10022$10261$10263$10378$10479$10483$10484$10494",page).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(((BaseActivity) getActivity()).new BaseObserver<ItemList>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(ItemList itemList) {
+                            if(itemList!=null && itemList.objects!=null) {
+                                int sectionIndex = getSectionAndPageFromIndex(index)[0];
+                                int page = getSectionAndPageFromIndex(index)[1];
+                                ItemCollection itemCollection = mItemCollections.get(sectionIndex);
+                                itemCollection.fillItems(page, itemList.objects);
+                                mHGridAdapter.setList(mItemCollections);
+                            } else {
+                                showDialog();
+                            }
+                        }
+                    });
+        }
+    }
+    private void doFilterRequest(){
+        skyService.getFilterRequest(content_model,filterCondition).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(((BaseActivity) getActivity()).new BaseObserver<ItemList>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(ItemList itemList) {
+                        items=itemList;
+                        try{
+                            if (items != null && items.count > 0) {
+                                mItemCollections = new ArrayList<ItemCollection>();
+                                int num_pages = (int) Math.ceil((float) items.count / (float) ItemCollection.NUM_PER_PAGE);
+                                ItemCollection itemCollection = new ItemCollection(num_pages, items.count, "1", "1");
+                                mItemCollections.add(itemCollection);
+                                initView(fragmentView, true);
+                            } else {
+                                initView(fragmentView, false);
+                            }
+                                if(items!=null ) {
+                                    mHGridAdapter = new HGridFilterAdapterImpl(getActivity(), mItemCollections,false);
+                                    mHGridAdapter.setIsPortrait(isPortrait);
+                                    mHGridAdapter.setList(mItemCollections);
+                                    if(mHGridAdapter.getCount()>0){
+                                        mHGridView.setAdapter(mHGridAdapter);
+                                        mHGridView.setFocusable(true);
+                                        //   mHGridView.setHorizontalFadingEdgeEnabled(true);
+                                        // mHGridView.setFadingEdgeLength(144);
+                                        mItemCollections.get(0).fillItems(0, items.objects);
+                                        mHGridAdapter.setList(mItemCollections);
+                                    }
+
+                                } else {
+                                    showDialog();
+                                }
+                        } catch(Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
     public void showDialog() {
         AlertDialogFragment newFragment = AlertDialogFragment.newInstance(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG);
@@ -404,7 +498,10 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
         if(item!=null) {
             Intent intent = new Intent();
             if(item.is_complex) {
-                DaisyUtils.gotoSpecialPage(getActivity(),item.content_model,item.url,"retrieval");
+                boolean[] isSubItem = new boolean[1];
+                int id = SimpleRestClient.getItemId(item.url, isSubItem);
+                PageIntent pageIntent=new PageIntent();
+                pageIntent.toDetailPage(getActivity(),"retrieval",id);
             } else {
                 tool = new InitPlayerTool(getActivity());
                 tool.fromPage = "retrieval";
@@ -512,12 +609,13 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
             for(int i=0; i<needToLoadComposedIndex.size();i++) {
                 int composedIndex = needToLoadComposedIndex.get(i);
                 if(!currentLoadingTask.containsKey(composedIndex)) {
-                    new GetItemListTask().execute(composedIndex);
+                  //  new GetItemListTask().execute(composedIndex);
+                    getItemList(composedIndex);
                 }
             }
         }
     }
-    
+
 	private View.OnHoverListener onHoverListener = new View.OnHoverListener() {
 
 		@Override

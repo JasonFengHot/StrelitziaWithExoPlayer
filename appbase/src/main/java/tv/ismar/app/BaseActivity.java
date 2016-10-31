@@ -33,7 +33,7 @@ import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
  */
 public class BaseActivity extends AppCompatActivity {
     private PopupWindow updatePopupWindow;
-
+    public static final String ACTION_CONNECT_ERROR="action.connect_error";
     private LoadingDialog mLoadingDialog;
     public SkyService mSkyService;
     private View mRootView;

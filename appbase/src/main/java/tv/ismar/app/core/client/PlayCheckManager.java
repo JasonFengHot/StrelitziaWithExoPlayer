@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Response;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Util;
@@ -30,7 +31,7 @@ public class PlayCheckManager {
         SkyService.Factory.create(SimpleRestClient.root_url).playCheck(
                 item, null, null, deviceToken, accessToken).enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
-            public void onResponse(Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.errorBody() != null) {
                     callback.onFailure();
                 } else {
@@ -44,7 +45,7 @@ public class PlayCheckManager {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onFailure();
             }
         });
@@ -56,7 +57,7 @@ public class PlayCheckManager {
         SkyService.Factory.create(SimpleRestClient.root_url).playCheck(
                 null, pkg, null, deviceToken, accessToken).enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
-            public void onResponse(Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.errorBody() != null) {
                     callback.onFailure();
                 } else {
@@ -70,7 +71,7 @@ public class PlayCheckManager {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onFailure();
             }
         });

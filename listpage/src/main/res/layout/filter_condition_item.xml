@@ -3,11 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/filter_condition_item_linearLayout_h"
     android:orientation="horizontal">
-
-
-
-
-
         <TextView
                 android:layout_marginTop="@dimen/filter_condition_item_condition_txt_mt"
                 android:id="@+id/condition_txt"
@@ -16,12 +11,12 @@
                 android:text="类型"
                 android:textSize="@dimen/h1_text_size"
                 android:textColor="@android:color/white"/>
-        <tv.ismar.daisy.views.MyViewGroup
+        <tv.ismar.app.ui.view.MyViewGroup
                 android:layout_marginLeft="@dimen/filter_condition_item_line_group_ml"
                 android:id="@+id/line_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-        </tv.ismar.daisy.views.MyViewGroup>
+        </tv.ismar.app.ui.view.MyViewGroup>
 
 </LinearLayout>

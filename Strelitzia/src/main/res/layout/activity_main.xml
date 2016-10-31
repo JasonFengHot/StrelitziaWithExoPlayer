@@ -68,7 +68,28 @@
                 android:textColor="@color/module_color_white"
                 android:textSize="18sp"
                 />
-
+            <Button
+                android:id="@+id/history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/s_button_color"
+                android:padding="8dp"
+                android:text="历史记录"
+                android:textColor="@color/module_color_white"
+                android:textSize="18sp"
+                />
+            <Button
+                android:id="@+id/favorit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/s_button_color"
+                android:padding="8dp"
+                android:text="收藏记录"
+                android:textColor="@color/module_color_white"
+                android:textSize="18sp"
+                />
         </LinearLayout>
 
         <TextView

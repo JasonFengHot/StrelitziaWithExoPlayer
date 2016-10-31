@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -38,7 +39,7 @@ public class OfflineCheckManager {
         OkHttpClient httpClient = HttpManager.getInstance().mClient;
         httpClient.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
                 Log.i("LH/", "checkItem:onFailure ");
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -50,7 +51,7 @@ public class OfflineCheckManager {
             }
 
             @Override
-            public void onResponse(Response response) {
+            public void onResponse(Call call, Response response) throws IOException {
                 if(response.body() == null){
                     mCallback.netError();
                     return;
@@ -80,7 +81,6 @@ public class OfflineCheckManager {
                         }
                     });
                 }
-
             }
         });
     }
@@ -93,7 +93,7 @@ public class OfflineCheckManager {
         void netError();
     }
 
-    private class OfflineCheckEntity {
+    public class OfflineCheckEntity {
         private String detail;
 
         public String getDetail() {

@@ -8,7 +8,7 @@
         <activity
             android:name="tv.ismar.channel.FilterActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:theme="@style/IsmartvAppTheme.Fullscreen"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
                 <action android:name="tv.ismar.daisy.Filter"/>
@@ -19,7 +19,7 @@
             android:name="tv.ismar.channel.ChannelListActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/IsmartvAppTheme.Fullscreen">
             <intent-filter>
                 <action android:name="tv.ismar.daisy.Channel"/>
 

@@ -8,4 +8,7 @@
     <string name="vod_movielist_today">今天</string>
     <string name="vod_movielist_yesterday">昨天</string>
     <string name="vod_movielist_recent">更早</string>
+    <string name="related_view">关联视频</string>
+    <string name="no_related_video">关联视频当前不可用</string>
+    <string name="same_category_clip">同类型影片</string>
 </resources>

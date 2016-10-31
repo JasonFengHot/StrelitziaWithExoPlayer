@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,11 +25,18 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import okhttp3.HttpUrl;
+import okhttp3.ResponseBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tv.ismar.adapter.RecommecdItemAdapter;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.ContentModel;
@@ -40,6 +48,7 @@ import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.exception.ItemOfflineException;
 import tv.ismar.app.exception.NetworkException;
+import tv.ismar.app.network.SkyService;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.ZGridView;
 import tv.ismar.app.ui.adapter.HGridAdapterImpl;
@@ -99,6 +108,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
     private Button left_shadow;
     private Button right_shadow;
     private View gideview_layuot;
+	private SkyService skyService;
 	private void initViews(View fragmentView) {
         View vv = fragmentView.findViewById(R.id.tabs_layout);
         vv.setVisibility(View.GONE);
@@ -191,57 +201,47 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		mContentModels = application.mContentModel;
 		mLoadingDialog = new LoadingDialog(getActivity(),R.style.LoadingDialog);
 		mLoadingDialog.setTvText(getResources().getString(R.string.loading));
+		mLoadingDialog.showDialog();
+		skyService=SkyService.ServiceManager.getService();
 		createMenu();
 	}
 	private void GetFavoriteByNet(){
-		mRestClient.doSendRequest("/api/bookmarks/", "get", "", new SimpleRestClient.HttpPostRequestInterface() {
+		mLoadingDialog.show();
+		skyService.getBookmarks().subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(((BaseActivity) getActivity()).new BaseObserver<Item[]>() {
+					@Override
+					public void onCompleted() {
 
-			@Override
-			public void onSuccess(String info) {
-				// TODO Auto-generated method stub
-				//解析json
-				if(mRestClient == null)
-					return;
-				FavoriteList = mRestClient.getItems(info);
-				if(FavoriteList!=null&&FavoriteList.length>0){
-					mItemCollections = new ArrayList<ItemCollection>();
-				    int num_pages = (int) Math.ceil((float)FavoriteList.length / (float)ItemCollection.NUM_PER_PAGE);
-					ItemCollection itemCollection = new ItemCollection(num_pages, FavoriteList.length, "1", "1");
-					mItemCollections.add(itemCollection);
-					mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections,false);
-					mHGridAdapter.setList(mItemCollections);
-					if(mHGridAdapter.getCount()>0){
-						mHGridView.setAdapter(mHGridAdapter);
-						mHGridView.setFocusable(true);
-						//mHGridView.setHorizontalFadingEdgeEnabled(true);
-						//mHGridView.setFadingEdgeLength(144);
-						ArrayList<Item> items  = new ArrayList<Item>();
-						for(Item i:FavoriteList){
-							items.add(i);
-						}
-						mItemCollections.get(0).fillItems(0, items);
-						mHGridAdapter.setList(mItemCollections);
 					}
-				}
-				else{
-					no_video();
-				}
-				mLoadingDialog.dismiss();
-			}
 
-			@Override
-			public void onPrepare() {
-				// TODO Auto-generated method stub
-				mLoadingDialog.show();
-			}
-
-			@Override
-			public void onFailed(String error) {
-				// TODO Auto-generated method stub
-				no_video();
-				mLoadingDialog.dismiss();
-			}
-		});
+					@Override
+					public void onNext(Item[] items) {
+						mLoadingDialog.dismiss();
+						if(items!=null&&FavoriteList.length>0){
+							mItemCollections = new ArrayList<ItemCollection>();
+							int num_pages = (int) Math.ceil((float)items.length / (float)ItemCollection.NUM_PER_PAGE);
+							ItemCollection itemCollection = new ItemCollection(num_pages, items.length, "1", "1");
+							mItemCollections.add(itemCollection);
+							mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections,false);
+							mHGridAdapter.setList(mItemCollections);
+							if(mHGridAdapter.getCount()>0){
+								mHGridView.setAdapter(mHGridAdapter);
+								mHGridView.setFocusable(true);
+								//mHGridView.setHorizontalFadingEdgeEnabled(true);
+								//mHGridView.setFadingEdgeLength(144);
+								ArrayList<Item> item  = new ArrayList<Item>();
+								for(Item i:items){
+									item.add(i);
+								}
+								mItemCollections.get(0).fillItems(0, item);
+								mHGridAdapter.setList(mItemCollections);
+							}
+						}else{
+							no_video();
+						}
+					}
+				});
 	}
     ArrayList<Item> FavoriteLists;
     GetFavoriteTask getFavoriteTask;
@@ -271,28 +271,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 				String content_model = favorite.content_model;
 				Item item = getItem(favorite);
 				if(item!=null) {
-                    FavoriteLists.add(item);
-
-
-
-
-
-
-//					ItemCollection itemCollection = itemCollectionMap.get(content_model);
-//					if(itemCollection==null) {
-//						Section section = new Section();
-//						section.slug = content_model;
-//						for(ContentModel cm: mContentModels) {
-//							if(cm.content_model.equals(content_model)) {
-//								section.title = cm.title;
-//								break;
-//							}
-//						}
-//						itemCollection = new ItemCollection(1, 0, content_model, section.title);
-//						mSectionList.add(section);
-//						itemCollectionMap.put(content_model, itemCollection);
-//					}
-//					itemCollection.objects.put(itemCollection.count++, item);
+					FavoriteLists.add(item);
 				}
 			}
 			mItemCollections = new ArrayList<ItemCollection>();
@@ -450,7 +429,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
                         intent.putExtra("fromPage","favorite");
                         startActivity(intent);
                     }else{
-                        DaisyUtils.gotoSpecialPage(getActivity(),item.content_model,SimpleRestClient.sRoot_url+"/api/item/"+id+"/","favorite");
+                      DaisyUtils.gotoSpecialPage(getActivity(),item.content_model,SimpleRestClient.sRoot_url+"/api/item/"+id+"/","favorite");
                     }
 
 				} else {
@@ -482,6 +461,28 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			isInGetItemTask = false;
 		}
 
+	}
+	public void getClikItem(Item item){
+		PageIntent pageIntent=new PageIntent();
+		mCurrentGetItemTask.remove(item.url);
+		mDataCollectionProperties = new HashMap<String, Object>();
+		boolean[] isSubItem = new boolean[1];
+		int id = SimpleRestClient.getItemId(item.url, isSubItem);
+		if(isSubItem[0]) {
+			mDataCollectionProperties.put("to_subitem", id);
+		} else {
+			mDataCollectionProperties.put("to_item", id);
+		}
+		mDataCollectionProperties.put("to_title", item.title);
+		if(item.is_complex) {
+			pageIntent.toDetailPage(getActivity(),"favorite",id);
+		} else {
+		//	pageIntent.toPlayPage(getActivity(),item.pk,item.,"favorite");
+		}
+		if(mLoadingDialog!=null && mLoadingDialog.isShowing()) {
+			mLoadingDialog.dismiss();
+		}
+			isInGetItemTask = false;
 	}
 
 	@Override
@@ -598,28 +599,19 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		}
 	}
 	private void EmptyAllFavorite(){
-		mRestClient.doSendRequest("/api/bookmarks/empty/", "post", "access_token="+SimpleRestClient.access_token+"&device_token="+SimpleRestClient.device_token, new SimpleRestClient.HttpPostRequestInterface() {
+		skyService.emptyBookmarks().subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(((BaseActivity) getActivity()).new BaseObserver<ResponseBody>() {
+					@Override
+					public void onCompleted() {
 
-			@Override
-			public void onSuccess(String info) {
-				// TODO Auto-generated method stub
-				if(mRestClient == null)
-					return;
-				no_video();
-			}
+					}
 
-			@Override
-			public void onPrepare() {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onFailed(String error) {
-				// TODO Auto-generated method stub
-				no_video();
-			}
-		});
+					@Override
+					public void onNext(ResponseBody responseBody) {
+						no_video();
+					}
+				});
 	}
 	@Override
 	public void OnMenuToggle() {
@@ -653,12 +645,15 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		int i = parent.getId();
 		if (i == R.id.h_grid_view) {
 			Item item = mHGridAdapter.getItem(position);
-			new GetItemTask().execute(item);
+		//	new GetItemTask().execute(item);
+			getClikItem(item);
 
 		} else if (i == R.id.recommend_gridview) {
 			if (tvHome.getObjects().get(position).isIs_complex()) {
-				DaisyUtils.gotoSpecialPage(getActivity(), tvHome.getObjects().get(position).getContent_model(), tvHome.getObjects().get(position).getItem_url(), "tvhome");
-				//startActivity(intent);
+				boolean[] isSubItem = new boolean[1];
+				int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
+				PageIntent intent=new PageIntent();
+				intent.toDetailPage(getActivity(),"tvhome",pk);
 			} else {
 				InitPlayerTool tool = new InitPlayerTool(getActivity());
 				tool.fromPage = "favorite";
@@ -690,87 +685,30 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 	public void onNothingSelected(AdapterView<?> parent) {
 		mSelectedPosition = INVALID_POSITION;
 	}
-	private Handler mainHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			Bundle dataBundle = msg.getData();
-				setTvHome(dataBundle.getString("content"));
-			}
-		};
-		private void setTvHome(String content) {
-			try{
-				Gson gson = new Gson();
-				tvHome = gson.fromJson(content.toString(),
-						VideoEntity.class);
+	private void setTvHome(VideoEntity videoEntity) {
+				tvHome=videoEntity;
 				if(tvHome.getObjects()!=null&&tvHome.getObjects().size()>0){
 					RecommecdItemAdapter recommendAdapter = new RecommecdItemAdapter(getActivity(), tvHome);
 					recommend_gridview.setAdapter(recommendAdapter);
 					recommend_gridview.setFocusable(true);
 					recommend_gridview.setOnItemClickListener(this);
 				}
-			}catch(Exception e){
-				recommend_txt.setVisibility(View.INVISIBLE);
-				e.printStackTrace();
-			}
 		}
-	private void getTvHome() {
-		new Thread() {
-			@Override
-			public void run() {
-				super.run();
-				String content ="";
+	private void getTvHome(){
+		skyService.getTvHome().subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(((BaseActivity) getActivity()).new BaseObserver<VideoEntity>() {
+					@Override
+					public void onCompleted() {
 
-//					URL getUrl = new URL(SimpleRestClient.root_url
-//							+ "/api/tv/section/tvhome/"+"?device_token="+SimpleRestClient.device_token);
-//					HttpURLConnection connection = (HttpURLConnection) getUrl
-//							.openConnection();
-//					//connection.setIfModifiedSince(System.currentTimeMillis());
-//					connection.setReadTimeout(9000);
-//					connection.connect();
-//					int status = connection.getResponseCode();
-//					if(status==200){
-//						BufferedReader reader = new BufferedReader(
-//								new InputStreamReader(connection.getInputStream(),"UTF-8"));
-//						String lines;
-//						while ((lines = reader.readLine()) != null) {
-//							content.append(lines);
-//						}
+					}
 
-						try {
-							content = NetworkUtils.getJsonStr(SimpleRestClient.root_url + "/api/tv/section/tvhome/", "");
-							if(TextUtils.isEmpty(content))
-								return;
-							Message message = new Message();
-							Bundle data = new Bundle();
-							data.putString("content", content);
-							DaisyUtils.getVodApplication(getActivity()).getEditor().putString("recommend", content.toString());
-							message.setData(data);
-							mainHandler.sendMessage(message);
-						} catch (ItemOfflineException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NetworkException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NullPointerException e){
-						}
-
-
-//					else if(status==304){
-//						String info = DaisyUtils.getVodApplication(getActivity()).getPreferences().getString("recommend", "");
-//						Message message = new Message();
-//						Bundle data = new Bundle();
-//						data.putString("content", info);
-//						message.setData(data);
-//						mainHandler.sendMessage(message);
-//					}
-				}
-
-
-		}.start();
+					@Override
+					public void onNext(VideoEntity videoEntity) {
+						setTvHome(videoEntity);
+					}
+				});
 	}
-
 
 	   private void startPersoncenter(){
 //		   Intent intent = new Intent(getActivity(),UserCenterActivity.class);
