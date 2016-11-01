@@ -1,11 +1,11 @@
 package tv.ismar.pay;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -32,13 +32,14 @@ import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.pay.LoginFragment.LoginCallback;
 
 /**
  * Created by huibin on 9/13/16.
  */
-public class PaymentActivity extends BaseActivity implements View.OnClickListener {
+public class PaymentActivity extends BaseActivity implements View.OnClickListener, LoginCallback {
     private static final String TAG = "PaymentActivity";
-    private Fragment loginFragment;
+    private LoginFragment loginFragment;
     private Fragment weixinFragment;
     private Fragment alipayFragment;
     private Fragment cardpayFragment;
@@ -101,6 +102,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         balancePayBtn.setOnClickListener(this);
 
         loginFragment = new LoginFragment();
+        loginFragment.setLoginCallback(this);
         weixinFragment = new WeixinPayFragment();
         alipayFragment = new AlipayFragment();
         cardpayFragment = new CardPayFragment();
@@ -118,7 +120,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (i == R.id.weixin) {
             transaction.replace(R.id.fragment_page, weixinFragment).commit();
         } else if (i == R.id.alipay) {
@@ -148,11 +150,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(AccountBalanceEntity entity) {
                         if (entity.getBalance().floatValue() == 0) {
-                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, weixinFragment)
                                     .commit();
                         } else {
-                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, balanceFragment)
                                     .commit();
                         }
@@ -179,6 +181,13 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         } else {
             orderCheckLoop(checkType, String.valueOf(pk), null, null);
         }
+    }
+
+    @Override
+    public void onSuccess() {
+        fetchAccountBalance();
+        changeLoginStatus(true);
+        purchaseCheck(PaymentActivity.CheckType.PlayCheck, true);
     }
 
     public enum CheckType {
@@ -345,7 +354,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                         if (TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken())) {
 
                             changeLoginStatus(false);
-                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, loginFragment)
                                     .commit();
                         } else {

@@ -1,10 +1,10 @@
 package tv.ismar.pay;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -26,6 +26,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
@@ -44,15 +45,22 @@ public class LoginFragment extends Fragment {
 
     private View contentView;
 
-    private PaymentActivity activity;
+    private BaseActivity activity;
 
-    private   Subscription countDownSubscription;
+    private Subscription countDownSubscription;
+
+    private LoginCallback mLoginCallback;
+
+
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
+    }
 
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (PaymentActivity) activity;
+        this.activity = (BaseActivity) activity;
     }
 
     @Override
@@ -277,10 +285,9 @@ public class LoginFragment extends Fragment {
                     public void onNext(AccountsLoginEntity entity) {
                         String username = edit_mobile.getText().toString();
                         IsmartvActivator.getInstance().saveUserInfo(username, entity.getAuth_token(), entity.getZuser_token());
-
-                        activity.fetchAccountBalance();
-                        activity.changeLoginStatus(true);
-                        activity.purchaseCheck(PaymentActivity.CheckType.PlayCheck, true);
+                        if (mLoginCallback != null) {
+                            mLoginCallback.onSuccess();
+                        }
                         showLoginSuccessPopup();
                     }
                 });
@@ -288,11 +295,11 @@ public class LoginFragment extends Fragment {
 
     private void timeCountDown() {
         final int count = 60;
-        if (countDownSubscription!= null && !countDownSubscription.isUnsubscribed()){
+        if (countDownSubscription != null && !countDownSubscription.isUnsubscribed()) {
             countDownSubscription.isUnsubscribed();
         }
 
-        countDownSubscription= Observable.interval(0, 1, TimeUnit.SECONDS, Schedulers.io())
+        countDownSubscription = Observable.interval(0, 1, TimeUnit.SECONDS, Schedulers.io())
                 .map(new Func1<Long, Integer>() {
                     @Override
                     public Integer call(Long time) {
@@ -316,10 +323,10 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void onNext(Integer integer) {
-                        if (integer == 1){
+                        if (integer == 1) {
                             identifyCodeBtn.setText("获取验证码");
                             identifyCodeBtn.setEnabled(true);
-                        }else {
+                        } else {
                             identifyCodeBtn.setEnabled(false);
                             identifyCodeBtn.setText(integer + " s");
                         }
@@ -327,4 +334,11 @@ public class LoginFragment extends Fragment {
                 });
     }
 
+    public interface LoginCallback {
+        void onSuccess();
+    }
+
+    public void setLoginCallback(LoginCallback loginCallback) {
+        mLoginCallback = loginCallback;
+    }
 }

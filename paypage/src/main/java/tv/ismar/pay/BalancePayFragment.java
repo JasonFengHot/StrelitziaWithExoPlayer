@@ -1,14 +1,9 @@
 package tv.ismar.pay;
-import cn.ismartv.truetime.TrueTime;
-import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONTokener;
-
 import java.io.IOException;
-import java.math.BigDecimal;
 
+import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,6 +23,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+
 
 /**
  * Created by huibin on 2016/9/14.

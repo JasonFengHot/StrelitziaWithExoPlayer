@@ -8,11 +8,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import tv.ismar.account.login.LoginFragment;
-import tv.ismar.account.login.LoginPresenter;
-import tv.ismar.account.login.LoginViewModel;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.util.ActivityUtils;
+import tv.ismar.pay.LoginFragment;
 import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.presenter.HelpPresenter;
 import tv.ismar.usercenter.presenter.LocationPresenter;
@@ -29,7 +27,7 @@ import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 /**
  * Created by huaijie on 7/3/15.
  */
-public class UserCenterActivity extends BaseActivity {
+public class UserCenterActivity extends BaseActivity implements LoginFragment.LoginCallback{
     private static final String TAG = UserCenterActivity.class.getSimpleName();
 
     private HelpFragment mHelpFragment;
@@ -41,7 +39,6 @@ public class UserCenterActivity extends BaseActivity {
 
     private ProductPresenter mProductPresenter;
     private LocationPresenter mLocationPresenter;
-    private LoginPresenter mLoginPresenter;
     private HelpPresenter mHelpPresenter;
     private PurchaseHistoryPresenter mPurchaseHistoryPresenter;
     private UserInfoPresenter mUserInfoPresenter;
@@ -158,16 +155,10 @@ public class UserCenterActivity extends BaseActivity {
 
         // Create the fragment
         mLoginFragment = LoginFragment.newInstance();
+        mLoginFragment.setLoginCallback(this);
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mLoginFragment, R.id.user_center_container);
 
-        // Create the presenter
-        mLoginPresenter = new LoginPresenter(mLoginFragment);
-
-        LoginViewModel loginViewModel =
-                new LoginViewModel(getApplicationContext(), mLoginPresenter);
-
-        mLoginFragment.setViewModel(loginViewModel);
     }
 
     private void selectPurchaseHistory() {
@@ -216,5 +207,10 @@ public class UserCenterActivity extends BaseActivity {
 
         mLocationFragment.setViewModel(locationViewModel);
 
+    }
+
+    @Override
+    public void onSuccess() {
+        selectUserInfo();
     }
 }

@@ -1,11 +1,9 @@
 package tv.ismar.pay;
-import cn.ismartv.truetime.TrueTime;
-import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
+import cn.ismartv.truetime.TrueTime;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
