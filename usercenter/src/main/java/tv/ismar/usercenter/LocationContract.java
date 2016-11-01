@@ -23,11 +23,11 @@ import tv.ismar.usercenter.presenter.BasePresenter;
  */
 public interface LocationContract {
 
-    interface View extends BaseView<Presenter>{
-
+    interface View extends BaseView<Presenter> {
+        void refreshWeather(String weatherInfo);
     }
 
     interface Presenter extends BasePresenter {
-
+        void fetchWeather(String geoId);
     }
 }

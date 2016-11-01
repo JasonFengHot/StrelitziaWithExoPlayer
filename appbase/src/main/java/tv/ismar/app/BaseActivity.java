@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,7 +34,7 @@ import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
  */
 public class BaseActivity extends AppCompatActivity {
     private PopupWindow updatePopupWindow;
-    public static final String ACTION_CONNECT_ERROR="action.connect_error";
+    public static final String ACTION_CONNECT_ERROR = "action.connect_error";
     private LoadingDialog mLoadingDialog;
     public SkyService mSkyService;
     private View mRootView;
@@ -50,6 +51,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
         registerUpdateReceiver();
     }
 

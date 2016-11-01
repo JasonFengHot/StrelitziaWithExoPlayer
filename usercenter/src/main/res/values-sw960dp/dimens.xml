@@ -59,4 +59,24 @@
 <dimen name="purchase_history_text_margin_top">20.44dp</dimen>
 <dimen name="purchase_history_item_margin_left">21.33dp</dimen>
 
+
+<dimen name="locationFragment_tomorrowLayout_marginLeft">62.22dp</dimen>
+<dimen name="location_selected_city_text_width">177.78dp</dimen>
+<dimen name="location_grid_margin_top">50.67dp</dimen>
+<dimen name="locationFragment_weatherLayout_width">160.00dp</dimen>
+<dimen name="locationFragment_selectedPositionTitle_marginLeft">88.89dp</dimen>
+<dimen name="locationFragment_h2_textSize">32.00sp</dimen>
+<dimen name="location_fragment_current_position_height">181.33dp</dimen>
+<dimen name="location_divider_width">1168.00dp</dimen>
+<dimen name="locationFragment_h1_textSize">42.67sp</dimen>
+<dimen name="locationFragment_todayLayout_marginLeft">71.11dp</dimen>
+<dimen name="locationFragment_currentPositionTitle_marginLeft">45.33dp</dimen>
+<dimen name="location_divider_margin_left">32.00dp</dimen>
+<dimen name="locationFragment_h4_textSize">21.33sp</dimen>
+<dimen name="weather_layout_w">1271.11dp</dimen>
+<dimen name="weather_layout_h">853.33dp</dimen>
+<dimen name="weather_city_ml">44.44dp</dimen>
+<dimen name="weather_city_mr">35.56dp</dimen>
+<dimen name="weather_city_layout_spac">53.33dp</dimen>
+
 </resources>

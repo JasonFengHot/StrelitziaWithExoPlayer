@@ -11,12 +11,13 @@
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+    >
 
 
         <service android:name=".update.UpdateService"/>
 
-        <service android:name=".ad.AdsUpdateService" />
+        <service android:name=".ad.AdsUpdateService"/>
 
         <receiver android:name=".receiver.BootUpdateReceiver">
             <intent-filter>
