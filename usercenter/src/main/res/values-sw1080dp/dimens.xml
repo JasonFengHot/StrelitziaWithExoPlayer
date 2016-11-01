@@ -43,8 +43,6 @@
     <dimen name="userinfo_association_width">100dp</dimen>
 
 
-
-
     <dimen name="userinfo_privilege_layout_marginTop">50dp</dimen>
     <dimen name="help_title_icon_w">420dp</dimen>
     <dimen name="help_title_icon_h">120dp</dimen>
@@ -56,5 +54,9 @@
     <dimen name="usercenter_storefragment_packagelist_item_layout_marginRight">7dp</dimen>
     <dimen name="usercenter_storefragment_packagelist_item_text_height">62dp</dimen>
     <dimen name="usercenter_storefragment_packagelist_item_text_width">336dp</dimen>
+
+
+    <dimen name="purchase_history_text_margin_top">23dp</dimen>
+    <dimen name="purchase_history_item_margin_left">24dp</dimen>
 
 </resources>

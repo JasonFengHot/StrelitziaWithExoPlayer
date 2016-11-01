@@ -16,6 +16,7 @@
 
 package tv.ismar.usercenter;
 
+import tv.ismar.app.network.entity.AccountsOrdersEntity;
 import tv.ismar.usercenter.presenter.BasePresenter;
 
 /**
@@ -24,10 +25,10 @@ import tv.ismar.usercenter.presenter.BasePresenter;
 public interface PurchaseHistoryContract {
 
     interface View extends BaseView<Presenter>{
-
+        void loadAccountOrders(AccountsOrdersEntity accountsOrdersEntity);
     }
 
     interface Presenter extends BasePresenter {
-
+        void fetchAccountsOrders();
     }
 }

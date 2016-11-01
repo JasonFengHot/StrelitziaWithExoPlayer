@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.usercenter.BR;
 import tv.ismar.usercenter.presenter.UserInfoPresenter;
 
 /**
@@ -27,6 +28,10 @@ public class UserInfoViewModel extends BaseObservable {
         mPresenter = presenter;
     }
 
+
+    public void refresh() {
+        notifyPropertyChanged(BR.balance);
+    }
 
     @Bindable
     public String getSnCode() {

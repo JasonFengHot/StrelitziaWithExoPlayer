@@ -32,4 +32,10 @@
         )
     </string>
     <string name="change_account">切换</string>
+
+
+    <string name="personcenter_orderlist_item_orderday">购买时间 : %1$s</string>
+    <string name="personcenter_orderlist_item_remainday">剩余 %1$d天</string>
+    <string name="personcenter_orderlist_item_cost">消费 : %1$s元</string>
+    <string name="personcenter_orderlist_item_paysource">支付渠道 : %1$s</string>
 </resources>
