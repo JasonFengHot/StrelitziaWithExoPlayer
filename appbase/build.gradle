@@ -44,6 +44,7 @@ dependencies {
     compile 'cn.ismartv.downloader:library:1.15'
     compile 'cn.ismartv.imagereflection:imagereflection:1.18'
     compile project(path: ':account')
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 tasks.withType(JavaCompile) {

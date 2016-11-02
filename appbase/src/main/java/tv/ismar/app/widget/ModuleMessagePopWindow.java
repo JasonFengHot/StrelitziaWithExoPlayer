@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -115,6 +116,16 @@ public class ModuleMessagePopWindow extends PopupWindow implements View.OnClickL
         height = ((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
         secondMessage.setVisibility(View.VISIBLE);
         secondMessage.setText(message);
+    }
+
+    public void hideCancelBtn() {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                mContext.getResources().getDimensionPixelSize(R.dimen.pop_btn_width),
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        lp.rightMargin = 0;
+        confirmBtn.setLayoutParams(lp);
+        cancelBtn.setVisibility(View.GONE);
     }
 
 

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Picasso;
@@ -254,5 +255,11 @@ public class VodApplication extends Application {
     public void onTrimMemory(int level) {
         // TODO Auto-generated method stub
         super.onTrimMemory(level);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }
