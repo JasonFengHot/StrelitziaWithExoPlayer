@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 背景色白色 -->
+    <color name="play_finished">#000000</color>
+    <color name="hotwords_test">#00000000</color>
+    <color name="hotwords_test_selected">#FBCE8B</color>
+    <color name="hotwords_text_color">#FFFFFFFF</color>
+    <!-- 自动提示Item backgound-->
+    <color name="autocomplete_back_color_selector">#93C8E4</color>
+    <!-- 自动提示Item text-->
+    <color name="autocomplete_text_color">#DEE8ED</color>
+    <!-- 自动提示Item text-->
+    <color name="autocomplete_text_color_selector">#6B9CB4</color>
+    <!-- 搜索范围在线视频 -->
+    <color name="search_color">#BBBBBB</color>
+    <!-- 线 -->
+    <color name="search_line_color">#899da3</color>
+    <!-- 搜索个数    黄色 -->
+    <color name="search_color_count">#FFDD2D</color>
+    <!-- 搜索结果背景 蓝色 -->
+    <color name="search_background">#1e979f</color>
+    <!-- 搜索到结果文字  白灰 -->
+    <color name="search_text_result">#D4D6D7</color>
+    <!-- 搜索推荐   黑灰 -->
+    <color name="search_words">#333333</color>
+    <!-- 搜索按钮 黄色 -->
+	<color name ="player_panel_bg" >#CC000000</color>
+	<color name ="player_panel_fg" >#CC000000</color>
+	<color name ="player_menu_bg" >#CC000000</color>
+	<color name ="player_menu_fg" >#CC000000</color>
+	<color name ="volume_panel_bg" >#CC323232</color>
+	<color name ="volume_panel_fg" >#CC323232</color>
+	<drawable name="top_title_color">#FAFAFA</drawable>
+	<color name ="itemdetail_firsttextcolor" >#BBBBBB</color>
+	<color name ="itemdetail_secondtextcolor" >#999999</color>
+	<color name ="itemdetail_thirdtextcolor" >#000000</color>
+	<color name ="movielist_title">#A3D2D3</color>
+	<color name ="movieitem_sel">#000000</color>	
+	<color name ="movieitem_nosel">#B9BCBC</color>	
+	<color name ="movieitem_comment">#686868</color>
+	<color name ="ratepopup_dlg">#e2e2e2</color>
+	<color name ="loginpopup_dlg_focus">#000000</color>
+	<color name ="loginpopup_dlg_error">#000000</color>	
+	<color name ="yellow">#FFFF00</color>
+</resources>

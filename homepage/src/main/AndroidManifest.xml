@@ -6,6 +6,17 @@
                  android:supportsRtl="true"
     >
 
+        <activity android:name=".activity.AdvertisementActivity"
+            android:screenOrientation="landscape"
+            >
+
+        </activity>
+        <activity android:name=".activity.TVGuideActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/IsmartvAppTheme.Fullscreen"
+            >
+        </activity>
+
     </application>
 
 </manifest>

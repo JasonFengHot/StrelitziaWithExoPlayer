@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -16,6 +17,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.blankj.utilcode.utils.StringUtils;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -37,6 +40,9 @@ import okhttp3.ResponseBody;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.R;
 import tv.ismar.app.core.WeatherInfoHandler;
 import tv.ismar.app.core.preferences.AccountSharedPrefs;
@@ -183,33 +189,35 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
     }
 
     private void fetchWeatherInfo(String geoId) {
-//        Log.i(TAG, "fetchWeatherInfo: " + getContext().toString());
-//        String weather = AccountSharedPrefs.getInstance()
-//                .getSharedPreferences()
-//                .getString(AccountSharedPrefs.WEATHER_INFO, null);
-//        if (TextUtils.isEmpty(weather)) {
-//            parseXml(weather);
-//        }
-//        Retrofit retrofit = HttpManager.getInstance().media_lily_Retrofit;
-//        retrofit.create(HttpAPI.WeatherAPI.class).doRequest(geoId).enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Response<ResponseBody> response) {
-//                try {
-//                    if (response.body() != null) {
-//                        String result = response.body().string();
-//                        AccountSharedPrefs.getInstance().getSharedPreferences().edit().putString(AccountSharedPrefs.WEATHER_INFO, result);
-//                        parseXml(result);
-//                    }
-//                } catch (IOException e) {
-//                    Log.e(TAG, "解析天气数据失败");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Log.e(TAG, "获取天气失败");
-//            }
-//        });
+//       Log.i(TAG, "fetchWeatherInfo: " + getContext().toString());
+        String weather = PreferenceManager.getDefaultSharedPreferences(context).getString(AccountSharedPrefs.WEATHER_INFO, null);
+        if (!StringUtils.isEmpty(weather)) {
+            parseXml(weather);
+        }
+        ((BaseActivity)context).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(((BaseActivity)context).new BaseObserver<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+
+                        String result = null;
+                        try {
+                            result = responseBody.string();
+                            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(AccountSharedPrefs.WEATHER_INFO, result);
+                            parseXml(result);
+                        } catch (IOException e) {
+                            Log.e(TAG, "解析天气数据失败");
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
     }
 
 

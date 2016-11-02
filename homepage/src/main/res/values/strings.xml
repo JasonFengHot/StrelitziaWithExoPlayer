@@ -1,3 +1,328 @@
 <resources>
     <string name="app_name">homepage</string>
+    <string name="tomorrow">明天</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="vod_releted">相关推荐</string>
+    <string name="daram_ji">集</string>
+    <string name="daram_di">第</string>
+    <string name="daram_all">全</string>
+    <string name="daram_favorites">收藏</string>
+    <string name="daram_restart">重播</string>
+    <string name="searching">搜索中请稍后</string>
+    <string name="vod_loading">加载中请稍后</string>
+    <string name="genre">类型</string>
+    <string name="vendor">来源</string>
+    <string name="air_date">上映日期</string>
+    <string name="length">时长</string>
+    <string name="minute">分钟</string>
+    <string name="second">秒</string>
+    <string name="introduction">剧情简介</string>
+    <string name="related_video">关联视频</string>
+    <string name="play">播放</string>
+    <string name="favorite">收藏</string>
+    <string name="favorited">已收藏</string>
+    <string name="search_where">搜索范围: 在线视频</string>
+    <string name="search_for">搜索到</string>
+    <string name="search_result">个结果</string>
+    <string name="searching_hint">确认键调起输入键盘</string>
+    <string name="dialog_know">我知道了</string>
+    <string name="dialog_setting">网络设置</string>
+    <string name="dialog_disconnect">网络连接已断开，请检查网络</string>
+    <string name="search_not_result">无搜索结果&#8230;</string>
+    <string name="movie_tag">电影/</string>
+    <string name="teleplay_tag">电视/</string>
+    <string name="vod_player_buffering">正在缓冲&#8230;</string>
+    <string name="vod_home_local_video">在线视频</string>
+    <string name="vod_home_local_play">电视直播</string>
+    <string name="vod_itemdexpense">免费</string>
+    <string name="vod_itemdescription">剧情简介:</string>
+    <string name="vod_itemplay">播放</string>
+    <string name="vod_itemepisode">剧集列表</string>
+    <string name="vod_player_quality_setting">画面质量</string>
+    <string name="vod_player_bookmark_setting">收藏</string>
+    <string name="vod_player_remove_bookmark_setting">取消收藏</string>
+    <string name="vod_player_related_setting">关联视频</string>
+    <string name="vod_player_continue_setting">断点续播</string>
+    <string name="vod_player_continue_on">开</string>
+    <string name="vod_player_continue_off">关</string>
+    <string name="vod_player_quality_adaptive">自适应</string>
+    <string name="vod_player_quality_low">低速</string>
+    <string name="vod_player_quality_medium">流畅</string>
+    <string name="vod_player_quality_normal">标清</string>
+    <string name="vod_player_quality_high">高清</string>
+    <string name="vod_player_quality_ultra">超清</string>
+    <string name="vod_player_quality_1080P">1080P</string>
+    <string name="vod_player_episode">剧集</string>
+    <string name="vod_player_exit_dialog">您确认退出播放？</string>
+    <string name="vod_player_error_dialog">您确认重新播放？</string>
+    <string name="vod_player_prefixepisode">第</string>
+    <string name="vod_player_postfixepisode">集</string>
+    <string name="vod_movielist_title_history">历史记录</string>
+    <string name="vod_movielist_today">今天</string>
+    <string name="vod_movielist_yesterday">昨天</string>
+    <string name="vod_movielist_recent">更早</string>
+    <string name="vod_episode_count">集全</string>
+    <string name="vod_episode">集</string>
+    <string name="vod_playerfinish_replay">重播</string>
+    <string name="vod_net_broken_error">网络连接中断，请检查您的网络。</string>
+    <string name="vod_get_data_error">无法从服务器获取数据，请稍后重试。</string>
+    <string name="vod_i_know">我知道了</string>
+    <string name="vod_retry">重试</string>
+    <string name="vod_ok">确定</string>
+    <string name="vod_cancel">取消</string>
+    <string name="vod_relate_empty">此分类暂无关联视频内容</string>
+    <string name="vod_history_clear">清空历史记录</string>
+    <string name="vod_history_clear_dialog">您确认清空所有历史记录？</string>
+    <string name="vod_volume">音量</string>
+    <string name="vod_volume_mute">扬声器已关闭</string>
+    <string name="vod_login_prefix">请</string>
+    <string name="vod_movielist_title_bookmark">收藏</string>
+    <string name="vod_bookmark_clear">清空收藏记录</string>
+    <string name="vod_bookmark_clear_dialog">您确认清空所有收藏记录？</string>
+    <string name="vod_bookmark_remove_bookmark_setting">取消收藏</string>
+    <string name="vod_bookmark_add_success">收藏成功</string>
+    <string name="vod_bookmark_add_unsuccess">收藏失败</string>
+    <string name="vod_bookmark_remove_success">取消收藏成功</string>
+    <string name="vod_bookmark_remove_unsuccess">取消收藏失败</string>
+    <string name="vod_ratingaverage_success">评分成功</string>
+    <string name="vod_ratingaverage_unsuccess">评分失败</string>
+    <string name="account_name_format_error">用户名格式错误,请输入邮箱或手机号</string>
+    <string name="account_password_error">密码错误</string>
+    <string name="account_name_not_exist">用户名不存在</string>
+    <string name="account_name_not_active">用户名未激活</string>
+    <string name="account_name_disable">用户名已禁用</string>
+    <string name="account_name_locked">用户名已锁定</string>
+    <string name="account_connect_error">网络连接错误</string>
+    <string name="account_proxy_authorization">代理需要授权</string>
+    <string name="account_proxy_refused">代理拒绝请求</string>
+    <string name="area">地区</string>
+    <string name="episodes">集数</string>
+    <string name="update_to_episode">更新至%1$d集</string>
+    <string name="loading">正在加载&#8230;</string>
+    <string name="onload">加载中</string>
+    <string name="same_category_clip">同类型影片</string>
+    <string name="search_error_text">抱歉，无法搜索非法字符</string>
+    <string name="item_offline">抱歉，该片已下线</string>
+    <string name="delete_history">删除记录</string>
+    <string name="clear_history">清空记录</string>
+    <string name="no_related_video">关联视频当前不可用</string>
+    <string name="VideoView_error_text_invalid_progressive_playback">视频不可用</string>
+    <string name="VideoView_error_text_unknown">未知错误</string>
+    <string name="VideoView_error_button">视频错误</string>
+    <string name="video_Detail_MoreContent">更多内容</string>
+    <string name="related_view">关联视频</string>
+    <string name="play_finished">播放完成</string>
+
+
+    <!-- customer launcher activity-->
+    <string name="switch_cdn">切换视频源</string>
+    <string name="feedback_problem">问题反馈</string>
+    <string name="customer_help">客服帮助</string>
+
+    <!--- update -->
+    <string name="update_notice">升级公告</string>
+    <string name="update_method"></string>
+    <string name="update_now">现在升级</string>
+    <string name="update_next_time">下次启动时升级</string>
+    <string name="app_update_now_wait">软件正在升级,请耐心等待......</string>
+
+    <string name="serie_switch">剧集选择</string>
+    <string name="buy_video">购买</string>
+    <string name="active_fail">激活认证失败！</string>
+
+
+    <!-- launcher -->
+    <string name="search_text">搜索</string>
+    <string name="user_center">个人中心</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="exit_prompt">你是否确定退出视云影院</string>
+    <string name="exit_player_prompt">你是否确定退出播放器</string>
+    <string name="check_network">请检查网络设置！！！</string>
+
+
+    <!-- pay panel -->
+    <string name="weixinpay_button_title">微信支付</string>
+    <string name="guanyingcard_pay_button_title">观影卡</string>
+    <string name="zhifubao_pay_button_title">支付宝支付</string>
+    <string name="yu_e_pay_button_title">余额支付</string>
+    <string name="pay_panel_label">微信支付无需登录，扫描二维码，即可畅享在线大片(仅限当前设备)</string>
+    <string name="pay_warntitle">您尚未登录，请使用手机号登录后购买！</string>
+    <string name="pay_top_login_label">登录/注册</string>
+    <string name="pay_top_welocome_tip">您好 : %1$s</string>
+    <string name="pay_card_balance_title_label">您的观影卡余额: ￥%1$.2f</string>
+    <string name="pay_package_price">价格: ￥%1$.2f 有效期: %2$d天</string>
+    <string name="package_exprice_label">购买后可以在有效期内观看</string>
+    <string name="card_balance_submit">确定购买</string>
+    <string name="card_balance_cancel">取消</string>
+    <string name="pay_shiyuncard_account_label">持有实体视云观影卡的用户，请输入16位观影卡密码充值</string>
+    <string name="pay_shiyuncard_submit_label">提交</string>
+    <string name="pay_payinfo_price_label">价格 : %1$.2f</string>
+    <string name="pay_payinfo_exprice_label">有效期 : %1$d天</string>
+    <string name="pay_payinfo_introduce_label">购买后可以在有效期内观看</string>
+    <string name="welocome_tip">您好 : %1$s</string>
+    <!-- menu title -->
+    <string name="kefucentertitle">客服中心</string>
+    <string name="orderlisttitle">订购列表</string>
+    <string name="playfromstarttitle">从头播放</string>
+    <!-- history and collect -->
+    <string name="no_collect_record">没有收藏记录</string>
+    <string name="no_history_record">没有历史记录</string>
+    <string name="interested_video">您可能对这些影片感兴趣</string>
+
+    <!-- item detail -->
+    <string name="preview_video">试看</string>
+    <!-- drama page -->
+    <string name="orderAll_drama">订购全剧</string>
+    <string name="one_drama_order_info">%1$.1f元, 有效期: %2$d天</string>
+
+    <!-- ================================================================================ -->
+    <!-- sakura -->
+
+    <string name="indicator_node">切换视频源</string>
+    <string name="indicator_feedback">问题反馈</string>
+    <string name="indicator_help">客服帮助</string>
+
+    <!-- fragment_node -->
+    <string name="prompt">推荐的视频源：如果自动监测结果有误，请手动选择您的省份与网络类型</string>
+    <string name="province">所在的省份：</string>
+    <string name="isp">网络类型：</string>
+    <string name="source_speed_test">测速</string>
+    <string name="video_source">视频源</string>
+    <string name="source_status">状态</string>
+    <string name="contact_phone_number">联系电话:</string>
+    <string name="add_description">补充描述:</string>
+    <string name="max_msg_length">输入信息最长不要超过70个字符!</string>
+    <string name="submit_text">提交</string>
+    <string name="tring">可以尝试</string>
+    <string name="can_select">建议选择</string>
+    <string name="current_node">当前视频源:</string>
+    <string name="switch_to_auto">切换为自动获取</string>
+    <string name="already_to_auto">已自动获取</string>
+    <string name="auto_fetch">自动获取</string>
+    <string name="test_complete_text">测速完成,请选择视频源</string>
+    <string name="speed_testing">正在测速...</string>
+    <string name="test_interupt">测速已终止</string>
+    <string name="confirm_test_complete">确定</string>
+
+
+    <!-- sakura_popup_select_node -->
+    <string name="are_you_sure_selecte">是否选择该视频源？</string>
+    <string name="confirm_this_node">确定</string>
+    <string name="cancel_this_node">取消</string>
+    <string name="node_bind_success">选择成功，请返回播放影片测试！</string>
+
+
+    <!-- sakura_feedback_fragment -->
+    <string name="ismartv">视云客服 ：</string>
+    <string name="fill_contact_number">请填写联系电话!</string>
+    <string name="you_should_give_an_phone_number">请填写正确的手机号码</string>
+
+    <!-- sakura_help_fragment -->
+    <string name="device_code">设备识别码:</string>
+    <string name="weixin">微信公共平台：</string>
+
+
+    <!-- tv guide activity -->
+    <string name="ismartv_cinema">视云影院</string>
+    <string name="ismartv_films">影视区</string>
+
+    <string name="guide_search">搜索</string>
+    <string name="guide_message">消息</string>
+    <string name="guide_user_center">个人中心</string>
+    <string name="guide_my_favorite">我的收藏</string>
+    <string name="guide_play_history">播放记录</string>
+    <string name="filter">筛选</string>
+    <!-- personcenter_orderlist_item -->
+    <string name="personcenter_orderlist_item_orderday">购买时间 : %1$s</string>
+    <string name="personcenter_orderlist_item_remainday">剩余 %1$s天</string>
+    <string name="personcenter_orderlist_item_cost">消费 : %1$s元</string>
+    <string name="personcenter_orderlist_item_paysource">支付渠道 : %1$s</string>
+    <string name="account_bind_dialog_bindmsg">恭喜: %1$s登录视云账户</string>
+    <string name="usercenter_store">购卡充值</string>
+    <string name="usercenter_userinfo">个人信息</string>
+    <string name="usercenter_login">登录</string>
+    <string name="usercenter_login_register">登录/注册</string>
+    <string name="usercenter_purchase_history">购买记录</string>
+    <string name="usercenter_help">客服中心</string>
+    <string name="usercenter_location">定位</string>
+    <string name="usercenter_help_introduction">2011年3月17日，上海广播电视台，上海东方传媒集团有限公司（SMG，原上海文广新闻传媒集团）
+        与联想集团在上海签署协议，共同宣布在移动互联视频服务领域达成战略合作。双方将通过发挥各自在终端产品，云计算，内容资源，市场运营等
+    方面的优势，联手开拓中国移动互联与数字家庭市场。</string>
+    <string name="help_center">客服中心</string>
+    <string name="help_tel">客服热线：400-651-5050</string>
+    <string name="help_mail">客服邮箱：kf@ismartv.cn</string>
+    <string name="help_qq">客服QQ：2740077957</string>
+    <string name="help_wx">客服微信：视云影院服务号</string>
+    <string name="shipinkefu">视频客服</string>
+
+
+    <string name="association">关联</string>
+    <string name="association_phone">关联手机</string>
+    <string name="association_phone_number">手机号码</string>
+    <string name="association_verification_code">验证码</string>
+    <string name="association_submit">提交</string>
+    <string name="association_fetch_verification">获取验证码</string>
+
+
+    <string name="login_phone_msg">无需设置密码，使用验证码直接登录</string>
+    <string name="login_verification_msg">请输入您手机收到的6位数字验证码</string>
+
+    <string name="phone_number_not_be_null">手机号码不能为空</string>
+    <string name="not_phone_number">手机格式不正确</string>
+
+    <string name="verification_not_be_null">验证码不能为空</string>
+    <string name="not_verification">验证码不正确</string>
+
+    <string name="fetch_verification_success">获取验证码成功，请提交！</string>
+    <string name="fetch_verification_failure">获取验证码失败</string>
+    <string name="login_success">您已成功登录视云影院！</string>
+    <string name="login_success_name">恭喜&#160;%1$s&#160;</string>
+
+    <string name="phone_number">手机号码</string>
+    <string name="verification">验证码</string>
+
+    <string name="login_failure">登录失败</string>
+    <string name="logout">注销</string>
+    <string name="account_combine_msg">&#160;&#160;建议您将历史观影权限和余额合并到已登录账户，随时查询更方便！</string>
+
+    <string name="setting_network">设置网络</string>
+    <string name="i_know">我知道了</string>
+    <string name="fetch_net_data_error">获取网络数据失败!!!</string>
+
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+
+    <string name="degree">度</string>
+
+    <string name="front_page">首页</string>
+
+
+    <string name="location_current_position">当前位置 : %1$s</string>
+
+
+    <string name="change_account">切换</string>
+    <string name="association_prompt">( <font color='red'>您的设备未关联手机号，设备损坏或更换是账户和余额特权将清零</font> )</string>
+
+    <string name="userinfo_device_name">设备：%1$s</string>
+
+    <string name="location_currentPosition_title">当前位置&#160;:&#160;</string>
+    <string name="location_selectedPosition_title">选中位置&#160;:&#160;</string>
+    <string name="confirm_selected_position_prompt">您是否确定要将当前位置更换为选中位置?</string>
+
+
+    <string name="today_text">今天</string>
+    <string name="tomorrow_text">明天</string>
+    <string name="besttvauthbind_message">因系统升级,为保证您的套餐正常使用,请您使用手机号登录</string>
+    <string name="exit_account">退出登录</string>
+    <string name="confirm_exit_account_text">您是否退出登录?</string>
+    <string name="exit_account_message_text">您已退出登录!</string>
+    <string name="vip_des">会员介绍</string>
+    <string name="iqiyi_vip_des_content">购买奇艺VIP,在有效期内,可以不限时间和次数收看奇艺VIP内容.</string>
+    <string name="ismartv_vip_des_content">购买视云VIP,在有效期内,可以不限时间和次数收看视云VIP内容.</string>
+    <string name="paylayerpkg_purchase">购买</string>
+    <string name="product_offline">该产品已下线!</string>
 </resources>

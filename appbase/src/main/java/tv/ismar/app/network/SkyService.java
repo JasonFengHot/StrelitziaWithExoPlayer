@@ -19,6 +19,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -27,10 +28,14 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.entity.ChannelEntity;
+import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemList;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
+import tv.ismar.app.models.Game;
+import tv.ismar.app.models.Sport;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
@@ -376,6 +381,34 @@ public interface SkyService {
 //            String deviceToken,
 //            @Query("access_token")
 //            String accessToken);
+@GET("{geoId}.xml")
+Observable<ResponseBody> apifetchWeatherInfo(
+        @Path("geoId") String geoId
+);
+
+    @GET
+    Observable<Item> apifetchItem(
+            @Url String url
+    );
+
+    @GET
+    Observable<HomePagerEntity> fetchHomePage(
+            @Url String url
+    );
+
+    @Headers("Cache-Control: public, max-age=5")
+    @GET("api/tv/homepage/top/")
+    Observable<HomePagerEntity> TvHomepageTop();
+
+    @GET("api/tv/living_video/sport/")
+    Observable<Sport> apiSport();
+
+    @GET("api/tv/living_video/game/")
+    Observable<Game> apiGame();
+
+    @Headers("Cache-Control: public, max-age=5")
+    @GET("api/tv/channels/")
+    Observable<ChannelEntity[]> apiTvChannels();
 
     class ServiceManager {
         private volatile static ServiceManager serviceManager;
@@ -384,6 +417,7 @@ public interface SkyService {
         private SkyService mSkyService;
         private SkyService adSkyService;
         private SkyService upgradeService;
+        private SkyService weatherService;
 
 
         private ServiceManager() {
@@ -440,6 +474,14 @@ public interface SkyService {
 
             upgradeService = upgradeRetrofit.create(SkyService.class);
 
+            Retrofit weatherRetrofit = new Retrofit.Builder()
+                    .baseUrl(appendProtocol("http://media.lily.tvxio.com/"))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(mClient)
+                    .build();
+            weatherService = weatherRetrofit.create(SkyService.class);
+
         }
 
 
@@ -481,6 +523,15 @@ public interface SkyService {
                 }
             }
             return serviceManager.upgradeService;
+        }
+
+        public static SkyService getWeatherService() {
+            synchronized (ServiceManager.class) {
+                if (serviceManager == null) {
+                    serviceManager = new ServiceManager();
+                }
+            }
+            return serviceManager.weatherService;
         }
     }
 

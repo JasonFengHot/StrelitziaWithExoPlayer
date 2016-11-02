@@ -13,6 +13,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.ad.AdsUpdateService;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.detailpage.view.DetailPageActivity;
+import tv.ismar.homepage.activity.TVGuideActivity;
 import tv.ismar.player.view.PlayerActivity;
 import tv.ismar.usercenter.view.UserCenterActivity;
 
@@ -58,6 +59,15 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "variety");
                 intent.putExtra(EXTRA_PK, 688464);
+                startActivity(intent);
+            }
+        });
+
+        Button launcher = (Button) findViewById(R.id.launcher);
+        launcher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TVGuideActivity.class);
                 startActivity(intent);
             }
         });

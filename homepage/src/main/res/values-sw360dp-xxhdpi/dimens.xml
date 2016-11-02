@@ -1,0 +1,55 @@
+<resources>  
+
+    <dimen name="item_detail_detailquality_margintop">2dip</dimen>
+    <dimen name="item_detail_detailquality_marginright">2dip</dimen>
+    <dimen name="related_item_image_quality_marginright">1dip</dimen>
+    <dimen name="play_finished_image_vod_label_margintop">1dip</dimen>
+    <dimen name="play_finished_image_vod_label_marginright">0dip</dimen>  
+    <dimen name="Loading_Dialog_ProgressBar_Height">22dip</dimen>
+    <dimen name="Loading_Dialog_ProgressBar_width">22dip</dimen>
+    <dimen name="Loading_Dialog_ProgressBar_ML">5dip</dimen>
+    <dimen name="Loading_Dialog_ProgressBar_TextSize">8sp</dimen>
+    <dimen name="related_item_image_quality_W">16dip</dimen>
+    <dimen name="related_item_image_quality_H">16dip</dimen>
+    <dimen name="related_item_title_margintop">11dip</dimen>
+    <dimen name="related_item_title_marginbottom">7dip</dimen>
+    <dimen name="vod_player_progressbar_H">22dip</dimen>
+    <dimen name="vod_player_progressbar_W">22dip</dimen>
+    <dimen name="related_item_image_quality_margintop">1dip</dimen>
+    <dimen name="playfinish_gridview_item_iv_label_marginright">8dip</dimen>
+    <dimen name="playfinish_gridview_item_iv_label_margintop">2dip</dimen>
+    <!-- ZGridview -->
+    <dimen name="ZGridView_related_selectorLeftPadding">6dip</dimen>
+    <dimen name="ZGridView_related_selectorTopPadding">7dip</dimen>
+    <dimen name="ZGridView_related_selectorRightPadding">6dip</dimen>
+    <dimen name="ZGridView_related_selectorBottomPadding">-6dip</dimen>
+    
+    <dimen name="ZGridView_played_selectorLeftPadding">-1dip</dimen>
+    <dimen name="ZGridView_played_selectorTopPadding">5dip</dimen>
+    <dimen name="ZGridView_played_selectorRightPadding">-1dip</dimen>
+    <dimen name="ZGridView_played_selectorBottomPadding">-15dip</dimen>
+    
+    <dimen name="ZGridView_search_selectorLeftPadding">2dip</dimen>
+    <dimen name="ZGridView_search_selectorTopPadding">2dip</dimen>
+    <dimen name="ZGridView_search_selectorRight">10dip</dimen>
+    <dimen name="ZGridView_search_selectorBottom">-17dip</dimen>
+    
+<!--         <dimen name="ZGridView_search_selectorLeftPadding">7dip</dimen> -->
+<!--     <dimen name="ZGridView_search_selectorTopPadding">9dip</dimen> -->
+<!--     <dimen name="ZGridView_search_selectorRight">20dip</dimen> -->
+<!--     <dimen name="ZGridView_search_selectorBottom">-27dip</dimen> -->
+    <!-- HGridView -->
+    <dimen name="HGridView_related_selectionLeftPadding">7dip</dimen>
+    <dimen name="HGridView_related_selectionTopPadding">7dip</dimen>
+    <dimen name="HGridView_related_selectionRightPadding">7dip</dimen>
+    <dimen name="HGridView_related_selectionBottomPadding">-9dip</dimen>      
+    <dimen name="HGridView_label_lr_offset">4dip</dimen>
+    <dimen name="HGridView_label_textleft">8dip</dimen>
+    <dimen name="HGridView_label_texttop">19dip</dimen>
+
+    <dimen name="qiyi_ad_width">115.66dp</dimen>
+    <dimen name="qiyi_ad_height">24dp</dimen>
+    <dimen name="ad_margin_top">16.66dp</dimen>
+    <dimen name="ad_margin_right">16dp</dimen>
+    <dimen name="ad_text_margin_left">6.33dp</dimen>
+</resources>

@@ -22,6 +22,7 @@ public class AdvertiseTable extends Model {
     public static final String MD5 = "md5";
     public static final String LOCATION = "location";
     public static final String TYPE = "type";
+    public static final String URL = "url";
 
     @Column
     public String title;
@@ -59,5 +60,7 @@ public class AdvertiseTable extends Model {
     @Column
     public String type;
 
+    @Column
+    public String url;
 
 }
