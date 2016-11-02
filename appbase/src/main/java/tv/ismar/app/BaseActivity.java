@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,14 +34,10 @@ import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
  */
 public class BaseActivity extends AppCompatActivity {
     private PopupWindow updatePopupWindow;
+    public static final String ACTION_CONNECT_ERROR = "action.connect_error";
     private LoadingDialog mLoadingDialog;
     public SkyService mSkyService;
     private View mRootView;
-    public SkyService mWeatherSkyService;
-    public static final String ACTION_CONNECT_ERROR = "tv.ismar.daisy.CONNECT_ERROR";
-    protected String activityTag = "";
-    protected long app_start_time;
-
 
 
     @Override
@@ -49,13 +46,14 @@ public class BaseActivity extends AppCompatActivity {
 
         mSkyService = SkyService.ServiceManager.getService();
         mRootView = getWindow().getDecorView();
-        mWeatherSkyService = SkyService.ServiceManager.getWeatherService();
-        app_start_time = System.currentTimeMillis();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
         registerUpdateReceiver();
     }
 

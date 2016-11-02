@@ -4,12 +4,30 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.core.Util;
+import tv.ismar.app.network.entity.AccountsOrdersEntity;
 import tv.ismar.usercenter.PurchaseHistoryContract;
+import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.databinding.FragmentPurchasehistoryBinding;
 import tv.ismar.usercenter.viewmodel.PurchaseHistoryViewModel;
 
@@ -26,6 +44,9 @@ public class PurchaseHistoryFragment extends Fragment implements PurchaseHistory
     public static PurchaseHistoryFragment newInstance() {
         return new PurchaseHistoryFragment();
     }
+
+
+    private RecyclerView mRecyclerView;
 
     @Override
     public void onAttach(Context context) {
@@ -47,6 +68,8 @@ public class PurchaseHistoryFragment extends Fragment implements PurchaseHistory
         FragmentPurchasehistoryBinding purchasehistoryBinding = FragmentPurchasehistoryBinding.inflate(inflater, container, false);
         purchasehistoryBinding.setTasks(mViewModel);
         purchasehistoryBinding.setActionHandler(mPresenter);
+
+        mRecyclerView = purchasehistoryBinding.recyclerview;
         View root = purchasehistoryBinding.getRoot();
         return root;
     }
@@ -73,6 +96,7 @@ public class PurchaseHistoryFragment extends Fragment implements PurchaseHistory
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        mPresenter.start();
 
     }
 
@@ -114,5 +138,170 @@ public class PurchaseHistoryFragment extends Fragment implements PurchaseHistory
     @Override
     public void setPresenter(PurchaseHistoryContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void loadAccountOrders(AccountsOrdersEntity accountsOrdersEntity) {
+
+
+        ArrayList<AccountsOrdersEntity.OrderEntity> arrayList = new ArrayList<AccountsOrdersEntity.OrderEntity>();
+        if (!TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken()) && !TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername())) {
+
+
+            for (AccountsOrdersEntity.OrderEntity entity : accountsOrdersEntity.getOrder_list()) {
+                entity.type = "order_list";
+                arrayList.add(entity);
+            }
+            for (AccountsOrdersEntity.OrderEntity entity : accountsOrdersEntity.getSn_order_list()) {
+                entity.type = "snorder_list";
+                arrayList.add(entity);
+            }
+
+        } else {
+            for (AccountsOrdersEntity.OrderEntity entity : accountsOrdersEntity.getSn_order_list()) {
+                entity.type = "snorder_list";
+                arrayList.add(entity);
+            }
+        }
+
+        HistoryAdapter adapter = new HistoryAdapter(getContext(), arrayList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(adapter);
+
+    }
+
+    private class HistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryFragment.HistoryViewHolder> {
+        private Context mContext;
+
+        private List<AccountsOrdersEntity.OrderEntity> mOrderEntities;
+
+        public HistoryAdapter(Context context, List<AccountsOrdersEntity.OrderEntity> orderEntities) {
+            mContext = context;
+            mOrderEntities = orderEntities;
+        }
+
+        @Override
+        public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_purchase_history, parent, false);
+            HistoryViewHolder holder = new HistoryViewHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(HistoryViewHolder holder, int position) {
+
+            AccountsOrdersEntity.OrderEntity item = mOrderEntities.get(position);
+
+
+            holder.icon.setTag(position);
+
+
+            String orderday = mContext.getResources().getString(R.string.personcenter_orderlist_item_orderday);
+            String remainday = mContext.getResources().getString(R.string.personcenter_orderlist_item_remainday);
+            String cost = mContext.getResources().getString(R.string.personcenter_orderlist_item_cost);
+            String paySource = mContext.getResources().getString(R.string.personcenter_orderlist_item_paysource);
+            holder.title.setText(item.getTitle());
+            holder.buydate_txt.setText(String.format(orderday, item.getStart_date()));
+            holder.orderlistitem_remainday.setText(String.format(remainday, remaindDay(item.getExpiry_date())));
+            holder.totalfee.setText(String.format(cost, item.getTotal_fee()));
+            holder.orderlistitem_paychannel.setText(String.format(paySource, getValueBySource(item.getSource())));
+            if (!TextUtils.isEmpty(item.getThumb_url()))
+                Picasso.with(mContext).load(item.getThumb_url()).into(holder.icon);
+            if (!TextUtils.isEmpty(item.getInfo())) {
+                String account = item.getInfo().split("@")[0];
+                String mergedate = item.getInfo().split("@")[1];
+                SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd");
+                String mergeTime = time.format(Timestamp.valueOf(mergedate));
+
+                if (item.type.equals("order_list")) {
+                    holder.purchaseExtra.setText("( " + mergeTime + "合并至视云账户" + IsmartvActivator.getInstance().getUsername() + " )");
+                } else if (item.type.equals("snorder_list")) {
+                    holder.purchaseExtra.setText(mergeTime + "合并至视云账户" + account);
+                }
+
+                holder.purchaseExtra.setVisibility(View.VISIBLE);
+                holder.mergeTxt.setVisibility(View.INVISIBLE);
+            } else {
+                holder.purchaseExtra.setVisibility(View.INVISIBLE);
+                holder.mergeTxt.setVisibility(View.INVISIBLE);
+            }
+
+//            accountOrderListView.addView(convertView);
+//            if (i == 0) {
+//                icon.setId(R.id.purchase_history_list_first_id);
+//                icon.setNextFocusUpId(icon.getId());
+//            }
+//            icon.setOnKeyListener(new View.OnKeyListener() {
+//                @Override
+//                public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                    int tag = (int) v.getTag();
+//                    if (tag == 0 && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+//                        return true;
+//                    }
+//                    return false;
+//                }
+//            });
+
+            if (position != mOrderEntities.size() - 1) {
+                ImageView imageView = new ImageView(mContext);
+                imageView.setBackgroundResource(R.color.history_divider);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                imageView.setLayoutParams(layoutParams);
+//                accountOrderListView.addView(imageView);
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mOrderEntities.size();
+        }
+
+        private String getValueBySource(String source) {
+            if (source.equals("weixin")) {
+                return "微信";
+            } else if (source.equals("alipay")) {
+                return "支付宝";
+            } else if (source.equals("balance")) {
+                return "余额";
+            } else if (source.equals("card")) {
+                return "卡";
+            } else {
+                return source;
+            }
+        }
+
+        private int remaindDay(String exprieTime) {
+            try {
+                return Util.daysBetween(Util.getTime(), exprieTime) + 1;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+    }
+
+    private class HistoryViewHolder extends RecyclerView.ViewHolder {
+
+        TextView title;
+        TextView buydate_txt;
+        TextView totalfee;
+        TextView orderlistitem_paychannel;
+        TextView purchaseExtra;
+        TextView orderlistitem_remainday;
+        TextView mergeTxt;
+        ImageView icon;
+
+        public HistoryViewHolder(View itemView) {
+            super(itemView);
+            title = (TextView) itemView.findViewById(R.id.orderlistitem_title);
+            buydate_txt = (TextView) itemView.findViewById(R.id.orderlistitem_time);
+            orderlistitem_remainday = (TextView) itemView.findViewById(R.id.orderlistitem_remainday);
+            totalfee = (TextView) itemView.findViewById(R.id.orderlistitem_cost);
+            icon = (ImageView) itemView.findViewById(R.id.orderlistitem_icon);
+            orderlistitem_paychannel = (TextView) itemView.findViewById(R.id.orderlistitem_paychannel);
+            purchaseExtra = (TextView) itemView.findViewById(R.id.purchase_extra);
+            mergeTxt = (TextView) itemView.findViewById(R.id.orderlistitem_merge);
+        }
     }
 }

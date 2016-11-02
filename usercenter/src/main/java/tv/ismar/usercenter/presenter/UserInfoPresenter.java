@@ -39,6 +39,8 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
     public void start() {
         mActivity = (UserCenterActivity) mFragment.getActivity();
         mSkyService = mActivity.mSkyService;
+        fetchBalance();
+        fetchPrivilege();
     }
 
 
@@ -55,7 +57,8 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
 
                     @Override
                     public void onNext(AccountBalanceEntity accountBalanceEntity) {
-
+                        balance = accountBalanceEntity.getBalance().add(accountBalanceEntity.getSn_balance());
+                        mFragment.loadBalance(accountBalanceEntity);
                     }
                 });
     }

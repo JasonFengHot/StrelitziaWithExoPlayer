@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.usercenter.UserInfoContract;
 import tv.ismar.usercenter.databinding.FragmentUserinfoBinding;
@@ -123,4 +124,10 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View 
     public void loadPrivilege(AccountPlayAuthEntity entity) {
 
     }
+
+    @Override
+    public void loadBalance(AccountBalanceEntity entity) {
+        mViewModel.refresh();
+    }
+
 }

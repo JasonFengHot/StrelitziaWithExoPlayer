@@ -43,26 +43,6 @@
 <dimen name="userinfo_association_width">77.78dp</dimen>
 
 
-<dimen name="page_min_width">933.33dp</dimen>
-<dimen name="login_edit_ml">23.33dp</dimen>
-<dimen name="pay_person_login_pay_identifyCodeBtn_w">155.56dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_h">58.33dip</dimen>
-<dimen name="pay_person_login_linearLayout_h">89.44dp</dimen>
-<dimen name="pay_person_login_pay_edit_mobile_textsize">23.33sp</dimen>
-<dimen name="page_min_height">466.67dp</dimen>
-<dimen name="pay_person_login_pay_count_tip_h">46.67dip</dimen>
-<dimen name="pay_count_tip_mt">7.78dp</dimen>
-<dimen name="pay_person_login_pay_identifyCodeBtn_h">58.33dip</dimen>
-<dimen name="pay_person_login_textview_textsize">27.22sp</dimen>
-<dimen name="pay_person_login_textview_w">143.89dip</dimen>
-<dimen name="pay_person_login_pay_identifyCodeBtn_ml">31.11dip</dimen>
-<dimen name="pay_person_login_pay_edit_mobile_w">388.89dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_mt">77.78dip</dimen>
-<dimen name="pay_person_login_linearLayout_w">738.89dp</dimen>
-<dimen name="pay_person_login_linearLayout2_mt">15.56dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_w">233.33dip</dimen>
-<dimen name="login_edit_h">62.22dp</dimen>
-
 <dimen name="userinfo_privilege_layout_marginTop">38.89dp</dimen>
 <dimen name="help_title_icon_w">326.67dp</dimen>
 <dimen name="help_title_icon_h">93.33dp</dimen>
@@ -74,5 +54,29 @@
 <dimen name="usercenter_storefragment_packagelist_item_layout_marginRight">5.44dp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_text_height">48.22dp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_text_width">261.33dp</dimen>
+
+
+<dimen name="purchase_history_text_margin_top">17.89dp</dimen>
+<dimen name="purchase_history_item_margin_left">18.67dp</dimen>
+
+
+<dimen name="locationFragment_tomorrowLayout_marginLeft">54.44dp</dimen>
+<dimen name="location_selected_city_text_width">155.56dp</dimen>
+<dimen name="location_grid_margin_top">44.33dp</dimen>
+<dimen name="locationFragment_weatherLayout_width">140.00dp</dimen>
+<dimen name="locationFragment_selectedPositionTitle_marginLeft">77.78dp</dimen>
+<dimen name="locationFragment_h2_textSize">28.00sp</dimen>
+<dimen name="location_fragment_current_position_height">158.67dp</dimen>
+<dimen name="location_divider_width">1022.00dp</dimen>
+<dimen name="locationFragment_h1_textSize">37.33sp</dimen>
+<dimen name="locationFragment_todayLayout_marginLeft">62.22dp</dimen>
+<dimen name="locationFragment_currentPositionTitle_marginLeft">39.67dp</dimen>
+<dimen name="location_divider_margin_left">28.00dp</dimen>
+<dimen name="locationFragment_h4_textSize">18.67sp</dimen>
+<dimen name="weather_layout_w">1112.22dp</dimen>
+<dimen name="weather_layout_h">746.67dp</dimen>
+<dimen name="weather_city_ml">38.89dp</dimen>
+<dimen name="weather_city_mr">31.11dp</dimen>
+<dimen name="weather_city_layout_spac">46.67dp</dimen>
 
 </resources>

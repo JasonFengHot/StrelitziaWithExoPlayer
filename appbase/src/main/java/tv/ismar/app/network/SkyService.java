@@ -39,6 +39,7 @@ import tv.ismar.app.models.Sport;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
+import tv.ismar.app.network.entity.AccountsOrdersEntity;
 import tv.ismar.app.network.entity.ActiveEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.DpiEntity;
@@ -54,6 +55,14 @@ import tv.ismar.app.network.entity.YouHuiDingGouEntity;
  * Created by huibin on 8/3/16.
  */
 public interface SkyService {
+
+    @FormUrlEncoded
+    @POST("accounts/orders/")
+    Observable<AccountsOrdersEntity> accountsOrders(
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
     @FormUrlEncoded
     @POST("accounts/playauths/")
     Observable<AccountPlayAuthEntity> accountsPlayauths(
