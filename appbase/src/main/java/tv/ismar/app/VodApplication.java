@@ -5,12 +5,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,6 +33,10 @@ import tv.ismar.app.core.ImageCache;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VipMark;
+import tv.ismar.app.core.advertisement.AdvertisementManager;
+import tv.ismar.app.core.client.MessageQueue;
+import tv.ismar.app.core.preferences.AccountSharedPrefs;
+import tv.ismar.app.core.preferences.AppSharedPrefs;
 import tv.ismar.app.db.DBHelper;
 import tv.ismar.app.db.FavoriteManager;
 import tv.ismar.app.db.HistoryManager;
@@ -73,12 +85,17 @@ public class VodApplication extends Application {
     private static SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     public static final String PREFERENCE_FILE_NAME = "Daisy";
+    private boolean isFinish = true;
     @Override
     public void onCreate() {
         super.onCreate();
         SPUtils.init(this);
         appInstance = this;
         ActiveAndroid.initialize(this);
+        AccountSharedPrefs.initialize(this);
+        AppSharedPrefs.initialize(this);
+        AdvertisementManager.initialize(this);
+        load(this);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
         Picasso.setSingletonInstance(picasso);
@@ -109,7 +126,7 @@ public class VodApplication extends Application {
     }
     public VodApplication() {
         mLowMemoryListeners = new ArrayList<WeakReference<OnLowMemoryListener>>();
-     //   mActivityPool = new ConcurrentHashMap<String, Activity>();
+        //   mActivityPool = new ConcurrentHashMap<String, Activity>();
     }
     public static VodApplication get(Context context) {
         return (VodApplication) context.getApplicationContext();
@@ -125,7 +142,26 @@ public class VodApplication extends Application {
     public static VodApplication getModuleAppContext() {
         return appInstance;
     }
-
+    public void load(Context a) {
+        try {
+            mPreferences = a.getSharedPreferences(PREFERENCE_FILE_NAME, 0);
+            mEditor = mPreferences.edit();
+            Set<String> cached_log = mPreferences.getStringSet(CACHED_LOG, null);
+            mEditor.remove(CACHED_LOG).commit();
+            if (!isFinish) {
+                new Thread(mUpLoadLogRunnable).start();
+                isFinish = true;
+            }
+            if (cached_log != null) {
+                Iterator<String> it = cached_log.iterator();
+                while (it.hasNext()) {
+                    MessageQueue.addQueue(it.next());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("load(Activity a)=" + e);
+        }
+    }
     /**
      * Return this application {@link DBHelper}
      *
@@ -187,6 +223,26 @@ public class VodApplication extends Application {
             mLowMemoryListeners.add(new WeakReference<OnLowMemoryListener>(listener));
         }
     }
+    /**
+     * Remove a previously registered listener
+     *
+     * @param listener The listener to unregister
+     * @see OnLowMemoryListener
+     */
+
+    public void unregisterOnLowMemoryListener(OnLowMemoryListener listener) {
+        if (listener != null) {
+            int i = 0;
+            while (i < mLowMemoryListeners.size()) {
+                final OnLowMemoryListener l = mLowMemoryListeners.get(i).get();
+                if (l == null || l == listener) {
+                    mLowMemoryListeners.remove(i);
+                } else {
+                    i++;
+                }
+            }
+        }
+    }
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
@@ -236,5 +292,66 @@ public class VodApplication extends Application {
     public void onTrimMemory(int level) {
         // TODO Auto-generated method stub
         super.onTrimMemory(level);
+    }
+    private Runnable mUpLoadLogRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            while (isFinish) {
+                try {
+                    Thread.sleep(1*60*1000);
+//                    synchronized (MessageQueue.async) {
+                    // Thread.sleep(900000);
+
+
+                    ArrayList<String> list = MessageQueue.getQueueList();
+                    int i;
+                    JSONArray s = new JSONArray();
+                    if (list.size() > 0) {
+                        for (i = 0; i < list.size(); i++) {
+                            JSONObject obj;
+                            try {
+                                Log.i("qazwsx", "json item==" + list.get(i).toString());
+                                obj = new JSONObject(list.get(i).toString());
+                                s.put(obj);
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+
+                        }
+                        if (i == list.size()) {
+                            MessageQueue.remove();
+//                            NetworkUtils.LogSender(s.toString());
+                            Log.i("qazwsx", "json array==" + s.toString());
+                            Log.i("qazwsx", "remove");
+                        }
+                    } else {
+                        Log.i("qazwsx", "queue is no elements");
+                    }
+//                    }
+
+                    //NetworkUtils.LogUpLoad(getApplicationContext());
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }catch (java.lang.IndexOutOfBoundsException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            Log.i("qazwsx", "Thread is finished!!!");
+        }
+
+    };
+    public boolean save() {
+        return mEditor.commit();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }
