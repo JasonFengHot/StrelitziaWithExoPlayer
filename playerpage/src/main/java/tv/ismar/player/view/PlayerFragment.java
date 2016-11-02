@@ -50,6 +50,7 @@ import tv.ismar.app.entity.History;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.player.PlayerPageContract;
@@ -339,7 +340,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         super.onResume();
         if (isNeedOnResume || isClickKeFu) {
             isNeedOnResume = false;
-            isClickKeFu = false;
             // 试看完成进入购买页面后返回
             if (mItemEntity == null || mPresenter == null) {
                 if (isPlayInDetailPage) {
@@ -606,7 +606,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public boolean onError(String message) {
-        // TODO 统一处理错误提示语,包含底层的onError和播放过程中自行判断的网络请求,注意重复回调问题
+        showExitPopup(message, true);
         return false;
     }
 
@@ -687,6 +687,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             int mediaPosition = mIsmartvPlayer.getCurrentPosition();
             // TODO 超过一定时长需要判断网络是否正常,网络不正常时需提示用户
             // TODO 用户去连接网络过程是否推出播放器,涉及到底层下载文件问题
+            if (mCurrentPosition == mediaPosition) {
+                if (!NetworkUtils.isConnected(getActivity())) {
+                    showExitPopup("网络错误", false);
+                    Log.e(TAG, "Network error.");
+                    return;
+                }
+            }
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                 if (mCurrentPosition == mediaPosition) {
                     mTimerHandler.postDelayed(timerRunnable, 500);
@@ -970,6 +977,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         } else {
             createPlayer(null);
         }
+        isClickKeFu = false;
 
     }
 
@@ -1272,10 +1280,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void showBuffer(String msg) {
         if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying())
             return;
+        if (msg != null) {
+            player_buffer_text.setText(msg);
+        }
         if (player_buffer_layout.getVisibility() != View.VISIBLE) {
-            if (msg != null) {
-                player_buffer_text.setText(msg);
-            }
             player_buffer_layout.setVisibility(View.VISIBLE);
             if (animationDrawable != null && !animationDrawable.isRunning()) {
                 animationDrawable.start();
@@ -1348,7 +1356,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         return popDialog != null && popDialog.isShowing();
     }
 
-    private void showExitPopup() {
+    private void showExitPopup(String message, final boolean hideCancel) {
         if (mIsPlayingAd) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
             if (isPlayInDetailPage) {
@@ -1364,7 +1372,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         timerStop();
         mIsmartvPlayer.pause();
         popDialog = new ModuleMessagePopWindow(getActivity());
-        popDialog.setFirstMessage(getString(R.string.player_exit));
+        popDialog.setFirstMessage(message);
+        if(hideCancel){
+            popDialog.hideCancelBtn();
+        }
         popDialog.showAtLocation(((BaseActivity) getActivity()).getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
@@ -1387,7 +1398,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         popDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (!popDialog.isConfirmClick) {
+                if (!popDialog.isConfirmClick && !hideCancel) {
                     timerStart(0);
                     mIsmartvPlayer.start();
                 }
@@ -1431,7 +1442,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 return true;
             case KeyEvent.KEYCODE_BACK:
                 if (!isPopWindowShow() && mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState() && !mIsPlayingAd) {
-                    showExitPopup();
+                    showExitPopup(getString(R.string.player_exit), false);
                     return true;
                 }
                 if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
