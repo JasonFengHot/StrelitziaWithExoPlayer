@@ -55,6 +55,8 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     public static final int INSTALL_SILENT = 0x7c;
 
+    private boolean isInstallSilent = false;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -76,7 +78,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 //        int installType = intent.getIntExtra("install_type", 0);
 //        Log.d(TAG, "onStartCommand: " + installType);
 //        if (INSTALL_SILENT == installType) {
-            fetchAppUpgrade(true);
+        fetchAppUpgrade();
 //        } else {
 //            fetchAppUpgrade(false);
 //        }
@@ -85,7 +87,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     }
 
 
-    private void fetchAppUpgrade(final boolean isInstallSilent) {
+    private void fetchAppUpgrade() {
         String sn = "le_1y39rh8c";
         String manu = "BYD";
         String app = "sky";
@@ -122,25 +124,27 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
                     @Override
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
-//                        mVersionInfoV2Entity = versionInfoV2Entity;
                         md5Jsons = new ArrayList<>();
                         for (VersionInfoV2Entity.ApplicationEntity applicationEntity : versionInfoV2Entity.getUpgrades()) {
-                            checkUpgrade(applicationEntity, isInstallSilent);
+                            checkUpgrade(applicationEntity);
                         }
                     }
                 });
     }
 
 
-    private void checkUpgrade(final VersionInfoV2Entity.ApplicationEntity applicationEntity, final boolean isInstallSilent) {
+    private void checkUpgrade(final VersionInfoV2Entity.ApplicationEntity applicationEntity) {
         Log.i(TAG, "server version code ---> " + applicationEntity.getVersion());
+        int installVersionCode;
         PackageInfo packageInfo = null;
         try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            packageInfo = getPackageManager().getPackageInfo(applicationEntity.getProduct(), 0);
+            installVersionCode = packageInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "can't find this application!!!");
+            installVersionCode = 0;
         }
-        Log.i(TAG, "local version code ---> " + packageInfo.versionCode);
+        Log.i(TAG, "local version code ---> " + installVersionCode);
         String title = Md5.md5(new Gson().toJson(applicationEntity));
         md5Jsons.add(title);
 
@@ -155,7 +159,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
             mCursorLoader.startLoading();
         } else {
             final File apkFile = new File(download.savePath);
-            if (packageInfo.versionCode < Integer.parseInt(applicationEntity.getVersion())) {
+            if (installVersionCode < Integer.parseInt(applicationEntity.getVersion())) {
                 if (apkFile.exists()) {
                     String serverMd5Code = applicationEntity.getMd5();
                     String localMd5Code = Md5.md5File(apkFile);
@@ -257,11 +261,8 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
         DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", md5Jsons.get(0)).executeSingle();
         if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
-            Bundle bundle = new Bundle();
             VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
-            bundle.putStringArrayList("msgs", applicationEntity.getUpdate());
-            bundle.putString("path", downloadEntity.savePath);
-            sendUpdateBroadcast(bundle);
+            checkUpgrade(applicationEntity);
         }
     }
 }

@@ -35,15 +35,24 @@ public class VersionInfoV2Entity {
         this.homepage = homepage;
     }
 
-   public static class ApplicationEntity {
+    public static class ApplicationEntity {
+        private boolean checkUpgrade = true;
         private String product;
         private String name;
-//        private String screenshot;
+        private String screenshot;
         private String url;
         private ArrayList<String> update;
         private String summary;
         private String version;
         private String md5;
+
+        public boolean isCheckUpgrade() {
+            return checkUpgrade;
+        }
+
+        public void setCheckUpgrade(boolean checkUpgrade) {
+            this.checkUpgrade = checkUpgrade;
+        }
 
         public String getProduct() {
             return product;
@@ -61,13 +70,13 @@ public class VersionInfoV2Entity {
             this.name = name;
         }
 
-//        public String getScreenshot() {
-//            return screenshot;
-//        }
-//
-//        public void setScreenshot(String screenshot) {
-//            this.screenshot = screenshot;
-//        }
+        public String getScreenshot() {
+            return screenshot;
+        }
+
+        public void setScreenshot(String screenshot) {
+            this.screenshot = screenshot;
+        }
 
         public String getUrl() {
             return url;
