@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.AppUtils;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import rx.Observer;
 import tv.ismar.app.network.SkyService;
@@ -33,6 +35,7 @@ import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
  * Created by beaver on 16-8-19.
  */
 public class BaseActivity extends AppCompatActivity {
+    private static final String TAG = "BaseActivity";
     private PopupWindow updatePopupWindow;
     private LoadingDialog mLoadingDialog;
     public SkyService mSkyService;
@@ -41,6 +44,10 @@ public class BaseActivity extends AppCompatActivity {
     public static final String ACTION_CONNECT_ERROR = "tv.ismar.daisy.CONNECT_ERROR";
     protected String activityTag = "";
     protected long app_start_time;
+
+    public static Stack<Bundle> updateInfo = new Stack<>();
+
+    private static final int UPDATE_APP_REQUEST_CODE = 0x5723;
 
 
     @Override
@@ -60,12 +67,26 @@ public class BaseActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         registerUpdateReceiver();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
+                    showUpdatePopup(mRootView);
+                }
+            }
+        }, 2000);
+
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
+        if (updatePopupWindow != null) {
+            updatePopupWindow.dismiss();
+            updatePopupWindow = null;
+        }
         unregisterReceiver(mUpdateReceiver);
+        super.onPause();
     }
 
     protected <T extends View> T findView(int resId) {
@@ -122,8 +143,16 @@ public class BaseActivity extends AppCompatActivity {
         public void onReceive(final Context context, Intent intent) {
             Log.d("UpdateReceiver", intent.getBundleExtra("data").toString());
             Bundle bundle = intent.getBundleExtra("data");
+            updateInfo.push(bundle);
 
-            showUpdatePopup(mRootView, bundle);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
+                        showUpdatePopup(mRootView);
+                    }
+                }
+            }, 2000);
         }
     };
 
@@ -135,7 +164,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    private void showUpdatePopup(View view, Bundle bundle) {
+    private void showUpdatePopup(final View view) {
+        if (updateInfo.isEmpty()) {
+            return;
+        }
+        Bundle bundle = updateInfo.pop();
         final Context context = this;
         View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
         contentView.setBackgroundResource(R.drawable.app_update_bg);
@@ -147,13 +180,16 @@ public class BaseActivity extends AppCompatActivity {
 
         updatePopupWindow = new PopupWindow(null, appUpdateHeight, appUpdateWidht);
         updatePopupWindow.setContentView(contentView);
-        updatePopupWindow.setFocusable(true);
+        updatePopupWindow.setOutsideTouchable(true);
+//        updatePopupWindow.setFocusable(true);
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 0.15f;
         getWindow().setAttributes(params);
 
+
         updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
 
         updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -161,6 +197,15 @@ public class BaseActivity extends AppCompatActivity {
                 WindowManager.LayoutParams params = getWindow().getAttributes();
                 params.alpha = 1f;
                 getWindow().setAttributes(params);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
+                            showUpdatePopup(mRootView);
+                        }
+                    }
+                }, 2000);
             }
         });
 
@@ -188,8 +233,23 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updatePopupWindow.dismiss();
-                AppUtils.installApp(BaseActivity.this, path);
+                AppUtils.installApp(BaseActivity.this, path, UPDATE_APP_REQUEST_CODE);
             }
         });
+    }
+
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPDATE_APP_REQUEST_CODE) {
+            Log.d(TAG, "result code: " + resultCode);
+        }
     }
 }

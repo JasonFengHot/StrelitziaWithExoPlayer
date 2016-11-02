@@ -50,6 +50,7 @@
                 android:background="@drawable/selector_daisy_exit_button"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:gravity="center"
                 android:text="@string/confirm"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/h2_size" />
@@ -61,6 +62,7 @@
                 android:layout_marginLeft="@dimen/module_pop_btn_margin_lr"
                 android:background="@drawable/selector_daisy_exit_button"
                 android:focusable="true"
+                android:gravity="center"
                 android:focusableInTouchMode="true"
                 android:text="@string/cancel"
                 android:textColor="@android:color/white"

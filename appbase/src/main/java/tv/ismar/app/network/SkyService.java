@@ -14,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -48,6 +49,7 @@ import tv.ismar.app.network.entity.PayLayerEntity;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
 import tv.ismar.app.network.entity.PayVerifyEntity;
+import tv.ismar.app.network.entity.UpgradeRequestEntity;
 import tv.ismar.app.network.entity.VersionInfoV2Entity;
 import tv.ismar.app.network.entity.YouHuiDingGouEntity;
 
@@ -365,14 +367,9 @@ public interface SkyService {
             @Field("subitem") String subItem
     );
 
-    @GET("api/v2/upgrade/")
+    @POST("api/v2/upgrade/")
     Observable<VersionInfoV2Entity> appUpgrade(
-            @Query("sn") String sn,
-            @Query("manu") String manu,
-            @Query("app") String app,
-            @Query("modelname") String modelName,
-            @Query("loc") String location,
-            @Query("ver") int versionCode
+          @Body List<UpgradeRequestEntity> upgradeRequestEntities
     );
 
     @GET
@@ -475,7 +472,8 @@ Observable<ResponseBody> apifetchWeatherInfo(
             adSkyService = adRetrofit.create(SkyService.class);
 
             Retrofit upgradeRetrofit = new Retrofit.Builder()
-                    .baseUrl(appendProtocol(domain[2]))
+//                    .baseUrl(appendProtocol(domain[2]))
+                    .baseUrl(appendProtocol("http://124.42.65.66/"))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)

@@ -18,6 +18,8 @@ import com.blankj.utilcode.utils.ShellUtils;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.ismartv.downloader.DownloadEntity;
 import cn.ismartv.downloader.DownloadManager;
@@ -29,6 +31,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.core.Md5;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.UpgradeRequestEntity;
 import tv.ismar.app.network.entity.VersionInfoV2Entity;
 
 
@@ -46,11 +49,13 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     public static final int LOADER_ID_APP_UPDATE = 0xca;
 
-    private String md5Json;
+    private List<String> md5Jsons;
 
-    private VersionInfoV2Entity mVersionInfoV2Entity;
+//    private VersionInfoV2Entity mVersionInfoV2Entity;
 
     public static final int INSTALL_SILENT = 0x7c;
+
+    private boolean isInstallSilent = false;
 
     @Nullable
     @Override
@@ -70,47 +75,100 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        int installType = intent.getIntExtra("install_type", 0);
-        Log.d(TAG, "onStartCommand: " + installType);
-        if (INSTALL_SILENT == installType) {
-            fetchAppUpgrade(true);
-        } else {
-            fetchAppUpgrade(false);
-        }
+//        int installType = intent.getIntExtra("install_type", 0);
+//        Log.d(TAG, "onStartCommand: " + installType);
+//        if (INSTALL_SILENT == installType) {
+        fetchAppUpgrade();
+//        } else {
+//            fetchAppUpgrade(false);
+//        }
         return super.onStartCommand(intent, flags, startId);
 
     }
 
-    private void checkUpgrade(final VersionInfoV2Entity versionInfoV2Entity, final boolean isInstallSilent) {
-        Log.i(TAG, "server version code ---> " + versionInfoV2Entity.getApplication().getVersion());
+
+    private void fetchAppUpgrade() {
+        String sn = "le_1y39rh8c";
+        String manu = "BYD";
+        String app = "sky";
+        String modelName = "YT-X703F";
+        String location = "SH";
+//        int versionCode = 222;
+
+        int versionCode = fetchInstallVersionCode();
+
+        List<UpgradeRequestEntity> upgradeRequestEntities = new ArrayList<>();
+        UpgradeRequestEntity requestEntity = new UpgradeRequestEntity();
+        requestEntity.setApp(app);
+        requestEntity.setLoc(location);
+        requestEntity.setManu(manu);
+        requestEntity.setModelname(modelName);
+        requestEntity.setSn(sn);
+        requestEntity.setVer(String.valueOf(versionCode));
+
+        upgradeRequestEntities.add(requestEntity);
+
+        mSkyService.appUpgrade(upgradeRequestEntities)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<VersionInfoV2Entity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
+                        md5Jsons = new ArrayList<>();
+                        for (VersionInfoV2Entity.ApplicationEntity applicationEntity : versionInfoV2Entity.getUpgrades()) {
+                            checkUpgrade(applicationEntity);
+                        }
+                    }
+                });
+    }
+
+
+    private void checkUpgrade(final VersionInfoV2Entity.ApplicationEntity applicationEntity) {
+        Log.i(TAG, "server version code ---> " + applicationEntity.getVersion());
+        int installVersionCode;
         PackageInfo packageInfo = null;
         try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            packageInfo = getPackageManager().getPackageInfo(applicationEntity.getProduct(), 0);
+            installVersionCode = packageInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "can't find this application!!!");
+            installVersionCode = 0;
         }
-        Log.i(TAG, "local version code ---> " + packageInfo.versionCode);
-        md5Json = Md5.md5(new Gson().toJson(versionInfoV2Entity));
+        Log.i(TAG, "local version code ---> " + installVersionCode);
+        String title = Md5.md5(new Gson().toJson(applicationEntity));
+        md5Jsons.add(title);
 
-        DownloadEntity download = new Select().from(DownloadEntity.class).where("title = ?", md5Json).executeSingle();
+        DownloadEntity download = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
         if (download == null || download.status != DownloadStatus.COMPLETED) {
-            downloadApp(versionInfoV2Entity);
+            downloadApp(applicationEntity);
+
+
             mCursorLoader = new CursorLoader(this, ContentProvider.createUri(DownloadEntity.class, null),
-                    null, "title = ?", new String[]{md5Json}, null);
+                    null, "title = ?", new String[]{title}, null);
             mCursorLoader.registerListener(LOADER_ID_APP_UPDATE, this);
             mCursorLoader.startLoading();
         } else {
             final File apkFile = new File(download.savePath);
-            if (packageInfo.versionCode < Integer.parseInt(versionInfoV2Entity.getApplication().getVersion())) {
+            if (installVersionCode < Integer.parseInt(applicationEntity.getVersion())) {
                 if (apkFile.exists()) {
-                    String serverMd5Code = versionInfoV2Entity.getApplication().getMd5();
+                    String serverMd5Code = applicationEntity.getMd5();
                     String localMd5Code = Md5.md5File(apkFile);
                     Log.d(TAG, "local md5 ---> " + localMd5Code);
                     Log.d(TAG, "server md5 ---> " + serverMd5Code);
 //                String currentActivityName = getCurrentActivityName(mContext);
 
                     int apkVersionCode = getLocalApkVersionCode(apkFile.getAbsolutePath());
-                    int serverVersionCode = Integer.parseInt(versionInfoV2Entity.getApplication().getVersion());
+                    int serverVersionCode = Integer.parseInt(applicationEntity.getVersion());
 
                     Log.i(TAG, "download apk version code: " + apkVersionCode);
                     Log.i(TAG, "server apk version code: " + serverVersionCode);
@@ -127,7 +185,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                                     Log.d(TAG, "installSilentSuccess: " + installSilentSuccess);
                                 } else {
                                     Bundle bundle = new Bundle();
-                                    bundle.putStringArrayList("msgs", versionInfoV2Entity.getApplication().getUpdate());
+                                    bundle.putStringArrayList("msgs", applicationEntity.getUpdate());
                                     bundle.putString("path", apkFile.getAbsolutePath());
                                     sendUpdateBroadcast(bundle);
                                 }
@@ -137,13 +195,13 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                         if (apkFile.exists()) {
                             apkFile.delete();
                         }
-                        downloadApp(versionInfoV2Entity);
+                        downloadApp(applicationEntity);
                     }
                 } else {
                     if (apkFile.exists()) {
                         apkFile.delete();
                     }
-                    downloadApp(versionInfoV2Entity);
+                    downloadApp(applicationEntity);
                 }
             } else {
                 if (apkFile.exists()) {
@@ -184,40 +242,8 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     }
 
 
-    private void fetchAppUpgrade(final boolean isInstallSilent) {
-        String sn = "le_1y39rh8c";
-        String manu = "BYD";
-        String app = "sky";
-        String modelName = "YT-X703F";
-        String location = "SH";
-//        int versionCode = 222;
-
-        int versionCode = fetchInstallVersionCode();
-
-        mSkyService.appUpgrade(sn, manu, app, modelName, location, versionCode)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<VersionInfoV2Entity>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
-                        mVersionInfoV2Entity = versionInfoV2Entity;
-                        checkUpgrade(versionInfoV2Entity, isInstallSilent);
-                    }
-                });
-    }
-
-    private void downloadApp(VersionInfoV2Entity entity) {
-        String url = entity.getApplication().getUrl();
+    private void downloadApp(VersionInfoV2Entity.ApplicationEntity entity) {
+        String url = entity.getUrl();
         String json = new Gson().toJson(entity);
         String title = Md5.md5(json);
         DownloadManager.getInstance().start(url, title, json, upgradeFile.toString());
@@ -233,12 +259,10 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
-        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", md5Json).executeSingle();
+        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", md5Jsons.get(0)).executeSingle();
         if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
-            Bundle bundle = new Bundle();
-            bundle.putStringArrayList("msgs", mVersionInfoV2Entity.getApplication().getUpdate());
-            bundle.putString("path", downloadEntity.savePath);
-            sendUpdateBroadcast(bundle);
+            VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
+            checkUpgrade(applicationEntity);
         }
     }
 }

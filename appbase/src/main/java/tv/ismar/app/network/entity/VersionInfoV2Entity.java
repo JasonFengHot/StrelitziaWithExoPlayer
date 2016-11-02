@@ -1,22 +1,22 @@
 package tv.ismar.app.network.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by huaijie on 10/22/15.
  */
 public class VersionInfoV2Entity {
-    private ApplicationEntity application;
+    private List<ApplicationEntity> upgrades;
     private String version;
     private String homepage;
 
-
-    public ApplicationEntity getApplication() {
-        return application;
+    public List<ApplicationEntity> getUpgrades() {
+        return upgrades;
     }
 
-    public void setApplication(ApplicationEntity application) {
-        this.application = application;
+    public void setUpgrades(List<ApplicationEntity> upgrades) {
+        this.upgrades = upgrades;
     }
 
     public String getVersion() {
@@ -35,7 +35,8 @@ public class VersionInfoV2Entity {
         this.homepage = homepage;
     }
 
-   public static class ApplicationEntity {
+    public static class ApplicationEntity {
+        private boolean checkUpgrade = true;
         private String product;
         private String name;
         private String screenshot;
@@ -44,6 +45,14 @@ public class VersionInfoV2Entity {
         private String summary;
         private String version;
         private String md5;
+
+        public boolean isCheckUpgrade() {
+            return checkUpgrade;
+        }
+
+        public void setCheckUpgrade(boolean checkUpgrade) {
+            this.checkUpgrade = checkUpgrade;
+        }
 
         public String getProduct() {
             return product;
