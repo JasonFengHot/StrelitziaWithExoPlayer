@@ -38,7 +38,7 @@ public class VersionInfoV2Entity {
    public static class ApplicationEntity {
         private String product;
         private String name;
-        private String screenshot;
+//        private String screenshot;
         private String url;
         private ArrayList<String> update;
         private String summary;
@@ -61,13 +61,13 @@ public class VersionInfoV2Entity {
             this.name = name;
         }
 
-        public String getScreenshot() {
-            return screenshot;
-        }
-
-        public void setScreenshot(String screenshot) {
-            this.screenshot = screenshot;
-        }
+//        public String getScreenshot() {
+//            return screenshot;
+//        }
+//
+//        public void setScreenshot(String screenshot) {
+//            this.screenshot = screenshot;
+//        }
 
         public String getUrl() {
             return url;
