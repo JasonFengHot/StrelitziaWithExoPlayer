@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'plugin.transfer'
 
 android {
+
+    dexOptions {
+        preDexLibraries = false
+    }
+    
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
     buildToolsVersion rootProject.ext.androidBuildToolsVersion
 
@@ -11,6 +16,8 @@ android {
         applicationId "tv.ismar.daisy"
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
