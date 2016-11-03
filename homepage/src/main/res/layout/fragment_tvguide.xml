@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:id="@+id/large_layout" >
+    android:id="@+id/large_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/homepage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-              android:orientation="vertical"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:visibility="invisible"
-        >
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <tv.ismar.app.widget.LaunchHeaderLayout
             android:id="@+id/top_column_layout"
@@ -20,39 +20,35 @@
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/tv_guide_top_section_padding"
             android:paddingRight="@dimen/tv_guide_top_section_padding"
-            android:visibility="gone"
-            >
-        </tv.ismar.app.widget.LaunchHeaderLayout>
+            android:visibility="gone" />
 
         <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginLeft="26dp"
             android:layout_marginRight="26dp"
-            android:layout_width="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/orderlistdivide"
-            android:layout_height="1dp"/>
+            android:src="@drawable/orderlistdivide" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="7.8"
             android:clipChildren="false"
-            android:clipToPadding="false"
-            >
+            android:clipToPadding="false">
 
             <FrameLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipChildren="false"
-                android:clipToPadding="false"
-                />
+                android:clipToPadding="false" />
 
-        <TextView  android:id="@+id/toppage_divide_view"
+            <TextView
+                android:id="@+id/toppage_divide_view"
                 android:layout_width="match_parent"
                 android:layout_height="3dip"
-                android:layout_below="@id/container"
-                />
+                android:layout_below="@id/container" />
 
             <ImageView
                 android:id="@+id/arrow_scroll_left_visible"
@@ -61,11 +57,10 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/tv_guide_arrow_scroll_margin"
-                android:src="@drawable/scroll_left_normal"
-                android:visibility="gone"
-                android:focusable="false"
                 android:clickable="true"
-                />
+                android:focusable="false"
+                android:src="@drawable/scroll_left_normal"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/arrow_scroll_right_visible"
@@ -74,22 +69,22 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/tv_guide_arrow_scroll_margin"
-                android:src="@drawable/scroll_right_normal"
-                android:visibility="gone"
                 android:clickable="true"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:src="@drawable/scroll_right_normal"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/arrow_scroll_left"
                 android:layout_width="@dimen/tv_guide_arrow_scroll_w"
                 android:layout_height="@dimen/tv_guide_arrow_scroll_h"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/tv_guide_arrow_scroll_margin"
-                android:src="@drawable/arrow_left_right"
-                android:visibility="gone"
-                android:layout_alignParentBottom="true"
+                android:focusable="true"
                 android:nextFocusLeft="@id/arrow_scroll_left"
-                android:focusable="true"/>
+                android:src="@drawable/arrow_left_right"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/arrow_scroll_right"
@@ -98,21 +93,21 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/tv_guide_arrow_scroll_margin"
-                android:src="@drawable/arrow_left_right"
+                android:focusable="true"
                 android:nextFocusRight="@id/arrow_scroll_right"
-                android:focusable="true"/>
+                android:src="@drawable/arrow_left_right" />
         </RelativeLayout>
 
-    <!--<org.sakuratya.horizontal.ui.HGridView-->
-            <!--xmlns:sakura="http://schemas.android.com/apk/res/tv.ismar.daisy"-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_tab_list"
+        <!--<org.sakuratya.horizontal.ui.HGridView-->
+        <!--xmlns:sakura="http://schemas.android.com/apk/res/tv.ismar.daisy"-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_tab_list"
             android:layout_width="match_parent"
-        android:layout_height="0dp"
+            android:layout_height="0dp"
             android:layout_weight="0.7"
-            android:nextFocusUp="@+id/guidefragment_firstpost"
-        android:focusable="true"
-        android:descendantFocusability="blocksDescendants"/>
+            android:descendantFocusability="blocksDescendants"
+            android:focusable="true"
+            android:nextFocusUp="@+id/guidefragment_firstpost" />
 
         <LinearLayout
             android:id="@+id/tab_list"
@@ -121,8 +116,7 @@
             android:layout_gravity="center"
             android:layout_weight="0.44"
             android:orientation="horizontal"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -130,26 +124,7 @@
         android:id="@+id/guide_shadow_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-            android:visibility="gone"
-            android:src="@color/shawdow" />
-    <RelativeLayout
-        android:id="@+id/advertisement"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/advertisement_pic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:src="@color/shawdow"
+        android:visibility="gone" />
 
-        <ImageView
-            android:gravity="center"
-            android:id="@+id/adver_timer"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="100dp"
-            />
-    </RelativeLayout>
 </FrameLayout>

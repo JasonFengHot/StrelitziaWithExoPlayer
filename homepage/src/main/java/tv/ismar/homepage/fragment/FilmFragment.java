@@ -53,7 +53,8 @@ import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.HardwareUtils;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.TVGuideActivity;
+import tv.ismar.homepage.view.HomePageActivity;
+import tv.ismar.homepage.view.TVGuideFragment;
 import tv.ismar.homepage.widget.DaisyVideoView;
 import tv.ismar.homepage.widget.HomeItemContainer;
 import tv.ismar.homepage.widget.LabelImageView3;
@@ -235,7 +236,7 @@ public class FilmFragment extends ChannelBaseFragment {
 
     private void fetchHomePage(String url) {
         mChannelName = getChannelEntity().getChannel();
-        dataSubscription = ((TVGuideActivity)getActivity()).mSkyService.fetchHomePage(url)
+        dataSubscription = ((HomePageActivity)getActivity()).mSkyService.fetchHomePage(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HomePagerEntity>() {
@@ -282,7 +283,7 @@ public class FilmFragment extends ChannelBaseFragment {
                 }
 //                	}
             }
-            ((TVGuideActivity) getActivity()).resetBorderFocus();
+            ((TVGuideFragment) getParentFragment()).resetBorderFocus();
         }
     }
 
@@ -302,7 +303,7 @@ public class FilmFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                    ((TVGuideFragment) (getParentFragment())).setLastViewTag("");
                 }
             }
         });
@@ -347,7 +348,7 @@ public class FilmFragment extends ChannelBaseFragment {
                             if (tagObject != null) {
                                 int tagindex = Integer.parseInt(tagObject.toString());
                                 if (tagindex == 1) {
-                                    ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
+                                    ((TVGuideFragment) (getParentFragment())).setLastViewTag("bottom");
                                 }
                             }
                         } else {
@@ -394,7 +395,7 @@ public class FilmFragment extends ChannelBaseFragment {
                     @Override
                     public void onFocusChange(View arg0, boolean arg1) {
                         if (arg1) {
-                            ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
+                            ((TVGuideFragment) (getParentFragment())).setLastViewTag("bottom");
                         }
                     }
                 });
@@ -714,7 +715,7 @@ public class FilmFragment extends ChannelBaseFragment {
                 focusFlag = focusFlag && (!imageView.isFocused());
             }
             if (hasFocus) {
-                ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                ((TVGuideFragment) (getParentFragment())).setLastViewTag("");
             }
             // all view not focus
 

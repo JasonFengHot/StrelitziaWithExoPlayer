@@ -26,7 +26,8 @@ import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.entity.HomePagerEntity.Poster;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.TVGuideActivity;
+import tv.ismar.homepage.view.HomePageActivity;
+import tv.ismar.homepage.view.TVGuideFragment;
 import tv.ismar.homepage.widget.HomeItemContainer;
 import tv.ismar.homepage.widget.LabelImageView3;
 import tv.ismar.homepage.widget.LinerLayoutContainer;
@@ -135,7 +136,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
+                    ((TVGuideFragment) (getParentFragment())).setLastViewTag("bottom");
                 }
             }
         });
@@ -144,7 +145,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
+                    ((TVGuideFragment) (getParentFragment())).setLastViewTag("bottom");
                 }
             }
         });
@@ -153,7 +154,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                    ((TVGuideFragment) (getParentFragment())).setLastViewTag("");
                 }
             }
         });
@@ -162,7 +163,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                    ((TVGuideFragment) (getParentFragment())).setLastViewTag("");
                 }
             }
         });
@@ -171,7 +172,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                    ((TVGuideFragment) (getParentFragment())).setLastViewTag("");
                 }
             }
         });
@@ -280,7 +281,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                 }
 //        	}
             }
-            ((TVGuideActivity) getActivity()).resetBorderFocus();
+            ((TVGuideFragment) getParentFragment()).resetBorderFocus();
         }
         LabelImageView3[] vaietys = new LabelImageView3[]{vaiety_thumb1, vaiety_thumb2, vaiety_thumb3};
         looppost.clear();
@@ -444,7 +445,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
     }
 
     private void fetchPage(String url) {
-        dataSubscription = ((TVGuideActivity)getActivity()).mSkyService.fetchHomePage(url)
+        dataSubscription = ((HomePageActivity)getActivity()).mSkyService.fetchHomePage(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HomePagerEntity>() {

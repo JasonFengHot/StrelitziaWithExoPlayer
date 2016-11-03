@@ -1,4 +1,4 @@
-package tv.ismar.homepage.activity;
+package tv.ismar.homepage.view;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,6 +29,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
@@ -40,14 +41,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.StringUtils;
-import com.google.gson.Gson;
-import com.konka.android.media.KKMediaPlayer;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
-//import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,24 +52,21 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.AppConstant;
-import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
-import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
-import tv.ismar.app.core.advertisement.AdvertisementManager;
-import tv.ismar.app.core.logger.AdvertisementLogger;
-import tv.ismar.app.core.service.PosterUpdateService;
+import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.entity.ChannelEntity;
-import tv.ismar.app.db.LaunchAdvertisementEntity;
-import tv.ismar.app.core.preferences.LogSharedPrefs;
+import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.util.BitmapDecoder;
+import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LaunchHeaderLayout;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.adapter.ChannelRecyclerAdapter;
@@ -94,27 +84,20 @@ import tv.ismar.homepage.widget.MessagePopWindow;
 import tv.ismar.homepage.widget.Position;
 
 /**
- * Created by huaijie on 5/18/15.
+ * A simple {@link Fragment} subclass.
  */
-public class TVGuideActivity extends BaseActivity {
-    private static final String TAG = "TVGuideActivity";
+public class TVGuideFragment extends Fragment {
+
+    private static final String ARG_TEMPLATE = "ARG_TEMPLATE";
+    private static final String ARG_URL = "ARG_URL";
+    private HomePageActivity mActivity;
+
+    private static final String TAG = "LH/TVGuideFragment";
     private static final int SWITCH_PAGE = 0X01;
     private static final int SWITCH_PAGE_FROMLAUNCH = 0X02;
     private AppUpdateReceiver appUpdateReceiver;
     private ChannelBaseFragment currentFragment;
     private ChannelBaseFragment lastFragment;
-    /**
-     * advertisement
-     */
-    private static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
-    private static final int TIME_COUNTDOWN = 0x0001;
-
-    private static final int[] secondsResId = {R.drawable.second_1, R.drawable.second_1, R.drawable.second_2,
-            R.drawable.second_3, R.drawable.second_4, R.drawable.second_5};
-    private ImageView adverPic;
-    private ImageView timerText;
-    private Handler messageHandler;
-    private AdvertisementManager mAdvertisementManager;
     /**
      * PopupWindow
      */
@@ -152,8 +135,6 @@ public class TVGuideActivity extends BaseActivity {
     private Handler netErrorPopupHandler;
     private Runnable netErrorPopupRunnable;
     public static String brandName;
-    private View advertisement;
-    private View homepage;
 
     private enum LeavePosition {
         LeftTop,
@@ -216,7 +197,15 @@ public class TVGuideActivity extends BaseActivity {
                     scrollFromBorder = true;
                     scrollType = ScrollType.left;
                     channelChange = ChannelChange.LEFT_ARROW;
+//                        if (mCurrentChannelPosition.getPosition() - 1 >= 0) {
+//                            mCurrentChannelPosition.setPosition(mCurrentChannelPosition.getPosition() - 1);
+//                        } else {
+//                            mCurrentChannelPosition.setPosition(0);
+//                        }
+                    // longhai add
                     recyclerAdapter.arrowScroll(View.FOCUS_LEFT, true);
+//                        scroll.isRequestFocus(false);
+//                        scroll.arrowScroll(View.FOCUS_LEFT);
                     rightscroll = true;
 
 
@@ -287,7 +276,7 @@ public class TVGuideActivity extends BaseActivity {
             return;
         }
         int tabMargin = getResources().getDimensionPixelSize(R.dimen.tv_guide_channel_margin_lr) - mTabSpace;
-        int tabRightX = Util.getDisplayPixelWidth(TVGuideActivity.this) - tabMargin;
+        int tabRightX = Util.getDisplayPixelWidth(mActivity) - tabMargin;
         int[] currentPos = new int[2];
         view.getLocationOnScreen(currentPos);
         int currentWidth = view.getWidth();
@@ -329,40 +318,46 @@ public class TVGuideActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        getWindow().setFormat(PixelFormat.TRANSLUCENT);
-        if (savedInstanceState != null)
-            savedInstanceState = null;
-         super.onCreate(savedInstanceState);
-//        new Thread(new InitializeProcess(this)).start();
-        fragmentSwitch = new FragmentSwitchHandler(this);
-        activityTag = "BaseActivity";
-        registerUpdateReceiver();
-        contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
-        setContentView(contentView);
-        /**
-         * advertisement
-         */
-        advertisement = findViewById(R.id.advertisement);
-        adverPic = (ImageView) findViewById(R.id.advertisement_pic);
-        timerText = (ImageView) findViewById(R.id.adver_timer);
-        homepage = findViewById(R.id.homepage);
-        placeAdvertisementPic();
-        messageHandler = new MessageHandler(this);
 
-        homepage_template = getIntent().getStringExtra("homepage_template");
-        homepage_url = getIntent().getStringExtra("homepage_url");
-        final View vv = findViewById(R.id.large_layout);
+    public TVGuideFragment() {
+        // Required empty public constructor
+    }
+
+    public static TVGuideFragment newInstance(String template, String url) {
+        TVGuideFragment fragment = new TVGuideFragment();
+        if (!Utils.isEmptyText(template) && !Utils.isEmptyText(url)) {
+            Bundle args = new Bundle();
+            args.putString(ARG_TEMPLATE, template);
+            args.putString(ARG_URL, url);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            homepage_template = getArguments().getString(ARG_TEMPLATE);
+            homepage_url = getArguments().getString(ARG_URL);
+        }
+        mActivity = (HomePageActivity) getActivity();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        contentView = inflater.inflate(R.layout.fragment_tvguide, container, false);
+        fragmentSwitch = new FragmentSwitchHandler(this);
+        registerUpdateReceiver();
+        final View vv = contentView.findViewById(R.id.large_layout);
         bitmapDecoder = new BitmapDecoder();
-        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+        bitmapDecoder.decode(mActivity, R.drawable.main_bg, new BitmapDecoder.Callback() {
             @Override
             public void onSuccess(BitmapDrawable bitmapDrawable) {
                 vv.setBackgroundDrawable(bitmapDrawable);
             }
         });
-
-
         vv.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -380,14 +375,18 @@ public class TVGuideActivity extends BaseActivity {
                 return ret;
             }
         });
+        return contentView;
+    }
 
-        initViews();
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews(view);
         initTabView();
         getHardInfo();
-        updatePoster();
         Properties sysProperties = new Properties();
         try {
-            InputStream is = getAssets().open("configure/setup.properties");
+            InputStream is = mActivity.getAssets().open("configure/setup.properties");
             sysProperties.load(is);
             brandName = sysProperties.getProperty("platform");
         } catch (IOException e) {
@@ -416,14 +415,15 @@ public class TVGuideActivity extends BaseActivity {
 
     private int mTabSpace;
 
-    private void initViews() {
+    private void initViews(View view) {
 
-        toppanel = (FrameLayout) findViewById(R.id.top_column_layout);
-        recycler_tab_list = (RecyclerView) findViewById(R.id.recycler_tab_list);
-        recyclerAdapter = new ChannelRecyclerAdapter(this, channelEntityList, recycler_tab_list);
+        topView = (LaunchHeaderLayout) view.findViewById(R.id.top_column_layout);
+        toppanel = (FrameLayout) view.findViewById(R.id.top_column_layout);
+        recycler_tab_list = (RecyclerView) view.findViewById(R.id.recycler_tab_list);
+        recyclerAdapter = new ChannelRecyclerAdapter(mActivity, channelEntityList, recycler_tab_list);
         recycler_tab_list.setAdapter(recyclerAdapter);
         recycler_tab_list.setItemAnimator(new DefaultItemAnimator());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler_tab_list.setLayoutManager(layoutManager);
         mTabSpace = getResources().getDimensionPixelSize(R.dimen.tv_guide_h_grid_view_horizontalSpacing);
@@ -433,11 +433,11 @@ public class TVGuideActivity extends BaseActivity {
                 recyclerAdapter);
         recycler_tab_list.addItemDecoration(decoration);
 
-        tabListView = (LinearLayout) findViewById(R.id.tab_list);
-        arrow_left = (ImageView) findViewById(R.id.arrow_scroll_left);
-        arrow_right = (ImageView) findViewById(R.id.arrow_scroll_right);
-        arrow_left_visible = (ImageView) findViewById(R.id.arrow_scroll_left_visible);
-        arrow_right_visible = (ImageView) findViewById(R.id.arrow_scroll_right_visible);
+        tabListView = (LinearLayout) view.findViewById(R.id.tab_list);
+        arrow_left = (ImageView) view.findViewById(R.id.arrow_scroll_left);
+        arrow_right = (ImageView) view.findViewById(R.id.arrow_scroll_right);
+        arrow_left_visible = (ImageView) view.findViewById(R.id.arrow_scroll_left_visible);
+        arrow_right_visible = (ImageView) view.findViewById(R.id.arrow_scroll_right_visible);
         arrow_left_visible.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -459,7 +459,7 @@ public class TVGuideActivity extends BaseActivity {
 
         arrow_left.setOnFocusChangeListener(scrollViewListener);
         arrow_right.setOnFocusChangeListener(scrollViewListener);
-        guide_shadow_view = (ImageView) findViewById(R.id.guide_shadow_view);
+        guide_shadow_view = (ImageView) view.findViewById(R.id.guide_shadow_view);
 
         recycler_tab_list.requestFocus();
         recyclerAdapter.setOnItemActionListener(new OnItemActionListener() {
@@ -503,7 +503,7 @@ public class TVGuideActivity extends BaseActivity {
         recycler_tab_list.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Log.i("LH/","onFocusChange:"+hasFocus + " hover:"+ hoverOnArrow+ " v:"+v.isHovered());
+                Log.i("LH/", "onFocusChange:" + hasFocus + " hover:" + hoverOnArrow + " v:" + v.isHovered());
                 View currentView = recycler_tab_list.getLayoutManager().findViewByPosition(recyclerAdapter.getSelectedPosition());
                 if (currentView != null) {
                     if (hasFocus) {
@@ -621,7 +621,6 @@ public class TVGuideActivity extends BaseActivity {
 
     }
 
-    @Override
     public void onBackPressed() {
         showExitPopup(contentView);
     }
@@ -637,7 +636,7 @@ public class TVGuideActivity extends BaseActivity {
             if (i != res.length - 1) {
                 layoutParams.setMargins(0, 0, 68, 0);
             }
-            ImageView imageView = new ImageView(this);
+            ImageView imageView = new ImageView(mActivity);
             imageView.setImageResource(res[i]);
             imageView.setFocusable(true);
             imageView.setFocusableInTouchMode(true);
@@ -654,11 +653,11 @@ public class TVGuideActivity extends BaseActivity {
      * fetch channel
      */
     private void fetchChannels() {
-        mSkyService.fetchDpi();
-        mSkyService.apiTvChannels()
+        ((HomePageActivity)getActivity()).mSkyService.fetchDpi();
+        ((HomePageActivity)getActivity()).mSkyService.apiTvChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<ChannelEntity[]>() {
+                .subscribe(((HomePageActivity) getActivity()).new BaseObserver<ChannelEntity[]>() {
                     @Override
                     public void onCompleted() {
 
@@ -692,20 +691,20 @@ public class TVGuideActivity extends BaseActivity {
         }
         recyclerAdapter.notifyDataSetChanged();
 //                createChannelView();
-        if(brandName!= null && brandName.toLowerCase().contains("changhong")){
+        if (brandName != null && brandName.toLowerCase().contains("changhong")) {
             homepage_template = "template3";
         }
-        if (!StringUtils.isEmpty(homepage_template)) {
+        if (!Utils.isEmptyText(homepage_template)) {
             for (int i = 0; i < mChannelEntitys.length; i++) {
-                if(brandName!= null && brandName.toLowerCase().contains("changhong")){
-                    if("sport".equalsIgnoreCase(mChannelEntitys[i].getChannel())){
+                if (brandName != null && brandName.toLowerCase().contains("changhong")) {
+                    if ("sport".equalsIgnoreCase(mChannelEntitys[i].getChannel())) {
                         channelscrollIndex = i + 1;
                         scrollType = ScrollType.none;
                         recyclerAdapter.setSelectedPosition(channelscrollIndex);
                         mCurrentChannelPosition.setPosition(channelscrollIndex);
                         topView.setSubTitle(mChannelEntitys[i].getName());
                     }
-                }else {
+                } else {
                     if (homepage_template.equals(mChannelEntitys[i].getHomepage_template()) && mChannelEntitys[i].getHomepage_url().contains(homepage_url)) {
                         channelscrollIndex = i + 1;
                         Log.i("LH/", "channelscrollIndex:" + channelscrollIndex);
@@ -721,7 +720,7 @@ public class TVGuideActivity extends BaseActivity {
                 }
             }
         }
-        if (currentFragment == null && !isFinishing() && channelscrollIndex <= 0) {
+        if (currentFragment == null && !mActivity.isFinishing() && channelscrollIndex <= 0) {
             try {
                 currentFragment = new GuideFragment();
                 lastFragment = currentFragment;
@@ -730,7 +729,7 @@ public class TVGuideActivity extends BaseActivity {
                 launcher.setName("首页");
                 launcher.setHomepage_template("launcher");
                 currentFragment.setChannelEntity(channelEntity);
-                FragmentTransaction transaction = getSupportFragmentManager()
+                FragmentTransaction transaction = getChildFragmentManager()
                         .beginTransaction();
                 transaction.replace(R.id.container, currentFragment, "template").commitAllowingStateLoss();
                 recycler_tab_list.requestFocus();
@@ -805,7 +804,7 @@ public class TVGuideActivity extends BaseActivity {
         appUpdateReceiver = new AppUpdateReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(AppConstant.APP_UPDATE_ACTION);
-        registerReceiver(appUpdateReceiver, intentFilter);
+        mActivity.registerReceiver(appUpdateReceiver, intentFilter);
     }
 
     /**
@@ -832,8 +831,7 @@ public class TVGuideActivity extends BaseActivity {
      * @param bundle update data
      */
     private void showUpdatePopup(View view, Bundle bundle) {
-        final Context context = this;
-        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.popup_update, null);
         contentView.setBackgroundResource(R.drawable.app_update_bg);
         guide_shadow_view.setVisibility(View.VISIBLE);
         float density = getResources().getDisplayMetrics().density;
@@ -861,7 +859,7 @@ public class TVGuideActivity extends BaseActivity {
         layoutParams.topMargin = (int) (getResources().getDimension(R.dimen.app_update_line_margin_));
 
         for (String msg : msgs) {
-            View textLayout = LayoutInflater.from(this).inflate(R.layout.update_msg_text_item, null);
+            View textLayout = LayoutInflater.from(mActivity).inflate(R.layout.update_msg_text_item, null);
             TextView textView = (TextView) textLayout.findViewById(R.id.update_msg_text);
             textView.setText(msg);
             updateMsgLayout.addView(textLayout);
@@ -872,7 +870,7 @@ public class TVGuideActivity extends BaseActivity {
             public void onClick(View v) {
                 updatePopupWindow.dismiss();
                 guide_shadow_view.setVisibility(View.GONE);
-                installApk(context, path);
+                installApk(mActivity, path);
             }
         });
     }
@@ -885,14 +883,8 @@ public class TVGuideActivity extends BaseActivity {
         mContext.startActivity(intent);
     }
 
-    private void updatePoster() {
-        Intent intent = new Intent();
-        intent.setClass(this, PosterUpdateService.class);
-        startService(intent);
-    }
-
     private void showExitPopup(View view) {
-        exitPopupWindow = new MessagePopWindow(this);
+        exitPopupWindow = new MessagePopWindow(mActivity);
         exitPopupWindow.setFirstMessage(R.string.exit_prompt);
 //        WindowManager.LayoutParams lp = getWindow().getAttributes();
 //              lp.alpha = 0.5f;
@@ -911,19 +903,19 @@ public class TVGuideActivity extends BaseActivity {
                         exitPopupWindow.dismiss();
                         CallaPlay callaPlay = new CallaPlay();
 //                        callaPlay.app_exit(TrueTime.now().getTime() - app_start_time, SimpleRestClient.appVersion);
-                        callaPlay.app_exit(System.currentTimeMillis()- app_start_time, SimpleRestClient.appVersion);
-                        TVGuideActivity.this.finish();
+                        callaPlay.app_exit(System.currentTimeMillis() - mActivity.app_start_time, SimpleRestClient.appVersion);
+                        mActivity.finish();
                         ArrayList<String> cache_log = MessageQueue.getQueueList();
                         HashSet<String> hasset_log = new HashSet<String>();
                         for (int i = 0; i < cache_log.size(); i++) {
                             hasset_log.add(cache_log.get(i));
                         }
                         DaisyUtils
-                                .getVodApplication(TVGuideActivity.this)
+                                .getVodApplication(mActivity)
                                 .getEditor()
                                 .putStringSet(VodApplication.CACHED_LOG,
                                         hasset_log);
-                        DaisyUtils.getVodApplication(getApplicationContext())
+                        DaisyUtils.getVodApplication(getActivity().getApplicationContext())
                                 .save();
                         System.exit(0);
                     }
@@ -941,10 +933,10 @@ public class TVGuideActivity extends BaseActivity {
 
     private boolean neterrorshow = false;
 
-    private void showNetErrorPopup() {
+    public void showNetErrorPopup() {
         if (neterrorshow)
             return;
-        final MessageDialogFragment dialog = new MessageDialogFragment(TVGuideActivity.this, getString(R.string.fetch_net_data_error), null);
+        final MessageDialogFragment dialog = new MessageDialogFragment(mActivity, getString(R.string.fetch_net_data_error), null);
         dialog.setButtonText(getString(R.string.setting_network), getString(R.string.i_know));
         try {
             dialog.showAtLocation(contentView, Gravity.CENTER,
@@ -952,7 +944,7 @@ public class TVGuideActivity extends BaseActivity {
                         @Override
                         public void confirmClick(View view) {
                             Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                            TVGuideActivity.this.startActivity(intent);
+                            mActivity.startActivity(intent);
                         }
                     }, new MessageDialogFragment.CancelListener() {
 
@@ -1033,7 +1025,7 @@ public class TVGuideActivity extends BaseActivity {
 //                                              ddddBitmapDecoder.interrupt();
                     }
                     ddddBitmapDecoder = new BitmapDecoder();
-                    ddddBitmapDecoder.decode(this, R.drawable.main_bg,
+                    ddddBitmapDecoder.decode(mActivity, R.drawable.main_bg,
                             new BitmapDecoder.Callback() {
                                 @Override
                                 public void onSuccess(
@@ -1049,7 +1041,7 @@ public class TVGuideActivity extends BaseActivity {
                         ddddBitmapDecoder.removeAllCallback();
                     }
                     ddddBitmapDecoder = new BitmapDecoder();
-                    ddddBitmapDecoder.decode(this,
+                    ddddBitmapDecoder.decode(mActivity,
                             R.drawable.channel_child_bg,
                             new BitmapDecoder.Callback() {
                                 @Override
@@ -1070,12 +1062,12 @@ public class TVGuideActivity extends BaseActivity {
             currentFragment.setBottomFlag(lastviewTag);
         }
         currentFragment.setChannelEntity(channelEntity);
-        ChannelBaseFragment t = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template");
-        ChannelBaseFragment t1 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template1");
-        ChannelBaseFragment t2 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template2");
-        ChannelBaseFragment t3 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template3");
-        ChannelBaseFragment t4 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template4");
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        ChannelBaseFragment t = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template");
+        ChannelBaseFragment t1 = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template1");
+        ChannelBaseFragment t2 = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template2");
+        ChannelBaseFragment t3 = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template3");
+        ChannelBaseFragment t4 = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template4");
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         if ("template".equals(tag)) {
             if (t1 != null)
                 transaction.hide(t1);
@@ -1283,13 +1275,13 @@ public class TVGuideActivity extends BaseActivity {
 
     private void getHardInfo() {
         DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metric);
         SimpleRestClient.densityDpi = metric.densityDpi;
         SimpleRestClient.screenWidth = metric.widthPixels;
         SimpleRestClient.screenHeight = metric.heightPixels;
-        PackageManager manager = getPackageManager();
+        PackageManager manager = mActivity.getPackageManager();
         try {
-            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+            PackageInfo info = manager.getPackageInfo(mActivity.getPackageName(), 0);
             SimpleRestClient.appVersion = info.versionCode;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
@@ -1322,32 +1314,15 @@ public class TVGuideActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        neterrorshow=false;
+        neterrorshow = false;
         channelscrollIndex = 0;
-        topView = (LaunchHeaderLayout) findViewById(R.id.top_column_layout);
-        try {
-            Class.forName("com.konka.android.media.KKMediaPlayer");
-            KKMediaPlayer localKKMediaPlayer1 = new KKMediaPlayer();
-            KKMediaPlayer.setContext(this);
-            localKKMediaPlayer1.setAspectRatio(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if(!DaisyUtils.isNetworkAvailable(this)){
-            Log.e("tvguide","onresume Isnetwork");
-            showNetErrorPopup();
-        }
-    }
-
-    @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         if (netErrorPopupHandler != null && netErrorPopupRunnable != null) {
             netErrorPopupHandler.removeCallbacks(netErrorPopupRunnable);
@@ -1359,8 +1334,8 @@ public class TVGuideActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        unregisterReceiver(appUpdateReceiver);
+    public void onDestroy() {
+        mActivity.unregisterReceiver(appUpdateReceiver);
         if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
             bitmapDecoder.interrupt();
         }
@@ -1376,18 +1351,16 @@ public class TVGuideActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        homepage_template = intent.getStringExtra("homepage_template");
-        homepage_url = intent.getStringExtra("homepage_url");
+    protected void onNewIntent(String template, String url) {
+        homepage_template = template;
+        homepage_url = url;
         if (StringUtils.isEmpty(homepage_template)
                 || StringUtils.isEmpty(homepage_url)) {
-                      fetchChannels();
+//                      fetchChannels();
         } else {
-//            if (StringUtils.isNotEmpty(SimpleRestClient.root_url)) {
+            if (!Utils.isEmptyText(SimpleRestClient.root_url)) {
                 fetchChannels();
-//            }
+            }
         }
     }
 
@@ -1406,7 +1379,6 @@ public class TVGuideActivity extends BaseActivity {
         right;
     }
 
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ("lcd_s3a01".equals(VodUserAgent.getModelName())) {
             if (keyCode == 707 || keyCode == 774 || keyCode == 253) {
@@ -1426,33 +1398,25 @@ public class TVGuideActivity extends BaseActivity {
                 recycler_tab_list.setHovered(false);
                 break;
         }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_MOVE) {
-            return true;
-        }
-        return super.dispatchTouchEvent(ev);
+        return false;
     }
 
     private static int nextselectflag;
 
     static class FragmentSwitchHandler extends Handler {
-        private WeakReference<TVGuideActivity> weakReference;
+        private WeakReference<TVGuideFragment> weakReference;
 
-        public FragmentSwitchHandler(TVGuideActivity activity) {
-            weakReference = new WeakReference<TVGuideActivity>(activity);
+        public FragmentSwitchHandler(TVGuideFragment activity) {
+            weakReference = new WeakReference<TVGuideFragment>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            TVGuideActivity activity = weakReference.get();
-            if (activity != null) {
+            TVGuideFragment fragment = weakReference.get();
+            if (fragment != null) {
                 switch (msg.what) {
                     case SWITCH_PAGE:
-                        activity.selectChannelByPosition(msg.arg1);
+                        fragment.selectChannelByPosition(msg.arg1);
                         break;
                     case SWITCH_PAGE_FROMLAUNCH:
 
@@ -1473,87 +1437,6 @@ public class TVGuideActivity extends BaseActivity {
                         break;
                 }
             }
-        }
-    }
-    private void placeAdvertisementPic() {
-        mAdvertisementManager = new AdvertisementManager();
-        String path = mAdvertisementManager.getAppLaunchAdvertisement();
-        Log.d(TAG, "fetch advertisement path: " + path);
-        Picasso.with(this)
-                .load(path)
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
-                .into(adverPic, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        timerCountDown();
-                        String launchAppAdvEntityStr = LogSharedPrefs.getSharedPrefs(LogSharedPrefs.SHARED_PREFS_NAME);
-                        LaunchAdvertisementEntity.AdvertisementData[] advertisementDatas = new Gson().fromJson(launchAppAdvEntityStr, LaunchAdvertisementEntity.AdvertisementData[].class);
-                        if (null != advertisementDatas) {
-                            LaunchAdvertisementEntity.AdvertisementData data = advertisementDatas[0];
-                            new CallaPlay().boot_ad_play(data.getTitle(), data.getMedia_id(), data.getMedia_url(), data.getDuration());
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-                        new CallaPlay().bootAdvExcept(AdvertisementLogger.BOOT_ADV_PLAY_EXCEPTION_CODE, AdvertisementLogger.BOOT_ADV_PLAY_EXCEPTION_STRING);
-                        Picasso.with(TVGuideActivity.this)
-                                .load(DEFAULT_ADV_PICTURE)
-                                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
-                                .into(adverPic);
-                        timerCountDown();
-                    }
-                });
-    }
-
-    private void timerCountDown() {
-        new Thread() {
-            @Override
-            public void run() {
-                for (int i = 5; i >= 0; i--) {
-                    Message message = new Message();
-                    message.what = TIME_COUNTDOWN;
-                    message.obj = i;
-                    messageHandler.sendMessage(message);
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
-    }
-
-
-
-    static class MessageHandler extends Handler {
-        WeakReference<TVGuideActivity> mWeakReference;
-
-        public MessageHandler(TVGuideActivity activity) {
-            mWeakReference = new WeakReference<TVGuideActivity>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            TVGuideActivity activity = mWeakReference.get();
-            if (mWeakReference != null) {
-                switch (msg.what) {
-                    case TIME_COUNTDOWN:
-                        int second = Integer.parseInt(String.valueOf(msg.obj));
-                        activity.showCountTime(second);
-                        break;
-                }
-            }
-        }
-    }
-    public void showCountTime(int second) {
-        timerText.setImageResource(secondsResId[second]);
-        if (second == 0) {
-            homepage.setVisibility(View.VISIBLE);
-            advertisement.setVisibility(View.GONE);
         }
     }
 

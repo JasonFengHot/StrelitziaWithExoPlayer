@@ -43,7 +43,7 @@ public class BaseActivity extends AppCompatActivity {
     public SkyService mWeatherSkyService;
     public static final String ACTION_CONNECT_ERROR = "tv.ismar.daisy.CONNECT_ERROR";
     protected String activityTag = "";
-    protected long app_start_time;
+    public long app_start_time;
 
     public static Stack<Bundle> updateInfo = new Stack<>();
 
@@ -126,7 +126,7 @@ public class BaseActivity extends AppCompatActivity {
         return ((ViewGroup) (getWindow().getDecorView().findViewById(android.R.id.content))).getChildAt(0);
     }
 
-    private void showNetWorkErrorDialog(Throwable e) {
+    public void showNetWorkErrorDialog(Throwable e) {
 //        mRootView
     }
 

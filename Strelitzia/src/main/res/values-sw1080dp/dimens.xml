@@ -3,7 +3,4 @@
 <dimen name="linked_video_width">980.00dp</dimen>
 <dimen name="linked_video_height">332.00dp</dimen>
 <dimen name="linked_video_mt">16.00dp</dimen>
-    <dimen name="ad_timer_wh">70dp</dimen>
-    <dimen name="ad_timer_mt">50dp</dimen>
-    <dimen name="ad_timer_mr">100dp</dimen>
 </resources>
