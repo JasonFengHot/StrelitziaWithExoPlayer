@@ -3,9 +3,12 @@ package tv.ismar.usercenter.viewmodel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -31,6 +34,7 @@ public class UserInfoViewModel extends BaseObservable {
 
     public void refresh() {
         notifyPropertyChanged(BR.balance);
+        notifyPropertyChanged(BR.balanceVisibility);
     }
 
     @Bindable
@@ -48,7 +52,12 @@ public class UserInfoViewModel extends BaseObservable {
     public String getBalance() {
         BigDecimal balance = mPresenter.getBalance();
         DecimalFormat format = new DecimalFormat("0.0");
-        return format.format(balance);
+        return format.format(balance) + "元";
+    }
+
+    @Bindable
+    public int getBalanceVisibility() {
+        return mPresenter.getBalance().setScale(1).equals(new BigDecimal(0).setScale(1)) ? View.GONE : View.VISIBLE;
     }
 
     @Bindable
@@ -56,8 +65,16 @@ public class UserInfoViewModel extends BaseObservable {
         return TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ? View.GONE : View.VISIBLE;
     }
 
+
     @Bindable
     public String getUsername() {
         return IsmartvActivator.getInstance().getUsername();
+    }
+
+    @BindingAdapter("android:layout_marginTop")
+    public static void setlayoutMarginTop(View view, float marginTop) {
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
+        layoutParams.topMargin = (int) marginTop;
+        view.setLayoutParams(layoutParams);
     }
 }

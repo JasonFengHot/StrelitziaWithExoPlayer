@@ -39,24 +39,26 @@
 
                 <TextView
                     android:id="@+id/account_text"
-                    android:layout_width="@dimen/userinfo_phoneNumber_title_width"
+                    android:layout_width="@dimen/userinfo_snNumber_title_width"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text="账号："
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
 
                 <TextView
                     android:id="@+id/phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/account_text"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:singleLine="true"
                     android:text="@{tasks.username}"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
 
 
                 <Button
@@ -72,7 +74,7 @@
                     android:gravity="center"
                     android:text="@string/change_account"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/h4_text_size"
+                    android:textSize="@dimen/text_size_27sp"
                     android:visibility="gone"/>
 
                 <Button
@@ -87,7 +89,8 @@
                     android:gravity="center"
                     android:text="@string/exit_account"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
 
             </RelativeLayout>
 
@@ -97,16 +100,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
                 android:layout_marginRight="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
+                android:layout_marginTop="@{tasks.usernameVisibility == View.GONE ? @dimen/user_info_item_vertical_spacing : @dimen/user_info_other_item_vertical_spacing}"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="@dimen/userinfo_snNumber_title_width"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="SN："
+                    android:text="S N："
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
 
                 <TextView
                     android:id="@+id/device_number"
@@ -116,7 +120,8 @@
                     android:singleLine="true"
                     android:text="@{tasks.snCode}"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
 
 
                 <TextView
@@ -128,7 +133,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/association_prompt"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/h4_text_size"
+                    android:textSize="@dimen/text_size_27sp"
                     android:visibility="gone"/>
 
                 <Button
@@ -139,7 +144,7 @@
                     android:background="@drawable/selector_daisy_button_style"
                     android:text="@string/association"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/h4_text_size"
+                    android:textSize="@dimen/text_size_27sp"
                     android:visibility="gone"/>
             </LinearLayout>
 
@@ -147,16 +152,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
+                android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="@dimen/userinfo_deviceName_title_width"
+                    android:layout_width="@dimen/userinfo_snNumber_title_width"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text="设备："
                     android:textColor="@color/white"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
 
                 <TextView
                     android:id="@+id/device_name"
@@ -164,7 +170,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{tasks.deviceName}"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
 
 
             </LinearLayout>
@@ -174,17 +181,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing"
+                android:orientation="horizontal"
+                android:visibility="@{tasks.balanceVisibility}">
 
                 <TextView
-                    android:layout_width="@dimen/userinfo_balance_title_width"
+                    android:layout_width="@dimen/userinfo_snNumber_title_width"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text="余额："
                     android:textColor="#FFF8F8FF"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
 
                 <TextView
                     android:id="@+id/remain_money_value"
@@ -193,7 +202,8 @@
                     android:gravity="center_vertical"
                     android:text="@{tasks.balance}"
                     android:textColor="#FFF8F8FF"
-                    android:textSize="@dimen/h4_text_size"/>
+                    android:textSize="@dimen/text_size_27sp"
+                />
             </LinearLayout>
 
 
@@ -201,17 +211,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginTop="@dimen/userinfo_privilege_layout_marginTop">
+                android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing"
+            >
 
                 <TextView
                     android:id="@+id/privilege_txt"
-                    android:layout_width="@dimen/userinfo_privilege_title_width"
+                    android:layout_width="@dimen/userinfo_snNumber_title_width"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text="特权："
                     android:textColor="#FFF8F8FF"
-                    android:textSize="@dimen/h4_text_size">
+                    android:textSize="@dimen/text_size_27sp"
+                >
 
                 </TextView>
 

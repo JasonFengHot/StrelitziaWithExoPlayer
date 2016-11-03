@@ -18,10 +18,10 @@
     />
 
     <TextView
-        android:layout_marginTop="-8dp"
         android:id="@+id/package_list_title"
         android:layout_width="@dimen/usercenter_storefragment_packagelist_item_text_width"
         android:layout_height="@dimen/usercenter_storefragment_packagelist_item_text_height"
+        android:layout_marginTop="@dimen/product_item_mt"
         android:ellipsize="marquee"
         android:gravity="center"
         android:singleLine="true"

@@ -27,7 +27,7 @@ import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 /**
  * Created by huaijie on 7/3/15.
  */
-public class UserCenterActivity extends BaseActivity implements LoginFragment.LoginCallback{
+public class UserCenterActivity extends BaseActivity implements LoginFragment.LoginCallback {
     private static final String TAG = UserCenterActivity.class.getSimpleName();
 
     private HelpFragment mHelpFragment;
@@ -63,8 +63,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         setContentView(R.layout.activity_usercenter);
 
         initViews();
-        selectProduct();
+//        selectProduct();
 
+        selectUserInfo();
         // Load previously saved state, if available.
         if (savedInstanceState != null) {
 //            TasksFilterType currentFiltering =

@@ -4,15 +4,15 @@
 <dimen name="usercenter_activity_top_layout_height">88.00dp</dimen>
 <dimen name="usercenter_vertical_divider_line2_width">0.89dp</dimen>
 <dimen name="usercenter_horizontal_divider_line_height">0.89dp</dimen>
-<dimen name="usercenter_fragment_indicator_layout_width">368.89dp</dimen>
+<dimen name="usercenter_fragment_indicator_layout_width">377.78dp</dimen>
 <dimen name="user_center_container_height">853.33dp</dimen>
 <dimen name="user_center_container_width">1271.11dp</dimen>
-<dimen name="user_center_container_marginLeft">17.78dp</dimen>
+<dimen name="user_center_container_marginLeft">8.89dp</dimen>
 <dimen name="usercenter_vertical_divider_line_width">36.44dp</dimen>
 <dimen name="horizontal_divider_ml">23.11dp</dimen>
 <dimen name="horizontal_divider_mr">23.11dp</dimen>
-<dimen name="usercenter_fragment_indicator_item_text_size">42.67sp</dimen>
-<dimen name="usercenter_indicator_minH">84.44dp</dimen>
+<dimen name="usercenter_fragment_indicator_item_text_size">32.00sp</dimen>
+<dimen name="usercenter_indicator_minH">88.89dp</dimen>
 
 <dimen name="usercenter_help_contact_margin_left">120.00dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_icon_margin_top">31.11dp</dimen>
@@ -26,21 +26,21 @@
 <dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">21.33dp</dimen>
 
 <dimen name="usercenter_info_association_pop_height">773.33dp</dimen>
-<dimen name="user_info_item_vertical_spacing">35.56dp</dimen>
-<dimen name="usercenter_info_layout_margin_left">35.56dp</dimen>
+<dimen name="user_info_item_vertical_spacing">47.11dp</dimen>
+<dimen name="usercenter_info_layout_margin_left">53.33dp</dimen>
 <dimen name="h4_text_size">26.67sp</dimen>
 <dimen name="user_center_logout_height">35.56dp</dimen>
 <dimen name="userinfo_balance_title_width">124.44dp</dimen>
 <dimen name="userinfo_association_marginLeft">17.78dp</dimen>
 <dimen name="userinfo_deviceName_title_width">124.44dp</dimen>
 <dimen name="userinfo_phoneNumber_title_width">124.44dp</dimen>
-<dimen name="userinfo_snNumber_title_width">124.44dp</dimen>
+<dimen name="userinfo_snNumber_title_width">75.56dp</dimen>
 <dimen name="userinfo_association_prompt_marigin_lr">17.78dp</dimen>
 <dimen name="person_login_phone_view_ML">35.56dip</dimen>
 <dimen name="userinfo_changeButton_marginLeft">17.78dp</dimen>
 <dimen name="userinfo_privilege_title_width">124.44dp</dimen>
 <dimen name="usercenter_info_association_pop_widht">1217.78dp</dimen>
-<dimen name="userinfo_association_width">88.89dp</dimen>
+<dimen name="userinfo_association_width">87.11dp</dimen>
 
 
 <dimen name="userinfo_privilege_layout_marginTop">44.44dp</dimen>
@@ -80,4 +80,9 @@
 <dimen name="weather_city_layout_spac">53.33dp</dimen>
 
 <dimen name="usercenter_header_height">88.89dp</dimen>
+<dimen name="product_recycler_mt">21.33dp</dimen>
+<dimen name="product_recycler_item_spacing">-1.78dp</dimen>
+<dimen name="product_item_mt">-7.11dp</dimen>
+<dimen name="userinfo_layout_pb">53.33dp</dimen>
+<dimen name="user_info_other_item_vertical_spacing">37.33dp</dimen>
 </resources>

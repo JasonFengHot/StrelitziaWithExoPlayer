@@ -2,6 +2,7 @@
 <dimen name="text_size_48sp">10.67dp</dimen>
 <dimen name="text_size_36sp">8.00dp</dimen>
 <dimen name="text_size_24sp">5.33dp</dimen>
+<dimen name="text_size_27sp">6.00dp</dimen>
 <dimen name="text_size_60sp">13.33dp</dimen>
 <dimen name="text_size_30sp">6.67dp</dimen>
 <dimen name="text_size_40sp">8.89dp</dimen>

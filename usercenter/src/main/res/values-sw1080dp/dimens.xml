@@ -26,15 +26,15 @@
     <dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">24dp</dimen>
 
     <dimen name="usercenter_info_association_pop_height">870dp</dimen>
-    <dimen name="user_info_item_vertical_spacing">40dp</dimen>
-    <dimen name="usercenter_info_layout_margin_left">40dp</dimen>
+    <dimen name="user_info_item_vertical_spacing">53dp</dimen>
+    <dimen name="usercenter_info_layout_margin_left">60dp</dimen>
     <dimen name="h4_text_size">30sp</dimen>
     <dimen name="user_center_logout_height">40dp</dimen>
     <dimen name="userinfo_balance_title_width">140dp</dimen>
     <dimen name="userinfo_association_marginLeft">20dp</dimen>
     <dimen name="userinfo_deviceName_title_width">140dp</dimen>
     <dimen name="userinfo_phoneNumber_title_width">140dp</dimen>
-    <dimen name="userinfo_snNumber_title_width">140dp</dimen>
+    <dimen name="userinfo_snNumber_title_width">85dp</dimen>
     <dimen name="userinfo_association_prompt_marigin_lr">20dp</dimen>
     <dimen name="person_login_phone_view_ML">40dip</dimen>
     <dimen name="userinfo_changeButton_marginLeft">20dp</dimen>
@@ -82,5 +82,7 @@
     <dimen name="usercenter_header_height">100dp</dimen>
     <dimen name="product_recycler_mt">24dp</dimen>
     <dimen name="product_recycler_item_spacing">-2dp</dimen>
-
+    <dimen name="product_item_mt">-8dp</dimen>
+    <dimen name="userinfo_layout_pb">60dp</dimen>
+    <dimen name="user_info_other_item_vertical_spacing">42dp</dimen>
 </resources>
