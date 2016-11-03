@@ -4,15 +4,15 @@
     <dimen name="usercenter_activity_top_layout_height">99dp</dimen>
     <dimen name="usercenter_vertical_divider_line2_width">1dp</dimen>
     <dimen name="usercenter_horizontal_divider_line_height">1dp</dimen>
-    <dimen name="usercenter_fragment_indicator_layout_width">415dp</dimen>
+    <dimen name="usercenter_fragment_indicator_layout_width">425dp</dimen>
     <dimen name="user_center_container_height">960dp</dimen>
     <dimen name="user_center_container_width">1430dp</dimen>
-    <dimen name="user_center_container_marginLeft">20dp</dimen>
+    <dimen name="user_center_container_marginLeft">10dp</dimen>
     <dimen name="usercenter_vertical_divider_line_width">41dp</dimen>
     <dimen name="horizontal_divider_ml">26dp</dimen>
     <dimen name="horizontal_divider_mr">26dp</dimen>
-    <dimen name="usercenter_fragment_indicator_item_text_size">48sp</dimen>
-    <dimen name="usercenter_indicator_minH">95dp</dimen>
+    <dimen name="usercenter_fragment_indicator_item_text_size">36sp</dimen>
+    <dimen name="usercenter_indicator_minH">100dp</dimen>
 
     <dimen name="usercenter_help_contact_margin_left">135dp</dimen>
     <dimen name="usercenter_fragment_help_ismartv_icon_margin_top">35dp</dimen>
@@ -40,7 +40,7 @@
     <dimen name="userinfo_changeButton_marginLeft">20dp</dimen>
     <dimen name="userinfo_privilege_title_width">140dp</dimen>
     <dimen name="usercenter_info_association_pop_widht">1370dp</dimen>
-    <dimen name="userinfo_association_width">100dp</dimen>
+    <dimen name="userinfo_association_width">98dp</dimen>
 
 
     <dimen name="userinfo_privilege_layout_marginTop">50dp</dimen>
@@ -78,5 +78,9 @@
     <dimen name="weather_city_ml">50dp</dimen>
     <dimen name="weather_city_mr">40dp</dimen>
     <dimen name="weather_city_layout_spac">60dp</dimen>
+
+    <dimen name="usercenter_header_height">100dp</dimen>
+    <dimen name="product_recycler_mt">24dp</dimen>
+    <dimen name="product_recycler_item_spacing">-2dp</dimen>
 
 </resources>

@@ -135,6 +135,7 @@ public class ProductFragment extends Fragment implements ProductContract.View {
     public void loadProductItem(YouHuiDingGouEntity entity) {
         ProductAdapter adapter = new ProductAdapter(getContext(), entity.getObjects());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4 ));
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.product_recycler_item_spacing)));
         mRecyclerView.setAdapter(adapter);
     }
 

@@ -79,4 +79,5 @@
 <dimen name="weather_city_mr">13.33dp</dimen>
 <dimen name="weather_city_layout_spac">20.00dp</dimen>
 
+<dimen name="usercenter_header_height">33.33dp</dimen>
 </resources>
