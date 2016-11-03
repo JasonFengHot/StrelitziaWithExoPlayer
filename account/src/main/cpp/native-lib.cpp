@@ -12,7 +12,7 @@ Java_tv_ismar_account_IsmartvActivator_stringFromJNI(JNIEnv *env, jobject instan
     FILE *fp;
     int i = 0;
     memset(macaddress, 0, 64);
-    char *buf = (char *) malloc(64);
+    char  buf[64];
     if ((fp = fopen(filename, "r")) == NULL) {
 //        LOGVFINGERPRINT("不能打开文件\n");
         memset(buf, 0, 64);
