@@ -90,6 +90,17 @@
                 android:textColor="@color/module_color_white"
                 android:textSize="18sp"
             />
+            <Button
+                android:id="@+id/launcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/s_button_color"
+                android:padding="8dp"
+                android:text="首页"
+                android:textColor="@color/module_color_white"
+                android:textSize="18sp"
+                />
         </LinearLayout>
 
         <TextView

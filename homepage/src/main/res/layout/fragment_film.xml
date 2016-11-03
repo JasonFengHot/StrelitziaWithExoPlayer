@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/fragment_padding_lr"
+    android:paddingRight="@dimen/fragment_padding_lr"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/film_linearLayout_h"
+            android:layout_marginTop="@dimen/film_linearLayout_margin"
+            android:orientation="horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            >
+
+        <tv.ismar.homepage.widget.LabelImageView3
+                android:id="@+id/film_lefttop_image"
+                android:layout_width="@dimen/film_lefttop_image_w"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:nextFocusUp="@+id/film_lefttop_image"
+                android:src="@drawable/list_item_preview_bg"
+                labelimage:focusbackground3="@color/shawdow"
+                labelimage:focuspaddingtop3="0.89"
+                labelimage:needzoom3="true"
+                labelimage:focustextsize3="@dimen/toppage_fragment_poster_title_textsize"
+                labelimage:maxfocustitle3="8"
+                />
+
+        <tv.ismar.homepage.widget.HomeItemContainer
+                android:id="@+id/film_post_layout"
+                android:layout_width="@dimen/film_post_layout_w"
+                android:layout_height="@dimen/film_post_layout_h"
+                android:layout_marginLeft="@dimen/film_post_layout_ml"
+                android:layout_marginRight="@dimen/film_post_layout_ml"
+                android:layout_toRightOf="@id/film_lefttop_image"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                >
+
+            <tv.ismar.homepage.widget.DaisyVideoView
+                    android:id="@+id/film_linked_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
+
+            <tv.ismar.homepage.widget.LabelImageView3
+                    android:id="@+id/film_linked_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:focusable="false"
+                    android:scaleType="fitXY"
+                    labelimage:needzoom3="true"
+                    android:visibility="gone"/>
+
+            <TextView
+                    android:id="@+id/film_linked_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/toppage_fragment_poster_title_h"
+                    android:layout_gravity="bottom|center"
+                    android:background="@color/shawdow"
+                    android:gravity="left|center"
+                    android:textSize="@dimen/toppage_fragment_poster_title_textsize"
+                    android:paddingLeft="@dimen/film_linked_title_padding"
+                    android:visibility="gone"
+                    />
+        </tv.ismar.homepage.widget.HomeItemContainer>
+
+        <RelativeLayout
+                android:id="@+id/film_carousel_layout"
+                android:layout_width="@dimen/film_carousel_layout_w"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_toRightOf="@id/film_post_layout"
+                >
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/film_recommend_list"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/film_recommend_list_h"
+            android:layout_marginTop="@dimen/film_recommend_list_mt"
+            android:paddingBottom="@dimen/film_recommend_list_padding"
+            android:orientation="horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            >
+    </LinearLayout>
+
+</LinearLayout>

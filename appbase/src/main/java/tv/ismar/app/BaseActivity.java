@@ -37,10 +37,13 @@ import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     private PopupWindow updatePopupWindow;
-    public static final String ACTION_CONNECT_ERROR = "action.connect_error";
     private LoadingDialog mLoadingDialog;
     public SkyService mSkyService;
     private View mRootView;
+    public SkyService mWeatherSkyService;
+    public static final String ACTION_CONNECT_ERROR = "tv.ismar.daisy.CONNECT_ERROR";
+    protected String activityTag = "";
+    protected long app_start_time;
 
     public static Stack<Bundle> updateInfo = new Stack<>();
 
@@ -53,6 +56,8 @@ public class BaseActivity extends AppCompatActivity {
 
         mSkyService = SkyService.ServiceManager.getService();
         mRootView = getWindow().getDecorView();
+        mWeatherSkyService = SkyService.ServiceManager.getWeatherService();
+        app_start_time = System.currentTimeMillis();
     }
 
     @Override

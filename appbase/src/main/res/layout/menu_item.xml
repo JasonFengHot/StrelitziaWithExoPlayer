@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="@dimen/menu_item_layout_H"
+	android:gravity="left"
+	android:paddingLeft="@dimen/menu_item_layout_PL"
+	android:focusable="false"
+	android:clickable="false"
+	>
+	<TextView android:id="@+id/Menucheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:textSize="@dimen/menu_item_menutext_textsize"
+        android:gravity="left|center_vertical"
+        android:focusable="false"
+        android:clickable="false"
+        android:text="√"
+        android:textColor="@android:color/white"
+        android:visibility="invisible"
+    >
+    </TextView>
+
+	<TextView android:id="@+id/MenuText"
+		android:layout_width="wrap_content"
+	    android:layout_height="fill_parent"
+		android:textSize="@dimen/menu_item_menutext_textsize"
+		android:layout_marginLeft="@dimen/menu_item_menutext_marginleft"
+		android:gravity="center"
+		android:focusable="false"
+		android:clickable="false"
+		android:textColor="@android:color/white"
+	>
+	</TextView>
+</LinearLayout>

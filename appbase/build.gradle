@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    Map<String, String> dependencies = rootProject.ext.dependencies;
+    Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile dependencies.appCompat
     compile dependencies.recyclerView

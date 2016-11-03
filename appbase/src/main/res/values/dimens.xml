@@ -105,5 +105,16 @@
     <dimen name="filter_condition_item_line_group_ml">5dip</dimen>
 
     <!-- menu -->
+    <dimen name="menu_menulistview_W">347dip</dimen>
+    <dimen name="menu_menulistview_PT">107dip</dimen>
+    <dimen name="menu_menulistview_PB">107dip</dimen>
+    <dimen name="menu_item_layout_H">80dip</dimen>
+    <dimen name="menu_item_layout_PL">27dip</dimen>
+    <dimen name="menu_item_menutext_textsize">32sp</dimen>
+    <dimen name="menu_item_menutext_marginleft">27dip</dimen>
 
+
+    <dimen name="pop_btn_margin_lr">123dp</dimen>
+    <dimen name="pop_width">877dp</dimen>
+    <dimen name="pop_height">305dp</dimen>
 </resources>

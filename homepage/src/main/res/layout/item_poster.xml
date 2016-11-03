@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tv.ismar.homepage.widget.HomeItemContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:descendantFocusability="afterDescendants"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/poster_image"
+        android:layout_width="@dimen/guide_recommend_item_width"
+        android:layout_height="@dimen/guide_recommend_item_height"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+         />
+
+    <TextView
+        android:id="@+id/poster_title"
+        android:layout_width="@dimen/guide_recommend_item_width"
+        android:layout_height="@dimen/toppage_fragment_poster_title_h"
+        android:layout_gravity="bottom|center"
+        android:background="#b3000000"
+        android:textColor="#FFFFFFFF"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:textSize="@dimen/toppage_fragment_poster_title_textsize"
+        android:singleLine="true"
+        android:paddingLeft="@dimen/toppage_fragment_poster_title_padding"
+        android:visibility="gone" />
+
+</tv.ismar.homepage.widget.HomeItemContainer>

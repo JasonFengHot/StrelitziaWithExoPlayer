@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <tv.ismar.homepage.widget.LabelImageView3
+        android:id="@+id/toppage_carous_imageView1"
+        android:layout_width="@dimen/toppage_carous_imageView_w"
+        android:layout_height="@dimen/toppage_carous_imageView_h"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:scaleType="fitXY"
+        labelimage:frontcolor3="#B2000000"
+        labelimage:customfocus3="true"
+        labelimage:needzoom3="true"
+        android:focusableInTouchMode="true"
+         />
+
+    <tv.ismar.homepage.widget.LabelImageView3
+        android:id="@+id/toppage_carous_imageView2"
+        android:layout_width="@dimen/toppage_carous_imageView_w"
+        android:layout_height="@dimen/toppage_carous_imageView_h"
+        android:layout_below="@+id/toppage_carous_imageView1"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:scaleType="fitXY"
+        labelimage:frontcolor3="#B2000000"
+        labelimage:customfocus3 = "true"
+        labelimage:needzoom3="true"
+        android:focusableInTouchMode="true"
+         />
+
+    <tv.ismar.homepage.widget.LabelImageView3
+        android:id="@+id/toppage_carous_imageView3"
+        android:layout_width="@dimen/toppage_carous_imageView_w"
+        android:layout_height="@dimen/toppage_carous_imageView_h"
+        android:layout_below="@+id/toppage_carous_imageView2"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:scaleType="fitXY"
+        labelimage:frontcolor3="#B2000000"
+        labelimage:customfocus3 = "true"
+        labelimage:needzoom3="true"
+        android:focusableInTouchMode="true"
+         />
+
+</RelativeLayout>
