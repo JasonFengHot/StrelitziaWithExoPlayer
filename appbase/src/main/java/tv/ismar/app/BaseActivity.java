@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,6 +28,7 @@ import java.util.Stack;
 import rx.Observer;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.widget.LoadingDialog;
+import tv.ismar.app.widget.ModuleMessagePopWindow;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
@@ -38,6 +40,7 @@ public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     private PopupWindow updatePopupWindow;
     private LoadingDialog mLoadingDialog;
+    private ModuleMessagePopWindow netErrorPopWindow;
     public SkyService mSkyService;
     private View mRootView;
     public SkyService mWeatherSkyService;
@@ -127,7 +130,29 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNetWorkErrorDialog(Throwable e) {
-//        mRootView
+        netErrorPopWindow = new ModuleMessagePopWindow(this);
+        netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
+        netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
+        netErrorPopWindow.setCancelBtn(getString(R.string.i_know));
+        netErrorPopWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        netErrorPopWindow.dismiss();
+                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+
+                    }
+                },
+                new ModuleMessagePopWindow.CancelListener() {
+                    @Override
+                    public void cancelClick(View view) {
+                        netErrorPopWindow.dismiss();
+                    }
+                });
+    }
+
+    public boolean isshowNetWorkErrorDialog() {
+        return netErrorPopWindow != null && netErrorPopWindow.isShowing();
     }
 
     public abstract class BaseObserver<T> implements Observer<T> {

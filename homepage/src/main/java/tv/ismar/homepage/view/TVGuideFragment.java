@@ -56,6 +56,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.AppConstant;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
@@ -65,6 +66,7 @@ import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.player.CallaPlay;
+import tv.ismar.app.util.AppConfigHelper;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LaunchHeaderLayout;
@@ -77,7 +79,6 @@ import tv.ismar.homepage.fragment.ChildFragment;
 import tv.ismar.homepage.fragment.EntertainmentFragment;
 import tv.ismar.homepage.fragment.FilmFragment;
 import tv.ismar.homepage.fragment.GuideFragment;
-import tv.ismar.homepage.fragment.MessageDialogFragment;
 import tv.ismar.homepage.fragment.SportFragment;
 import tv.ismar.homepage.widget.ItemViewFocusChangeListener;
 import tv.ismar.homepage.widget.MessagePopWindow;
@@ -193,7 +194,7 @@ public class TVGuideFragment extends Fragment {
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
                 int i = v.getId();
-                if (i == R.id.arrow_scroll_left) {
+                if (i == R.id.fragment_arrow_scroll_left) {
                     scrollFromBorder = true;
                     scrollType = ScrollType.left;
                     channelChange = ChannelChange.LEFT_ARROW;
@@ -209,7 +210,7 @@ public class TVGuideFragment extends Fragment {
                     rightscroll = true;
 
 
-                } else if (i == R.id.arrow_scroll_right) {
+                } else if (i == R.id.fragment_arrow_scroll_right) {
                     scrollFromBorder = true;
                     scrollType = ScrollType.right;
                     channelChange = ChannelChange.RIGHT_ARROW;
@@ -384,12 +385,9 @@ public class TVGuideFragment extends Fragment {
         initViews(view);
         initTabView();
         getHardInfo();
-        Properties sysProperties = new Properties();
         try {
-            InputStream is = mActivity.getAssets().open("configure/setup.properties");
-            sysProperties.load(is);
-            brandName = sysProperties.getProperty("platform");
-        } catch (IOException e) {
+            brandName = AppConfigHelper.getPlatform();
+        } catch (IOException | IllegalAccessException e) {
             e.printStackTrace();
         }
         fetchChannels();
@@ -434,8 +432,8 @@ public class TVGuideFragment extends Fragment {
         recycler_tab_list.addItemDecoration(decoration);
 
         tabListView = (LinearLayout) view.findViewById(R.id.tab_list);
-        arrow_left = (ImageView) view.findViewById(R.id.arrow_scroll_left);
-        arrow_right = (ImageView) view.findViewById(R.id.arrow_scroll_right);
+        arrow_left = (ImageView) view.findViewById(R.id.fragment_arrow_scroll_left);
+        arrow_right = (ImageView) view.findViewById(R.id.fragment_arrow_scroll_right);
         arrow_left_visible = (ImageView) view.findViewById(R.id.arrow_scroll_left_visible);
         arrow_right_visible = (ImageView) view.findViewById(R.id.arrow_scroll_right_visible);
         arrow_left_visible.setOnClickListener(new View.OnClickListener() {
@@ -671,6 +669,7 @@ public class TVGuideFragment extends Fragment {
     }
 
     private void fillChannelLayout(ChannelEntity[] channelEntities) {
+        Log.i(TAG, "fillChannelLayout:" + channelEntities.length);
         if (neterrorshow)
             return;
         topView.setVisibility(View.VISIBLE);
@@ -936,39 +935,13 @@ public class TVGuideFragment extends Fragment {
     public void showNetErrorPopup() {
         if (neterrorshow)
             return;
-        final MessageDialogFragment dialog = new MessageDialogFragment(mActivity, getString(R.string.fetch_net_data_error), null);
-        dialog.setButtonText(getString(R.string.setting_network), getString(R.string.i_know));
-        try {
-            dialog.showAtLocation(contentView, Gravity.CENTER,
-                    new MessageDialogFragment.ConfirmListener() {
-                        @Override
-                        public void confirmClick(View view) {
-                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                            mActivity.startActivity(intent);
-                        }
-                    }, new MessageDialogFragment.CancelListener() {
-
-                        @Override
-                        public void cancelClick(View view) {
-                            dialog.dismiss();
-                            neterrorshow = true;
-                        }
-                    });
-            dialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    neterrorshow = true;
-                }
-            });
-            neterrorshow = true;
-        } catch (android.view.WindowManager.BadTokenException e) {
-            e.printStackTrace();
-        }
+        ((BaseActivity)getActivity()).showNetWorkErrorDialog(null);
     }
 
     BitmapDecoder ddddBitmapDecoder;
 
     private void selectChannelByPosition(int position) {
+        Log.i(TAG, "selectChannelByPosition:" + position);
         String tag;
         if (lastchannelindex != -1) {
             if (lastchannelindex < position) {
