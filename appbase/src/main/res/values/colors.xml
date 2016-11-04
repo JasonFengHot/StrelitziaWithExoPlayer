@@ -120,4 +120,7 @@
     <color name="iqiyi_ad_btn_color">#33ffffff</color>
     <color name="window_bg">#0e163a</color>
 
+    <drawable name="button_focus_color">#ff9c3c</drawable>
+    <drawable name="button_normal_color">#404563</drawable>
+
 </resources>

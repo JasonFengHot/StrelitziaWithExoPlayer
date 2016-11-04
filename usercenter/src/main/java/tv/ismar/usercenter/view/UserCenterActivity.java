@@ -65,7 +65,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         initViews();
 //        selectProduct();
 
-        selectUserInfo();
+        selectLogin();
         // Load previously saved state, if available.
         if (savedInstanceState != null) {
 //            TasksFilterType currentFiltering =

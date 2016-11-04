@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
         <item name="android:windowBackground">@color/window_bg</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="IsmartvAppTheme.Widget"/>

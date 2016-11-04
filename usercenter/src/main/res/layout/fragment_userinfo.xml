@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginRight="@dimen/usercenter_info_layout_margin_left"
+                android:layout_marginRight="@dimen/usercenter_info_layout_margin_right"
                 android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
                 android:visibility="@{tasks.usernameVisibility}"
             >
@@ -79,17 +79,16 @@
 
                 <Button
                     android:id="@+id/exit_account"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/user_center_logout_width"
                     android:layout_height="@dimen/user_center_logout_height"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center"
-                    android:background="@drawable/selector_daisy_button_style"
+                    android:background="@drawable/selector_usercenter_logout"
                     android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:gravity="center"
                     android:text="@string/exit_account"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_27sp"
+                    android:textSize="@dimen/text_size_36sp"
                 />
 
             </RelativeLayout>
@@ -100,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
                 android:layout_marginRight="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginTop="@{tasks.usernameVisibility == View.GONE ? @dimen/user_info_item_vertical_spacing : @dimen/user_info_other_item_vertical_spacing}"
+                android:layout_marginTop="@{tasks.usernameVisibility == View.GONE ? @dimen/user_info_item_vertical_spacing : @dimen/user_info_item_vertical_spacing_0}"
                 android:orientation="horizontal">
 
                 <TextView
@@ -204,6 +203,14 @@
                     android:textColor="#FFF8F8FF"
                     android:textSize="@dimen/text_size_27sp"
                 />
+
+                <Button
+                    android:layout_width="@dimen/charge_btn_width"
+                    android:layout_height="@dimen/charge_btn_height"
+                    android:layout_marginLeft="@dimen/charge_btn_margin_left"
+                    android:background="@drawable/selector_usercenter_logout"
+                    android:text="@string/usercenter_charge"
+                    android:textSize="@dimen/text_size_30sp"/>
             </LinearLayout>
 
 
