@@ -144,15 +144,6 @@ public class MainActivity extends BaseActivity {
 
         });
 
-//        startAdsService();
-
-
-        Intent intent = new Intent(this, UserCenterActivity.class);
-        startActivity(intent);
-
-
-
-
     }
 
     public int px2dip(float pxValue) {
@@ -179,13 +170,6 @@ public class MainActivity extends BaseActivity {
         intent.putExtra(PageIntentInterface.EXTRA_PK, 706220);
         startActivity(intent);
     }
-
-    private void startAdsService() {
-        Intent intent = new Intent();
-        intent.setClass(this, AdsUpdateService.class);
-        startService(intent);
-    }
-
 
     public void userCenter(View view) {
         Intent intent = new Intent(this, UserCenterActivity.class);

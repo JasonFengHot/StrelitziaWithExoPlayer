@@ -112,6 +112,14 @@ public class ModuleMessagePopWindow extends PopupWindow implements View.OnClickL
         secondMessage.setText(messageId);
     }
 
+    public void setConfirmBtn(String text){
+        confirmBtn.setText(text);
+    }
+
+    public void setCancelBtn(String text){
+        cancelBtn.setText(text);
+    }
+
     public void setSecondMessage(String message) {
         height = ((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
         secondMessage.setVisibility(View.VISIBLE);

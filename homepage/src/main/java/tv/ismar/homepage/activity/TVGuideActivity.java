@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.blankj.utilcode.utils.StringUtils;
 import com.google.gson.Gson;
@@ -46,8 +48,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-
-//import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,19 +64,18 @@ import rx.schedulers.Schedulers;
 import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.ad.AdsUpdateService;
+import tv.ismar.app.ad.AdvertiseManager;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
-import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
-import tv.ismar.app.core.advertisement.AdvertisementManager;
-import tv.ismar.app.core.logger.AdvertisementLogger;
-import tv.ismar.app.core.service.PosterUpdateService;
+import tv.ismar.app.core.client.MessageQueue;
+import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
-import tv.ismar.app.db.LaunchAdvertisementEntity;
-import tv.ismar.app.core.preferences.LogSharedPrefs;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.util.BitmapDecoder;
+import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LaunchHeaderLayout;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.adapter.ChannelRecyclerAdapter;
@@ -93,6 +92,8 @@ import tv.ismar.homepage.widget.ItemViewFocusChangeListener;
 import tv.ismar.homepage.widget.MessagePopWindow;
 import tv.ismar.homepage.widget.Position;
 
+//import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by huaijie on 5/18/15.
  */
@@ -104,17 +105,35 @@ public class TVGuideActivity extends BaseActivity {
     private ChannelBaseFragment currentFragment;
     private ChannelBaseFragment lastFragment;
     /**
-     * advertisement
+     * advertisement start
      */
-    private static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
-    private static final int TIME_COUNTDOWN = 0x0001;
+//    private static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
+//    private static final int TIME_COUNTDOWN = 0x0001;
+//
+//    private static final int[] secondsResId = {R.drawable.second_1, R.drawable.second_1, R.drawable.second_2,
+//            R.drawable.second_3, R.drawable.second_4, R.drawable.second_5};
+//    private ImageView adverPic;
+//    private ImageView timerText;
+//    private Handler messageHandler;
+//    private AdvertisementManager mAdvertisementManager;
+    private static final int MSG_AD_COUNTDOWN = 0x01;
+    private VideoView ad_video;
+    private ImageView ad_pic;
+    private Button ad_timer;
+    private AdvertiseManager advertiseManager;
+    private List<AdvertiseTable> launchAds;
+    private int countAdTime = 0;
+    private int currentImageAdCountDown = 0;
+    private boolean isStartImageCountDown = false;
+    private boolean isPlayingVideo = false;
+    private int playIndex;
+    private FrameLayout layout_advertisement;
+    private LinearLayout layout_homepage;
+    /**
+     * advertisement end
+     */
 
-    private static final int[] secondsResId = {R.drawable.second_1, R.drawable.second_1, R.drawable.second_2,
-            R.drawable.second_3, R.drawable.second_4, R.drawable.second_5};
-    private ImageView adverPic;
-    private ImageView timerText;
-    private Handler messageHandler;
-    private AdvertisementManager mAdvertisementManager;
+
     /**
      * PopupWindow
      */
@@ -152,8 +171,6 @@ public class TVGuideActivity extends BaseActivity {
     private Handler netErrorPopupHandler;
     private Runnable netErrorPopupRunnable;
     public static String brandName;
-    private View advertisement;
-    private View homepage;
 
     private enum LeavePosition {
         LeftTop,
@@ -342,14 +359,24 @@ public class TVGuideActivity extends BaseActivity {
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
         /**
-         * advertisement
+         * advertisement start
          */
-        advertisement = findViewById(R.id.advertisement);
-        adverPic = (ImageView) findViewById(R.id.advertisement_pic);
-        timerText = (ImageView) findViewById(R.id.adver_timer);
-        homepage = findViewById(R.id.homepage);
-        placeAdvertisementPic();
-        messageHandler = new MessageHandler(this);
+        layout_advertisement = (FrameLayout) findViewById(R.id.layout_advertisement);
+        layout_homepage = (LinearLayout) findViewById(R.id.layout_homepage);
+        ad_video = (VideoView) findViewById(R.id.ad_video);
+        ad_pic = (ImageView) findViewById(R.id.ad_pic);
+        ad_timer = (Button) findViewById(R.id.ad_timer);
+
+        advertiseManager = new AdvertiseManager(getApplicationContext());
+        launchAds = advertiseManager.getAppLaunchAdvertisement();
+        for (AdvertiseTable adTable : launchAds) {
+            int duration = adTable.duration;
+            countAdTime += duration;
+        }
+        playLaunchAd(0);
+        /**
+         * advertisement end
+         */
 
         homepage_template = getIntent().getStringExtra("homepage_template");
         homepage_url = getIntent().getStringExtra("homepage_url");
@@ -384,7 +411,6 @@ public class TVGuideActivity extends BaseActivity {
         initViews();
         initTabView();
         getHardInfo();
-        updatePoster();
         Properties sysProperties = new Properties();
         try {
             InputStream is = getAssets().open("configure/setup.properties");
@@ -883,12 +909,6 @@ public class TVGuideActivity extends BaseActivity {
         intent.setDataAndType(uri, "application/vnd.android.package-archive");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
-    }
-
-    private void updatePoster() {
-        Intent intent = new Intent();
-        intent.setClass(this, PosterUpdateService.class);
-        startService(intent);
     }
 
     private void showExitPopup(View view) {
@@ -1475,86 +1495,163 @@ public class TVGuideActivity extends BaseActivity {
             }
         }
     }
-    private void placeAdvertisementPic() {
-        mAdvertisementManager = new AdvertisementManager();
-        String path = mAdvertisementManager.getAppLaunchAdvertisement();
-        Log.d(TAG, "fetch advertisement path: " + path);
-        Picasso.with(this)
-                .load(path)
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
-                .into(adverPic, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        timerCountDown();
-                        String launchAppAdvEntityStr = LogSharedPrefs.getSharedPrefs(LogSharedPrefs.SHARED_PREFS_NAME);
-                        LaunchAdvertisementEntity.AdvertisementData[] advertisementDatas = new Gson().fromJson(launchAppAdvEntityStr, LaunchAdvertisementEntity.AdvertisementData[].class);
-                        if (null != advertisementDatas) {
-                            LaunchAdvertisementEntity.AdvertisementData data = advertisementDatas[0];
-                            new CallaPlay().boot_ad_play(data.getTitle(), data.getMedia_id(), data.getMedia_url(), data.getDuration());
-                        }
-                    }
 
-                    @Override
-                    public void onError() {
-                        new CallaPlay().bootAdvExcept(AdvertisementLogger.BOOT_ADV_PLAY_EXCEPTION_CODE, AdvertisementLogger.BOOT_ADV_PLAY_EXCEPTION_STRING);
-                        Picasso.with(TVGuideActivity.this)
-                                .load(DEFAULT_ADV_PICTURE)
-                                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
-                                .into(adverPic);
-                        timerCountDown();
-                    }
-                });
-    }
-
-    private void timerCountDown() {
-        new Thread() {
-            @Override
-            public void run() {
-                for (int i = 5; i >= 0; i--) {
-                    Message message = new Message();
-                    message.what = TIME_COUNTDOWN;
-                    message.obj = i;
-                    messageHandler.sendMessage(message);
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+    /**
+     *
+     * advertisement start
+     */
+    private void playLaunchAd(final int index) {
+        playIndex = index;
+        if (launchAds.get(index).media_type.equals(AdvertiseManager.TYPE_VIDEO)) {
+            isPlayingVideo = true;
+        }
+        if (isPlayingVideo) {
+            if (ad_video.getVisibility() != View.VISIBLE) {
+                ad_pic.setVisibility(View.GONE);
+                ad_video.setVisibility(View.VISIBLE);
             }
-        }.start();
-    }
+            ad_video.setVideoPath(launchAds.get(index).location);
+            ad_video.setOnPreparedListener(onPreparedListener);
+            ad_video.setOnCompletionListener(onCompletionListener);
+        } else {
+            if (ad_pic.getVisibility() != View.VISIBLE) {
+                ad_video.setVisibility(View.GONE);
+                ad_pic.setVisibility(View.VISIBLE);
+            }
+            Picasso.with(this)
+                    .load(launchAds.get(index).location)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
+                    .into(ad_pic, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            if (playIndex == 0) {
+                                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+                            }
+                        }
 
-
-
-    static class MessageHandler extends Handler {
-        WeakReference<TVGuideActivity> mWeakReference;
-
-        public MessageHandler(TVGuideActivity activity) {
-            mWeakReference = new WeakReference<TVGuideActivity>(activity);
+                        @Override
+                        public void onError() {
+                            ad_pic.setImageBitmap(Utils.getImgFromAssets(TVGuideActivity.this, "poster.png"));
+                            if (playIndex == 0) {
+                                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+                            }
+                        }
+                    });
         }
 
+    }
+
+    private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+            ad_video.start();
+            if (playIndex == 0) {
+                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+            }
+        }
+    };
+
+    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            if (playIndex == launchAds.size() - 1) {
+                mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                goNextPage();
+                return;
+            }
+            playLaunchAd(playIndex++);
+        }
+    };
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
-            TVGuideActivity activity = mWeakReference.get();
-            if (mWeakReference != null) {
-                switch (msg.what) {
-                    case TIME_COUNTDOWN:
-                        int second = Integer.parseInt(String.valueOf(msg.obj));
-                        activity.showCountTime(second);
-                        break;
-                }
+            switch (msg.what) {
+                case MSG_AD_COUNTDOWN:
+                    if (ad_timer == null) {
+                        return;
+                    }
+                    if (!isPlayingVideo && countAdTime == 0) {
+                        mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                        goNextPage();
+                        return;
+                    }
+                    if (ad_timer.getVisibility() != View.VISIBLE) {
+                        ad_timer.setVisibility(View.VISIBLE);
+                    }
+                    ad_timer.setText(countAdTime + "s");
+                    int refreshTime;
+                    if (!isPlayingVideo) {
+                        refreshTime = 1000;
+                        if (currentImageAdCountDown == 0 && !isStartImageCountDown) {
+                            currentImageAdCountDown = launchAds.get(playIndex).duration;
+                            isStartImageCountDown = true;
+                        } else {
+                            if (currentImageAdCountDown == 0) {
+                                playLaunchAd(playIndex++);
+                                isStartImageCountDown = false;
+                            } else {
+                                currentImageAdCountDown--;
+                            }
+                        }
+                        countAdTime--;
+                    } else {
+                        refreshTime = 500;
+                        countAdTime = getAdCountDownTime();
+                    }
+                    sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, refreshTime);
+                    break;
             }
         }
-    }
-    public void showCountTime(int second) {
-        timerText.setImageResource(secondsResId[second]);
-        if (second == 0) {
-            homepage.setVisibility(View.VISIBLE);
-            advertisement.setVisibility(View.GONE);
+    };
+
+    @Override
+    protected void onStop() {
+        if (ad_video != null) {
+            ad_video.stopPlayback();
         }
+        if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+            mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        }
+        super.onStop();
     }
+
+    private void goNextPage() {
+        layout_advertisement.setVisibility(View.GONE);
+        layout_homepage.setVisibility(View.VISIBLE);
+        if (ad_video != null) {
+            ad_video.stopPlayback();
+        }
+        if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+            mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        }
+        startAdsService();
+    }
+
+    private int getAdCountDownTime() {
+        if (launchAds == null || launchAds.isEmpty() || !isPlayingVideo) {
+            return 0;
+        }
+        int totalAdTime = 0;
+        int currentAd = playIndex;
+        if (currentAd == launchAds.size() - 1) {
+            totalAdTime = launchAds.get(launchAds.size() - 1).duration;
+        } else {
+            for (int i = currentAd; i < launchAds.size(); i++) {
+                totalAdTime += launchAds.get(i).duration;
+            }
+        }
+        return totalAdTime - ad_video.getCurrentPosition() / 1000 - 1;
+    }
+
+    private void startAdsService() {
+        Intent intent = new Intent();
+        intent.setClass(this, AdsUpdateService.class);
+        startService(intent);
+    }
+    /**
+     * advertisement end
+     */
 
 }

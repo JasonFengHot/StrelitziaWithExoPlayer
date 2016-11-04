@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="tv.ismar.daisy">
+    package="tv.ismar.daisy">
 
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
         android:name="tv.ismar.app.VodApplication"
@@ -16,33 +16,34 @@
             android:name=".AdvertisementActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/IsmartvAppTheme.Fullscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-
-        </activity>
+            android:theme="@style/IsmartvAppTheme.Fullscreen" />
 
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/IsmartvAppTheme.Fullscreen"/>
+            android:theme="@style/IsmartvAppTheme.Fullscreen">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="daisy_app.db"/>
+            android:value="daisy_app.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="15"/>
+            android:value="15" />
 
         <!-- content provider -->
         <provider
             android:name="cn.ismartv.injectdb.library.content.ContentProvider"
             android:authorities="tv.ismar.daisy"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

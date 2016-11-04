@@ -90,7 +90,7 @@
 <dimen name="gridview_channel_label_padding">2.00dip</dimen>
 <dimen name="gridview_channel_section_tabs_width">1126.67dip</dimen>
 <dimen name="gridview_channel_section_tabs_margintop">116.00dip</dimen>
-    <dimen name="gridview_channel_section_tabs_space">69dp</dimen>
+<dimen name="gridview_channel_section_tabs_space">69.33dp</dimen>
 <dimen name="gridview_main_panel_height">540.00dip</dimen>
 <dimen name="gridview_main_panel_fadingEdgeLength">96.00dip</dimen>
 <dimen name="gridview_main_panel_horizontalSpacing">22.00dip</dimen>
@@ -766,10 +766,10 @@
 <dimen name="usercenter_fragment_help_ismartv_introduction_margin_right">26.67dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_margin_top">33.33dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_text_size">24.00dp</dimen>
-<dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">15.33dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">23.33dp</dimen>
 <dimen name="usercenter_help_contact_margin_left">90.00dp</dimen>
 <dimen name="usercenter_help_helpcenter_text_margin_top">40.00dp</dimen>
-<dimen name="usercenter_help_icon_margin_top">35.67dp</dimen>
+<dimen name="usercenter_help_icon_margin_top">56.67dp</dimen>
 <dimen name="usercenter_help_shipinkefu_margin_top">13.33dp</dimen>
 <dimen name="usercenter_info_layout_margin_left">26.67dp</dimen>
 <dimen name="usercenter_info_device_number_margin_top">23.33dp</dimen>
@@ -889,6 +889,7 @@
 <!-- text size -->
 <dimen name="textSize_normal">14.67sp</dimen>
 <dimen name="textSize_testButton">20.00sp</dimen>
+<dimen name="radio_text">6.67sp</dimen>
 
 <!-- launcher activity -->
 <dimen name="sakura_launcher_indicator_height">100.00dp</dimen>
@@ -962,7 +963,7 @@
 <dimen name="sakura_h1_text_size">33.33sp</dimen>
 <dimen name="sakura_h5_text_size">20.00sp</dimen>
 <dimen name="sakura_h7_text_size">16.00sp</dimen>
-    <dimen name="sakura_h8_text_size">14.66sp</dimen>
+<dimen name="sakura_h8_text_size">14.67sp</dimen>
 <dimen name="sakura_node_item_margin_top">13.33dp</dimen>
 <dimen name="sakura_node_testbutton_height">66.67dp</dimen>
 <dimen name="sakura_node_nodename_width">133.33dp</dimen>
@@ -1292,6 +1293,8 @@
 <dimen name="pop_width">584.67dp</dimen>
 <dimen name="pop_height">203.33dp</dimen>
 <dimen name="pop_double_line_height">234.00dp</dimen>
+<dimen name="pop_spinner_layout_width">100.00dp</dimen>
+<dimen name="pop_spinner_layout_height">333.33dp</dimen>
 
 <dimen name="pop_text_width">460.67dp</dimen>
 <dimen name="pop_text_height">24.67dp</dimen>
@@ -1316,13 +1319,13 @@
 <dimen name="app_update_bg_height">584.67dp</dimen>
 <dimen name="app_update_bg_width">339.33dp</dimen>
 <dimen name="app_update_content_margin_left">80.00dp</dimen>
-<dimen name="app_update_line_margin_">13.0dp</dimen>
+<dimen name="app_update_line_margin_">16.67dp</dimen>
 
 <dimen name="child_loop_indicator_text_height">36.67dp</dimen>
 <dimen name="child_loop_indicator_layout_height">56.67dp</dimen>
 <dimen name="item_newvip_pay_img_width">285.33dp</dimen>
 <dimen name="item_newvip_pay_img_height">408.67dp</dimen>
-<dimen name="item_newvip_pay_img_margin_top">114dp</dimen>
+<dimen name="item_newvip_pay_img_margin_top">114.00dp</dimen>
 <dimen name="item_newvip_pay_title_margin_top">252.67dp</dimen>
 <dimen name="newvip_pay_scroll_width">1000.00dp</dimen>
 <dimen name="newvip_pay_scroll_height">466.67dp</dimen>
@@ -1397,14 +1400,18 @@
 <dimen name="textsize_36sp">24.00sp</dimen>
 <dimen name="lineSpacing">16.00dp</dimen>
 <dimen name="vip_pkg_des_marginRight">87.33dp</dimen>
-<dimen name="textsize_16sp">10sp</dimen>
-    <dimen name="app_update_btn_marginTop">20.00dp</dimen>
-    <dimen name="app_update_text_marginBottom">13.33dp</dimen>
-    <dimen name="textsize_30sp">20sp</dimen>
+<dimen name="textsize_16sp">10.67sp</dimen>
+<dimen name="app_update_btn_marginTop">20.00dp</dimen>
+<dimen name="app_update_text_marginBottom">13.33dp</dimen>
+<dimen name="textsize_30sp">20.00sp</dimen>
 
-    <dimen name="qiyi_ad_width">231.33dp</dimen>
-    <dimen name="qiyi_ad_height">48dp</dimen>
-    <dimen name="ad_margin_top">33.33dp</dimen>
-    <dimen name="ad_margin_right">32dp</dimen>
-    <dimen name="ad_text_margin_left">12.66dp</dimen>
+<dimen name="qiyi_ad_width">231.33dp</dimen>
+<dimen name="qiyi_ad_height">48.00dp</dimen>
+<dimen name="ad_margin_top">33.33dp</dimen>
+<dimen name="ad_margin_right">32.00dp</dimen>
+<dimen name="ad_text_margin_left">12.67dp</dimen>
+
+<dimen name="ad_timer_wh">63.33dp</dimen>
+<dimen name="ad_timer_mt">26.67dp</dimen>
+<dimen name="ad_timer_mr">26.67dp</dimen>
 </resources>

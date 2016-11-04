@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:id="@+id/large_layout" >
     <LinearLayout
-        android:id="@+id/homepage"
+        android:id="@+id/layout_homepage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
               android:orientation="vertical"
@@ -132,24 +132,37 @@
         android:layout_height="match_parent"
             android:visibility="gone"
             android:src="@color/shawdow" />
-    <RelativeLayout
-        android:id="@+id/advertisement"
+    <FrameLayout
+        android:id="@+id/layout_advertisement"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/advertisement_pic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <VideoView
+            android:id="@+id/ad_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <ImageView
+            android:id="@+id/ad_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/ad_timer"
+            android:layout_width="@dimen/ad_timer_wh"
+            android:layout_height="@dimen/ad_timer_wh"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="@dimen/ad_timer_mr"
+            android:layout_marginTop="@dimen/ad_timer_mt"
+            android:background="@drawable/count_down_back"
+            android:enabled="false"
             android:gravity="center"
-            android:id="@+id/adver_timer"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="100dp"
-            />
-    </RelativeLayout>
+            android:textColor="@color/module_color_white"
+            android:textSize="@dimen/h1_size"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+    </FrameLayout>
 </FrameLayout>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="tv.ismar.homepage">
 
@@ -6,17 +7,11 @@
                  android:supportsRtl="true"
     >
 
-        <activity android:name=".activity.AdvertisementActivity"
-            android:screenOrientation="landscape"
-            >
-
-        </activity>
         <activity android:name=".activity.TVGuideActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen"
             >
         </activity>
-
     </application>
 
 </manifest>

@@ -1410,4 +1410,8 @@
     <dimen name="ad_margin_top">50dp</dimen>
     <dimen name="ad_margin_right">48dp</dimen>
     <dimen name="ad_text_margin_left">19dp</dimen>
+
+    <dimen name="ad_timer_wh">95dp</dimen>
+    <dimen name="ad_timer_mt">40dp</dimen>
+    <dimen name="ad_timer_mr">40dp</dimen>
 </resources>
