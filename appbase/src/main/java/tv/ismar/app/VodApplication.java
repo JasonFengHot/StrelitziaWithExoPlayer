@@ -41,6 +41,7 @@ import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
 import tv.ismar.app.network.HttpTrafficInterceptor;
 import tv.ismar.app.update.UpdateService;
+import tv.ismar.app.util.AppConfigHelper;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -90,6 +91,7 @@ public class VodApplication extends Application {
         appInstance = this;
         ActiveAndroid.initialize(this);
         AccountSharedPrefs.initialize(this);
+        AppConfigHelper.init(this);
         load(this);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
