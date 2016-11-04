@@ -38,8 +38,7 @@ import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.view.HomePageActivity;
-import tv.ismar.homepage.view.TVGuideFragment;
+import tv.ismar.homepage.activity.TVGuideActivity;
 import tv.ismar.homepage.widget.DaisyVideoView;
 import tv.ismar.homepage.widget.DaisyViewContainer;
 import tv.ismar.homepage.widget.HomeItemContainer;
@@ -198,9 +197,9 @@ public class GuideFragment extends ChannelBaseFragment {
 
 
     public void fetchHomePage() {
-        ((HomePageActivity)getActivity()).mSkyService.TvHomepageTop().subscribeOn(Schedulers.io())
+        ((TVGuideActivity)getActivity()).mSkyService.TvHomepageTop().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(((HomePageActivity) getActivity()).new BaseObserver<HomePagerEntity>() {
+                .subscribe(((TVGuideActivity) getActivity()).new BaseObserver<HomePagerEntity>() {
                     @Override
                     public void onCompleted() {
 
@@ -244,7 +243,7 @@ public class GuideFragment extends ChannelBaseFragment {
                     }
                 }
             }
-            ((TVGuideFragment) getParentFragment()).resetBorderFocus();
+            ((TVGuideActivity) getActivity()).resetBorderFocus();
         }
 
     }
@@ -283,7 +282,7 @@ public class GuideFragment extends ChannelBaseFragment {
                         if (tagObject != null) {
                             int tagindex = Integer.parseInt(tagObject.toString());
                             if (tagindex == 0 || tagindex == 7) {
-                                ((TVGuideFragment) (getParentFragment())).setLastViewTag("bottom");
+                                ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
                             }
                         }
                     } else {
@@ -497,7 +496,7 @@ public class GuideFragment extends ChannelBaseFragment {
                 focusFlag = focusFlag && (!imageView.isFocused());
             }
             if (hasFocus) {
-                ((TVGuideFragment) (getParentFragment())).setLastViewTag("");
+                ((TVGuideActivity) (getActivity())).setLastViewTag("");
             }
             // all view not focus
             if (focusFlag) {

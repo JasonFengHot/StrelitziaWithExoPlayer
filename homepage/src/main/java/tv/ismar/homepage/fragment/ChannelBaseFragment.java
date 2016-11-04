@@ -14,11 +14,11 @@ import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.entity.HomePagerEntity.Poster;
 import tv.ismar.app.player.InitPlayerTool;
-import tv.ismar.homepage.view.HomePageActivity;
+import tv.ismar.homepage.activity.TVGuideActivity;
 
 public class ChannelBaseFragment extends Fragment {
     protected ChannelEntity channelEntity;
-    protected HomePageActivity mContext;
+    protected TVGuideActivity mContext;
     protected boolean scrollFromBorder;
     protected View mLeftTopView;
     protected View mLeftBottomView;
@@ -53,7 +53,7 @@ public class ChannelBaseFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mContext = (HomePageActivity) activity;
+        mContext = (TVGuideActivity) activity;
 
     }
 
@@ -69,9 +69,9 @@ public class ChannelBaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        if (null != channelEntity
-//                && !TextUtils.isEmpty(channelEntity.getChannel()))
-//            mContext.channelRequestFocus(channelEntity.getChannel());
+        if (null != channelEntity
+                && !TextUtils.isEmpty(channelEntity.getChannel()))
+            mContext.channelRequestFocus(channelEntity.getChannel());
     }
 
     protected View.OnClickListener ItemClickListener = new View.OnClickListener() {

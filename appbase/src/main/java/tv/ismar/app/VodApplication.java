@@ -91,7 +91,6 @@ public class VodApplication extends Application {
         appInstance = this;
         ActiveAndroid.initialize(this);
         AccountSharedPrefs.initialize(this);
-        AppConfigHelper.init(this);
         load(this);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();

@@ -27,7 +27,7 @@ import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.client.IsmartvUrlClient;
 import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.util.HardwareUtils;
-import tv.ismar.homepage.view.TVGuideFragment;
+import tv.ismar.homepage.activity.TVGuideActivity;
 
 /**
  * Created by huaijie on 10/22/15.
@@ -74,8 +74,8 @@ public class AppUpdateUtilsV2 {
         HashMap<String, String> paramters = new HashMap<String,String>();
         paramters.put("sn", SimpleRestClient.sn_token);
 
-        if(TVGuideFragment.brandName != null){
-            paramters.put("manu", TVGuideFragment.brandName);
+        if(TVGuideActivity.brandName != null){
+            paramters.put("manu", TVGuideActivity.brandName);
         }else{
             paramters.put("manu", "sharp");
         }

@@ -1,5 +1,4 @@
-package tv.ismar.homepage.view;
-
+package tv.ismar.daisy;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -7,10 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.VideoView;
@@ -22,12 +18,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.ad.AdvertiseManager;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.util.Utils;
-import tv.ismar.homepage.R;
 
-public class AdvertisementFragment extends Fragment {
+public class AdvertisementActivity extends BaseActivity {
 
     private static final String TAG = "LH/AdvertiseActivity";
 
@@ -44,36 +40,23 @@ public class AdvertisementFragment extends Fragment {
     private boolean isPlayingVideo = false;
     private int playIndex;
 
-    public AdvertisementFragment() {
-        // Required empty public constructor
-    }
-
-    public static AdvertisementFragment newInstance() {
-        AdvertisementFragment fragment = new AdvertisementFragment();
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_advertisement);
+        ad_video = (VideoView) findViewById(R.id.ad_video);
+        ad_pic = (ImageView) findViewById(R.id.ad_pic);
+        ad_timer = (Button) findViewById(R.id.ad_timer);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View contentView = inflater.inflate(R.layout.fragment_advertisement, container, false);
-        ad_video = (VideoView) contentView.findViewById(R.id.ad_video);
-        ad_pic = (ImageView) contentView.findViewById(R.id.ad_pic);
-        ad_timer = (Button) contentView.findViewById(R.id.ad_timer);
-
-        advertiseManager = new AdvertiseManager(getActivity().getApplicationContext());
+        advertiseManager = new AdvertiseManager(getApplicationContext());
         launchAds = advertiseManager.getAppLaunchAdvertisement();
         for (AdvertiseTable adTable : launchAds) {
             int duration = adTable.duration;
             countAdTime += duration;
         }
         playLaunchAd(0);
-        return contentView;
+
     }
 
     private void playLaunchAd(final int index) {
@@ -94,7 +77,7 @@ public class AdvertisementFragment extends Fragment {
                 ad_video.setVisibility(View.GONE);
                 ad_pic.setVisibility(View.VISIBLE);
             }
-            Picasso.with(getActivity())
+            Picasso.with(this)
                     .load(launchAds.get(index).location)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
@@ -108,7 +91,7 @@ public class AdvertisementFragment extends Fragment {
 
                         @Override
                         public void onError() {
-                            ad_pic.setImageBitmap(Utils.getImgFromAssets(getActivity(), "poster.png"));
+                            ad_pic.setImageBitmap(Utils.getImgFromAssets(AdvertisementActivity.this, "poster.png"));
                             if (playIndex == 0) {
                                 mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
                             }
@@ -156,7 +139,7 @@ public class AdvertisementFragment extends Fragment {
                     if (ad_timer.getVisibility() != View.VISIBLE) {
                         ad_timer.setVisibility(View.VISIBLE);
                     }
-                    ad_timer.setText(countAdTime + "s");
+                    ad_timer.setText(String.valueOf(countAdTime));
                     int refreshTime;
                     if (!isPlayingVideo) {
                         refreshTime = 1000;
@@ -183,7 +166,7 @@ public class AdvertisementFragment extends Fragment {
     };
 
     @Override
-    public void onStop() {
+    protected void onStop() {
         if (ad_video != null) {
             ad_video.stopPlayback();
         }
@@ -194,9 +177,9 @@ public class AdvertisementFragment extends Fragment {
     }
 
     private void goNextPage() {
-        if (onHideAdPageListener != null) {
-            onHideAdPageListener.onHide();
-        }
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private int getAdCountDownTime() {
@@ -214,17 +197,4 @@ public class AdvertisementFragment extends Fragment {
         }
         return totalAdTime - ad_video.getCurrentPosition() / 1000 - 1;
     }
-
-    private OnHideAdPageListener onHideAdPageListener;
-
-    public void setOnHideAdPageListener(OnHideAdPageListener onHideAdPageListener) {
-        this.onHideAdPageListener = onHideAdPageListener;
-    }
-
-    public interface OnHideAdPageListener {
-
-        void onHide();
-
-    }
-
 }

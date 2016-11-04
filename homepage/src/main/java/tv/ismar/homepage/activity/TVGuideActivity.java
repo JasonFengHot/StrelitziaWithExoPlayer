@@ -1,4 +1,4 @@
-package tv.ismar.homepage.view;
+package tv.ismar.homepage.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,14 +9,15 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,7 +30,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
@@ -39,8 +39,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.blankj.utilcode.utils.StringUtils;
+import com.google.gson.Gson;
+import com.konka.android.media.KKMediaPlayer;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,21 +59,21 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.ad.AdsUpdateService;
+import tv.ismar.app.ad.AdvertiseManager;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.MessageQueue;
+import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
-import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.player.CallaPlay;
-import tv.ismar.app.util.AppConfigHelper;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LaunchHeaderLayout;
@@ -79,26 +86,54 @@ import tv.ismar.homepage.fragment.ChildFragment;
 import tv.ismar.homepage.fragment.EntertainmentFragment;
 import tv.ismar.homepage.fragment.FilmFragment;
 import tv.ismar.homepage.fragment.GuideFragment;
+import tv.ismar.homepage.fragment.MessageDialogFragment;
 import tv.ismar.homepage.fragment.SportFragment;
 import tv.ismar.homepage.widget.ItemViewFocusChangeListener;
 import tv.ismar.homepage.widget.MessagePopWindow;
 import tv.ismar.homepage.widget.Position;
 
+//import org.apache.commons.lang3.StringUtils;
+
 /**
- * A simple {@link Fragment} subclass.
+ * Created by huaijie on 5/18/15.
  */
-public class TVGuideFragment extends Fragment {
-
-    private static final String ARG_TEMPLATE = "ARG_TEMPLATE";
-    private static final String ARG_URL = "ARG_URL";
-    private HomePageActivity mActivity;
-
-    private static final String TAG = "LH/TVGuideFragment";
+public class TVGuideActivity extends BaseActivity {
+    private static final String TAG = "TVGuideActivity";
     private static final int SWITCH_PAGE = 0X01;
     private static final int SWITCH_PAGE_FROMLAUNCH = 0X02;
     private AppUpdateReceiver appUpdateReceiver;
     private ChannelBaseFragment currentFragment;
     private ChannelBaseFragment lastFragment;
+    /**
+     * advertisement start
+     */
+//    private static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
+//    private static final int TIME_COUNTDOWN = 0x0001;
+//
+//    private static final int[] secondsResId = {R.drawable.second_1, R.drawable.second_1, R.drawable.second_2,
+//            R.drawable.second_3, R.drawable.second_4, R.drawable.second_5};
+//    private ImageView adverPic;
+//    private ImageView timerText;
+//    private Handler messageHandler;
+//    private AdvertisementManager mAdvertisementManager;
+    private static final int MSG_AD_COUNTDOWN = 0x01;
+    private VideoView ad_video;
+    private ImageView ad_pic;
+    private Button ad_timer;
+    private AdvertiseManager advertiseManager;
+    private List<AdvertiseTable> launchAds;
+    private int countAdTime = 0;
+    private int currentImageAdCountDown = 0;
+    private boolean isStartImageCountDown = false;
+    private boolean isPlayingVideo = false;
+    private int playIndex;
+    private FrameLayout layout_advertisement;
+    private LinearLayout layout_homepage;
+    /**
+     * advertisement end
+     */
+
+
     /**
      * PopupWindow
      */
@@ -194,23 +229,15 @@ public class TVGuideFragment extends Fragment {
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
                 int i = v.getId();
-                if (i == R.id.fragment_arrow_scroll_left) {
+                if (i == R.id.arrow_scroll_left) {
                     scrollFromBorder = true;
                     scrollType = ScrollType.left;
                     channelChange = ChannelChange.LEFT_ARROW;
-//                        if (mCurrentChannelPosition.getPosition() - 1 >= 0) {
-//                            mCurrentChannelPosition.setPosition(mCurrentChannelPosition.getPosition() - 1);
-//                        } else {
-//                            mCurrentChannelPosition.setPosition(0);
-//                        }
-                    // longhai add
                     recyclerAdapter.arrowScroll(View.FOCUS_LEFT, true);
-//                        scroll.isRequestFocus(false);
-//                        scroll.arrowScroll(View.FOCUS_LEFT);
                     rightscroll = true;
 
 
-                } else if (i == R.id.fragment_arrow_scroll_right) {
+                } else if (i == R.id.arrow_scroll_right) {
                     scrollFromBorder = true;
                     scrollType = ScrollType.right;
                     channelChange = ChannelChange.RIGHT_ARROW;
@@ -277,7 +304,7 @@ public class TVGuideFragment extends Fragment {
             return;
         }
         int tabMargin = getResources().getDimensionPixelSize(R.dimen.tv_guide_channel_margin_lr) - mTabSpace;
-        int tabRightX = Util.getDisplayPixelWidth(mActivity) - tabMargin;
+        int tabRightX = Util.getDisplayPixelWidth(TVGuideActivity.this) - tabMargin;
         int[] currentPos = new int[2];
         view.getLocationOnScreen(currentPos);
         int currentWidth = view.getWidth();
@@ -319,46 +346,50 @@ public class TVGuideFragment extends Fragment {
         }
     }
 
-
-    public TVGuideFragment() {
-        // Required empty public constructor
-    }
-
-    public static TVGuideFragment newInstance(String template, String url) {
-        TVGuideFragment fragment = new TVGuideFragment();
-        if (!Utils.isEmptyText(template) && !Utils.isEmptyText(url)) {
-            Bundle args = new Bundle();
-            args.putString(ARG_TEMPLATE, template);
-            args.putString(ARG_URL, url);
-            fragment.setArguments(args);
-        }
-        return fragment;
-    }
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            homepage_template = getArguments().getString(ARG_TEMPLATE);
-            homepage_url = getArguments().getString(ARG_URL);
-        }
-        mActivity = (HomePageActivity) getActivity();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        contentView = inflater.inflate(R.layout.fragment_tvguide, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
+        if (savedInstanceState != null)
+            savedInstanceState = null;
+         super.onCreate(savedInstanceState);
+//        new Thread(new InitializeProcess(this)).start();
         fragmentSwitch = new FragmentSwitchHandler(this);
+        activityTag = "BaseActivity";
         registerUpdateReceiver();
-        final View vv = contentView.findViewById(R.id.large_layout);
+        contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
+        setContentView(contentView);
+        /**
+         * advertisement start
+         */
+        layout_advertisement = (FrameLayout) findViewById(R.id.layout_advertisement);
+        layout_homepage = (LinearLayout) findViewById(R.id.layout_homepage);
+        ad_video = (VideoView) findViewById(R.id.ad_video);
+        ad_pic = (ImageView) findViewById(R.id.ad_pic);
+        ad_timer = (Button) findViewById(R.id.ad_timer);
+
+        advertiseManager = new AdvertiseManager(getApplicationContext());
+        launchAds = advertiseManager.getAppLaunchAdvertisement();
+        for (AdvertiseTable adTable : launchAds) {
+            int duration = adTable.duration;
+            countAdTime += duration;
+        }
+        playLaunchAd(0);
+        /**
+         * advertisement end
+         */
+
+        homepage_template = getIntent().getStringExtra("homepage_template");
+        homepage_url = getIntent().getStringExtra("homepage_url");
+        final View vv = findViewById(R.id.large_layout);
         bitmapDecoder = new BitmapDecoder();
-        bitmapDecoder.decode(mActivity, R.drawable.main_bg, new BitmapDecoder.Callback() {
+        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
             @Override
             public void onSuccess(BitmapDrawable bitmapDrawable) {
                 vv.setBackgroundDrawable(bitmapDrawable);
             }
         });
+
+
         vv.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -376,18 +407,16 @@ public class TVGuideFragment extends Fragment {
                 return ret;
             }
         });
-        return contentView;
-    }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initViews(view);
+        initViews();
         initTabView();
         getHardInfo();
+        Properties sysProperties = new Properties();
         try {
-            brandName = AppConfigHelper.getPlatform();
-        } catch (IOException | IllegalAccessException e) {
+            InputStream is = getAssets().open("configure/setup.properties");
+            sysProperties.load(is);
+            brandName = sysProperties.getProperty("platform");
+        } catch (IOException e) {
             e.printStackTrace();
         }
         fetchChannels();
@@ -413,15 +442,14 @@ public class TVGuideFragment extends Fragment {
 
     private int mTabSpace;
 
-    private void initViews(View view) {
+    private void initViews() {
 
-        topView = (LaunchHeaderLayout) view.findViewById(R.id.top_column_layout);
-        toppanel = (FrameLayout) view.findViewById(R.id.top_column_layout);
-        recycler_tab_list = (RecyclerView) view.findViewById(R.id.recycler_tab_list);
-        recyclerAdapter = new ChannelRecyclerAdapter(mActivity, channelEntityList, recycler_tab_list);
+        toppanel = (FrameLayout) findViewById(R.id.top_column_layout);
+        recycler_tab_list = (RecyclerView) findViewById(R.id.recycler_tab_list);
+        recyclerAdapter = new ChannelRecyclerAdapter(this, channelEntityList, recycler_tab_list);
         recycler_tab_list.setAdapter(recyclerAdapter);
         recycler_tab_list.setItemAnimator(new DefaultItemAnimator());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler_tab_list.setLayoutManager(layoutManager);
         mTabSpace = getResources().getDimensionPixelSize(R.dimen.tv_guide_h_grid_view_horizontalSpacing);
@@ -431,11 +459,11 @@ public class TVGuideFragment extends Fragment {
                 recyclerAdapter);
         recycler_tab_list.addItemDecoration(decoration);
 
-        tabListView = (LinearLayout) view.findViewById(R.id.tab_list);
-        arrow_left = (ImageView) view.findViewById(R.id.fragment_arrow_scroll_left);
-        arrow_right = (ImageView) view.findViewById(R.id.fragment_arrow_scroll_right);
-        arrow_left_visible = (ImageView) view.findViewById(R.id.arrow_scroll_left_visible);
-        arrow_right_visible = (ImageView) view.findViewById(R.id.arrow_scroll_right_visible);
+        tabListView = (LinearLayout) findViewById(R.id.tab_list);
+        arrow_left = (ImageView) findViewById(R.id.arrow_scroll_left);
+        arrow_right = (ImageView) findViewById(R.id.arrow_scroll_right);
+        arrow_left_visible = (ImageView) findViewById(R.id.arrow_scroll_left_visible);
+        arrow_right_visible = (ImageView) findViewById(R.id.arrow_scroll_right_visible);
         arrow_left_visible.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -457,7 +485,7 @@ public class TVGuideFragment extends Fragment {
 
         arrow_left.setOnFocusChangeListener(scrollViewListener);
         arrow_right.setOnFocusChangeListener(scrollViewListener);
-        guide_shadow_view = (ImageView) view.findViewById(R.id.guide_shadow_view);
+        guide_shadow_view = (ImageView) findViewById(R.id.guide_shadow_view);
 
         recycler_tab_list.requestFocus();
         recyclerAdapter.setOnItemActionListener(new OnItemActionListener() {
@@ -501,7 +529,7 @@ public class TVGuideFragment extends Fragment {
         recycler_tab_list.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Log.i("LH/", "onFocusChange:" + hasFocus + " hover:" + hoverOnArrow + " v:" + v.isHovered());
+                Log.i("LH/","onFocusChange:"+hasFocus + " hover:"+ hoverOnArrow+ " v:"+v.isHovered());
                 View currentView = recycler_tab_list.getLayoutManager().findViewByPosition(recyclerAdapter.getSelectedPosition());
                 if (currentView != null) {
                     if (hasFocus) {
@@ -619,6 +647,7 @@ public class TVGuideFragment extends Fragment {
 
     }
 
+    @Override
     public void onBackPressed() {
         showExitPopup(contentView);
     }
@@ -634,7 +663,7 @@ public class TVGuideFragment extends Fragment {
             if (i != res.length - 1) {
                 layoutParams.setMargins(0, 0, 68, 0);
             }
-            ImageView imageView = new ImageView(mActivity);
+            ImageView imageView = new ImageView(this);
             imageView.setImageResource(res[i]);
             imageView.setFocusable(true);
             imageView.setFocusableInTouchMode(true);
@@ -651,11 +680,11 @@ public class TVGuideFragment extends Fragment {
      * fetch channel
      */
     private void fetchChannels() {
-        ((HomePageActivity)getActivity()).mSkyService.fetchDpi();
-        ((HomePageActivity)getActivity()).mSkyService.apiTvChannels()
+        mSkyService.fetchDpi();
+        mSkyService.apiTvChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(((HomePageActivity) getActivity()).new BaseObserver<ChannelEntity[]>() {
+                .subscribe(new BaseObserver<ChannelEntity[]>() {
                     @Override
                     public void onCompleted() {
 
@@ -669,7 +698,6 @@ public class TVGuideFragment extends Fragment {
     }
 
     private void fillChannelLayout(ChannelEntity[] channelEntities) {
-        Log.i(TAG, "fillChannelLayout:" + channelEntities.length);
         if (neterrorshow)
             return;
         topView.setVisibility(View.VISIBLE);
@@ -690,20 +718,20 @@ public class TVGuideFragment extends Fragment {
         }
         recyclerAdapter.notifyDataSetChanged();
 //                createChannelView();
-        if (brandName != null && brandName.toLowerCase().contains("changhong")) {
+        if(brandName!= null && brandName.toLowerCase().contains("changhong")){
             homepage_template = "template3";
         }
-        if (!Utils.isEmptyText(homepage_template)) {
+        if (!StringUtils.isEmpty(homepage_template)) {
             for (int i = 0; i < mChannelEntitys.length; i++) {
-                if (brandName != null && brandName.toLowerCase().contains("changhong")) {
-                    if ("sport".equalsIgnoreCase(mChannelEntitys[i].getChannel())) {
+                if(brandName!= null && brandName.toLowerCase().contains("changhong")){
+                    if("sport".equalsIgnoreCase(mChannelEntitys[i].getChannel())){
                         channelscrollIndex = i + 1;
                         scrollType = ScrollType.none;
                         recyclerAdapter.setSelectedPosition(channelscrollIndex);
                         mCurrentChannelPosition.setPosition(channelscrollIndex);
                         topView.setSubTitle(mChannelEntitys[i].getName());
                     }
-                } else {
+                }else {
                     if (homepage_template.equals(mChannelEntitys[i].getHomepage_template()) && mChannelEntitys[i].getHomepage_url().contains(homepage_url)) {
                         channelscrollIndex = i + 1;
                         Log.i("LH/", "channelscrollIndex:" + channelscrollIndex);
@@ -719,7 +747,7 @@ public class TVGuideFragment extends Fragment {
                 }
             }
         }
-        if (currentFragment == null && !mActivity.isFinishing() && channelscrollIndex <= 0) {
+        if (currentFragment == null && !isFinishing() && channelscrollIndex <= 0) {
             try {
                 currentFragment = new GuideFragment();
                 lastFragment = currentFragment;
@@ -728,7 +756,7 @@ public class TVGuideFragment extends Fragment {
                 launcher.setName("首页");
                 launcher.setHomepage_template("launcher");
                 currentFragment.setChannelEntity(channelEntity);
-                FragmentTransaction transaction = getChildFragmentManager()
+                FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
                 transaction.replace(R.id.container, currentFragment, "template").commitAllowingStateLoss();
                 recycler_tab_list.requestFocus();
@@ -803,7 +831,7 @@ public class TVGuideFragment extends Fragment {
         appUpdateReceiver = new AppUpdateReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(AppConstant.APP_UPDATE_ACTION);
-        mActivity.registerReceiver(appUpdateReceiver, intentFilter);
+        registerReceiver(appUpdateReceiver, intentFilter);
     }
 
     /**
@@ -830,7 +858,8 @@ public class TVGuideFragment extends Fragment {
      * @param bundle update data
      */
     private void showUpdatePopup(View view, Bundle bundle) {
-        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.popup_update, null);
+        final Context context = this;
+        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
         contentView.setBackgroundResource(R.drawable.app_update_bg);
         guide_shadow_view.setVisibility(View.VISIBLE);
         float density = getResources().getDisplayMetrics().density;
@@ -858,7 +887,7 @@ public class TVGuideFragment extends Fragment {
         layoutParams.topMargin = (int) (getResources().getDimension(R.dimen.app_update_line_margin_));
 
         for (String msg : msgs) {
-            View textLayout = LayoutInflater.from(mActivity).inflate(R.layout.update_msg_text_item, null);
+            View textLayout = LayoutInflater.from(this).inflate(R.layout.update_msg_text_item, null);
             TextView textView = (TextView) textLayout.findViewById(R.id.update_msg_text);
             textView.setText(msg);
             updateMsgLayout.addView(textLayout);
@@ -869,7 +898,7 @@ public class TVGuideFragment extends Fragment {
             public void onClick(View v) {
                 updatePopupWindow.dismiss();
                 guide_shadow_view.setVisibility(View.GONE);
-                installApk(mActivity, path);
+                installApk(context, path);
             }
         });
     }
@@ -883,7 +912,7 @@ public class TVGuideFragment extends Fragment {
     }
 
     private void showExitPopup(View view) {
-        exitPopupWindow = new MessagePopWindow(mActivity);
+        exitPopupWindow = new MessagePopWindow(this);
         exitPopupWindow.setFirstMessage(R.string.exit_prompt);
 //        WindowManager.LayoutParams lp = getWindow().getAttributes();
 //              lp.alpha = 0.5f;
@@ -902,19 +931,19 @@ public class TVGuideFragment extends Fragment {
                         exitPopupWindow.dismiss();
                         CallaPlay callaPlay = new CallaPlay();
 //                        callaPlay.app_exit(TrueTime.now().getTime() - app_start_time, SimpleRestClient.appVersion);
-                        callaPlay.app_exit(System.currentTimeMillis() - mActivity.app_start_time, SimpleRestClient.appVersion);
-                        mActivity.finish();
+                        callaPlay.app_exit(System.currentTimeMillis()- app_start_time, SimpleRestClient.appVersion);
+                        TVGuideActivity.this.finish();
                         ArrayList<String> cache_log = MessageQueue.getQueueList();
                         HashSet<String> hasset_log = new HashSet<String>();
                         for (int i = 0; i < cache_log.size(); i++) {
                             hasset_log.add(cache_log.get(i));
                         }
                         DaisyUtils
-                                .getVodApplication(mActivity)
+                                .getVodApplication(TVGuideActivity.this)
                                 .getEditor()
                                 .putStringSet(VodApplication.CACHED_LOG,
                                         hasset_log);
-                        DaisyUtils.getVodApplication(getActivity().getApplicationContext())
+                        DaisyUtils.getVodApplication(getApplicationContext())
                                 .save();
                         System.exit(0);
                     }
@@ -932,16 +961,42 @@ public class TVGuideFragment extends Fragment {
 
     private boolean neterrorshow = false;
 
-    public void showNetErrorPopup() {
+    private void showNetErrorPopup() {
         if (neterrorshow)
             return;
-        ((BaseActivity)getActivity()).showNetWorkErrorDialog(null);
+        final MessageDialogFragment dialog = new MessageDialogFragment(TVGuideActivity.this, getString(R.string.fetch_net_data_error), null);
+        dialog.setButtonText(getString(R.string.setting_network), getString(R.string.i_know));
+        try {
+            dialog.showAtLocation(contentView, Gravity.CENTER,
+                    new MessageDialogFragment.ConfirmListener() {
+                        @Override
+                        public void confirmClick(View view) {
+                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                            TVGuideActivity.this.startActivity(intent);
+                        }
+                    }, new MessageDialogFragment.CancelListener() {
+
+                        @Override
+                        public void cancelClick(View view) {
+                            dialog.dismiss();
+                            neterrorshow = true;
+                        }
+                    });
+            dialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    neterrorshow = true;
+                }
+            });
+            neterrorshow = true;
+        } catch (android.view.WindowManager.BadTokenException e) {
+            e.printStackTrace();
+        }
     }
 
     BitmapDecoder ddddBitmapDecoder;
 
     private void selectChannelByPosition(int position) {
-        Log.i(TAG, "selectChannelByPosition:" + position);
         String tag;
         if (lastchannelindex != -1) {
             if (lastchannelindex < position) {
@@ -998,7 +1053,7 @@ public class TVGuideFragment extends Fragment {
 //                                              ddddBitmapDecoder.interrupt();
                     }
                     ddddBitmapDecoder = new BitmapDecoder();
-                    ddddBitmapDecoder.decode(mActivity, R.drawable.main_bg,
+                    ddddBitmapDecoder.decode(this, R.drawable.main_bg,
                             new BitmapDecoder.Callback() {
                                 @Override
                                 public void onSuccess(
@@ -1014,7 +1069,7 @@ public class TVGuideFragment extends Fragment {
                         ddddBitmapDecoder.removeAllCallback();
                     }
                     ddddBitmapDecoder = new BitmapDecoder();
-                    ddddBitmapDecoder.decode(mActivity,
+                    ddddBitmapDecoder.decode(this,
                             R.drawable.channel_child_bg,
                             new BitmapDecoder.Callback() {
                                 @Override
@@ -1035,12 +1090,12 @@ public class TVGuideFragment extends Fragment {
             currentFragment.setBottomFlag(lastviewTag);
         }
         currentFragment.setChannelEntity(channelEntity);
-        ChannelBaseFragment t = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template");
-        ChannelBaseFragment t1 = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template1");
-        ChannelBaseFragment t2 = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template2");
-        ChannelBaseFragment t3 = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template3");
-        ChannelBaseFragment t4 = (ChannelBaseFragment) getChildFragmentManager().findFragmentByTag("template4");
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        ChannelBaseFragment t = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template");
+        ChannelBaseFragment t1 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template1");
+        ChannelBaseFragment t2 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template2");
+        ChannelBaseFragment t3 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template3");
+        ChannelBaseFragment t4 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template4");
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if ("template".equals(tag)) {
             if (t1 != null)
                 transaction.hide(t1);
@@ -1248,13 +1303,13 @@ public class TVGuideFragment extends Fragment {
 
     private void getHardInfo() {
         DisplayMetrics metric = new DisplayMetrics();
-        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
         SimpleRestClient.densityDpi = metric.densityDpi;
         SimpleRestClient.screenWidth = metric.widthPixels;
         SimpleRestClient.screenHeight = metric.heightPixels;
-        PackageManager manager = mActivity.getPackageManager();
+        PackageManager manager = getPackageManager();
         try {
-            PackageInfo info = manager.getPackageInfo(mActivity.getPackageName(), 0);
+            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
             SimpleRestClient.appVersion = info.versionCode;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
@@ -1287,15 +1342,32 @@ public class TVGuideFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-        neterrorshow = false;
+        neterrorshow=false;
         channelscrollIndex = 0;
-
+        topView = (LaunchHeaderLayout) findViewById(R.id.top_column_layout);
+        try {
+            Class.forName("com.konka.android.media.KKMediaPlayer");
+            KKMediaPlayer localKKMediaPlayer1 = new KKMediaPlayer();
+            KKMediaPlayer.setContext(this);
+            localKKMediaPlayer1.setAspectRatio(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void onPause() {
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(!DaisyUtils.isNetworkAvailable(this)){
+            Log.e("tvguide","onresume Isnetwork");
+            showNetErrorPopup();
+        }
+    }
+
+    @Override
+    protected void onPause() {
         super.onPause();
         if (netErrorPopupHandler != null && netErrorPopupRunnable != null) {
             netErrorPopupHandler.removeCallbacks(netErrorPopupRunnable);
@@ -1307,8 +1379,8 @@ public class TVGuideFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        mActivity.unregisterReceiver(appUpdateReceiver);
+    protected void onDestroy() {
+        unregisterReceiver(appUpdateReceiver);
         if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
             bitmapDecoder.interrupt();
         }
@@ -1324,16 +1396,18 @@ public class TVGuideFragment extends Fragment {
         super.onDestroy();
     }
 
-    protected void onNewIntent(String template, String url) {
-        homepage_template = template;
-        homepage_url = url;
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        homepage_template = intent.getStringExtra("homepage_template");
+        homepage_url = intent.getStringExtra("homepage_url");
         if (StringUtils.isEmpty(homepage_template)
                 || StringUtils.isEmpty(homepage_url)) {
-//                      fetchChannels();
+                      fetchChannels();
         } else {
-            if (!Utils.isEmptyText(SimpleRestClient.root_url)) {
+//            if (StringUtils.isNotEmpty(SimpleRestClient.root_url)) {
                 fetchChannels();
-            }
+//            }
         }
     }
 
@@ -1352,6 +1426,7 @@ public class TVGuideFragment extends Fragment {
         right;
     }
 
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ("lcd_s3a01".equals(VodUserAgent.getModelName())) {
             if (keyCode == 707 || keyCode == 774 || keyCode == 253) {
@@ -1371,25 +1446,33 @@ public class TVGuideFragment extends Fragment {
                 recycler_tab_list.setHovered(false);
                 break;
         }
-        return false;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_MOVE) {
+            return true;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private static int nextselectflag;
 
     static class FragmentSwitchHandler extends Handler {
-        private WeakReference<TVGuideFragment> weakReference;
+        private WeakReference<TVGuideActivity> weakReference;
 
-        public FragmentSwitchHandler(TVGuideFragment activity) {
-            weakReference = new WeakReference<TVGuideFragment>(activity);
+        public FragmentSwitchHandler(TVGuideActivity activity) {
+            weakReference = new WeakReference<TVGuideActivity>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            TVGuideFragment fragment = weakReference.get();
-            if (fragment != null) {
+            TVGuideActivity activity = weakReference.get();
+            if (activity != null) {
                 switch (msg.what) {
                     case SWITCH_PAGE:
-                        fragment.selectChannelByPosition(msg.arg1);
+                        activity.selectChannelByPosition(msg.arg1);
                         break;
                     case SWITCH_PAGE_FROMLAUNCH:
 
@@ -1412,5 +1495,163 @@ public class TVGuideFragment extends Fragment {
             }
         }
     }
+
+    /**
+     *
+     * advertisement start
+     */
+    private void playLaunchAd(final int index) {
+        playIndex = index;
+        if (launchAds.get(index).media_type.equals(AdvertiseManager.TYPE_VIDEO)) {
+            isPlayingVideo = true;
+        }
+        if (isPlayingVideo) {
+            if (ad_video.getVisibility() != View.VISIBLE) {
+                ad_pic.setVisibility(View.GONE);
+                ad_video.setVisibility(View.VISIBLE);
+            }
+            ad_video.setVideoPath(launchAds.get(index).location);
+            ad_video.setOnPreparedListener(onPreparedListener);
+            ad_video.setOnCompletionListener(onCompletionListener);
+        } else {
+            if (ad_pic.getVisibility() != View.VISIBLE) {
+                ad_video.setVisibility(View.GONE);
+                ad_pic.setVisibility(View.VISIBLE);
+            }
+            Picasso.with(this)
+                    .load(launchAds.get(index).location)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
+                    .into(ad_pic, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            if (playIndex == 0) {
+                                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+                            }
+                        }
+
+                        @Override
+                        public void onError() {
+                            ad_pic.setImageBitmap(Utils.getImgFromAssets(TVGuideActivity.this, "poster.png"));
+                            if (playIndex == 0) {
+                                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+                            }
+                        }
+                    });
+        }
+
+    }
+
+    private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+            ad_video.start();
+            if (playIndex == 0) {
+                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+            }
+        }
+    };
+
+    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            if (playIndex == launchAds.size() - 1) {
+                mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                goNextPage();
+                return;
+            }
+            playLaunchAd(playIndex++);
+        }
+    };
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_AD_COUNTDOWN:
+                    if (ad_timer == null) {
+                        return;
+                    }
+                    if (!isPlayingVideo && countAdTime == 0) {
+                        mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                        goNextPage();
+                        return;
+                    }
+                    if (ad_timer.getVisibility() != View.VISIBLE) {
+                        ad_timer.setVisibility(View.VISIBLE);
+                    }
+                    ad_timer.setText(String.valueOf(countAdTime));
+                    int refreshTime;
+                    if (!isPlayingVideo) {
+                        refreshTime = 1000;
+                        if (currentImageAdCountDown == 0 && !isStartImageCountDown) {
+                            currentImageAdCountDown = launchAds.get(playIndex).duration;
+                            isStartImageCountDown = true;
+                        } else {
+                            if (currentImageAdCountDown == 0) {
+                                playLaunchAd(playIndex++);
+                                isStartImageCountDown = false;
+                            } else {
+                                currentImageAdCountDown--;
+                            }
+                        }
+                        countAdTime--;
+                    } else {
+                        refreshTime = 500;
+                        countAdTime = getAdCountDownTime();
+                    }
+                    sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, refreshTime);
+                    break;
+            }
+        }
+    };
+
+    @Override
+    protected void onStop() {
+        if (ad_video != null) {
+            ad_video.stopPlayback();
+        }
+        if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+            mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        }
+        super.onStop();
+    }
+
+    private void goNextPage() {
+        layout_advertisement.setVisibility(View.GONE);
+        layout_homepage.setVisibility(View.VISIBLE);
+        if (ad_video != null) {
+            ad_video.stopPlayback();
+        }
+        if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+            mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        }
+        startAdsService();
+    }
+
+    private int getAdCountDownTime() {
+        if (launchAds == null || launchAds.isEmpty() || !isPlayingVideo) {
+            return 0;
+        }
+        int totalAdTime = 0;
+        int currentAd = playIndex;
+        if (currentAd == launchAds.size() - 1) {
+            totalAdTime = launchAds.get(launchAds.size() - 1).duration;
+        } else {
+            for (int i = currentAd; i < launchAds.size(); i++) {
+                totalAdTime += launchAds.get(i).duration;
+            }
+        }
+        return totalAdTime - ad_video.getCurrentPosition() / 1000 - 1;
+    }
+
+    private void startAdsService() {
+        Intent intent = new Intent();
+        intent.setClass(this, AdsUpdateService.class);
+        startService(intent);
+    }
+    /**
+     * advertisement end
+     */
 
 }
