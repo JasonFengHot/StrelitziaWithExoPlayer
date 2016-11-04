@@ -1412,5 +1412,6 @@
 <dimen name="ad_text_margin_left">8.44dp</dimen>
 
 <dimen name="ad_timer_wh">42.22dp</dimen>
-<dimen name="ad_timer_mtr">17.78dp</dimen>
+<dimen name="ad_timer_mt">17.78dp</dimen>
+<dimen name="ad_timer_mr">17.78dp</dimen>
 </resources>

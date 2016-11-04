@@ -1,6 +1,5 @@
 package tv.ismar.daisy;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -177,9 +176,7 @@ public class AdvertisementActivity extends BaseActivity {
     }
 
     private void goNextPage() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        // TODO
     }
 
     private int getAdCountDownTime() {

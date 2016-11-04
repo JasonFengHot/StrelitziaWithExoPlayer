@@ -1580,7 +1580,7 @@ public class TVGuideActivity extends BaseActivity {
                     if (ad_timer.getVisibility() != View.VISIBLE) {
                         ad_timer.setVisibility(View.VISIBLE);
                     }
-                    ad_timer.setText(String.valueOf(countAdTime));
+                    ad_timer.setText(countAdTime + "s");
                     int refreshTime;
                     if (!isPlayingVideo) {
                         refreshTime = 1000;

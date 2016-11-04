@@ -162,6 +162,7 @@
             android:gravity="center"
             android:textColor="@color/module_color_white"
             android:textSize="@dimen/h1_size"
+            android:textAllCaps="false"
             android:visibility="gone" />
     </FrameLayout>
 </FrameLayout>

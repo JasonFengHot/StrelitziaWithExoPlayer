@@ -689,7 +689,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             // TODO 用户去连接网络过程是否推出播放器,涉及到底层下载文件问题
             if (mCurrentPosition == mediaPosition) {
                 if (!NetworkUtils.isConnected(getActivity())) {
-                    showExitPopup("网络错误", false);
+                    ((BaseActivity)getActivity()).showNetWorkErrorDialog(null);
                     Log.e(TAG, "Network error.");
                     return;
                 }
