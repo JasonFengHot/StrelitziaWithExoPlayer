@@ -15,6 +15,8 @@ import cn.ismartv.truetime.TrueTime;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.entity.Clip;
@@ -62,35 +64,49 @@ public class InitPlayerTool {
     }
 	private Item item = null;
 	// 初始化播放地址url
-	private class ItemByUrlTask extends AsyncTask<Object, Void, String> {
+	private class ItemByUrlTask extends AsyncTask<Object, Void, Item> {
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(Item result) {
+			if(mListener!=null)
+				mListener.onPostExecute();
 			if(isLiveVideoNotStart){
 				Toast.makeText(mContext, "直播节目还未开始！", Toast.LENGTH_SHORT).show();
 				isLiveVideoNotStart = false;
 				return;
 			}
-			if(result.equals("iqiyi")){
-				intent.setAction("tv.ismar.daisy.qiyiPlay");
-				String info = AccessProxy.getvVideoClipInfo();
-				intent.putExtra("iqiyi", info);		
+			if(result != null){
+				Intent newIntent = new Intent();
+				intent.setAction("tv.ismar.daisy.Player");
+				newIntent.putExtra(PageIntentInterface.EXTRA_PK, result.item_pk);
+				newIntent.putExtra(PageIntentInterface.EXTRA_SOURCE, result.fromPage);
+				if(result.pk != result.item_pk){
+					newIntent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, result.pk);
+				}
+				if (!mIsPreviewVideo) {
+					mContext.startActivity(newIntent);
+				} else {
+					((Activity) mContext).startActivityForResult(newIntent, 20);
+				}
 			}
-			else{
-				String ismartv = AccessProxy.getvVideoClipInfo();
-				intent.setAction("tv.ismar.daisy.Play");
-				intent.putExtra("ismartv", ismartv);
-			}
-			if(!"".equals(result))
-				if(!mIsPreviewVideo)
-				   mContext.startActivity(intent);
-				else
-			       ((Activity)mContext).startActivityForResult(intent, 20);
-			if(mListener!=null)
-				mListener.onPostExecute();	
+//			if(result.equals("iqiyi")){
+//				intent.setAction("tv.ismar.daisy.qiyiPlay");
+//				String info = AccessProxy.getvVideoClipInfo();
+//				intent.putExtra("iqiyi", info);
+//			}
+//			else{
+//				String ismartv = AccessProxy.getvVideoClipInfo();
+//				intent.setAction("tv.ismar.daisy.Play");
+//				intent.putExtra("ismartv", ismartv);
+//			}
+//			if(!"".equals(result))
+//				if(!mIsPreviewVideo)
+//				   mContext.startActivity(intent);
+//				else
+//			       ((Activity)mContext).startActivityForResult(intent, 20);
 		}
 		@Override
-		protected String doInBackground(Object... params) {
+		protected Item doInBackground(Object... params) {
 
 			String sn = VodUserAgent.getMACAddress();
             AccessProxy.init(VodUserAgent.getModelName(),
@@ -142,9 +158,9 @@ public class InitPlayerTool {
                     if(fromPage!=null&&!fromPage.equals(""))
                         item.fromPage = fromPage;
                 	intent.putExtra("item", item);
-    				info = AccessProxy.getVideoInfo(SimpleRestClient.root_url
-    						+ "/api/clip/" + clip.pk + "/",
-    						VodUserAgent.getAccessToken(sn));
+//    				info = AccessProxy.getVideoInfo(SimpleRestClient.root_url
+//    						+ "/api/clip/" + clip.pk + "/",
+//    						VodUserAgent.getAccessToken(sn));
             	}
 				if(item.live_video){
 					String startTime = item.start_time;
@@ -163,7 +179,7 @@ public class InitPlayerTool {
 					}
 				}
             }
-			return info;
+			return item;
 
 		}
 

@@ -177,7 +177,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mPlayerFlag = PLAYER_FLAG_QIYI;
 
                 mClipEntity.setIqiyi_4_0(clipEntity.getIqiyi_4_0());
-                Log.d(TAG,"setIqiyi_4_0: "+mClipEntity.getIqiyi_4_0());
+                Log.d(TAG, "setIqiyi_4_0: " + mClipEntity.getIqiyi_4_0());
                 mClipEntity.setIs_vip(clipEntity.is_vip());
 
                 if (isQiyiSdkInit) {
@@ -199,7 +199,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                             @Override
                             public void onSuccess() {
                                 isQiyiSdkInit = true;
-                                Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time)+"Iqiyi_4_0: "+mClipEntity.getIqiyi_4_0());
+                                Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time) + "Iqiyi_4_0: " + mClipEntity.getIqiyi_4_0());
                                 String[] array = mClipEntity.getIqiyi_4_0().split(":");
                                 SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mStartPosition);
                                 setMedia(qiyiInfo);
@@ -245,6 +245,11 @@ public abstract class IsmartvPlayer implements IPlayer {
     public boolean isInPlaybackState() {
         return mCurrentState != STATE_ERROR &&
                 mCurrentState != STATE_IDLE &&
+                mCurrentState != STATE_PREPARING;
+    }
+
+    public boolean isVideoStarted() {
+        return mCurrentState != STATE_IDLE &&
                 mCurrentState != STATE_PREPARING;
     }
 

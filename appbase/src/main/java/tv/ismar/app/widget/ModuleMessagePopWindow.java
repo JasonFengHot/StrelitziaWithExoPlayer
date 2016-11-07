@@ -112,11 +112,11 @@ public class ModuleMessagePopWindow extends PopupWindow implements View.OnClickL
         secondMessage.setText(messageId);
     }
 
-    public void setConfirmBtn(String text){
+    public void setConfirmBtn(String text) {
         confirmBtn.setText(text);
     }
 
-    public void setCancelBtn(String text){
+    public void setCancelBtn(String text) {
         cancelBtn.setText(text);
     }
 
