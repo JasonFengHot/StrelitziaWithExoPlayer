@@ -194,22 +194,22 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
             viewHolder.provinceTextView.setText(provinceTableList.get(position).province_name);
             viewHolder.provinceTextView.setTag(position);
-            viewHolder.provinceTextView.setOnFocusChangeListener(this);
-            viewHolder.provinceTextView.setOnClickListener(this);
-            viewHolder.provinceTextView.setOnHoverListener(new View.OnHoverListener() {
-
-                @Override
-                public boolean onHover(View v, MotionEvent event) {
-                    int what = event.getAction();
-                    switch (what) {
-                        case MotionEvent.ACTION_HOVER_MOVE:
-                        case MotionEvent.ACTION_HOVER_ENTER:
-                            v.requestFocus();
-                            break;
-                    }
-                    return false;
-                }
-            });
+//            viewHolder.provinceTextView.setOnFocusChangeListener(this);
+//            viewHolder.provinceTextView.setOnClickListener(this);
+//            viewHolder.provinceTextView.setOnHoverListener(new View.OnHoverListener() {
+//
+//                @Override
+//                public boolean onHover(View v, MotionEvent event) {
+//                    int what = event.getAction();
+//                    switch (what) {
+//                        case MotionEvent.ACTION_HOVER_MOVE:
+//                        case MotionEvent.ACTION_HOVER_ENTER:
+////                            v.requestFocus();
+//                            break;
+//                    }
+//                    return false;
+//                }
+//            });
             return convertView;
         }
 

@@ -87,7 +87,6 @@ public class LoginFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        edit_mobile.requestFocus();
         if (mViewLoadCallback!=null){
             mViewLoadCallback.loadComplete();
         }

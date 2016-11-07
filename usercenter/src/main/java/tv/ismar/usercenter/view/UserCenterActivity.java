@@ -334,12 +334,12 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     public void loadComplete() {
 
-        if (lastSelectedView != null) {
-            isSelecteFragment = false;
-            lastSelectedView.requestFocus();
-            changeViewState(lastSelectedView, ViewState.Select);
-            isSelecteFragment = true;
-        }
+//        if (lastSelectedView != null) {
+//            isSelecteFragment = false;
+//            lastSelectedView.requestFocus();
+//            changeViewState(lastSelectedView, ViewState.Select);
+//            isSelecteFragment = true;
+//        }
     }
 
     private enum ViewState {
