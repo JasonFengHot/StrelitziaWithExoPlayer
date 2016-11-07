@@ -16,7 +16,7 @@
     <string name="help_mail">客服邮箱：kf@ismartv.cn</string>
     <string name="help_qq">客服QQ：2740077957</string>
     <string name="help_wx">客服微信：视云影院服务号</string>
-    <string name="shipinkefu">视频客服</string>
+    <string name="shipinkefu">请点击进入视频客服</string>
 
     <string name="exit_account">退出登录</string>
     <string name="confirm_exit_account_text">您是否退出登录?</string>
@@ -44,4 +44,6 @@
     <string name="location_selectedPosition_title">选中位置&#160;:&#160;</string>
     <string name="today_text">今天</string>
     <string name="usercenter_charge">充值</string>
+    <string name="ismartv_copyright">上海视云版权所有</string>
+    <string name="ismartv_copyright_english">Copyright © 2011–2031 All right reserved</string>
 </resources>

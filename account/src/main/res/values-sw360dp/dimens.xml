@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <dimen name="page_min_width">400.00dp</dimen>
-<dimen name="login_edit_ml">10.00dp</dimen>
+<dimen name="login_edit_ml">36.67dp</dimen>
 <dimen name="pay_person_login_pay_identifyCodeBtn_w">66.67dip</dimen>
 <dimen name="pay_person_login_pay_btn_submit_h">25.00dip</dimen>
 <dimen name="pay_person_login_linearLayout_h">38.33dp</dimen>

@@ -14,22 +14,22 @@
 <dimen name="usercenter_fragment_indicator_item_text_size">28.00sp</dimen>
 <dimen name="usercenter_indicator_minH">77.78dp</dimen>
 
-<dimen name="usercenter_help_contact_margin_left">105.00dp</dimen>
-<dimen name="usercenter_fragment_help_ismartv_icon_margin_top">27.22dp</dimen>
-<dimen name="usercenter_help_helpcenter_text_margin_top">46.67dp</dimen>
-<dimen name="usercenter_help_icon_margin_top">66.11dp</dimen>
-<dimen name="usercenter_fragment_help_ismartv_introduction_margin_top">38.89dp</dimen>
-<dimen name="usercenter_fragment_help_ismartv_introduction_margin_left">50.56dp</dimen>
+<dimen name="usercenter_help_contact_margin_left">132.22dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_icon_margin_top">71.56dp</dimen>
+<dimen name="usercenter_help_helpcenter_text_margin_top">84.00dp</dimen>
+<dimen name="usercenter_help_icon_margin_top">42.78dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_margin_top">76.22dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_margin_left">66.11dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_text_size">28.00dp</dimen>
-<dimen name="usercenter_help_shipinkefu_margin_top">15.56dp</dimen>
-<dimen name="usercenter_fragment_help_ismartv_introduction_margin_right">31.11dp</dimen>
+<dimen name="usercenter_help_shipinkefu_margin_top">11.67dp</dimen>
+<dimen name="usercenter_fragment_help_ismartv_introduction_margin_right">77.78dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">18.67dp</dimen>
 
 <dimen name="usercenter_info_association_pop_height">676.67dp</dimen>
-<dimen name="user_info_item_vertical_spacing">41.22dp</dimen>
+<dimen name="user_info_item_vertical_spacing">42.78dp</dimen>
 <dimen name="usercenter_info_layout_margin_left">46.67dp</dimen>
 <dimen name="h4_text_size">23.33sp</dimen>
-<dimen name="user_center_logout_height">31.11dp</dimen>
+<dimen name="user_center_logout_height">56.00dp</dimen>
 <dimen name="userinfo_balance_title_width">108.89dp</dimen>
 <dimen name="userinfo_association_marginLeft">15.56dp</dimen>
 <dimen name="userinfo_deviceName_title_width">108.89dp</dimen>
@@ -44,9 +44,9 @@
 
 
 <dimen name="userinfo_privilege_layout_marginTop">38.89dp</dimen>
-<dimen name="help_title_icon_w">326.67dp</dimen>
-<dimen name="help_title_icon_h">93.33dp</dimen>
-<dimen name="ismartv_icon_w">272.22dp</dimen>
+<dimen name="help_title_icon_w">175.00dp</dimen>
+<dimen name="help_title_icon_h">40.44dp</dimen>
+<dimen name="ismartv_icon_w">128.33dp</dimen>
 
 <dimen name="usercenter_storefragment_packagelist_item_image_width">261.33dp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_image_height">147.00dp</dimen>
@@ -84,5 +84,17 @@
 <dimen name="product_recycler_item_spacing">-1.56dp</dimen>
 <dimen name="product_item_mt">-6.22dp</dimen>
 <dimen name="userinfo_layout_pb">46.67dp</dimen>
-<dimen name="user_info_other_item_vertical_spacing">32.67dp</dimen>
+<dimen name="user_info_other_item_vertical_spacing">35.00dp</dimen>
+<dimen name="user_center_logout_width">213.11dp</dimen>
+
+<dimen name="user_info_item_vertical_spacing_0">0.00dp</dimen>
+<dimen name="usercenter_info_layout_margin_right">15.56dp</dimen>
+<dimen name="charge_btn_margin_left">132.22dp</dimen>
+<dimen name="charge_btn_width">125.22dp</dimen>
+<dimen name="charge_btn_height">39.67dp</dimen>
+<dimen name="usercenter_line_spacing">31.11dp</dimen>
+<dimen name="usercenter_help_introduce_w">591.11dp</dimen>
+<dimen name="usercenter_help_introduce_text_w">420.00dp</dimen>
+<dimen name="ismartv_copyright_mt">42.78dp</dimen>
+<dimen name="ismartv_copyright_english_mt">35.00dp</dimen>
 </resources>
