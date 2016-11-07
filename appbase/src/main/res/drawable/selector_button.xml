@@ -3,5 +3,5 @@
     <item android:drawable="@drawable/button_disable" android:state_enabled="false"/>
     <item android:drawable="@drawable/button_focus_color" android:state_focused="true"></item>
     <item android:drawable="@drawable/button_focus_color" android:state_pressed="true"></item>
-    <item android:drawable="@drawable/button_normal_color"></item>
+    <item android:drawable="@drawable/selector_button_normal"></item>
 </selector>
