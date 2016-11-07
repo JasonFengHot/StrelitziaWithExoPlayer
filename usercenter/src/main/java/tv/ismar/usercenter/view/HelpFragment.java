@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.app.BaseFragment;
 import tv.ismar.usercenter.HelpContract;
 import tv.ismar.usercenter.databinding.FragmentHelpBinding;
 import tv.ismar.usercenter.viewmodel.HelpViewModel;
@@ -17,7 +18,7 @@ import tv.ismar.usercenter.viewmodel.HelpViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class HelpFragment extends Fragment implements HelpContract.View {
+public class HelpFragment extends BaseFragment implements HelpContract.View {
     private static final String TAG = HelpFragment.class.getSimpleName();
 
 
@@ -76,6 +77,7 @@ public class HelpFragment extends Fragment implements HelpContract.View {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        mViewLoadCallback.loadComplete();
 
     }
 

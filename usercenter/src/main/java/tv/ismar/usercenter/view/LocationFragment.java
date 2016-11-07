@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.ismartv.injectdb.library.query.Select;
+import tv.ismar.app.BaseFragment;
 import tv.ismar.app.db.location.ProvinceTable;
 import tv.ismar.usercenter.LocationContract;
 import tv.ismar.usercenter.R;
@@ -26,7 +27,7 @@ import tv.ismar.usercenter.viewmodel.LocationViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class LocationFragment extends Fragment implements LocationContract.View {
+public class LocationFragment extends BaseFragment implements LocationContract.View {
     private static final String TAG = LocationFragment.class.getSimpleName();
     private LocationViewModel mViewModel;
     private LocationContract.Presenter mPresenter;
@@ -89,6 +90,8 @@ public class LocationFragment extends Fragment implements LocationContract.View 
         Log.d(TAG, "onResume");
         mPresenter.start();
         createLocationView();
+
+        mViewLoadCallback.loadComplete();
 
     }
 

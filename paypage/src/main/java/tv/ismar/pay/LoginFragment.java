@@ -27,6 +27,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.BaseFragment;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
@@ -34,7 +35,7 @@ import tv.ismar.app.widget.ModuleMessagePopWindow;
 /**
  * Created by huibin on 2016/9/14.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends BaseFragment {
     private Button identifyCodeBtn;
     private EditText edit_identifycode;
     private Button btn_submit;
@@ -87,6 +88,9 @@ public class LoginFragment extends Fragment {
     public void onResume() {
         super.onResume();
         edit_mobile.requestFocus();
+        if (mViewLoadCallback!=null){
+            mViewLoadCallback.loadComplete();
+        }
     }
 
     private void initView() {

@@ -3,12 +3,12 @@ package tv.ismar.usercenter.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import tv.ismar.app.BaseFragment;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.usercenter.UserInfoContract;
@@ -19,7 +19,7 @@ import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class UserInfoFragment extends Fragment implements UserInfoContract.View {
+public class UserInfoFragment extends BaseFragment implements UserInfoContract.View {
     private static final String TAG = UserInfoFragment.class.getSimpleName();
     private UserInfoViewModel mViewModel;
     private UserInfoContract.Presenter mPresenter;
@@ -77,6 +77,7 @@ public class UserInfoFragment extends Fragment implements UserInfoContract.View 
         super.onResume();
         Log.d(TAG, "onResume");
         mPresenter.start();
+        mViewLoadCallback.loadComplete();
 
     }
 

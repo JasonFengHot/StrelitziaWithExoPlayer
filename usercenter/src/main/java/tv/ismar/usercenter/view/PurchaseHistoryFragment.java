@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.network.entity.AccountsOrdersEntity;
 import tv.ismar.usercenter.PurchaseHistoryContract;
@@ -35,7 +36,7 @@ import tv.ismar.usercenter.viewmodel.PurchaseHistoryViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class PurchaseHistoryFragment extends Fragment implements PurchaseHistoryContract.View {
+public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHistoryContract.View {
     private static final String TAG = PurchaseHistoryFragment.class.getSimpleName();
     private PurchaseHistoryViewModel mViewModel;
     private PurchaseHistoryContract.Presenter mPresenter;
@@ -97,6 +98,7 @@ public class PurchaseHistoryFragment extends Fragment implements PurchaseHistory
         super.onResume();
         Log.d(TAG, "onResume");
         mPresenter.start();
+        mViewLoadCallback.loadComplete();
 
     }
 

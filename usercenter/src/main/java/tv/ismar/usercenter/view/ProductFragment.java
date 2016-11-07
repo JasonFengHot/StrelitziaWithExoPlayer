@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import tv.ismar.app.BaseFragment;
 import tv.ismar.app.network.entity.YouHuiDingGouEntity;
 import tv.ismar.usercenter.ProductContract;
 import tv.ismar.usercenter.R;
@@ -27,7 +28,7 @@ import tv.ismar.usercenter.viewmodel.ProductViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class ProductFragment extends Fragment implements ProductContract.View {
+public class ProductFragment extends BaseFragment implements ProductContract.View {
     private static final String TAG = ProductFragment.class.getSimpleName();
     private ProductViewModel mViewModel;
     private ProductContract.Presenter mPresenter;
@@ -88,6 +89,7 @@ public class ProductFragment extends Fragment implements ProductContract.View {
         super.onResume();
         Log.d(TAG, "onResume");
         mPresenter.start();
+        mViewLoadCallback.loadComplete();
 
     }
 

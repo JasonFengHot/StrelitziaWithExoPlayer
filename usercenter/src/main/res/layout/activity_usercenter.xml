@@ -27,7 +27,11 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="horizontal">
-
+            <View
+                android:id="@+id/tmp"
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:focusable="true"/>
 
             <LinearLayout
                 android:id="@+id/user_center_indicator_layout"
