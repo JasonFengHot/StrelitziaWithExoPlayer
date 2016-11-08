@@ -1,4 +1,4 @@
-package tv.ismar.app.entity;
+package tv.ismar.app.network.entity;
 
 /**
  * Created by <huaijiefeng@gmail.com> on 9/15/14.

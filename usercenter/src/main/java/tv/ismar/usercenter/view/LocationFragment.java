@@ -1,23 +1,34 @@
 package tv.ismar.usercenter.view;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
+import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.open.androidtvwidget.bridge.RecyclerViewBridge;
+import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
+import com.open.androidtvwidget.view.MainUpView;
+
+import java.util.HashMap;
 import java.util.List;
 
 import cn.ismartv.injectdb.library.query.Select;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseFragment;
+import tv.ismar.app.db.location.CityTable;
 import tv.ismar.app.db.location.ProvinceTable;
+import tv.ismar.app.network.entity.WeatherEntity;
 import tv.ismar.usercenter.LocationContract;
 import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.databinding.FragmentLocationBinding;
@@ -27,7 +38,7 @@ import tv.ismar.usercenter.viewmodel.LocationViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class LocationFragment extends BaseFragment implements LocationContract.View {
+public class LocationFragment extends BaseFragment implements LocationContract.View, RecyclerViewTV.OnItemListener, RecyclerViewTV.OnItemClickListener {
     private static final String TAG = LocationFragment.class.getSimpleName();
     private LocationViewModel mViewModel;
     private LocationContract.Presenter mPresenter;
@@ -37,7 +48,17 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     }
 
 
-    private GridView proviceGridView;
+    private RecyclerViewTV proviceGridView;
+
+    private MainUpView mMainUpView;
+    private RecyclerViewBridge mRecyclerViewBridge;
+    private View oldView;
+
+    private PopupWindow areaPopup;
+
+    private ProvinceTable mProvinceTable;
+    private CityTable mCityTable;
+
 
     @Override
     public void onAttach(Context context) {
@@ -62,6 +83,19 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         View root = locationBinding.getRoot();
         proviceGridView = locationBinding.provinceList;
+        proviceGridView.setOnItemClickListener(this);
+        proviceGridView.setFocusable(false);
+
+
+        mMainUpView = locationBinding.mainUpView;
+
+        mMainUpView.setEffectBridge(new RecyclerViewBridge());
+        // 注意这里，需要使用 RecyclerViewBridge 的移动边框 Bridge.
+        mRecyclerViewBridge = (RecyclerViewBridge) mMainUpView.getEffectBridge();
+        mRecyclerViewBridge.setUpRectResource(R.drawable.launcher_selector);
+        float density = getResources().getDisplayMetrics().density;
+        RectF receF = new RectF(40, 40, 40, 40);
+        mRecyclerViewBridge.setDrawUpRectPadding(receF);
 
         return root;
     }
@@ -92,6 +126,9 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         createLocationView();
 
         mViewLoadCallback.loadComplete();
+        HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
+        String geoId = hashMap.get("geo_id");
+        mPresenter.fetchWeather(geoId);
 
     }
 
@@ -136,109 +173,213 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     }
 
     @Override
-    public void refreshWeather(String weatherInfo) {
-
+    public void refreshWeather(WeatherEntity weatherEntity) {
+        mViewModel.loadWeather(weatherEntity);
     }
 
     private void createLocationView() {
         List<ProvinceTable> provinceTables = new Select().from(ProvinceTable.class).execute();
         if (provinceTables != null && !provinceTables.isEmpty()) {
             ProvinceAdapter provinceAdapter = new ProvinceAdapter(getContext(), provinceTables);
-//            provinceAdapter.setOnItemListener(this);
+            proviceGridView.setLayoutManager(new GridLayoutManager(getActivity(), 9));
             proviceGridView.setAdapter(provinceAdapter);
 
         }
     }
 
-    class ProvinceAdapter extends BaseAdapter implements View.OnFocusChangeListener, View.OnClickListener {
-        private List<ProvinceTable> provinceTableList;
-        private Context context;
+    @Override
+    public void onItemPreSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+        mRecyclerViewBridge.setUnFocusView(oldView);
+    }
 
-//        private OnItemListener onItemListener;
+    @Override
+    public void onItemSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+        mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+        oldView = itemView;
+    }
+
+    @Override
+    public void onReviseFocusFollow(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+        mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+        oldView = itemView;
+    }
+
+    @Override
+    public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
+        Log.d(TAG, "onItemClick: position: " + i);
+        ProvinceAdapter provinceAdapter = (ProvinceAdapter) recyclerViewTV.getAdapter();
+        ProvinceTable provinceTable = provinceAdapter.getProvinceTableList().get(i);
+        mProvinceTable = provinceTable;
+        showAreaPopup(getContext(), provinceTable);
+    }
+
+
+    private class ProvinceAdapter extends RecyclerView.Adapter<LocationViewHolder> {
+        private Context mContext;
+
+        private List<ProvinceTable> mProvinceTableList;
+
+        public List<ProvinceTable> getProvinceTableList() {
+            return mProvinceTableList;
+        }
 
         public ProvinceAdapter(Context context, List<ProvinceTable> provinceTableList) {
-            this.context = context;
-            this.provinceTableList = provinceTableList;
-        }
-
-//        public void setOnItemListener(OnItemListener itemListener) {
-//            this.onItemListener = itemListener;
-//        }
-
-        @Override
-        public int getCount() {
-            return provinceTableList.size();
+            mContext = context;
+            mProvinceTableList = provinceTableList;
         }
 
         @Override
-        public Object getItem(int position) {
-            return provinceTableList.get(position);
+
+        public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_province, viewGroup, false);
+            LocationViewHolder holder = new LocationViewHolder(view);
+            return holder;
         }
 
         @Override
-        public long getItemId(int position) {
-            return position;
+        public void onBindViewHolder(LocationViewHolder holder, int position) {
+            ProvinceTable provinceTable = mProvinceTableList.get(position);
+            holder.mTextView.setText(provinceTable.province_name);
+
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                viewHolder = new ViewHolder();
-                convertView = LayoutInflater.from(context).inflate(R.layout.item_province, null);
-                viewHolder.provinceTextView = (TextView) convertView.findViewById(R.id.province_text);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            viewHolder.provinceTextView.setText(provinceTableList.get(position).province_name);
-            viewHolder.provinceTextView.setTag(position);
-//            viewHolder.provinceTextView.setOnFocusChangeListener(this);
-//            viewHolder.provinceTextView.setOnClickListener(this);
-//            viewHolder.provinceTextView.setOnHoverListener(new View.OnHoverListener() {
-//
-//                @Override
-//                public boolean onHover(View v, MotionEvent event) {
-//                    int what = event.getAction();
-//                    switch (what) {
-//                        case MotionEvent.ACTION_HOVER_MOVE:
-//                        case MotionEvent.ACTION_HOVER_ENTER:
-////                            v.requestFocus();
-//                            break;
-//                    }
-//                    return false;
-//                }
-//            });
-            return convertView;
+        public int getItemCount() {
+            return mProvinceTableList.size();
         }
-
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-//            if (onItemListener != null)
-//                onItemListener.onFocusChange(v, hasFocus);
-        }
-
-        @Override
-        public void onClick(View v) {
-//            if (onItemListener!= null)
-//                onItemListener.onClick(v, (Integer)v.getTag());
-
-        }
-
-        private class ViewHolder {
-            private TextView provinceTextView;
-        }
-
-        public List<ProvinceTable> getList() {
-            return provinceTableList;
-        }
-
-
-//         interface OnItemListener {
-//            void onClick(View view, int position);
-//
-//            void onFocusChange(View v, boolean hasFocus);
-//        }
     }
+
+    private class CityAdapter extends RecyclerView.Adapter<LocationViewHolder> {
+        private Context mContext;
+
+        private List<CityTable> mCityTableList;
+
+
+        public List<CityTable> getCityTableList() {
+            return mCityTableList;
+        }
+
+        public CityAdapter(Context context, List<CityTable> cityTableList) {
+            mContext = context;
+            mCityTableList = cityTableList;
+        }
+
+        @Override
+
+        public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_province, viewGroup, false);
+            LocationViewHolder holder = new LocationViewHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(LocationViewHolder holder, int position) {
+            CityTable cityTable = mCityTableList.get(position);
+            holder.mTextView.setText(cityTable.city);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mCityTableList.size();
+        }
+    }
+
+    private class LocationViewHolder extends RecyclerView.ViewHolder {
+        private TextView mTextView;
+
+        public LocationViewHolder(View itemView) {
+            super(itemView);
+
+            mTextView = (TextView) itemView.findViewById(R.id.province_text);
+        }
+    }
+
+    private void showAreaPopup(final Context mContext, final ProvinceTable provinceTable) {
+        String provinceId = provinceTable.province_id;
+        final View popupLayout = LayoutInflater.from(mContext).inflate(R.layout.popup_area, null);
+        final View promptLayout = popupLayout.findViewById(R.id.prompt_layout);
+
+        RecyclerViewTV cityGridView = (RecyclerViewTV) popupLayout.findViewById(R.id.area_grid);
+
+
+        final Button confirmBtn = (Button) popupLayout.findViewById(R.id.confirm_btn);
+        final Button cancelBtn = (Button) popupLayout.findViewById(R.id.cancel_btn);
+        confirmBtn.setOnHoverListener(new View.OnHoverListener() {
+
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER
+                        || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+                    v.requestFocus();
+                }
+                return false;
+            }
+        });
+        cancelBtn.setOnHoverListener(new View.OnHoverListener() {
+
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER
+                        || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+                    v.requestFocus();
+                }
+                return false;
+            }
+        });
+
+
+        final TextView selectPrompt = (TextView) popupLayout.findViewById(R.id.area_select_prompt);
+        int width = (int) mContext.getResources().getDimension(R.dimen.location_area_pop_width);
+        int height = (int) mContext.getResources().getDimension(R.dimen.location_area_pop_height);
+        areaPopup = new PopupWindow(popupLayout, width, height);
+        areaPopup.setFocusable(true);
+        areaPopup.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.transparent));
+        int xOffset = (int) mContext.getResources().getDimension(R.dimen.locationFragment_areaPop_xOffset);
+        int yOffset = (int) mContext.getResources().getDimension(R.dimen.locationFragment_areaPop_yOffset);
+        areaPopup.showAtLocation(getView(), Gravity.CENTER, xOffset, yOffset);
+        final List<CityTable> locationTableList = new Select().from(CityTable.class).where(CityTable.PROVINCE_ID + " = ?", provinceId).execute();
+
+        CityAdapter cityAdapter = new CityAdapter(mContext, locationTableList);
+
+        cityGridView.setLayoutManager(new GridLayoutManager(mContext, 7));
+
+        cityGridView.setAdapter(cityAdapter);
+        cityGridView.setOnItemClickListener(new RecyclerViewTV.OnItemClickListener() {
+            @Override
+            public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
+                mCityTable = ((CityAdapter) recyclerViewTV.getAdapter()).getCityTableList().get(i);
+                mViewModel.setSelectedCity(mCityTable.city);
+                mViewModel.loadselectedCity();
+                promptLayout.setVisibility(View.VISIBLE);
+                confirmBtn.requestFocus();
+
+            }
+        });
+
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IsmartvActivator activator = IsmartvActivator.getInstance();
+                activator.setProvince(mProvinceTable.province_name, mProvinceTable.pinyin);
+                activator.setCity(mCityTable.city, String.valueOf(mCityTable.geo_id));
+                mPresenter.fetchWeather(String.valueOf(mCityTable.geo_id));
+                promptLayout.setVisibility(View.INVISIBLE);
+
+                mViewModel.setSelectedCity("");
+                mViewModel.loadselectedCity();
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                promptLayout.setVisibility(View.INVISIBLE);
+                mViewModel.setSelectedCity("");
+                mViewModel.loadselectedCity();
+            }
+        });
+
+    }
+
 }

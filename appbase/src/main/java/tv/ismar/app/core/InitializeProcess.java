@@ -20,6 +20,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.R;
 import tv.ismar.app.db.location.CdnTable;
 import tv.ismar.app.db.location.CityTable;
@@ -258,20 +259,17 @@ public class InitializeProcess implements Runnable {
 
     private void initializeLocation(IpLookUpEntity ipLookUpEntity) {
         CityTable cityTable = new Select().from(CityTable.class).where(CityTable.CITY + " = ?", ipLookUpEntity.getCity() == null ? "" : ipLookUpEntity.getCity()).executeSingle();
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(PROVINCE, ipLookUpEntity.getProv());
-        editor.putString(CITY, ipLookUpEntity.getCity());
-        editor.putString(ISP, ipLookUpEntity.getIsp());
-        editor.putString(IP, ipLookUpEntity.getIp());
+        IsmartvActivator activator = IsmartvActivator.getInstance();
+        activator.setIp(ipLookUpEntity.getIp());
+        activator.setIsp(ipLookUpEntity.getIsp());
         if (cityTable != null) {
-            editor.putString(GEO_ID, String.valueOf(cityTable.geo_id));
+            activator.setCity(ipLookUpEntity.getCity(), String.valueOf(cityTable.geo_id));
         }
         ProvinceTable provinceTable = new Select().from(ProvinceTable.class)
                 .where(ProvinceTable.PROVINCE_NAME + " = ?", ipLookUpEntity.getProv() == null ? "" : ipLookUpEntity.getProv()).executeSingle();
         if (provinceTable != null) {
-            editor.putString(PROVINCE_PY, provinceTable.pinyin);
+            activator.setProvince(ipLookUpEntity.getProv(), provinceTable.pinyin);
         }
-        editor.apply();
     }
 
     private String getDistrictId(String cdnNick) {

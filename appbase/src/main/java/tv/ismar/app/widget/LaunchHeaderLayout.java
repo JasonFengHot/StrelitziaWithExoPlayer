@@ -47,7 +47,7 @@ import tv.ismar.app.R;
 import tv.ismar.app.core.WeatherInfoHandler;
 import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.db.location.CityTable;
-import tv.ismar.app.entity.WeatherEntity;
+import tv.ismar.app.network.entity.WeatherEntity;
 
 /**
  * Created by huaijie on 2015/7/21.

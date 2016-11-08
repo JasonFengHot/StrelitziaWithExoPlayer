@@ -4,7 +4,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import tv.ismar.app.db.weather.WeatherEntity;
+import tv.ismar.app.network.entity.WeatherEntity;
 
 /**
  * Created by huaijie on 9/15/15.

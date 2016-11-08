@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -298,7 +299,7 @@ public class IsmartvActivator {
     }
 
     public String getUpgradeDomain() {
-        String upgradeDomain= mSharedPreferences.getString("upgrade_domain", "");
+        String upgradeDomain = mSharedPreferences.getString("upgrade_domain", "");
         if (TextUtils.isEmpty(upgradeDomain)) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
@@ -382,6 +383,47 @@ public class IsmartvActivator {
         setzUserToken(authToken);
     }
 
+    public void setProvince(String name, String pinyin) {
+        mSharedPreferences.edit().putString("province", name).commit();
+        mSharedPreferences.edit().putString("province_py", pinyin).commit();
+
+    }
+
+    public HashMap<String, String> getProvince() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("province", mSharedPreferences.getString("province", ""));
+        hashMap.put("province_py", mSharedPreferences.getString("province_py", ""));
+        return hashMap;
+    }
+
+    public void setCity(String name, String geoId) {
+        mSharedPreferences.edit().putString("city", name).commit();
+        mSharedPreferences.edit().putString("geo_id", geoId).commit();
+    }
+
+    public HashMap<String, String> getCity() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("city", mSharedPreferences.getString("city", ""));
+        hashMap.put("geo_id", mSharedPreferences.getString("geo_id", ""));
+        return hashMap;
+    }
+
+
+    public void setIp(String ip) {
+        mSharedPreferences.edit().putString("ip", ip).commit();
+    }
+
+    public String getIp() {
+        return mSharedPreferences.getString("ip", "");
+    }
+
+    public void setIsp(String isp) {
+        mSharedPreferences.edit().putString("isp", isp).commit();
+    }
+
+    public String getIsp() {
+        return mSharedPreferences.getString("isp", "");
+    }
 
     public void removeUserInfo() {
         mSharedPreferences.edit().putString("auth_token", "").commit();

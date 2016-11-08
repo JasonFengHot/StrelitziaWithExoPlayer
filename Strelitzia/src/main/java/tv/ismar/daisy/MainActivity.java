@@ -144,6 +144,10 @@ public class MainActivity extends BaseActivity {
 
         });
 
+        Intent intent = new Intent(this, UserCenterActivity.class);
+        startActivity(intent);
+
+
     }
 
     public int px2dip(float pxValue) {

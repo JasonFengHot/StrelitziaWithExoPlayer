@@ -46,4 +46,6 @@
     <string name="usercenter_charge">充值</string>
     <string name="ismartv_copyright">上海视云版权所有</string>
     <string name="ismartv_copyright_english">Copyright © 2011–2031 All right reserved</string>
+    <string name="confirm_selected_position_prompt">您是否确定要将当前位置更换为选中位置?</string>
+
 </resources>

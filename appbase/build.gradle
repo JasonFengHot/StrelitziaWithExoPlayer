@@ -45,6 +45,7 @@ dependencies {
     compile 'cn.ismartv.imagereflection:imagereflection:1.18'
     compile project(path: ':account')
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.open.androidtvwidget:androidtvwidget:1.0'
 }
 
 tasks.withType(JavaCompile) {

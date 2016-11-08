@@ -16,6 +16,7 @@
 
 package tv.ismar.usercenter;
 
+import tv.ismar.app.network.entity.WeatherEntity;
 import tv.ismar.usercenter.presenter.BasePresenter;
 
 /**
@@ -24,7 +25,8 @@ import tv.ismar.usercenter.presenter.BasePresenter;
 public interface LocationContract {
 
     interface View extends BaseView<Presenter> {
-        void refreshWeather(String weatherInfo);
+        void refreshWeather(WeatherEntity weatherInfo);
+
     }
 
     interface Presenter extends BasePresenter {
