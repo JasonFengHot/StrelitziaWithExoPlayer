@@ -52,8 +52,6 @@ dependencies {
     compile dependencies.okhttpLoggingInterceptor
     compile 'com.google.code.gson:gson:2.5'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile files('src/main/jniLibs/accessProxy.jar')
-    compile files('src/main/jniLibs/QiyiPlayerSdk-r50441.jar')
 }
 
 tasks.withType(JavaCompile) {

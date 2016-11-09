@@ -194,10 +194,20 @@ public abstract class IsmartvPlayer implements IPlayer {
                 extraParams.setCustomerAppVersion(String.valueOf(DeviceUtils.getVersionCode(mContext)));      //传入客户App版本号
                 extraParams.setDeviceId(IsmartvActivator.getInstance().getSnToken());   //传入deviceId, VIP项目必传, 登录和鉴权使用
                 extraParams.setDeviceInfo(DeviceUtils.getModelName());
+//                extraParams.addAdsHint(Parameter.HINT_TYPE_SKIP_AD, "下"); // 跳过悦享看广告
+//                extraParams.addAdsHint(Parameter.HINT_TYPE_HIDE_PAUSE_AD, "下"); // 跳过暂停广告
+//                extraParams.addAdsHint(Parameter.HINT_TYPE_SHOW_CLICK_THROUGH_AD, "右"); // 前贴,中插广告跳转页面
                 PlayerSdk.getInstance().initialize(mContext, extraParams,
                         new PlayerSdk.OnInitializedListener() {
                             @Override
                             public void onSuccess() {
+                                String zuser_token = IsmartvActivator.getInstance().getZUserToken();
+                                String zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
+                                if(!Utils.isEmptyText(zuser_token)){
+                                    PlayerSdk.getInstance().login(zuser_token);
+                                } else if(!Utils.isEmptyText(zdevice_token)){
+                                    PlayerSdk.getInstance().login(zdevice_token);
+                                }
                                 isQiyiSdkInit = true;
                                 Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time) + "Iqiyi_4_0: " + mClipEntity.getIqiyi_4_0());
                                 String[] array = mClipEntity.getIqiyi_4_0().split(":");
@@ -210,7 +220,6 @@ public abstract class IsmartvPlayer implements IPlayer {
                                 if (mOnDataSourceSetListener != null) {
                                     mOnDataSourceSetListener.onFailed("QiyiSdk init fail what = " + what + " extra = " + extra);
                                 }
-                                Toast.makeText(mContext, "QiyiSdk init fail: what=" + what + ", extra=" + extra, Toast.LENGTH_LONG).show();
                             }
                         });
                 break;
