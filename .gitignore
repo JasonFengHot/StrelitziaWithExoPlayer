@@ -8,6 +8,7 @@
 /captures
 # Built application files
 *.apk
+!pluginplayer-release-1.64.0.52469.apk
 *.ap_
 
 # Files for the ART/Dalvik VM

@@ -338,6 +338,10 @@ public class IsmartvActivator {
 
     }
 
+    public String getZUserToken() {
+        return mSharedPreferences.getString("zuser_token", "");
+    }
+
     public String getSnToken() {
         String snToken = mSharedPreferences.getString("sn_token", "");
         if (TextUtils.isEmpty(snToken)) {
@@ -350,6 +354,18 @@ public class IsmartvActivator {
 
     }
 
+    public String getZDeviceToken() {
+        String zdeviceToken = mSharedPreferences.getString("zdevice_token", "");
+        if (TextUtils.isEmpty(zdeviceToken)) {
+            ResultEntity resultEntity = execute();
+            saveAccountInfo(resultEntity);
+            return resultEntity.getDevice_token();
+        } else {
+            return zdeviceToken;
+        }
+
+    }
+
     public void saveAccountInfo(ResultEntity resultEntity) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString("device_token", resultEntity.getDevice_token());
@@ -358,6 +374,7 @@ public class IsmartvActivator {
         editor.putString("log_domain", resultEntity.getLog_Domain());
         editor.putString("ad_domain", resultEntity.getAd_domain());
         editor.putString("upgrade_domain", resultEntity.getUpgrade_domain());
+        editor.putString("zdevice_token", resultEntity.getZdevice_token());
         editor.commit();
     }
 
@@ -380,7 +397,7 @@ public class IsmartvActivator {
         setUsername(username);
         setAuthToken(authToken);
 
-        setzUserToken(authToken);
+        setzUserToken(zUserhToken);
     }
 
     public void setProvince(String name, String pinyin) {
