@@ -128,6 +128,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private ImageView player_buffer_img;
     private TextView player_buffer_text;
     private AnimationDrawable animationDrawable;
+    private boolean mIsOnPaused = false;// 调用pause()之后部分机型会执行BufferStart(701)
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -1087,6 +1088,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         ClipEntity.Quality initQuality = null;
         isInit = false;
+        mIsOnPaused = false;
         String historyUrl = Utils.getItemUrl(itemPK);
         String isLogin = "no";
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
@@ -1292,6 +1294,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showBuffer(String msg) {
+        if(mIsOnPaused){
+            return;
+        }
         if (msg != null) {
             player_buffer_text.setText(msg);
         }
@@ -1520,9 +1525,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     return true;
                 }
                 if (mIsmartvPlayer.isPlaying()) {
+                    mIsOnPaused = true;
                     mIsmartvPlayer.pause();
                     mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
                 } else {
+                    mIsOnPaused = false;
                     mIsmartvPlayer.start();
                 }
                 return true;

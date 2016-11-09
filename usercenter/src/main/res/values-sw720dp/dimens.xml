@@ -60,23 +60,23 @@
 <dimen name="purchase_history_item_margin_left">16.00dp</dimen>
 
 
-<dimen name="locationFragment_tomorrowLayout_marginLeft">46.67dp</dimen>
-<dimen name="location_selected_city_text_width">133.33dp</dimen>
-<dimen name="location_grid_margin_top">38.00dp</dimen>
+<dimen name="locationFragment_tomorrowLayout_marginLeft">26.67dp</dimen>
+<dimen name="location_selected_city_text_width">117.33dp</dimen>
+<dimen name="location_grid_margin_top">24.67dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">120.00dp</dimen>
 <dimen name="locationFragment_selectedPositionTitle_marginLeft">66.67dp</dimen>
 <dimen name="locationFragment_h2_textSize">24.00sp</dimen>
-<dimen name="location_fragment_current_position_height">136.00dp</dimen>
+<dimen name="location_fragment_current_position_height">153.33dp</dimen>
 <dimen name="location_divider_width">876.00dp</dimen>
 <dimen name="locationFragment_h1_textSize">32.00sp</dimen>
-<dimen name="locationFragment_todayLayout_marginLeft">53.33dp</dimen>
-<dimen name="locationFragment_currentPositionTitle_marginLeft">34.00dp</dimen>
+<dimen name="locationFragment_todayLayout_marginLeft">93.33dp</dimen>
+<dimen name="locationFragment_currentPositionTitle_marginLeft">83.33dp</dimen>
 <dimen name="location_divider_margin_left">24.00dp</dimen>
 <dimen name="locationFragment_h4_textSize">16.00sp</dimen>
 <dimen name="weather_layout_w">953.33dp</dimen>
 <dimen name="weather_layout_h">640.00dp</dimen>
-<dimen name="weather_city_ml">33.33dp</dimen>
-<dimen name="weather_city_mr">26.67dp</dimen>
+<dimen name="weather_city_ml">133.33dp</dimen>
+<dimen name="weather_city_mr">120.00dp</dimen>
 <dimen name="weather_city_layout_spac">40.00dp</dimen>
 
 <dimen name="usercenter_header_height">66.67dp</dimen>
@@ -97,4 +97,6 @@
 <dimen name="usercenter_help_introduce_text_w">360.00dp</dimen>
 <dimen name="ismartv_copyright_mt">36.67dp</dimen>
 <dimen name="ismartv_copyright_english_mt">30.00dp</dimen>
+<dimen name="usercenter_province_list_width">753.33dp</dimen>
+<dimen name="usercenter_province_recycler_item_spacing">14.00dp</dimen>
 </resources>

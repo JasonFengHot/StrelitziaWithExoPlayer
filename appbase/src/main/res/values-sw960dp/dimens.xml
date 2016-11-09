@@ -361,11 +361,10 @@
 <dimen name="locationFragment_areaPop_yOffset">102.22dp</dimen>
 <dimen name="locationFragment_provinceGrid_verticalSpacing">57.78dp</dimen>
 <dimen name="locationFragment_provinceGrid_marginLR">26.67dp</dimen>
-<dimen name="locationFragment_areaGridItem_minHeght">57.78dp</dimen>
+<dimen name="locationFragment_areaGridItem_minHeght">80.00dp</dimen>
 <dimen name="locationFragment_currentPositionTitle_marginLeft">45.33dp</dimen>
 <dimen name="locationFragment_selectedPositionTitle_marginLeft">88.89dp</dimen>
 <dimen name="locationFragment_todayLayout_marginLeft">71.11dp</dimen>
-<dimen name="locationFragment_tomorrowLayout_marginLeft">62.22dp</dimen>
 <dimen name="locatiionFragment_areaPop_height">368.89dp</dimen>
 <dimen name="locationFragment_areaPop_btn_width">208.89dp</dimen>
 <dimen name="locationFragment_areaPop_btn_height">75.56dp</dimen>

@@ -60,23 +60,23 @@
 <dimen name="purchase_history_item_margin_left">5.33dp</dimen>
 
 
-<dimen name="locationFragment_tomorrowLayout_marginLeft">15.56dp</dimen>
-<dimen name="location_selected_city_text_width">44.44dp</dimen>
-<dimen name="location_grid_margin_top">12.67dp</dimen>
+<dimen name="locationFragment_tomorrowLayout_marginLeft">8.89dp</dimen>
+<dimen name="location_selected_city_text_width">39.11dp</dimen>
+<dimen name="location_grid_margin_top">8.22dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">40.00dp</dimen>
 <dimen name="locationFragment_selectedPositionTitle_marginLeft">22.22dp</dimen>
 <dimen name="locationFragment_h2_textSize">8.00sp</dimen>
-<dimen name="location_fragment_current_position_height">45.33dp</dimen>
+<dimen name="location_fragment_current_position_height">51.11dp</dimen>
 <dimen name="location_divider_width">292.00dp</dimen>
 <dimen name="locationFragment_h1_textSize">10.67sp</dimen>
-<dimen name="locationFragment_todayLayout_marginLeft">17.78dp</dimen>
-<dimen name="locationFragment_currentPositionTitle_marginLeft">11.33dp</dimen>
+<dimen name="locationFragment_todayLayout_marginLeft">31.11dp</dimen>
+<dimen name="locationFragment_currentPositionTitle_marginLeft">27.78dp</dimen>
 <dimen name="location_divider_margin_left">8.00dp</dimen>
 <dimen name="locationFragment_h4_textSize">5.33sp</dimen>
 <dimen name="weather_layout_w">317.78dp</dimen>
 <dimen name="weather_layout_h">213.33dp</dimen>
-<dimen name="weather_city_ml">11.11dp</dimen>
-<dimen name="weather_city_mr">8.89dp</dimen>
+<dimen name="weather_city_ml">44.44dp</dimen>
+<dimen name="weather_city_mr">40.00dp</dimen>
 <dimen name="weather_city_layout_spac">13.33dp</dimen>
 
 <dimen name="usercenter_header_height">22.22dp</dimen>
@@ -97,4 +97,6 @@
 <dimen name="usercenter_help_introduce_text_w">120.00dp</dimen>
 <dimen name="ismartv_copyright_mt">12.22dp</dimen>
 <dimen name="ismartv_copyright_english_mt">10.00dp</dimen>
+<dimen name="usercenter_province_list_width">251.11dp</dimen>
+<dimen name="usercenter_province_recycler_item_spacing">4.67dp</dimen>
 </resources>
