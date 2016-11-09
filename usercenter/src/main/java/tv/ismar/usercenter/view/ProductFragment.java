@@ -89,7 +89,6 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         super.onResume();
         Log.d(TAG, "onResume");
         mPresenter.start();
-        mViewLoadCallback.loadComplete();
 
     }
 

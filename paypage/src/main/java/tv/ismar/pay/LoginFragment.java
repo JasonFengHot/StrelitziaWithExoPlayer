@@ -87,9 +87,6 @@ public class LoginFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mViewLoadCallback!=null){
-            mViewLoadCallback.loadComplete();
-        }
     }
 
     private void initView() {

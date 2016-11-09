@@ -7,15 +7,6 @@ import android.support.v4.app.Fragment;
  */
 
 public class BaseFragment extends Fragment {
-    public OnViewLoadCallback mViewLoadCallback;
-
-    public interface OnViewLoadCallback {
-        void loadComplete();
-    }
-
-    public void setViewLoadCallback(OnViewLoadCallback viewLoadCallback) {
-        mViewLoadCallback = viewLoadCallback;
-    }
 
     @Override
     public void onResume() {

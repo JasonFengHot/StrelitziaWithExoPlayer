@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.squareup.picasso.Picasso;
 
 import java.sql.Timestamp;
@@ -47,7 +48,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
     }
 
 
-    private RecyclerView mRecyclerView;
+    private RecyclerViewTV mRecyclerView;
 
     @Override
     public void onAttach(Context context) {
@@ -98,7 +99,6 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         super.onResume();
         Log.d(TAG, "onResume");
         mPresenter.start();
-        mViewLoadCallback.loadComplete();
 
     }
 

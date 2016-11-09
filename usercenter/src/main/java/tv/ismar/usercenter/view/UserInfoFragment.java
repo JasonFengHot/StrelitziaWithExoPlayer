@@ -77,7 +77,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         super.onResume();
         Log.d(TAG, "onResume");
         mPresenter.start();
-        mViewLoadCallback.loadComplete();
 
     }
 

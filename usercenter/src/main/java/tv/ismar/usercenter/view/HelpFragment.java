@@ -77,7 +77,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-        mViewLoadCallback.loadComplete();
 
     }
 

@@ -4,6 +4,8 @@
                 android:layout_height="wrap_content"
                 android:clipChildren="false"
                 android:clipToPadding="false"
+                android:focusable="true"
+                android:background="@drawable/launcher_selector"
                 android:minHeight="@dimen/purchaseFragment_item_minHeight"
                 android:paddingLeft="@dimen/purchaseFragment_item_paddingLeft"
 >
@@ -13,9 +15,6 @@
         android:layout_width="@dimen/purchaseFragment_item_image_width"
         android:layout_height="@dimen/purchaseFragment_item_image_height"
         android:layout_marginTop="@dimen/purchaseFragment_item_icon_marginTop"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:nextFocusLeft="@+id/vertical_divider_line"
         android:scaleType="fitXY"
     />
 

@@ -126,7 +126,6 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         mPresenter.start();
         createLocationView();
 
-        mViewLoadCallback.loadComplete();
         HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
         String geoId = hashMap.get("geo_id");
         mPresenter.fetchWeather(geoId);
