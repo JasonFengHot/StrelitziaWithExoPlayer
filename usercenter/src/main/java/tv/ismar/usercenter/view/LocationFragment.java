@@ -83,6 +83,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         View root = locationBinding.getRoot();
         proviceGridView = locationBinding.provinceList;
+        proviceGridView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.usercenter_province_recycler_item_spacing)));
         proviceGridView.setOnItemClickListener(this);
         proviceGridView.setFocusable(false);
 
@@ -181,7 +182,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         List<ProvinceTable> provinceTables = new Select().from(ProvinceTable.class).execute();
         if (provinceTables != null && !provinceTables.isEmpty()) {
             ProvinceAdapter provinceAdapter = new ProvinceAdapter(getContext(), provinceTables);
-            proviceGridView.setLayoutManager(new GridLayoutManager(getActivity(), 9));
+            proviceGridView.setLayoutManager(new GridLayoutManager(getActivity(), 6));
             proviceGridView.setAdapter(provinceAdapter);
 
         }
@@ -239,7 +240,11 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         @Override
         public void onBindViewHolder(LocationViewHolder holder, int position) {
             ProvinceTable provinceTable = mProvinceTableList.get(position);
-            holder.mTextView.setText(provinceTable.province_name);
+            StringBuffer stringBuffer = new StringBuffer(provinceTable.province_name);
+            if (stringBuffer.length() == 2) {
+                stringBuffer.insert(1, "    ");
+            }
+            holder.mTextView.setText(stringBuffer);
 
         }
 

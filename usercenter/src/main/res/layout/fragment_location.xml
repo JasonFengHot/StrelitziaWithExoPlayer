@@ -17,7 +17,7 @@
 
 
     <LinearLayout
-        android:layout_width="@dimen/weather_layout_w"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/weather_layout_h"
         android:orientation="horizontal">
         <LinearLayout
@@ -118,7 +118,6 @@
                 <LinearLayout
                     android:layout_width="@dimen/locationFragment_weatherLayout_width"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/locationFragment_tomorrowLayout_marginLeft"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -173,11 +172,9 @@
 
             <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
                 android:id="@+id/province_list"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/usercenter_province_list_width"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/weather_city_ml"
-                android:layout_marginRight="@dimen/weather_city_mr"
                 android:layout_marginTop="@dimen/location_grid_margin_top"
                 android:descendantFocusability="afterDescendants"
                 android:gravity="center"/>
