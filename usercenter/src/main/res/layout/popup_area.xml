@@ -3,18 +3,19 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="#0e163a"
+              android:clipChildren="false"
+              android:clipToPadding="false"
               android:orientation="vertical">
 
     <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
         android:id="@+id/area_grid"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/usercenter_province_list_width"
         android:layout_height="@dimen/locatiionFragment_areaPop_height"
-        android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/locationFragment_provinceGrid_marginLR"
-        android:layout_marginRight="@dimen/locationFragment_provinceGrid_marginLR"
+        android:layout_marginLeft="@dimen/weather_city_ml"
         android:layout_marginTop="@dimen/location_grid_margin_top"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:descendantFocusability="afterDescendants"
-        android:focusable="true"
         android:gravity="center"
     >
     </com.open.androidtvwidget.leanback.recycle.RecyclerViewTV>
@@ -27,34 +28,22 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="invisible">
-        <TextView
-            android:id="@+id/area_select_prompt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="@string/confirm_selected_position_prompt"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="@dimen/text_size_30sp"
-        />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/locationFragment_areaPop_Btn_marginTop"
             android:gravity="center_horizontal">
 
             <Button
                 android:id="@+id/confirm_btn"
                 android:layout_width="@dimen/locationFragment_areaPop_btn_width"
                 android:layout_height="@dimen/locationFragment_areaPop_btn_height"
-                android:background="@drawable/person_btn_selector"
+                android:background="@drawable/selector_button"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="@string/confirm"
                 android:textColor="@color/white"
-                android:textSize="@dimen/locationFragment_h1_textSize"
+                android:textSize="@dimen/text_size_36sp"
             />
 
             <Button
@@ -62,14 +51,25 @@
                 android:layout_width="@dimen/locationFragment_areaPop_btn_width"
                 android:layout_height="@dimen/locationFragment_areaPop_btn_height"
                 android:layout_marginLeft="@dimen/locatoinFragment_areaPop_cancelBtn_marginLeft"
-                android:background="@drawable/person_btn_selector"
+                android:background="@drawable/selector_button"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="@string/cancel"
                 android:textColor="@color/white"
-                android:textSize="@dimen/locationFragment_h1_textSize"
+                android:textSize="@dimen/text_size_36sp"
             />
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/area_select_prompt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/locationFragment_areaPop_Btn_marginTop"
+            android:gravity="center"
+            android:text="@string/confirm_selected_position_prompt"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="@dimen/text_size_24sp"
+        />
+
     </LinearLayout>
 </LinearLayout>

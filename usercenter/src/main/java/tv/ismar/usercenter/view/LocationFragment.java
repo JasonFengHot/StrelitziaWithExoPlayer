@@ -86,7 +86,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         proviceGridView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.usercenter_province_recycler_item_spacing)));
         proviceGridView.setOnItemClickListener(this);
         proviceGridView.setFocusable(false);
-
+        proviceGridView.setOnItemListener(this);
 
         mMainUpView = locationBinding.mainUpView;
 
@@ -191,10 +191,15 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     @Override
     public void onItemPreSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
         mRecyclerViewBridge.setUnFocusView(oldView);
+        TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+        textView.setTextColor(getResources().getColor(R.color.white));
+
     }
 
     @Override
     public void onItemSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+        TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+        textView.setTextColor(getResources().getColor(R.color.location_text_focus));
         mRecyclerViewBridge.setFocusView(itemView, 1.2f);
         oldView = itemView;
     }
@@ -280,7 +285,11 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         @Override
         public void onBindViewHolder(LocationViewHolder holder, int position) {
             CityTable cityTable = mCityTableList.get(position);
-            holder.mTextView.setText(cityTable.city);
+            StringBuffer stringBuffer = new StringBuffer(cityTable.city);
+            if (stringBuffer.length() == 2) {
+                stringBuffer.insert(1, "    ");
+            }
+            holder.mTextView.setText(stringBuffer);
 
         }
 
@@ -306,6 +315,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         final View promptLayout = popupLayout.findViewById(R.id.prompt_layout);
 
         RecyclerViewTV cityGridView = (RecyclerViewTV) popupLayout.findViewById(R.id.area_grid);
+        cityGridView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.usercenter_province_recycler_item_spacing)));
 
 
         final Button confirmBtn = (Button) popupLayout.findViewById(R.id.confirm_btn);
@@ -340,14 +350,14 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         areaPopup = new PopupWindow(popupLayout, width, height);
         areaPopup.setFocusable(true);
         areaPopup.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.transparent));
-        int xOffset = (int) mContext.getResources().getDimension(R.dimen.locationFragment_areaPop_xOffset);
-        int yOffset = (int) mContext.getResources().getDimension(R.dimen.locationFragment_areaPop_yOffset);
+        int xOffset = (int) mContext.getResources().getDimensionPixelSize(R.dimen.locationFragment_areaPop_xOffset);
+        int yOffset = (int) mContext.getResources().getDimensionPixelSize(R.dimen.locationFragment_areaPop_yOffset);
         areaPopup.showAtLocation(getView(), Gravity.CENTER, xOffset, yOffset);
         final List<CityTable> locationTableList = new Select().from(CityTable.class).where(CityTable.PROVINCE_ID + " = ?", provinceId).execute();
 
         CityAdapter cityAdapter = new CityAdapter(mContext, locationTableList);
 
-        cityGridView.setLayoutManager(new GridLayoutManager(mContext, 7));
+        cityGridView.setLayoutManager(new GridLayoutManager(mContext, 6));
 
         cityGridView.setAdapter(cityAdapter);
         cityGridView.setOnItemClickListener(new RecyclerViewTV.OnItemClickListener() {
@@ -362,6 +372,30 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             }
         });
 
+        cityGridView.setOnItemListener(new RecyclerViewTV.OnItemListener() {
+            @Override
+            public void onItemPreSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+                mRecyclerViewBridge.setUnFocusView(oldView);
+                TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+                textView.setTextColor(getResources().getColor(R.color.white));
+
+            }
+
+            @Override
+            public void onItemSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+                TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+                textView.setTextColor(getResources().getColor(R.color.location_text_focus));
+                mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+                oldView = itemView;
+            }
+
+            @Override
+            public void onReviseFocusFollow(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+                mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+                oldView = itemView;
+            }
+
+        });
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

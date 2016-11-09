@@ -99,4 +99,6 @@
     <dimen name="ismartv_copyright_english_mt">45dp</dimen>
     <dimen name="usercenter_province_list_width">1130dp</dimen>
     <dimen name="usercenter_province_recycler_item_spacing">21dp</dimen>
+    <dimen name="locationFragment_areaPop_btn_width">274dp</dimen>
+    <dimen name="locationFragment_areaPop_btn_height">72dp</dimen>
 </resources>
