@@ -109,6 +109,10 @@ public class ClipEntity {
      * 是否爱奇艺会员
      */
     private boolean is_vip;
+    /**
+     * 奇艺2.1SDK需要新传入字段
+     */
+    private boolean is_drm;
 
     public String getLow() {
         return low;
@@ -190,6 +194,14 @@ public class ClipEntity {
         this.is_vip = is_vip;
     }
 
+    public boolean is_drm() {
+        return is_drm;
+    }
+
+    public void setIs_drm(boolean is_drm) {
+        this.is_drm = is_drm;
+    }
+
     @Override
     public String toString() {
         return "low:" + low
@@ -201,6 +213,7 @@ public class ClipEntity {
                 + "\nblueray:" + blueray
                 + "\n_4k:" + _4k
                 + "\niqiyi_4_0:" + iqiyi_4_0
-                + "\nis_vip:" + is_vip;
+                + "\nis_vip:" + is_vip
+                + "\nis_drm:" + is_drm;
     }
 }

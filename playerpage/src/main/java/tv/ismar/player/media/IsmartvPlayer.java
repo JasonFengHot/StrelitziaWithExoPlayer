@@ -44,6 +44,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     public static final int STATE_BUFFERING = 6;
     protected int mCurrentState = STATE_IDLE;
     protected byte mPlayerMode;
+    private int mDrmType;
 
     protected Activity mContext;
     protected ItemEntity mItemEntity;
@@ -180,9 +181,13 @@ public abstract class IsmartvPlayer implements IPlayer {
                 Log.d(TAG, "setIqiyi_4_0: " + mClipEntity.getIqiyi_4_0());
                 mClipEntity.setIs_vip(clipEntity.is_vip());
 
+                mDrmType = 0;
+                if(mClipEntity.is_drm()){
+                    mDrmType = 1;
+                }
                 if (isQiyiSdkInit) {
                     String[] array = mClipEntity.getIqiyi_4_0().split(":");
-                    SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mStartPosition);
+                    SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mDrmType, mStartPosition, null);
                     setMedia(qiyiInfo);
                     return;
                 }
@@ -211,7 +216,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                                 isQiyiSdkInit = true;
                                 Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time) + "Iqiyi_4_0: " + mClipEntity.getIqiyi_4_0());
                                 String[] array = mClipEntity.getIqiyi_4_0().split(":");
-                                SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mStartPosition);
+                                SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mDrmType, mStartPosition, null);
                                 setMedia(qiyiInfo);
                             }
 
