@@ -97,6 +97,8 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         //设置缓冲事件监听器, 需要时设置
         mPlayer.setOnBufferChangedListener(qiyiBufferChangedListener);
 
+        mPlayer.setOnInfoListener(onInfoListener);
+
         if (mIsmartvPlayer.mOnDataSourceSetListener != null) {
             mIsmartvPlayer.mOnDataSourceSetListener.onSuccess();
         }
@@ -313,6 +315,16 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mIsmartvPlayer.mIsPlayingAdvertisement) {
                 mIsmartvPlayer.logAdBlockend("", 0);
             }
+        }
+    };
+
+    private IMediaPlayer.OnInfoListener onInfoListener = new IMediaPlayer.OnInfoListener() {
+        @Override
+        public void onInfo(IMediaPlayer iMediaPlayer, int i, Object o) {
+            if (mIsmartvPlayer.mOnInfoListener != null) {
+                mIsmartvPlayer.mOnInfoListener.onInfo(i, o);
+            }
+
         }
     };
 

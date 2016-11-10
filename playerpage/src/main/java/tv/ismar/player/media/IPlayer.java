@@ -55,6 +55,8 @@ public interface IPlayer {
 
     void setOnStateChangedListener(OnStateChangedListener onStateChangedListener);
 
+    void setOnInfoListener(OnInfoListener onInfoListener);
+
     public interface OnVideoSizeChangedListener {
         void onVideoSizeChanged(int videoWidth, int videoHeight);
     }
@@ -81,6 +83,10 @@ public interface IPlayer {
         void onCompleted();
 
         boolean onError(String message);
+    }
+
+    public interface OnInfoListener {
+        void onInfo(int what, Object extra);
     }
 
     public interface OnDataSourceSetListener {
