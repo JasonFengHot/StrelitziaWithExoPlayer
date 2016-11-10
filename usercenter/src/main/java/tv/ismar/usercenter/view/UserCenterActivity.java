@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.util.ActivityUtils;
 import tv.ismar.pay.LoginFragment;
@@ -34,7 +35,7 @@ import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 /**
  * Created by huaijie on 7/3/15.
  */
-public class UserCenterActivity extends BaseActivity implements LoginFragment.LoginCallback {
+public class UserCenterActivity extends BaseActivity implements LoginFragment.LoginCallback, IsmartvActivator.AccountChangeCallback {
     private static final String TAG = UserCenterActivity.class.getSimpleName();
     private static final int MSG_INDICATOR_CHANGE = 0x9b;
 
@@ -77,6 +78,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usercenter);
+        IsmartvActivator.getInstance().addAccountChangeListener(this);
         initViews();
 //        selectProduct();
 
@@ -97,16 +99,14 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                Log.d(TAG, "onGlobalFocusChanged");
-                if (oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
+
+                if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
                     Log.d(TAG, "onGlobalFocusChanged same side");
                     isFromRightToLeft = false;
                 } else {
-                    if (newFocus.getTag() != null && newFocus.getTag().equals("left")) {
+                    if (newFocus!=null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
                         Log.d(TAG, "onGlobalFocusChanged from right to left");
                         isFromRightToLeft = true;
-
-
                     } else {
                         isFromRightToLeft = false;
                     }
@@ -132,6 +132,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             frameLayout.setOnHoverListener(indicatorOnHoverListener);
             indicatorView.add(frameLayout);
             userCenterIndicatorLayout.addView(frameLayout);
+        }
+
+        if (IsmartvActivator.getInstance().isLogin()) {
+            changeViewState(indicatorView.get(2), ViewState.Disable);
         }
 
         userCenterIndicatorLayout.getChildAt(0).requestFocus();
@@ -271,7 +275,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     @Override
     public void onSuccess() {
+        changeViewState(indicatorView.get(2), ViewState.Disable);
         selectUserInfo();
+
     }
 
     private View.OnFocusChangeListener indicatorOnFocusListener = new View.OnFocusChangeListener() {
@@ -297,8 +303,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     } else if (fragment instanceof LocationFragment) {
                         userCenterIndicatorLayout.getChildAt(5).requestFocus();
                     }
+
                 }
-            }else {
+            } else {
                 changeViewState(v, ViewState.Unfocus);
             }
         }
@@ -406,6 +413,16 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     }
 
+    @Override
+    public void onLogout() {
+        changeViewState(indicatorView.get(2), ViewState.Enable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        IsmartvActivator.getInstance().removeAccountChangeListener(this);
+        super.onDestroy();
+    }
 
     private enum ViewState {
         Enable,

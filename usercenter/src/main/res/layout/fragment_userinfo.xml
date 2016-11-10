@@ -16,6 +16,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true">
@@ -86,6 +87,7 @@
                     android:background="@drawable/selector_usercenter_logout"
                     android:focusable="true"
                     android:gravity="center"
+                    android:onClick="@{() -> actionHandler.exitAccount()}"
                     android:text="@string/exit_account"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/text_size_36sp"
@@ -247,7 +249,8 @@
                         android:layout_height="match_parent"
                         android:descendantFocusability="afterDescendants"
                         android:focusable="true"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                     </LinearLayout>
                 </ScrollView>

@@ -84,4 +84,10 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void exitAccount() {
+        mFragment.showExitAccountConfirmPop();
+    }
+
 }

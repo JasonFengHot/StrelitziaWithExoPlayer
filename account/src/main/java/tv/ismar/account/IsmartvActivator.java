@@ -19,7 +19,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -446,6 +448,10 @@ public class IsmartvActivator {
         mSharedPreferences.edit().putString("auth_token", "").commit();
         mSharedPreferences.edit().putString("zuser_token", "").commit();
         mSharedPreferences.edit().putString("username", "").commit();
+
+        for (AccountChangeCallback callback: mAccountChangeCallbacks){
+            callback.onLogout();
+        }
     }
 
     public String getUsername() {
@@ -454,6 +460,10 @@ public class IsmartvActivator {
 
     public void setSn(String sn) {
         this.sn = sn;
+    }
+
+    public boolean isLogin() {
+        return TextUtils.isEmpty(getUsername()) ? false : true;
     }
 
     private String generateSn() {
@@ -471,5 +481,19 @@ public class IsmartvActivator {
 
 
     public native String helloMd5(String str);
+
+    public interface  AccountChangeCallback{
+        void onLogout();
+    }
+
+    private List<AccountChangeCallback> mAccountChangeCallbacks = new ArrayList<>();
+
+    public void addAccountChangeListener(AccountChangeCallback callback){
+        mAccountChangeCallbacks.add(callback);
+    }
+
+    public void removeAccountChangeListener(AccountChangeCallback callback){
+        mAccountChangeCallbacks.remove(callback);
+    }
 
 }

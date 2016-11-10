@@ -37,5 +37,7 @@ public interface UserInfoContract {
 
         void fetchPrivilege();
 
+        void exitAccount();
+
     }
 }

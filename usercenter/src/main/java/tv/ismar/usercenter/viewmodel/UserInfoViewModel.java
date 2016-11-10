@@ -35,6 +35,8 @@ public class UserInfoViewModel extends BaseObservable {
     public void refresh() {
         notifyPropertyChanged(BR.balance);
         notifyPropertyChanged(BR.balanceVisibility);
+        notifyPropertyChanged(BR.username);
+        notifyPropertyChanged(BR.usernameVisibility);
     }
 
     @Bindable
