@@ -3,7 +3,6 @@ package tv.ismar.usercenter.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -135,7 +134,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     @Override
     public void loadProductItem(YouHuiDingGouEntity entity) {
         ProductAdapter adapter = new ProductAdapter(getContext(), entity.getObjects());
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4 ));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.product_recycler_item_spacing)));
         mRecyclerView.setAdapter(adapter);
     }
@@ -183,8 +182,8 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-
             mImageView = (ImageView) itemView.findViewById(R.id.package_list_image);
+            mImageView.setTag("right");
             mTextView = (TextView) itemView.findViewById(R.id.package_list_title);
         }
     }

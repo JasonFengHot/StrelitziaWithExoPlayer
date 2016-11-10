@@ -3,9 +3,12 @@ package tv.ismar.usercenter.view;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +54,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private ArrayList<View> indicatorView;
 
 
+    private boolean isFromRightToLeft = false;
+
+
     private static final int[] INDICATOR_TEXT_RES_ARRAY = {
             R.string.usercenter_store,
             R.string.usercenter_userinfo,
@@ -63,6 +69,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     private View lastSelectedView;
     private View lastHoveredView;
+
+    private View fragmentContainer;
 
 
     @Override
@@ -84,28 +92,28 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private void initViews() {
         userCenterIndicatorLayout = (LinearLayout) findViewById(R.id.user_center_indicator_layout);
 
-//        userCenterIndicatorLayout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus && userCenterIndicatorLayout.getChildCount() != 0) {
-//
-//                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-//                    if (fragment instanceof ProductFragment) {
-//                        userCenterIndicatorLayout.getChildAt(0).requestFocus();
-//                    } else if (fragment instanceof UserInfoFragment) {
-//                        userCenterIndicatorLayout.getChildAt(1).requestFocus();
-//                    } else if (fragment instanceof LoginFragment) {
-//                        userCenterIndicatorLayout.getChildAt(2).requestFocus();
-//                    } else if (fragment instanceof PurchaseHistoryFragment) {
-//                        userCenterIndicatorLayout.getChildAt(3).requestFocus();
-//                    } else if (fragment instanceof HelpFragment) {
-//                        userCenterIndicatorLayout.getChildAt(4).requestFocus();
-//                    } else if (fragment instanceof LocationFragment) {
-//                        userCenterIndicatorLayout.getChildAt(5).requestFocus();
-//                    }
-//                }
-//            }
-//        });
+        fragmentContainer = findViewById(R.id.user_center_container);
+
+        fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+            @Override
+            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                Log.d(TAG, "onGlobalFocusChanged");
+                if (oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
+                    Log.d(TAG, "onGlobalFocusChanged same side");
+                    isFromRightToLeft = false;
+                } else {
+                    if (newFocus.getTag() != null && newFocus.getTag().equals("left")) {
+                        Log.d(TAG, "onGlobalFocusChanged from right to left");
+                        isFromRightToLeft = true;
+
+
+                    } else {
+                        isFromRightToLeft = false;
+                    }
+                }
+            }
+        });
+
         createIndicatorView();
     }
 
@@ -117,7 +125,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             View frameLayout = LayoutInflater.from(this).inflate(R.layout.item_usercenter_indicator, null);
             TextView textView = (TextView) frameLayout.findViewById(R.id.indicator_text);
             textView.setText(res);
-            frameLayout.setTag(res);
+            frameLayout.setTag("left");
+            frameLayout.setId(res);
             frameLayout.setOnClickListener(indicatorViewOnClickListener);
             frameLayout.setOnFocusChangeListener(indicatorOnFocusListener);
             frameLayout.setOnHoverListener(indicatorOnHoverListener);
@@ -132,7 +141,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         @Override
         public void onClick(View v) {
             changeViewState(v, ViewState.Select);
-            int i = (int) v.getTag();
+            int i = v.getId();
             if (i == R.string.usercenter_store) {
                 selectProduct();
             } else if (i == R.string.usercenter_userinfo) {
@@ -216,7 +225,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         mPurchaseHistoryPresenter = new PurchaseHistoryPresenter(mPurchaseHistoryFragment);
 
         PurchaseHistoryViewModel purchaseHistoryViewModel =
-                new PurchaseHistoryViewModel(getApplicationContext(), mProductPresenter);
+                new PurchaseHistoryViewModel(getApplicationContext(), mPurchaseHistoryPresenter);
 
         mPurchaseHistoryFragment.setViewModel(purchaseHistoryViewModel);
     }
@@ -269,9 +278,28 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
-                messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
-                Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
-                messageHandler.sendMessageDelayed(message, 0);
+                if (!isFromRightToLeft) {
+                    messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
+                    Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
+                    messageHandler.sendMessageDelayed(message, 0);
+                } else {
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
+                    if (fragment instanceof ProductFragment) {
+                        userCenterIndicatorLayout.getChildAt(0).requestFocus();
+                    } else if (fragment instanceof UserInfoFragment) {
+                        userCenterIndicatorLayout.getChildAt(1).requestFocus();
+                    } else if (fragment instanceof LoginFragment) {
+                        userCenterIndicatorLayout.getChildAt(2).requestFocus();
+                    } else if (fragment instanceof PurchaseHistoryFragment) {
+                        userCenterIndicatorLayout.getChildAt(3).requestFocus();
+                    } else if (fragment instanceof HelpFragment) {
+                        userCenterIndicatorLayout.getChildAt(4).requestFocus();
+                    } else if (fragment instanceof LocationFragment) {
+                        userCenterIndicatorLayout.getChildAt(5).requestFocus();
+                    }
+                }
+            }else {
+                changeViewState(v, ViewState.Unfocus);
             }
         }
     };
@@ -284,7 +312,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 case MSG_INDICATOR_CHANGE:
                     View v = (View) msg.obj;
                     changeViewState(v, ViewState.Select);
-                    int i = (int) v.getTag();
+                    int i = v.getId();
                     if (i == R.string.usercenter_store) {
                         selectProduct();
                     } else if (i == R.string.usercenter_userinfo) {
@@ -352,10 +380,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 textFocusImage.setVisibility(View.VISIBLE);
                 lastSelectedView = parentView;
                 break;
-            case None:
-                textView.setTextColor(getResources().getColor(R.color._ffffff));
+            case Unfocus:
                 textSelectImage.setVisibility(View.INVISIBLE);
-                textFocusImage.setVisibility(View.INVISIBLE);
                 break;
             case Disable:
                 textSelectImage.setVisibility(View.INVISIBLE);
@@ -385,6 +411,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         Enable,
         Disable,
         Select,
+        Unfocus,
         Hover,
         None
     }
