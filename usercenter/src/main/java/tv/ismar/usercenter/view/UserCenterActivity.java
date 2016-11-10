@@ -152,6 +152,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private void selectProduct() {
 
         // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof ProductFragment) {
+            return;
+        }
+
         mProductFragment = ProductFragment.newInstance();
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mProductFragment, R.id.user_center_container);
@@ -167,7 +171,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     }
 
     private void selectUserInfo() {
-
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof UserInfoFragment) {
+            return;
+        }
         // Create the fragment
         mUserInfoFragment = UserInfoFragment.newInstance();
         ActivityUtils.addFragmentToActivity(
@@ -183,7 +190,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     }
 
     private void selectLogin() {
-
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LoginFragment) {
+            return;
+        }
         // Create the fragment
         mLoginFragment = LoginFragment.newInstance();
         mLoginFragment.setLoginCallback(this);
@@ -193,7 +203,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     }
 
     private void selectPurchaseHistory() {
-
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof PurchaseHistoryFragment) {
+            return;
+        }
         // Create the fragment
         mPurchaseHistoryFragment = PurchaseHistoryFragment.newInstance();
         ActivityUtils.addFragmentToActivity(
@@ -210,6 +223,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     private void selectHelp() {
         // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof HelpFragment) {
+            return;
+        }
+        // Create the fragment
         mHelpFragment = HelpFragment.newInstance();
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mHelpFragment, R.id.user_center_container);
@@ -224,7 +241,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     }
 
     private void selectLocation() {
-
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LocationFragment) {
+            return;
+        }
         // Create the fragment
         mLocationFragment = LocationFragment.newInstance();
         ActivityUtils.addFragmentToActivity(
