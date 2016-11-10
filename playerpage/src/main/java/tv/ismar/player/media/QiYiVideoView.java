@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.qiyi.sdk.player.BitStream;
+import com.qiyi.sdk.player.IAdController;
 import com.qiyi.sdk.player.IMedia;
 import com.qiyi.sdk.player.IMediaPlayer;
 import com.qiyi.sdk.player.ISdkError;
@@ -169,6 +170,10 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     public void switchQuality(ClipEntity.Quality quality) {
         mPlayer.switchBitStream(qualityConvertToBitStream(quality));
         mIsmartvPlayer.mQuality = quality;
+    }
+
+    public IAdController getAdController() {
+        return mPlayer.getAdController();
     }
 
     private IMediaPlayer.OnStateChangedListener qiyiStateChangedListener = new IMediaPlayer.OnStateChangedListener() {

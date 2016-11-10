@@ -2,6 +2,7 @@ package tv.ismar.player.media;
 
 import android.view.View;
 
+import com.qiyi.sdk.player.IAdController;
 import com.qiyi.sdk.player.IMedia;
 import com.qiyi.sdk.player.IVideoOverlay;
 import com.qiyi.sdk.player.PlayerSdk;
@@ -126,4 +127,8 @@ public class QiyiPlayer extends IsmartvPlayer {
         videoSurfaceView.switchQuality(quality);
     }
 
+    @Override
+    public IAdController getAdController() {
+        return videoSurfaceView.getAdController();
+    }
 }

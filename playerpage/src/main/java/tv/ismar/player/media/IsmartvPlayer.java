@@ -6,6 +6,7 @@ import android.view.SurfaceView;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.qiyi.sdk.player.IAdController;
 import com.qiyi.sdk.player.IMedia;
 import com.qiyi.sdk.player.Parameter;
 import com.qiyi.sdk.player.PlayerSdk;
@@ -350,6 +351,10 @@ public abstract class IsmartvPlayer implements IPlayer {
             default:
                 return -1;
         }
+    }
+
+    public IAdController getAdController(){
+        return null;
     }
 
     // 日志上报相关

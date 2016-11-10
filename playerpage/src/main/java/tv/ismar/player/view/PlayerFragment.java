@@ -30,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.qiyi.sdk.player.AdItem;
+import com.qiyi.sdk.player.IAdController;
 import com.qiyi.sdk.player.IMediaPlayer;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -1517,6 +1519,15 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             case KeyEvent.KEYCODE_DPAD_UP:
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 if (mIsPlayingAd) {
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                        // TODO 暂停广告按下消除
+                        // TODO 悦享看广告一定时间后可以消除
+                        IAdController adController = mIsmartvPlayer.getAdController();
+                        if (adController != null) {
+                            Log.d(TAG, "iqiyi ad skip");
+                            adController.skipAd();
+                        }
+                    }
                     return true;
                 }
                 hidePanel();
@@ -1583,7 +1594,18 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             case KeyEvent.KEYCODE_DPAD_RIGHT:
             case KeyEvent.KEYCODE_FORWARD:
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
+                if (mIsPlayingAd) {
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                        // TODO 前贴片,中插广告按右键跳转至图片或H5,需要指明类型
+                        IAdController adController = mIsmartvPlayer.getAdController();
+                        if (adController != null) {
+                            Log.d(TAG, "iqiyi ad show");
+                            adController.showAd(AdItem.AdType.MIDDLE);
+                        }
+                    }
+                    return true;
+                }
+                if (isMenuShow() || isPopWindowShow()) {
                     return true;
                 }
                 forwardClick(null);
