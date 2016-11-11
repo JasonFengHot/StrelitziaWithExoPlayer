@@ -25,8 +25,7 @@ public interface PageIntentInterface {
     int PAYVIP = 2;
 
 
-
-    void toDetailPage(Context context, String contentModel, int pk);
+    void  toDetailPage(Context context, String contentModel, int pk);
 
 
     void toDetailPage(Context context, String source, String json);
@@ -91,5 +90,10 @@ public interface PageIntentInterface {
             return cpid;
         }
     }
+
     void toPlayPage(Context context, int pk, int sub_item_pk, String source);
+
+    void toUserCenter(Context context);
+
+    void toUserCenterLocation(Context context);
 }

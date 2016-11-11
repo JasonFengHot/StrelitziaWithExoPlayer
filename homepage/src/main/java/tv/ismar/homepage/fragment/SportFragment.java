@@ -32,7 +32,7 @@ import tv.ismar.app.models.SportGame;
 import tv.ismar.app.player.InitPlayerTool;
 import tv.ismar.app.util.PicassoUtils;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.TVGuideActivity;
+import tv.ismar.homepage.activity.HomePageActivity;
 import tv.ismar.homepage.widget.HomeItemContainer;
 import tv.ismar.homepage.widget.LabelImageView3;
 
@@ -151,7 +151,7 @@ public class SportFragment extends ChannelBaseFragment {
                     test.sendMessage(msg);
                 }
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                    ((HomePageActivity) (getActivity())).setLastViewTag("");
                 }
             }
         });
@@ -161,7 +161,7 @@ public class SportFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                    ((HomePageActivity) (getActivity())).setLastViewTag("");
                 }
             }
         });
@@ -183,7 +183,7 @@ public class SportFragment extends ChannelBaseFragment {
                 }
                 if (arg1) {
                     arrowDown.setFocusable(true);
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                    ((HomePageActivity) (getActivity())).setLastViewTag("");
                 }
             }
         });
@@ -192,7 +192,7 @@ public class SportFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
+                    ((HomePageActivity) (getActivity())).setLastViewTag("bottom");
                 }
             }
         });
@@ -201,7 +201,7 @@ public class SportFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
+                    ((HomePageActivity) (getActivity())).setLastViewTag("bottom");
                     arrowDown.setFocusable(false);
                 }
             }
@@ -226,7 +226,7 @@ public class SportFragment extends ChannelBaseFragment {
             fetchSportGame(channelEntity.getHomepage_url());
     }
     private void fetchSportGame(String url) {
-        ((TVGuideActivity) getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
+        ((HomePageActivity) getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HomePagerEntity>() {
                     @Override
@@ -254,7 +254,7 @@ public class SportFragment extends ChannelBaseFragment {
     }
 
        private void getSport() {
-        ((TVGuideActivity) getActivity()).mSkyService.apiSport().subscribeOn(Schedulers.io())
+        ((HomePageActivity) getActivity()).mSkyService.apiSport().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Sport>() {
                     @Override
@@ -277,7 +277,7 @@ public class SportFragment extends ChannelBaseFragment {
     }
 
     private void getGame() {
-        ((TVGuideActivity) getActivity()).mSkyService.apiGame().subscribeOn(Schedulers.io())
+        ((HomePageActivity) getActivity()).mSkyService.apiGame().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Game>() {
                     @Override
@@ -352,7 +352,7 @@ public class SportFragment extends ChannelBaseFragment {
                 }
 //	        	}
             }
-            ((TVGuideActivity) getActivity()).resetBorderFocus();
+            ((HomePageActivity) getActivity()).resetBorderFocus();
         }
     }
 
@@ -361,7 +361,7 @@ public class SportFragment extends ChannelBaseFragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
-                ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                ((HomePageActivity) (getActivity())).setLastViewTag("");
                 Carousel carousel = (Carousel) v.getTag(R.drawable.launcher_selector);
                 PicassoUtils.load(mContext, carousel.getVideo_image(), sportspost);
 

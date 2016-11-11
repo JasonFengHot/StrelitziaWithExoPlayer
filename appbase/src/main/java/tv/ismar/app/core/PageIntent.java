@@ -84,4 +84,16 @@ public class PageIntent implements PageIntentInterface {
         intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
         context.startActivity(intent);
     }
+
+    @Override
+    public void toUserCenter(Context context) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.usercenter");
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void toUserCenterLocation(Context context) {
+
+    }
 }

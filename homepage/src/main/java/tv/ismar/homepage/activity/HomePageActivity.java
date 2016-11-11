@@ -42,7 +42,6 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.blankj.utilcode.utils.StringUtils;
-import com.google.gson.Gson;
 import com.konka.android.media.KKMediaPlayer;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
@@ -67,6 +66,7 @@ import tv.ismar.app.VodApplication;
 import tv.ismar.app.ad.AdsUpdateService;
 import tv.ismar.app.ad.AdvertiseManager;
 import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
@@ -77,6 +77,7 @@ import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LaunchHeaderLayout;
+import tv.ismar.app.widget.LaunchHeaderLayout.HeadItemClickListener;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.adapter.ChannelRecyclerAdapter;
 import tv.ismar.homepage.adapter.HorizontalSpacesItemDecoration;
@@ -97,7 +98,7 @@ import tv.ismar.homepage.widget.Position;
 /**
  * Created by huaijie on 5/18/15.
  */
-public class TVGuideActivity extends BaseActivity {
+public class HomePageActivity extends BaseActivity implements HeadItemClickListener {
     private static final String TAG = "TVGuideActivity";
     private static final int SWITCH_PAGE = 0X01;
     private static final int SWITCH_PAGE_FROMLAUNCH = 0X02;
@@ -171,6 +172,27 @@ public class TVGuideActivity extends BaseActivity {
     private Handler netErrorPopupHandler;
     private Runnable netErrorPopupRunnable;
     public static String brandName;
+
+    @Override
+    public void onUserCenterClick() {
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toUserCenter(this);
+    }
+
+    @Override
+    public void onHistoryClick() {
+
+    }
+
+    @Override
+    public void onFavoriteClick() {
+
+    }
+
+    @Override
+    public void onSearchClick() {
+
+    }
 
     private enum LeavePosition {
         LeftTop,
@@ -304,7 +326,7 @@ public class TVGuideActivity extends BaseActivity {
             return;
         }
         int tabMargin = getResources().getDimensionPixelSize(R.dimen.tv_guide_channel_margin_lr) - mTabSpace;
-        int tabRightX = Util.getDisplayPixelWidth(TVGuideActivity.this) - tabMargin;
+        int tabRightX = Util.getDisplayPixelWidth(HomePageActivity.this) - tabMargin;
         int[] currentPos = new int[2];
         view.getLocationOnScreen(currentPos);
         int currentWidth = view.getWidth();
@@ -351,7 +373,7 @@ public class TVGuideActivity extends BaseActivity {
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         if (savedInstanceState != null)
             savedInstanceState = null;
-         super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 //        new Thread(new InitializeProcess(this)).start();
         fragmentSwitch = new FragmentSwitchHandler(this);
         activityTag = "BaseActivity";
@@ -529,7 +551,7 @@ public class TVGuideActivity extends BaseActivity {
         recycler_tab_list.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Log.i("LH/","onFocusChange:"+hasFocus + " hover:"+ hoverOnArrow+ " v:"+v.isHovered());
+                Log.i("LH/", "onFocusChange:" + hasFocus + " hover:" + hoverOnArrow + " v:" + v.isHovered());
                 View currentView = recycler_tab_list.getLayoutManager().findViewByPosition(recyclerAdapter.getSelectedPosition());
                 if (currentView != null) {
                     if (hasFocus) {
@@ -718,20 +740,20 @@ public class TVGuideActivity extends BaseActivity {
         }
         recyclerAdapter.notifyDataSetChanged();
 //                createChannelView();
-        if(brandName!= null && brandName.toLowerCase().contains("changhong")){
+        if (brandName != null && brandName.toLowerCase().contains("changhong")) {
             homepage_template = "template3";
         }
         if (!StringUtils.isEmpty(homepage_template)) {
             for (int i = 0; i < mChannelEntitys.length; i++) {
-                if(brandName!= null && brandName.toLowerCase().contains("changhong")){
-                    if("sport".equalsIgnoreCase(mChannelEntitys[i].getChannel())){
+                if (brandName != null && brandName.toLowerCase().contains("changhong")) {
+                    if ("sport".equalsIgnoreCase(mChannelEntitys[i].getChannel())) {
                         channelscrollIndex = i + 1;
                         scrollType = ScrollType.none;
                         recyclerAdapter.setSelectedPosition(channelscrollIndex);
                         mCurrentChannelPosition.setPosition(channelscrollIndex);
                         topView.setSubTitle(mChannelEntitys[i].getName());
                     }
-                }else {
+                } else {
                     if (homepage_template.equals(mChannelEntitys[i].getHomepage_template()) && mChannelEntitys[i].getHomepage_url().contains(homepage_url)) {
                         channelscrollIndex = i + 1;
                         Log.i("LH/", "channelscrollIndex:" + channelscrollIndex);
@@ -931,15 +953,15 @@ public class TVGuideActivity extends BaseActivity {
                         exitPopupWindow.dismiss();
                         CallaPlay callaPlay = new CallaPlay();
 //                        callaPlay.app_exit(TrueTime.now().getTime() - app_start_time, SimpleRestClient.appVersion);
-                        callaPlay.app_exit(System.currentTimeMillis()- app_start_time, SimpleRestClient.appVersion);
-                        TVGuideActivity.this.finish();
+                        callaPlay.app_exit(System.currentTimeMillis() - app_start_time, SimpleRestClient.appVersion);
+                        HomePageActivity.this.finish();
                         ArrayList<String> cache_log = MessageQueue.getQueueList();
                         HashSet<String> hasset_log = new HashSet<String>();
                         for (int i = 0; i < cache_log.size(); i++) {
                             hasset_log.add(cache_log.get(i));
                         }
                         DaisyUtils
-                                .getVodApplication(TVGuideActivity.this)
+                                .getVodApplication(HomePageActivity.this)
                                 .getEditor()
                                 .putStringSet(VodApplication.CACHED_LOG,
                                         hasset_log);
@@ -964,7 +986,7 @@ public class TVGuideActivity extends BaseActivity {
     private void showNetErrorPopup() {
         if (neterrorshow)
             return;
-        final MessageDialogFragment dialog = new MessageDialogFragment(TVGuideActivity.this, getString(R.string.fetch_net_data_error), null);
+        final MessageDialogFragment dialog = new MessageDialogFragment(HomePageActivity.this, getString(R.string.fetch_net_data_error), null);
         dialog.setButtonText(getString(R.string.setting_network), getString(R.string.i_know));
         try {
             dialog.showAtLocation(contentView, Gravity.CENTER,
@@ -972,7 +994,7 @@ public class TVGuideActivity extends BaseActivity {
                         @Override
                         public void confirmClick(View view) {
                             Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                            TVGuideActivity.this.startActivity(intent);
+                            HomePageActivity.this.startActivity(intent);
                         }
                     }, new MessageDialogFragment.CancelListener() {
 
@@ -1344,9 +1366,10 @@ public class TVGuideActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        neterrorshow=false;
+        neterrorshow = false;
         channelscrollIndex = 0;
         topView = (LaunchHeaderLayout) findViewById(R.id.top_column_layout);
+        topView.setHeadItemClickListener(this);
         try {
             Class.forName("com.konka.android.media.KKMediaPlayer");
             KKMediaPlayer localKKMediaPlayer1 = new KKMediaPlayer();
@@ -1360,8 +1383,8 @@ public class TVGuideActivity extends BaseActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(!DaisyUtils.isNetworkAvailable(this)){
-            Log.e("tvguide","onresume Isnetwork");
+        if (!DaisyUtils.isNetworkAvailable(this)) {
+            Log.e("tvguide", "onresume Isnetwork");
             showNetErrorPopup();
         }
     }
@@ -1403,10 +1426,10 @@ public class TVGuideActivity extends BaseActivity {
         homepage_url = intent.getStringExtra("homepage_url");
         if (StringUtils.isEmpty(homepage_template)
                 || StringUtils.isEmpty(homepage_url)) {
-                      fetchChannels();
+            fetchChannels();
         } else {
 //            if (StringUtils.isNotEmpty(SimpleRestClient.root_url)) {
-                fetchChannels();
+            fetchChannels();
 //            }
         }
     }
@@ -1460,15 +1483,15 @@ public class TVGuideActivity extends BaseActivity {
     private static int nextselectflag;
 
     static class FragmentSwitchHandler extends Handler {
-        private WeakReference<TVGuideActivity> weakReference;
+        private WeakReference<HomePageActivity> weakReference;
 
-        public FragmentSwitchHandler(TVGuideActivity activity) {
-            weakReference = new WeakReference<TVGuideActivity>(activity);
+        public FragmentSwitchHandler(HomePageActivity activity) {
+            weakReference = new WeakReference<HomePageActivity>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            TVGuideActivity activity = weakReference.get();
+            HomePageActivity activity = weakReference.get();
             if (activity != null) {
                 switch (msg.what) {
                     case SWITCH_PAGE:
@@ -1497,7 +1520,6 @@ public class TVGuideActivity extends BaseActivity {
     }
 
     /**
-     *
      * advertisement start
      */
     private void playLaunchAd(final int index) {
@@ -1532,7 +1554,7 @@ public class TVGuideActivity extends BaseActivity {
 
                         @Override
                         public void onError() {
-                            ad_pic.setImageBitmap(Utils.getImgFromAssets(TVGuideActivity.this, "poster.png"));
+                            ad_pic.setImageBitmap(Utils.getImgFromAssets(HomePageActivity.this, "poster.png"));
                             if (playIndex == 0) {
                                 mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
                             }

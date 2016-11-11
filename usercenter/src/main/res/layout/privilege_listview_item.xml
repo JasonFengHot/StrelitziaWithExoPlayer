@@ -33,5 +33,6 @@
         android:layout_height="@dimen/privilege_min_h"
         android:layout_marginLeft="@dimen/privilege_item_btn_ml"
         android:layout_toRightOf="@id/buydate_txt"
-        android:background="@drawable/selector_button"/>
+        android:background="@drawable/selector_button"
+        android:textSize="@dimen/text_size_27sp"/>
 </RelativeLayout>

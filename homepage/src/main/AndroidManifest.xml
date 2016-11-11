@@ -7,10 +7,15 @@
                  android:supportsRtl="true"
     >
 
-        <activity android:name=".activity.TVGuideActivity"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/IsmartvAppTheme.Fullscreen"
-            >
+        <activity android:name=".activity.HomePageActivity"
+                  android:screenOrientation="sensorLandscape"
+                  android:theme="@style/IsmartvAppTheme.Fullscreen"
+        >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

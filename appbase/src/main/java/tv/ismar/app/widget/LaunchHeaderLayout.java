@@ -1,7 +1,6 @@
 package tv.ismar.app.widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -37,9 +36,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import cn.ismartv.injectdb.library.query.Select;
 import okhttp3.ResponseBody;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
@@ -122,25 +118,26 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
             } else {
                 AccountSharedPrefs.getInstance().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(changeListener);
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     private SharedPreferences.OnSharedPreferenceChangeListener changeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 //            String geoId = locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID, "101020100");
-        try {
-            String cityName = AccountSharedPrefs.getInstance().getSharedPrefs(AccountSharedPrefs.CITY);
-            CityTable cityTable = new Select().from(CityTable.class).where(CityTable.CITY + " = ?", cityName).executeSingle();
+            try {
+                String cityName = AccountSharedPrefs.getInstance().getSharedPrefs(AccountSharedPrefs.CITY);
+                CityTable cityTable = new Select().from(CityTable.class).where(CityTable.CITY + " = ?", cityName).executeSingle();
 
-            if (cityTable != null) {
-                if (key.equals(AccountSharedPrefs.GEO_ID)) {
-                    fetchWeatherInfo(String.valueOf(cityTable.geo_id));
+                if (cityTable != null) {
+                    if (key.equals(AccountSharedPrefs.GEO_ID)) {
+                        fetchWeatherInfo(String.valueOf(cityTable.geo_id));
+                    }
                 }
-            }
-        }catch (Exception e){
+            } catch (Exception e) {
 
-        }
+            }
         }
     };
 
@@ -194,9 +191,9 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
         if (!StringUtils.isEmpty(weather)) {
             parseXml(weather);
         }
-        ((BaseActivity)context).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
+        ((BaseActivity) context).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(((BaseActivity)context).new BaseObserver<ResponseBody>() {
+                .subscribe(((BaseActivity) context).new BaseObserver<ResponseBody>() {
                     @Override
                     public void onCompleted() {
 
@@ -262,33 +259,46 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (mHeadItemClickListener != null) {
+            int i = v.getId();
+            if (i == R.string.vod_movielist_title_history) {
 
-        int i = v.getId();
-        if (i == R.string.vod_movielist_title_history) {
-            intent.setClassName("tv.ismar.daisy",
-                    "tv.ismar.daisy.ChannelListActivity");
-            intent.putExtra("channel", "histories");
+            } else if (i == R.string.guide_my_favorite) {
 
-        } else if (i == R.string.guide_my_favorite) {
-            intent.setClassName("tv.ismar.daisy",
-                    "tv.ismar.daisy.ChannelListActivity");
-            intent.putExtra("channel", "$bookmarks");
+            } else if (i == R.string.guide_user_center) {
+                mHeadItemClickListener.onUserCenterClick();
 
-        } else if (i == R.string.guide_user_center) {
-            intent.setClassName("tv.ismar.daisy",
-                    "tv.ismar.daisy.ui.activity.UserCenterActivity");
+            } else if (i == R.string.guide_search) {
 
-        } else if (i == R.string.guide_search) {
-            if (isAppInstalled(context, "cn.ismartv.Jasmine")) {
-                intent.setAction("cn.ismartv.jasmine.wordsearchactivity");
-            } else {
-                intent.setAction("tv.ismar.daisy.Search");
             }
-
         }
-        context.startActivity(intent);
+
+//        PageIntent pageIntent = new PageIntent();
+//        Intent intent = new Intent();
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//        int i = v.getId();
+//        if (i == R.string.vod_movielist_title_history) {
+//            intent.setClassName("tv.ismar.daisy",
+//                    "tv.ismar.daisy.ChannelListActivity");
+//            intent.putExtra("channel", "histories");
+//
+//        } else if (i == R.string.guide_my_favorite) {
+//            intent.setClassName("tv.ismar.daisy",
+//                    "tv.ismar.daisy.ChannelListActivity");
+//            intent.putExtra("channel", "$bookmarks");
+//
+//        } else if (i == R.string.guide_user_center) {
+//            pageIntent.toUserCenter(context);
+//        } else if (i == R.string.guide_search) {
+//            if (isAppInstalled(context, "cn.ismartv.Jasmine")) {
+//                intent.setAction("cn.ismartv.jasmine.wordsearchactivity");
+//            } else {
+//                intent.setAction("tv.ismar.daisy.Search");
+//            }
+//
+//        }
+//        context.startActivity(intent);
     }
 
     @Override
@@ -336,6 +346,24 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
         weatherInfoTextView.setVisibility(View.INVISIBLE);
     }
 
+
+    public interface HeadItemClickListener {
+        void onUserCenterClick();
+
+        void onHistoryClick();
+
+        void onFavoriteClick();
+
+        void onSearchClick();
+    }
+
+    private HeadItemClickListener mHeadItemClickListener;
+
+
+    public void setHeadItemClickListener(HeadItemClickListener headItemClickListener) {
+        mHeadItemClickListener = headItemClickListener;
+    }
+
     public boolean isAppInstalled(Context context, String packageName) {
         final PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
@@ -348,4 +376,6 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
         }
         return pName.contains(packageName);
     }
+
+
 }

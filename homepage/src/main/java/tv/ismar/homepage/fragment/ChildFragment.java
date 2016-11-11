@@ -24,7 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.TVGuideActivity;
+import tv.ismar.homepage.activity.HomePageActivity;
 import tv.ismar.homepage.widget.ChildThumbImageView;
 import tv.ismar.homepage.widget.LabelImageView3;
 
@@ -88,7 +88,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
 			@Override
 			public void onFocusChange(View arg0, boolean arg1) {
 				if (arg1) {
-					((TVGuideActivity) (getActivity())).setLastViewTag("bottom");			
+					((HomePageActivity) (getActivity())).setLastViewTag("bottom");
 				}
 			}
 		});
@@ -125,7 +125,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
     }
 
     private void fetchChild(String url) {
-        ((TVGuideActivity)getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
+        ((HomePageActivity)getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HomePagerEntity>() {
                     @Override
@@ -162,7 +162,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
                                 }
 //                  	}
                             }
-                            ((TVGuideActivity)getActivity()).resetBorderFocus();
+                            ((HomePageActivity)getActivity()).resetBorderFocus();
                         }
                     }
                 });
@@ -227,7 +227,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
             			@Override
             			public void onFocusChange(View arg0, boolean arg1) {
             				if (arg1) {
-            					((TVGuideActivity) (getActivity())).setLastViewTag("");			
+            					((HomePageActivity) (getActivity())).setLastViewTag("");
             				}
             			}
             		});
@@ -239,7 +239,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
             			@Override
             			public void onFocusChange(View arg0, boolean arg1) {
             				if (arg1) {
-            					((TVGuideActivity) (getActivity())).setLastViewTag("bottom");			
+            					((HomePageActivity) (getActivity())).setLastViewTag("bottom");
             				}
             			}
             		});
@@ -288,7 +288,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
         			@Override
         			public void onFocusChange(View arg0, boolean arg1) {
         				if (arg1) {
-        					((TVGuideActivity) (getActivity())).setLastViewTag("");			
+        					((HomePageActivity) (getActivity())).setLastViewTag("");
         				}
         			}
         		});

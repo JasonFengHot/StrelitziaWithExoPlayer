@@ -10,10 +10,9 @@ import android.widget.Button;
 import android.widget.VideoView;
 
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.ad.AdsUpdateService;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.detailpage.view.DetailPageActivity;
-import tv.ismar.homepage.activity.TVGuideActivity;
+import tv.ismar.homepage.activity.HomePageActivity;
 import tv.ismar.player.view.PlayerActivity;
 import tv.ismar.usercenter.view.UserCenterActivity;
 
@@ -67,7 +66,7 @@ public class MainActivity extends BaseActivity {
         launcher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, TVGuideActivity.class);
+                Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
                 startActivity(intent);
             }
         });
