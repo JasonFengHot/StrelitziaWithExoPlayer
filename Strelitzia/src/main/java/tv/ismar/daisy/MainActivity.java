@@ -1,13 +1,11 @@
 package tv.ismar.daisy;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.VideoView;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntentInterface;
@@ -134,18 +132,6 @@ public class MainActivity extends BaseActivity {
 //        densityDpi240
 //        scaledDensity:1.5
 
-        VideoView linked_video = (VideoView) findViewById(R.id.linked_video);
-        linked_video.setVideoPath("http://vdata.tvxio.com/topvideo/a2ffb394233a370b26fb1bbb590b0ceb.mp4?sn=oncall");
-        linked_video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-            }
-
-        });
-
-        Intent intent = new Intent(this, UserCenterActivity.class);
-        startActivity(intent);
-
 
     }
 
@@ -178,4 +164,12 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(this, UserCenterActivity.class);
         startActivity(intent);
     }
+
+    public void onAdClick(View view){
+        Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+        intent.putExtra(PageIntentInterface.EXTRA_PK, 706318);// 马兰谣
+        startActivity(intent);
+
+    }
+
 }
