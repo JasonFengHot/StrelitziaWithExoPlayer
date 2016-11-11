@@ -26,12 +26,11 @@
         android:orientation="vertical"
         android:visibility="@{tasks.itemLayoutVisibility}">
 
-        <fragment
+        <FrameLayout
             android:id="@+id/detail_head"
-            android:name="tv.ismar.app.ui.HeadFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/fragment_head"/>
+            android:layout_height="@dimen/detail_header_height"
+        />
 
         <LinearLayout
             android:layout_width="match_parent"

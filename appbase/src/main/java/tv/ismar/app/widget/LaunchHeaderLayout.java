@@ -75,7 +75,7 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
         this.context = context;
         indicatorTableList = new ArrayList<View>();
 
-        View view = LayoutInflater.from(context).inflate(R.layout.fragment_weather, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_head, null);
 
 
         titleTextView = (TextView) view.findViewById(R.id.title);
@@ -147,7 +147,7 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
         indicatorTableList.clear();
         for (int res : INDICATOR_RES_LIST) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.item_weather_indicator, null);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_header_indicator, null);
             TextView textView = (TextView) view.findViewById(R.id.weather_indicator);
             view.setOnClickListener(this);
             view.setOnFocusChangeListener(this);

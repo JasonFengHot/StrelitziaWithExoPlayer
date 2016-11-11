@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.ActivityUtils;
 import tv.ismar.pay.LoginFragment;
 import tv.ismar.usercenter.R;
@@ -80,15 +81,23 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         setContentView(R.layout.activity_usercenter);
         IsmartvActivator.getInstance().addAccountChangeListener(this);
         initViews();
-//        selectProduct();
+        addHeader();
+        selectProduct();
 
-        selectLocation();
         // Load previously saved state, if available.
         if (savedInstanceState != null) {
 //            TasksFilterType currentFiltering =
 //                    (TasksFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
 //            mTasksPresenter.setFiltering(currentFiltering);
         }
+    }
+
+    private void addHeader() {
+        HeadFragment headFragment = new HeadFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", "usercenter");
+        headFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().add(R.id.header, headFragment).commit();
     }
 
     private void initViews() {
@@ -104,7 +113,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     Log.d(TAG, "onGlobalFocusChanged same side");
                     isFromRightToLeft = false;
                 } else {
-                    if (newFocus!=null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
+                    if (newFocus != null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
                         Log.d(TAG, "onGlobalFocusChanged from right to left");
                         isFromRightToLeft = true;
                     } else {

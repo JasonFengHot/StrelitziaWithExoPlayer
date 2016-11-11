@@ -96,4 +96,6 @@ public class PageIntent implements PageIntentInterface {
     public void toUserCenterLocation(Context context) {
 
     }
+
+
 }
