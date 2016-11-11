@@ -78,8 +78,8 @@ public interface SkyService {
     );
 
     @GET
-    Observable<ItemEntity> apiItemByUrl(
-            @Url String urlP
+    Observable<ResponseBody> apiCheckItem(
+            @Url String url
     );
 
     @GET
