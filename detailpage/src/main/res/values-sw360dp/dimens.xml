@@ -107,4 +107,5 @@
 <dimen name="movie_relate_width">340.00dp</dimen>
 <dimen name="normal_linespacingextra">6.67dp</dimen>
 <dimen name="detail_text_mt4">10.00dp</dimen>
+<dimen name="detail_header_height">33.33dp</dimen>
 </resources>

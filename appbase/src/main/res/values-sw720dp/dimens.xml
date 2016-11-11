@@ -357,8 +357,8 @@
 <dimen name="purchaseFragment_item_order_extra_marginLeft">26.67dp</dimen>
 <dimen name="purchaseFragment_item_marginLeft">59.33dp</dimen>
 <dimen name="purchaseFragment_item_icon_marginTop">4.00dp</dimen>
-<dimen name="locationFragment_areaPop_xOffset">143.33dp</dimen>
-<dimen name="locationFragment_areaPop_yOffset">76.67dp</dimen>
+<dimen name="locationFragment_areaPop_xOffset">133.33dp</dimen>
+<dimen name="locationFragment_areaPop_yOffset">103.33dp</dimen>
 <dimen name="locationFragment_provinceGrid_verticalSpacing">43.33dp</dimen>
 <dimen name="locationFragment_provinceGrid_marginLR">20.00dp</dimen>
 <dimen name="locationFragment_areaGridItem_minHeght">60.00dp</dimen>
@@ -366,8 +366,7 @@
 <dimen name="locationFragment_selectedPositionTitle_marginLeft">66.67dp</dimen>
 <dimen name="locationFragment_todayLayout_marginLeft">53.33dp</dimen>
 <dimen name="locatiionFragment_areaPop_height">276.67dp</dimen>
-<dimen name="locationFragment_areaPop_btn_width">156.67dp</dimen>
-<dimen name="locationFragment_areaPop_btn_height">56.67dp</dimen>
+
 <dimen name="locatoinFragment_areaPop_cancelBtn_marginLeft">56.67dp</dimen>
 <dimen name="locationFragment_areaPop_Btn_marginTop">26.67dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">120.00dp</dimen>
