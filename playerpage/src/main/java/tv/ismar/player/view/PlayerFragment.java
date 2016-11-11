@@ -580,6 +580,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.i(TAG, "onSeekComplete");
         if (isSeeking) {
             timerStart(500);
+            showPannelDelayOut();
             if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.start();
             }
