@@ -221,6 +221,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
                 android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing"
+                android:visibility="@{tasks.privilegeVisibility}"
             >
 
                 <TextView
@@ -236,24 +237,11 @@
 
                 </TextView>
 
-                <ScrollView
+                <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+                    android:id="@+id/privilege_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="@dimen/person_login_phone_view_ML"
-                    android:layout_toRightOf="@id/privilege_txt">
-
-                    <LinearLayout
-                        android:id="@+id/privilegelist"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:descendantFocusability="afterDescendants"
-                        android:focusable="true"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                    </LinearLayout>
-                </ScrollView>
+                    android:layout_toRightOf="@id/privilege_txt"/>
 
 
             </RelativeLayout>
