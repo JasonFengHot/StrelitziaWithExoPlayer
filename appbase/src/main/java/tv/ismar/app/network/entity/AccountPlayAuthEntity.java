@@ -26,11 +26,20 @@ public class AccountPlayAuthEntity {
         this.playauth_list = playauth_list;
     }
 
-    public class PlayAuth {
+    public static class PlayAuth {
         private String expiry_date;
         private String title;
         private String url;
         private String content_model;
+        private Action action;
+
+        public Action getAction() {
+            return action;
+        }
+
+        public void setAction(Action action) {
+            this.action = action;
+        }
 
         public String getUrl() {
             return url;
@@ -55,6 +64,7 @@ public class AccountPlayAuthEntity {
         public void setTitle(String title) {
             this.title = title;
         }
+
         public String getContentMode() {
             return content_model;
         }
@@ -62,5 +72,10 @@ public class AccountPlayAuthEntity {
         public void setContentMode(String contentMode) {
             this.content_model = contentMode;
         }
+    }
+
+    public enum Action {
+        watch,
+        repeat_buy
     }
 }

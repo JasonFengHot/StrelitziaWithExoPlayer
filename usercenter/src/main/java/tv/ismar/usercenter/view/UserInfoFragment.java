@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
@@ -29,6 +30,8 @@ import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.UserInfoContract;
 import tv.ismar.usercenter.databinding.FragmentUserinfoBinding;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
+
+import static tv.ismar.app.network.entity.AccountPlayAuthEntity.PlayAuth;
 
 /**
  * Created by huibin on 10/27/16.
@@ -231,11 +234,23 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
         @Override
         public void onBindViewHolder(PrivilegeViewHolder holder, int position) {
-            AccountPlayAuthEntity.PlayAuth playAuth = mPlayAuths.get(position);
+            PlayAuth playAuth = mPlayAuths.get(position);
 
             String remainday = mContext.getResources().getString(R.string.personcenter_orderlist_item_remainday);
             holder.date.setText(String.format(remainday, remaindDay(playAuth.getExpiry_date())));
             holder.title.setText(playAuth.getTitle());
+            if (playAuth.getAction() == null) {
+                holder.mButton.setVisibility(View.INVISIBLE);
+            } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.watch) {
+                holder.mButton.setText("观看");
+
+            } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
+                holder.mButton.setText("续费");
+
+            } else {
+                holder.mButton.setVisibility(View.INVISIBLE);
+
+            }
 
         }
 
@@ -259,12 +274,14 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
         private TextView title;
         private TextView date;
+        private Button mButton;
 
 
         public PrivilegeViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title_txt);
             date = (TextView) itemView.findViewById(R.id.buydate_txt);
+            mButton = (Button) itemView.findViewById(R.id.btn);
         }
     }
 
