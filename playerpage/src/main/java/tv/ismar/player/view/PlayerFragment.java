@@ -133,6 +133,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean mIsOnPaused = false;// 调用pause()之后部分机型会执行BufferStart(701)
     private boolean isInit = false;// 奇艺播放器在onPrepared之后无法获得影片总时长,故在onStart接口中获取
     private boolean mIsPlayingAd;// 判断是否正在播放广告
+    private boolean mIsInAdDetail;// 是否在广告详情页
     private boolean isSeeking = false;// 空鼠拖动进度条,左右键快进快退,切换码率
     private boolean isFastFBClick = false;// 控制栏左右步进按钮
     private boolean isNeedOnResume = false;// 当前页面未销毁,不在栈的顶层
@@ -482,6 +483,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         player_logo_image.setVisibility(View.GONE);
         mIsPlayingAd = false;
+        mIsInAdDetail = false;
         ad_vip_btn.setVisibility(View.GONE);
         ad_count_text.setVisibility(View.GONE);
         hideMenu();
@@ -1524,8 +1526,15 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         // TODO 暂停广告按下消除
                         // TODO 悦享看广告一定时间后可以消除
                         IAdController adController = mIsmartvPlayer.getAdController();
-                        if (adController != null) {
-                            Log.d(TAG, "iqiyi ad skip");
+                        Log.d(TAG, "DOWN:" + adController);
+                        //隐藏暂停广告
+                        if (adController != null && mIsOnPaused) {
+                            Log.d(TAG, "Invisible pause ad.");
+                            adController.hideAd(AdItem.AdType.PAUSE);
+                        }
+                        //跳过悦享看广告
+                        if (adController != null && adController.isEnableSkipAd()) {
+                            Log.d(TAG, "Jump over ad.");
                             adController.skipAd();
                         }
                     }
@@ -1541,8 +1550,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     showExitPopup(POP_TYPE_KEY_BACK);
                     return true;
                 }
-                if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
-                    mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                if (mIsPlayingAd) {
+                    if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+                        mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                    }
+                    IAdController adController = mIsmartvPlayer.getAdController();
+                    Log.d(TAG, "BACK:" + adController);
+                    if (adController != null && mIsInAdDetail) {
+                        // TODO 广告详情页面返回键后继续播放视频
+                        Log.d(TAG, "From ad detail to player.");
+                        mIsInAdDetail = false;
+                        adController.hideAd(AdItem.AdType.CLICKTHROUGH);
+                        return true;
+                    }
                 }
                 if (isPlayInDetailPage) {
                     onHidePlayerPageListener.onHide();
@@ -1599,9 +1619,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                         // TODO 前贴片,中插广告按右键跳转至图片或H5,需要指明类型
                         IAdController adController = mIsmartvPlayer.getAdController();
-                        if (adController != null) {
-                            Log.d(TAG, "iqiyi ad show");
-                            adController.showAd(AdItem.AdType.MIDDLE);
+                        Log.d(TAG, "RIGHT:" + adController);
+                        // 从前贴/中插广告跳转到图片或H5
+                        if (adController != null && adController.isEnableClickThroughAd()) {
+                            Log.d(TAG, "Jump to ad detail.");
+                            mIsInAdDetail = true;
+                            adController.showAd(AdItem.AdType.CLICKTHROUGH);
                         }
                     }
                     return true;

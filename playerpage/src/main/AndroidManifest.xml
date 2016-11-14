@@ -14,8 +14,7 @@
     <uses-permission android:name="android.permission.REAL_GET_TASKS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
-    <application
-    >
+    <application>
         <activity
             android:name=".view.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -29,6 +28,18 @@
             </intent-filter>
 
         </activity>
+
+        <service
+            android:name="com.qiyi.sdk.plugin.server.storage.StorageServer"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.qiyi.sdk.plugin.server.storage.StorageServer" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </service>
 
     </application>
 
