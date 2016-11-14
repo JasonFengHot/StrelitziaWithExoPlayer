@@ -1,8 +1,6 @@
 package tv.ismar.usercenter.view;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -192,7 +190,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 getSupportFragmentManager(), mProductFragment, R.id.user_center_container);
 
 
-
     }
 
     private void selectUserInfo() {
@@ -288,7 +285,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 getSupportFragmentManager(), mLocationFragment, R.id.user_center_container);
 
 
-
     }
 
     @Override
@@ -303,11 +299,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
                 if (!isFromRightToLeft) {
-                    messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
-                    Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
-                    messageHandler.sendMessageDelayed(message, 0);
+                    v.callOnClick();
                 } else {
                     Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
+
                     if (fragment instanceof ProductFragment) {
                         userCenterIndicatorLayout.getChildAt(0).requestFocus();
                     } else if (fragment instanceof UserInfoFragment) {
@@ -319,9 +314,13 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     } else if (fragment instanceof HelpFragment) {
                         userCenterIndicatorLayout.getChildAt(4).requestFocus();
                     } else if (fragment instanceof LocationFragment) {
-                        userCenterIndicatorLayout.getChildAt(5).requestFocus();
+                        View itemView = userCenterIndicatorLayout.getChildAt(5);
+                        if (itemView.hasFocus()){
+                            itemView.callOnClick();
+                        }else {
+                            itemView.requestFocus();
+                        }
                     }
-
                 }
             } else {
                 changeViewState(v, ViewState.Unfocus);
@@ -329,32 +328,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         }
     };
 
-
-    private Handler messageHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_INDICATOR_CHANGE:
-                    View v = (View) msg.obj;
-                    changeViewState(v, ViewState.Select);
-                    int i = v.getId();
-                    if (i == R.string.usercenter_store) {
-                        selectProduct();
-                    } else if (i == R.string.usercenter_userinfo) {
-                        selectUserInfo();
-                    } else if (i == R.string.usercenter_login_register) {
-                        selectLogin();
-                    } else if (i == R.string.usercenter_purchase_history) {
-                        selectPurchaseHistory();
-                    } else if (i == R.string.usercenter_help) {
-                        selectHelp();
-                    } else if (i == R.string.usercenter_location) {
-                        selectLocation();
-                    }
-                    break;
-            }
-        }
-    };
 
     private View.OnHoverListener indicatorOnHoverListener = new View.OnHoverListener() {
         @Override
@@ -379,7 +352,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             return true;
         }
     };
-
 
     private void changeViewState(View parentView, ViewState viewState) {
         TextView textView = (TextView) parentView.findViewById(R.id.indicator_text);
