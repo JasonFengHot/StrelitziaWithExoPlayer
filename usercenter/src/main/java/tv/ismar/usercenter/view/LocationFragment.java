@@ -309,6 +309,9 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     }
 
     private void showAreaPopup(final Context mContext, final ProvinceTable provinceTable) {
+        final View[] cityOldView = new View[1];
+        final int[] citySelectedPosition = {-1};
+
         String provinceId = provinceTable.province_id;
         final View popupLayout = LayoutInflater.from(mContext).inflate(R.layout.popup_area, null);
         final View promptLayout = popupLayout.findViewById(R.id.prompt_layout);
@@ -361,7 +364,16 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         cityGridView.setAdapter(cityAdapter);
         cityGridView.setOnItemClickListener(new RecyclerViewTV.OnItemClickListener() {
             @Override
-            public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
+            public void onItemClick(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+                if (citySelectedPosition[0] >= 0){
+                    View lastSelectedView = recyclerViewTV.getChildAt(citySelectedPosition[0]);
+                    TextView lastTextView = (TextView) lastSelectedView.findViewById(R.id.province_text);
+                    lastTextView.setTextColor(getResources().getColor(R.color.white));
+                }
+                citySelectedPosition[0] = i;
+                TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+                textView.setTextColor(getResources().getColor(R.color.blue));
+
                 mCityTable = ((CityAdapter) recyclerViewTV.getAdapter()).getCityTableList().get(i);
                 mViewModel.setSelectedCity(mCityTable.city);
                 mViewModel.loadselectedCity();
@@ -374,24 +386,34 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         cityGridView.setOnItemListener(new RecyclerViewTV.OnItemListener() {
             @Override
             public void onItemPreSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-                mRecyclerViewBridge.setUnFocusView(oldView);
+                Log.d(TAG, "onItemPreSelected");
+                mRecyclerViewBridge.setUnFocusView(cityOldView[0]);
                 TextView textView = (TextView) itemView.findViewById(R.id.province_text);
-                textView.setTextColor(getResources().getColor(R.color.white));
-
+                if (citySelectedPosition[0] == i) {
+                    textView.setTextColor(getResources().getColor(R.color.blue));
+                } else {
+                    textView.setTextColor(getResources().getColor(R.color.white));
+                }
             }
 
             @Override
             public void onItemSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+                Log.d(TAG, "onItemSelected");
                 TextView textView = (TextView) itemView.findViewById(R.id.province_text);
-                textView.setTextColor(getResources().getColor(R.color.location_text_focus));
+                if (citySelectedPosition[0] == i) {
+                    textView.setTextColor(getResources().getColor(R.color.blue));
+                } else {
+                    textView.setTextColor(getResources().getColor(R.color.location_text_focus));
+                }
                 mRecyclerViewBridge.setFocusView(itemView, 1.2f);
-                oldView = itemView;
+                cityOldView[0] = itemView;
             }
 
             @Override
             public void onReviseFocusFollow(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+                Log.d(TAG, "onReviseFocusFollow");
                 mRecyclerViewBridge.setFocusView(itemView, 1.2f);
-                oldView = itemView;
+                cityOldView[0] = itemView;
             }
 
         });

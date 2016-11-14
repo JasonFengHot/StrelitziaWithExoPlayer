@@ -82,7 +82,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         IsmartvActivator.getInstance().addAccountChangeListener(this);
         initViews();
         addHeader();
-        selectProduct();
+//        selectProduct();
 
         // Load previously saved state, if available.
         if (savedInstanceState != null) {
@@ -147,7 +147,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             changeViewState(indicatorView.get(2), ViewState.Disable);
         }
 
-//        userCenterIndicatorLayout.getChildAt(0).requestFocus();
+        userCenterIndicatorLayout.getChildAt(0).callOnClick();
     }
 
     private View.OnClickListener indicatorViewOnClickListener = new View.OnClickListener() {
