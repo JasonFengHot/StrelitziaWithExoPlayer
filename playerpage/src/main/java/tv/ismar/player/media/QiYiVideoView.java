@@ -204,6 +204,28 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         }
 
         @Override
+        public void onMiddleAdStart(IMediaPlayer iMediaPlayer) {
+            //中插广告开始播放
+            mIsmartvPlayer.mIsPlayingAdvertisement = true;
+            if (mIsmartvPlayer.mOnStateChangedListener != null) {
+                mIsmartvPlayer.mOnStateChangedListener.onMiddleAdStart();
+            }
+            mIsmartvPlayer.logAdStart("", 0);
+
+        }
+
+        @Override
+        public void onMiddleAdEnd(IMediaPlayer iMediaPlayer) {
+            //中插广告播放结束
+            mIsmartvPlayer.mIsPlayingAdvertisement = false;
+            if (mIsmartvPlayer.mOnStateChangedListener != null) {
+                mIsmartvPlayer.mOnStateChangedListener.onMiddleAdEnd();
+            }
+            mIsmartvPlayer.logAdExit("", 0);
+
+        }
+
+        @Override
         public void onStarted(IMediaPlayer iMediaPlayer) {
             mIsmartvPlayer.mCurrentState = IsmartvPlayer.STATE_PLAYING;
             mIsmartvPlayer.logVideoPlayStart(0, "");
@@ -250,13 +272,18 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
     private IMediaPlayer.OnBitStreamInfoListener qiyiBitStreamInfoListener = new IMediaPlayer.OnBitStreamInfoListener() {
         @Override
-        public void onBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
+        public void onPlayableBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
             mIsmartvPlayer.mQualities = new ArrayList<>();
             bitStreamList = list;
             for (BitStream bitStream : list) {
                 Log.i(mIsmartvPlayer.TAG, "bitStream:" + bitStream.getValue());
                 mIsmartvPlayer.mQualities.add(bitStreamConvertToQuality(bitStream));
             }
+        }
+
+        @Override
+        public void onVipBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
+
         }
 
         @Override

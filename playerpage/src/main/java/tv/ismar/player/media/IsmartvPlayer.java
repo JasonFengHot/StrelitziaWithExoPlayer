@@ -271,6 +271,10 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mCurrentState != STATE_PREPARING;
     }
 
+    public boolean isVideoPrepared(){
+        return mCurrentState == STATE_PREPARED;
+    }
+
     @Override
     public void setOnVideoSizeChangedListener(OnVideoSizeChangedListener onVideoSizeChangedListener) {
         mOnVideoSizeChangedListener = onVideoSizeChangedListener;

@@ -446,11 +446,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 //TODO 即将进入爱奇艺广告,不可快进操作
                 hidePanel();
                 hideMenu();
-                mIsPlayingAd = true;
                 break;
             case IMediaPlayer.MEDIA_INFO_MIDDLE_AD_SKIPPED:
                 //TODO 爱奇艺中插广告播放结束
-                mIsPlayingAd = false;
                 break;
         }
     }
@@ -471,7 +469,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     public void detailPageClickPlay() {
-        if (isPlayInDetailPage && mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState()) {
+        if (isPlayInDetailPage && mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState() && mIsmartvPlayer.isVideoPrepared()) {
             preparedToStart();
         }
     }
@@ -492,6 +490,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void preparedToStart() {
+        hideBuffer();
         if (mIsPreview && mediaHistoryPosition > 0 && mediaHistoryPosition >= mIsmartvPlayer.getDuration()) {
             goOtherPage(EVENT_COMPLETE_BUY);
         } else {
@@ -510,15 +509,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         ad_count_text.setVisibility(View.VISIBLE);
         ad_vip_btn.setFocusable(true);
         ad_vip_btn.requestFocus();
-//        switch (mIsmartvPlayer.getPlayerMode()) {
-//            case PlayerBuilder.MODE_SMART_PLAYER:
-//                ad_vip_btn.setVisibility(View.GONE);
-//                ad_count_text.setVisibility(View.VISIBLE);
-//                break;
-//            case PlayerBuilder.MODE_QIYI_PLAYER:
-//
-//                break;
-//        }
         mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
     }
 
@@ -529,6 +519,28 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         ad_vip_btn.setVisibility(View.GONE);
         ad_count_text.setVisibility(View.GONE);
         mHandler.removeMessages(MSG_AD_COUNTDOWN);
+    }
+
+    @Override
+    public void onMiddleAdStart() {
+        Log.i(TAG, "onMiddleAdStart");
+        mIsPlayingAd = true;
+        ad_vip_btn.setVisibility(View.VISIBLE);
+        ad_count_text.setVisibility(View.VISIBLE);
+        ad_vip_btn.setFocusable(true);
+        ad_vip_btn.requestFocus();
+        mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+
+    }
+
+    @Override
+    public void onMiddleAdEnd() {
+        Log.i(TAG, "onMiddleAdEnd");
+        mIsPlayingAd = false;
+        ad_vip_btn.setVisibility(View.GONE);
+        ad_count_text.setVisibility(View.GONE);
+        mHandler.removeMessages(MSG_AD_COUNTDOWN);
+
     }
 
     // 奇艺播放器在onPrepared时无法获取到影片时长

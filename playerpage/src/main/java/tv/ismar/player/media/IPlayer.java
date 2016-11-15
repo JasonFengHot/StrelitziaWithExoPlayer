@@ -74,6 +74,10 @@ public interface IPlayer {
 
         void onAdEnd();
 
+        void onMiddleAdStart();
+
+        void onMiddleAdEnd();
+
         void onStarted();
 
         void onPaused();
