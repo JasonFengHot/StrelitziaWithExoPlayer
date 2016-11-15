@@ -71,12 +71,12 @@ public class QiyiPlayer extends IsmartvPlayer {
     }
 
     @Override
-    public void release() {
-        super.release();
+    public void release(boolean flag) {
+        super.release(flag);
         if (videoSurfaceView == null) {
             return;
         }
-        videoSurfaceView.release();
+        videoSurfaceView.release(flag);
     }
 
     @Override

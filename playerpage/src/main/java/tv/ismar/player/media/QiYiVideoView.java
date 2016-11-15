@@ -123,13 +123,14 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         }
     }
 
-    public void release() {
+    public void release(boolean flag) {
         if (mPlayer != null) {
             mIsmartvPlayer.logVideoExit(0);
             mPlayer.stop();
-            mPlayer.release();
-            mPlayer = null;
-
+            if(flag){
+                mPlayer.release();
+                mPlayer = null;
+            }
             mIsmartvPlayer.mCurrentState = IsmartvPlayer.STATE_IDLE;
             PlayerBuilder.getInstance().release();
         }

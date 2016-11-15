@@ -125,6 +125,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private LinearLayout player_buffer_layout;
     private ImageView player_buffer_img;
     private TextView player_buffer_text;
+    private ImageView previous, forward;
     private AnimationDrawable animationDrawable;
 
     // 播放器相关操作逻辑
@@ -238,6 +239,20 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         player_buffer_layout = (LinearLayout) contentView.findViewById(R.id.player_buffer_layout);
         player_buffer_img = (ImageView) contentView.findViewById(R.id.player_buffer_img);
         player_buffer_text = (TextView) contentView.findViewById(R.id.player_buffer_text);
+        previous = (ImageView) contentView.findViewById(R.id.previous);
+        forward = (ImageView) contentView.findViewById(R.id.forward);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                previousClick(v);
+            }
+        });
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forwardClick(v);
+            }
+        });
         return contentView;
     }
 
@@ -312,7 +327,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
-        mIsmartvPlayer.release();
+        mIsmartvPlayer.release(true);
         mIsmartvPlayer = null;
         switch (type) {
             case EVENT_CLICK_VIP_BUY:
@@ -388,7 +403,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (!isNeedOnResume && !isClickKeFu) {
             mPresenter.stop();
             if (mIsmartvPlayer != null) {
-                mIsmartvPlayer.release();
+                mIsmartvPlayer.release(true);
                 mIsmartvPlayer = null;
             }
         }
@@ -476,7 +491,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     public void initPlayer() {
         if (mIsmartvPlayer != null) {
-            mIsmartvPlayer.release();
+            mIsmartvPlayer.release(true);
             mIsmartvPlayer = null;
         }
         player_logo_image.setVisibility(View.GONE);
@@ -883,7 +898,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
     };
 
-    public void previousClick(View view) {
+    private void previousClick(View view) {
         if (!mItemEntity.getLiveVideo()) {
             if (!isSeeking) {
                 if (mIsmartvPlayer.isPlaying()) {
@@ -908,7 +923,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
     }
 
-    public void forwardClick(View view) {
+    private void forwardClick(View view) {
         if (!mItemEntity.getLiveVideo()) {
             if (!isSeeking) {
                 if (mIsmartvPlayer.isPlaying()) {
@@ -1253,6 +1268,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 return false;
             }
             mediaHistoryPosition = mIsmartvPlayer.getCurrentPosition();
+            mIsmartvPlayer.setStartPosition(mediaHistoryPosition);
             mIsmartvPlayer.switchQuality(clickQuality);
             isSeeking = true;
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
@@ -1272,7 +1288,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 if (subItem.getPk() == id) {
                     mediaHistoryPosition = 0;
                     timerStop();
-                    mIsmartvPlayer.release();
+                    mIsmartvPlayer.release(false);
                     mIsmartvPlayer = null;
                     ItemEntity.Clip clip = subItem.getClip();
                     String sign = "";

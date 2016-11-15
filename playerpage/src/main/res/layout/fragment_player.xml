@@ -156,10 +156,10 @@
                     android:layout_centerInParent="true">
 
                     <ImageView
+                        android:id="@+id/previous"
                         android:layout_width="@dimen/player_icon_w"
                         android:layout_height="@dimen/player_icon_h"
                         android:clickable="true"
-                        android:onClick="previousClick"
                         android:src="@drawable/selector_player_preview" />
 
                     <ImageView
@@ -171,11 +171,11 @@
                         android:src="@{tasks.getPlayPauseBackgroundRes}" />
 
                     <ImageView
+                        android:id="@+id/forward"
                         android:layout_width="@dimen/player_icon_w"
                         android:layout_height="@dimen/player_icon_h"
                         android:layout_marginLeft="@dimen/player_icon_ml"
                         android:clickable="true"
-                        android:onClick="forwardClick"
                         android:src="@drawable/selector_player_next" />
                 </LinearLayout>
             </RelativeLayout>

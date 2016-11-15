@@ -28,7 +28,7 @@ public interface IPlayer {
 
     void seekTo(int position);
 
-    void release();
+    void release(boolean flag);
 
     int getCurrentPosition();
 
