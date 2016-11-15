@@ -56,16 +56,16 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         String itemJson = intent.getStringExtra(EXTRA_ITEM_JSON);
         source = intent.getStringExtra(EXTRA_SOURCE);
 
-        if (TextUtils.isEmpty(itemJson) && itemPK == -1){
+        if (TextUtils.isEmpty(itemJson) && itemPK == -1) {
             finish();
             return;
         }
 
         showDialog();
-        if (!TextUtils.isEmpty(itemJson)){
+        if (!TextUtils.isEmpty(itemJson)) {
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
             loadFragment();
-        }else {
+        } else {
             fetchItem(String.valueOf(itemPK));
         }
 
@@ -74,11 +74,10 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (viewInit || (playerFragment != null && playerFragment.goFinishPageOnResume)) {
+        if (viewInit && playerFragment != null && playerFragment.goFinishPageOnResume) {
             // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
             onHide();
         }
@@ -208,13 +207,13 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
                     @Override
                     public void onNext(ItemEntity itemEntity) {
-                        mItemEntity  = itemEntity;
-                       loadFragment();
+                        mItemEntity = itemEntity;
+                        loadFragment();
                     }
                 });
     }
 
-    private void loadFragment(){
+    private void loadFragment() {
         String itemJson = new Gson().toJson(mItemEntity);
         playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, itemJson, source);
         playerFragment.setOnHidePlayerPageListener(this);
@@ -227,7 +226,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         fragmentTransaction.commit();
     }
 
-    public void showDialog(){
+    public void showDialog() {
         mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
