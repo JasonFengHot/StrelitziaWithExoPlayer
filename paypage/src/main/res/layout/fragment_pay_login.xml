@@ -17,7 +17,7 @@
             android:layout_width="@dimen/pay_person_login_textview_w"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="手机号:"
+            android:text="手机号码:"
             android:textColor="#FFF8F8FF"
             android:textSize="@dimen/pay_person_login_textview_textsize"/>
 
@@ -94,7 +94,7 @@
         android:background="@drawable/selector_button"
         android:focusable="true"
         android:focusableInTouchMode="false"
-        android:text="提交"
+        android:text="提&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;交"
         android:textColor="#FFF8F8FF"
         android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
 
