@@ -315,9 +315,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                         userCenterIndicatorLayout.getChildAt(4).requestFocus();
                     } else if (fragment instanceof LocationFragment) {
                         View itemView = userCenterIndicatorLayout.getChildAt(5);
-                        if (itemView.hasFocus()){
+                        if (itemView.hasFocus()) {
                             itemView.callOnClick();
-                        }else {
+                        } else {
                             itemView.requestFocus();
                         }
                     }
@@ -359,28 +359,31 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         ImageView textFocusImage = (ImageView) parentView.findViewById(R.id.text_focus_bg);
         switch (viewState) {
             case Select:
-                if (lastSelectedView != null) {
-                    ImageView lastTextSelectImage = (ImageView) lastSelectedView.findViewById(R.id.text_select_bg);
-                    ImageView lastTextFocusImage = (ImageView) lastSelectedView.findViewById(R.id.text_focus_bg);
+                if (parentView.isEnabled()) {
+                    if (lastSelectedView != null) {
+                        ImageView lastTextSelectImage = (ImageView) lastSelectedView.findViewById(R.id.text_select_bg);
+                        ImageView lastTextFocusImage = (ImageView) lastSelectedView.findViewById(R.id.text_focus_bg);
 
-                    lastTextSelectImage.setVisibility(View.INVISIBLE);
-                    lastTextFocusImage.setVisibility(View.INVISIBLE);
+                        lastTextSelectImage.setVisibility(View.INVISIBLE);
+                        lastTextFocusImage.setVisibility(View.INVISIBLE);
+                    }
+
+                    if (lastHoveredView != null) {
+                        ImageView lastTextHoverImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
+                        lastTextHoverImage.setVisibility(View.INVISIBLE);
+                    }
+
+                    textSelectImage.setVisibility(View.VISIBLE);
+                    textFocusImage.setImageResource(R.drawable.usercenter_indicator_focused);
+                    textFocusImage.setVisibility(View.VISIBLE);
+                    lastSelectedView = parentView;
                 }
-
-                if (lastHoveredView != null) {
-                    ImageView lastTextHoverImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
-                    lastTextHoverImage.setVisibility(View.INVISIBLE);
-                }
-
-                textSelectImage.setVisibility(View.VISIBLE);
-                textFocusImage.setImageResource(R.drawable.usercenter_indicator_focused);
-                textFocusImage.setVisibility(View.VISIBLE);
-                lastSelectedView = parentView;
                 break;
             case Unfocus:
                 textSelectImage.setVisibility(View.INVISIBLE);
                 break;
             case Disable:
+                parentView.setEnabled(false);
                 textSelectImage.setVisibility(View.INVISIBLE);
                 textFocusImage.setVisibility(View.INVISIBLE);
                 textView.setText(R.string.usercenter_login);
@@ -390,6 +393,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 parentView.setClickable(false);
                 break;
             case Enable:
+                parentView.setEnabled(true);
                 parentView.setFocusable(true);
                 parentView.setFocusableInTouchMode(true);
                 textView.setText(R.string.usercenter_login_register);
