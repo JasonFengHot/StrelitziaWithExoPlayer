@@ -311,6 +311,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     private void showAreaPopup(final Context mContext, final ProvinceTable provinceTable) {
         final View[] cityOldView = new View[1];
         final int[] citySelectedPosition = {-1};
+        final TextView[] citySelectedView = new TextView[1];
 
         String provinceId = provinceTable.province_id;
         final View popupLayout = LayoutInflater.from(mContext).inflate(R.layout.popup_area, null);
@@ -365,14 +366,16 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         cityGridView.setOnItemClickListener(new RecyclerViewTV.OnItemClickListener() {
             @Override
             public void onItemClick(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-                if (citySelectedPosition[0] >= 0){
+                if (citySelectedPosition[0] >= 0) {
                     View lastSelectedView = recyclerViewTV.getChildAt(citySelectedPosition[0]);
                     TextView lastTextView = (TextView) lastSelectedView.findViewById(R.id.province_text);
                     lastTextView.setTextColor(getResources().getColor(R.color.white));
                 }
                 citySelectedPosition[0] = i;
+
                 TextView textView = (TextView) itemView.findViewById(R.id.province_text);
                 textView.setTextColor(getResources().getColor(R.color.blue));
+                citySelectedView[0] = textView;
 
                 mCityTable = ((CityAdapter) recyclerViewTV.getAdapter()).getCityTableList().get(i);
                 mViewModel.setSelectedCity(mCityTable.city);
@@ -434,6 +437,11 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                citySelectedPosition[0] = -1;
+                if (citySelectedView[0] != null) {
+                    citySelectedView[0].setTextColor(getResources().getColor(R.color.white));
+                    citySelectedView[0] = null;
+                }
                 promptLayout.setVisibility(View.INVISIBLE);
                 mViewModel.setSelectedCity("");
                 mViewModel.loadselectedCity();
