@@ -369,7 +369,7 @@ public interface SkyService {
 
     @POST("api/v2/upgrade/")
     Observable<VersionInfoV2Entity> appUpgrade(
-          @Body List<UpgradeRequestEntity> upgradeRequestEntities
+            @Body List<UpgradeRequestEntity> upgradeRequestEntities
     );
 
     @GET
@@ -378,7 +378,8 @@ public interface SkyService {
             @Url String url,
             @Header("RANGE") String range
     );
-//
+
+    //
 //    @GET("/api/package/relate/{pkg}/")
 //    Observable<Item[]> packageRelate(
 //            @Path("pkg")
@@ -387,10 +388,10 @@ public interface SkyService {
 //            String deviceToken,
 //            @Query("access_token")
 //            String accessToken);
-@GET("{geoId}.xml")
-Observable<ResponseBody> apifetchWeatherInfo(
-        @Path("geoId") String geoId
-);
+    @GET("{geoId}.xml")
+    Observable<ResponseBody> apifetchWeatherInfo(
+            @Path("geoId") String geoId
+    );
 
     @GET
     Observable<Item> apifetchItem(
@@ -415,6 +416,10 @@ Observable<ResponseBody> apifetchWeatherInfo(
     @Headers("Cache-Control: public, max-age=5")
     @GET("api/tv/channels/")
     Observable<ChannelEntity[]> apiTvChannels();
+
+    @GET("api/package/relate/{pkg}/")
+    Observable<ItemEntity[]> packageRelate(
+            @Path("pkg") long pk);
 
     class ServiceManager {
         private volatile static ServiceManager serviceManager;

@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import tv.ismar.app.BaseFragment;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.network.entity.YouHuiDingGouEntity;
 import tv.ismar.usercenter.ProductContract;
 import tv.ismar.usercenter.R;
@@ -27,7 +29,7 @@ import tv.ismar.usercenter.viewmodel.ProductViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class ProductFragment extends BaseFragment implements ProductContract.View {
+public class ProductFragment extends BaseFragment implements ProductContract.View, RecyclerViewTV.OnItemClickListener {
     private static final String TAG = ProductFragment.class.getSimpleName();
     private ProductViewModel mViewModel;
     private ProductContract.Presenter mPresenter;
@@ -37,7 +39,9 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     }
 
 
-    private RecyclerView mRecyclerView;
+    private RecyclerViewTV mRecyclerView;
+
+    private YouHuiDingGouEntity mYouHuiDingGouEntity;
 
     @Override
     public void onAttach(Context context) {
@@ -61,6 +65,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         productBinding.setActionHandler(mPresenter);
 
         mRecyclerView = productBinding.recyclerview;
+        mRecyclerView.setOnItemClickListener(this);
         View root = productBinding.getRoot();
         return root;
     }
@@ -133,10 +138,17 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
     @Override
     public void loadProductItem(YouHuiDingGouEntity entity) {
+        mYouHuiDingGouEntity = entity;
         ProductAdapter adapter = new ProductAdapter(getContext(), entity.getObjects());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.product_recycler_item_spacing)));
         mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toPackageDetail(getContext(),"usercenter", (int) mYouHuiDingGouEntity.getObjects().get(i).getPk());
     }
 
 

@@ -30,7 +30,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'cn.ismartv.truetime:library:1.3'
     compile project(':appbase')
     compile project(':account')
     compile project(':paypage')

@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/filmitem_portrait_filter_divider_h"
-        android:layout_marginTop="5dip"
+        android:layout_marginTop="@dimen/filter_divider_mt"
         android:background="@drawable/filter_divider"
     />
     <LinearLayout
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/vod_payment_pacakge_title"
                     android:layout_marginTop="@dimen/vod_payment_packageDescribe_content_MT"
-                    android:lineSpacingExtra="3dip"
+                    android:lineSpacingExtra="@dimen/vod_payment_packageDescribe_content_ls"
                     android:orientation="horizontal"
                     android:textColor="#ffffffff"
                     android:textSize="@dimen/vod_payment_packageDescribe_textsize"
@@ -90,7 +90,7 @@
                 android:layout_marginTop="@dimen/vod_payment_package_posterAndBuyBotton_container_MT"
                 android:visibility="visible">
 
-                <tv.ismar.daisy.views.AsyncImageView
+                <ImageView
                     android:id="@+id/vod_payment_poster"
                     android:layout_width="@dimen/vod_payment_poster_W"
                     android:layout_height="@dimen/vod_payment_poster_H"
@@ -173,24 +173,14 @@
                 android:layout_marginLeft="@dimen/vod_payment_package_title_ML"
                 android:layout_marginTop="@dimen/package_detail_divider_cMT"
                 android:background="#6609638e"/>
-            <org.sakuratya.horizontal.ui.ZGridView
-                xmlns:sakura="http://schemas.android.com/apk/res/tv.ismar.daisy"
+            <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
                 android:id="@+id/vod_payment_item_of_package_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/vod_payment_item_of_package_container_ML"
                 android:layout_marginTop="@dimen/vod_payment_item_of_package_container_MT"
                 android:focusable="true"
-                sakura:horizontalSpace="@dimen/vod_payment_item_of_package_container_horizontalSpace"
-                sakura:listSelector="@drawable/vod_gv_selector"
-                sakura:numColumns="3"
-                sakura:selectorBottomPadding="@dimen/ZGridView_packagedetail_selectorBottom"
-                sakura:selectorLeftPadding="@dimen/ZGridView_packagedetail_selectorLeftPadding"
-                sakura:selectorRightPadding="@dimen/ZGridView_packagedetail_selectorRight"
-                sakura:selectorTopPadding="@dimen/ZGridView_packagedetail_selectorTopPadding"
-                sakura:stretchMode="columnWidth"
-            >
-            </org.sakuratya.horizontal.ui.ZGridView>
+            />
             <Button
                 android:id="@+id/vod_payment_item_more"
                 android:layout_width="@dimen/vod_payment_item_more_W"
@@ -220,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/item_detail_related_video_label_left"
                 android:layout_marginTop="@dimen/item_detail_related_video_label_topnew"
-                android:text="@string/related_video"
+                android:text="关联视频"
                 android:textColor="#FFBBBBBB"
                 android:textSize="@dimen/item_detail_related_video_label_textsize"/>
 

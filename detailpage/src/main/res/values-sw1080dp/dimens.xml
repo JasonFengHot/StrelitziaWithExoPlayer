@@ -168,5 +168,7 @@
     <dimen name="ZGridView_packagedetail_selectorTopPadding">0dip</dimen>
     <dimen name="vod_payment_item_of_package_container_horizontalSpace">20dip</dimen>
     <dimen name="package_detail_divider_H">1dip</dimen>
+    <dimen name="filter_divider_mt">5dip</dimen>
+    <dimen name="vod_payment_packageDescribe_content_ls">3dip</dimen>
 
 </resources>
