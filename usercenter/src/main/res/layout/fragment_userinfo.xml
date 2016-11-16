@@ -212,6 +212,7 @@
                     android:layout_marginLeft="@dimen/charge_btn_margin_left"
                     android:background="@drawable/selector_usercenter_logout"
                     android:text="@string/usercenter_charge"
+                    android:nextFocusUp="@id/exit_account"
                     android:textSize="@dimen/text_size_30sp"/>
             </LinearLayout>
 
