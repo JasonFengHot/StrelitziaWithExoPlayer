@@ -28,7 +28,7 @@ public interface IPlayer {
 
     void seekTo(int position);
 
-    void release();
+    void release(boolean flag);
 
     int getCurrentPosition();
 
@@ -73,6 +73,10 @@ public interface IPlayer {
         void onAdStart();
 
         void onAdEnd();
+
+        void onMiddleAdStart();
+
+        void onMiddleAdEnd();
 
         void onStarted();
 

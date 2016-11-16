@@ -235,7 +235,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     @Override
-    public void release() {
+    public void release(boolean flag) {
         isQiyiSdkInit = false;
         mCurrentState = STATE_IDLE;
         mContext = null;
@@ -269,6 +269,10 @@ public abstract class IsmartvPlayer implements IPlayer {
     public boolean isVideoStarted() {
         return mCurrentState != STATE_IDLE &&
                 mCurrentState != STATE_PREPARING;
+    }
+
+    public boolean isVideoPrepared(){
+        return mCurrentState == STATE_PREPARED;
     }
 
     @Override

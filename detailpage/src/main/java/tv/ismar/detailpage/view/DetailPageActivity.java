@@ -83,7 +83,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     @Override
     protected void onResume() {
         super.onResume();
-        if (viewInit || (playerFragment != null && playerFragment.goFinishPageOnResume)) {
+        if (viewInit && playerFragment != null && playerFragment.goFinishPageOnResume) {
             // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
             onHide();
         }
@@ -227,7 +227,6 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
                     }
                 });
     }
-
 
     private void loadFragment(int type) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
