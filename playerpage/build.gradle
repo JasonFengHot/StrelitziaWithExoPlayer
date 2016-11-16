@@ -31,8 +31,8 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':appbase')
     compile files('libs/QiyiPlayerSdk-r53202.jar')
+    compile project(':appbase')
 }
 
 tasks.withType(JavaCompile) {

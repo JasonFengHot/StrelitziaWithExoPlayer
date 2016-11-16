@@ -2,14 +2,14 @@ package tv.ismar.account.data;
 
 
 public class ResultEntity {
-    private String device_token;
-    private String domain;
-    private String ad_domain;
-    private String sn_token;
-    private String log_domain;
-    private String upgrade_domain;
-    private String zdevice_token;
-    private String carnation;
+    private String device_token = "";
+    private String domain = "1.1.1.1";
+    private String ad_domain = "1.1.1.1";
+    private String sn_token = "";
+    private String log_domain = "1.1.1.1";
+    private String upgrade_domain = "1.1.1.1";
+    private String zdevice_token = "";
+    private String carnation = "1.1.1.1";
 
 
     public String getCarnation() {

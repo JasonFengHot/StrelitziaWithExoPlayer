@@ -57,12 +57,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:multidex:1.0.1'
+    compile project(path: ':usercenter')
     compile project(':detailpage')
     compile project(':account')
     compile project(':playerpage')
-    compile project(path: ':usercenter')
     compile project(':listpage')
-    compile 'com.android.support:multidex:1.0.1'
     compile project(':homepage')
 }
 tasks.withType(JavaCompile) {

@@ -111,7 +111,7 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    mAdvertisement.fetchAppStartAd(Advertisement.AD_MODE_APPSTART);
+//                    mAdvertisement.fetchAppStartAd(Advertisement.AD_MODE_APPSTART);
                 }
             });
         }
