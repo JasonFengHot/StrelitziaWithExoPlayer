@@ -32,8 +32,6 @@ dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':appbase')
-    compile project(':ismartv_foregroundimageview')
-    compile project(':ismartv_tvhorizontalscrollview')
 }
 
 tasks.withType(JavaCompile) {

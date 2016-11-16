@@ -6,7 +6,7 @@ android {
     dexOptions {
         preDexLibraries = false
     }
-    
+
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
     buildToolsVersion rootProject.ext.androidBuildToolsVersion
 
@@ -57,8 +57,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:multidex:1.0.1'
-    compile project(path: ':usercenter')
+    compile project(':usercenter')
     compile project(':detailpage')
     compile project(':account')
     compile project(':playerpage')
