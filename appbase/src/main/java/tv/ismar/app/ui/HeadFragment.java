@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.xml.sax.InputSource;
@@ -37,6 +38,9 @@ import tv.ismar.app.R;
 import tv.ismar.app.core.WeatherInfoHandler;
 import tv.ismar.app.network.entity.WeatherEntity;
 import tv.ismar.app.widget.LaunchHeaderLayout;
+
+import static android.widget.RelativeLayout.ALIGN_BOTTOM;
+import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
 
 public class HeadFragment extends Fragment implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
     public static final String HEADER_USERCENTER = "usercenter";
@@ -100,6 +104,10 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             switch (mHeaderType) {
                 case HEADER_USERCENTER:
                     subTitleTextView.setText("个人中心");
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.usercenter_subtitle_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
+                    layoutParams.addRule(ALIGN_PARENT_BOTTOM);
+                    subTitleTextView.setLayoutParams(layoutParams);
                     hideIndicatorTable();
                     hideTitle();
                     break;
