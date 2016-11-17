@@ -516,5 +516,5 @@
 <dimen name="menu_item_text_size">26.67sp</dimen>
 
 <dimen name="pop_btn_margin_lr">68.33dp</dimen>
-
+<dimen name="usercenter_subtitle_ml">40.56dp</dimen>
 </resources>

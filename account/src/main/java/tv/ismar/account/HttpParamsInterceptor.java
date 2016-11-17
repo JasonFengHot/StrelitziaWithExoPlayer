@@ -46,6 +46,7 @@ public class HttpParamsInterceptor implements Interceptor {
         paramsMap = new HashMap<>();
 
         paramsMap.put("device_token", deviceToken );
+        paramsMap.put("token_check", "1");
 
         if (!TextUtils.isEmpty(accessToken)) {
             paramsMap.put("access_token", accessToken);

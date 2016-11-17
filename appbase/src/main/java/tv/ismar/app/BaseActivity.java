@@ -158,6 +158,7 @@ public class BaseActivity extends AppCompatActivity {
     public abstract class BaseObserver<T> implements Observer<T> {
         @Override
         public void onError(Throwable e) {
+            e.printStackTrace();
             showNetWorkErrorDialog(e);
         }
     }
