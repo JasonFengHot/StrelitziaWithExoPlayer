@@ -25,7 +25,9 @@ import com.blankj.utilcode.utils.AppUtils;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
@@ -41,6 +43,7 @@ public class BaseActivity extends AppCompatActivity {
     private PopupWindow updatePopupWindow;
     private LoadingDialog mLoadingDialog;
     private ModuleMessagePopWindow netErrorPopWindow;
+    private ModuleMessagePopWindow expireAccessTokenPop;
     public SkyService mSkyService;
     private View mRootView;
     public SkyService mWeatherSkyService;
@@ -87,6 +90,11 @@ public class BaseActivity extends AppCompatActivity {
         if (updatePopupWindow != null) {
             updatePopupWindow.dismiss();
             updatePopupWindow = null;
+        }
+
+        if (expireAccessTokenPop != null) {
+            expireAccessTokenPop.dismiss();
+            expireAccessTokenPop = null;
         }
         unregisterReceiver(mUpdateReceiver);
         super.onPause();
@@ -158,11 +166,32 @@ public class BaseActivity extends AppCompatActivity {
     public abstract class BaseObserver<T> implements Observer<T> {
         @Override
         public void onError(Throwable e) {
-            e.printStackTrace();
+            if (e instanceof HttpException) {
+                HttpException httpException = (HttpException) e;
+                if (httpException.code() == 401 && httpException.message().equals("expire access token")) {
+                    showExpireAccessTokenPop();
+                } else {
+                    showNetWorkErrorDialog(e);
+                }
+            }
             showNetWorkErrorDialog(e);
         }
     }
 
+
+    public void showExpireAccessTokenPop() {
+        IsmartvActivator.getInstance().removeUserInfo();
+        expireAccessTokenPop = new ModuleMessagePopWindow(this);
+        expireAccessTokenPop.setFirstMessage(getString(R.string.access_token_expire));
+        expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
+        expireAccessTokenPop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        expireAccessTokenPop.dismiss();
+                    }
+                },
+                null);
+    }
 
     private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override
