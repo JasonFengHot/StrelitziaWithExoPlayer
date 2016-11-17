@@ -377,6 +377,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     textFocusImage.setImageResource(R.drawable.usercenter_indicator_focused);
                     textFocusImage.setVisibility(View.VISIBLE);
                     lastSelectedView = parentView;
+                    lastHoveredView = parentView;
                 }
                 break;
             case Unfocus:
