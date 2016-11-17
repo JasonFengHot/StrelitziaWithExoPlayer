@@ -29,8 +29,10 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.widget.ExpireAccessTokenPop;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
+import tv.ismar.app.widget.NetErrorPopWindow;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
@@ -138,7 +140,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNetWorkErrorDialog(Throwable e) {
-        netErrorPopWindow = new ModuleMessagePopWindow(this);
+        netErrorPopWindow = NetErrorPopWindow.getInstance(this);
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
         netErrorPopWindow.setCancelBtn(getString(R.string.i_know));
@@ -168,26 +170,28 @@ public class BaseActivity extends AppCompatActivity {
         public void onError(Throwable e) {
             if (e instanceof HttpException) {
                 HttpException httpException = (HttpException) e;
-                if (httpException.code() == 401 && httpException.message().equals("expire access token")) {
+                if (httpException.code() == 401) {
                     showExpireAccessTokenPop();
                 } else {
                     showNetWorkErrorDialog(e);
                 }
+            }else{
+                showNetWorkErrorDialog(e);
             }
-            showNetWorkErrorDialog(e);
         }
     }
 
 
     public void showExpireAccessTokenPop() {
-        IsmartvActivator.getInstance().removeUserInfo();
-        expireAccessTokenPop = new ModuleMessagePopWindow(this);
+
+        expireAccessTokenPop = ExpireAccessTokenPop.getInstance(this);
         expireAccessTokenPop.setFirstMessage(getString(R.string.access_token_expire));
         expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
         expireAccessTokenPop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
                         expireAccessTokenPop.dismiss();
+                        IsmartvActivator.getInstance().removeUserInfo();
                     }
                 },
                 null);
