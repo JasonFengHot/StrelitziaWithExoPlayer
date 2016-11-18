@@ -131,5 +131,9 @@ public class PageIntent implements PageIntentInterface {
         intent.putExtra("channel", "$bookmarks");
         context.startActivity(intent);
     }
-
+    public void toSearch(Context context){
+        Intent intent=new Intent();
+        intent.setAction("tv.ismar.searchpage.search");
+        context.startActivity(intent);
+    }
 }

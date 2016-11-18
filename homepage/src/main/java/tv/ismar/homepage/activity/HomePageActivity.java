@@ -187,7 +187,8 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 
     @Override
     public void onSearchClick() {
-
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toSearch(this);
     }
 
     private enum LeavePosition {

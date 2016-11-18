@@ -270,7 +270,7 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
                 mHeadItemClickListener.onUserCenterClick();
 
             } else if (i == R.string.guide_search) {
-
+                mHeadItemClickListener.onSearchClick();
             }
         }
 

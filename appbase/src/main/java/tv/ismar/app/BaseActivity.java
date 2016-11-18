@@ -190,7 +190,7 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-                            showUpdatePopup(getRootView(), updateInfo);
+//                            showUpdatePopup(getRootView(), updateInfo);
                         }
                     }
                 }, 2000);
