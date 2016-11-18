@@ -180,13 +180,29 @@
 
         </LinearLayout>
 
-        <VideoView
-            android:id="@+id/linked_video"
-            android:layout_width="@dimen/linked_video_width"
-            android:layout_height="@dimen/linked_video_height"
-            android:layout_marginTop="@dimen/linked_video_mt"
-            android:focusable="false"
-            android:focusableInTouchMode="false"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="奇艺广告测试:"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/s_button_color"
+                android:onClick="onAdClick"
+                android:padding="8dp"
+                android:text="中插,角标广告"
+                android:textColor="@color/module_color_white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

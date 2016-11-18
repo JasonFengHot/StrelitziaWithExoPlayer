@@ -1,1 +1,1 @@
-include ':Strelitzia', ':appbase', ':detailpage', ':account', ':playerpage', ':paypage', ':homepage', ':listpage', ':usercenter', ':statistics', ':searchpage'
+include ':Strelitzia', ':appbase', ':detailpage', ':account', ':playerpage', ':paypage', ':homepage', ':listpage', ':usercenter', ':statistics',  ':ismartv_truetime', ':ismartv_downloader', ':ismartv_db', ':ismartv_imagereflection', ':ismartv_widget', ':ismartv_tvhorizontalscrollview', ':ismartv_foregroundimageview',':searchpage'
