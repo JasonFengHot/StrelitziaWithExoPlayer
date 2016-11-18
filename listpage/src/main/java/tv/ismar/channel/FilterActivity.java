@@ -16,6 +16,7 @@ import java.util.Iterator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.widget.LaunchHeaderLayout;
 import tv.ismar.listpage.R;
@@ -31,9 +32,10 @@ public class FilterActivity extends BaseActivity implements BackHandledInterface
     private String mChannel;
     private SimpleRestClient mRestClient;
     private BackHandledFragment mBackHandedFragment;
-
+    private HeadFragment headFragment;
     private LaunchHeaderLayout weatherFragment;
     private BitmapDecoder bitmapDecoder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,13 @@ public class FilterActivity extends BaseActivity implements BackHandledInterface
         fragmentTransaction.addToBackStack("tag");
         fragmentTransaction.commit();
         //  doFilterRequest();
+        headFragment = new HeadFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", HeadFragment.HEADER_USERCENTER);
+        bundle.putString("channel_name", mChannel);
+        headFragment = new HeadFragment();
+        headFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().add(R.id.fitle_head, headFragment).commit();
     }
 
     private void doFilterRequest() {

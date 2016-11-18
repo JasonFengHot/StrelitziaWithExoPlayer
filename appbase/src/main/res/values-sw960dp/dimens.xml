@@ -1,5 +1,5 @@
 <resources>
-<dimen name="text_size_48sp">42.67dp</dimen>
+<dimen name="text_size_48sp">42.67sp</dimen>
 <dimen name="text_size_36sp">32.00dp</dimen>
 <dimen name="text_size_24sp">21.33dp</dimen>
 <dimen name="text_size_27sp">24.00dp</dimen>
@@ -323,6 +323,53 @@
 <dimen name="textsize_30sp">26.67sp</dimen>
 
 <!-- listportait item -->
+<!-- listportait -->
+<dimen name="listportait_top_column_layout_h">99.56dp</dimen>
+<dimen name="listportait_imageview_margin">23.11dp</dimen>
+<dimen name="listportait_imageview_h">0.89dp</dimen>
+<dimen name="listportait_shadow_ml">27.56dip</dimen>
+<dimen name="listportait_shadow_mt">314.67dip</dimen>
+<dimen name="listportait_shadow_w">36.44dip</dimen>
+<dimen name="listportait_shadow_h">72.89dip</dimen>
+<dimen name="listportait_tabs_layout_margin">103.11dp</dimen>
+<dimen name="listportait_shaw_left">98.67dp</dimen>
+<dimen name="listportait_shaw_height">0.89dp</dimen>
+<dimen name="listportait_button_ml">8.89dp</dimen>
+<dimen name="listportait_button_mt">286.22dp</dimen>
+<dimen name="listportait_button_width">36.44dp</dimen>
+<dimen name="listportait_button_H">73.78dp</dimen>
+<dimen name="listportait_Hgride_horSpace">30.22dp</dimen>
+<dimen name="listportait_Hgride_rowHeight">352.00dp</dimen>
+<dimen name="listportait_Hgride_verSpace">4.44dp</dimen>
+<dimen name="listportait_Hgride_filterverSpace">3.56dp</dimen>
+<dimen name="listview_hgride_horSpace">103.11dp</dimen>
+<dimen name="listview_hgride_rowHeight">240.00dp</dimen>
+<dimen name="listportait_Hgride_mt">1.78dp</dimen>
+<dimen name="listportait_Hgride_pt">5.33dp</dimen>
+<dimen name="listportait_Hgride_ml">46.22dp</dimen>
+<dimen name="listview_Hgride_ml">47.11dp</dimen>
+<dimen name="listportait_Hgride_pl">8.89dp</dimen>
+<dimen name="listportait_Hgride_mr">30.22dp</dimen>
+<dimen name="listportait_Hgride_mb">46.22dp</dimen>
+<dimen name="listportait_section_tab_H">78.22dp</dimen>
+
+<!-- channel_section_tabs -->
+<dimen name="channel_section_tabs_W">177.78dip</dimen>
+<dimen name="channel_section_tabs_H">78.22dp</dimen>
+<dimen name="channel_section_tabs_label_marginL">6.22dip</dimen>
+<dimen name="channel_section_tabs_label_marginR">6.22dip</dimen>
+<dimen name="channel_section_tabs_label_marginB">3.56dip</dimen>
+<dimen name="channel_section_tabs_label_textsize">26.67sp</dimen>
+<dimen name="channel_section_tabs_percentage_H">3.56dp</dimen>
+<dimen name="channel_section_tabs_label_ctextsize">31.11sp</dimen>
+<dimen name="channel_section_tabs_label_paddingT">8.89dip</dimen>
+<dimen name="channel_section_tabs_percentage_PLR">6.22dip</dimen>
+<dimen name="channel_section_tabs_layout_marginLeft">97.78dip</dimen>
+<dimen name="channel_section_tabs_text_PT">0.00dip</dimen>
+
+<dimen name="list_head_H">88.89dp</dimen>
+<dimen name="list_head_paddingL">65.78dp</dimen>
+<dimen name="divider_blowhead_ML">30.22dp</dimen>
 <dimen name="list_item_preview_img_w">225.78dp</dimen>
 <dimen name="list_item_preview_img_h">315.56dp</dimen>
 <dimen name="list_item_preview_img_mt">6.22dip</dimen>
@@ -501,7 +548,7 @@
 <dimen name="variety_dramalist_gridview_month_item_pt">25.78dip</dimen>
 <dimen name="variety_dramalist_gridview_month_item_pb">66.67dip</dimen>
 <dimen name="entertainment_vaiety_card_image_h">201.78dp</dimen>
-<dimen name="variety_dramalist_focustextsize">24.00sp</dimen>
+<dimen name="variety_dramalist_focustextsize">26.67sp</dimen>
 
 <!-- menu -->
 <dimen name="menu_menulistview_W">462.22dip</dimen>
@@ -514,7 +561,8 @@
 <dimen name="menu_list_PaddingTB">44.44dip</dimen>
 <dimen name="menu_item_PaddingTB">26.67dip</dimen>
 <dimen name="menu_item_text_size">42.67sp</dimen>
-
+<dimen name="filter_norestult_buton_mt">65.78dp</dimen>
+<dimen name="filter_noresult_text_mt">51.56dp</dimen>
 <dimen name="pop_btn_margin_lr">109.33dp</dimen>
 <dimen name="usercenter_subtitle_ml">64.89dp</dimen>
 </resources>

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -125,7 +126,7 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
     private SharedPreferences.OnSharedPreferenceChangeListener changeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//            String geoId = locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID, "101020100");
+//           String geoId = locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID, "101020100");
             try {
                 String cityName = AccountSharedPrefs.getInstance().getSharedPrefs(AccountSharedPrefs.CITY);
                 CityTable cityTable = new Select().from(CityTable.class).where(CityTable.CITY + " = ?", cityName).executeSingle();
@@ -158,7 +159,7 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
                 view.setNextFocusLeftId(view.getId());
             }
             if (i == INDICATOR_RES_LIST.length - 1) {
-                view.setRight(-20);
+             //   view.setRight(-20);
                 view.setNextFocusRightId(view.getId());
             }
             guideLayout.addView(view);
@@ -234,11 +235,11 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");//可以方便地修改日期格式
             String todayTime = dateFormat.format(now);
 
-            weatherInfoTextView.setText("");
+//            weatherInfoTextView.setText("");
 //                    weatherInfoTextView.append("   " + calendar.get(Calendar.YEAR) + context.getText(R.string.year).toString() +
 //                            calendar.get(Calendar.MONTH) + context.getText(R.string.month).toString() +
 //                            calendar.get(Calendar.DATE) + context.getText(R.string.day).toString() + "   ");
-            weatherInfoTextView.append("   " + todayTime + "   ");
+//            weatherInfoTextView.append("   " + todayTime + "   ");
 
             weatherInfoTextView.append(weatherEntity.getToday().getCondition() + "   ");
             if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
@@ -262,9 +263,9 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
         if (mHeadItemClickListener != null) {
             int i = v.getId();
             if (i == R.string.vod_movielist_title_history) {
-
+                mHeadItemClickListener.onHistoryClick();
             } else if (i == R.string.guide_my_favorite) {
-
+                mHeadItemClickListener.onFavoriteClick();
             } else if (i == R.string.guide_user_center) {
                 mHeadItemClickListener.onUserCenterClick();
 

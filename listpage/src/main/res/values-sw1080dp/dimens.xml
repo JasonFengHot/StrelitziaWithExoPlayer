@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="tv_guide_top_section_padding">14dp</dimen>
-    <dimen name="filmitem_portrait_detail_title_mt">28dip</dimen>
+    <dimen name="filmitem_portrait_detail_title_mt">80dp</dimen>
+    <dimen name="filtmitem_detail_button_h">72dp</dimen>
+    <dimen name="filtmitem_detail_button_w">274dp</dimen>
     <dimen name="filmitem_portrait_detail_title_w">798dip</dimen>
     <dimen name="filmitem_portrait_detail_title_h">54dip</dimen>
     <dimen name="filmitem_portrait_detail_title_size">48sp</dimen>
@@ -11,6 +13,7 @@
     <!-- zjq -->
     <dimen name="top_panel_view_height">112dip</dimen>
     <dimen name="divider_margin_MLR">26dip</dimen>
+
     <!-- list_view -->
     <dimen name="list_view_search_H">60dip</dimen>
     <dimen name="list_view_search_ML">990dip</dimen>
@@ -96,7 +99,7 @@
     <dimen name="gridview_main_panel_labelBackgroundWidth">499dip</dimen>
     <dimen name="gridview_main_panel_labelBackgroundHeight">810dip</dimen>
     <dimen name="gridview_main_panel_labelTextSize">35dip</dimen>
-    <dimen name="gridview_main_panel_labelTextMarginTop">14dip</dimen>
+    <dimen name="gridview_main_panel_labelTextMarginTop">344dp</dimen>
     <dimen name="gridview_main_panel_labelTextMarginLeft">7dip</dimen>
     <dimen name="gridview_main_panel_labelTextMarginBottom">20dip</dimen>
     <dimen name="gridview_main_panel_labelTextMarginRight">10dip</dimen>
@@ -196,18 +199,20 @@
     <dimen name="filter_list_item_title_pb">34dp</dimen>
     <dimen name="filter_list_item_title_w">336dp</dimen>
     <dimen name="filter_list_item_title_textsize">30sp</dimen>
-    <dimen name="filter_portraitresult_top_layout_ml">222dip</dimen>
+    <dimen name="filter_portraitresult_top_layout_ml">113dp</dimen>
     <dimen name="filter_portraitresult_filter_percentage_w">1690dip</dimen>
     <dimen name="filter_portraitresult_filter_percentage_h">4dip</dimen>
-    <dimen name="filter_portraitresult_filter_percentage_margin">115dip</dimen>
+    <dimen name="filter_portraitresult_filter_percentage_margin">113dip</dimen>
     <dimen name="filter_portraitresult_shadow_ml">31dip</dimen>
     <dimen name="filter_portraitresult_shadow_mt">356dip</dimen>
+    <dimen name="filter_portraitresult_button_mt">322dp</dimen>
     <dimen name="filter_portraitresult_shadow_w">41dip</dimen>
     <dimen name="filter_portraitresult_shadow_h">82dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_horizontalSpacing">33dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_rowHeight">406dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_mt">2dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_pt">10dip</dimen>
+    <dimen name="filter_portraitresult_filter_grid_pat">6dp</dimen>
     <dimen name="filter_portraitresult_filter_grid_mb">52dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_ml">34dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_pr">10dip</dimen>
@@ -219,18 +224,21 @@
     <dimen name="filter_result_list_filter_grid_mb">71dip</dimen>
     <dimen name="filter_result_list_filter_grid_pr">5dip</dimen>
     <dimen name="filter_result_list_filter_grid_pl">6dip</dimen>
-    <dimen name="filter_view_scrollView_h">661dip</dimen>
-    <dimen name="filter_view_filtermenulayout_pt">71dp</dimen>
+    <dimen name="filter_view_scrollView_h">689dip</dimen>
+    <dimen name="filter_view_filtermenulayout_pt">43dp</dimen>
     <dimen name="filter_view_filtermenulayout_ml">222dip</dimen>
     <dimen name="filter_view_filter_submit_mt">94dp</dimen>
     <dimen name="filter_view_filter_submit_ml">823dp</dimen>
     <dimen name="filter_view_filter_submit_w">274dp</dimen>
     <dimen name="filter_view_filter_submit_h">72dp</dimen>
-    <dimen name="filter_condition_item_linearLayout_h">165dip</dimen>
+    <dimen name="filter_condition_item_linearLayout_h">120dp</dimen>
     <dimen name="filter_condition_item_condition_txt_mt">20dip</dimen>
-    <dimen name="filter_condition_item_condition_txt_w">150dip</dimen>
-    <dimen name="filter_condition_item_condition_txt_h">80dip</dimen>
-    <dimen name="filter_condition_item_line_group_ml">5dip</dimen>
+    <dimen name="filter_condition_item_condition_txt_w">121dp</dimen>
+    <dimen name="filter_condition_item_condition_txt_h">48dp</dimen>
+    <dimen name="filter_condition_item_line_group_ml">22dp</dimen>
+    <dimen name="filter_condition_item_line_group_mt">12dp</dimen>
+    <dimen name="filter_condition_groupview_h">108dp</dimen>
+
 
     <!-- channel_section_tabs -->
     <dimen name="channel_section_tabs_W">233dip</dimen>

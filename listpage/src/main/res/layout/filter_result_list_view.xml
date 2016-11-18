@@ -39,7 +39,6 @@
 
 </LinearLayout>
     <ProgressBar
-            android:layout_marginTop="@dimen/filter_portraitresult_filter_grid_pt"
             android:id="@+id/filter_percentage"
             android:layout_width="@dimen/filter_portraitresult_filter_percentage_w"
             android:layout_height="@dimen/filter_portraitresult_filter_percentage_h"
@@ -60,8 +59,8 @@
                 android:layout_width="@dimen/filter_portraitresult_shadow_w"
                 android:layout_height="@dimen/filter_portraitresult_shadow_h"
                 android:background="@drawable/channel_arrow_left"
-                android:layout_marginLeft="@dimen/filter_portraitresult_shadow_ml"
-                android:layout_marginTop="@dimen/filter_portraitresult_shadow_mt"
+                android:layout_marginLeft="@dimen/filter_portraitresult_filter_grid_pt"
+                android:layout_marginTop="@dimen/filter_portraitresult_button_mt"
                 />
         <Button
                 android:visibility="invisible"
@@ -70,30 +69,30 @@
                 android:layout_width="@dimen/filter_portraitresult_shadow_w"
                 android:layout_height="@dimen/filter_portraitresult_shadow_h"
                 android:background="@drawable/channel_arrow_right"
-                android:layout_marginTop="@dimen/filter_portraitresult_shadow_mt"
-                android:layout_marginRight="@dimen/filter_portraitresult_shadow_ml"/>
+                android:layout_marginTop="@dimen/filter_portraitresult_button_mt"
+                android:layout_marginRight="@dimen/filter_portraitresult_filter_grid_pt"/>
         <tv.ismar.app.ui.HGridView
                 android:layout_toLeftOf="@id/right_shadow"
                 android:layout_toRightOf="@id/left_shadow"
                 android:id="@+id/filter_grid"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                sakura:horizontalSpacing="@dimen/filter_portraitresult_filter_percentage_margin"
+                sakura:horizontalSpacing="@dimen/listview_hgride_horSpace"
                 sakura:numRows="3"
-                sakura:rowHeight="@dimen/filter_result_list_view_rowHeight"
+                sakura:rowHeight="@dimen/listview_hgride_rowHeight"
                 sakura:selectorDrawable="@drawable/vod_gv_selector"
                 sakura:verticalSpacing="0dip"
                 sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"
                 sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"
                 sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"
                 sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
-                android:paddingTop="@dimen/filter_result_list_filter_grid_pt"
-                android:layout_marginTop="@dimen/filter_result_list_filter_grid_mt"
-                android:layout_marginLeft="@dimen/filter_result_list_filter_grid_ml"
-                android:layout_marginRight="@dimen/filter_result_list_filter_grid_ml"
+                android:paddingTop="@dimen/filter_result_list_filter_grid_pr"
+                android:layout_marginTop="@dimen/filmitem_portrait_middle_btn_ml"
+                android:layout_marginLeft="@dimen/listportait_Hgride_ml"
+                android:layout_marginRight="@dimen/filmitem_portrait_middle_btn_ml"
                 android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
                 android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
-                android:paddingLeft="@dimen/filter_result_list_filter_grid_pl">
+                android:paddingLeft="@dimen/listportait_Hgride_pl">
         </tv.ismar.app.ui.HGridView>
     </RelativeLayout>
 
@@ -108,7 +107,7 @@
         <LinearLayout
                 android:id="@+id/nofilter_top_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/test_height"
+                android:layout_height="@dimen/filter_noresult_layout_h"
                 android:orientation="vertical"
                 >
             <TextView
@@ -121,14 +120,14 @@
                     android:textSize="@dimen/h1_text_size" />
 
             <Button
-                    android:layout_marginTop="@dimen/menu_list_PaddingTB"
+                    android:layout_marginTop="@dimen/filter_norestult_buton_mt"
                     android:layout_gravity="center_horizontal"
                     android:text="重新筛选"
-                    android:textSize="@dimen/h1_text_size"
+                    android:textSize="@dimen/h2_text_size"
                     android:gravity="center"
                     android:id="@+id/refilter_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/condition_height"
+                    android:layout_width="@dimen/filtmitem_detail_button_w"
+                    android:layout_height="@dimen/filtmitem_detail_button_h"
                     android:background="@drawable/filter_btn_selector"
                     android:textColor="@android:color/white">
             </Button>
@@ -136,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/filter_portraitresult_top_layout_ml"
-                    android:layout_marginTop="@dimen/gridview_main_panel_labelTextMarginTop"
+                    android:layout_marginTop="@dimen/filter_noresult_text_mt"
                     android:textSize="@dimen/h2_text_size"
                     android:textColor="@android:color/white"
                     android:text="当前大家正在看"/>

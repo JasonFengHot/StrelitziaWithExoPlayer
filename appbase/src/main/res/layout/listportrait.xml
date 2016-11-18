@@ -10,72 +10,69 @@
     <tv.ismar.app.widget.LaunchHeaderLayout
             android:id="@+id/top_column_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/listportait_top_column_layout_h"
+            android:layout_height="@dimen/list_head_H"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/tv_guide_top_section_padding"
+            android:paddingLeft="@dimen/list_head_paddingL"
             android:paddingRight="@dimen/tv_guide_top_section_padding"
             >
     </tv.ismar.app.widget.LaunchHeaderLayout>
 
     <ImageView
-            android:layout_marginLeft="@dimen/listportait_imageview_margin"
-            android:layout_marginRight="@dimen/listportait_imageview_margin"
+            android:layout_marginLeft="@dimen/divider_blowhead_ML"
+            android:layout_marginRight="@dimen/listportait_shaw_left"
             android:layout_width="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/orderlistdivide"
-            android:layout_height="@dimen/listportait_imageview_h"/>
+            android:layout_height="@dimen/listportait_shaw_height"/>
     <LinearLayout
         android:id="@+id/tabs_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-         android:visibility="visible"
+        android:visibility="visible"
         >
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/channel_section_tabs_H">
-
-            <tv.ismar.app.widget.ScrollableSectionList
-                android:id="@+id/section_tabs"
-                android:layout_width="match_parent"
+            android:layout_height="@dimen/listportait_section_tab_H"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:id="@+id/arrow_left"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin"
-                android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"
+                android:layout_gravity="left"
+                android:scaleType="fitCenter"
+                android:src="@drawable/section_list_arrow_left"
+                android:visibility="invisible" />
+            <tv.ismar.app.widget.ScrollableSectionList
+                android:id="@+id/section_tabs"
+                android:layout_width="1208dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="70dp"
                 android:layout_gravity="center"
                 android:fillViewport="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:scrollbars="none" >
             </tv.ismar.app.widget.ScrollableSectionList>
-
-            <ImageView
-                android:id="@+id/arrow_left"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/filter_portraitresult_shadow_w"
-                android:layout_gravity="left"
-                android:scaleType="fitCenter"
-                android:src="@drawable/section_list_arrow_left"
-                android:visibility="invisible" />
-
             <ImageView
                 android:id="@+id/arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/filter_portraitresult_shadow_w"
+                android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"
                 android:layout_gravity="right"
                 android:scaleType="fitCenter"
                 android:visibility="invisible"
                 android:src="@drawable/section_list_arrow_right" />
-
-        </FrameLayout>
+        </LinearLayout>
 
         <ProgressBar
                 android:id="@+id/section_percentage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/channel_section_tabs_percentage_H"
-            android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin"
-            android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"
+                android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin"
+                android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"
                 android:progressDrawable="@drawable/progressbg"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:indeterminate="false"
@@ -85,26 +82,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <Button
-            android:layout_marginLeft="@dimen/listportait_shadow_ml"
-            android:layout_marginTop="@dimen/listportait_shadow_mt"
+            android:layout_marginLeft="@dimen/listportait_button_ml"
+            android:layout_marginTop="@dimen/listportait_button_mt"
             android:visibility="invisible"
             android:clickable="true"
             android:focusable="true"
             android:layout_alignParentLeft="true"
             android:id="@+id/left_shadow"
-            android:layout_width="@dimen/listportait_shadow_w"
-            android:layout_height="@dimen/listportait_shadow_h"
+            android:layout_width="@dimen/listportait_button_width"
+            android:layout_height="@dimen/listportait_button_H"
             android:background="@drawable/channel_arrow_left"
             />
     <Button
-            android:layout_marginTop="@dimen/listportait_shadow_mt"
-            android:layout_marginRight="@dimen/listportait_shadow_ml"
+            android:layout_marginTop="@dimen/listportait_button_mt"
+            android:layout_marginRight="@dimen/listportait_button_ml"
             android:visibility="invisible"
             android:focusable="true"
             android:layout_alignParentRight="true"
             android:id="@+id/right_shadow"
-            android:layout_width="@dimen/listportait_shadow_w"
-            android:layout_height="@dimen/listportait_shadow_h"
+            android:layout_width="@dimen/listportait_button_width"
+            android:layout_height="@dimen/listportait_button_H"
             android:background="@drawable/channel_arrow_right"
            />
     <tv.ismar.app.ui.HGridView
@@ -113,22 +110,22 @@
         android:id="@+id/h_grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        sakura:horizontalSpacing="@dimen/listportait_h_grid_view_horizontalSpacing"
+        sakura:horizontalSpacing="@dimen/listportait_Hgride_horSpace"
         sakura:numRows="2"
-        sakura:rowHeight="@dimen/listportait_h_grid_view_rowHeight"
+        sakura:rowHeight="@dimen/listportait_Hgride_rowHeight"
         sakura:selectorDrawable="@drawable/vod_gv_selector"
-        sakura:verticalSpacing="0dip"
+        sakura:verticalSpacing="@dimen/listportait_Hgride_verSpace"
         sakura:selectionLeftPadding="@dimen/HGridView_related_pselectionLeftPadding"
         sakura:selectionTopPadding="@dimen/HGridView_related_pselectionTopPadding"
         sakura:selectionRightPadding="@dimen/HGridView_related_pselectionRightPadding"
         sakura:selectionBottomPadding="@dimen/HGridView_related_pselectionBottomPadding"
-        android:layout_marginTop="@dimen/listportait_h_grid_view_mt"
-        android:paddingTop="@dimen/listportait_h_grid_view_pt"
-        android:layout_marginBottom="@dimen/listportait_h_grid_view_mb"
-        android:layout_marginLeft="@dimen/listportait_h_grid_view_ml"
-        android:layout_marginRight="@dimen/listportait_h_grid_view_ml"
-        android:paddingRight="@dimen/listportait_h_grid_view_pr"
-        android:paddingLeft="@dimen/listportait_h_grid_view_pl">
+        android:layout_marginTop="@dimen/listportait_Hgride_mt"
+        android:paddingTop="@dimen/listportait_Hgride_pt"
+        android:layout_marginBottom="@dimen/listportait_Hgride_mb"
+        android:layout_marginLeft="@dimen/listportait_Hgride_ml"
+        android:layout_marginRight="@dimen/listportait_Hgride_mr"
+        android:paddingRight="@dimen/listportait_Hgride_pl"
+        android:paddingLeft="@dimen/listportait_Hgride_pl">
     </tv.ismar.app.ui.HGridView>
   </RelativeLayout>
 </LinearLayout>

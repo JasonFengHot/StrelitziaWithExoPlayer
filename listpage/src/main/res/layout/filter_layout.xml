@@ -8,19 +8,25 @@
     <tv.ismar.app.widget.LaunchHeaderLayout
             android:id="@+id/top_column_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/gridview_channel_label_height"
+            android:layout_height="@dimen/list_head_H"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/tv_guide_top_section_padding"
+            android:paddingLeft="@dimen/list_head_paddingL"
             android:paddingRight="@dimen/tv_guide_top_section_padding"
+            android:visibility="gone"
             >
     </tv.ismar.app.widget.LaunchHeaderLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_head_H"
+        android:id="@+id/fitle_head"
+        ></FrameLayout>
 <ImageView
            android:layout_width="match_parent"
-           android:layout_height="@dimen/gridview_main_gridview_line_W"
-           android:background="@drawable/filter_divider"
+           android:layout_height="@dimen/listportait_imageview_h"
+           android:background="@drawable/orderlistdivide"
            android:gravity="center_vertical"
-           android:paddingLeft="@dimen/tv_guide_top_section_padding"
-           android:paddingRight="@dimen/tv_guide_top_section_padding"/>
+           android:paddingLeft="@dimen/divider_blowhead_ML"
+           android:paddingRight="@dimen/listportait_imageview_margin"/>
 
 <LinearLayout
             android:id="@+id/filter_fragment_container"

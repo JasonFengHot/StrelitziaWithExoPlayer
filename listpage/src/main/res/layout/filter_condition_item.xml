@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/filter_condition_item_linearLayout_h"
+    android:layout_height="120dp"
+    android:clipChildren="false"
     android:orientation="horizontal">
         <TextView
-                android:layout_marginTop="@dimen/filter_condition_item_condition_txt_mt"
                 android:id="@+id/condition_txt"
-                android:layout_width="@dimen/filter_condition_item_condition_txt_w"
+                android:layout_width="131dp"
                 android:layout_height="@dimen/filter_condition_item_condition_txt_h"
                 android:text="类型"
                 android:textSize="@dimen/h1_text_size"
                 android:textColor="@android:color/white"/>
         <tv.ismar.app.ui.view.MyViewGroup
-                android:layout_marginLeft="@dimen/filter_condition_item_line_group_ml"
+                android:layout_marginLeft="-28dp"
                 android:id="@+id/line_group"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_marginTop="-24dp"
+                android:clipChildren="false"
+                android:layout_height="144dp">
         </tv.ismar.app.ui.view.MyViewGroup>
-
 </LinearLayout>

@@ -375,6 +375,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                         @Override
                         public void onNext(ItemList itemList) {
                             if(itemList!=null && itemList.objects!=null) {
+                                mLoadingDialog.dismiss();
                                 int sectionIndex = getSectionAndPageFromIndex(index)[0];
                                 int page = getSectionAndPageFromIndex(index)[1];
                                 ItemCollection itemCollection = mItemCollections.get(sectionIndex);
@@ -384,9 +385,14 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                                 showDialog();
                             }
                         }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                        }
                     });
         }else{
-            skyService.getFilterRequestNodata("movie","area\\*10022$10261$10263$10378$10479$10483$10484$10494",page).subscribeOn(Schedulers.io())
+            skyService.getFilterRequestNodata("movie","area*10022$10261$10263$10378$10479$10483$10484$10494",1).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(((BaseActivity) getActivity()).new BaseObserver<ItemList>() {
                         @Override
@@ -405,6 +411,11 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                             } else {
                                 showDialog();
                             }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
                         }
                     });
         }
@@ -449,6 +460,11 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                         } catch(Exception e){
                             e.printStackTrace();
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
                     }
                 });
     }

@@ -18,8 +18,9 @@
     <string name="vod_ok">确定</string>
     <string name="setting_network">设置网络</string>
     <string name="i_know">我知道了</string>
-    <string name="fetch_net_data_error">获取网络数据失败!!!</string>
-    <string name="no_connectNet">无网络连接!!!</string>
+    <string name="exit_app">退出应用</string>
+    <string name="fetch_net_data_error">网络连接失败，请重试!</string>
+    <string name="no_connectNet">当前无网络连接，请检查您的网络设置</string>
     <string name="mobile_net">您正在使用数据流量！！</string>
     <string name="vod_cancel">取消</string>
     <string name="item_offline">抱歉，该片已下线</string>
@@ -36,6 +37,7 @@
     <string name="orderlisttitle">订购列表</string>
     <string name="playfromstarttitle">从头播放</string>
     <string name="interested_video">您可能对这些影片感兴趣</string>
+    <string name="claer_histories">清除历史记录</string>
     <string name="dialog_setting">网络设置</string>
     <string name="onload">正在加载</string>
 

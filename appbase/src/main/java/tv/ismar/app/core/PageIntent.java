@@ -119,6 +119,17 @@ public class PageIntent implements PageIntentInterface {
     public void toUserCenterLocation(Context context) {
 
     }
-
+    public void toHistory(Context context){
+        Intent intent=new Intent();
+        intent.setAction( "tv.ismar.daisy.Channel");
+        intent.putExtra("channel", "histories");
+        context.startActivity(intent);
+    }
+    public void toFavorite(Context context){
+        Intent intent=new Intent();
+        intent.setAction("tv.ismar.daisy.Channel");
+        intent.putExtra("channel", "$bookmarks");
+        context.startActivity(intent);
+    }
 
 }
