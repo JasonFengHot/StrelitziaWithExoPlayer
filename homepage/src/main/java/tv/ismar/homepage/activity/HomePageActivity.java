@@ -1,9 +1,6 @@
 package tv.ismar.homepage.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -12,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -60,7 +56,6 @@ import java.util.TimerTask;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.ad.AdsUpdateService;
@@ -102,7 +97,6 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
     private static final String TAG = "TVGuideActivity";
     private static final int SWITCH_PAGE = 0X01;
     private static final int SWITCH_PAGE_FROMLAUNCH = 0X02;
-    private AppUpdateReceiver appUpdateReceiver;
     private ChannelBaseFragment currentFragment;
     private ChannelBaseFragment lastFragment;
     /**
@@ -379,7 +373,6 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 //        new Thread(new InitializeProcess(this)).start();
         fragmentSwitch = new FragmentSwitchHandler(this);
         activityTag = "BaseActivity";
-        registerUpdateReceiver();
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
         /**
@@ -851,29 +844,29 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 
     }
 
-    private void registerUpdateReceiver() {
-        appUpdateReceiver = new AppUpdateReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(AppConstant.APP_UPDATE_ACTION);
-        registerReceiver(appUpdateReceiver, intentFilter);
-    }
+//    private void registerUpdateReceiver() {
+//        appUpdateReceiver = new AppUpdateReceiver();
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(AppConstant.APP_UPDATE_ACTION);
+//        registerReceiver(appUpdateReceiver, intentFilter);
+//    }
 
     /**
      * receive app update broadcast, and show update popup window
      */
-    class AppUpdateReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final Bundle bundle = intent.getBundleExtra("data");
-            contentView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    showUpdatePopup(contentView, bundle);
-                }
-            }, 2000);
-
-        }
-    }
+//    class AppUpdateReceiver extends BroadcastReceiver {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            final Bundle bundle = intent.getBundleExtra("data");
+//            contentView.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    showUpdatePopup(contentView, bundle);
+//                }
+//            }, 2000);
+//
+//        }
+//    }
 
     /**
      * show update popup, now update app or next time update
@@ -881,60 +874,60 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
      * @param view   popup window location
      * @param bundle update data
      */
-    private void showUpdatePopup(View view, Bundle bundle) {
-        final Context context = this;
-        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
-        contentView.setBackgroundResource(R.drawable.app_update_bg);
-        guide_shadow_view.setVisibility(View.VISIBLE);
-        float density = getResources().getDisplayMetrics().density;
+//    private void showUpdatePopup(View view, Bundle bundle) {
+//        final Context context = this;
+//        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
+//        contentView.setBackgroundResource(R.drawable.app_update_bg);
+//        guide_shadow_view.setVisibility(View.VISIBLE);
+//        float density = getResources().getDisplayMetrics().density;
+//
+//        int appUpdateHeight = (int) (getResources().getDimension(R.dimen.app_update_bg_height));
+//        int appUpdateWidht = (int) (getResources().getDimension(R.dimen.app_update_bg_width));
+//
+//
+//        updatePopupWindow = new PopupWindow(null, appUpdateHeight, appUpdateWidht);
+//        updatePopupWindow.setContentView(contentView);
+//        updatePopupWindow.setFocusable(true);
+//        updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+//
+//        Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
+//        LinearLayout updateMsgLayout = (LinearLayout) contentView.findViewById(R.id.update_msg_layout);
+//
+//        final String path = bundle.getString("path");
+//
+//        ArrayList<String> msgs = bundle.getStringArrayList("msgs");
+//
+//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT);
+//        layoutParams.leftMargin = (int) (getResources().getDimension(R.dimen.app_update_content_margin_left));
+//        layoutParams.topMargin = (int) (getResources().getDimension(R.dimen.app_update_line_margin_));
+//
+//        for (String msg : msgs) {
+//            View textLayout = LayoutInflater.from(this).inflate(R.layout.update_msg_text_item, null);
+//            TextView textView = (TextView) textLayout.findViewById(R.id.update_msg_text);
+//            textView.setText(msg);
+//            updateMsgLayout.addView(textLayout);
+//        }
+//
+//        updateNow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updatePopupWindow.dismiss();
+//                guide_shadow_view.setVisibility(View.GONE);
+//                installApk(context, path);
+//            }
+//        });
+//    }
 
-        int appUpdateHeight = (int) (getResources().getDimension(R.dimen.app_update_bg_height));
-        int appUpdateWidht = (int) (getResources().getDimension(R.dimen.app_update_bg_width));
-
-
-        updatePopupWindow = new PopupWindow(null, appUpdateHeight, appUpdateWidht);
-        updatePopupWindow.setContentView(contentView);
-        updatePopupWindow.setFocusable(true);
-        updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-        Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
-        LinearLayout updateMsgLayout = (LinearLayout) contentView.findViewById(R.id.update_msg_layout);
-
-        final String path = bundle.getString("path");
-
-        ArrayList<String> msgs = bundle.getStringArrayList("msgs");
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.leftMargin = (int) (getResources().getDimension(R.dimen.app_update_content_margin_left));
-        layoutParams.topMargin = (int) (getResources().getDimension(R.dimen.app_update_line_margin_));
-
-        for (String msg : msgs) {
-            View textLayout = LayoutInflater.from(this).inflate(R.layout.update_msg_text_item, null);
-            TextView textView = (TextView) textLayout.findViewById(R.id.update_msg_text);
-            textView.setText(msg);
-            updateMsgLayout.addView(textLayout);
-        }
-
-        updateNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updatePopupWindow.dismiss();
-                guide_shadow_view.setVisibility(View.GONE);
-                installApk(context, path);
-            }
-        });
-    }
-
-    public void installApk(Context mContext, String path) {
-        Uri uri = Uri.parse("file://" + path);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(uri, "application/vnd.android.package-archive");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
-    }
-
+//    public void installApk(Context mContext, String path) {
+//        Uri uri = Uri.parse("file://" + path);
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setDataAndType(uri, "application/vnd.android.package-archive");
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        mContext.startActivity(intent);
+//    }
+//
     private void showExitPopup(View view) {
         exitPopupWindow = new MessagePopWindow(this);
         exitPopupWindow.setFirstMessage(R.string.exit_prompt);
@@ -1405,7 +1398,6 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(appUpdateReceiver);
         if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
             bitmapDecoder.interrupt();
         }

@@ -11,24 +11,21 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
-import com.blankj.utilcode.utils.AppUtils;
-
-import java.util.ArrayList;
 import java.util.Stack;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.widget.ExpireAccessTokenPop;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
+import tv.ismar.app.widget.NetErrorPopWindow;
+import tv.ismar.app.widget.UpdatePopupWindow;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
@@ -38,27 +35,22 @@ import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
  */
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
-    private PopupWindow updatePopupWindow;
+    private UpdatePopupWindow updatePopupWindow;
     private LoadingDialog mLoadingDialog;
     private ModuleMessagePopWindow netErrorPopWindow;
+    private ModuleMessagePopWindow expireAccessTokenPop;
     public SkyService mSkyService;
-    private View mRootView;
     public SkyService mWeatherSkyService;
-    public static final String ACTION_CONNECT_ERROR = "tv.ismar.daisy.CONNECT_ERROR";
     protected String activityTag = "";
     public long app_start_time;
 
     public static Stack<Bundle> updateInfo = new Stack<>();
 
-    private static final int UPDATE_APP_REQUEST_CODE = 0x5723;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mSkyService = SkyService.ServiceManager.getService();
-        mRootView = getWindow().getDecorView();
         mWeatherSkyService = SkyService.ServiceManager.getWeatherService();
         app_start_time = System.currentTimeMillis();
     }
@@ -71,22 +63,13 @@ public class BaseActivity extends AppCompatActivity {
         }
         registerUpdateReceiver();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-//                    showUpdatePopup(mRootView);
-                }
-            }
-        }, 2000);
-
     }
 
     @Override
     protected void onPause() {
-        if (updatePopupWindow != null) {
-            updatePopupWindow.dismiss();
-            updatePopupWindow = null;
+        if (expireAccessTokenPop != null) {
+            expireAccessTokenPop.dismiss();
+            expireAccessTokenPop = null;
         }
         unregisterReceiver(mUpdateReceiver);
         super.onPause();
@@ -130,7 +113,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNetWorkErrorDialog(Throwable e) {
-        netErrorPopWindow = new ModuleMessagePopWindow(this);
+        netErrorPopWindow = NetErrorPopWindow.getInstance(this);
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
         netErrorPopWindow.setCancelBtn(getString(R.string.i_know));
@@ -158,26 +141,60 @@ public class BaseActivity extends AppCompatActivity {
     public abstract class BaseObserver<T> implements Observer<T> {
         @Override
         public void onError(Throwable e) {
-            showNetWorkErrorDialog(e);
+            if (e instanceof HttpException) {
+                HttpException httpException = (HttpException) e;
+                if (httpException.code() == 401) {
+                    showExpireAccessTokenPop();
+                } else {
+                    showNetWorkErrorDialog(e);
+                }
+            } else {
+                showNetWorkErrorDialog(e);
+            }
         }
     }
 
+
+    public void showExpireAccessTokenPop() {
+        expireAccessTokenPop = ExpireAccessTokenPop.getInstance(this);
+        expireAccessTokenPop.setFirstMessage(getString(R.string.access_token_expire));
+        expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
+        expireAccessTokenPop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        expireAccessTokenPop.dismiss();
+                        IsmartvActivator.getInstance().removeUserInfo();
+                    }
+                },
+                null);
+    }
 
     private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
             Log.d("UpdateReceiver", intent.getBundleExtra("data").toString());
             Bundle bundle = intent.getBundleExtra("data");
-            updateInfo.push(bundle);
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-//                        showUpdatePopup(mRootView);
-                    }
+            boolean isExsit = false;
+            for (Bundle b : updateInfo) {
+                if (b.get("path").equals(bundle.get("path")) &&
+                        b.get("msgs").equals(bundle.get("msgs"))) {
+                    isExsit = true;
+
                 }
-            }, 2000);
+            }
+
+            if (!isExsit) {
+                updateInfo.push(bundle);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
+                            showUpdatePopup(getRootView(), updateInfo);
+                        }
+                    }
+                }, 2000);
+            }
         }
     };
 
@@ -188,79 +205,18 @@ public class BaseActivity extends AppCompatActivity {
         registerReceiver(mUpdateReceiver, intentFilter);
     }
 
-
-    private void showUpdatePopup(final View view) {
-        if (updateInfo.isEmpty()) {
-            return;
+    private void showUpdatePopup(final View view, final Stack<Bundle> stack) {
+        if (!stack.isEmpty()) {
+            Log.d(TAG, "showUpdatePopup");
+            updatePopupWindow = new UpdatePopupWindow(this, stack.pop());
+            updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    showUpdatePopup(view, stack);
+                }
+            });
         }
-        Bundle bundle = updateInfo.pop();
-        final Context context = this;
-        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
-        contentView.setBackgroundResource(R.drawable.app_update_bg);
-        float density = getResources().getDisplayMetrics().density;
-
-        int appUpdateHeight = (int) (getResources().getDimension(R.dimen.app_update_bg_height));
-        int appUpdateWidht = (int) (getResources().getDimension(R.dimen.app_update_bg_width));
-
-
-        updatePopupWindow = new PopupWindow(null, appUpdateHeight, appUpdateWidht);
-        updatePopupWindow.setContentView(contentView);
-        updatePopupWindow.setOutsideTouchable(true);
-//        updatePopupWindow.setFocusable(true);
-
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 0.15f;
-        getWindow().setAttributes(params);
-
-
-        updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-
-        updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams params = getWindow().getAttributes();
-                params.alpha = 1f;
-                getWindow().setAttributes(params);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-                            showUpdatePopup(mRootView);
-                        }
-                    }
-                }, 2000);
-            }
-        });
-
-        Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
-        LinearLayout updateMsgLayout = (LinearLayout) contentView.findViewById(R.id.update_msg_layout);
-
-        final String path = bundle.getString("path");
-
-        ArrayList<String> msgs = bundle.getStringArrayList("msgs");
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.leftMargin = (int) (getResources().getDimension(R.dimen.app_update_content_margin_left));
-        layoutParams.topMargin = (int) (getResources().getDimension(R.dimen.app_update_line_margin_));
-
-        for (String msg : msgs) {
-            View textLayout = LayoutInflater.from(this).inflate(R.layout.update_msg_text_item, null);
-            TextView textView = (TextView) textLayout.findViewById(R.id.update_msg_text);
-            textView.setText(msg);
-            updateMsgLayout.addView(textLayout);
-        }
-
-        updateNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updatePopupWindow.dismiss();
-                AppUtils.installApp(BaseActivity.this, path, UPDATE_APP_REQUEST_CODE);
-            }
-        });
     }
 
 
@@ -268,13 +224,5 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
 
         super.onDestroy();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == UPDATE_APP_REQUEST_CODE) {
-            Log.d(TAG, "result code: " + resultCode);
-        }
     }
 }
