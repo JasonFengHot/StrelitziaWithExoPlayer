@@ -53,7 +53,6 @@ public class MessageDialogFragment extends PopupWindow implements View.OnClickLi
 
         setWidth(screenWidth);
         setHeight(screenHeight);
-
         View contentView = LayoutInflater.from(context).inflate(R.layout.popup_message, null);
         confirmBtn = (Button) contentView.findViewById(R.id.confirm_btn);
         cancelBtn = (Button) contentView.findViewById(R.id.cancel_btn);
@@ -106,6 +105,7 @@ public class MessageDialogFragment extends PopupWindow implements View.OnClickLi
         setContentView(frameLayout);
         setBackgroundDrawable(context.getResources().getDrawable(R.drawable.pop_bg_drawable));
         setFocusable(true);
+        
 
     }
 

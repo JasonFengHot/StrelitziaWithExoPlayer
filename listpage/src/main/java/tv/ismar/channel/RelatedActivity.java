@@ -30,6 +30,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.adapter.RelatedAdapter;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Attribute;
@@ -113,25 +114,6 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
         });
         arrow_left = (ImageView) findViewById(R.id.arrow_left);
         arrow_right = (ImageView) findViewById(R.id.arrow_right);
-        //mSectionTabs.left = arrow_left;
-        //mSectionTabs.right = arrow_right;
-
-//        arrow_left.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                mSectionTabs.onArrowScroll(View.FOCUS_LEFT);
-//            }
-//        });
-//        arrow_right.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                mSectionTabs.onArrowScroll(View.FOCUS_RIGHT);
-//            }
-//        });
     }
 
     @SuppressWarnings({"unchecked"})
@@ -152,7 +134,7 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
         mLoadingDialog = new LoadingDialog(this,R.style.LoadingDialog);
         mLoadingDialog.setTvText(getResources().getString(R.string.loading));
         mLoadingDialog.setOnCancelListener(mLoadingCancelListener);
-        mLoadingDialog.show();
+        mLoadingDialog.showDialog();
         Intent intent = getIntent();
         if (intent != null) {
             Bundle bundle = intent.getExtras();
@@ -269,6 +251,7 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
 
                     @Override
                     public void onNext(Item[] items) {
+                        mLoadingDialog.dismiss();
                         if (items != null && items.length > 0) {
                             mRelatedItem = new ArrayList<Item>(Arrays.asList(items));
                         }
@@ -282,6 +265,12 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
                             showToast(getResources().getString(R.string.no_related_video));
                             RelatedActivity.this.finish();
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mLoadingDialog.dismiss();
                     }
                 });
     }
@@ -471,7 +460,11 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
             if (item.expense != null && (item.content_model.equals("variety") || item.content_model.equals("entertainment"))) {
                 item.content_model = "music";
             }
-            DaisyUtils.gotoSpecialPage(this, item.content_model, item.item_url, "related");
+          //  DaisyUtils.gotoSpecialPage(this, item.content_model, item.item_url, "related");
+            PageIntent pageIntent=new PageIntent();
+            boolean[] isSubItem = new boolean[1];
+            int pk = SimpleRestClient.getItemId(item.item_url, isSubItem);
+            pageIntent.toDetailPage(RelatedActivity.this,"related",pk);
         } else {
             tool = new InitPlayerTool(RelatedActivity.this);
             tool.fromPage = "related";

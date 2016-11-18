@@ -9,8 +9,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.ui.HGridView;
+import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.listpage.R;
 
@@ -23,6 +26,8 @@ public class ChannelListActivity extends BaseActivity {
     private View filter;
     private HGridView mHgridView;
     private BitmapDecoder bitmapDecoder;
+	private HeadFragment headFragment;
+	private FrameLayout head;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,6 +40,7 @@ public class ChannelListActivity extends BaseActivity {
                 vv.setBackgroundDrawable(bitmapDrawable);
             }
         });
+		head= (FrameLayout) findViewById(R.id.head_layout);
 		Intent intent = getIntent();
 		String title = null;
 		String url = null;
@@ -66,9 +72,11 @@ public class ChannelListActivity extends BaseActivity {
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		if(channel!=null) {
 			if(channel.equals("$bookmarks")) {
+				head.setVisibility(View.GONE);
 				Fragment favoriteFragment = new FavoriteFragment();
 				fragmentTransaction.add(R.id.fragment_container, favoriteFragment);
 			} else if(channel.equals("histories")) {
+				head.setVisibility(View.GONE);
 				Fragment historyFragment = new HistoryFragment();
 				fragmentTransaction.add(R.id.fragment_container, historyFragment);
 			} 
@@ -79,6 +87,8 @@ public class ChannelListActivity extends BaseActivity {
 //				finish();
 			}
 			else {
+				head.setVisibility(View.VISIBLE);
+				addHead(title);
 				channelFragment = new ChannelFragment();
 				if(1 == portraitflag){
                 channelFragment.setIsPOrtrait(false);
@@ -93,8 +103,17 @@ public class ChannelListActivity extends BaseActivity {
 			}
 			fragmentTransaction.commit();
 		}
-		
+
 		//DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
+	}
+	public void addHead(String title){
+		headFragment = new HeadFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString("type", HeadFragment.HEADER_USERCENTER);
+		bundle.putString("channel_name", title);
+		headFragment = new HeadFragment();
+		headFragment.setArguments(bundle);
+		getSupportFragmentManager().beginTransaction().add(R.id.head_layout, headFragment).commit();
 	}
 
 	 @Override
@@ -132,11 +151,11 @@ public class ChannelListActivity extends BaseActivity {
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			if(channel!=null) {
 				if(channel.equals("$bookmarks")) {
-//					Fragment favoriteFragment = new FavoriteFragment();
-//					fragmentTransaction.add(R.id.fragment_container, favoriteFragment);
+					Fragment favoriteFragment = new FavoriteFragment();
+					fragmentTransaction.add(R.id.fragment_container, favoriteFragment);
 				} else if(channel.equals("histories")) {
-//					Fragment historyFragment = new HistoryFragment();
-//					fragmentTransaction.add(R.id.fragment_container, historyFragment);
+					Fragment historyFragment = new HistoryFragment();
+					fragmentTransaction.add(R.id.fragment_container, historyFragment);
 				} 
 				else if(channel.equals("search")){
 //					Intent searchIntent = new Intent();

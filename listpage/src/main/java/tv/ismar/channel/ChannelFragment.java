@@ -365,7 +365,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     }
 
     private void doFilterRequest() {
-        Log.i("onNext","channelFragment");
         String s = mChannel;
         String url = "http://cordadmintest.tvxio.com/api/tv/retrieval/" + mChannel + "/";
         mRestClient.doTopicRequest(url, "get", "", new SimpleRestClient.HttpPostRequestInterface() {
@@ -706,7 +705,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
                             mLoadingDialog.dismiss();
                         }
-                        weatherFragment.setVisibility(View.VISIBLE);
+                        weatherFragment.setVisibility(View.GONE);
                         percentage.setVisibility(View.VISIBLE);
                         try {
                             if (mSectionList != null) {

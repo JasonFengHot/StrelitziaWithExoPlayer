@@ -9,39 +9,46 @@
     <LinearLayout
         android:id="@+id/arrow_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_panel_view_height"
+        android:layout_height="@dimen/list_head_H"
         android:orientation="horizontal">
     <TextView
         android:id="@+id/channel_label"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/gridview_channel_label_marginleft"
-        android:layout_marginRight="@dimen/gridview_channel_label_marginright"
+        android:layout_marginLeft="@dimen/list_head_paddingL"
         android:gravity="center"
-        android:textColor="#FFBBBBBB"
-        android:textSize="@dimen/gridview_channel_label_textsize" />
-    <ImageView
-        android:id="@+id/gridview_line"
-        android:layout_marginLeft="@dimen/gridview_line_ML"
-        android:layout_width="@dimen/gridview_main_gridview_line_W"
-        android:layout_height="@dimen/gridview_main_gridview_line_H"
-        android:background="@drawable/listview_p_divider"
-        android:visibility="visible" />
-                  
-           <Button
-           android:visibility="gone"
-           android:layout_width="wrap_content"
-           android:layout_height="@dimen/list_view_search_H"
-           android:layout_marginLeft="@dimen/list_view_search_ML"
-           android:layout_gravity="center_vertical"
-           android:focusable="true"
-           android:id="@+id/list_view_search"
-           android:background="@drawable/search_btn_bg_selector" />
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/filmitem_portrait_detail_title_size" />
+    <!--<ImageView-->
+        <!--android:id="@+id/gridview_line"-->
+        <!--android:layout_marginLeft="@dimen/gridview_line_ML"-->
+        <!--android:layout_width="@dimen/gridview_main_gridview_line_W"-->
+        <!--android:layout_height="@dimen/gridview_main_gridview_line_H"-->
+        <!--android:background="@drawable/listview_p_divider"-->
+        <!--android:visibility="gone" />-->
+                  <!---->
+           <!--<Button-->
+           <!--android:visibility="visible"-->
+           <!--android:layout_width="wrap_content"-->
+           <!--android:layout_height="@dimen/list_view_search_H"-->
+           <!--android:layout_marginLeft="@dimen/list_view_search_ML"-->
+           <!--android:layout_gravity="center_vertical"-->
+           <!--android:focusable="true"-->
+           <!--android:id="@+id/list_view_search"-->
+           <!--android:background="@drawable/search_btn_bg_selector" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/claer_histories"
+            android:textSize="@dimen/vod_payment_price_textsize"
+            android:layout_marginLeft="1315dp"
+            android:layout_marginTop="56dp"
+            />
 </LinearLayout>
 
     <ImageView
-            android:layout_marginLeft="@dimen/divider_margin_MLR"
-            android:layout_marginRight="@dimen/divider_margin_MLR"
+            android:layout_marginLeft="34dp"
+            android:layout_marginRight="34dp"
             android:layout_width="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/orderlistdivide"
@@ -117,8 +124,8 @@
             android:background="@drawable/channel_arrow_left"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:layout_marginLeft="@dimen/filter_portraitresult_shadow_ml"
-            android:layout_marginTop="@dimen/history_collect_shadow_mt"
+            android:layout_marginLeft="@dimen/listportait_button_ml"
+            android:layout_marginTop="@dimen/listportait_button_mt"
             />
     <Button
             android:visibility="invisible"
@@ -129,30 +136,30 @@
             android:background="@drawable/channel_arrow_right"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:layout_marginTop="@dimen/history_collect_shadow_mt"
-            android:layout_marginRight="@dimen/filter_portraitresult_shadow_ml"/>
+            android:layout_marginTop="@dimen/listportait_button_mt"
+            android:layout_marginRight="@dimen/listportait_button_ml"/>
         <tv.ismar.app.ui.HGridView
-            android:layout_toLeftOf="@id/right_shadow"
-            android:layout_toRightOf="@id/left_shadow"
             android:id="@+id/h_grid_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            sakura:horizontalSpacing="@dimen/related_view_hgridview_horizontalSpace"
-            sakura:numRows="3"
-            sakura:rowHeight="@dimen/filter_result_list_view_rowHeight"
-            sakura:selectorDrawable="@drawable/vod_gv_selector"
-            sakura:verticalSpacing="0dip"
-            sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"
-            sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"
-            sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"
-            sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
-            android:paddingTop="@dimen/filter_result_list_filter_grid_pl"
-            android:layout_marginTop="@dimen/filmitem_portrait_middle_btn_ml"
             android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
-            android:layout_marginLeft="@dimen/filter_result_list_filter_grid_ml"
+            android:layout_marginLeft="@dimen/listview_Hgride_ml"
             android:layout_marginRight="@dimen/filter_result_list_filter_grid_ml"
+            android:layout_marginTop="@dimen/filmitem_portrait_middle_btn_ml"
+            android:layout_toLeftOf="@id/right_shadow"
+            android:layout_toRightOf="@id/left_shadow"
+            android:paddingLeft="@dimen/listportait_Hgride_pl"
             android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
-            android:paddingLeft="@dimen/filter_result_list_filter_grid_pl">
+            android:paddingTop="@dimen/filter_result_list_filter_grid_pr"
+            sakura:horizontalSpacing="@dimen/listview_hgride_horSpace"
+            sakura:numRows="3"
+            sakura:rowHeight="@dimen/listview_hgride_rowHeight"
+            sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
+            sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"
+            sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"
+            sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"
+            sakura:selectorDrawable="@drawable/vod_gv_selector"
+            sakura:verticalSpacing="0dip" >
     </tv.ismar.app.ui.HGridView>
 
 </RelativeLayout>

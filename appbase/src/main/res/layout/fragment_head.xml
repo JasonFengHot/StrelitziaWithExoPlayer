@@ -10,8 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/weather_guide_text_margin_margin_bottom"
-        android:layout_marginLeft="@dimen/weather_layout_margin_left"
+        android:layout_marginBottom="19dp"
         android:textColor="#FFFFFF"
         android:textSize="@dimen/text_size_48sp"
     />

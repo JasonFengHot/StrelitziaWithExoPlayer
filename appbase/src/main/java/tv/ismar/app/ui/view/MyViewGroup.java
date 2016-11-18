@@ -14,8 +14,8 @@ import tv.ismar.app.core.DaisyUtils;
  * Created by zhangjiqiang on 15-6-18.
  */
 public class MyViewGroup extends RadioGroup {
-    private final static int VIEW_MARGIN_X = 31;
-    private final static int VIEW_MARGIN_Y = 40;
+    private final static int VIEW_MARGIN_X = 50;
+    private final static int VIEW_MARGIN_Y = 6;
     private float rate;
     public MyViewGroup(Context context) {
         super(context);

@@ -24,6 +24,17 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name="tv.ismar.channel.RelatedActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/IsmartvAppTheme.Fullscreen">
+            <intent-filter>
+                <action android:name="tv.ismar.daisy.relateditem"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

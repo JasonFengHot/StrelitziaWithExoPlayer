@@ -181,12 +181,14 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 
     @Override
     public void onHistoryClick() {
-
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toHistory(this);
     }
 
     @Override
     public void onFavoriteClick() {
-
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toFavorite(this);
     }
 
     @Override

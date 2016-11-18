@@ -7,11 +7,11 @@
                 >
 
     <ScrollView android:layout_width="match_parent"
-                android:layout_height="@dimen/filter_view_scrollView_h"
+                android:layout_height="661dp"
                 android:scrollbars="vertical"
                 >
         <LinearLayout
-        android:paddingTop="@dimen/filter_view_filtermenulayout_pt"
+        android:paddingTop="55dp"
         android:id="@+id/filtermenulayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,6 +21,7 @@
         </LinearLayout>
 
             </ScrollView>
+
     <ImageView
             android:background="@drawable/filter_divider"
             android:layout_width="match_parent"
@@ -34,7 +35,7 @@
             android:layout_width="@dimen/filter_view_filter_submit_w"
             android:layout_height="@dimen/filter_view_filter_submit_h"
             android:text="确定提交"
-            android:textSize="@dimen/h1_text_size"
+            android:textSize="@dimen/h2_text_size"
             android:textColor="@android:color/white"
             android:focusable="true"
             android:focusableInTouchMode="true"

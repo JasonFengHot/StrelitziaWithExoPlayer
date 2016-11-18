@@ -184,17 +184,17 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		recommend_gridview = (ZGridView)fragmentView.findViewById(R.id.recommend_gridview);
 		recommend_txt = (TextView)fragmentView.findViewById(R.id.recommend_txt);
 
-		search_btn = (Button)fragmentView.findViewById(R.id.list_view_search);
-		search_btn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent searchIntent = new Intent();
-//				searchIntent.setClass(getActivity(), SearchActivity.class);
-//				startActivity(searchIntent);
-			}
-		});
+//		search_btn = (Button)fragmentView.findViewById(R.id.list_view_search);
+//		search_btn.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				Intent searchIntent = new Intent();
+////				searchIntent.setClass(getActivity(), SearchActivity.class);
+////				startActivity(searchIntent);
+//			}
+//		});
 	}
 
 	private void initHistoryList(){
