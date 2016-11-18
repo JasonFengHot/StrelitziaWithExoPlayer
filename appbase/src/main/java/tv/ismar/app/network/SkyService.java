@@ -2,6 +2,7 @@ package tv.ismar.app.network;
 
 import android.net.Uri;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -36,7 +37,11 @@ import tv.ismar.app.entity.ItemList;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.models.Game;
+import tv.ismar.app.models.HotWords;
+import tv.ismar.app.models.Recommend;
 import tv.ismar.app.models.Sport;
+import tv.ismar.app.models.VodFacetEntity;
+import tv.ismar.app.models.VodSearchRequestEntity;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
@@ -415,6 +420,18 @@ Observable<ResponseBody> apifetchWeatherInfo(
     @Headers("Cache-Control: public, max-age=5")
     @GET("api/tv/channels/")
     Observable<ChannelEntity[]> apiTvChannels();
+
+    @GET("api/tv/hotwords/")
+    Observable<ArrayList<HotWords>> apiSearchHotwords();
+
+    @GET("api/tv/homepage/sharphotwords/8/")
+    Observable<Recommend> apiSearchRecommend();
+
+    @GET("api/tv/suggest/{word}/?device_token==&access_token=/")
+    Observable<List<String>> apiSearchSuggest(
+            @Path("word") String word
+    );
+
 
     class ServiceManager {
         private volatile static ServiceManager serviceManager;

@@ -1,1 +1,1 @@
-include ':Strelitzia', ':appbase', ':detailpage', ':account', ':playerpage', ':paypage', ':homepage', ':listpage', ':usercenter', ':statistics'
+include ':Strelitzia', ':appbase', ':detailpage', ':account', ':playerpage', ':paypage', ':homepage', ':listpage', ':usercenter', ':statistics', ':searchpage'

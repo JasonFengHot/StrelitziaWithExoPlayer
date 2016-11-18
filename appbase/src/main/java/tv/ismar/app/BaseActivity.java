@@ -75,7 +75,7 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-                    showUpdatePopup(mRootView);
+//                    showUpdatePopup(mRootView);
                 }
             }
         }, 2000);
@@ -174,7 +174,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-                        showUpdatePopup(mRootView);
+//                        showUpdatePopup(mRootView);
                     }
                 }
             }, 2000);

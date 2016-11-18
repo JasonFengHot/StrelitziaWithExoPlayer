@@ -65,6 +65,7 @@ dependencies {
     compile project(':listpage')
     compile 'com.android.support:multidex:1.0.1'
     compile project(':homepage')
+    compile project(':searchpage')
 }
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"

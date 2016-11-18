@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jasmine</string>
+
+    <string name="search_all">搜索全部</string>
+    <string name="entertainment">娱乐综艺</string>
+    <string name="film">电影</string>
+    <string name="full_keyboard">全键盘</string>
+
+    <string name="network_error">网络异常！</string>
+    <string name="check_connect">请检查网络！</string>
+    <!--keyboard_keys-->
+    <string-array name="key">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+        <item>G</item>
+        <item>H</item>
+        <item>I</item>
+        <item>J</item>
+        <item>K</item>
+        <item>L</item>
+        <item>M</item>
+        <item>N</item>
+        <item>O</item>
+        <item>P</item>
+        <item>Q</item>
+        <item>R</item>
+        <item>S</item>
+        <item>T</item>
+        <item>U</item>
+        <item>V</item>
+        <item>W</item>
+        <item>X</item>
+        <item>Y</item>
+        <item>Z</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="number">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="letter">
+        <item></item>
+        <item>ABC</item>
+        <item>DEF</item>
+        <item>GHI</item>
+        <item>JKL</item>
+        <item>MNO</item>
+        <item>PQRS</item>
+        <item>TUV</item>
+        <item>WXYZ</item>
+    </string-array>
+    <!--<string name="back">回退</string>-->
+    <!--<item>0</item>-->
+    <!--<item>清空</item>-->
+    <string-array name="tab">
+        <item>电影</item>
+        <item>电视剧</item>
+        <item>综艺</item>
+        <item>教育</item>
+        <item>音乐</item>
+        <item>体育</item>
+        <item>纪录片</item>
+        <item>明星</item>
+    </string-array>
+    <string-array name="tab_eng">
+        <item>person</item>
+        <item>movie</item>
+        <item>teleplay</item>
+        <item>variety</item>
+        <item>comic</item>
+        <item>music</item>
+        <item>entertainment</item>
+        <item>sport</item>
+        <item>game</item>
+        <item>documentary</item>
+        <item>trailer</item>
+        <item>education</item>
+    </string-array>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="word_focus">#ff9c3c</color>
+    <color name="word_nomal">#a6a6a6</color>
+    <color name="word_selected">#ffffff</color>
+
+    <color name="hotword_bg_light">#5266a5</color>
+    <color name="hotword_bg_dark">#455996</color>
+</resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false"
+        >
+    <LinearLayout
+            android:layout_width="@dimen/dialog_width"
+            android:layout_height="@dimen/dialog_height"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dialog_margin_Left"
+            android:layout_marginTop="@dimen/dialog_margin_Top"
+            android:background="@drawable/pop_bg_drawable">
+
+
+        <TextView
+                android:id="@+id/tv_text1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_margin_top"
+                android:textColor="#787878"
+                android:textSize="@dimen/dialog_tv_size"
+                android:gravity="center"
+                android:text="网络异常！请检查网络！"/>
+
+        <ImageView
+                android:layout_width="@dimen/dialog_arrow_width"
+                android:layout_height="@dimen/dialog_arrow_height"
+                android:layout_marginTop="@dimen/dialog_arrow_margin_top"
+                android:layout_marginLeft="@dimen/dialog_arrow_margin_left"
+                android:background="@drawable/arrow"/>
+
+        <Button
+                android:id="@+id/dialog_button"
+                android:layout_width="@dimen/dialog_button_width"
+                android:layout_height="@dimen/dialog_button_height"
+                android:layout_marginTop="@dimen/dialog_button_margin_top"
+                android:textSize="@dimen/dialog_tv_size"
+                android:text="确定"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/text_color"
+                android:background="@drawable/button"/>
+    </LinearLayout>
+              <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+</RelativeLayout>

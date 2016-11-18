@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="359px"
+              android:layout_height="67px"
+              android:paddingTop="19px"
+              android:paddingBottom="19px"
+              android:focusable="true"
+              android:background="@drawable/hotword_selector"
+              android:gravity="center_horizontal">
+    <TextView
+            android:layout_width="359px"
+            android:layout_height="29px"
+            android:textSize="30px"
+            android:gravity="center"
+            android:text="百年传奇"
+            android:textColor="#a6a6a6"/>
+
+</LinearLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="189px"
+                android:layout_height="78px"
+                android:padding="9px"
+                android:descendantFocusability="beforeDescendants"
+                android:background="@drawable/long_key_selector"
+                android:gravity="center">
+    <TextView
+            android:id="@+id/btn_long_key"
+            android:layout_width="170px"
+            android:layout_height="60px"
+            android:gravity="center"
+            android:text="清空"
+            android:textSize="36px"
+            android:background="@drawable/bg_button_long"/>
+</RelativeLayout>
