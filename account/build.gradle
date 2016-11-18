@@ -42,17 +42,10 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':rxandroid-1.2.1')
     compile project(':ismartv_truetime')
     compile dependencies.appCompat
     compile dependencies.support_v4
-    compile dependencies.retrofit
-    compile dependencies.retrofitConverterGson
-    compile dependencies.retrofitAdapterRxJava
-    compile dependencies.okhttp
-    compile dependencies.okhttpLoggingInterceptor
-    compile 'com.google.guava:guava:18.0'
-    compile 'com.google.code.gson:gson:2.5'
-    compile 'io.reactivex:rxandroid:1.2.1'
 }
 
 tasks.withType(JavaCompile) {
