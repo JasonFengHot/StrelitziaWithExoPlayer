@@ -13,6 +13,7 @@ public interface PageIntentInterface {
     // 电视剧等多集片子集pk,与文档相同
     String EXTRA_SUBITEM_PK = "sub_item_pk";
     String EXTRA_SOURCE = "source";
+    String EXTRA_TYPE = "type";
 
     String EXTRA_PRODUCT_CATEGORY = "product_category";
 
@@ -25,11 +26,15 @@ public interface PageIntentInterface {
     int PAYVIP = 2;
 
 
-
-    void toDetailPage(Context context, String contentModel, int pk);
+    void toDetailPage(Context context, String source, int pk);
 
 
     void toDetailPage(Context context, String source, String json);
+
+    void toPackageDetail(Context context, String source, int pk);
+
+
+    void toPackageDetail(Context context, String source, String json);
 
     void toPayment(Context context, String fromPage, PaymentInfo paymentInfo);
 
@@ -91,5 +96,14 @@ public interface PageIntentInterface {
             return cpid;
         }
     }
+
     void toPlayPage(Context context, int pk, int sub_item_pk, String source);
+
+    void toUserCenter(Context context);
+
+    void toUserCenterLocation(Context context);
+
+    int DETAIL_TYPE_PKG = 0x8a;
+    int DETAIL_TYPE_ITEM = 0x37;
+
 }

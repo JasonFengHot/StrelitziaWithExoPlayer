@@ -101,4 +101,20 @@
     <dimen name="usercenter_province_recycler_item_spacing">21dp</dimen>
     <dimen name="locationFragment_areaPop_btn_width">274dp</dimen>
     <dimen name="locationFragment_areaPop_btn_height">72dp</dimen>
+
+    <dimen name="userinfo_playauth_item_normal_textsize">30sp</dimen>
+    <dimen name="privilege_item_title_txt_W">600dp</dimen>
+    <dimen name="privilege_item_title_txt_PL">50dip</dimen>
+    <dimen name="privilege_recycler_ml">50dp</dimen>
+    <dimen name="privilege_min_h">50dp</dimen>
+    <dimen name="privilege_item_date_w">415dp</dimen>
+    <dimen name="privilege_item_date_ml">80dp</dimen>
+    <dimen name="privilege_btn_w">160dp</dimen>
+    <dimen name="privilege_item_btn_ml">20dp</dimen>
+
+    <dimen name="privilege_item_margin_bottom">24dp</dimen>
+
+
+
+
 </resources>

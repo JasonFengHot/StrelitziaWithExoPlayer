@@ -6,10 +6,12 @@ import android.view.SurfaceView;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.qiyi.sdk.player.IAdController;
 import com.qiyi.sdk.player.IMedia;
 import com.qiyi.sdk.player.Parameter;
 import com.qiyi.sdk.player.PlayerSdk;
 import com.qiyi.sdk.player.SdkVideo;
+import com.qiyi.tvapi.type.DrmType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,10 +67,11 @@ public abstract class IsmartvPlayer implements IPlayer {
     // 奇艺播放器播放电视剧时,无需再次初始化
     private boolean isQiyiSdkInit = false;
 
-    protected OnDataSourceSetListener mOnDataSourceSetListener;
-    protected OnVideoSizeChangedListener mOnVideoSizeChangedListener;
-    protected OnBufferChangedListener mOnBufferChangedListener;
-    protected OnStateChangedListener mOnStateChangedListener;
+    protected IPlayer.OnDataSourceSetListener mOnDataSourceSetListener;
+    protected IPlayer.OnVideoSizeChangedListener mOnVideoSizeChangedListener;
+    protected IPlayer.OnBufferChangedListener mOnBufferChangedListener;
+    protected IPlayer.OnStateChangedListener mOnStateChangedListener;
+    protected IPlayer.OnInfoListener mOnInfoListener;
 
     public IsmartvPlayer(byte mode) {
         mPlayerMode = mode;
@@ -181,9 +184,9 @@ public abstract class IsmartvPlayer implements IPlayer {
                 Log.d(TAG, "setIqiyi_4_0: " + mClipEntity.getIqiyi_4_0());
                 mClipEntity.setIs_vip(clipEntity.is_vip());
 
-                mDrmType = 0;
+                mDrmType = DrmType.DRM_NONE;
                 if(mClipEntity.is_drm()){
-                    mDrmType = 1;
+                    mDrmType = DrmType.DRM_INTERTRUST;
                 }
                 if (isQiyiSdkInit) {
                     String[] array = mClipEntity.getIqiyi_4_0().split(":");
@@ -232,7 +235,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     @Override
-    public void release() {
+    public void release(boolean flag) {
         isQiyiSdkInit = false;
         mCurrentState = STATE_IDLE;
         mContext = null;
@@ -242,6 +245,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         mOnVideoSizeChangedListener = null;
         mOnBufferChangedListener = null;
         mOnStateChangedListener = null;
+        mOnInfoListener = null;
         isQiyiSdkInit = false;
     }
 
@@ -267,6 +271,10 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mCurrentState != STATE_PREPARING;
     }
 
+    public boolean isVideoPrepared(){
+        return mCurrentState == STATE_PREPARED;
+    }
+
     @Override
     public void setOnVideoSizeChangedListener(OnVideoSizeChangedListener onVideoSizeChangedListener) {
         mOnVideoSizeChangedListener = onVideoSizeChangedListener;
@@ -280,6 +288,11 @@ public abstract class IsmartvPlayer implements IPlayer {
     @Override
     public void setOnStateChangedListener(OnStateChangedListener onStateChangedListener) {
         mOnStateChangedListener = onStateChangedListener;
+    }
+
+    @Override
+    public void setOnInfoListener(OnInfoListener onInfoListener) {
+        mOnInfoListener = onInfoListener;
     }
 
     // 调用视云播放器
@@ -342,6 +355,10 @@ public abstract class IsmartvPlayer implements IPlayer {
             default:
                 return -1;
         }
+    }
+
+    public IAdController getAdController(){
+        return null;
     }
 
     // 日志上报相关

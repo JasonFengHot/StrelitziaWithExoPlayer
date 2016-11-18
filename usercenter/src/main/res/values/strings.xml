@@ -1,11 +1,11 @@
 <resources>
     <string name="usercenter_store">购卡充值</string>
     <string name="usercenter_userinfo">个人信息</string>
-    <string name="usercenter_login">登录</string>
-    <string name="usercenter_login_register">登录/注册</string>
+    <string name="usercenter_login">登&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;录</string>
+    <string name="usercenter_login_register">登&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;录</string>
     <string name="usercenter_purchase_history">购买记录</string>
     <string name="usercenter_help">客服中心</string>
-    <string name="usercenter_location">天气定位</string>
+    <string name="usercenter_location">定&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;位</string>
 
     <string name="usercenter_help_introduction">2011年3月17日，上海广播电视台，上海东方传媒集团有限公司（SMG，原上海文广新闻传媒集团）
         与联想集团在上海签署协议，共同宣布在移动互联视频服务领域达成战略合作。双方将通过发挥各自在终端产品，云计算，内容资源，市场运营等

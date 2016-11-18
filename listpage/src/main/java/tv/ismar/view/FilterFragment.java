@@ -3,6 +3,8 @@ package tv.ismar.view;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.widget.SlidingPaneLayout;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -162,7 +164,6 @@ public class FilterFragment extends BackHandledFragment {
                     @Override
                     public void onNext(ResponseBody responseBody) {
                         try {
-                            Log.i("OnNext","succuse");
                             String info=responseBody.string();
                             JSONObject jsonObject = new JSONObject(info);
                             content_model = jsonObject.getString("content_model");
@@ -208,7 +209,7 @@ public class FilterFragment extends BackHandledFragment {
                                 initRadioButton(nolimitRbtn);
 
                                 nolimitRbtn.setChecked(true);
-                                valueViews.addView(nolimitRbtn,new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,(int)(100/1)));
+                                valueViews.addView(nolimitRbtn,new LinearLayout.LayoutParams(120, 100));
                                 for(int i=0; i<arrayCount; i++){
                                     JSONArray subArray = values.getJSONArray(i);
                                     FilterItem item = new FilterItem();
@@ -220,9 +221,11 @@ public class FilterFragment extends BackHandledFragment {
                                     rbtn.setText(subArray.getString(1));
                                     rbtn.setTag(item);
                                     initRadioButton(rbtn);
-                                    valueViews.addView(rbtn,new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,(int)(100/1)));
+                                    valueViews.addView(rbtn,new LinearLayout.LayoutParams(120,165));
                                 }
-                                filtermenulayout.addView(view,new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(int)(165/1)));
+                                LinearLayout.LayoutParams groupLp=new LinearLayout.LayoutParams(1444,120);
+                                groupLp.setMargins(0,28,0,0);
+                                filtermenulayout.addView(view,groupLp);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -230,13 +233,18 @@ public class FilterFragment extends BackHandledFragment {
                             e.printStackTrace();
                         }
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
                 });
     }
     private void initRadioButton(RadioButton rbtn){
+        Log.i("rate",rate+"");
         rbtn.setButtonDrawable(android.R.color.transparent);
         rbtn.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
         rbtn.setTextSize(36/rate);
-
         rbtn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {

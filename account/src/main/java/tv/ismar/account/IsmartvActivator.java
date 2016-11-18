@@ -5,11 +5,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -131,11 +134,25 @@ public class IsmartvActivator {
     }
 
     public ResultEntity execute() {
+        ResultEntity resultEntity;
         if (isSignFileExists()) {
-            return active();
+            resultEntity = active();
         } else {
-            return getLicence();
+            resultEntity = getLicence();
         }
+
+        if (resultEntity == null){
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, "激活失败！", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            resultEntity = new ResultEntity();
+        }
+
+        return resultEntity;
     }
 
     private int getAppVersionCode() {
@@ -449,7 +466,7 @@ public class IsmartvActivator {
         mSharedPreferences.edit().putString("zuser_token", "").commit();
         mSharedPreferences.edit().putString("username", "").commit();
 
-        for (AccountChangeCallback callback: mAccountChangeCallbacks){
+        for (AccountChangeCallback callback : mAccountChangeCallbacks) {
             callback.onLogout();
         }
     }
@@ -482,17 +499,17 @@ public class IsmartvActivator {
 
     public native String helloMd5(String str);
 
-    public interface  AccountChangeCallback{
+    public interface AccountChangeCallback {
         void onLogout();
     }
 
     private List<AccountChangeCallback> mAccountChangeCallbacks = new ArrayList<>();
 
-    public void addAccountChangeListener(AccountChangeCallback callback){
+    public void addAccountChangeListener(AccountChangeCallback callback) {
         mAccountChangeCallbacks.add(callback);
     }
 
-    public void removeAccountChangeListener(AccountChangeCallback callback){
+    public void removeAccountChangeListener(AccountChangeCallback callback) {
         mAccountChangeCallbacks.remove(callback);
     }
 

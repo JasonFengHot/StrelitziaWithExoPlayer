@@ -172,17 +172,17 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		recommend_gridview = (ZGridView)fragmentView.findViewById(R.id.recommend_gridview);
 		recommend_txt = (TextView)fragmentView.findViewById(R.id.recommend_txt);
 		collect_or_history_txt = (TextView)fragmentView.findViewById(R.id.collect_or_history_txt);
-		search_btn = (Button)fragmentView.findViewById(R.id.list_view_search);
-		search_btn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent searchIntent = new Intent();
-              //  searchIntent.setClass(getActivity(), SearchActivity.class);
-              //  startActivity(searchIntent);
-			}
-		});
+	//	search_btn = (Button)fragmentView.findViewById(R.id.list_view_search);
+	//	search_btn.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				Intent searchIntent = new Intent();
+//              //  searchIntent.setClass(getActivity(), SearchActivity.class);
+//              //  startActivity(searchIntent);
+//			}
+//		});
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

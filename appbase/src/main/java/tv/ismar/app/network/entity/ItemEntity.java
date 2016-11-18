@@ -2,6 +2,7 @@ package tv.ismar.app.network.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemEntity {
@@ -61,6 +62,16 @@ public class ItemEntity {
     private Expense expense;
     private boolean repeat_buy;
     private Preview preview;
+
+    private List<ItemEntity> items;
+
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
+    }
 
     public boolean isRepeat_buy() {
         return repeat_buy;

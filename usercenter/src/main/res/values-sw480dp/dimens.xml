@@ -99,4 +99,22 @@
 <dimen name="ismartv_copyright_english_mt">20.00dp</dimen>
 <dimen name="usercenter_province_list_width">502.22dp</dimen>
 <dimen name="usercenter_province_recycler_item_spacing">9.33dp</dimen>
+<dimen name="locationFragment_areaPop_btn_width">121.78dp</dimen>
+<dimen name="locationFragment_areaPop_btn_height">32.00dp</dimen>
+
+<dimen name="userinfo_playauth_item_normal_textsize">13.33sp</dimen>
+<dimen name="privilege_item_title_txt_W">266.67dp</dimen>
+<dimen name="privilege_item_title_txt_PL">22.22dip</dimen>
+<dimen name="privilege_recycler_ml">22.22dp</dimen>
+<dimen name="privilege_min_h">22.22dp</dimen>
+<dimen name="privilege_item_date_w">184.44dp</dimen>
+<dimen name="privilege_item_date_ml">35.56dp</dimen>
+<dimen name="privilege_btn_w">71.11dp</dimen>
+<dimen name="privilege_item_btn_ml">8.89dp</dimen>
+
+<dimen name="privilege_item_margin_bottom">10.67dp</dimen>
+
+
+
+
 </resources>

@@ -216,18 +216,20 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             mCurrentState = STATE_ERROR;
             Log.e(TAG, "SmartPlayer onError:" + i + " " + i1);
             logVideoException(String.valueOf(i), mSpeed);
-            int currentPlayIndex = mPlayer.getCurrentPlayUrl();
-            if (mPaths != null && currentPlayIndex != mPaths.length - 1) {
-                try {
-                    Log.d(TAG, "Play ad error.");
-                    mPlayer.playUrl(currentPlayIndex + 1);
-                    return false;
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (mPlayer != null) {
+                int currentPlayIndex = mPlayer.getCurrentPlayUrl();
+                if (mPaths != null && currentPlayIndex != mPaths.length - 1) {
+                    try {
+                        Log.d(TAG, "Play ad error.");
+                        mPlayer.playUrl(currentPlayIndex + 1);
+                        return false;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             String errorMsg = ERROR_DEFAULT_MSG;
-            switch (i){
+            switch (i) {
                 case SmartPlayer.PROXY_DOWNLOAD_M3U8_ERROR:
                     errorMsg = "视频文件下载失败";
                     break;
@@ -305,15 +307,16 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     }
 
     @Override
-    public void release() {
-        super.release();
+    public void release(boolean flag) {
+        super.release(flag);
         logVideoExit(mSpeed);
         if (mPlayer != null) {
             mPlayer.stop();
             mPlayer.reset();
-            mPlayer.release();
-            mPlayer = null;
-
+            if (flag) {
+                mPlayer.release();
+                mPlayer = null;
+            }
             mCurrentState = STATE_IDLE;
             PlayerBuilder.getInstance().release();
         }

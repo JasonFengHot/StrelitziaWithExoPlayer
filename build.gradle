@@ -3,7 +3,6 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url "https://dl.bintray.com/fonddream/maven/" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
@@ -17,7 +16,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://dl.bintray.com/fonddream/maven/" }
     }
 }
 
@@ -38,7 +36,7 @@ ext {
     moduleVersion = '1.96'
 
     dependencies = [
-
+            support_v4              : "com.android.support:support-v4:$supportLibraryVersion",
             appCompat               : "com.android.support:appcompat-v7:$supportLibraryVersion",
             cardView                : "com.android.support:cardview-v7:$supportLibraryVersion",
             recyclerView            : "com.android.support:recyclerview-v7:$supportLibraryVersion",

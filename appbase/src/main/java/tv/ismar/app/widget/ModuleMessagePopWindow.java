@@ -37,6 +37,10 @@ public class ModuleMessagePopWindow extends PopupWindow implements View.OnClickL
 
     int height;
 
+    public ModuleMessagePopWindow(){
+
+    }
+
     public ModuleMessagePopWindow(Context context) {
         mContext = context;
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);

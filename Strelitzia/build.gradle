@@ -6,7 +6,7 @@ android {
     dexOptions {
         preDexLibraries = false
     }
-    
+
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
     buildToolsVersion rootProject.ext.androidBuildToolsVersion
 
@@ -57,13 +57,11 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'cn.ismartv.truetime:library:1.3'
+    compile project(':usercenter')
     compile project(':detailpage')
     compile project(':account')
     compile project(':playerpage')
-    compile project(path: ':usercenter')
     compile project(':listpage')
-    compile 'com.android.support:multidex:1.0.1'
     compile project(':homepage')
     compile project(':searchpage')
 }

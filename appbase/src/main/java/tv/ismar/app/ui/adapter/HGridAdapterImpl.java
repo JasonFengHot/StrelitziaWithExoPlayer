@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import tv.ismar.app.R;
-import tv.ismar.app.core.DpiManager;
+import tv.ismar.app.core.VipMark;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
 import tv.ismar.app.ui.HGridView;
@@ -183,7 +183,7 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection> implements As
                     if(item.expense!=null){
 						if(item.expense.cptitle!=null){
 							holder.price.setVisibility(View.VISIBLE);
-							String imageUrl =  DpiManager.getInstance().getImage((Activity) mContext, item.expense.pay_type,item.expense.cpid);
+							String imageUrl =  VipMark.getInstance().getImage((Activity) mContext, item.expense.pay_type,item.expense.cpid);
 							Picasso.with(mContext).load(imageUrl).into(holder.price);
 						}  else{
 							holder.price.setVisibility(View.GONE);

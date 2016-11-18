@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.StringUtils;
-import com.google.gson.Gson;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -35,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import cn.ismartv.downloader.DownloadEntity;
-import cn.ismartv.downloader.DownloadManager;
 import cn.ismartv.downloader.DownloadStatus;
 import cn.ismartv.downloader.Md5;
 import cn.ismartv.injectdb.library.query.Select;
@@ -53,7 +51,7 @@ import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.HardwareUtils;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.TVGuideActivity;
+import tv.ismar.homepage.activity.HomePageActivity;
 import tv.ismar.homepage.widget.DaisyVideoView;
 import tv.ismar.homepage.widget.HomeItemContainer;
 import tv.ismar.homepage.widget.LabelImageView3;
@@ -235,7 +233,7 @@ public class FilmFragment extends ChannelBaseFragment {
 
     private void fetchHomePage(String url) {
         mChannelName = getChannelEntity().getChannel();
-        dataSubscription = ((TVGuideActivity)getActivity()).mSkyService.fetchHomePage(url)
+        dataSubscription = ((HomePageActivity)getActivity()).mSkyService.fetchHomePage(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HomePagerEntity>() {
@@ -282,7 +280,7 @@ public class FilmFragment extends ChannelBaseFragment {
                 }
 //                	}
             }
-            ((TVGuideActivity) getActivity()).resetBorderFocus();
+            ((HomePageActivity) getActivity()).resetBorderFocus();
         }
     }
 
@@ -302,7 +300,7 @@ public class FilmFragment extends ChannelBaseFragment {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
                 if (arg1) {
-                    ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                    ((HomePageActivity) (getActivity())).setLastViewTag("");
                 }
             }
         });
@@ -347,7 +345,7 @@ public class FilmFragment extends ChannelBaseFragment {
                             if (tagObject != null) {
                                 int tagindex = Integer.parseInt(tagObject.toString());
                                 if (tagindex == 1) {
-                                    ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
+                                    ((HomePageActivity) (getActivity())).setLastViewTag("bottom");
                                 }
                             }
                         } else {
@@ -394,7 +392,7 @@ public class FilmFragment extends ChannelBaseFragment {
                     @Override
                     public void onFocusChange(View arg0, boolean arg1) {
                         if (arg1) {
-                            ((TVGuideActivity) (getActivity())).setLastViewTag("bottom");
+                            ((HomePageActivity) (getActivity())).setLastViewTag("bottom");
                         }
                     }
                 });
@@ -714,7 +712,7 @@ public class FilmFragment extends ChannelBaseFragment {
                 focusFlag = focusFlag && (!imageView.isFocused());
             }
             if (hasFocus) {
-                ((TVGuideActivity) (getActivity())).setLastViewTag("");
+                ((HomePageActivity) (getActivity())).setLastViewTag("");
             }
             // all view not focus
 

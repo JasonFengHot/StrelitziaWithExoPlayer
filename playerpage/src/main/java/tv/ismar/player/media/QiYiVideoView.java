@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.qiyi.sdk.player.BitStream;
+import com.qiyi.sdk.player.IAdController;
 import com.qiyi.sdk.player.IMedia;
 import com.qiyi.sdk.player.IMediaPlayer;
 import com.qiyi.sdk.player.ISdkError;
@@ -97,6 +98,8 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         //设置缓冲事件监听器, 需要时设置
         mPlayer.setOnBufferChangedListener(qiyiBufferChangedListener);
 
+        mPlayer.setOnInfoListener(onInfoListener);
+
         if (mIsmartvPlayer.mOnDataSourceSetListener != null) {
             mIsmartvPlayer.mOnDataSourceSetListener.onSuccess();
         }
@@ -120,13 +123,14 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         }
     }
 
-    public void release() {
+    public void release(boolean flag) {
         if (mPlayer != null) {
             mIsmartvPlayer.logVideoExit(0);
             mPlayer.stop();
-            mPlayer.release();
-            mPlayer = null;
-
+            if(flag){
+                mPlayer.release();
+                mPlayer = null;
+            }
             mIsmartvPlayer.mCurrentState = IsmartvPlayer.STATE_IDLE;
             PlayerBuilder.getInstance().release();
         }
@@ -169,6 +173,10 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         mIsmartvPlayer.mQuality = quality;
     }
 
+    public IAdController getAdController() {
+        return mPlayer.getAdController();
+    }
+
     private IMediaPlayer.OnStateChangedListener qiyiStateChangedListener = new IMediaPlayer.OnStateChangedListener() {
         @Override
         public void onPrepared(IMediaPlayer iMediaPlayer) {
@@ -194,6 +202,28 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
                 mIsmartvPlayer.mOnStateChangedListener.onAdEnd();
             }
             mIsmartvPlayer.logAdExit("", 0);
+        }
+
+        @Override
+        public void onMiddleAdStart(IMediaPlayer iMediaPlayer) {
+            //中插广告开始播放
+            mIsmartvPlayer.mIsPlayingAdvertisement = true;
+            if (mIsmartvPlayer.mOnStateChangedListener != null) {
+                mIsmartvPlayer.mOnStateChangedListener.onMiddleAdStart();
+            }
+            mIsmartvPlayer.logAdStart("", 0);
+
+        }
+
+        @Override
+        public void onMiddleAdEnd(IMediaPlayer iMediaPlayer) {
+            //中插广告播放结束
+            mIsmartvPlayer.mIsPlayingAdvertisement = false;
+            if (mIsmartvPlayer.mOnStateChangedListener != null) {
+                mIsmartvPlayer.mOnStateChangedListener.onMiddleAdEnd();
+            }
+            mIsmartvPlayer.logAdExit("", 0);
+
         }
 
         @Override
@@ -243,13 +273,18 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
     private IMediaPlayer.OnBitStreamInfoListener qiyiBitStreamInfoListener = new IMediaPlayer.OnBitStreamInfoListener() {
         @Override
-        public void onBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
+        public void onPlayableBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
             mIsmartvPlayer.mQualities = new ArrayList<>();
             bitStreamList = list;
             for (BitStream bitStream : list) {
                 Log.i(mIsmartvPlayer.TAG, "bitStream:" + bitStream.getValue());
                 mIsmartvPlayer.mQualities.add(bitStreamConvertToQuality(bitStream));
             }
+        }
+
+        @Override
+        public void onVipBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
+
         }
 
         @Override
@@ -313,6 +348,16 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mIsmartvPlayer.mIsPlayingAdvertisement) {
                 mIsmartvPlayer.logAdBlockend("", 0);
             }
+        }
+    };
+
+    private IMediaPlayer.OnInfoListener onInfoListener = new IMediaPlayer.OnInfoListener() {
+        @Override
+        public void onInfo(IMediaPlayer iMediaPlayer, int i, Object o) {
+            if (mIsmartvPlayer.mOnInfoListener != null) {
+                mIsmartvPlayer.mOnInfoListener.onInfo(i, o);
+            }
+
         }
     };
 

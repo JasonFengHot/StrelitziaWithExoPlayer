@@ -7,13 +7,13 @@ import android.databinding.BindingAdapter;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.usercenter.BR;
 import tv.ismar.usercenter.presenter.UserInfoPresenter;
 
@@ -37,6 +37,7 @@ public class UserInfoViewModel extends BaseObservable {
         notifyPropertyChanged(BR.balanceVisibility);
         notifyPropertyChanged(BR.username);
         notifyPropertyChanged(BR.usernameVisibility);
+        notifyPropertyChanged(BR.privilegeVisibility);
     }
 
     @Bindable
@@ -78,5 +79,20 @@ public class UserInfoViewModel extends BaseObservable {
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
         layoutParams.topMargin = (int) marginTop;
         view.setLayoutParams(layoutParams);
+    }
+
+
+    @Bindable
+    public int getPrivilegeVisibility() {
+        AccountPlayAuthEntity accountPlayAuthEntity = mPresenter.getAccountPlayAuthEntity();
+        if (accountPlayAuthEntity == null) {
+            return View.INVISIBLE;
+        } else {
+            if (accountPlayAuthEntity.getPlayauth_list().isEmpty() && accountPlayAuthEntity.getSn_playauth_list().isEmpty()) {
+                return View.INVISIBLE;
+            } else {
+                return View.VISIBLE;
+            }
+        }
     }
 }

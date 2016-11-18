@@ -1,18 +1,16 @@
 package tv.ismar.app.core;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import tv.ismar.app.core.client.HttpManager;
+import okhttp3.ResponseBody;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import tv.ismar.app.network.SkyService;
 
 /**
  * Created by huibin on 6/8/16.
@@ -32,57 +30,43 @@ public class OfflineCheckManager {
 
     public void checkItem(String url, Callback callback) {
         mCallback = callback;
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
 
-        OkHttpClient httpClient = HttpManager.getInstance().mClient;
-        httpClient.newCall(request).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                Log.i("LH/", "checkItem:onFailure ");
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
+        SkyService skyService = SkyService.ServiceManager.getService();
+        skyService.apiCheckItem(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
                     @Override
-                    public void run() {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.i("LH/", "checkItem:onFailure ");
                         mCallback.offline();
                     }
-                });
-            }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.body() == null){
-                    mCallback.netError();
-                    return;
-                }
-                String result = null;
-                try {
-                    result = response.body().string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    mCallback.netError();
-                    return;
-                }
-                Log.i("LH/", "checkItem:onResponse " + result);
-                OfflineCheckEntity offlineCheckEntity = new Gson().fromJson(result, OfflineCheckEntity.class);
-                if (!offlineCheckEntity.isOffline()) {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mCallback.online();
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        String result;
+                        try {
+                            result = responseBody.string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            mCallback.netError();
+                            return;
                         }
-                    });
-                } else {
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
+                        Log.i("LH/", "checkItem:onResponse " + result);
+                        OfflineCheckEntity offlineCheckEntity = new Gson().fromJson(result, OfflineCheckEntity.class);
+                        if (!offlineCheckEntity.isOffline()) {
+                            mCallback.online();
+                        } else {
                             mCallback.offline();
                         }
-                    });
-                }
-            }
-        });
+                    }
+                });
     }
 
     interface Callback {

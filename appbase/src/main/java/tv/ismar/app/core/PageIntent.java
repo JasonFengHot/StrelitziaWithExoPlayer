@@ -8,12 +8,14 @@ import android.content.Intent;
  * Created by huibin on 9/13/16.
  */
 public class PageIntent implements PageIntentInterface {
+
     @Override
     public void toDetailPage(Context context, String source, int pk) {
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.detailpage");
         intent.putExtra(EXTRA_PK, pk);
         intent.putExtra(EXTRA_SOURCE, source);
+        intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_ITEM);
         context.startActivity(intent);
     }
 
@@ -24,6 +26,27 @@ public class PageIntent implements PageIntentInterface {
         intent.setAction("tv.ismar.daisy.detailpage");
         intent.putExtra(EXTRA_SOURCE, source);
         intent.putExtra(EXTRA_ITEM_JSON, json);
+        intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_ITEM);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void toPackageDetail(Context context, String source, int pk) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.detailpage");
+        intent.putExtra(EXTRA_PK, pk);
+        intent.putExtra(EXTRA_SOURCE, source);
+        intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_PKG);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void toPackageDetail(Context context, String source, String json) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.detailpage");
+        intent.putExtra(EXTRA_SOURCE, source);
+        intent.putExtra(EXTRA_ITEM_JSON, json);
+        intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_PKG);
         context.startActivity(intent);
     }
 
@@ -84,4 +107,29 @@ public class PageIntent implements PageIntentInterface {
         intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
         context.startActivity(intent);
     }
+
+    @Override
+    public void toUserCenter(Context context) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.usercenter");
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void toUserCenterLocation(Context context) {
+
+    }
+    public void toHistory(Context context){
+        Intent intent=new Intent();
+        intent.setAction( "tv.ismar.daisy.Channel");
+        intent.putExtra("channel", "histories");
+        context.startActivity(intent);
+    }
+    public void toFavorite(Context context){
+        Intent intent=new Intent();
+        intent.setAction("tv.ismar.daisy.Channel");
+        intent.putExtra("channel", "$bookmarks");
+        context.startActivity(intent);
+    }
+
 }

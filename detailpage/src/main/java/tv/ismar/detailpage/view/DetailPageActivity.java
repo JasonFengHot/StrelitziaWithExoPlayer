@@ -11,7 +11,6 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
 
@@ -20,14 +19,18 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
 import tv.ismar.player.view.PlayerFragment;
 
+import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_ITEM;
+import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_PKG;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_TYPE;
 
 /**
  * Created by huibin on 8/18/16.
@@ -40,10 +43,12 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     private ItemEntity mItemEntity;
 
     private DetailPageFragment detailPageFragment;
+    private PackageDetailFragment mPackageDetailFragment;
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
     private boolean viewInit;
     public LoadingDialog mLoadingDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +60,19 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         int itemPK = intent.getIntExtra(EXTRA_PK, -1);
         String itemJson = intent.getStringExtra(EXTRA_ITEM_JSON);
         source = intent.getStringExtra(EXTRA_SOURCE);
+        int type = intent.getIntExtra(EXTRA_TYPE, 0);
 
-        if (TextUtils.isEmpty(itemJson) && itemPK == -1){
+        if (TextUtils.isEmpty(itemJson) && itemPK == -1) {
             finish();
             return;
         }
 
         showDialog();
-        if (!TextUtils.isEmpty(itemJson)){
+        if (!TextUtils.isEmpty(itemJson)) {
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
-            loadFragment();
-        }else {
-            fetchItem(String.valueOf(itemPK));
+            loadFragment(type);
+        } else {
+            fetchItem(String.valueOf(itemPK), type);
         }
 
         mGestureDetector = new GestureDetector(this, onGestureListener);
@@ -74,11 +80,10 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (viewInit || (playerFragment != null && playerFragment.goFinishPageOnResume)) {
+        if (viewInit && playerFragment != null && playerFragment.goFinishPageOnResume) {
             // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
             onHide();
         }
@@ -188,12 +193,21 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         super.onDestroy();
     }
 
-    public void fetchItem(String pk) {
+    public void fetchItem(String pk, final int type) {
         if (apiItemSubsc != null && !apiItemSubsc.isUnsubscribed()) {
             apiItemSubsc.unsubscribe();
         }
+        String opt = "";
+        switch (type) {
+            case DETAIL_TYPE_ITEM:
+                opt = "item";
+                break;
+            case DETAIL_TYPE_PKG:
+                opt = "package";
+                break;
+        }
 
-        apiItemSubsc = mSkyService.apiItem(pk)
+        apiItemSubsc = mSkyService.apiOptItem(pk, opt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ItemEntity>() {
@@ -208,26 +222,36 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
                     @Override
                     public void onNext(ItemEntity itemEntity) {
-                        mItemEntity  = itemEntity;
-                       loadFragment();
+                        mItemEntity = itemEntity;
+                        loadFragment(type);
                     }
                 });
     }
 
-    private void loadFragment(){
-        String itemJson = new Gson().toJson(mItemEntity);
-        playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, itemJson, source);
-        playerFragment.setOnHidePlayerPageListener(this);
-        playerFragment.onPlayerFragment = false;
-        detailPageFragment = DetailPageFragment.newInstance(source, itemJson);
-
+    private void loadFragment(int type) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
-        fragmentTransaction.add(R.id.activity_detail_container, detailPageFragment);
-        fragmentTransaction.commit();
+        switch (type) {
+            case PageIntent.DETAIL_TYPE_ITEM:
+                String itemJson = new Gson().toJson(mItemEntity);
+                playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, itemJson, source);
+                playerFragment.setOnHidePlayerPageListener(this);
+                playerFragment.onPlayerFragment = false;
+                detailPageFragment = DetailPageFragment.newInstance(source, itemJson);
+                fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
+                fragmentTransaction.add(R.id.activity_detail_container, detailPageFragment);
+                fragmentTransaction.commit();
+                break;
+            case PageIntent.DETAIL_TYPE_PKG:
+                String packJson = new Gson().toJson(mItemEntity);
+                mPackageDetailFragment = PackageDetailFragment.newInstance(source, packJson);
+                fragmentTransaction.add(R.id.activity_detail_container, mPackageDetailFragment);
+                fragmentTransaction.commit();
+                break;
+        }
+
     }
 
-    public void showDialog(){
+    public void showDialog() {
         mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
@@ -238,4 +262,6 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         });
         mLoadingDialog.showDialog();
     }
+
+
 }

@@ -25,6 +25,13 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
 
     private BigDecimal balance = new BigDecimal(0);
 
+    private AccountPlayAuthEntity mAccountPlayAuthEntity;
+
+
+    public AccountPlayAuthEntity getAccountPlayAuthEntity() {
+        return mAccountPlayAuthEntity;
+    }
+
     public BigDecimal getBalance() {
         return balance;
     }
@@ -80,6 +87,7 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
 
                     @Override
                     public void onNext(AccountPlayAuthEntity accountPlayAuthEntity) {
+                        mAccountPlayAuthEntity = accountPlayAuthEntity;
                         mFragment.loadPrivilege(accountPlayAuthEntity);
                     }
                 });

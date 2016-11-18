@@ -2,9 +2,7 @@
           package="tv.ismar.pay">
 
     <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true">
+    >
         <activity
             android:name=".PaymentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
