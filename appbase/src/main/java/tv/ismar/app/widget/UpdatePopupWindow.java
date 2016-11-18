@@ -22,14 +22,15 @@ import tv.ismar.app.R;
  */
 
 public class UpdatePopupWindow extends PopupWindow {
+
     public UpdatePopupWindow(final Context context, Bundle bundle) {
         super(context);
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int screenWidth = wm.getDefaultDisplay().getWidth();
         int screenHeight = wm.getDefaultDisplay().getHeight();
 
-        int width = (int) (context.getResources().getDimension(R.dimen.app_update_bg_width));
-        int height = (int) (context.getResources().getDimension(R.dimen.app_update_bg_height));
+        int height = (int) (context.getResources().getDimension(R.dimen.app_update_bg_width));
+        int width = (int) (context.getResources().getDimension(R.dimen.app_update_bg_height));
 
         setWidth(screenWidth);
         setHeight(screenHeight);
@@ -37,12 +38,11 @@ public class UpdatePopupWindow extends PopupWindow {
         View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
 
 
-        Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
         LinearLayout updateMsgLayout = (LinearLayout) contentView.findViewById(R.id.update_msg_layout);
 
         final String path = bundle.getString("path");
 
-        ArrayList<String> msgs = bundle.getStringArrayList("msgs");
+        final ArrayList<String> msgs = bundle.getStringArrayList("msgs");
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -58,15 +58,15 @@ public class UpdatePopupWindow extends PopupWindow {
         }
 
         RelativeLayout relativeLayout = new RelativeLayout(context);
-        RelativeLayout.LayoutParams contentLayoutParams;
-        contentLayoutParams = new RelativeLayout.LayoutParams(width, height);
+        RelativeLayout.LayoutParams contentLayoutParams = new RelativeLayout.LayoutParams(width, height);
         contentLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+
         relativeLayout.addView(contentView, contentLayoutParams);
         setContentView(relativeLayout);
         setBackgroundDrawable(contentView.getResources().getDrawable(R.drawable.pop_bg_drawable));
         setFocusable(true);
 
-
+        Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
         updateNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
