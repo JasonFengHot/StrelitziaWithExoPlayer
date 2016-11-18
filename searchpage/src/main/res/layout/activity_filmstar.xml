@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/content_bg_new"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:scaleType="fitXY"
+        android:src="#405185"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/film_star_title_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/film_star_title_new_ml"
+            android:layout_marginTop="@dimen/film_star_title_new_mt"
+            android:gravity="center"
+            android:textColor="@color/word_selected"
+            android:textSize="@dimen/textSize_40sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/indicator_ll_ml"
+            android:layout_marginTop="@dimen/indicator_ll_mt"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/indicator_rl_ml"
+                android:layout_marginTop="@dimen/indicator_rl_mt">
+
+                <ImageView
+                    android:id="@+id/indicator_left_new"
+                    android:layout_width="@dimen/left_arrow_width"
+                    android:layout_height="@dimen/left_arrow_height"
+                    android:layout_centerInParent="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="@dimen/arrow_padding"
+                    android:src="@drawable/left_arrow_selector"
+                    android:visibility="invisible"/>
+            </RelativeLayout>
+
+            <cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView
+                android:id="@+id/scrollview_new"
+                android:layout_width="@dimen/loading_layout_width"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/film_list_indicator_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:nextFocusLeft="@id/film_list_indicator_new"
+                    android:nextFocusRight="@id/film_list_indicator_new"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+            </cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/indicator_rl_ml"
+                android:layout_marginTop="@dimen/indicator_rl_mt">
+
+                <ImageView
+                    android:id="@+id/indicator_right_new"
+                    android:layout_width="@dimen/left_arrow_width"
+                    android:layout_height="@dimen/left_arrow_height"
+                    android:layout_centerInParent="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="@dimen/arrow_padding"
+                    android:src="@drawable/right_arrow_selector"
+                    android:visibility="invisible"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/focus_translate_new"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/poster_tv_margin_left"
+            android:background="@android:color/transparent"
+            android:focusable="true"/>
+
+        <RelativeLayout
+            android:id="@+id/film_scroll_list_new"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/film_scroll_list_new_h">
+
+            <ImageView
+                android:id="@+id/content_arrow_left_new"
+                android:layout_width="@dimen/top_arrow_height"
+                android:layout_height="@dimen/top_arrow_width"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/gridview_padding"
+                android:background="@drawable/arrow_left_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:nextFocusDown="@id/content_arrow_left_new"
+                android:visibility="invisible"/>
+
+
+            <cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView
+                android:id="@+id/vod_scrollview_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/update_dialog_btn1_margin_left"
+                android:layout_marginRight="@dimen/update_dialog_btn1_margin_left"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/vod_list_view_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:nextFocusLeft="@id/vod_list_view_new"
+                    android:nextFocusRight="@id/vod_list_view_new"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+            </cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView>
+
+            <ImageView
+                android:id="@+id/content_arrow_right_new"
+                android:layout_width="@dimen/top_arrow_height"
+                android:layout_height="@dimen/top_arrow_width"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/gridview_padding"
+                android:background="@drawable/arrow_right_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:nextFocusDown="@id/content_arrow_right_new"
+                android:visibility="invisible"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/divider_line_new"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_line_new_h"
+            android:layout_marginLeft="@dimen/update_dialog_arrow1_margin_left"
+            android:layout_marginRight="@dimen/update_dialog_arrow1_margin_left"
+            android:focusable="true"
+            android:scaleType="fitXY"
+            android:src="#202e5d"/>
+
+        <LinearLayout
+            android:id="@+id/film_description_new"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/t9_keyboard_margin_top"
+            android:layout_marginLeft="@dimen/film_description_new_ml"
+            android:layout_marginRight="@dimen/film_description_new_ml"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/actor_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/filmStar_item_horizontal_space"
+                    android:textSize="@dimen/textSize_30sp"/>
+
+                <TextView
+                    android:id="@+id/director_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/filmStar_item_horizontal_space"
+                    android:textSize="@dimen/textSize_30sp"/>
+
+                <TextView
+                    android:id="@+id/area_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/filmStar_item_horizontal_space"
+                    android:textSize="@dimen/textSize_30sp"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/description_new"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/filmStar_item_horizontal_space"
+                android:layout_weight="1"
+                android:textSize="@dimen/textSize_30sp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

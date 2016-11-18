@@ -2,6 +2,7 @@ package tv.ismar.app.network;
 
 import android.net.Uri;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -29,16 +30,18 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
-import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemList;
-import tv.ismar.app.entity.Section;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.models.Game;
+import tv.ismar.app.models.HotWords;
+import tv.ismar.app.models.Recommend;
 import tv.ismar.app.models.Sport;
+import tv.ismar.app.models.VodFacetEntity;
+import tv.ismar.app.models.VodSearchRequestEntity;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
@@ -83,6 +86,7 @@ public interface SkyService {
     Observable<ItemEntity> apiItemByUrl(
             @Url String urlP
     );
+
     @GET
     Observable<ItemList> getItemListChannel(
             @Url String url
@@ -92,14 +96,17 @@ public interface SkyService {
     Observable<ItemEntity> apiItem(
             @Path("pk") String pk
     );
+
     @GET("api/tv/sections/{channel}")
     Observable<SectionList> getSectionlist(
             @Path("channel") String channel
     );
+
     @GET("api/tv/retrieval/{channel}")
     Observable<ResponseBody> getFilters(
             @Path("channel") String channel
     );
+
     @GET("api/tv/filtrate/${content_model}/{filterCondition}/1/")
     Observable<ItemList> getFilterRequest(
             @Path("content_model") String channel,
@@ -127,35 +134,44 @@ public interface SkyService {
             @Path("filterCondition") String filterCondition,
             @Path("page") int page
     );
+
     @GET
     Observable<SectionList> getSections(
             @Url String url
     );
+
     @GET("api/histories/")
     Observable<Item[]> getHistoryByNet(
     );
+
     @POST("api/histories/empty/")
     Observable<ResponseBody> emptyHistory(
     );
+
     @GET("api/bookmarks/")
     Observable<Item[]> getBookmarks(
     );
+
     @POST("api/bookmarks/empty/")
     Observable<ResponseBody> emptyBookmarks(
     );
+
     @GET("api/tv/relate/{pk}/")
     Observable<Item[]> getRelatedArray(
             @Path("pk") Integer pk
     );
+
     @GET("api/tv/filtrate/${content_model}/{slug}*{template}/")
     Observable<ItemList> getRelatedItemByInfo(
             @Path("content_model") String content_model,
             @Path("slug") String slug,
             @Path("template") int template
     );
+
     @GET("api/tv/section/tvhome/")
     Observable<VideoEntity> getTvHome(
     );
+
     @GET("api/item/{pk}")
     Observable<Item> getClickItem(
             @Path("pk") int pk
@@ -358,7 +374,7 @@ public interface SkyService {
 
     @POST("api/v2/upgrade/")
     Observable<VersionInfoV2Entity> appUpgrade(
-            @Body List<UpgradeRequestEntity> upgradeRequestEntities
+          @Body List<UpgradeRequestEntity> upgradeRequestEntities
     );
 
     @GET
@@ -367,8 +383,7 @@ public interface SkyService {
             @Url String url,
             @Header("RANGE") String range
     );
-
-    //
+//
 //    @GET("/api/package/relate/{pkg}/")
 //    Observable<Item[]> packageRelate(
 //            @Path("pkg")
@@ -377,17 +392,13 @@ public interface SkyService {
 //            String deviceToken,
 //            @Query("access_token")
 //            String accessToken);
-    @GET("{geoId}.xml")
-    Observable<ResponseBody> apifetchWeatherInfo(
-            @Path("geoId") String geoId
-    );
+@GET("{geoId}.xml")
+Observable<ResponseBody> apifetchWeatherInfo(
+        @Path("geoId") String geoId
+);
 
     @GET
     Observable<Item> apifetchItem(
-            @Url String url
-    );
-    @GET
-    Observable<ResponseBody> apiCheckItem(
             @Url String url
     );
 
@@ -410,9 +421,17 @@ public interface SkyService {
     @GET("api/tv/channels/")
     Observable<ChannelEntity[]> apiTvChannels();
 
-    @GET("api/package/relate/{pkg}/")
-    Observable<ItemEntity[]> packageRelate(
-            @Path("pkg") long pk);
+    @GET("api/tv/hotwords/")
+    Observable<ArrayList<HotWords>> apiSearchHotwords();
+
+    @GET("api/tv/homepage/sharphotwords/8/")
+    Observable<Recommend> apiSearchRecommend();
+
+    @GET("api/tv/suggest/{word}/?device_token==&access_token=/")
+    Observable<List<String>> apiSearchSuggest(
+            @Path("word") String word
+    );
+
 
     class ServiceManager {
         private volatile static ServiceManager serviceManager;

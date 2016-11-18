@@ -101,7 +101,15 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-
+        Button search= (Button) findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.setAction("tv.ismar.searchpage.search");
+                startActivity(intent);
+            }
+        });
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         int width = metric.widthPixels;  // 屏幕宽度（像素）

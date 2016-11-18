@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        >
+        <LinearLayout
+                android:layout_width="@dimen/dialog_width"
+                android:layout_height="@dimen/update_dialog_height"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/update_dialog_margin_Left"
+                android:layout_marginTop="@dimen/update_dialog_margin_Top"
+                >
+
+            <LinearLayout
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/update_dialog_message_hight"
+                    android:background="#d6dbeb"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/update_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/update_dialog_title_margin_bottom"
+                        android:layout_marginTop="@dimen/update_dialog_title_margin_top"
+                        android:gravity="center"
+                        android:text="升级通知"
+                        android:textColor="#787878"
+                        android:textSize="@dimen/update_dialog_title_size"/>
+
+                <LinearLayout
+                        android:id="@+id/app_update_content_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/update_dialog_button_height"
+                    android:background="#5266a5">
+                <ImageView
+                        android:id="@+id/iv_cursor_left"
+                        android:layout_width="@dimen/dialog_arrow_width"
+                        android:layout_height="@dimen/dialog_arrow_height"
+                        android:layout_marginLeft="@dimen/update_dialog_arrow1_margin_left"
+                        android:background="@drawable/message_pop_cursor"/>
+                <ImageView
+                        android:id="@+id/iv_cursor_right"
+                        android:layout_width="@dimen/dialog_arrow_width"
+                        android:layout_height="@dimen/dialog_arrow_height"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/update_dialog_arrow2_margin_right"
+                        android:background="@drawable/message_pop_cursor"
+                        android:visibility="invisible"/>
+
+
+                <Button
+                        android:id="@+id/confirm_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dialog_button_height"
+                        android:layout_marginLeft="@dimen/update_dialog_btn1_margin_left"
+                        android:layout_marginTop="@dimen/update_dialog_btn_margin_top"
+                        android:background="@drawable/pop_btn_bg"
+                        android:text="立即升级"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:textColor="@color/text_color1"
+                        android:textSize="@dimen/update_dialog_title_size"
+                        />
+
+                <Button
+                        android:id="@+id/cancle_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dialog_button_height"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/update_dialog_btn_margin_top"
+                        android:layout_marginRight="@dimen/update_dialog_btn2_margin_right"
+                        android:background="@drawable/pop_btn_bg"
+                        android:text="下次升级"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:textColor="@color/text_color1"
+                        android:textSize="@dimen/update_dialog_title_size"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+</RelativeLayout>

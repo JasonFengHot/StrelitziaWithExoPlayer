@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/filmStar_indicator_item_new"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/title_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/word_nomal"
+        android:textSize="@dimen/textSize_30sp"/>
+
+    <ImageView
+        android:id="@+id/indicator_bg_new"
+        android:layout_width="@dimen/indicator_bg_new_w"
+        android:layout_height="@dimen/indicator_bg_new_h"
+        android:background="@drawable/film_star_indicator_focus_bg"
+        android:scaleType="fitXY"
+        android:visibility="invisible"/>
+
+</LinearLayout>
