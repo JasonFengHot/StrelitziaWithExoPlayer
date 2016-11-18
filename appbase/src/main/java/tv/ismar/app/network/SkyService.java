@@ -30,10 +30,12 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemList;
+import tv.ismar.app.entity.Section;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.models.Game;
@@ -401,7 +403,10 @@ Observable<ResponseBody> apifetchWeatherInfo(
     Observable<Item> apifetchItem(
             @Url String url
     );
-
+    @GET
+    Observable<ResponseBody> apiCheckItem(
+            @Url String url
+    );
     @GET
     Observable<HomePagerEntity> fetchHomePage(
             @Url String url
@@ -431,7 +436,9 @@ Observable<ResponseBody> apifetchWeatherInfo(
     Observable<List<String>> apiSearchSuggest(
             @Path("word") String word
     );
-
+    @GET("api/package/relate/{pkg}/")
+    Observable<ItemEntity[]> packageRelate(
+            @Path("pkg") long pk);
 
     class ServiceManager {
         private volatile static ServiceManager serviceManager;
