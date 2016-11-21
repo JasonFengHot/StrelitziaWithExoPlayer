@@ -21,6 +21,10 @@ public interface PageIntentInterface {
     int PAYMENT_SUCCESS_CODE = 0x5c;
     int PAYMENT_FAILURE_CODE = 0xd2;
 
+
+    int DETAIL_TYPE_PKG = 0x8a;
+    int DETAIL_TYPE_ITEM = 0x37;
+
     int PAYMENT = 1;
     int PAY = 0;
     int PAYVIP = 2;
@@ -40,20 +44,14 @@ public interface PageIntentInterface {
 
     void toPaymentForResult(Activity context, String fromPage, PaymentInfo paymentInfo);
 
-    enum FromPage {
-        unknown
-    }
+    void toPlayPage(Context context, int pk, int sub_item_pk, String source);
 
-    enum ProductCategory {
-        item,
-        Package,
-        subitem;
+    void toUserCenter(Context context);
 
-        @Override
-        public String toString() {
-            return super.toString().toLowerCase();
-        }
-    }
+    void toUserCenterLocation(Context context);
+
+
+    void toPackageList(Context context, String source, long pk);
 
     class PaymentInfo {
         private ProductCategory category;
@@ -97,13 +95,20 @@ public interface PageIntentInterface {
         }
     }
 
-    void toPlayPage(Context context, int pk, int sub_item_pk, String source);
 
-    void toUserCenter(Context context);
+    enum FromPage {
+        unknown
+    }
 
-    void toUserCenterLocation(Context context);
+    enum ProductCategory {
+        item,
+        Package,
+        subitem;
 
-    int DETAIL_TYPE_PKG = 0x8a;
-    int DETAIL_TYPE_ITEM = 0x37;
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
+    }
 
 }

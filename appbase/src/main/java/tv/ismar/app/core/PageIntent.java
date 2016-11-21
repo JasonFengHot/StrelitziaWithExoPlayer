@@ -50,10 +50,13 @@ public class PageIntent implements PageIntentInterface {
         context.startActivity(intent);
     }
 
+
+
     @Override
     public void toPayment(Context context, String fromPage, PaymentInfo paymentInfo) {
         Intent intent = new Intent();
         switch (paymentInfo.getJumpTo()) {
+            //直接支付
             case PAYMENT:
                 intent.setAction("tv.ismar.pay.payment");
                 intent.putExtra(EXTRA_PK, paymentInfo.getPk());
@@ -119,6 +122,12 @@ public class PageIntent implements PageIntentInterface {
     public void toUserCenterLocation(Context context) {
 
     }
+
+    @Override
+    public void toPackageList(Context context, String source, long pk) {
+
+    }
+
     public void toHistory(Context context){
         Intent intent=new Intent();
         intent.setAction( "tv.ismar.daisy.Channel");
