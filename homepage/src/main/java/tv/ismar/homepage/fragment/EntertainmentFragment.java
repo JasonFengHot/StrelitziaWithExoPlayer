@@ -26,7 +26,7 @@ import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.entity.HomePagerEntity.Poster;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.HomePageActivity;
+import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.homepage.widget.HomeItemContainer;
 import tv.ismar.homepage.widget.LabelImageView3;
 import tv.ismar.homepage.widget.LinerLayoutContainer;

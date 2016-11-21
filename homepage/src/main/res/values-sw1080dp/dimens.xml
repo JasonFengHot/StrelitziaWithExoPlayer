@@ -1426,6 +1426,16 @@
     <dimen name="home_tab_list_space">14dp</dimen>
     <dimen name="home_tab_list_mb">50dp</dimen>
 
+    <dimen name="guide_video_w">1470dp</dimen>
+    <dimen name="guide_video_h">498dp</dimen>
+    <dimen name="guide_video_img_ml">7dp</dimen>
+    <dimen name="guide_bottom_h">278dp</dimen>
+    <dimen name="guide_bottom_mt">22dp</dimen>
+    <dimen name="guide_bottom_item_w">199dp</dimen>
+    <dimen name="guide_bottom_space">26dp</dimen>
+    <dimen name="guide_bottom_alpha_h">72dp</dimen>
+    <dimen name="guide_bottom_text_plr">3dp</dimen>
+
     <!--longhai 首页相关ui End -->
 
 </resources>

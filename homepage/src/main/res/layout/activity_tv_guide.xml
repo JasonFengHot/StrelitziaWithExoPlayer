@@ -119,8 +119,8 @@
             android:enabled="false"
             android:gravity="center"
             android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/h1_size"
+            android:textColor="@color/color_base_white"
+            android:textSize="@dimen/text_size_48sp"
             android:visibility="gone" />
     </FrameLayout>
 </FrameLayout>

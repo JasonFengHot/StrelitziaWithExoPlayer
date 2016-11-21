@@ -35,11 +35,11 @@
 	<color name ="itemdetail_secondtextcolor" >#999999</color>
 	<color name ="itemdetail_thirdtextcolor" >#000000</color>
 	<color name ="movielist_title">#A3D2D3</color>
-	<color name ="movieitem_sel">#000000</color>	
-	<color name ="movieitem_nosel">#B9BCBC</color>	
+	<color name ="movieitem_sel">#000000</color>
+	<color name ="movieitem_nosel">#B9BCBC</color>
 	<color name ="movieitem_comment">#686868</color>
 	<color name ="ratepopup_dlg">#e2e2e2</color>
 	<color name ="loginpopup_dlg_focus">#000000</color>
-	<color name ="loginpopup_dlg_error">#000000</color>	
+	<color name ="loginpopup_dlg_error">#000000</color>
 	<color name ="yellow">#FFFF00</color>
 </resources>

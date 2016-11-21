@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/channel_item"
         android:textSize="@dimen/tv_guide_channel_text_size"
-        android:textColor="@color/white"
+        android:textColor="@color/color_base_white"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_width="match_parent"

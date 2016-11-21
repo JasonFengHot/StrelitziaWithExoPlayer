@@ -191,7 +191,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     public void onItemPreSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
         mRecyclerViewBridge.setUnFocusView(oldView);
         TextView textView = (TextView) itemView.findViewById(R.id.province_text);
-        textView.setTextColor(getResources().getColor(R.color.white));
+        textView.setTextColor(getResources().getColor(R.color.color_base_white));
 
     }
 
@@ -369,7 +369,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 if (citySelectedPosition[0] >= 0) {
                     View lastSelectedView = recyclerViewTV.getChildAt(citySelectedPosition[0]);
                     TextView lastTextView = (TextView) lastSelectedView.findViewById(R.id.province_text);
-                    lastTextView.setTextColor(getResources().getColor(R.color.white));
+                    lastTextView.setTextColor(getResources().getColor(R.color.color_base_white));
                 }
                 citySelectedPosition[0] = i;
 
@@ -395,7 +395,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 if (citySelectedPosition[0] == i) {
                     textView.setTextColor(getResources().getColor(R.color.blue));
                 } else {
-                    textView.setTextColor(getResources().getColor(R.color.white));
+                    textView.setTextColor(getResources().getColor(R.color.color_base_white));
                 }
             }
 
@@ -439,7 +439,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             public void onClick(View v) {
                 citySelectedPosition[0] = -1;
                 if (citySelectedView[0] != null) {
-                    citySelectedView[0].setTextColor(getResources().getColor(R.color.white));
+                    citySelectedView[0].setTextColor(getResources().getColor(R.color.color_base_white));
                     citySelectedView[0] = null;
                 }
                 promptLayout.setVisibility(View.INVISIBLE);

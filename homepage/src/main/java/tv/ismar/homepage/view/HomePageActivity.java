@@ -1,4 +1,4 @@
-package tv.ismar.homepage.activity;
+package tv.ismar.homepage.view;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;

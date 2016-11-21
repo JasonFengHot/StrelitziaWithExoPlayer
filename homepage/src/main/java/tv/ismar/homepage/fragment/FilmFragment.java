@@ -51,7 +51,7 @@ import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.HardwareUtils;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.HomePageActivity;
+import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.homepage.widget.DaisyVideoView;
 import tv.ismar.homepage.widget.HomeItemContainer;
 import tv.ismar.homepage.widget.LabelImageView3;

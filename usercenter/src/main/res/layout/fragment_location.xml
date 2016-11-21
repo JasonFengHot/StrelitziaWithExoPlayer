@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/locationFragment_currentPositionTitle_marginLeft"
                     android:text="@string/location_currentPosition_title"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_27sp"/>
 
                 <TextView
@@ -49,7 +49,7 @@
                     android:layout_width="@dimen/location_selected_city_text_width"
                     android:layout_height="wrap_content"
                     android:text="@{tasks.currentCity}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_36sp"/>
 
                 <TextView
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/locationFragment_selectedPositionTitle_marginLeft"
                     android:text="@string/location_selectedPosition_title"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_27sp"
                     android:visibility="@{tasks.selectedCityVisibility}"
                 />
@@ -68,7 +68,7 @@
                     android:layout_width="@dimen/location_selected_city_text_width"
                     android:layout_height="wrap_content"
                     android:text="@{tasks.selectedCity}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_36sp"
                     android:visibility="@{tasks.selectedCityVisibility}"
                 />
@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@{tasks.todayCondition}"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_base_white"
                         android:textSize="@dimen/locationFragment_h4_textSize"/>
 
                     <TextView
@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@{tasks.todayTemp}"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_base_white"
                         android:textSize="@dimen/locationFragment_h4_textSize"/>
 
                     <TextView
@@ -114,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/today_text"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_base_white"
                         android:textSize="@dimen/locationFragment_h4_textSize"/>
                 </LinearLayout>
 
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@{tasks.tomorrowCondition}"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_base_white"
                         android:textSize="@dimen/locationFragment_h4_textSize"/>
 
                     <TextView
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@{tasks.tomorrowTemp}"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_base_white"
                         android:textSize="@dimen/locationFragment_h4_textSize"/>
 
                     <TextView
@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/tomorrow_text"
-                        android:textColor="@color/white"
+                        android:textColor="@color/color_base_white"
                         android:textSize="@dimen/locationFragment_h4_textSize"/>
 
                 </LinearLayout>

@@ -14,7 +14,7 @@ import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.entity.HomePagerEntity.Poster;
 import tv.ismar.app.player.InitPlayerTool;
-import tv.ismar.homepage.activity.HomePageActivity;
+import tv.ismar.homepage.view.HomePageActivity;
 
 public class ChannelBaseFragment extends Fragment {
     protected ChannelEntity channelEntity;

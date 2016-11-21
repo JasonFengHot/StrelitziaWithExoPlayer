@@ -32,7 +32,7 @@ import tv.ismar.app.models.SportGame;
 import tv.ismar.app.player.InitPlayerTool;
 import tv.ismar.app.util.PicassoUtils;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.HomePageActivity;
+import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.homepage.widget.HomeItemContainer;
 import tv.ismar.homepage.widget.LabelImageView3;
 

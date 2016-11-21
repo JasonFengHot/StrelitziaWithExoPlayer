@@ -24,7 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.homepage.R;
-import tv.ismar.homepage.activity.HomePageActivity;
+import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.homepage.widget.ChildThumbImageView;
 import tv.ismar.homepage.widget.LabelImageView3;
 

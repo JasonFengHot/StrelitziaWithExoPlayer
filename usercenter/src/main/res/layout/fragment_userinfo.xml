@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text="设备："
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_27sp"
                 />
 
@@ -170,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{tasks.deviceName}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_27sp"
                 />
 

@@ -10,7 +10,7 @@ import android.widget.Button;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.detailpage.view.DetailPageActivity;
-import tv.ismar.homepage.activity.HomePageActivity;
+import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.player.view.PlayerActivity;
 import tv.ismar.usercenter.view.UserCenterActivity;
 

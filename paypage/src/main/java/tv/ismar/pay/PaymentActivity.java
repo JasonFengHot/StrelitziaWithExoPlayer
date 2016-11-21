@@ -375,7 +375,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             loginTip.setVisibility(View.GONE);
             for (int i = 0; i < payTypeLayout.getChildCount(); i++) {
                 Button button = (Button) payTypeLayout.getChildAt(i);
-                button.setTextColor(getResources().getColor(R.color.white));
+                button.setTextColor(getResources().getColor(R.color.color_base_white));
                 button.setEnabled(true);
                 button.setFocusable(true);
 

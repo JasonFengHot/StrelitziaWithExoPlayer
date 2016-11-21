@@ -48,7 +48,7 @@
                 android:background="@drawable/selector_button"
                 android:focusable="true"
                 android:text="@string/confirm"
-                android:textColor="@color/white"
+                android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_36sp"
             />
 
@@ -60,7 +60,7 @@
                 android:background="@drawable/selector_button"
                 android:focusable="true"
                 android:text="@string/cancel"
-                android:textColor="@color/white"
+                android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_36sp"
             />
 

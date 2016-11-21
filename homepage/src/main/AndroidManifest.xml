@@ -5,7 +5,7 @@
     <application
     >
 
-        <activity android:name=".activity.HomePageActivity"
+        <activity android:name=".view.HomePageActivity"
                   android:screenOrientation="sensorLandscape"
                   android:theme="@style/IsmartvAppTheme.Fullscreen"
         >
