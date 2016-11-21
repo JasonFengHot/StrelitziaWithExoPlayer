@@ -9,19 +9,22 @@
     <dimen name="text_size_18sp">18dp</dimen>
 
     <dimen name="h0_size">48dp</dimen>
-    <dimen name="h1_size">36.75dp</dimen>
+    <dimen name="h1_size">36dp</dimen>
     <dimen name="h2_size">27.75dp</dimen>
-    <dimen name="h3_size">23.25dp</dimen>
+    <dimen name="h3_size">24dp</dimen>
     <dimen name="h4_size">18.75dp</dimen>
     <dimen name="h5_size">14.25dp</dimen>
 
     <!-- 头部高度 -->
-    <dimen name="header_fragment_h">100.5dp</dimen>
-    <dimen name="header_fragment_padding_lr">73.5dp</dimen>
-    <dimen name="header_fragment_padding_bottom">32.25dp</dimen>
-    <dimen name="header_fragment_divider_mr">39.75dp</dimen>
-    <dimen name="header_fragment_divider_w">50dp</dimen>
-    <dimen name="header_fragment_divider_h">5dp</dimen>
+    <dimen name="header_fragment_h">100dp</dimen>
+    <dimen name="header_fragment_padding_l">65dp</dimen>
+    <dimen name="header_fragment_padding_r">82dp</dimen>
+    <dimen name="header_fragment_padding_bottom1">19dp</dimen>
+    <dimen name="header_fragment_padding_bottom2">20dp</dimen>
+    <dimen name="header_fragment_title_divider_w">50dp</dimen>
+    <dimen name="header_fragment_title_divider_h">5dp</dimen>
+    <dimen name="header_fragment_weather_ml">13dp</dimen>
+    <dimen name="header_fragment_divider_mlr">34dp</dimen>
     <dimen name="header_fragment_btn_width">120dp</dimen>
 
     <dimen name="label_image_padding">16.5dp</dimen>
@@ -422,40 +425,7 @@
     <dimen name="top_panel_view_height">112dip</dimen>
     <dimen name="divider_margin_MLR">26dip</dimen>
 
-    <!-- top page template -->
     <dimen name="tv_guide_top_section_padding">14dp</dimen>
-    <dimen name="weather_fragment_w">1860dp</dimen>
-    <dimen name="weather_fragment_h">100dp</dimen>
-    <dimen name="toppage_divide_margin">26dp</dimen>
-    <dimen name="toppage_divide_h">1dp</dimen>
-    <dimen name="toppage_arrow_h">82dp</dimen>
-    <dimen name="toppage_arrow_w">41dp</dimen>
-    <dimen name="toppage_arrow_margin">13dp</dimen>
-    <dimen name="toppage_scroll_padding_left">77dp</dimen>
-    <dimen name="toppage_fragment_padding_lr">73dp</dimen>
-    <dimen name="toppage_fragment_linerlayout_h">498dp</dimen>
-    <dimen name="toppage_fragment_linerlayout_margintop">30dp</dimen>
-    <dimen name="toppage_fragment_linerlayout_marginbottom">19dp</dimen>
-    <dimen name="guide_padding">7dp</dimen>
-    <dimen name="guide_video_width">1470dp</dimen>
-    <dimen name="guide_video_height">498dp</dimen>
-    <dimen name="toppage_fragment_recommend_list_h">278dp</dimen>
-    <dimen name="toppage_fragment_recommend_list_padding">29dp</dimen>
-    <dimen name="toppage_carous_imageView_h">166dp</dimen>
-    <dimen name="toppage_carous_imageView_w">297dp</dimen>
-    <dimen name="guide_recommend_item_spacing">26dp</dimen>
-    <dimen name="guide_recommend_item_width">199dp</dimen>
-    <dimen name="guide_recommend_item_height">278dp</dimen>
-    <dimen name="toppage_fragment_poster_title_h">55dp</dimen>
-    <dimen name="toppage_fragment_poster_title_textsize">36sp</dimen>
-    <dimen name="toppage_fragment_poster_title_padding">3dp</dimen>
-    <!-- top page template end -->
-    <dimen name="tv_guide_channel_textSize">36sp</dimen>
-    <dimen name="tv_guide_cinema_textSize">48sp</dimen>
-    <dimen name="tv_guide_history_textSize">24sp</dimen>
-    <dimen name="fragment_padding_lr">73dp</dimen>
-    <dimen name="tv_guide_menu_margin">44dp</dimen>
-    <dimen name="tv_guide_channel_margin_lr">51dp</dimen>
     <!-- HGridView -->
     <dimen name="HGridView_related_selectionLeftPadding">23.5dip</dimen>
     <dimen name="HGridView_related_selectionTopPadding">23.5dip</dimen>

@@ -141,6 +141,7 @@ public class BaseActivity extends AppCompatActivity {
     public abstract class BaseObserver<T> implements Observer<T> {
         @Override
         public void onError(Throwable e) {
+            e.printStackTrace();
             if (e instanceof HttpException) {
                 HttpException httpException = (HttpException) e;
                 if (httpException.code() == 401) {

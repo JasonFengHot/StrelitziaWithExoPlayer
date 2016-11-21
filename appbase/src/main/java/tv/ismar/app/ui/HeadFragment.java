@@ -37,14 +37,13 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.R;
 import tv.ismar.app.core.WeatherInfoHandler;
 import tv.ismar.app.network.entity.WeatherEntity;
-import tv.ismar.app.widget.LaunchHeaderLayout;
 
-import static android.widget.RelativeLayout.ALIGN_BOTTOM;
 import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
 
 public class HeadFragment extends Fragment implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
     public static final String HEADER_USERCENTER = "usercenter";
     public static final String HEADER_DETAILPAGE = "detailpage";
+    public static final String HEADER_HOMEPAGE = "homepage";
     private static final int[] INDICATOR_RES_LIST = {
             R.string.vod_movielist_title_history,
             R.string.guide_my_favorite,
@@ -116,6 +115,9 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     hideWeather();
                     hideIndicatorTable();
                     hideTitle();
+                    break;
+                case HEADER_HOMEPAGE:
+                    subTitleTextView.setText(bundle.getString("channel_name"));
                     break;
             }
         }
@@ -303,10 +305,10 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         void onSearchClick();
     }
 
-    private LaunchHeaderLayout.HeadItemClickListener mHeadItemClickListener;
+    private HeadItemClickListener mHeadItemClickListener;
 
 
-    public void setHeadItemClickListener(LaunchHeaderLayout.HeadItemClickListener headItemClickListener) {
+    public void setHeadItemClickListener(HeadItemClickListener headItemClickListener) {
         mHeadItemClickListener = headItemClickListener;
     }
 }

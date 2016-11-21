@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -173,14 +172,16 @@
                 android:layout_marginLeft="@dimen/vod_payment_package_title_ML"
                 android:layout_marginTop="@dimen/package_detail_divider_cMT"
                 android:background="#6609638e"/>
+
             <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
                 android:id="@+id/vod_payment_item_of_package_container"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/package_detail_divider_W"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/vod_payment_item_of_package_container_ML"
                 android:layout_marginTop="@dimen/vod_payment_item_of_package_container_MT"
                 android:focusable="true"
             />
+
             <Button
                 android:id="@+id/vod_payment_item_more"
                 android:layout_width="@dimen/vod_payment_item_more_W"

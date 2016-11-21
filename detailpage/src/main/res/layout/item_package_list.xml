@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+>
+
+    <ImageView
+        android:layout_width="@dimen/package_item_default_W"
+        android:layout_height="@dimen/package_item_default_H"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:id="@+id/ItemImage"
+        android:layout_width="@dimen/package_item_ItemImage_W"
+        android:layout_height="@dimen/package_item_ItemImage_H"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/package_item_ItemImage_MT"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/ItemText"
+        android:layout_width="@dimen/package_item_ItemImage_W"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ItemImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/package_item_ItemText_MT"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:paddingLeft="@dimen/package_item_ItemText_PLR"
+        android:paddingRight="@dimen/package_item_ItemText_PLR"
+        android:shadowDy="2.0"
+        android:shadowRadius="2.0"
+        android:singleLine="true"
+        android:textColor="#FFF8F8FF"
+        android:textSize="@dimen/vod_payment_packageDescribe_textsize"/>
+
+</RelativeLayout>
