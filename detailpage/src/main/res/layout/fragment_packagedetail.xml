@@ -175,7 +175,7 @@
 
             <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
                 android:id="@+id/vod_payment_item_of_package_container"
-                android:layout_width="@dimen/package_detail_divider_W"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/vod_payment_item_of_package_container_ML"
                 android:layout_marginTop="@dimen/vod_payment_item_of_package_container_MT"

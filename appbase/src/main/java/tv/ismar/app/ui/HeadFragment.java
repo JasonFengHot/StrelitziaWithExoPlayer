@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.open.androidtvwidget.view.LinearMainLayout;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -103,10 +106,11 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             switch (mHeaderType) {
                 case HEADER_USERCENTER:
                     subTitleTextView.setText("个人中心");
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.usercenter_subtitle_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
-                    layoutParams.addRule(ALIGN_PARENT_BOTTOM);
+                    LinearMainLayout.LayoutParams layoutParams = new LinearMainLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams.gravity = Gravity.CENTER_VERTICAL;
+//                    layoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.usercenter_subtitle_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
                     subTitleTextView.setLayoutParams(layoutParams);
+                    subTitleTextView.setGravity(Gravity.CENTER_VERTICAL);
                     hideIndicatorTable();
                     hideTitle();
                     break;

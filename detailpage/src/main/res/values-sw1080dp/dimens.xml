@@ -204,4 +204,6 @@
     <dimen name="related_item_image_marginleft">18dip</dimen>
     <dimen name="related_focus_text_width">345dp</dimen>
 
+    <dimen name="package_detail_list_item_margin_left">60dp</dimen>
+
 </resources>

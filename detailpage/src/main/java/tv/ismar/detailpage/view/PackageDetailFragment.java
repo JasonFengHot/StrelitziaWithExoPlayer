@@ -1,6 +1,7 @@
 package tv.ismar.detailpage.view;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -158,6 +159,7 @@ public class PackageDetailFragment extends BaseFragment {
 
                 vod_payment_item_of_package_container.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 List<ItemEntity> itemEntities = mItemEntity.getItems().subList(0, 3);
+                vod_payment_item_of_package_container.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.package_detail_list_item_margin_left)));
                 vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
                 vod_payment_item_of_package_container.setOnItemClickListener(PackageItemClickListener);
             }
@@ -366,5 +368,23 @@ public class PackageDetailFragment extends BaseFragment {
                 break;
         }
         return playCheckEntity;
+    }
+
+    private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            int position = parent.indexOfChild(view);
+            if (position != 0) {
+                // Add top margin only for the first item to avoid double space between items
+                outRect.left = space;
+            }
+        }
     }
 }
