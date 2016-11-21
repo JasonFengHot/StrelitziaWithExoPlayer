@@ -4,19 +4,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:clipToPadding="true"
+                android:clipChildren="true"
                 >
 
     <ScrollView android:layout_width="match_parent"
-                android:layout_height="661dp"
+                android:layout_height="@dimen/filter_view_scrollview_h"
                 android:scrollbars="vertical"
                 >
         <LinearLayout
-        android:paddingTop="55dp"
+        android:paddingTop="@dimen/filter_view_filtermenu_layout_pt"
         android:id="@+id/filtermenulayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/filter_view_filtermenulayout_ml"
+        android:layout_marginLeft="@dimen/filter_view_filtermenu_layout_ml"
+        android:layout_marginRight="@dimen/filter_view_filtermenu_layout_mr"
         >
         </LinearLayout>
 
@@ -30,10 +33,10 @@
             android:layout_marginRight="@dimen/filter_view_filtermenulayout_ml"/>
     <Button
             android:id="@+id/filter_submit"
-            android:layout_marginTop="@dimen/filter_view_filter_submit_mt"
-            android:layout_marginLeft="@dimen/filter_view_filter_submit_ml"
-            android:layout_width="@dimen/filter_view_filter_submit_w"
-            android:layout_height="@dimen/filter_view_filter_submit_h"
+            android:layout_marginTop="@dimen/filter_view_filtersubmit_mt"
+            android:layout_marginLeft="@dimen/filter_view_filtersubmit_ml"
+            android:layout_width="@dimen/filter_view_filtersubmit_w"
+            android:layout_height="@dimen/filter_view_filtersubmit_h"
             android:text="确定提交"
             android:textSize="@dimen/h2_text_size"
             android:textColor="@android:color/white"

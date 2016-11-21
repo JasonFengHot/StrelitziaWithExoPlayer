@@ -1,15 +1,20 @@
 package tv.ismar.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.text.Layout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -187,11 +192,12 @@ public class FilterFragment extends BackHandledFragment {
                                 View view = mInflater.inflate(R.layout.filter_condition_item,null);
                                 TextView condition_txt = (TextView) view.findViewById(R.id.condition_txt);
                                 MyViewGroup valueViews = (MyViewGroup)view.findViewById(R.id.line_group);
+
                                 valueViews.setFocusable(true);
                                 valueViews.setFocusableInTouchMode(true);
                                 valueViews.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
                                 condition_txt.setText(label+" :");
-                                RadioButton nolimitRbtn = new RadioButton(getActivity());
+                                RadioButton nolimitRbtn = (RadioButton) mInflater.inflate(R.layout.radio_button,null);
                                 nolimitRbtn.setFocusable(true);
                                 nolimitRbtn.setFocusableInTouchMode(true);
                                 FilterItem noLimitItem = new FilterItem();
@@ -206,10 +212,11 @@ public class FilterFragment extends BackHandledFragment {
                                 noLimitItem.name = "不限";
                                 nolimitRbtn.setText("不限");
                                 nolimitRbtn.setTag(noLimitItem);
+                                nolimitRbtn.setGravity(Gravity.BOTTOM);
                                 initRadioButton(nolimitRbtn);
 
                                 nolimitRbtn.setChecked(true);
-                                valueViews.addView(nolimitRbtn,new LinearLayout.LayoutParams(120, 100));
+                                valueViews.addView(nolimitRbtn,new LinearLayout.LayoutParams(72, 48));
                                 for(int i=0; i<arrayCount; i++){
                                     JSONArray subArray = values.getJSONArray(i);
                                     FilterItem item = new FilterItem();
@@ -217,14 +224,15 @@ public class FilterFragment extends BackHandledFragment {
                                     item.value = subArray.getString(0);
                                     item.nolimitView = nolimitRbtn;
                                     item.name = subArray.getString(1);
-                                    RadioButton rbtn = new RadioButton(getActivity());
+                                    RadioButton rbtn =(RadioButton) mInflater.inflate(R.layout.radio_button,null);
+                                    rbtn.setGravity(Gravity.BOTTOM);
                                     rbtn.setText(subArray.getString(1));
                                     rbtn.setTag(item);
                                     initRadioButton(rbtn);
-                                    valueViews.addView(rbtn,new LinearLayout.LayoutParams(120,165));
+                                    valueViews.addView(rbtn,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,48));
                                 }
-                                LinearLayout.LayoutParams groupLp=new LinearLayout.LayoutParams(1444,120);
-                                groupLp.setMargins(0,28,0,0);
+                                LinearLayout.LayoutParams groupLp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,126);
+                                groupLp.setMargins(0,22,0,0);
                                 filtermenulayout.addView(view,groupLp);
                             }
                         } catch (JSONException e) {
@@ -243,6 +251,7 @@ public class FilterFragment extends BackHandledFragment {
     private void initRadioButton(RadioButton rbtn){
         Log.i("rate",rate+"");
         rbtn.setButtonDrawable(android.R.color.transparent);
+        rbtn.setGravity(Gravity.BOTTOM);
         rbtn.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
         rbtn.setTextSize(36/rate);
         rbtn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -250,7 +259,8 @@ public class FilterFragment extends BackHandledFragment {
             public void onFocusChange(View view, boolean b) {
                 if(b){
                     if(!((RadioButton)view).isChecked()){
-                        ((RadioButton)view).setTextSize(48/rate);
+//                        ((RadioButton)view).setTextSize(48/rate);
+                        scaleOut(view);
                         ((RadioButton)view).setTextColor(LABEL_TEXT_COLOR_FOCUSED);
 //                        if(((FilterItem)view.getTag()).nolimitView!=null){
 //                                ((FilterItem)view.getTag()).nolimitView.setChecked(false);
@@ -258,7 +268,8 @@ public class FilterFragment extends BackHandledFragment {
                     }
                 }else{
                     if(!((RadioButton)view).isChecked()){
-                        ((RadioButton)view).setTextSize(36/rate);
+//                        ((RadioButton)view).setTextSize(36/rate);
+                        scaleIn(view);
                         ((RadioButton)view).setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
                     }
                 }
@@ -271,7 +282,8 @@ public class FilterFragment extends BackHandledFragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                  if(b){
                    //  Toast.makeText(getActivity(), ((FilterItem)compoundButton.getTag()).value, Toast.LENGTH_SHORT).show();
-                     compoundButton.setTextSize(48/rate);
+//                     compoundButton.setTextSize(48/rate);
+                     scaleOut(compoundButton);
                      compoundButton.setTextColor(LABEL_TEXT_COLOR_CLICK);
                      if(((FilterItem)compoundButton.getTag()).nolimitView!=null){
                          if(((FilterItem)compoundButton.getTag()).nolimitView!=compoundButton){
@@ -288,7 +300,8 @@ public class FilterFragment extends BackHandledFragment {
 
                  }
                  else{
-                     compoundButton.setTextSize(36/rate);
+//                     compoundButton.setTextSize(36/rate);
+                     scaleIn(compoundButton);
                      compoundButton.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
                      String str = ((FilterItem)compoundButton.getTag()).value;
                      if(!"".equals(str)){
@@ -350,5 +363,17 @@ public class FilterFragment extends BackHandledFragment {
     public boolean onBackPressed() {
         return false;
     }
- 
+
+    public static void scaleOut(View view){
+
+        Animator animator= AnimatorInflater.loadAnimator(view.getContext(), R.animator.scaleout_word);
+        animator.setTarget(view);
+        animator.start();
+    }
+    public static void scaleIn(View view){
+
+        Animator animator= AnimatorInflater.loadAnimator(view.getContext(), R.animator.scalein_word);
+        animator.setTarget(view);
+        animator.start();
+    }
 }
