@@ -15,7 +15,7 @@ import tv.ismar.app.core.DaisyUtils;
  */
 public class MyViewGroup extends RadioGroup {
     private final static int VIEW_MARGIN_X = 50;
-    private final static int VIEW_MARGIN_Y = 6;
+    private final static int VIEW_MARGIN_Y = 24;
     private float rate;
     public MyViewGroup(Context context) {
         super(context);

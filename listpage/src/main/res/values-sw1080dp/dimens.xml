@@ -225,8 +225,9 @@
     <dimen name="filter_result_list_filter_grid_pr">5dip</dimen>
     <dimen name="filter_result_list_filter_grid_pl">6dip</dimen>
     <dimen name="filter_view_scrollView_h">689dip</dimen>
-    <dimen name="filter_view_filtermenulayout_pt">43dp</dimen>
+    <dimen name="filter_view_filtermenulayout_pt">46dp</dimen>
     <dimen name="filter_view_filtermenulayout_ml">222dip</dimen>
+    <dimen name="filter_view_filtermenulayout_mr">204dip</dimen>
     <dimen name="filter_view_filter_submit_mt">94dp</dimen>
     <dimen name="filter_view_filter_submit_ml">823dp</dimen>
     <dimen name="filter_view_filter_submit_w">274dp</dimen>
@@ -235,9 +236,20 @@
     <dimen name="filter_condition_item_condition_txt_mt">20dip</dimen>
     <dimen name="filter_condition_item_condition_txt_w">121dp</dimen>
     <dimen name="filter_condition_item_condition_txt_h">48dp</dimen>
-    <dimen name="filter_condition_item_line_group_ml">22dp</dimen>
-    <dimen name="filter_condition_item_line_group_mt">12dp</dimen>
+    <dimen name="filter_condition_item_linegroup_ml">95dp</dimen>
+    <dimen name="filter_condition_item_linegroup_mt">6dp</dimen>
     <dimen name="filter_condition_groupview_h">108dp</dimen>
+
+    <dimen name="filter_condition_item_h">126dp</dimen>
+    <dimen name="filter_view_scrollview_h">661dp</dimen>
+    <dimen name="filter_view_filtermenu_layout_pt">46dp</dimen>
+    <dimen name="filter_view_filtermenu_layout_ml">222dip</dimen>
+    <dimen name="filter_view_filtermenu_layout_mr">204dip</dimen>
+    <dimen name="filter_view_filtersubmit_mt">94dp</dimen>
+    <dimen name="filter_view_filtersubmit_ml">823dp</dimen>
+    <dimen name="filter_view_filtersubmit_w">274dp</dimen>
+    <dimen name="filter_view_filtersubmit_h">72dp</dimen>
+
 
 
     <!-- channel_section_tabs -->

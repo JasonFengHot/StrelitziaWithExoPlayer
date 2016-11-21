@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:clipChildren="false"
-              android:clipToPadding="false"
-              android:orientation="vertical"
-              android:paddingLeft="@dimen/fragment_padding_lr"
-              android:paddingRight="@dimen/fragment_padding_lr">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/fragment_padding_lr"
+    android:paddingRight="@dimen/fragment_padding_lr">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,8 +26,7 @@
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:nextFocusRight="@+id/toppage_carous_imageView1"
-            >
+            android:nextFocusRight="@+id/toppage_carous_imageView1">
 
 
             <tv.ismar.homepage.widget.DaisyVideoView
@@ -35,14 +34,12 @@
                 android:layout_width="@dimen/guide_video_width"
                 android:layout_height="@dimen/guide_video_height"
                 android:focusable="false"
-                android:focusableInTouchMode="false"
-                />
+                android:focusableInTouchMode="false" />
 
             <ImageView
                 android:id="@+id/linked_video_loading_image"
                 android:layout_width="@dimen/guide_video_width"
-                android:layout_height="@dimen/guide_video_height"
-                />
+                android:layout_height="@dimen/guide_video_height" />
 
         </tv.ismar.homepage.widget.HomeItemContainer>
 
@@ -52,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/guide_center_layoutview"
             android:clipChildren="false"
-            android:clipToPadding="false"/>
+            android:clipToPadding="false" />
     </RelativeLayout>
 
     <tv.ismar.homepage.widget.DaisyViewContainer
@@ -66,8 +63,6 @@
         android:paddingBottom="@dimen/toppage_fragment_recommend_list_padding"
         app:horizontal_spacing="@dimen/guide_recommend_item_spacing"
         app:item_height="@dimen/guide_recommend_item_height"
-        app:item_width="@dimen/guide_recommend_item_width"
-        >
-    </tv.ismar.homepage.widget.DaisyViewContainer>
+        app:item_width="@dimen/guide_recommend_item_width"></tv.ismar.homepage.widget.DaisyViewContainer>
 
 </LinearLayout>
