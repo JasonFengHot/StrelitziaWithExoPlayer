@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.utils.AppUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import tv.ismar.app.R;
@@ -71,6 +72,13 @@ public class UpdatePopupWindow extends PopupWindow {
             @Override
             public void onClick(View v) {
                 dismiss();
+
+                try {
+                    String[] args2 = { "chmod", "604",  path};
+                    Runtime.getRuntime().exec(args2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 AppUtils.installApp(context, path);
             }
         });

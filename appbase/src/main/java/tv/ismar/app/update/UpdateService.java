@@ -246,7 +246,8 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
         String url = entity.getUrl();
         String json = new Gson().toJson(entity);
         String title = Md5.md5(json);
-        DownloadManager.getInstance().start(url, title, json, upgradeFile.toString());
+        String filePath = getFilesDir().getAbsolutePath();
+        DownloadManager.getInstance().start(url, title, json, filePath);
     }
 
     public static boolean installAppSilent(String filePath) {
