@@ -233,7 +233,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
             		});
                 }else{
                 	leftBottom = itemContainer;
-                	itemContainer.setNextFocusDownId(R.id.toppage_divide_view);
+//                	itemContainer.setNextFocusDownId(R.id.toppage_divide_view);
                 	itemContainer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             			@Override

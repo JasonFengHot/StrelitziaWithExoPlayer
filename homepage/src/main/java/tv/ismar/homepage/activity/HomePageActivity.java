@@ -69,10 +69,10 @@ import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.player.CallaPlay;
+import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.Utils;
-import tv.ismar.app.widget.LaunchHeaderLayout;
-import tv.ismar.app.widget.LaunchHeaderLayout.HeadItemClickListener;
+import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.adapter.ChannelRecyclerAdapter;
 import tv.ismar.homepage.adapter.HorizontalSpacesItemDecoration;
@@ -84,8 +84,6 @@ import tv.ismar.homepage.fragment.FilmFragment;
 import tv.ismar.homepage.fragment.GuideFragment;
 import tv.ismar.homepage.fragment.MessageDialogFragment;
 import tv.ismar.homepage.fragment.SportFragment;
-import tv.ismar.homepage.widget.ItemViewFocusChangeListener;
-import tv.ismar.homepage.widget.MessagePopWindow;
 import tv.ismar.homepage.widget.Position;
 
 //import org.apache.commons.lang3.StringUtils;
@@ -93,12 +91,15 @@ import tv.ismar.homepage.widget.Position;
 /**
  * Created by huaijie on 5/18/15.
  */
-public class HomePageActivity extends BaseActivity implements HeadItemClickListener {
+public class HomePageActivity extends BaseActivity implements HeadFragment.HeadItemClickListener {
     private static final String TAG = "TVGuideActivity";
     private static final int SWITCH_PAGE = 0X01;
     private static final int SWITCH_PAGE_FROMLAUNCH = 0X02;
     private ChannelBaseFragment currentFragment;
     private ChannelBaseFragment lastFragment;
+
+    private HeadFragment headFragment;
+    private ModuleMessagePopWindow exitPopup;
     /**
      * advertisement start
      */
@@ -123,7 +124,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
     private boolean isPlayingVideo = false;
     private int playIndex;
     private FrameLayout layout_advertisement;
-    private LinearLayout layout_homepage;
+    private FrameLayout layout_homepage;
     /**
      * advertisement end
      */
@@ -133,30 +134,25 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
      * PopupWindow
      */
     PopupWindow updatePopupWindow;
-    MessagePopWindow exitPopupWindow;
+
     PopupWindow netErrorPopupWindow;
 
     private LinearLayout channelListView;
-    private LinearLayout tabListView;
 
     private View contentView;
-    private ImageView arrow_left;
-    private ImageView arrow_right;
-    private ImageView arrow_left_visible;
-    private ImageView arrow_right_visible;
-    private FrameLayout toppanel;
+    private ImageView home_scroll_left;
+    private ImageView home_scroll_right;
     private ChannelChange channelChange = ChannelChange.CLICK_CHANNEL;
     private String homepage_template;
     private String homepage_url;
 
-    private LaunchHeaderLayout topView;
     private boolean scrollFromBorder;
     private ScrollType scrollType = ScrollType.right;
     private String lastviewTag;
     private int lastchannelindex = -1;
     private boolean rightscroll;
     private LeavePosition leavePosition = LeavePosition.RightBottom;
-    private ImageView guide_shadow_view;
+    private ImageView home_shadow_view;
     private static int channelscrollIndex = 0;
 
     public boolean isneedpause;
@@ -213,23 +209,19 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                 return;
             }
             if (position == 0) {
-                arrow_left.setVisibility(View.GONE);
-                arrow_left_visible.setVisibility(View.GONE);
+                home_scroll_left.setVisibility(View.GONE);
                 if (channelChange != null && channelChange != ChannelChange.CLICK_CHANNEL)
                     channelChange = ChannelChange.RIGHT_ARROW;
             } else {
-                arrow_left.setVisibility(View.VISIBLE);
-                arrow_left_visible.setVisibility(View.VISIBLE);
+                home_scroll_left.setVisibility(View.VISIBLE);
             }
 
             if (position == channelEntityList.size() - 1) {
-                arrow_right.setVisibility(View.GONE);
-                arrow_right_visible.setVisibility(View.GONE);
+                home_scroll_right.setVisibility(View.GONE);
                 if (channelChange != null && channelChange != ChannelChange.CLICK_CHANNEL)
                     channelChange = ChannelChange.LEFT_ARROW;
             } else {
-                arrow_right.setVisibility(View.VISIBLE);
-                arrow_right_visible.setVisibility(View.VISIBLE);
+                home_scroll_right.setVisibility(View.VISIBLE);
             }
             Message msg = new Message();
             msg.arg1 = position;
@@ -238,7 +230,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                 fragmentSwitch.removeMessages(SWITCH_PAGE);
             fragmentSwitch.sendMessageDelayed(msg, 300);
             if (!scrollFromBorder) {
-                recycler_tab_list.requestFocus();
+                home_tab_list.requestFocus();
             }
         }
     });
@@ -248,7 +240,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
         public void onFocusChange(View v, boolean hasFocus) {
             if (hasFocus) {
                 int i = v.getId();
-                if (i == R.id.arrow_scroll_left) {
+                if (i == R.id.home_scroll_left) {
                     scrollFromBorder = true;
                     scrollType = ScrollType.left;
                     channelChange = ChannelChange.LEFT_ARROW;
@@ -256,7 +248,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                     rightscroll = true;
 
 
-                } else if (i == R.id.arrow_scroll_right) {
+                } else if (i == R.id.home_scroll_right) {
                     scrollFromBorder = true;
                     scrollType = ScrollType.right;
                     channelChange = ChannelChange.RIGHT_ARROW;
@@ -301,16 +293,16 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
         switch (direction) {
             case 0:// left
                 if (scrollPosition == 0) {
-                    recycler_tab_list.smoothScrollToPosition(0);
+                    home_tab_list.smoothScrollToPosition(0);
                 } else {
-                    recycler_tab_list.smoothScrollBy(-(width + mTabSpace), 0);
+                    home_tab_list.smoothScrollBy(-(width + mTabSpace), 0);
                 }
                 break;
             case 1:// right
                 if (scrollPosition == recyclerAdapter.getItemCount() - 1) {
-                    recycler_tab_list.smoothScrollToPosition(recyclerAdapter.getItemCount() - 1);
+                    home_tab_list.smoothScrollToPosition(recyclerAdapter.getItemCount() - 1);
                 } else {
-                    recycler_tab_list.smoothScrollBy(width + mTabSpace, 0);
+                    home_tab_list.smoothScrollBy(width + mTabSpace, 0);
                 }
                 break;
         }
@@ -318,7 +310,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 
     private void checkScroll(int position, long delay) {
 //        Log.i("LH/","checkPosition:"+position+" isSendMessage:"+isSendMessage);
-        View view = recycler_tab_list.getLayoutManager().findViewByPosition(position);
+        View view = home_tab_list.getLayoutManager().findViewByPosition(position);
         if (view == null) {
             return;
         }
@@ -380,7 +372,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
          * advertisement start
          */
         layout_advertisement = (FrameLayout) findViewById(R.id.layout_advertisement);
-        layout_homepage = (LinearLayout) findViewById(R.id.layout_homepage);
+        layout_homepage = (FrameLayout) findViewById(R.id.layout_homepage);
         ad_video = (VideoView) findViewById(R.id.ad_video);
         ad_pic = (ImageView) findViewById(R.id.ad_pic);
         ad_timer = (Button) findViewById(R.id.ad_timer);
@@ -427,7 +419,6 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
         });
 
         initViews();
-        initTabView();
         getHardInfo();
         Properties sysProperties = new Properties();
         try {
@@ -461,28 +452,33 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
     private int mTabSpace;
 
     private void initViews() {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", HeadFragment.HEADER_HOMEPAGE);
+        bundle.putString("channel_name", getString(R.string.str_home));
+        headFragment = new HeadFragment();
+        headFragment.setHeadItemClickListener(this);
+        headFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.home_head, headFragment)
+                .commit();
 
-        toppanel = (FrameLayout) findViewById(R.id.top_column_layout);
-        recycler_tab_list = (RecyclerView) findViewById(R.id.recycler_tab_list);
-        recyclerAdapter = new ChannelRecyclerAdapter(this, channelEntityList, recycler_tab_list);
-        recycler_tab_list.setAdapter(recyclerAdapter);
-        recycler_tab_list.setItemAnimator(new DefaultItemAnimator());
+        home_tab_list = (RecyclerView) findViewById(R.id.home_tab_list);
+        recyclerAdapter = new ChannelRecyclerAdapter(this, channelEntityList, home_tab_list);
+        home_tab_list.setAdapter(recyclerAdapter);
+        home_tab_list.setItemAnimator(new DefaultItemAnimator());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recycler_tab_list.setLayoutManager(layoutManager);
+        home_tab_list.setLayoutManager(layoutManager);
         mTabSpace = getResources().getDimensionPixelSize(R.dimen.tv_guide_h_grid_view_horizontalSpacing);
         HorizontalSpacesItemDecoration decoration = new HorizontalSpacesItemDecoration(
                 mTabSpace,
                 getResources().getDimensionPixelSize(R.dimen.fragment_padding_lr),
                 recyclerAdapter);
-        recycler_tab_list.addItemDecoration(decoration);
+        home_tab_list.addItemDecoration(decoration);
 
-        tabListView = (LinearLayout) findViewById(R.id.tab_list);
-        arrow_left = (ImageView) findViewById(R.id.arrow_scroll_left);
-        arrow_right = (ImageView) findViewById(R.id.arrow_scroll_right);
-        arrow_left_visible = (ImageView) findViewById(R.id.arrow_scroll_left_visible);
-        arrow_right_visible = (ImageView) findViewById(R.id.arrow_scroll_right_visible);
-        arrow_left_visible.setOnClickListener(new View.OnClickListener() {
+        home_scroll_left = (ImageView) findViewById(R.id.home_scroll_left);
+        home_scroll_right = (ImageView) findViewById(R.id.home_scroll_right);
+        home_scroll_left.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -490,7 +486,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                 recyclerAdapter.arrowScroll(View.FOCUS_LEFT, false);
             }
         });
-        arrow_right_visible.setOnClickListener(new View.OnClickListener() {
+        home_scroll_right.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -498,14 +494,13 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                 recyclerAdapter.arrowScroll(View.FOCUS_RIGHT, false);
             }
         });
-        arrow_left_visible.setOnHoverListener(onArrowHoverListener);
-        arrow_right_visible.setOnHoverListener(onArrowHoverListener);
+        home_scroll_left.setOnHoverListener(onArrowHoverListener);
+        home_scroll_right.setOnHoverListener(onArrowHoverListener);
+        home_scroll_left.setOnFocusChangeListener(scrollViewListener);
+        home_scroll_right.setOnFocusChangeListener(scrollViewListener);
+        home_shadow_view = (ImageView) findViewById(R.id.home_shadow_view);
 
-        arrow_left.setOnFocusChangeListener(scrollViewListener);
-        arrow_right.setOnFocusChangeListener(scrollViewListener);
-        guide_shadow_view = (ImageView) findViewById(R.id.guide_shadow_view);
-
-        recycler_tab_list.requestFocus();
+        home_tab_list.requestFocus();
         recyclerAdapter.setOnItemActionListener(new OnItemActionListener() {
 
             @Override
@@ -544,11 +539,11 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
             }
         });
 
-        recycler_tab_list.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        home_tab_list.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 Log.i("LH/", "onFocusChange:" + hasFocus + " hover:" + hoverOnArrow + " v:" + v.isHovered());
-                View currentView = recycler_tab_list.getLayoutManager().findViewByPosition(recyclerAdapter.getSelectedPosition());
+                View currentView = home_tab_list.getLayoutManager().findViewByPosition(recyclerAdapter.getSelectedPosition());
                 if (currentView != null) {
                     if (hasFocus) {
                         LinearLayout channel_item_back = (LinearLayout) currentView.findViewById(R.id.channel_item_back);
@@ -565,7 +560,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
             }
         });
 
-        recycler_tab_list.setOnKeyListener(new View.OnKeyListener() {
+        home_tab_list.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 //                Log.i("LH/","onKeyDown:");
@@ -670,28 +665,6 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
         showExitPopup(contentView);
     }
 
-
-    private void initTabView() {
-        int res[] = {R.drawable.selector_tab_film,
-                R.drawable.selector_tab_game, R.drawable.selector_tab_list};
-        for (int i = 0; i < res.length; i++) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    64, 64);
-            layoutParams.weight = 1;
-            if (i != res.length - 1) {
-                layoutParams.setMargins(0, 0, 68, 0);
-            }
-            ImageView imageView = new ImageView(this);
-            imageView.setImageResource(res[i]);
-            imageView.setFocusable(true);
-            imageView.setFocusableInTouchMode(true);
-            imageView.setClickable(true);
-            imageView.setLayoutParams(layoutParams);
-            imageView.setOnFocusChangeListener(new ItemViewFocusChangeListener());
-            tabListView.addView(imageView);
-        }
-    }
-
     private static boolean channelflag = false;
 
     /**
@@ -718,8 +691,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
     private void fillChannelLayout(ChannelEntity[] channelEntities) {
         if (neterrorshow)
             return;
-        topView.setVisibility(View.VISIBLE);
-        arrow_right_visible.setVisibility(View.VISIBLE);
+        home_scroll_right.setVisibility(View.VISIBLE);
         ChannelEntity[] mChannelEntitys = channelEntities;
         if (!channelEntityList.isEmpty()) {
             return;
@@ -747,7 +719,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                         scrollType = ScrollType.none;
                         recyclerAdapter.setSelectedPosition(channelscrollIndex);
                         mCurrentChannelPosition.setPosition(channelscrollIndex);
-                        topView.setSubTitle(mChannelEntitys[i].getName());
+                        headFragment.setSubTitle(mChannelEntitys[i].getName());
                     }
                 } else {
                     if (homepage_template.equals(mChannelEntitys[i].getHomepage_template()) && mChannelEntitys[i].getHomepage_url().contains(homepage_url)) {
@@ -759,7 +731,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                             mCurrentChannelPosition.setPosition(channelscrollIndex);
 //                                fragmentSwitch.sendEmptyMessage(SWITCH_PAGE_FROMLAUNCH);
                         }
-                        topView.setSubTitle(mChannelEntitys[i].getName());
+                        headFragment.setSubTitle(mChannelEntitys[i].getName());
                         break;
                     }
                 }
@@ -776,15 +748,15 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                 currentFragment.setChannelEntity(channelEntity);
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
-                transaction.replace(R.id.container, currentFragment, "template").commitAllowingStateLoss();
-                recycler_tab_list.requestFocus();
+                transaction.replace(R.id.home_container, currentFragment, "template").commitAllowingStateLoss();
+                home_tab_list.requestFocus();
             } catch (IllegalStateException e) {
             }
 
         }
     }
 
-    private RecyclerView recycler_tab_list;
+    private RecyclerView home_tab_list;
     private ChannelRecyclerAdapter recyclerAdapter;
     private List<ChannelEntity> channelEntityList = new ArrayList<>();
 
@@ -871,15 +843,12 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 
     /**
      * show update popup, now update app or next time update
-     *
-     * @param view   popup window location
-     * @param bundle update data
      */
 //    private void showUpdatePopup(View view, Bundle bundle) {
 //        final Context context = this;
 //        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
 //        contentView.setBackgroundResource(R.drawable.app_update_bg);
-//        guide_shadow_view.setVisibility(View.VISIBLE);
+//        home_shadow_view.setVisibility(View.VISIBLE);
 //        float density = getResources().getDisplayMetrics().density;
 //
 //        int appUpdateHeight = (int) (getResources().getDimension(R.dimen.app_update_bg_height));
@@ -915,7 +884,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 //            @Override
 //            public void onClick(View v) {
 //                updatePopupWindow.dismiss();
-//                guide_shadow_view.setVisibility(View.GONE);
+//                home_shadow_view.setVisibility(View.GONE);
 //                installApk(context, path);
 //            }
 //        });
@@ -930,23 +899,22 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
 //    }
 //
     private void showExitPopup(View view) {
-        exitPopupWindow = new MessagePopWindow(this);
-        exitPopupWindow.setFirstMessage(R.string.exit_prompt);
-//        WindowManager.LayoutParams lp = getWindow().getAttributes();
-//              lp.alpha = 0.5f;
-//              getWindow().setAttributes(lp);
-        guide_shadow_view.setVisibility(View.VISIBLE);
-        exitPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        exitPopup = new ModuleMessagePopWindow(this);
+        exitPopup.setConfirmBtn(getString(R.string.vod_ok));
+        exitPopup.setCancelBtn(getString(R.string.vod_cancel));
+        exitPopup.setFirstMessage(getString(R.string.str_exit));
+        home_shadow_view.setVisibility(View.VISIBLE);
+        exitPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             @Override
             public void onDismiss() {
-                guide_shadow_view.setVisibility(View.GONE);
+                home_shadow_view.setVisibility(View.GONE);
             }
         });
-        exitPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0, new MessagePopWindow.ConfirmListener() {
+        exitPopup.showAtLocation(view, Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
-                        exitPopupWindow.dismiss();
+                        exitPopup.dismiss();
                         CallaPlay callaPlay = new CallaPlay();
 //                        callaPlay.app_exit(TrueTime.now().getTime() - app_start_time, SimpleRestClient.appVersion);
                         callaPlay.app_exit(System.currentTimeMillis() - app_start_time, SimpleRestClient.appVersion);
@@ -966,11 +934,11 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                         System.exit(0);
                     }
                 },
-                new MessagePopWindow.CancelListener() {
+                new ModuleMessagePopWindow.CancelListener() {
                     @Override
                     public void cancelClick(View view) {
-                        exitPopupWindow.dismiss();
-                        guide_shadow_view.setVisibility(View.GONE);
+                        exitPopup.dismiss();
+                        home_shadow_view.setVisibility(View.GONE);
                     }
                 }
         );
@@ -1024,26 +992,22 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
             }
         }
         if (position == 0) {
-            arrow_left.setVisibility(View.GONE);
-            arrow_left_visible.setVisibility(View.GONE);
+            home_scroll_left.setVisibility(View.GONE);
             if (channelChange != null && channelChange != ChannelChange.CLICK_CHANNEL)
                 channelChange = ChannelChange.RIGHT_ARROW;
         } else {
-            arrow_left.setVisibility(View.VISIBLE);
-            arrow_left_visible.setVisibility(View.VISIBLE);
+            home_scroll_left.setVisibility(View.VISIBLE);
         }
 
         if (position == channelEntityList.size() - 1) {
-            arrow_right.setVisibility(View.GONE);
-            arrow_right_visible.setVisibility(View.GONE);
+            home_scroll_right.setVisibility(View.GONE);
             if (channelChange != null && channelChange != ChannelChange.CLICK_CHANNEL)
                 channelChange = ChannelChange.LEFT_ARROW;
         } else {
-            arrow_right.setVisibility(View.VISIBLE);
-            arrow_right_visible.setVisibility(View.VISIBLE);
+            home_scroll_right.setVisibility(View.VISIBLE);
         }
         ChannelEntity channelEntity = channelEntityList.get(position);
-        topView.setSubTitle(channelEntity.getName());
+        headFragment.setSubTitle(channelEntity.getName());
         currentFragment = null;
         if ("template1".equals(channelEntity.getHomepage_template())) {
             currentFragment = new FilmFragment();
@@ -1228,43 +1192,43 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
             }
         }
         // longhai add
-        if (recycler_tab_list == null) {
+        if (home_tab_list == null) {
             return;
         }
         lastchannelindex = position;
         switch (lastchannelindex) {
             case 0:
-                recycler_tab_list.setNextFocusUpId(R.id.guidefragment_firstpost);
+                home_tab_list.setNextFocusUpId(R.id.guidefragment_firstpost);
                 break;
             case 1:
-                recycler_tab_list.setNextFocusUpId(R.id.filmfragment_secondpost);
+                home_tab_list.setNextFocusUpId(R.id.filmfragment_secondpost);
                 break;
             case 2:
-                recycler_tab_list.setNextFocusUpId(R.id.filmfragment_thirdpost);
+                home_tab_list.setNextFocusUpId(R.id.filmfragment_thirdpost);
                 break;
             case 3:
-                recycler_tab_list.setNextFocusUpId(R.id.vaiety_channel2_image);
+                home_tab_list.setNextFocusUpId(R.id.vaiety_channel2_image);
                 break;
             case 4:
-                recycler_tab_list.setNextFocusUpId(R.id.vaiety_channel3_image);
+                home_tab_list.setNextFocusUpId(R.id.vaiety_channel3_image);
                 break;
             case 5:
-                recycler_tab_list.setNextFocusUpId(R.id.sport_channel4_image);
+                home_tab_list.setNextFocusUpId(R.id.sport_channel4_image);
                 break;
             case 6:
-                recycler_tab_list.setNextFocusUpId(R.id.vaiety_channel4_image);
+                home_tab_list.setNextFocusUpId(R.id.vaiety_channel4_image);
                 break;
             case 7:
-                recycler_tab_list.setNextFocusUpId(R.id.child_more);
+                home_tab_list.setNextFocusUpId(R.id.child_more);
                 break;
             case 8:
-                recycler_tab_list.setNextFocusUpId(R.id.listmore);
+                home_tab_list.setNextFocusUpId(R.id.listmore);
                 break;
             case 9:
-                recycler_tab_list.setNextFocusUpId(R.id.listmore);
+                home_tab_list.setNextFocusUpId(R.id.listmore);
                 break;
             case 10:
-                recycler_tab_list.setNextFocusUpId(R.id.listmore);
+                home_tab_list.setNextFocusUpId(R.id.listmore);
                 break;
             default:
                 break;
@@ -1316,7 +1280,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
                 break;
         }
 
-        transaction.replace(R.id.container, fragment, tag).commitAllowingStateLoss();
+        transaction.replace(R.id.home_container, fragment, tag).commitAllowingStateLoss();
     }
 
     private void getHardInfo() {
@@ -1337,7 +1301,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
     public void channelRequestFocus(String channel) {
         switch (channelChange) {
             case CLICK_CHANNEL:
-//                recycler_tab_list.requestFocus();
+//                home_tab_list.requestFocus();
 //                channelHashMap.get(channel).requestFocus();
 //                channelHashMap.get(channel).requestFocusFromTouch();
                 break;
@@ -1364,8 +1328,6 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
         super.onResume();
         neterrorshow = false;
         channelscrollIndex = 0;
-        topView = (LaunchHeaderLayout) findViewById(R.id.top_column_layout);
-        topView.setHeadItemClickListener(this);
         try {
             Class.forName("com.konka.android.media.KKMediaPlayer");
             KKMediaPlayer localKKMediaPlayer1 = new KKMediaPlayer();
@@ -1408,8 +1370,8 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
         if (!(updatePopupWindow == null)) {
             updatePopupWindow.dismiss();
         }
-        if (exitPopupWindow != null) {
-            exitPopupWindow.dismiss();
+        if (exitPopup != null && exitPopup.isShowing()) {
+            exitPopup.dismiss();
         }
         super.onDestroy();
     }
@@ -1461,7 +1423,7 @@ public class HomePageActivity extends BaseActivity implements HeadItemClickListe
         }
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                recycler_tab_list.setHovered(false);
+                home_tab_list.setHovered(false);
                 break;
         }
         return super.onKeyDown(keyCode, event);

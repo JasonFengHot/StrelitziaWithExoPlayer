@@ -1405,6 +1405,7 @@
 <dimen name="app_update_text_marginBottom">15.56dp</dimen>
 <dimen name="textsize_30sp">23.33sp</dimen>
 
+<!--longhai 首页相关ui Start -->
 <dimen name="qiyi_ad_width">269.89dp</dimen>
 <dimen name="qiyi_ad_height">56.00dp</dimen>
 <dimen name="ad_margin_top">38.89dp</dimen>
@@ -1414,4 +1415,17 @@
 <dimen name="ad_timer_wh">73.89dp</dimen>
 <dimen name="ad_timer_mt">31.11dp</dimen>
 <dimen name="ad_timer_mr">31.11dp</dimen>
+
+<dimen name="home_container_mt">23.33dp</dimen>
+<dimen name="home_container_mlr">56.78dp</dimen>
+<dimen name="home_scroll_arrow_w">31.89dp</dimen>
+<dimen name="home_scroll_arrow_h">64.56dp</dimen>
+<dimen name="home_scroll_arrow_mlr">7.78dp</dimen>
+<dimen name="home_tab_list_h">51.33dp</dimen>
+<dimen name="home_tab_list_padding_lr">45.11dp</dimen>
+<dimen name="home_tab_list_space">10.89dp</dimen>
+<dimen name="home_tab_list_mb">38.89dp</dimen>
+
+<!--longhai 首页相关ui End -->
+
 </resources>
