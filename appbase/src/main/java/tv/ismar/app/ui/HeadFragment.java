@@ -281,7 +281,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                 mHeadItemClickListener.onUserCenterClick();
 
             } else if (i == R.string.guide_search) {
-
+                mHeadItemClickListener.onSearchClick();
             }
         }
     }
