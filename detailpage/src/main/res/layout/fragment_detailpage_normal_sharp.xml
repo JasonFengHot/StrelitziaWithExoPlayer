@@ -57,10 +57,11 @@
                         android:id="@+id/detail_title"
                         android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/detail_normal_title_mt"
                         android:ellipsize="end"
                         android:text="@{tasks.itemTitle}"
                         android:textColor="@color/module_color_white"
-                        android:textSize="@dimen/text_size_60sp"/>
+                        android:textSize="@dimen/text_size_40sp"/>
 
                     <LinearLayout
                         android:layout_width="@dimen/normal_detail_text_w"
@@ -306,7 +307,8 @@
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@{tasks.playText}"
                         android:textColor="@color/module_color_white"
-                        android:textSize="@dimen/h1_size"/>
+                        android:textSize="@dimen/text_size_32sp"
+                    />
 
                     <Button
                         android:id="@+id/detail_btn_buy"
@@ -319,7 +321,7 @@
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@string/video_buy"
                         android:textColor="@color/module_color_white"
-                        android:textSize="@dimen/h1_size"
+                        android:textSize="@dimen/text_size_32sp"
                         android:visibility="@{tasks.purchaseVisibility}"/>
 
                     <Button
@@ -333,7 +335,8 @@
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@{tasks.bookmarkText}"
                         android:textColor="@color/module_color_white"
-                        android:textSize="@dimen/h1_size"/>
+                        android:textSize="@dimen/text_size_32sp"
+                    />
 
                     <Button
                         android:id="@+id/detail_btn_drama"
@@ -366,7 +369,8 @@
                         android:maxLines="4"
                         android:text="@{tasks.description}"
                         android:textColor="@color/module_color_white"
-                        android:textSize="@dimen/text_size_36sp"/>
+                        android:textSize="@dimen/text_size_30sp"
+                    />
 
                 </LinearLayout>
 
@@ -387,7 +391,7 @@
                     android:gravity="center"
                     android:text="@string/recommend_str"
                     android:textColor="@color/module_color_white"
-                    android:textSize="@dimen/h1_size"/>
+                    android:textSize="@dimen/text_size_36sp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -431,7 +435,7 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                         <TextView
                             android:id="@+id/rel_1_focus_text"
@@ -440,7 +444,7 @@
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_24sp"/>
 
                     </LinearLayout>
 
@@ -489,7 +493,7 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                         <TextView
                             android:id="@+id/rel_2_focus_text"
@@ -498,7 +502,7 @@
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_24sp"/>
 
                     </LinearLayout>
 
@@ -547,7 +551,7 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                         <TextView
                             android:id="@+id/rel_3_focus_text"
@@ -556,7 +560,7 @@
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_24sp"/>
 
                     </LinearLayout>
 
@@ -605,7 +609,7 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_30sp"/>
 
                         <TextView
                             android:id="@+id/rel_4_focus_text"
@@ -614,7 +618,7 @@
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h2_size"/>
+                            android:textSize="@dimen/text_size_24sp"/>
 
                     </LinearLayout>
 
@@ -631,7 +635,7 @@
                     android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:text="@string/more"
                     android:textColor="@color/module_color_white"
-                    android:textSize="@dimen/h1_size"/>
+                    android:textSize="@dimen/text_size_36sp"/>
 
             </LinearLayout>
 
