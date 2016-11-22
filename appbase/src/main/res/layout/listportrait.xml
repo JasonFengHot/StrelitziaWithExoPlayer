@@ -47,9 +47,9 @@
                 android:visibility="invisible" />
             <tv.ismar.app.widget.ScrollableSectionList
                 android:id="@+id/section_tabs"
-                android:layout_width="1208dp"
+                android:layout_width="@dimen/list_section_width"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="70dp"
+                android:layout_marginLeft="@dimen/list_section_tabSpace"
                 android:layout_gravity="center"
                 android:fillViewport="false"
                 android:focusable="false"
@@ -61,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"
+                android:layout_marginLeft="@dimen/list_section_tabSpace"
                 android:layout_gravity="right"
                 android:scaleType="fitCenter"
                 android:visibility="invisible"
@@ -118,7 +119,7 @@
         sakura:selectionLeftPadding="@dimen/HGridView_related_pselectionLeftPadding"
         sakura:selectionTopPadding="@dimen/HGridView_related_pselectionTopPadding"
         sakura:selectionRightPadding="@dimen/HGridView_related_pselectionRightPadding"
-        sakura:selectionBottomPadding="@dimen/HGridView_related_pselectionBottomPadding"
+        sakura:selectionBottomPadding="@dimen/HGridView_selection_pb"
         android:layout_marginTop="@dimen/listportait_Hgride_mt"
         android:paddingTop="@dimen/listportait_Hgride_pt"
         android:layout_marginBottom="@dimen/listportait_Hgride_mb"

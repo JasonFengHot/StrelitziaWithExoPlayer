@@ -106,6 +106,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	private Button right_shadow;
 	private View gideview_layuot;
 	private SkyService skyService;
+	private TextView clerHistory;
 	private long getTodayStartPoint() {
 		long currentTime = System.currentTimeMillis();
 		GregorianCalendar currentCalendar = new GregorianCalendar();
@@ -128,6 +129,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		left_shadow = (Button)fragmentView.findViewById(R.id.left_shadow);
 		right_shadow = (Button)fragmentView.findViewById(R.id.right_shadow);
 		gideview_layuot = fragmentView.findViewById(R.id.gideview_layuot);
+		clerHistory= (TextView) fragmentView.findViewById(R.id.clear_history);
 		mHGridView.leftbtn = left_shadow;
 		mHGridView.rightbtn = right_shadow;
 		mHGridView.setOnItemClickListener(this);
@@ -178,7 +180,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		mScrollableSectionList.setVisibility(View.GONE);
 		mChannelLabel = (TextView) fragmentView.findViewById(R.id.channel_label);
 		mChannelLabel.setText(getResources().getString(R.string.vod_movielist_title_history));
-
+		clerHistory.setText(getResources().getString(R.string.claer_histories));
 		mNoVideoContainer = (RelativeLayout) fragmentView.findViewById(R.id.no_video_container);
 		collect_or_history_txt = (TextView)fragmentView.findViewById(R.id.collect_or_history_txt);
 		recommend_gridview = (ZGridView)fragmentView.findViewById(R.id.recommend_gridview);

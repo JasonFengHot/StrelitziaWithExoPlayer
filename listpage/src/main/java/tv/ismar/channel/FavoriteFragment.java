@@ -109,10 +109,12 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
     private Button right_shadow;
     private View gideview_layuot;
 	private SkyService skyService;
+	private TextView clertFavorite;
 	private void initViews(View fragmentView) {
         View vv = fragmentView.findViewById(R.id.tabs_layout);
         vv.setVisibility(View.GONE);
 		mHGridView = (HGridView) fragmentView.findViewById(R.id.h_grid_view);
+		clertFavorite= (TextView) fragmentView.findViewById(R.id.clear_history);
         left_shadow = (Button)fragmentView.findViewById(R.id.left_shadow);
         right_shadow = (Button)fragmentView.findViewById(R.id.right_shadow);
         gideview_layuot = fragmentView.findViewById(R.id.gideview_layuot);
@@ -167,7 +169,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 
 		mChannelLabel = (TextView) fragmentView.findViewById(R.id.channel_label);
 		mChannelLabel.setText(getResources().getString(R.string.guide_my_favorite));
-
+		clertFavorite.setText(getResources().getString(R.string.clear_favort));
 		mNoVideoContainer = (RelativeLayout) fragmentView.findViewById(R.id.no_video_container);
 		recommend_gridview = (ZGridView)fragmentView.findViewById(R.id.recommend_gridview);
 		recommend_txt = (TextView)fragmentView.findViewById(R.id.recommend_txt);

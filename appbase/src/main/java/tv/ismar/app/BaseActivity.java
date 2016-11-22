@@ -11,10 +11,18 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.blankj.utilcode.utils.AppUtils;
+
+import java.util.ArrayList;
 import java.util.Stack;
 
 import retrofit2.adapter.rxjava.HttpException;
@@ -63,10 +71,24 @@ public class BaseActivity extends AppCompatActivity {
         }
         registerUpdateReceiver();
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
+                  //  showUpdatePopup(mRootView);
+                }
+            }
+        }, 2000);
+
     }
 
     @Override
     protected void onPause() {
+        if (updatePopupWindow != null) {
+            updatePopupWindow.dismiss();
+            updatePopupWindow = null;
+        }
+
         if (expireAccessTokenPop != null) {
             expireAccessTokenPop.dismiss();
             expireAccessTokenPop = null;
@@ -157,6 +179,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     public void showExpireAccessTokenPop() {
+
         expireAccessTokenPop = ExpireAccessTokenPop.getInstance(this);
         expireAccessTokenPop.setFirstMessage(getString(R.string.access_token_expire));
         expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
@@ -191,7 +214,7 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-                            showUpdatePopup(getRootView(), updateInfo);
+                         //   showUpdatePopup(getRootView(), updateInfo);
                         }
                     }
                 }, 2000);
@@ -214,7 +237,7 @@ public class BaseActivity extends AppCompatActivity {
             updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                    showUpdatePopup(view, stack);
+                  //  showUpdatePopup(view, stack);
                 }
             });
         }
