@@ -118,6 +118,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     break;
                 case HEADER_DETAILPAGE:
                     subTitleTextView.setText(bundle.getString("channel_name"));
+                    subTitleTextView.setTextSize(getResources().getDimension(R.dimen.text_size_48sp));
                     hideWeather();
                     hideIndicatorTable();
                     hideTitle();
