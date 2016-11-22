@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
 
-        xmlns:tools="http://schemas.android.com/tools">
+>
 
     <data>
 
@@ -92,7 +92,7 @@
                             android:singleLine="true"
                             android:text="@{tasks.itemTitle}"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_60sp"/>
+                            android:textSize="@dimen/text_size_48sp"/>
 
                         <LinearLayout
                             android:layout_width="@dimen/movie_detail_text_w"
@@ -307,7 +307,7 @@
                             android:paddingLeft="@dimen/movie_detail_button_padding_left"
                             android:text="@{tasks.playText}"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h0_size"/>
+                            android:textSize="@dimen/text_size_32sp"/>
 
                         <Button
                             android:id="@+id/detail_btn_buy"
@@ -320,7 +320,7 @@
                             android:paddingLeft="@dimen/movie_detail_button_padding_left"
                             android:text="@string/video_buy"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h0_size"
+                            android:textSize="@dimen/text_size_32sp"
                             android:visibility="@{tasks.purchaseVisibility}"/>
 
                         <Button
@@ -334,7 +334,8 @@
                             android:paddingLeft="@dimen/movie_detail_button_padding_left"
                             android:text="@{tasks.bookmarkText}"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/h0_size"/>
+                            android:textSize="@dimen/text_size_32sp"
+                        />
 
                     </LinearLayout>
 
@@ -368,7 +369,7 @@
                     android:ems="1"
                     android:text="@string/recommend_str"
                     android:textColor="@color/module_color_white"
-                    android:textSize="@dimen/h1_size"/>
+                    android:textSize="@dimen/text_size_36sp"/>
 
                 <Button
                     android:id="@+id/detail_relative_button"
@@ -381,7 +382,8 @@
                     android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:text="@string/movie_more"
                     android:textColor="@color/module_color_white"
-                    android:textSize="@dimen/h1_size"/>
+                    android:textSize="@dimen/text_size_36sp"
+                />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -402,10 +404,10 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
-                            android:visibility="invisible"
                             android:id="@+id/rel_1_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
+                            android:visibility="invisible"
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
@@ -431,7 +433,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_36sp"/>
 
                     </LinearLayout>
 
@@ -445,10 +447,10 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
-                            android:visibility="invisible"
                             android:id="@+id/rel_2_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
+                            android:visibility="invisible"
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
@@ -474,7 +476,8 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_36sp"
+                        />
 
                     </LinearLayout>
 
@@ -488,10 +491,10 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
-                            android:visibility="invisible"
                             android:id="@+id/rel_3_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
+                            android:visibility="invisible"
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
@@ -517,7 +520,8 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_36sp"
+                        />
 
                     </LinearLayout>
 
@@ -531,10 +535,10 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
-                            android:visibility="invisible"
                             android:id="@+id/rel_4_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
+                            android:visibility="invisible"
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
@@ -560,7 +564,8 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_36sp"
+                        />
 
                     </LinearLayout>
 
@@ -574,10 +579,10 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
-                            android:visibility="invisible"
                             android:id="@+id/rel_5_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
+                            android:visibility="invisible"
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
@@ -603,7 +608,8 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_36sp"
+                        />
 
                     </LinearLayout>
 
@@ -617,10 +623,10 @@
                         android:orientation="vertical">
 
                         <tv.ismar.app.widget.LabelImageView
-                            android:visibility="invisible"
                             android:id="@+id/rel_6_img"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/movie_detail_label_image_h"
+                            android:visibility="invisible"
                             app:livContentPadding="@dimen/label_image_padding"
                             app:livErrorDrawable="@mipmap/img_error_vertical"
                             app:livLabelBackColor="@color/color_label_image_text_back"
@@ -646,7 +652,8 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_36sp"
+                        />
 
                     </LinearLayout>
 
