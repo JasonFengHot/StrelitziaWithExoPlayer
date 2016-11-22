@@ -90,26 +90,26 @@
         android:visibility="gone" />
 
     <FrameLayout
-        android:id="@+id/layout_advertisement"
+        android:id="@+id/home_layout_advertisement"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <VideoView
-            android:id="@+id/ad_video"
+            android:id="@+id/home_ad_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/ad_pic"
+            android:id="@+id/home_ad_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/ad_timer"
+            android:id="@+id/home_ad_timer"
             android:layout_width="@dimen/ad_timer_wh"
             android:layout_height="@dimen/ad_timer_wh"
             android:layout_gravity="top|right"

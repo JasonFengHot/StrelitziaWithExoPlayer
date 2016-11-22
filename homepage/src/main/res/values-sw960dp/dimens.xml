@@ -1425,10 +1425,12 @@
 <dimen name="home_tab_list_padding_lr">51.56dp</dimen>
 <dimen name="home_tab_list_space">12.44dp</dimen>
 <dimen name="home_tab_list_mb">44.44dp</dimen>
+<dimen name="home_tab_list_item_w">167.11dp</dimen>
 
 <dimen name="guide_video_w">1306.67dp</dimen>
 <dimen name="guide_video_h">442.67dp</dimen>
 <dimen name="guide_video_img_ml">6.22dp</dimen>
+<dimen name="guide_carouse_h">147.56dp</dimen>
 <dimen name="guide_bottom_h">247.11dp</dimen>
 <dimen name="guide_bottom_mt">19.56dp</dimen>
 <dimen name="guide_bottom_item_w">176.89dp</dimen>

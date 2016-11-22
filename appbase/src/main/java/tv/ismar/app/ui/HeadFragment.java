@@ -161,7 +161,6 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             textView.setText(res);
             view.setId(res);
 
-            view.setLeft(getResources().getDimensionPixelOffset(R.dimen.header_fragment_mine_space));
             ImageView imageView = (ImageView) view.findViewById(R.id.indicator_image);
             String text = getString(res);
             int width = (int) (getResources().getDimensionPixelOffset(R.dimen.header_fragment_mine_indicator_w) / (4.0f / text.length()));

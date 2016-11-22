@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
@@ -101,6 +102,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     private HeadFragment headFragment;
     private ModuleMessagePopWindow exitPopup;
+    private RecyclerView home_tab_list;
+    private ChannelRecyclerAdapter recyclerAdapter;
+    private List<ChannelEntity> channelEntityList = new ArrayList<>();
     /**
      * advertisement start
      */
@@ -114,9 +118,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 //    private Handler messageHandler;
 //    private AdvertisementManager mAdvertisementManager;
     private static final int MSG_AD_COUNTDOWN = 0x01;
-    private VideoView ad_video;
-    private ImageView ad_pic;
-    private Button ad_timer;
+    private VideoView home_ad_video;
+    private ImageView home_ad_pic;
+    private Button home_ad_timer;
     private AdvertiseManager advertiseManager;
     private List<AdvertiseTable> launchAds;
     private int countAdTime = 0;
@@ -124,7 +128,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private boolean isStartImageCountDown = false;
     private boolean isPlayingVideo = false;
     private int playIndex;
-    private FrameLayout layout_advertisement;
+    private FrameLayout home_layout_advertisement;
     private FrameLayout layout_homepage;
     /**
      * advertisement end
@@ -372,11 +376,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         /**
          * advertisement start
          */
-        layout_advertisement = (FrameLayout) findViewById(R.id.layout_advertisement);
+        home_layout_advertisement = (FrameLayout) findViewById(R.id.home_layout_advertisement);
         layout_homepage = (FrameLayout) findViewById(R.id.layout_homepage);
-        ad_video = (VideoView) findViewById(R.id.ad_video);
-        ad_pic = (ImageView) findViewById(R.id.ad_pic);
-        ad_timer = (Button) findViewById(R.id.ad_timer);
+        home_ad_video = (VideoView) findViewById(R.id.home_ad_video);
+        home_ad_pic = (ImageView) findViewById(R.id.home_ad_pic);
+        home_ad_timer = (Button) findViewById(R.id.home_ad_timer);
 
         advertiseManager = new AdvertiseManager(getApplicationContext());
         launchAds = advertiseManager.getAppLaunchAdvertisement();
@@ -470,10 +474,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         home_tab_list.setLayoutManager(layoutManager);
-        mTabSpace = getResources().getDimensionPixelSize(R.dimen.tv_guide_h_grid_view_horizontalSpacing);
+        mTabSpace = getResources().getDimensionPixelSize(R.dimen.home_tab_list_space);
         HorizontalSpacesItemDecoration decoration = new HorizontalSpacesItemDecoration(
                 mTabSpace,
-                getResources().getDimensionPixelSize(R.dimen.fragment_padding_lr),
+                getResources().getDimensionPixelSize(R.dimen.home_tab_list_padding_lr),
                 recyclerAdapter);
         home_tab_list.addItemDecoration(decoration);
 
@@ -756,10 +760,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
         }
     }
-
-    private RecyclerView home_tab_list;
-    private ChannelRecyclerAdapter recyclerAdapter;
-    private List<ChannelEntity> channelEntityList = new ArrayList<>();
 
     private void setFocusChannelView(View view) {
         TextView channelBtn = (TextView) view.findViewById(R.id.channel_item);
@@ -1486,23 +1486,23 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             isPlayingVideo = true;
         }
         if (isPlayingVideo) {
-            if (ad_video.getVisibility() != View.VISIBLE) {
-                ad_pic.setVisibility(View.GONE);
-                ad_video.setVisibility(View.VISIBLE);
+            if (home_ad_video.getVisibility() != View.VISIBLE) {
+                home_ad_pic.setVisibility(View.GONE);
+                home_ad_video.setVisibility(View.VISIBLE);
             }
-            ad_video.setVideoPath(launchAds.get(index).location);
-            ad_video.setOnPreparedListener(onPreparedListener);
-            ad_video.setOnCompletionListener(onCompletionListener);
+            home_ad_video.setVideoPath(launchAds.get(index).location);
+            home_ad_video.setOnPreparedListener(onPreparedListener);
+            home_ad_video.setOnCompletionListener(onCompletionListener);
         } else {
-            if (ad_pic.getVisibility() != View.VISIBLE) {
-                ad_video.setVisibility(View.GONE);
-                ad_pic.setVisibility(View.VISIBLE);
+            if (home_ad_pic.getVisibility() != View.VISIBLE) {
+                home_ad_video.setVisibility(View.GONE);
+                home_ad_pic.setVisibility(View.VISIBLE);
             }
             Picasso.with(this)
                     .load(launchAds.get(index).location)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
-                    .into(ad_pic, new Callback() {
+                    .into(home_ad_pic, new Callback() {
                         @Override
                         public void onSuccess() {
                             if (playIndex == 0) {
@@ -1512,7 +1512,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
                         @Override
                         public void onError() {
-                            ad_pic.setImageBitmap(Utils.getImgFromAssets(HomePageActivity.this, "poster.png"));
+                            home_ad_pic.setImageBitmap(Utils.getImgFromAssets(HomePageActivity.this, "poster.png"));
                             if (playIndex == 0) {
                                 mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
                             }
@@ -1525,7 +1525,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
-            ad_video.start();
+            home_ad_video.start();
             if (playIndex == 0) {
                 mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
             }
@@ -1549,7 +1549,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_AD_COUNTDOWN:
-                    if (ad_timer == null) {
+                    if (home_ad_timer == null) {
                         return;
                     }
                     if (!isPlayingVideo && countAdTime == 0) {
@@ -1557,10 +1557,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         goNextPage();
                         return;
                     }
-                    if (ad_timer.getVisibility() != View.VISIBLE) {
-                        ad_timer.setVisibility(View.VISIBLE);
+                    if (home_ad_timer.getVisibility() != View.VISIBLE) {
+                        home_ad_timer.setVisibility(View.VISIBLE);
                     }
-                    ad_timer.setText(countAdTime + "s");
+                    home_ad_timer.setTextColor(Color.WHITE);
+                    home_ad_timer.setText(countAdTime + "s");
                     int refreshTime;
                     if (!isPlayingVideo) {
                         refreshTime = 1000;
@@ -1588,8 +1589,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     @Override
     protected void onStop() {
-        if (ad_video != null) {
-            ad_video.stopPlayback();
+        if (home_ad_video != null) {
+            home_ad_video.stopPlayback();
         }
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
@@ -1598,10 +1599,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     }
 
     private void goNextPage() {
-        layout_advertisement.setVisibility(View.GONE);
+        home_layout_advertisement.setVisibility(View.GONE);
         layout_homepage.setVisibility(View.VISIBLE);
-        if (ad_video != null) {
-            ad_video.stopPlayback();
+        if (home_ad_video != null) {
+            home_ad_video.stopPlayback();
         }
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
@@ -1622,7 +1623,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 totalAdTime += launchAds.get(i).duration;
             }
         }
-        return totalAdTime - ad_video.getCurrentPosition() / 1000 - 1;
+        return totalAdTime - home_ad_video.getCurrentPosition() / 1000 - 1;
     }
 
     private void startAdsService() {
