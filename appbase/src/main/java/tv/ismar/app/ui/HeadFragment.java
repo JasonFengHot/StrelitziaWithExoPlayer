@@ -40,6 +40,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.R;
 import tv.ismar.app.core.WeatherInfoHandler;
 import tv.ismar.app.network.entity.WeatherEntity;
+import tv.ismar.app.widget.LaunchHeaderLayout;
 
 import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
 
@@ -47,6 +48,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     public static final String HEADER_USERCENTER = "usercenter";
     public static final String HEADER_DETAILPAGE = "detailpage";
     public static final String HEADER_HOMEPAGE = "homepage";
+    public static final String HEADER_LISTPAGE="listpage";
     private static final int[] INDICATOR_RES_LIST = {
             R.string.vod_movielist_title_history,
             R.string.guide_my_favorite,
@@ -120,6 +122,18 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     hideIndicatorTable();
                     hideTitle();
                     break;
+                case HEADER_LISTPAGE:
+                    subTitleTextView.setText(bundle.getString("channel_name"));
+                    RelativeLayout.LayoutParams listlayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    listlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.usercenter_subtitle_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
+                    listlayoutParams.addRule(ALIGN_PARENT_BOTTOM);
+                    titleTextView.setLayoutParams(listlayoutParams);
+                    RelativeLayout.LayoutParams weatherParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    weatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml),0,0,getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
+                    weatherParams.addRule(ALIGN_PARENT_BOTTOM);
+                    weatherInfoTextView.setLayoutParams(weatherParams);
+                    hideIndicatorTable();
+                    break;
                 case HEADER_HOMEPAGE:
                     subTitleTextView.setText(bundle.getString("channel_name"));
                     break;
@@ -145,11 +159,17 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             view.setOnHoverListener(this);
             textView.setText(res);
             view.setId(res);
+
+            view.setLeft(getResources().getDimensionPixelOffset(R.dimen.header_fragment_mine_space));
+            ImageView imageView = (ImageView) view.findViewById(R.id.indicator_image);
+            String text = getString(res);
+            int width = (int) (getResources().getDimensionPixelOffset(R.dimen.header_fragment_mine_indicator_w) / (4.0f / text.length()));
+            ((LinearLayout.LayoutParams) imageView.getLayoutParams()).width = width;
+
             if (i == 0) {
                 view.setNextFocusLeftId(view.getId());
             }
             if (i == INDICATOR_RES_LIST.length - 1) {
-                view.setRight(-20);
                 view.setNextFocusRightId(view.getId());
             }
             guideLayout.addView(view);
@@ -254,9 +274,9 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         if (mHeadItemClickListener != null) {
             int i = v.getId();
             if (i == R.string.vod_movielist_title_history) {
-                mHeadItemClickListener.onHistoryClick();
+
             } else if (i == R.string.guide_my_favorite) {
-                mHeadItemClickListener.onFavoriteClick();
+
             } else if (i == R.string.guide_user_center) {
                 mHeadItemClickListener.onUserCenterClick();
 

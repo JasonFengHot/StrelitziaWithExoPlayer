@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/list_head_paddingL"
-        android:gravity="center"
+        android:layout_marginTop="@dimen/history_top_textBl"
         android:textColor="#FFFFFF"
         android:textSize="@dimen/filmitem_portrait_detail_title_size" />
     <!--<ImageView-->
@@ -37,22 +37,23 @@
            <!--android:id="@+id/list_view_search"-->
            <!--android:background="@drawable/search_btn_bg_selector" />-->
         <TextView
+            android:id="@+id/clear_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/claer_histories"
             android:textSize="@dimen/vod_payment_price_textsize"
-            android:layout_marginLeft="1315dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginLeft="@dimen/clear_history_Ml"
+            android:layout_marginTop="@dimen/history_top_textBl"
             />
 </LinearLayout>
 
     <ImageView
-            android:layout_marginLeft="34dp"
-            android:layout_marginRight="34dp"
+            android:layout_marginLeft="@dimen/divider_blowhead_ML"
+            android:layout_marginRight="@dimen/divider_blowhead_ML"
             android:layout_width="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/orderlistdivide"
-            android:layout_height="1dp"/>
+            android:layout_height="@dimen/divider_1dp"/>
     <LinearLayout
         android:id="@+id/tabs_layout"
         android:layout_width="match_parent"
@@ -145,7 +146,7 @@
             android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
             android:layout_marginLeft="@dimen/listview_Hgride_ml"
             android:layout_marginRight="@dimen/filter_result_list_filter_grid_ml"
-            android:layout_marginTop="@dimen/filmitem_portrait_middle_btn_ml"
+            android:layout_marginTop="@dimen/history_Hgrider_MT"
             android:layout_toLeftOf="@id/right_shadow"
             android:layout_toRightOf="@id/left_shadow"
             android:paddingLeft="@dimen/listportait_Hgride_pl"

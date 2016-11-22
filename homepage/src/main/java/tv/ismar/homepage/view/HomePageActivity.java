@@ -72,6 +72,7 @@ import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.Utils;
+import tv.ismar.app.widget.LaunchHeaderLayout;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.adapter.ChannelRecyclerAdapter;

@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -75,13 +77,15 @@ public class ScrollableSectionList extends HorizontalScrollView {
     private int tabMargin;
     public ImageView arrow_left;
     public ImageView arrow_right;
+    Animation scaleSmallAnimation;
+    Animation scaleBigAnimation;
 
     public void setIsPortrait(boolean isPortrait) {
         this.isPortrait = isPortrait;
         if (isPortrait) {
-            tabMargin = getResources().getDimensionPixelSize(R.dimen.listportait_tabs_layout_margin);
+            tabMargin = getResources().getDimensionPixelSize(R.dimen.list_section_tabMargin);
         } else {
-            tabMargin = getResources().getDimensionPixelSize(R.dimen.filter_portraitresult_filter_percentage_margin);
+            tabMargin = getResources().getDimensionPixelSize(R.dimen.list_section_tabMargin);
         }
         tabWidth = Util.getDisplayPixelWidth(mContext) - 2 * tabMargin;
     }
@@ -114,7 +118,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
         this.setHorizontalFadingEdgeEnabled(false);
 //        getResources().getDimensionPixelSize(R.dimen.channel_section_tabs_W)
         setOverScrollMode(OVER_SCROLL_NEVER);
-        tabSpace = getResources().getDimensionPixelSize(R.dimen.gridview_channel_section_tabs_space) / 2;
+        tabSpace = getResources().getDimensionPixelSize(R.dimen.list_section_tabSpace);
     }
 
     public HGridView mGridView;
@@ -136,7 +140,12 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 sectionList.add(s);
             }
         }
-
+        if (scaleSmallAnimation == null) {
+            scaleSmallAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_small);
+        }
+        if (scaleBigAnimation == null) {
+            scaleBigAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_big);
+        }
         FrameLayout sectionFilter = getSectionFilterLabel();
         sectionFilter.setFocusable(true);
         sectionFilter.setOnFocusChangeListener(mOnFocusChangeListener);
@@ -235,6 +244,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 if (index == mSelectPosition) {
                     label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
                     section_image.setImageResource(R.drawable.sectionfocus);
+                    v.startAnimation(scaleBigAnimation);
                     return;
                 } else {
                     if (currentState == STATE_LEAVE_GRIDVIEW) {
@@ -260,6 +270,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 if (index == mSelectPosition) {
                     sectionWhenGoto = label;
                     section_image.setImageResource(R.drawable.gotogridview);
+                    v.startAnimation(scaleBigAnimation);
                     return;
                 }
                 label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
@@ -310,20 +321,25 @@ public class ScrollableSectionList extends HorizontalScrollView {
         TextView lastLabel = (TextView) lastSelectedView.findViewById(R.id.section_label);
         ImageView last_section_image = (ImageView) lastSelectedView.findViewById(R.id.section_image);
         lastLabel.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
+        lastLabel.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
         last_section_image.setImageResource(android.R.color.transparent);
 
         TextView label = (TextView) currentView.findViewById(R.id.section_label);
         label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
+        label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize_big));
         ImageView section_image = (ImageView) currentView.findViewById(R.id.section_image);
         ((LayoutParams) section_image.getLayoutParams()).width = currentView.getWidth();
         if (currentState == STATE_SECTION) {
             section_image.setImageResource(R.drawable.sectionfocus);
+            currentView.startAnimation(scaleBigAnimation);
         } else {
             section_image.setImageResource(R.drawable.gotogridview);
+            currentView.startAnimation(scaleSmallAnimation);
+            lastSelectedView.clearAnimation();
         }
-
+        lastSelectedView.startAnimation(scaleSmallAnimation);
+        lastSelectedView.clearAnimation();
         autoScroll((Integer) currentView.getTag());
-
     }
 
     // 定时器
@@ -718,7 +734,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
         int currentWidth = currentView.getWidth();
 //        Log.i("LH/", "currentPos:" + currentPos[0] + "-" + currentWidth);
 
-        if (currentPos[0] + currentWidth >= tabRightX) {
+        if (currentPos[0] + currentWidth >= tabRightX-tabSpace) {
             View nextView = mContainer.getChildAt(currentPosition + 1);
             int[] nextPos = new int[2];
             nextView.getLocationOnScreen(nextPos);

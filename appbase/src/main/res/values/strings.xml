@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DaisyAppModule</string>
+    <string name="app_name">视云影院</string>
     <string name="vod_title_history">历史记录</string>
     <string name="vod_title_favorite">我的收藏</string>
     <string name="vod_title_center">个人中心</string>
@@ -37,7 +37,8 @@
     <string name="orderlisttitle">订购列表</string>
     <string name="playfromstarttitle">从头播放</string>
     <string name="interested_video">您可能对这些影片感兴趣</string>
-    <string name="claer_histories">清除历史记录</string>
+    <string name="claer_histories">清空历史</string>
+    <string name="clear_favort">清空收藏</string>
     <string name="dialog_setting">网络设置</string>
     <string name="onload">正在加载</string>
 
