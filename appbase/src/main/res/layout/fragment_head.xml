@@ -7,6 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/header_fragment_h"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingLeft="@dimen/header_fragment_padding_l"
         android:paddingRight="@dimen/header_fragment_padding_r">
