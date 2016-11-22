@@ -159,11 +159,17 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             view.setOnHoverListener(this);
             textView.setText(res);
             view.setId(res);
+
+            view.setLeft(getResources().getDimensionPixelOffset(R.dimen.header_fragment_mine_space));
+            ImageView imageView = (ImageView) view.findViewById(R.id.indicator_image);
+            String text = getString(res);
+            int width = (int) (getResources().getDimensionPixelOffset(R.dimen.header_fragment_mine_indicator_w) / (4.0f / text.length()));
+            ((LinearLayout.LayoutParams) imageView.getLayoutParams()).width = width;
+
             if (i == 0) {
                 view.setNextFocusLeftId(view.getId());
             }
             if (i == INDICATOR_RES_LIST.length - 1) {
-                view.setRight(-20);
                 view.setNextFocusRightId(view.getId());
             }
             guideLayout.addView(view);

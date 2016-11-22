@@ -1,5 +1,5 @@
 <resources>
-<dimen name="text_size_48sp">42.67sp</dimen>
+<dimen name="text_size_48sp">42.67dp</dimen>
 <dimen name="text_size_36sp">32.00dp</dimen>
 <dimen name="text_size_24sp">21.33dp</dimen>
 <dimen name="text_size_27sp">24.00dp</dimen>
@@ -26,6 +26,9 @@
 <dimen name="header_fragment_weather_ml">11.56dp</dimen>
 <dimen name="header_fragment_divider_mlr">30.22dp</dimen>
 <dimen name="header_fragment_btn_width">106.67dp</dimen>
+<dimen name="header_fragment_mine_space">30.22dp</dimen>
+<dimen name="header_fragment_mine_indicator_h">3.56dp</dimen>
+<dimen name="header_fragment_mine_indicator_w">90.67dp</dimen>
 
 <dimen name="label_image_padding">14.67dp</dimen>
 <dimen name="loading_size">58.67dp</dimen>
@@ -334,7 +337,7 @@
 <dimen name="listportait_shadow_mt">314.67dip</dimen>
 <dimen name="listportait_shadow_w">36.44dip</dimen>
 <dimen name="listportait_shadow_h">72.89dip</dimen>
-<dimen name="listportait_tabs_layout_margin">103.11dp</dimen>
+<dimen name="listportait_tabs_layout_margin">237.33dp</dimen>
 <dimen name="listportait_shaw_left">98.67dp</dimen>
 <dimen name="listportait_shaw_height">0.89dp</dimen>
 <dimen name="listportait_button_ml">8.89dp</dimen>
@@ -369,6 +372,12 @@
 <dimen name="channel_section_tabs_percentage_PLR">6.22dip</dimen>
 <dimen name="channel_section_tabs_layout_marginLeft">97.78dip</dimen>
 <dimen name="channel_section_tabs_text_PT">0.00dip</dimen>
+
+<dimen name="list_section_tabMargin">206.22dp</dimen>
+<dimen name="list_section_tabSpace">31.11dp</dimen>
+<dimen name="list_section_tabSize">26.67px</dimen>
+<dimen name="list_section_tabSize_big">32.00px</dimen>
+<dimen name="list_section_width">1294.22dp</dimen>
 
 <dimen name="list_head_H">88.89dp</dimen>
 <dimen name="list_head_paddingL">65.78dp</dimen>
@@ -443,6 +452,7 @@
 <dimen name="HGridView_related_pselectionTopPadding">21.16dip</dimen>
 <dimen name="HGridView_related_pselectionRightPadding">21.16dip</dimen>
 <dimen name="HGridView_related_pselectionBottomPadding">-24.18dip</dimen>
+<dimen name="HGridView_selection_pb">-16.00dp</dimen>
 <dimen name="HGridView_label_lr_offset">16.89dip</dimen>
 <dimen name="HGridView_label_textleft">21.33dip</dimen>
 <dimen name="HGridView_label_texttop">49.78dip</dimen>
@@ -535,4 +545,5 @@
 <dimen name="filter_noresult_text_mt">51.56dp</dimen>
 <dimen name="pop_btn_margin_lr">109.33dp</dimen>
 <dimen name="usercenter_subtitle_ml">64.89dp</dimen>
+<dimen name="head_weather_ml">426.67dp</dimen>
 </resources>

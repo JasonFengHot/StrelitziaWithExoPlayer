@@ -277,4 +277,8 @@
 <dimen name="list_head_H">66.67dp</dimen>
 <dimen name="list_head_paddingL">49.33dp</dimen>
 <dimen name="divider_blowhead_ML">22.67dp</dimen>
+<dimen name="history_top_textBl">22.00dp</dimen>
+<dimen name="clear_history_Ml">988.00dp</dimen>
+<dimen name="divider_1dp">0.67dp</dimen>
+<dimen name="history_Hgrider_MT">57.33dp</dimen>
 </resources>

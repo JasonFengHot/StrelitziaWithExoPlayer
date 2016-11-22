@@ -65,12 +65,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/weather_guide_text_margin_margin_bottom"
+            android:layout_marginBottom="@dimen/header_fragment_padding_bottom2"
             android:orientation="horizontal" />
 
     </RelativeLayout>
 
-    <View
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/header_divider"
