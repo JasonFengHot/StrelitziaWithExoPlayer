@@ -32,7 +32,7 @@
         android:layout_height="60px"
         android:layout_marginLeft="48px"
         android:layout_marginTop="565px"
-        android:src="@drawable/arrow_left_selector"
+        android:src="@drawable/arrow_left_selector_dearch"
         />
     <ImageView
             android:id="@+id/iv_arrow_right"
@@ -40,7 +40,7 @@
             android:layout_height="60px"
             android:layout_marginLeft="1814px"
             android:layout_marginTop="565px"
-            android:src="@drawable/arrow_right_selector"
+            android:src="@drawable/arrow_right_selector_search"
             />
     <View
             android:layout_width="1684px"
