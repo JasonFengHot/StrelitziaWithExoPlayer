@@ -87,7 +87,7 @@
                 android:visibility="invisible"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
-                android:background="@drawable/arrow_top_selector"/>
+                android:background="@drawable/arrow_top_selector_search"/>
         <ImageView
                 android:id="@+id/iv_down_arrow"
                 android:layout_width="@dimen/top_arrow_width"
@@ -98,7 +98,7 @@
                 android:visibility="invisible"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
-                android:background="@drawable/arrow_down_selector"/>
+                android:background="@drawable/arrow_down_selector_search"/>
     </RelativeLayout>
     <include
             layout="@layout/loading"
