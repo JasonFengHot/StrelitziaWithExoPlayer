@@ -55,21 +55,21 @@
     <dimen name="normal_detail_button_padding_r">53.25dp</dimen>
 
     <dimen name="entertainment_detail_content_padding_lr">73.5dp</dimen>
-    <dimen name="entertainment_detail_content_padding_t">40.5dp</dimen>
+    <dimen name="entertainment_detail_content_padding_t">25.5dp</dimen>
     <dimen name="entertainment_detail_preview_img_w">480.75dp</dimen>
     <dimen name="entertainment_detail_preview_img_h">270.75dp</dimen>
-    <dimen name="entertainment_detail_preview_img_mt">32.25dp</dimen>
+    <dimen name="entertainment_detail_preview_img_mt">30dp</dimen>
     <dimen name="entertainment_detail_text_mt1">9.75dp</dimen>
     <dimen name="entertainment_detail_text_mt2">32.25dp</dimen>
-    <dimen name="entertainment_detail_text_space">11.25dp</dimen>
-    <dimen name="entertainment_detail_button_mt">58.5dp</dimen>
-    <dimen name="entertainment_detail_button1_w">214dp</dimen>
-    <dimen name="entertainment_detail_button2_w">274.5dp</dimen>
-    <dimen name="entertainment_detail_button3_w">416.25dp</dimen>
-    <dimen name="entertainment_detail_button_h">72.75dp</dimen>
+    <dimen name="entertainment_detail_text_space">15dp</dimen>
+    <dimen name="entertainment_detail_button_mt">108.5dp</dimen>
+    <dimen name="entertainment_detail_button1_w">181dp</dimen>
+    <dimen name="entertainment_detail_button2_w">241dp</dimen>
+    <dimen name="entertainment_detail_button3_w">348dp</dimen>
+    <dimen name="entertainment_detail_button_h">64dp</dimen>
     <dimen name="entertainment_detail_button_ml">75.75dp</dimen>
-    <dimen name="entertainment_detail_detail_mt">30.5dp</dimen>
-    <dimen name="entertainment_detail_play_short_w">236dp</dimen>
+    <dimen name="entertainment_detail_detail_mt">45dp</dimen>
+    <dimen name="entertainment_detail_play_short_w">181dp</dimen>
 
     <dimen name="entertainment_detail_relative_text_mt">5.75dp</dimen>
     <dimen name="entertainment_detail_label_image_mt">33.75dp</dimen>
@@ -207,5 +207,6 @@
     <dimen name="package_detail_list_item_margin_left">60dp</dimen>
     <dimen name="genre_layout_mt">30dp</dimen>
     <dimen name="detail_normal_title_mt">50dp</dimen>
+    <dimen name="entertainment_detail_des_ml">80dp</dimen>
 
 </resources>

@@ -7,12 +7,12 @@
 <dimen name="movie_detail_preview_img_w">261.92dp</dimen>
 <dimen name="movie_detail_preview_img_h">366.92dp</dimen>
 <dimen name="movie_detail_content_padding_lr">59.50dp</dimen>
-<dimen name="movie_detail_content_padding_t">32.08dp</dimen>
-<dimen name="movie_detail_text_ml">28.58dp</dimen>
+<dimen name="movie_detail_content_padding_t">24.31dp</dimen>
+<dimen name="movie_detail_text_ml">20.81dp</dimen>
 <dimen name="movie_detail_text_w">346.50dp</dimen>
-<dimen name="movie_detail_button_w">213.50dp</dimen>
-<dimen name="movie_detail_button_h">72.33dp</dimen>
-<dimen name="movie_detail_button_space">14.58dp</dimen>
+<dimen name="movie_detail_button_w">140.78dp</dimen>
+<dimen name="movie_detail_button_h">49.78dp</dimen>
+<dimen name="movie_detail_button_space">37.92dp</dimen>
 
 <dimen name="movie_detail_relative_mt">8.94dp</dimen>
 <dimen name="movie_detail_relative_text_mt">60.67dp</dimen>
@@ -28,20 +28,20 @@
 <dimen name="normal_detail_content_padding_t">49.00dp</dimen>
 <dimen name="normal_detail_content_w">882.78dp</dimen>
 <dimen name="normal_detail_text_w">412.22dp</dimen>
-<dimen name="normal_detail_text_h">352.72dp</dimen>
+<dimen name="normal_detail_text_h">399.39dp</dimen>
 <dimen name="normal_detail_text_mt1">23.92dp</dimen>
 <dimen name="normal_detail_text_mt2">25.08dp</dimen>
 <dimen name="normal_detail_preview_img_w">373.92dp</dimen>
 <dimen name="normal_detail_preview_img_h">211.17dp</dimen>
-<dimen name="normal_detail_button1_w">184.33dp</dimen>
-<dimen name="normal_detail_button2_w">166.44dp</dimen>
-<dimen name="normal_detail_button3_w">213.50dp</dimen>
-<dimen name="normal_detail_button_h">56.58dp</dimen>
-<dimen name="normal_detail_button_mt">57.75dp</dimen>
+<dimen name="normal_detail_button1_w">140.78dp</dimen>
+<dimen name="normal_detail_button2_w">140.78dp</dimen>
+<dimen name="normal_detail_button3_w">187.44dp</dimen>
+<dimen name="normal_detail_button_h">49.78dp</dimen>
+<dimen name="normal_detail_button_mt">18.86dp</dimen>
 <dimen name="normal_detail_button_space">40.25dp</dimen>
 <dimen name="normal_detail_detail_mt">28.39dp</dimen>
 
-<dimen name="normal_detail_relative_mt">5.25dp</dimen>
+<dimen name="normal_detail_relative_mt">13.03dp</dimen>
 <dimen name="normal_detail_relative_ml">98.39dp</dimen>
 <dimen name="normal_detail_label_image_w">156.92dp</dimen>
 <dimen name="normal_detail_label_image_h">87.50dp</dimen>
@@ -49,27 +49,27 @@
 <dimen name="normal_detail_img_mt2">36.75dp</dimen>
 <dimen name="normal_detail_relative_text_ml">14.00dp</dimen>
 <dimen name="normal_detail_relative_text_mt">11.67dp</dimen>
-<dimen name="normal_detail_relative_button_mt">74.67dp</dimen>
+<dimen name="normal_detail_relative_button_mt">59.11dp</dimen>
 <dimen name="normal_detail_relative_button_w">192.50dp</dimen>
 <dimen name="normal_detail_relative_button_h">72.33dp</dimen>
 <dimen name="normal_detail_button_padding_r">41.42dp</dimen>
 
 <dimen name="entertainment_detail_content_padding_lr">57.17dp</dimen>
-<dimen name="entertainment_detail_content_padding_t">31.50dp</dimen>
+<dimen name="entertainment_detail_content_padding_t">19.83dp</dimen>
 <dimen name="entertainment_detail_preview_img_w">373.92dp</dimen>
 <dimen name="entertainment_detail_preview_img_h">210.58dp</dimen>
-<dimen name="entertainment_detail_preview_img_mt">25.08dp</dimen>
+<dimen name="entertainment_detail_preview_img_mt">23.33dp</dimen>
 <dimen name="entertainment_detail_text_mt1">7.58dp</dimen>
 <dimen name="entertainment_detail_text_mt2">25.08dp</dimen>
-<dimen name="entertainment_detail_text_space">8.75dp</dimen>
-<dimen name="entertainment_detail_button_mt">45.50dp</dimen>
-<dimen name="entertainment_detail_button1_w">166.44dp</dimen>
-<dimen name="entertainment_detail_button2_w">213.50dp</dimen>
-<dimen name="entertainment_detail_button3_w">323.75dp</dimen>
-<dimen name="entertainment_detail_button_h">56.58dp</dimen>
+<dimen name="entertainment_detail_text_space">11.67dp</dimen>
+<dimen name="entertainment_detail_button_mt">84.39dp</dimen>
+<dimen name="entertainment_detail_button1_w">140.78dp</dimen>
+<dimen name="entertainment_detail_button2_w">187.44dp</dimen>
+<dimen name="entertainment_detail_button3_w">270.67dp</dimen>
+<dimen name="entertainment_detail_button_h">49.78dp</dimen>
 <dimen name="entertainment_detail_button_ml">58.92dp</dimen>
-<dimen name="entertainment_detail_detail_mt">23.72dp</dimen>
-<dimen name="entertainment_detail_play_short_w">183.56dp</dimen>
+<dimen name="entertainment_detail_detail_mt">35.00dp</dimen>
+<dimen name="entertainment_detail_play_short_w">140.78dp</dimen>
 
 <dimen name="entertainment_detail_relative_text_mt">4.47dp</dimen>
 <dimen name="entertainment_detail_label_image_mt">26.25dp</dimen>
@@ -205,5 +205,8 @@
 <dimen name="related_focus_text_width">268.33dp</dimen>
 
 <dimen name="package_detail_list_item_margin_left">46.67dp</dimen>
+<dimen name="genre_layout_mt">23.33dp</dimen>
+<dimen name="detail_normal_title_mt">38.89dp</dimen>
+<dimen name="entertainment_detail_des_ml">62.22dp</dimen>
 
 </resources>

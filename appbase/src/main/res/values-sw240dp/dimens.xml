@@ -5,6 +5,7 @@
 <dimen name="text_size_27sp">6.00dp</dimen>
 <dimen name="text_size_60sp">13.33dp</dimen>
 <dimen name="text_size_30sp">6.67dp</dimen>
+<dimen name="text_size_32sp">7.11dp</dimen>
 <dimen name="text_size_40sp">8.89dp</dimen>
 <dimen name="text_size_18sp">4.00dp</dimen>
 
@@ -24,7 +25,7 @@
 <dimen name="header_fragment_title_divider_w">11.11dp</dimen>
 <dimen name="header_fragment_title_divider_h">1.11dp</dimen>
 <dimen name="header_fragment_weather_ml">2.89dp</dimen>
-<dimen name="header_fragment_divider_mlr">7.56dp</dimen>
+<dimen name="header_fragment_divider_mlr">-6.67dp</dimen>
 <dimen name="header_fragment_btn_width">26.67dp</dimen>
 <dimen name="header_fragment_mine_space">7.56dp</dimen>
 <dimen name="header_fragment_mine_indicator_h">0.89dp</dimen>
