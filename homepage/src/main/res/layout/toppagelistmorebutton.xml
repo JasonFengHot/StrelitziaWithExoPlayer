@@ -12,8 +12,8 @@
         android:layout_height="match_parent"
         android:background="@color/detail_more_bg"
         android:gravity="center"
-        android:text="更多"
-        android:textColor="#FFFFFFFF"
-        android:textSize="50sp" />
+        android:text="更\n多"
+        android:textColor="@color/color_base_white"
+        android:textSize="@dimen/text_size_48sp" />
 
 </tv.ismar.homepage.widget.HomeItemContainer>

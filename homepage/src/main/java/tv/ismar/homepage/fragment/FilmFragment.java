@@ -287,7 +287,7 @@ public class FilmFragment extends ChannelBaseFragment {
     private HomeItemContainer focusView;
 
     private void initPosters(ArrayList<HomePagerEntity.Poster> posters) {
-        if (guideRecommmendList == null)
+        if (guideRecommmendList == null || mContext == null)
             return;
         guideRecommmendList.removeAllViews();
         posters.get(0).setPosition(0);
@@ -305,20 +305,14 @@ public class FilmFragment extends ChannelBaseFragment {
             }
         });
         mLeftTopView = film_lefttop_image;
+        int width = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_item_w);
+        int height = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_h);
+        int space = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_space);
         for (int i = 1; i <= posters.size(); i++) {
-            if (i > 8)
-                break;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(199, 278);
-
-            if (i == 6) {
-                params.setMargins(0, 0, 27, 0);
-            } else if (i == 7) {
-                params.setMargins(0, 0, 8, 0);
-            } else {
-                params.setMargins(0, 0, 28, 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
+            if (i > 1) {
+                params.setMargins(space, 0, 0, 0);
             }
-            if (mContext == null)
-                return;
             ImageView itemView = new ImageView(mContext);
             itemView.setFocusable(true);
             itemView.setLayoutParams(params);
@@ -376,9 +370,8 @@ public class FilmFragment extends ChannelBaseFragment {
                 }
 
             } else {
-                params.width = 206;
-                params.height = 277;
-                params.setMargins(0, 0, 0, 0);
+                params.width = width;
+                params.height = height;
                 morelayout = (HomeItemContainer) LayoutInflater.from(
                         mContext).inflate(R.layout.toppagelistmorebutton,
                         null);
@@ -437,11 +430,11 @@ public class FilmFragment extends ChannelBaseFragment {
         mCarousels = newerCarousels;
 
 
-
+        int width = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_w);
+        int height = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_h);
+        int topMargin = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_h);
         for (int i = 0; i < carousels.size() && i < 5; i++) {
-
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(206, 86);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
             LabelImageView3 itemView = new LabelImageView3(mContext);
             if (i == 0) {
                 params.topMargin = 0;
@@ -449,8 +442,8 @@ public class FilmFragment extends ChannelBaseFragment {
                 firstcarousel = itemView;
             } else {
                 itemView.setId(R.id.filmfragment_firstcarousel + i * 5);
-                params.topMargin = 17;
-                params.addRule(RelativeLayout.BELOW, R.id.filmfragment_firstcarousel + 5 * (i - 1));
+                params.topMargin = topMargin;
+//                params.addRule(RelativeLayout.BELOW, R.id.filmfragment_firstcarousel + 5 * (i - 1));
             }
             if (mContext == null)
                 return;

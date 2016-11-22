@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,7 +25,7 @@ public class LabelImageView3 extends AsyncImageView {
 	private String focustitle = "";
 	private int focustitlesize;
 	private float focuspaddingtop;
-	private int focusbackground;
+	private int textBack;
 	private float focustitlepaddingtop;
 	private int frontcolor;
 	private int modetype;
@@ -33,7 +34,7 @@ public class LabelImageView3 extends AsyncImageView {
 	private boolean customselected;
 	private int maxfocustitle;
     private boolean drawBorder;
-    
+
 	public void setDrawBorder(boolean drawBorder) {
 		this.drawBorder = drawBorder;
 	}
@@ -85,8 +86,6 @@ public class LabelImageView3 extends AsyncImageView {
 				R.styleable.LabelImageView3_focuspaddingtop3, 0.85f);
 		focustitlesize = a.getDimensionPixelOffset(
 				R.styleable.LabelImageView3_focustextsize3, 0);
-		focusbackground = a.getColor(
-				R.styleable.LabelImageView3_focusbackground3, 0);
 		focustitlepaddingtop = a.getFloat(
 				R.styleable.LabelImageView3_focustextpaddingtop3, 0.97f);
 		frontcolor = a.getInt(R.styleable.LabelImageView3_frontcolor3, 0);
@@ -101,6 +100,7 @@ public class LabelImageView3 extends AsyncImageView {
 		mBound = new Rect();
 		mDrawable = (NinePatchDrawable) getResources().getDrawable(
 				R.drawable.vod_gv_selector);
+		textBack = getResources().getColor(R.color.color_alpha_black);
 	}
 
 	protected void onFocusChanged(boolean gainFocus, int direction,
@@ -196,12 +196,15 @@ public class LabelImageView3 extends AsyncImageView {
 		// 绘制看点背景
 		paint.setColor(Color.WHITE);
 		if (!StringUtils.isEmpty(focustitle) && focustitle.length() > 0) {
+			int shadowPt = getResources().getDimensionPixelOffset(R.dimen.home_label_img_text_pt);
+			int shadowPb = getResources().getDimensionPixelOffset(R.dimen.home_label_img_text_pb);
+			int shadowT = height - (shadowPt + shadowPb + focustitlesize);
 			if (maxfocustitle > 0 && focustitle.length() > maxfocustitle) {
 				focustitle = focustitle.substring(0, maxfocustitle);
             }
-			paint.setColor(focusbackground);
+			paint.setColor(textBack);
 			canvas.drawRect(new Rect(getPaddingLeft(),
-					(int) (focuspaddingtop * height), width - paddingright,
+					shadowT, width - paddingright,
 					height - paddingBottom), paint);
 			// 看点内容
 			paint.setColor(Color.WHITE);
