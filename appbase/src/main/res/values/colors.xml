@@ -19,7 +19,7 @@
     <color name="color_overlay_grey">#33ffffff</color>
 
     <color name="color_yellow">#fafd00</color>
-    <color name="color_alpha_black">#26000000</color>
+    <color name="color_alpha_black">#B2000000</color>
 
     <!-- 背景色白色 -->
     <color name="play_finished">#000000</color>

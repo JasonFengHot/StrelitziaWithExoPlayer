@@ -1430,6 +1430,7 @@
 <dimen name="guide_video_w">490.00dp</dimen>
 <dimen name="guide_video_h">166.00dp</dimen>
 <dimen name="guide_video_img_ml">2.33dp</dimen>
+<dimen name="guide_carouse_h">55.33dp</dimen>
 <dimen name="guide_bottom_h">92.67dp</dimen>
 <dimen name="guide_bottom_mt">7.33dp</dimen>
 <dimen name="guide_bottom_item_w">66.33dp</dimen>
