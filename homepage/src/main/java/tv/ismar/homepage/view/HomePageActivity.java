@@ -101,6 +101,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     private HeadFragment headFragment;
     private ModuleMessagePopWindow exitPopup;
+    private RecyclerView home_tab_list;
+    private ChannelRecyclerAdapter recyclerAdapter;
+    private List<ChannelEntity> channelEntityList = new ArrayList<>();
     /**
      * advertisement start
      */
@@ -470,10 +473,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         home_tab_list.setLayoutManager(layoutManager);
-        mTabSpace = getResources().getDimensionPixelSize(R.dimen.tv_guide_h_grid_view_horizontalSpacing);
+        mTabSpace = getResources().getDimensionPixelSize(R.dimen.home_tab_list_space);
         HorizontalSpacesItemDecoration decoration = new HorizontalSpacesItemDecoration(
                 mTabSpace,
-                getResources().getDimensionPixelSize(R.dimen.fragment_padding_lr),
+                getResources().getDimensionPixelSize(R.dimen.home_tab_list_padding_lr),
                 recyclerAdapter);
         home_tab_list.addItemDecoration(decoration);
 
@@ -756,10 +759,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
         }
     }
-
-    private RecyclerView home_tab_list;
-    private ChannelRecyclerAdapter recyclerAdapter;
-    private List<ChannelEntity> channelEntityList = new ArrayList<>();
 
     private void setFocusChannelView(View view) {
         TextView channelBtn = (TextView) view.findViewById(R.id.channel_item);

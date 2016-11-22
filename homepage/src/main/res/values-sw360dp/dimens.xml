@@ -1425,6 +1425,7 @@
 <dimen name="home_tab_list_padding_lr">19.33dp</dimen>
 <dimen name="home_tab_list_space">4.67dp</dimen>
 <dimen name="home_tab_list_mb">16.67dp</dimen>
+<dimen name="home_tab_list_item_w">62.67dp</dimen>
 
 <dimen name="guide_video_w">490.00dp</dimen>
 <dimen name="guide_video_h">166.00dp</dimen>
