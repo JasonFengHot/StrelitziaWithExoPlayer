@@ -161,12 +161,12 @@
     <!--<declare-styleable name="LabelImageView">-->
         <!--<attr name="focustextsize" format="dimension"/>-->
         <!--<attr name="focusbackground" format="color"/>-->
-        <!--<attr name="frontcolor" format="color"/>-->
+        <!--<attr name="frontColor" format="color"/>-->
         <!--<attr name="focustextpaddingtop" format="float"/>-->
         <!--<attr name="focuspaddingtop" format="float"/>-->
-        <!--<attr name="customfocus" format="boolean"/>-->
+        <!--<attr name="customFocus" format="boolean"/>-->
         <!--<attr name="maxfocustitle" format="integer"/>-->
-        <!--<attr name="needzoom" format="boolean"/>-->
+        <!--<attr name="needZoom" format="boolean"/>-->
     <!--</declare-styleable>-->
 
     <declare-styleable name="DaisyViewContainer">
