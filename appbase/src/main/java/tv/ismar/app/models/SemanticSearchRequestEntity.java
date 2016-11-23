@@ -1,4 +1,4 @@
-package tv.ismar.searchpage.data.http;
+package tv.ismar.app.models;
 
 import com.google.gson.JsonObject;
 

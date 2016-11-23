@@ -145,4 +145,13 @@ public class PageIntent implements PageIntentInterface {
         intent.setAction("tv.ismar.searchpage.search");
         context.startActivity(intent);
     }
+
+    @Override
+    public void toFilmStar(Context context, String title, long pk) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.searchpage.filmstar");
+        intent.putExtra(EXTRA_TITLE, title);
+        intent.putExtra(EXTRA_PK, pk);
+        context.startActivity(intent);
+    }
 }

@@ -139,7 +139,8 @@
                         android:clipChildren="false"
                         android:descendantFocusability="beforeDescendants"
                         android:background="@drawable/long_key_selector"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:nextFocusDown="@id/tv_back">
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -160,7 +161,8 @@
                         android:layout_marginLeft="@dimen/key_0_margin_left"
                         android:descendantFocusability="beforeDescendants"
                         android:background="@drawable/key_selector"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:nextFocusDown="@id/tv_key_0">
             <TextView
                     android:layout_width="@dimen/key_width"
                     android:layout_height="@dimen/key_width"
@@ -180,7 +182,8 @@
                         android:layout_marginLeft="@dimen/key_0_margin_left"
                         android:descendantFocusability="beforeDescendants"
                         android:background="@drawable/long_key_selector"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:nextFocusDown="@id/tv_T9">
             <TextView
                     android:id="@+id/tv_T9_keyboard"
                     android:layout_width="match_parent"

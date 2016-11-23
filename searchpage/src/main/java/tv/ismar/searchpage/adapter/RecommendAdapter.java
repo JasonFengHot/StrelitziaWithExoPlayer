@@ -45,7 +45,7 @@ public class RecommendAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Recommend.ObjectsEntity getItem(int position) {
         return mData.get(position);
     }
 

@@ -21,7 +21,7 @@
             android:screenOrientation="landscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen">
             <intent-filter>
-                <action android:name="cn.ismartv.voice.filmstar"/>
+                <action android:name="tv.ismar.searchpage.filmstar"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
