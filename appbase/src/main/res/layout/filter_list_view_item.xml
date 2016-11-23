@@ -22,7 +22,6 @@
             android:scaleType="fitXY"/>
     <TextView
         android:paddingTop="@dimen/filter_list_item_title_mt"
-        android:paddingBottom="@dimen/filter_list_item_title_pb"
         android:layout_width="@dimen/filter_list_item_title_w"
         android:layout_height="match_parent"
         android:singleLine="true"

@@ -48,7 +48,7 @@
     <dimen name="filter_list_item_title_pb">34dp</dimen>
     <dimen name="filter_list_item_title_w">336dp</dimen>
     <dimen name="filter_list_item_title_textsize">30sp</dimen>
-    <dimen name="filter_portraitresult_top_layout_ml">222dip</dimen>
+    <dimen name="filter_portraitresult_top_layout_ml">113dp</dimen>
     <dimen name="filter_portraitresult_filter_percentage_w">1690dip</dimen>
     <dimen name="filter_portraitresult_filter_percentage_h">4dip</dimen>
     <dimen name="filter_portraitresult_filter_percentage_margin">113dip</dimen>

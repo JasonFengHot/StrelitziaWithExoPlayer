@@ -116,10 +116,9 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                         getFragmentManager().popBackStack();
                     }
                 });
-			filterBtn.setOnHoverListener(onHoverListener);
-                url = SimpleRestClient.root_url+"/api/tv/filtrate/"+"$"+"movie"+"/"+"area*10022$10261$10263$10378$10479$10483$10484$10494"+"/1";
+			    filterBtn.setOnHoverListener(onHoverListener);
                 isNoData = true;
-                doFilterRequest();
+               doFilterRequest();
             }
         mHGridView.leftbtn = left_shadow;
         mHGridView.rightbtn = right_shadow;
@@ -421,31 +420,32 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
         }
     }
     private void doFilterRequest(){
-        skyService.getFilterRequest(content_model,filterCondition).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(((BaseActivity) getActivity()).new BaseObserver<ItemList>() {
-                    @Override
-                    public void onCompleted() {
+        if(!isNoData) {
+            skyService.getFilterRequest(content_model, filterCondition).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(((BaseActivity) getActivity()).new BaseObserver<ItemList>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(ItemList itemList) {
-                        items=itemList;
-                        try{
-                            if (items != null && items.count > 0) {
-                                mItemCollections = new ArrayList<ItemCollection>();
-                                int num_pages = (int) Math.ceil((float) items.count / (float) ItemCollection.NUM_PER_PAGE);
-                                ItemCollection itemCollection = new ItemCollection(num_pages, items.count, "1", "1");
-                                mItemCollections.add(itemCollection);
-                                initView(fragmentView, true);
-                            } else {
-                                initView(fragmentView, false);
-                            }
-                                if(items!=null ) {
-                                    mHGridAdapter = new HGridFilterAdapterImpl(getActivity(), mItemCollections,false);
+                        @Override
+                        public void onNext(ItemList itemList) {
+                            items = itemList;
+                            try {
+                                if (items != null && items.count > 0) {
+                                    mItemCollections = new ArrayList<ItemCollection>();
+                                    int num_pages = (int) Math.ceil((float) items.count / (float) ItemCollection.NUM_PER_PAGE);
+                                    ItemCollection itemCollection = new ItemCollection(num_pages, items.count, "1", "1");
+                                    mItemCollections.add(itemCollection);
+                                    initView(fragmentView, true);
+                                } else {
+                                    initView(fragmentView, false);
+                                }
+                                if (items != null) {
+                                    mHGridAdapter = new HGridFilterAdapterImpl(getActivity(), mItemCollections, false);
                                     mHGridAdapter.setIsPortrait(isPortrait);
                                     mHGridAdapter.setList(mItemCollections);
-                                    if(mHGridAdapter.getCount()>0){
+                                    if (mHGridAdapter.getCount() > 0) {
                                         mHGridView.setAdapter(mHGridAdapter);
                                         mHGridView.setFocusable(true);
                                         //   mHGridView.setHorizontalFadingEdgeEnabled(true);
@@ -457,16 +457,57 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                                 } else {
                                     showDialog();
                                 }
-                        } catch(Exception e){
-                            e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                    }
-                });
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                        }
+                    });
+        }else{
+            String url="area*10022$10261$10263$10378$10479$10483$10484$10494";
+            skyService.getFilterRequestNodata("movie",url,1).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(((BaseActivity) getActivity()).new BaseObserver<ItemList>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(ItemList itemList) {
+                            items = itemList;
+                            try {
+                                if (items != null && items.count > 0) {
+                                    mItemCollections = new ArrayList<ItemCollection>();
+                                    int num_pages = (int) Math.ceil((float) items.count / (float) ItemCollection.NUM_PER_PAGE);
+                                    ItemCollection itemCollection = new ItemCollection(num_pages, items.count, "1", "1");
+                                    mItemCollections.add(itemCollection);
+                                    mHGridAdapter = new HGridFilterAdapterImpl(getActivity(), mItemCollections, false);
+                                    mHGridAdapter.setIsPortrait(isPortrait);
+                                    mHGridAdapter.setList(mItemCollections);
+                                    if (mHGridAdapter.getCount() > 0) {
+                                        mHGridView.setAdapter(mHGridAdapter);
+                                        mHGridView.setFocusable(true);
+                                        //   mHGridView.setHorizontalFadingEdgeEnabled(true);
+                                        // mHGridView.setFadingEdgeLength(144);
+                                        mItemCollections.get(0).fillItems(0, items.objects);
+                                        mHGridAdapter.setList(mItemCollections);
+                                    }
+                                }
+                            }catch (Exception e){
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                        }
+                    });
+        }
     }
     public void showDialog() {
         AlertDialogFragment newFragment = AlertDialogFragment.newInstance(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG);
