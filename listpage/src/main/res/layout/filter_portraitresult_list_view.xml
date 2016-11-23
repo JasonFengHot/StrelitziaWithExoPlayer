@@ -113,7 +113,7 @@
                 android:orientation="vertical"
                 >
             <TextView
-                    android:layout_marginTop="@dimen/filmitem_portrait_detail_title_mt"
+                    android:layout_marginTop="@dimen/listpage_portrait_detail_title_mt"
                     android:text="抱歉,您的筛选条件太多了,没有找到匹配的内容"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,8 +128,8 @@
                     android:textSize="@dimen/h2_text_size"
                     android:gravity="center"
                     android:id="@+id/refilter_btn"
-                    android:layout_width="@dimen/filtmitem_detail_button_w"
-                    android:layout_height="@dimen/filtmitem_detail_button_h"
+                    android:layout_width="@dimen/filter_noresult_button_W"
+                    android:layout_height="@dimen/filter_noresult_button_H"
                     android:background="@drawable/filter_btn_selector"
                     android:textColor="@android:color/white">
             </Button>
@@ -137,7 +137,7 @@
                     android:layout_marginTop="@dimen/filter_noresult_text_mt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/filter_portraitresult_top_layout_ml"
+                    android:layout_marginLeft="@dimen/filter_noresult_text_ML"
                     android:textSize="@dimen/h2_text_size"
                     android:textColor="@android:color/white"
                     android:text="当前大家正在看"/>
@@ -156,8 +156,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <Button
-                    android:layout_marginLeft="@dimen/filter_portraitresult_shadow_ml"
-                    android:layout_marginTop="@dimen/toast_layout_H"
+                    android:layout_marginLeft="@dimen/listportait_button_ml"
+                    android:layout_marginBottom="@dimen/filter_noresult_arrow_Mb"
+                    android:layout_alignParentBottom="true"
                     android:visibility="invisible"
                     android:clickable="true"
                     android:layout_alignParentLeft="true"
@@ -169,8 +170,9 @@
                     android:focusableInTouchMode="true"
                     />
             <Button
-                    android:layout_marginTop="@dimen/toast_layout_H"
-                    android:layout_marginRight="@dimen/filter_portraitresult_shadow_ml"
+                    android:layout_marginBottom="@dimen/filter_noresult_arrow_Mb"
+                    android:layout_marginRight="@dimen/listportait_button_ml"
+                    android:layout_alignParentBottom="true"
                     android:visibility="invisible"
                     android:layout_alignParentRight="true"
                     android:id="@+id/recommend_right_shadow"
@@ -186,7 +188,7 @@
                     android:id="@+id/recommend_filter_grid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    sakura:horizontalSpacing="@dimen/filter_portraitresult_filter_grid_horizontalSpacing"
+                    sakura:horizontalSpacing="@dimen/filter_portraitresulter_grid_horizontalSpacing"
                     sakura:numRows="1"
                     sakura:rowHeight="@dimen/filter_portraitresult_filter_grid_rowHeight"
                     sakura:selectorDrawable="@drawable/vod_gv_selector"
@@ -195,10 +197,10 @@
                     sakura:selectionTopPadding="@dimen/HGridView_related_pselectionTopPadding"
                     sakura:selectionRightPadding="@dimen/HGridView_related_pselectionRightPadding"
                     sakura:selectionBottomPadding="@dimen/HGridView_related_pselectionBottomPadding"
-                    android:layout_marginTop="@dimen/filter_portraitresult_filter_grid_mt"
+                    android:layout_marginTop="42dp"
                     android:paddingTop="@dimen/filter_portraitresult_filter_grid_pt"
                     android:layout_marginBottom="@dimen/filter_portraitresult_filter_grid_mb"
-                    android:layout_marginLeft="@dimen/filter_portraitresult_filter_grid_ml"
+                    android:layout_marginLeft="53dp"
                     android:layout_marginRight="@dimen/filter_portraitresult_filter_grid_ml"
                     android:paddingRight="@dimen/filter_portraitresult_filter_grid_pr"
                     android:paddingLeft="@dimen/filter_portraitresult_filter_grid_pl">

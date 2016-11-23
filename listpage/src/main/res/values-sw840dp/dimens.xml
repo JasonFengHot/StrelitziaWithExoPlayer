@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <dimen name="tv_guide_top_section_padding">10.89dp</dimen>
-<dimen name="filmitem_portrait_detail_title_mt">62.22dp</dimen>
-<dimen name="filtmitem_detail_button_h">56.00dp</dimen>
-<dimen name="filtmitem_detail_button_w">213.11dp</dimen>
-<dimen name="filmitem_portrait_detail_title_w">620.67dip</dimen>
-<dimen name="filmitem_portrait_detail_title_h">42.00dip</dimen>
+<dimen name="listpage_portrait_detail_title_mt">63.00dp</dimen>
+<dimen name="listpage_detail_button_h">56.00dp</dimen>
+<dimen name="listpage_detail_button_w">213.11dp</dimen>
+<dimen name="listpage_portrait_detail_title_w">620.67dip</dimen>
+<dimen name="listpage_portrait_detail_title_h">42.00dip</dimen>
 <dimen name="filmitem_portrait_detail_title_size">37.33sp</dimen>
 <dimen name="item_detail_more_content_marginT">38.89dip</dimen>
 <dimen name="item_detail_btn_layout_marginB">3.89dip</dimen>
@@ -208,7 +208,8 @@
 <dimen name="filter_portraitresult_button_mt">250.44dp</dimen>
 <dimen name="filter_portraitresult_shadow_w">31.89dip</dimen>
 <dimen name="filter_portraitresult_shadow_h">63.78dip</dimen>
-<dimen name="filter_portraitresult_filter_grid_horizontalSpacing">25.67dip</dimen>
+<dimen name="filter_portraitresult_filter_grid_horizontalSpacing">26.44dip</dimen>
+<dimen name="filter_portraitresulter_grid_horizontalSpacing">26.44dp</dimen>
 <dimen name="filter_portraitresult_filter_grid_rowHeight">315.78dip</dimen>
 <dimen name="filter_portraitresult_filter_grid_mt">1.56dip</dimen>
 <dimen name="filter_portraitresult_filter_grid_pt">7.78dip</dimen>
@@ -249,7 +250,11 @@
 <dimen name="filter_view_filtersubmit_ml">640.11dp</dimen>
 <dimen name="filter_view_filtersubmit_w">213.11dp</dimen>
 <dimen name="filter_view_filtersubmit_h">56.00dp</dimen>
-
+<dimen name="filter_noresult_Gride_horizontalSpacing">34.22dp</dimen>
+<dimen name="filter_noresult_Gride_rowHeight">195.22dp</dimen>
+<dimen name="filter_noresult_Gride_MT">37.33dp</dimen>
+<dimen name="filter_noresult_Gride_ML">128.33dp</dimen>
+<dimen name="filter_noresult_Gride_MB">35.00dp</dimen>
 
 
 <!-- channel_section_tabs -->
@@ -281,4 +286,5 @@
 <dimen name="clear_history_Ml">1152.67dp</dimen>
 <dimen name="divider_1dp">0.78dp</dimen>
 <dimen name="history_Hgrider_MT">66.89dp</dimen>
+<dimen name="filter_noresult_arrow_Mb">242.67dp</dimen>
 </resources>

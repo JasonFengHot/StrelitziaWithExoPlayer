@@ -1,173 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/sport_linearLayout_margin_t"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/sport_linearLayout_margin_l"
-    android:paddingRight="@dimen/sport_linearLayout_margin_l">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/section_one"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sport_section_one_h"
-        android:layout_marginBottom="@dimen/sport_section_one_margin"
+        android:layout_height="@dimen/sport_top_h"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/sport_lefttop"
-            android:layout_width="@dimen/sport_lefttop_w"
-            android:layout_height="@dimen/sport_lefttop_h"
+            android:layout_width="@dimen/sport_top_item_w"
+            android:layout_height="@dimen/sport_top_h"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/sport_lefttop_margin"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sport_card1"
-                android:layout_width="@dimen/sport_card_w"
-                android:layout_height="@dimen/sport_card_h"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sport_top_item_h"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:scaleType="fitXY"
                 android:nextFocusUp="@id/sport_card1"
+                android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
+                labelimage:focusbackground3="@color/color_alpha_black"
                 labelimage:focuspaddingtop3="0.8"
                 labelimage:focustextpaddingtop3="0.91"
-                labelimage:focustextsize3="@dimen/sport_card_focustextsize"
-                labelimage:frontcolor3="#b3000000"
+                labelimage:focustextsize3="@dimen/text_size_18sp"
+                labelimage:frontcolor3="@color/color_alpha_black"
                 labelimage:needzoom3="true" />
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sport_card2"
-                android:layout_width="@dimen/sport_card_w"
-                android:layout_height="@dimen/sport_card_h"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sport_top_item_h"
                 android:layout_below="@+id/sport_card1"
-                android:layout_marginTop="@dimen/sports_live_mt"
+                android:layout_marginTop="@dimen/sport_top_item_space"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
+                labelimage:focusbackground3="@color/color_alpha_black"
                 labelimage:focuspaddingtop3="0.8"
                 labelimage:focustextpaddingtop3="0.91"
-                labelimage:focustextsize3="@dimen/sport_card_focustextsize"
-                labelimage:frontcolor3="#b3000000"
+                labelimage:focustextsize3="@dimen/text_size_18sp"
+                labelimage:frontcolor3="@color/color_alpha_black"
                 labelimage:needzoom3="true" />
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sport_card3"
-                android:layout_width="@dimen/sport_card_w"
-                android:layout_height="@dimen/sport_card_h"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sport_top_item_h"
                 android:layout_below="@+id/sport_card2"
-                android:layout_marginTop="@dimen/sports_live_mt"
+                android:layout_marginTop="@dimen/sport_top_item_space"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
+                labelimage:focusbackground3="@color/color_alpha_black"
                 labelimage:focuspaddingtop3="0.8"
                 labelimage:focustextpaddingtop3="0.91"
-                labelimage:focustextsize3="@dimen/sport_card_focustextsize"
-                labelimage:frontcolor3="#b3000000"
+                labelimage:focustextsize3="@dimen/text_size_18sp"
+                labelimage:frontcolor3="@color/color_alpha_black"
                 labelimage:needzoom3="true" />
         </RelativeLayout>
 
         <tv.ismar.homepage.widget.LabelImageView3
             android:id="@+id/sportspost"
-            android:layout_width="@dimen/sportspost_w"
-            android:layout_height="@dimen/sportspost_h"
+            android:layout_width="@dimen/sport_top_center_w"
+            android:layout_height="@dimen/sport_top_h"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/sportspost_mr"
-            android:layout_marginTop="@dimen/sportspost_mt"
             android:layout_toRightOf="@id/sport_lefttop"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:scaleType="fitXY"
-            android:nextFocusRight="@+id/sports_live1"
             android:nextFocusLeft="@+id/sport_card1"
+            android:nextFocusRight="@+id/sports_live1"
+            android:scaleType="fitXY"
             android:src="@drawable/list_item_preview_bg"
             labelimage:focusbackground3="@color/shawdow"
             labelimage:focuspaddingtop3="0.89"
             labelimage:focustextpaddingtop3="0.97"
-            labelimage:focustextsize3="@dimen/toppage_fragment_poster_title_textsize"
+            labelimage:focustextsize3="@dimen/text_size_36sp"
             labelimage:needzoom3="true" />
 
         <RelativeLayout
             android:id="@+id/sec_one_list_2"
-            android:layout_width="@dimen/sec_one_list_2_w"
+            android:layout_width="@dimen/sport_top_item_w"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/sec_one_list_2_ml"
+            android:layout_marginLeft="@dimen/sport_top_space"
             android:layout_toRightOf="@id/sportspost"
             android:clipChildren="false"
-            android:clipToPadding="false" >
-
-            <ImageView
-                android:id="@+id/sec_one_list_1_arrowup"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/sec_one_list_1_arrowup_h"
-                android:background="#b3303030"
-                android:focusable="true"
-                android:scaleType="center"
-                android:src="@drawable/arrow_up" />
+            android:clipToPadding="false">
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sports_live1"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/sports_live_h"
-                android:layout_below="@id/sec_one_list_1_arrowup"
-                android:layout_marginTop="@dimen/sports_live_mt"
+                android:layout_height="@dimen/sport_top_item_h"
+                android:layout_marginTop="@dimen/sport_top_item_space"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
-                labelimage:focustextsize3="@dimen/sport_channel_image_focustextsize"
+                labelimage:focusbackground3="@color/color_alpha_black"
+                labelimage:focustextsize3="@dimen/text_size_18sp"
                 labelimage:needzoom3="true" />
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sports_live2"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/sports_live_h"
+                android:layout_height="@dimen/sport_top_item_h"
                 android:layout_below="@id/sports_live1"
-                android:layout_marginTop="@dimen/sports_live_mt"
+                android:layout_marginTop="@dimen/sport_top_item_space"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
-                labelimage:focustextsize3="@dimen/sport_channel_image_focustextsize"
+                labelimage:focusbackground3="@color/color_alpha_black"
+                labelimage:focustextsize3="@dimen/text_size_18sp"
                 labelimage:needzoom3="true" />
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sports_live3"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/sports_live_h"
+                android:layout_height="@dimen/sport_top_item_h"
                 android:layout_below="@id/sports_live2"
-                android:layout_marginTop="@dimen/sports_live_mt"
+                android:layout_marginTop="@dimen/sport_top_item_space"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
-                labelimage:focustextsize3="@dimen/sport_channel_image_focustextsize"
+                labelimage:focusbackground3="@color/color_alpha_black"
+                labelimage:focustextsize3="@dimen/text_size_18sp"
                 labelimage:needzoom3="true" />
+
+            <ImageView
+                android:id="@+id/sec_one_list_1_arrowup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sport_top_arrow_h"
+                android:layout_alignParentTop="true"
+                android:background="@color/color_alpha_black"
+                android:focusable="true"
+                android:scaleType="center"
+                android:src="@drawable/arrow_up" />
 
             <ImageView
                 android:id="@+id/sec_one_list_1_arrowdown"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/sec_one_list_1_arrowup_h"
-                android:layout_below="@id/sports_live3"
-                android:layout_marginTop="@dimen/sports_live_mt"
-                android:background="#b3303030"
+                android:layout_height="@dimen/sport_top_arrow_h"
+                android:layout_alignParentBottom="true"
+                android:background="@color/color_alpha_black"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:scaleType="center"
@@ -177,143 +170,145 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sport_linearLayout2_h"
-        android:layout_marginBottom="@dimen/sport_linearLayout2_mb"
-        android:layout_marginTop="@dimen/sport_linearLayout2_mt"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/entertainment_bottom_mt"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/sport_channel1"
-            android:layout_width="@dimen/sport_channel_w"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/entertainment_bottom_item_w"
+            android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sport_channel1_image"
-                android:layout_width="@dimen/sport_channel_image_w"
-                android:layout_height="@dimen/sport_channel_image_h"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/entertainment_bottom_item_h"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
-                labelimage:needzoom3="true"
-                labelimage:focustextsize3="@dimen/sport_channel_image_focustextsize" />
+                labelimage:focusbackground3="@color/color_alpha_black"
+                labelimage:focustextsize3="@dimen/text_size_24sp"
+                labelimage:needzoom3="true" />
 
             <TextView
                 android:id="@+id/sport_channel1_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sport_channel_subtitle_mt"
                 android:layout_below="@id/sport_channel1_image"
+                android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
                 android:gravity="center"
-                android:textColor="#FFFFFFFF"
-                android:textSize="@dimen/sport_channel_subtitle_textSize" />
+                android:textColor="@color/color_base_white"
+                android:textSize="@dimen/text_size_24sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/sport_channel2"
-            android:layout_width="@dimen/sport_channel_w"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/sport_channel_ml"
+            android:layout_width="@dimen/entertainment_bottom_item_w"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/entertainment_bottom_item_space1"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sport_channel2_image"
-                android:layout_width="@dimen/sport_channel_image_w"
-                android:layout_height="@dimen/sport_channel_image_h"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/entertainment_bottom_item_h"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
-                labelimage:needzoom3="true"
-                labelimage:focustextsize3="@dimen/sport_channel_image_focustextsize" />
+                labelimage:focusbackground3="@color/color_alpha_black"
+                labelimage:focustextsize3="@dimen/text_size_24sp"
+                labelimage:needzoom3="true" />
 
             <TextView
                 android:id="@+id/sport_channel2_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sport_channel_subtitle_mt"
                 android:layout_below="@id/sport_channel2_image"
+                android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
                 android:gravity="center"
-                android:textColor="#FFFFFFFF"
-                android:textSize="@dimen/sport_channel_subtitle_textSize" />
+                android:textColor="@color/color_base_white"
+                android:textSize="@dimen/text_size_24sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/sport_channel3"
-            android:layout_width="@dimen/sport_channel_w"
+            android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/sport_channel_ml"
+            android:layout_marginLeft="@dimen/entertainment_bottom_item_space2"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sport_channel3_image"
-                android:layout_width="@dimen/sport_channel_image_w"
-                android:layout_height="@dimen/sport_channel_image_h"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/entertainment_bottom_item_h"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
-                labelimage:needzoom3="true"
-                labelimage:focustextsize3="@dimen/sport_channel_image_focustextsize" />
+                labelimage:focusbackground3="@color/color_alpha_black"
+                labelimage:focustextsize3="@dimen/text_size_24sp"
+                labelimage:needzoom3="true" />
 
             <TextView
                 android:id="@+id/sport_channel3_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sport_channel_subtitle_mt"
                 android:layout_below="@id/sport_channel3_image"
+                android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
                 android:gravity="center"
-                android:textColor="#FFFFFFFF"
-                android:textSize="@dimen/sport_channel_subtitle_textSize" />
+                android:textColor="@color/color_base_white"
+                android:textSize="@dimen/text_size_24sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/sport_channel4"
-            android:layout_width="@dimen/sport_channel_w"
+            android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/sport_channel_ml"
+            android:layout_marginLeft="@dimen/entertainment_bottom_item_space2"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <tv.ismar.homepage.widget.LabelImageView3
                 android:id="@+id/sport_channel4_image"
-                android:layout_width="@dimen/sport_channel_image_w"
-                android:layout_height="@dimen/sport_channel_image_h"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/entertainment_bottom_item_h"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:nextFocusUp="@+id/sportspost"
+                android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"
-                labelimage:focusbackground3="#b3303030"
-                labelimage:needzoom3="true"
-                labelimage:focustextsize3="@dimen/sport_channel_image_focustextsize" />
+                labelimage:focusbackground3="@color/color_alpha_black"
+                labelimage:focustextsize3="@dimen/text_size_24sp"
+                labelimage:needzoom3="true" />
 
             <TextView
                 android:id="@+id/sport_channel4_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/sport_channel_subtitle_mt"
                 android:layout_below="@id/sport_channel4_image"
+                android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
                 android:gravity="center"
-                android:textColor="#FFFFFFFF"
-                android:textSize="@dimen/sport_channel_subtitle_textSize" />
+                android:textColor="@color/color_base_white"
+                android:textSize="@dimen/text_size_24sp" />
         </RelativeLayout>
 
         <include
-            android:layout_width="@dimen/sport_channel_w"
-            android:layout_height="@dimen/sport_channel_image_h"
-            android:layout_marginLeft="@dimen/sport_channel_ml_1"
-            android:nextFocusUp="@+id/sports_live3"
-            layout="@layout/toppagelistmorebutton" />
+            layout="@layout/toppagelistmorebutton"
+            android:layout_width="@dimen/entertainment_bottom_item_w"
+            android:layout_height="@dimen/entertainment_bottom_item_h"
+            android:layout_marginLeft="@dimen/entertainment_bottom_item_space1"
+            android:nextFocusUp="@+id/sports_live3" />
     </LinearLayout>
 
 </LinearLayout>
