@@ -17,15 +17,22 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
+import cn.ismartv.truetime.TrueTimeRx;
+import rx.Observable;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;
@@ -41,7 +48,6 @@ import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
 import tv.ismar.app.network.HttpTrafficInterceptor;
 import tv.ismar.app.update.UpdateService;
-import tv.ismar.app.util.AppConfigHelper;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -59,34 +65,20 @@ public class VodApplication extends Application {
     private FavoriteManager mModuleFavoriteManager;
     private DBHelper mModuleDBHelper;
     private ImageCache mImageCache;
-    public static final String domain = "";
-    public static final String ad_domain = "ad_domain";
     public ContentModel[] mContentModel;
-    public static final String LOGIN_STATE = "loginstate";
-    public static String AUTH_TOKEN = "auth_token";
-    public static String MOBILE_NUMBER = "mobile_number";
     public static String DEVICE_TOKEN = "device_token";
-    public static String SN_TOKEN = "sntoken";
-    public static String DOMAIN = "domain";
-    public static String LOG_DOMAIN = "logmain";
-    public static String LOCATION_INFO = "location_info";
-    public static String LOCATION_PROVINCE = "location_province";
-    public static String LOCATION_CITY = "location_city";
-    public static String LOCATION_DISTRICT = "location_district";
-    public static String BESTTV_AUTH_BIND_FLAG = "besttv_auth_bind_flag";
     private static final int CORE_POOL_SIZE = 5;
-    public static String NEWEST_ENTERTAINMENT = "newestentertainment";
-    public static String OPENID = "openid";
     public static final String CACHED_LOG = "cached_log";
     private ExecutorService mExecutorService;
-    public static String apiDomain = "http://skytest.tvxio.com";
     private static SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
     public static final String PREFERENCE_FILE_NAME = "Daisy";
     private boolean isFinish = true;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        initTrueTime(this);
         SPUtils.init(this);
         appInstance = this;
         ActiveAndroid.initialize(this);
@@ -132,16 +124,20 @@ public class VodApplication extends Application {
     public SharedPreferences.Editor getEditor() {
         return mEditor;
     }
+
     public static void setDevice_Token() {
         SimpleRestClient.device_token = mPreferences.getString(VodApplication.DEVICE_TOKEN, "");
     }
+
     public VodApplication() {
         mLowMemoryListeners = new ArrayList<WeakReference<OnLowMemoryListener>>();
         //   mActivityPool = new ConcurrentHashMap<String, Activity>();
     }
+
     public static VodApplication get(Context context) {
         return (VodApplication) context.getApplicationContext();
     }
+
     public static HttpTrafficInterceptor getHttpTrafficInterceptor() {
         return mHttpTrafficInterceptor;
     }
@@ -153,6 +149,7 @@ public class VodApplication extends Application {
     public static VodApplication getModuleAppContext() {
         return appInstance;
     }
+
     public void load(Context a) {
         try {
             mPreferences = a.getSharedPreferences(PREFERENCE_FILE_NAME, 0);
@@ -173,6 +170,7 @@ public class VodApplication extends Application {
             System.out.println("load(Activity a)=" + e);
         }
     }
+
     /**
      * Return this application {@link DBHelper}
      *
@@ -203,6 +201,7 @@ public class VodApplication extends Application {
         }
         return mModuleFavoriteManager;
     }
+
     public float getRate(Context context) {
         DisplayMetrics metric = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -223,6 +222,7 @@ public class VodApplication extends Application {
          */
         public void onLowMemoryReceived();
     }
+
     /**
      * Add a new listener to registered {@link OnLowMemoryListener}.
      *
@@ -234,6 +234,7 @@ public class VodApplication extends Application {
             mLowMemoryListeners.add(new WeakReference<OnLowMemoryListener>(listener));
         }
     }
+
     /**
      * Remove a previously registered listener
      *
@@ -254,6 +255,7 @@ public class VodApplication extends Application {
             }
         }
     }
+
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
@@ -261,6 +263,7 @@ public class VodApplication extends Application {
             return new Thread(r, "GreenDroid thread #" + mCount.getAndIncrement());
         }
     };
+
     /**
      * Return an ExecutorService (global to the entire application) that may be
      * used by clients when running long tasks in the background.
@@ -285,6 +288,7 @@ public class VodApplication extends Application {
         }
         return mImageCache;
     }
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -299,11 +303,13 @@ public class VodApplication extends Application {
             }
         }
     }
+
     @Override
     public void onTrimMemory(int level) {
         // TODO Auto-generated method stub
         super.onTrimMemory(level);
     }
+
     private Runnable mUpLoadLogRunnable = new Runnable() {
 
         @Override
@@ -311,7 +317,7 @@ public class VodApplication extends Application {
             // TODO Auto-generated method stub
             while (isFinish) {
                 try {
-                    Thread.sleep(1*60*1000);
+                    Thread.sleep(1 * 60 * 1000);
 //                    synchronized (MessageQueue.async) {
                     // Thread.sleep(900000);
 
@@ -347,7 +353,7 @@ public class VodApplication extends Application {
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                }catch (java.lang.IndexOutOfBoundsException e) {
+                } catch (java.lang.IndexOutOfBoundsException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -356,6 +362,7 @@ public class VodApplication extends Application {
         }
 
     };
+
     public boolean save() {
         return mEditor.commit();
     }
@@ -364,5 +371,32 @@ public class VodApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    private void initTrueTime(final Context context) {
+        final List<String> ntpHosts = Arrays.asList("http://sky.tvxio.com/api/currenttime/");
+        Observable.interval(0, 1, TimeUnit.HOURS)
+                .observeOn(Schedulers.io())
+                .map(new Func1<Long, Object>() {
+                    @Override
+                    public Object call(Long aLong) {
+                        TrueTimeRx.clearCachedInfo(context);
+                        TrueTimeRx.build()
+                                .withConnectionTimeout(31_428)
+                                .withRetryCount(100)
+                                .withSharedPreferences(context)
+                                .withLoggingEnabled(true)
+                                .initialize(ntpHosts)
+                                .subscribe();
+                        return null;
+                    }
+                })
+                .takeUntil(new Func1<Object, Boolean>() {
+                    @Override
+                    public Boolean call(Object o) {
+                        return false;
+                    }
+                })
+                .subscribe();
     }
 }
