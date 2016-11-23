@@ -547,4 +547,7 @@
 <dimen name="pop_btn_margin_lr">41.00dp</dimen>
 <dimen name="usercenter_subtitle_ml">24.33dp</dimen>
 <dimen name="head_weather_ml">160.00dp</dimen>
+<dimen name="filter_noresult_button_W">91.33dp</dimen>
+<dimen name="filter_noresult_button_H">24.00dp</dimen>
+<dimen name="filter_noresult_text_ML">37.67dp</dimen>
 </resources>
