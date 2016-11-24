@@ -38,7 +38,8 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
     private LinearLayout leftLayout;
     private LinearLayout bottomLayout;
     private LinearLayout rightLayout;
-    private LabelImageView3 imageSwitcher;
+    private ImageView imageSwitcher;
+    private LabelImageView3 image_switcher_focus;
     private ChildThumbImageView[] indicatorImgs;
     private TextView indicatorTitle;
 
@@ -60,7 +61,8 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
         leftLayout = (LinearLayout) mView.findViewById(R.id.left_layout);
         bottomLayout = (LinearLayout) mView.findViewById(R.id.bottom_layout);
         rightLayout = (LinearLayout) mView.findViewById(R.id.right_layout);
-        imageSwitcher = (LabelImageView3) mView.findViewById(R.id.image_switcher);
+        image_switcher_focus = (LabelImageView3) mView.findViewById(R.id.image_switcher_focus);
+        imageSwitcher = (ImageView) mView.findViewById(R.id.image_switcher);
         indicatorImgs = new ChildThumbImageView[]{
                 (ChildThumbImageView) mView.findViewById(R.id.indicator_1),
                 (ChildThumbImageView) mView.findViewById(R.id.indicator_2),
@@ -69,8 +71,8 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
         indicatorTitle = (TextView) mView.findViewById(R.id.indicator_title);
         childMore = (ImageButton) mView.findViewById(R.id.child_more);
         childMore.setOnClickListener(ItemClickListener);
-        imageSwitcher.setOnClickListener(ItemClickListener);
-        imageSwitcher.setOnHoverListener(new View.OnHoverListener() {
+        image_switcher_focus.setOnClickListener(ItemClickListener);
+        image_switcher_focus.setOnHoverListener(new View.OnHoverListener() {
 			
 			@Override
 			public boolean onHover(View v, MotionEvent event) {
@@ -179,17 +181,20 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
             return;
         }
 
-        int marginTP = (int) mContext.getResources().getDimension(R.dimen.child_fragment_item_margin_tp);
-
-        int itemWidth = (int) mContext.getResources().getDimension(R.dimen.child_fragment_item_width);
-        int itemHeight = (int) mContext.getResources().getDimension(R.dimen.child_fragment_item_height);
+        int marginTP = getResources().getDimensionPixelOffset(R.dimen.child_img_small_space);
+        int itemWidth = getResources().getDimensionPixelOffset(R.dimen.child_img_small_w);
+        int itemHeight = getResources().getDimensionPixelOffset(R.dimen.child_img_small_h);
 
         for (int i = 0; i < 7; i++) {
             View itemContainer = LayoutInflater.from(mContext).inflate(R.layout.item_comic_fragment, null);
+            ImageView itemImg = (ImageView) itemContainer.findViewById(R.id.item_img);
+            TextView itemText = (TextView) itemContainer.findViewById(R.id.item_title);
+            LabelImageView3 item_img_focus = (LabelImageView3) itemContainer.findViewById(R.id.item_img_focus);
+
             posters.get(i).setPosition(i);
-            itemContainer.setTag(posters.get(i));
-            itemContainer.setOnClickListener(ItemClickListener);
-            itemContainer.setOnHoverListener(new View.OnHoverListener() {
+            item_img_focus.setTag(posters.get(i));
+            item_img_focus.setOnClickListener(ItemClickListener);
+            item_img_focus.setOnHoverListener(new View.OnHoverListener() {
 				
 				@Override
 				public boolean onHover(View v, MotionEvent event) {
@@ -200,8 +205,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
 					return false;
 				}
 			});
-            ImageView itemImg = (ImageView) itemContainer.findViewById(R.id.item_img);
-            TextView itemText = (TextView) itemContainer.findViewById(R.id.item_title);
+
             if(mContext==null)
                 return;
             Picasso.with(mContext).load(posters.get(i).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(itemImg);
@@ -211,7 +215,6 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
              * left layout
              */
             if (i >= 0 && i < 3) {
-
                 LinearLayout.LayoutParams verticalParams = new LinearLayout.LayoutParams(itemWidth, itemHeight);
                 verticalParams.width = itemWidth;
                 verticalParams.height = itemHeight;
@@ -219,10 +222,10 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
                     verticalParams.setMargins(0, marginTP, 0, marginTP);
                 }
                 if(i ==0){
-                	lefttop = itemContainer;
+                	lefttop = item_img_focus;
                 }
                 if(i <2){
-                	itemContainer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    item_img_focus.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             			@Override
             			public void onFocusChange(View arg0, boolean arg1) {
@@ -232,9 +235,9 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
             			}
             		});
                 }else{
-                	leftBottom = itemContainer;
-//                	itemContainer.setNextFocusDownId(R.id.toppage_divide_view);
-                	itemContainer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                	leftBottom = item_img_focus;
+//                	item_img_focus.setNextFocusDownId(R.id.toppage_divide_view);
+                    item_img_focus.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             			@Override
             			public void onFocusChange(View arg0, boolean arg1) {
@@ -256,11 +259,11 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
                 horizontalParams.width = itemWidth;
                 horizontalParams.height = itemHeight;
 
-                int marginLeft = (int) mContext.getResources().getDimension(R.dimen.child_fragment_center_layout_item_margin_left);
+                int marginLeft = getResources().getDimensionPixelOffset(R.dimen.child_bottom_space);
 
                 if (i == 4) {
                     horizontalParams.setMargins(marginLeft, 0, 0, 0);
-                    itemContainer.setId(12435688);
+                    item_img_focus.setId(12435688);
                     childMore.setNextFocusLeftId(12435688);
                 }
 
@@ -276,14 +279,14 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
                 verticalParams.width = itemWidth;
                 verticalParams.height = itemHeight;
                 if(i == 5){
-                	righttop =itemContainer;
+                	righttop = item_img_focus;
                 }
                 if (i == 6) {
                     verticalParams.setMargins(0, marginTP, 0, 0);
                 }
                 itemContainer.setLayoutParams(verticalParams);
                 rightLayout.addView(itemContainer);
-                itemContainer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                item_img_focus.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
         			@Override
         			public void onFocusChange(View arg0, boolean arg1) {

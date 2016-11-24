@@ -49,7 +49,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         mHolder.addCallback(this);
         logVideoStart(mSpeed);
         Log.i(TAG, "setMedia");
-        if (isSurfaceInit && mHolder != null) {
+        if (isSurfaceInit && mHolder != null && mHolder.getSurface().isValid()) {
             openVideo();
             if (mOnDataSourceSetListener != null) {
                 mOnDataSourceSetListener.onSuccess();

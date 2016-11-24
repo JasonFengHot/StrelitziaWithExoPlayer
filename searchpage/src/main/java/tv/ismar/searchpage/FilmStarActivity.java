@@ -386,7 +386,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                     String title=semantichObjectEntity.getTitle();
                     long pk=Long.valueOf(semantichObjectEntity.getPk());
                     if(contentModel.equals("music")||(contentModel.equals("sport")&&semantichObjectEntity.getExpense()==null)||contentModel.equals("game")){
-                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,-1,Source.SEARCH.getValue());
+                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,-1,Source.SEARCH);
                     }else if("person".equals(contentModel)){
                         pageIntent.toFilmStar(FilmStarActivity.this,title,pk);
                     }else{

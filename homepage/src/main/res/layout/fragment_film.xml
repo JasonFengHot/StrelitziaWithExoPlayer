@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:labelimage="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/film_top_h"
         android:clipChildren="false"
         android:clipToPadding="false"
@@ -22,11 +22,12 @@
             android:focusableInTouchMode="true"
             android:nextFocusUp="@+id/film_lefttop_image"
             android:src="@drawable/list_item_preview_bg"
-            labelimage:focusbackground3="@color/shawdow"
-            labelimage:focuspaddingtop3="0.89"
-            labelimage:focustextsize3="@dimen/text_size_36sp"
-            labelimage:maxfocustitle3="8"
-            labelimage:needzoom3="true" />
+            labelimage:label3_maxText="8"
+            labelimage:label3_needZoom="true"
+            labelimage:label3_textBackColor="@color/color_alpha_black"
+            labelimage:label3_textPaddingBottom="@dimen/film_top_label_pb"
+            labelimage:label3_textPaddingTop="@dimen/film_top_label_pt"
+            labelimage:label3_textSize="@dimen/text_size_36sp" />
 
         <tv.ismar.homepage.widget.HomeItemContainer
             android:id="@+id/film_post_layout"
@@ -45,14 +46,13 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false" />
 
-            <tv.ismar.homepage.widget.LabelImageView3
+            <ImageView
                 android:id="@+id/film_linked_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:focusable="false"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                labelimage:needzoom3="true" />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/film_linked_title"
@@ -66,15 +66,24 @@
                 android:visibility="gone" />
         </tv.ismar.homepage.widget.HomeItemContainer>
 
-        <RelativeLayout
-            android:id="@+id/film_carousel_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/film_carousel_ml"
             android:layout_toRightOf="@id/film_post_layout"
             android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="vertical" />
+            android:clipToPadding="false">
+
+            <RelativeLayout
+                android:id="@+id/film_carousel_layout"
+                android:layout_width="@dimen/film_carousel_item_w"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
     <LinearLayout

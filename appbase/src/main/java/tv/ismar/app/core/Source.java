@@ -18,6 +18,7 @@ public enum Source {
     LIVE("live"),//轮播的已播放影片
     TVHOME("tvhome"),//首页五个推荐,其余为unknow
     TOPVIDEO("topvideo"),//首页上方的视频,其余为unknow
+    HOMEPAGE("homepage"),//首页五个推荐,其余为unknow
     UNKNOWN("unknown");
 
     private String source;

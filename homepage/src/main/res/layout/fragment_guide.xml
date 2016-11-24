@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/guide_video_h"
         android:clipChildren="false"
         android:clipToPadding="false"
@@ -40,7 +40,7 @@
 
         <include
             layout="@layout/guide_carouse"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/guide_carouse_w"
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false" />

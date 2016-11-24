@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.entity.HomePagerEntity.Poster;
@@ -31,6 +34,7 @@ import tv.ismar.app.models.Sport;
 import tv.ismar.app.models.SportGame;
 import tv.ismar.app.player.InitPlayerTool;
 import tv.ismar.app.util.PicassoUtils;
+import tv.ismar.app.util.Utils;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.homepage.widget.HomeItemContainer;
@@ -326,7 +330,7 @@ public class SportFragment extends ChannelBaseFragment {
         for (int i = 0; i < 4; i++) {
         	postlist.get(i).setPosition(i);
             PicassoUtils.load(mContext, postlist.get(i).getCustom_image(), sportChannelImages[i]);
-            sportChannelImages[i].setFocustitle(postlist.get(i).getIntroduction());
+            sportChannelImages[i].setTitle(postlist.get(i).getIntroduction());
             sportChannleSubtitles[i].setText(postlist.get(i).getTitle());
             sportChannelImages[i].setTag(postlist.get(i));
             sportChannelImages[i].setOnClickListener(ItemClickListener);
@@ -367,27 +371,27 @@ public class SportFragment extends ChannelBaseFragment {
 
                 sportspost.setTag(R.drawable.launcher_selector, carousel);
                 if (!StringUtils.isEmpty(carousel.getIntroduction())) {
-                    sportspost.setFocustitle(carousel.getIntroduction());
+                    sportspost.setTitle(carousel.getIntroduction());
                 } else {
-                    sportspost.setFocustitle(null);
+                    sportspost.setTitle(null);
                 }
                 int i = v.getId();
                 if (i == R.id.sport_card1) {
-                    sport_card1.setCustomfocus(true);
-                    sport_card2.setCustomfocus(false);
-                    sport_card3.setCustomfocus(false);
+                    sport_card1.setCustomFocus(true);
+                    sport_card2.setCustomFocus(false);
+                    sport_card3.setCustomFocus(false);
                     loopindex = -1;
 
                 } else if (i == R.id.sport_card2) {
-                    sport_card1.setCustomfocus(false);
-                    sport_card2.setCustomfocus(true);
-                    sport_card3.setCustomfocus(false);
+                    sport_card1.setCustomFocus(false);
+                    sport_card2.setCustomFocus(true);
+                    sport_card3.setCustomFocus(false);
                     loopindex = 0;
 
                 } else if (i == R.id.sport_card3) {
-                    sport_card1.setCustomfocus(false);
-                    sport_card2.setCustomfocus(false);
-                    sport_card3.setCustomfocus(true);
+                    sport_card1.setCustomFocus(false);
+                    sport_card2.setCustomFocus(false);
+                    sport_card3.setCustomFocus(true);
                     loopindex = 1;
 
 
@@ -411,23 +415,23 @@ public class SportFragment extends ChannelBaseFragment {
                     looppost.get(loopindex));
             if (!StringUtils.isEmpty(looppost.get(loopindex)
                     .getIntroduction())) {
-                sportspost.setFocustitle(looppost.get(loopindex)
+                sportspost.setTitle(looppost.get(loopindex)
                         .getIntroduction());
             } else {
-                sportspost.setFocustitle(null);
+                sportspost.setTitle(null);
             }
             if (loopindex == 0) {
-                sport_card1.setCustomfocus(true);
-                sport_card2.setCustomfocus(false);
-                sport_card3.setCustomfocus(false);
+                sport_card1.setCustomFocus(true);
+                sport_card2.setCustomFocus(false);
+                sport_card3.setCustomFocus(false);
             } else if (loopindex == 1) {
-                sport_card1.setCustomfocus(false);
-                sport_card2.setCustomfocus(true);
-                sport_card3.setCustomfocus(false);
+                sport_card1.setCustomFocus(false);
+                sport_card2.setCustomFocus(true);
+                sport_card3.setCustomFocus(false);
             } else if (loopindex == 2) {
-                sport_card1.setCustomfocus(false);
-                sport_card2.setCustomfocus(false);
-                sport_card3.setCustomfocus(true);
+                sport_card1.setCustomFocus(false);
+                sport_card2.setCustomFocus(false);
+                sport_card3.setCustomFocus(true);
             }
             if (loopindex >= 2)
                 loopindex = -1;
@@ -444,18 +448,25 @@ public class SportFragment extends ChannelBaseFragment {
             if(data == null)
             	return;
             if (data.is_complex()) {
-                Intent intent = new Intent();
-                intent.setAction("tv.ismar.daisy.Item");
-                intent.putExtra("url", data.getUrl());
-                intent.putExtra("channel", channelEntity.getChannel());
-                intent.putExtra("fromPage","homepage");
-                mContext.startActivity(intent);
+                int pk = SimpleRestClient.getItemId(data.getUrl(), new boolean[1]);
+                PageIntent pageIntent = new PageIntent();
+                pageIntent.toDetailPage(mContext, "homepage", pk);
+
+//                Intent intent = new Intent();
+//                intent.setAction("tv.ismar.daisy.Item");
+//                intent.putExtra("url", data.getUrl());
+//                intent.putExtra("channel", channelEntity.getChannel());
+//                intent.putExtra("fromPage","homepage");
+//                mContext.startActivity(intent);
             } else {
-                tool = new InitPlayerTool(mContext);
-                tool.channel=channelEntity.getChannel();
-                tool.fromPage="homepage";
-                tool.initClipInfo(data.getUrl(),
-                        InitPlayerTool.FLAG_URL);
+                int itemPk = Utils.getItemPk(data.getUrl());
+                PageIntent pageIntent = new PageIntent();
+                pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE);
+//                tool = new InitPlayerTool(mContext);
+//                tool.channel=channelEntity.getChannel();
+//                tool.fromPage="homepage";
+//                tool.initClipInfo(data.getUrl(),
+//                        InitPlayerTool.FLAG_URL);
             }
         }
     };
@@ -481,32 +492,32 @@ public class SportFragment extends ChannelBaseFragment {
                     PicassoUtils.load(mContext, games.get(position).getPoster_url(), sports_live1);
                     sports_live1.setTag(games.get(position));
                     if (games.get(position).is_complex()) {
-                        sports_live1.setModetype(4);
+                        sports_live1.setModeType(4);
                     } else {
-                        sports_live1.setModetype(6);
+                        sports_live1.setModeType(6);
                     }
-                    sports_live1.setFocustitle(games.get(position).getName());
+                    sports_live1.setTitle(games.get(position).getName());
                     break;
                 case 1:
                     PicassoUtils.load(mContext, games.get(position).getPoster_url(), sports_live2);
                     sports_live2.setTag(games.get(position));
                     if (games.get(position).is_complex()) {
-                        sports_live2.setModetype(4);
+                        sports_live2.setModeType(4);
                     } else {
-                        sports_live2.setModetype(6);
+                        sports_live2.setModeType(6);
                     }
-                    sports_live2.setFocustitle(games.get(position).getName());
+                    sports_live2.setTitle(games.get(position).getName());
                     break;
                 case 2:
                     PicassoUtils.load(mContext, games.get(position).getPoster_url(), sports_live3);
 
                     sports_live3.setTag(games.get(position));
                     if (games.get(position).is_complex()) {
-                        sports_live3.setModetype(4);
+                        sports_live3.setModeType(4);
                     } else {
-                        sports_live3.setModetype(6);
+                        sports_live3.setModeType(6);
                     }
-                    sports_live3.setFocustitle(games.get(position).getName());
+                    sports_live3.setTitle(games.get(position).getName());
                     break;
             }
         }

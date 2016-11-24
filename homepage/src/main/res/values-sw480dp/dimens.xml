@@ -1416,8 +1416,7 @@
 <dimen name="ad_timer_mt">17.78dp</dimen>
 <dimen name="ad_timer_mr">17.78dp</dimen>
 
-<dimen name="home_label_img_text_pt">2.22dp</dimen>
-<dimen name="home_label_img_text_pb">1.78dp</dimen>
+<dimen name="label_image_corner_size">28.44dp</dimen>
 
 <dimen name="home_container_mt">13.33dp</dimen>
 <dimen name="home_container_mlr">32.44dp</dimen>
@@ -1433,12 +1432,13 @@
 <dimen name="guide_video_w">653.33dp</dimen>
 <dimen name="guide_video_h">221.33dp</dimen>
 <dimen name="guide_video_img_ml">3.11dp</dimen>
+<dimen name="guide_carouse_w">132.00dp</dimen>
 <dimen name="guide_carouse_h">73.78dp</dimen>
 <dimen name="guide_bottom_h">123.56dp</dimen>
 <dimen name="guide_bottom_mt">9.78dp</dimen>
 <dimen name="guide_bottom_item_w">88.44dp</dimen>
 <dimen name="guide_bottom_space">11.56dp</dimen>
-<dimen name="guide_bottom_alpha_h">32.00dp</dimen>
+<dimen name="guide_bottom_alpha_h">24.00dp</dimen>
 <dimen name="guide_bottom_text_plr">1.33dp</dimen>
 
 <dimen name="film_top_h">221.33dp</dimen>
@@ -1451,6 +1451,8 @@
 <dimen name="film_carousel_item_w">91.56dp</dimen>
 <dimen name="film_carousel_item_h">38.22dp</dimen>
 <dimen name="film_carousel_item_space">7.56dp</dimen>
+<dimen name="film_top_label_pt">4.44dp</dimen>
+<dimen name="film_top_label_pb">4.00dp</dimen>
 
 <dimen name="entertainment_top_h">229.33dp</dimen>
 <dimen name="entertainment_top_left_w">408.00dp</dimen>
@@ -1459,13 +1461,13 @@
 <dimen name="entertainment_thumb_h2">24.00dp</dimen>
 <dimen name="entertainment_thumb_ml">0.44dp</dimen>
 <dimen name="entertainment_thumb_text_h">22.67dp</dimen>
-
 <dimen name="entertainment_top_right_ml">11.56dp</dimen>
 <dimen name="entertainment_top_right_item_w">176.89dp</dimen>
 <dimen name="entertainment_top_right_item_h">100.89dp</dimen>
 <dimen name="entertainment_top_right_card_h">112.89dp</dimen>
 <dimen name="entertainment_top_right_image_mt">0.89dp</dimen>
 <dimen name="entertainment_top_right_item_text_mt">1.33dp</dimen>
+<dimen name="entertainment_top_right_item_text_h">14.67dp</dimen>
 <dimen name="entertainment_bottom_mt">23.11dp</dimen>
 <dimen name="entertainment_bottom_item_w">147.56dp</dimen>
 <dimen name="entertainment_bottom_item_h">84.00dp</dimen>
@@ -1474,6 +1476,10 @@
 <dimen name="entertainment_bottom_text_mt">9.78dp</dimen>
 <dimen name="entertainment_more_w">9.78dp</dimen>
 <dimen name="entertainment_more_h">9.78dp</dimen>
+<dimen name="entertainment_top_label_pt">1.78dp</dimen>
+<dimen name="entertainment_top_label_pb">2.22dp</dimen>
+<dimen name="entertainment_bottom_label_pt">2.22dp</dimen>
+<dimen name="entertainment_bottom_label_pb">1.78dp</dimen>
 
 <dimen name="sport_top_h">221.33dp</dimen>
 <dimen name="sport_top_item_w">130.22dp</dimen>
@@ -1482,6 +1488,38 @@
 <dimen name="sport_top_center_w">526.22dp</dimen>
 <dimen name="sport_top_space">0.89dp</dimen>
 <dimen name="sport_top_arrow_h">13.33dp</dimen>
+<dimen name="sport_top_label_pt">2.22dp</dimen>
+<dimen name="sport_top_label_pb">2.67dp</dimen>
+<dimen name="sport_bottom_label_pt">2.22dp</dimen>
+<dimen name="sport_bottom_label_pb">1.78dp</dimen>
+<dimen name="sport_center_label_pt">1.78dp</dimen>
+<dimen name="sport_center_label_pb">1.33dp</dimen>
+
+<dimen name="child_mlr">7.56dp</dimen>
+<dimen name="child_mt">2.67dp</dimen>
+<dimen name="child_img_small_w">168.89dp</dimen>
+<dimen name="child_img_small_h">103.56dp</dimen>
+<dimen name="child_img_small_space">19.56dp</dimen>
+<dimen name="child_img_small_text_h">17.78dp</dimen>
+<dimen name="child_img_big_w">373.33dp</dimen>
+<dimen name="child_img_big_h">222.22dp</dimen>
+<dimen name="child_img_small_plr">9.78dp</dimen>
+<dimen name="child_img_small_pt">7.56dp</dimen>
+<dimen name="child_img_small_pb">12.00dp</dimen>
+<dimen name="child_img_big_plr">11.56dp</dimen>
+<dimen name="child_img_big_pt">8.44dp</dimen>
+<dimen name="child_img_big_pb">15.11dp</dimen>
+<dimen name="child_top_space">31.11dp</dimen>
+<dimen name="child_bottom_space">35.56dp</dimen>
+<dimen name="child_bottom_mt">24.00dp</dimen>
+<dimen name="child_thumb_width">68.00dp</dimen>
+<dimen name="child_thumb_h1">37.78dp</dimen>
+<dimen name="child_thumb_h2">24.44dp</dimen>
+<dimen name="child_right_h">226.67dp</dimen>
+<dimen name="child_more_w">188.00dp</dimen>
+<dimen name="child_more_h">165.33dp</dimen>
+<dimen name="child_more_mt">27.11dp</dimen>
+<dimen name="child_more_ml">23.11dp</dimen>
 
 <!--longhai 首页相关ui End -->
 

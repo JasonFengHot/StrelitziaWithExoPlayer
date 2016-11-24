@@ -8,13 +8,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-//import org.apache.commons.lang3.StringUtils;
+
 import com.blankj.utilcode.utils.StringUtils;
 
 import tv.ismar.app.widget.AsyncImageView;
@@ -22,240 +23,252 @@ import tv.ismar.homepage.R;
 
 public class LabelImageView3 extends AsyncImageView {
 
-	private String focustitle = "";
-	private int focustitlesize;
-	private float focuspaddingtop;
-	private int textBack;
-	private float focustitlepaddingtop;
-	private int frontcolor;
-	private int modetype;
-	private int carouse_color;
-	private boolean customfocus;
-	private boolean customselected;
-	private int maxfocustitle;
+    private String title = "";
+    private int textSize;
+    private int textPaddingTop;
+    private int textPaddingBottom;
+    private int textBackColor;
+    private int frontColor;
+    private int modeType;
+    private boolean customFocus;
+    private int maxTextNum;
     private boolean drawBorder;
+    private boolean needZoom;
+    private Animation scaleSmallAnimation;
+    private Animation scaleBigAnimation;
+    private Rect mBound;
+    private NinePatchDrawable mNinePatchDrawable;
+    private Drawable mDrawable;
+    private Rect mRect;
 
-	public void setDrawBorder(boolean drawBorder) {
-		this.drawBorder = drawBorder;
-	}
+    public void setDrawBorder(boolean drawBorder) {
+        this.drawBorder = drawBorder;
+    }
 
-	public void setNeedzoom(boolean needzoom) {
-		this.needzoom = needzoom;
-	}
+    public void setNeedZoom(boolean needZoom) {
+        this.needZoom = needZoom;
+    }
 
-	private boolean needzoom;
-	private Animation scaleSmallAnimation;
-	private Animation scaleBigAnimation;
-	private Rect mBound;
-	private NinePatchDrawable mDrawable;
-	private Rect mRect;
+    public void setModeType(int modeType) {
+        this.modeType = modeType;
+    }
 
-	public void setModetype(int modetype) {
-		this.modetype = modetype;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getFocustitle() {
-		return focustitle;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setFocustitle(String focustitle) {
-		this.focustitle = focustitle;
-	}
+    public int getTextSize() {
+        return textSize;
+    }
 
-	public int getFocustitlesize() {
-		return focustitlesize;
-	}
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
+    }
 
-	public void setFocustitlesize(int focustitlesize) {
-		this.focustitlesize = focustitlesize;
-	}
+    public LabelImageView3(Context context) {
+        this(context, null);
+    }
 
-	public LabelImageView3(Context context) {
-		this(context, null);
-	}
+    public LabelImageView3(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
 
-	public LabelImageView3(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
-	}
+    public LabelImageView3(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.LabelImageView3);
+        textSize = a.getDimensionPixelOffset(
+                R.styleable.LabelImageView3_label3_textSize, 0);
+        textPaddingTop = a.getDimensionPixelOffset(R.styleable.LabelImageView3_label3_textPaddingTop, 0);
+        textPaddingBottom = a.getDimensionPixelOffset(R.styleable.LabelImageView3_label3_textPaddingBottom, 0);
+        textBackColor = a.getColor(R.styleable.LabelImageView3_label3_textBackColor, Color.parseColor("#B2000000"));
+        frontColor = a.getColor(R.styleable.LabelImageView3_label3_frontColor, 0);
+        customFocus = a.getBoolean(R.styleable.LabelImageView3_label3_customFocus, false);
+        needZoom = a.getBoolean(R.styleable.LabelImageView3_label3_needZoom, false);
+        maxTextNum = a.getInt(R.styleable.LabelImageView3_label3_maxText, 0);
+        Drawable drawable = a.getDrawable(R.styleable.LabelImageView3_label3_drawable);
+        a.recycle();
+        setWillNotDraw(false);
+        mRect = new Rect();
+        mBound = new Rect();
+        if (drawable == null) {
+            mNinePatchDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.vod_gv_selector);
+        } else {
+            mDrawable = drawable;
+        }
 
-	public LabelImageView3(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.LabelImageView3);
-		focuspaddingtop = a.getFloat(
-				R.styleable.LabelImageView3_focuspaddingtop3, 0.85f);
-		focustitlesize = a.getDimensionPixelOffset(
-				R.styleable.LabelImageView3_focustextsize3, 0);
-		focustitlepaddingtop = a.getFloat(
-				R.styleable.LabelImageView3_focustextpaddingtop3, 0.97f);
-		frontcolor = a.getInt(R.styleable.LabelImageView3_frontcolor3, 0);
-		carouse_color = context.getResources().getColor(R.color.carousel_focus);
-		customfocus = a.getBoolean(R.styleable.LabelImageView3_customfocus3,
-				false);
-		needzoom = a.getBoolean(R.styleable.LabelImageView3_needzoom3, false);
-		maxfocustitle = a.getInt(R.styleable.LabelImageView3_maxfocustitle3, 0);
-		a.recycle();
-		setWillNotDraw(false);
-		mRect = new Rect();
-		mBound = new Rect();
-		mDrawable = (NinePatchDrawable) getResources().getDrawable(
-				R.drawable.vod_gv_selector);
-		textBack = getResources().getColor(R.color.color_alpha_black);
-	}
+    }
 
-	protected void onFocusChanged(boolean gainFocus, int direction,
-			Rect previouslyFocusedRect) {
-		super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-		if (needzoom) {
-			if (gainFocus) {
-				if(getId() != R.id.vaiety_post && getId() != R.id.image_switcher){
-					bringToFront();
-				}
-				drawBorder = true;
-				getRootView().requestLayout();
-				getRootView().invalidate();
-				zoomOut();
-			} else {
-				drawBorder = false;
-				zoomIn();
-			}
-		}
-	}
+    protected void onFocusChanged(boolean gainFocus, int direction,
+                                  Rect previouslyFocusedRect) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+        if (needZoom) {
+            if (gainFocus) {
+                if (getId() != R.id.vaiety_post && getId() != R.id.image_switcher) {
+                    bringToFront();
+                }
+                drawBorder = true;
+                getRootView().requestLayout();
+                getRootView().invalidate();
+                zoomOut();
+            } else {
+                drawBorder = false;
+                zoomIn();
+            }
+        }
+    }
 
-	public void setFrontcolor(int frontcolor) {
-		this.frontcolor = frontcolor;
-	}
+    public void setFrontColor(int frontColor) {
+        this.frontColor = frontColor;
+    }
 
-	@Override
-	protected boolean dispatchHoverEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_HOVER_ENTER:
+    @Override
+    protected boolean dispatchHoverEvent(MotionEvent event) {
+        // TODO Auto-generated method stub
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
 //			drawBorder = true;
 //			requestFocus();
 //			invalidate();
 //			break;
-		case MotionEvent.ACTION_HOVER_MOVE:
+            case MotionEvent.ACTION_HOVER_MOVE:
 //			drawBorder = true;
-			if(isFocusable() && isFocusableInTouchMode())
-			requestFocus();
-			setHovered(true);
+                if (isFocusable() && isFocusableInTouchMode())
+                    requestFocus();
+                setHovered(true);
 //			invalidate();
-			break;
-		case MotionEvent.ACTION_HOVER_EXIT:
-			setHovered(false);
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                setHovered(false);
 //			drawBorder = false;
 //			invalidate();
-			break;
-		}
-		return false;
-	}
+                break;
+        }
+        return false;
+    }
 
-	@Override
-	public void draw(Canvas canvas) {
-		super.draw(canvas);
-		super.getDrawingRect(mRect);
-		int width = getLayoutParams().width;
-		int height = getLayoutParams().height;
-		int paddingright = getPaddingRight();
-		int paddingtop = getPaddingTop();
-		int paddingBottom = getPaddingBottom();
-		if (width <= 0)
-			width = getWidth();
-		if (height <= 0)
-			height = getHeight();
-		Paint paint = new Paint();
-		paint.setAntiAlias(true);
-		// 绘制角标
-		if (modetype > 0 && getDrawable() != null) {
-			int resId = R.drawable.entertainment_bg;
-			switch (modetype) {
-			case 1:
-				resId = R.drawable.entertainment_bg;
-				break;
-			case 2:
-				resId = R.drawable.variety_bg;
-				break;
-			case 3:
-				resId = R.drawable.all_match;
-				break;
-			case 4:
-				resId = R.drawable.living;
-				break;
-			case 5:
-				resId = R.drawable.beonline;
-				break;
-			case 6:
-				resId = R.drawable.collection;
-				break;
-			}
-//			InputStream is = getResources().openRawResource(resId);
-			Bitmap mBitmap = BitmapFactory.decodeResource(getResources(),resId);
-			canvas.drawBitmap(mBitmap, width - mBitmap.getWidth(), paddingtop, paint);
-		}
-		// 绘制看点背景
-		paint.setColor(Color.WHITE);
-		if (!StringUtils.isEmpty(focustitle) && focustitle.length() > 0) {
-			int shadowPt = getResources().getDimensionPixelOffset(R.dimen.home_label_img_text_pt);
-			int shadowPb = getResources().getDimensionPixelOffset(R.dimen.home_label_img_text_pb);
-			int shadowT = height - (shadowPt + shadowPb + focustitlesize);
-			if (maxfocustitle > 0 && focustitle.length() > maxfocustitle) {
-				focustitle = focustitle.substring(0, maxfocustitle);
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        super.getDrawingRect(mRect);
+        int width = getLayoutParams().width;
+        int height = getLayoutParams().height;
+        int paddingright = getPaddingRight();
+        int paddingtop = getPaddingTop();
+        int paddingBottom = getPaddingBottom();
+        if (width <= 0)
+            width = getWidth();
+        if (height <= 0)
+            height = getHeight();
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        // 绘制角标
+        if (modeType > 0 && getDrawable() != null) {
+            int resId = R.drawable.entertainment_bg;
+            switch (modeType) {
+                case 1:
+                    resId = R.drawable.entertainment_bg;
+                    break;
+                case 2:
+                    resId = R.drawable.variety_bg;
+                    break;
+                case 3:
+                    resId = R.drawable.all_match;
+                    break;
+                case 4:
+                    resId = R.drawable.living;
+                    break;
+                case 5:
+                    resId = R.drawable.beonline;
+                    break;
+                case 6:
+                    resId = R.drawable.collection;
+                    break;
             }
-			paint.setColor(textBack);
-			canvas.drawRect(new Rect(getPaddingLeft(),
-					shadowT, width - paddingright,
-					height - paddingBottom), paint);
-			// 看点内容
-			paint.setColor(Color.WHITE);
-			paint.setTextSize(focustitlesize);
-			// FontMetrics fm = paint.getFontMetrics();
-			// int focusTextHeight = (int)Math.ceil(fm.descent - fm.ascent);
-			float focuswidth = paint.measureText(focustitle);
-			int xfocus = (int) ((width - focuswidth) / 2);
-			canvas.drawText(focustitle, xfocus,
-					(int) (focustitlepaddingtop * height), paint);
-		}
-		// 绘制遮罩效果
-		if (frontcolor != 0) {
-			if (!customselected) {
-				paint.setColor(frontcolor);
-				canvas.drawRect(mRect, paint);
-			}
-		}
+//			InputStream is = getResources().openRawResource(resId);
+            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), resId),
+                    getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                    getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                    false
+            );
+            canvas.drawBitmap(bitmap, width - bitmap.getWidth(), paddingtop, paint);
+        }
+        // 绘制看点背景
+        paint.setColor(Color.WHITE);
+        if (!StringUtils.isEmpty(title) && title.length() > 0) {
+            int shadowHeight = textPaddingTop + textPaddingBottom + textSize;
+            int shadowT = height - shadowHeight;
+            if (maxTextNum > 0 && title.length() > maxTextNum) {
+                title = title.substring(0, maxTextNum);
+            }
+            paint.setColor(textBackColor);
+            canvas.drawRect(new Rect(getPaddingLeft(),
+                    shadowT, width - paddingright,
+                    height - paddingBottom), paint);
+            // 看点内容
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(textSize);
+            // FontMetrics fm = paint.getFontMetrics();
+            // int focusTextHeight = (int)Math.ceil(fm.descent - fm.ascent);
+            float focuswidth = paint.measureText(title);
+            int xfocus = (int) ((width - focuswidth) / 2);
+            Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
+            int baseline = shadowT - fontMetrics.top;
+            canvas.drawText(title, xfocus, baseline, paint);
+        }
+        // 绘制遮罩效果
+        if (frontColor != 0) {
+            if (!customFocus) {
+                paint.setColor(frontColor);
+                canvas.drawRect(mRect, paint);
+            }
+        }
 
-		// if (customfocus) {
-		if (drawBorder) {
-			mBound.set(-21+mRect.left, -21+mRect.top, 21+mRect.right, mRect.bottom+21);
-			mDrawable.setBounds(mBound);
-			canvas.save();
-			mDrawable.draw(canvas);
-			canvas.restore();
-		}
-		// }
-		getRootView().requestLayout();
-		getRootView().invalidate();
-	}
+        // if (customFocus) {
+        if (drawBorder) {
+            if (mNinePatchDrawable != null) {
+                mBound.set(-21 + mRect.left, -21 + mRect.top, 21 + mRect.right, 21 + mRect.bottom);
+                mNinePatchDrawable.setBounds(mBound);
+                canvas.save();
+                mNinePatchDrawable.draw(canvas);
+                canvas.restore();
+            } else if (mDrawable != null) {
+                mBound.set(-1 + mRect.left, -3 + mRect.top, 1 + mRect.right, -2 + mRect.bottom);
+                mDrawable.setBounds(mBound);
+                canvas.save();
+                mDrawable.draw(canvas);
+                canvas.restore();
+            }
 
-	public void setCustomfocus(boolean customfocus) {
-		this.customselected = customfocus;
-		invalidate();
-	}
+        }
+        // }
+//        getRootView().requestLayout();
+//        getRootView().invalidate();
+    }
 
-	private void zoomIn() {
-		if (scaleSmallAnimation == null) {
-			scaleSmallAnimation = AnimationUtils.loadAnimation(getContext(),
-					R.anim.anim_scale_small);
-		}
-		startAnimation(scaleSmallAnimation);
-	}
+    public void setCustomFocus(boolean customFocus) {
+        this.customFocus = customFocus;
+        invalidate();
+    }
 
-	private void zoomOut() {
-		if (scaleBigAnimation == null) {
-			scaleBigAnimation = AnimationUtils.loadAnimation(getContext(),
-					R.anim.anim_scale_big);
-		}
-		startAnimation(scaleBigAnimation);
-	}
+    private void zoomIn() {
+        if (scaleSmallAnimation == null) {
+            scaleSmallAnimation = AnimationUtils.loadAnimation(getContext(),
+                    R.anim.anim_scale_small);
+        }
+        startAnimation(scaleSmallAnimation);
+    }
+
+    private void zoomOut() {
+        if (scaleBigAnimation == null) {
+            scaleBigAnimation = AnimationUtils.loadAnimation(getContext(),
+                    R.anim.anim_scale_big);
+        }
+        startAnimation(scaleBigAnimation);
+    }
 
 }

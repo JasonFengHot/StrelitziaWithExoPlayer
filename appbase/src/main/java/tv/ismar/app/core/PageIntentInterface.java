@@ -45,7 +45,7 @@ public interface PageIntentInterface {
 
     void toPaymentForResult(Activity context, String fromPage, PaymentInfo paymentInfo);
 
-    void toPlayPage(Context context, int pk, int sub_item_pk, String source);
+    void toPlayPage(Context context, int pk, int sub_item_pk, Source source);
 
     void toUserCenter(Context context);
 

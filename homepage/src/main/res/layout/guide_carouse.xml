@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:labelimage="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical"
     android:paddingLeft="@dimen/guide_video_img_ml">
 
     <tv.ismar.homepage.widget.LabelImageView3
@@ -17,32 +16,34 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scaleType="fitXY"
-        labelimage:customfocus3="true"
-        labelimage:frontcolor3="@color/color_alpha_black"
-        labelimage:needzoom3="true" />
+        labelimage:label3_customFocus="true"
+        labelimage:label3_frontColor="@color/color_alpha_black"
+        labelimage:label3_needZoom="true" />
 
     <tv.ismar.homepage.widget.LabelImageView3
         android:id="@+id/toppage_carous_imageView2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/guide_carouse_h"
+        android:layout_below="@id/toppage_carous_imageView1"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scaleType="fitXY"
-        labelimage:customfocus3="true"
-        labelimage:frontcolor3="@color/color_alpha_black"
-        labelimage:needzoom3="true" />
+        labelimage:label3_customFocus="true"
+        labelimage:label3_frontColor="@color/color_alpha_black"
+        labelimage:label3_needZoom="true" />
 
     <tv.ismar.homepage.widget.LabelImageView3
         android:id="@+id/toppage_carous_imageView3"
         android:layout_width="match_parent"
         android:layout_height="@dimen/guide_carouse_h"
+        android:layout_below="@id/toppage_carous_imageView2"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scaleType="fitXY"
-        labelimage:customfocus3="true"
-        labelimage:frontcolor3="@color/color_alpha_black"
-        labelimage:needzoom3="true" />
+        labelimage:label3_customFocus="true"
+        labelimage:label3_frontColor="@color/color_alpha_black"
+        labelimage:label3_needZoom="true" />
 
-</LinearLayout>
+</RelativeLayout>

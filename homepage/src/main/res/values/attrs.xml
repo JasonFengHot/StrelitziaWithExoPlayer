@@ -160,14 +160,15 @@
     <declare-styleable name="HorizontalListView"></declare-styleable>
 
     <declare-styleable name="LabelImageView3">
-        <attr name="focustextsize3" format="dimension"/>
-        <attr name="focusbackground3" format="color"/>
-        <attr name="frontcolor3" format="color"/>
-        <attr name="focustextpaddingtop3" format="float"/>
-        <attr name="focuspaddingtop3" format="float"/>
-        <attr name="customfocus3" format="boolean"/>
-        <attr name="maxfocustitle3" format="integer"/>
-        <attr name="needzoom3" format="boolean"/>
+        <attr name="label3_drawable" format="reference"/>
+        <attr name="label3_textSize" format="dimension"/>
+        <attr name="label3_textPaddingTop" format="dimension"/>
+        <attr name="label3_textPaddingBottom" format="dimension"/>
+        <attr name="label3_textBackColor" format="color"/>
+        <attr name="label3_frontColor" format="color"/>
+        <attr name="label3_customFocus" format="boolean"/>
+        <attr name="label3_needZoom" format="boolean"/>
+        <attr name="label3_maxText" format="integer"/>
     </declare-styleable>
 
     <declare-styleable name="DaisyViewContainer">

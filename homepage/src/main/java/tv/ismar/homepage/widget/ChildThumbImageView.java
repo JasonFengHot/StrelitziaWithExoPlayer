@@ -5,6 +5,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import tv.ismar.homepage.R;
+
 /**
  * Created by huaijie on 6/29/15.
  */
@@ -30,7 +32,8 @@ public class ChildThumbImageView extends ImageView {
     }
 
     public void zoomNormalImage() {
-    	  setPadding(0, 30, 0, -30);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.child_thumb_h2);
+    	  setPadding(0, padding / 2, 0, -padding / 2);
 //        this.isZoom = false;
 //        AnimationSet animationSet = new AnimationSet(true);
 //        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1f, 1.53f, 1f,
