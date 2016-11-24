@@ -104,6 +104,7 @@
              This setting implies fastScrollEnabled.
         -->
         <attr name="fastScrollAlwaysVisible" format="boolean"/>
+        <attr name="scaleSize" format="float"/>
         <attr name="selectorLeftPadding" format="dimension"/>
         <attr name="selectorTopPadding" format="dimension"/>
         <attr name="selectorRightPadding" format="dimension"/>

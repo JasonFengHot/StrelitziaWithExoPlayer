@@ -42,8 +42,6 @@ import tv.ismar.searchpage.utils.JasmineUtil;
 import tv.ismar.searchpage.utils.SharedPreferencesUtils;
 import tv.ismar.searchpage.weight.MyDialog;
 import tv.ismar.searchpage.weight.ZGridView;
-import tv.ismar.searchpage.weight.ZGridView1;
-import tv.ismar.searchpage.weight.ZGridView2;
 
 ;
 
@@ -51,7 +49,7 @@ import tv.ismar.searchpage.weight.ZGridView2;
 public class WordSearchActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, View.OnHoverListener {
     private static final String TAG = "WordSearchActivity";
     private EditText et_input;
-    private ZGridView1 keyboard;
+    private ZGridView keyboard;
     private TextView tv_search_all;
     private String[] keys;
     private String[] t9_nums;
@@ -92,7 +90,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     private int page = 1;
     private View view;
     private TextView tv_recommend;
-    private ZGridView2 t9_keyboard;
+    private ZGridView t9_keyboard;
     private List<NineTKey> keyList;
     private boolean first = true;
     private boolean firstin = true;
@@ -346,7 +344,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         rl_search_subject = findViewById(R.id.rl_search_subject);
         rl_search_subject.setOnHoverListener(this);
         rl_recognize_hotword = findViewById(R.id.rl_recognize_hotword);
-        t9_keyboard = (ZGridView2) findViewById(R.id.t9_keyboard);
+        t9_keyboard = (ZGridView) findViewById(R.id.t9_keyboard);
         search_keyboard = findViewById(R.id.search_keyboard);
         loading = findViewById(R.id.loading);
         junp_view = findViewById(R.id.jump_view);
@@ -360,7 +358,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         });
 
         et_input = (EditText) findViewById(R.id.et_input);
-        keyboard = (ZGridView1) findViewById(R.id.keyboard);
+        keyboard = (ZGridView) findViewById(R.id.keyboard);
         iv_toggle = (ImageView) findViewById(R.id.iv_toggle);
         iv_toggle.setOnClickListener(this);
         iv_toggle.setOnHoverListener(this);

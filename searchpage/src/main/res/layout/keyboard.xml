@@ -34,7 +34,7 @@
             android:layout_marginTop="@dimen/edittext_divider_margin_top"
             android:layout_marginLeft="@dimen/edittext_divider_margin_left"
             />
-    <tv.ismar.searchpage.weight.ZGridView1
+    <tv.ismar.searchpage.weight.ZGridView
             android:id="@+id/keyboard"
             android:layout_width="@dimen/full_keyboard_width"
             android:layout_height="@dimen/full_keyboard_height"
@@ -56,9 +56,10 @@
             jasmine:selectorTopPadding="@dimen/full_keyboard_padding"
             jasmine:selectorRightPadding="@dimen/full_keyboard_padding"
             jasmine:selectorBottomPadding="@dimen/full_keyboard_padding"
+            jasmine:scaleSize="1.2"
             >
-    </tv.ismar.searchpage.weight.ZGridView1>
-    <tv.ismar.searchpage.weight.ZGridView2
+    </tv.ismar.searchpage.weight.ZGridView>
+    <tv.ismar.searchpage.weight.ZGridView
             android:id="@+id/t9_keyboard"
             android:layout_width="@dimen/t9_keyboard_width"
             android:layout_height="@dimen/t9_keyboard_height"
@@ -77,8 +78,8 @@
             jasmine:selectorTopPadding="@dimen/t9_keyboard_padding"
             jasmine:selectorRightPadding="@dimen/t9_keyboard_padding"
             jasmine:selectorBottomPadding="@dimen/t9_keyboard_padding"
-            >
-    </tv.ismar.searchpage.weight.ZGridView2>
+        >
+    </tv.ismar.searchpage.weight.ZGridView>
 
     <RelativeLayout
             android:id="@+id/t9_key_0"
