@@ -7,7 +7,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -414,9 +413,9 @@ public class GuideFragment extends ChannelBaseFragment {
             for (int i = 0; i < allItem.size(); i++) {
                 LabelImageView3 imageView = allItem.get(i);
                 if (mCurrentCarouselIndex != i) {
-                    imageView.setCustomfocus(false);
+                    imageView.setCustomFocus(false);
                 } else {
-                    imageView.setCustomfocus(true);
+                    imageView.setCustomFocus(true);
                 }
             }
 

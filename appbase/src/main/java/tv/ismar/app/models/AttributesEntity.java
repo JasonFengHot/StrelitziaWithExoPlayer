@@ -1,4 +1,4 @@
-package tv.ismar.searchpage.data.http;
+package tv.ismar.app.models;
 
 /**
  * Created by huaijie on 2/22/16.

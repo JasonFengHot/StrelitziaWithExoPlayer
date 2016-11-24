@@ -38,9 +38,12 @@ import tv.ismar.app.entity.ItemList;
 import tv.ismar.app.entity.Section;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
+import tv.ismar.app.models.ActorRelateRequestParams;
 import tv.ismar.app.models.Game;
 import tv.ismar.app.models.HotWords;
+import tv.ismar.app.models.PersonEntitiy;
 import tv.ismar.app.models.Recommend;
+import tv.ismar.app.models.SemanticSearchResponseEntity;
 import tv.ismar.app.models.Sport;
 import tv.ismar.app.models.VodFacetEntity;
 import tv.ismar.app.models.VodSearchRequestEntity;
@@ -436,9 +439,26 @@ Observable<ResponseBody> apifetchWeatherInfo(
     Observable<List<String>> apiSearchSuggest(
             @Path("word") String word
     );
+
+    @POST("api/tv/vodsearch/")
+    Observable<VodFacetEntity> apiSearchResult(
+            @Body VodSearchRequestEntity requestEntity
+    );
+
     @GET("api/package/relate/{pkg}/")
     Observable<ItemEntity[]> packageRelate(
             @Path("pkg") long pk);
+
+
+    @GET("api/person/{id}/")
+    Observable<PersonEntitiy> apiFetchPersonBG(
+            @Path("id") String id
+    );
+
+    @POST("api/tv/actorrelate/")
+    Observable<SemanticSearchResponseEntity> apiFetchActorRelate(
+            @Body ActorRelateRequestParams params
+    );
 
     class ServiceManager {
         private volatile static ServiceManager serviceManager;

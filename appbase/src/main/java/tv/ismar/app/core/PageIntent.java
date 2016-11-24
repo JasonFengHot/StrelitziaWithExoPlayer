@@ -102,12 +102,12 @@ public class PageIntent implements PageIntentInterface {
     }
 
 
-    public void toPlayPage(Context context, int pk, int sub_item_pk, String source) {
+    public void toPlayPage(Context context, int pk, int sub_item_pk, Source source) {
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.Player");
         intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
         intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, sub_item_pk);
-        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
+        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source.getValue());
         context.startActivity(intent);
     }
 
@@ -143,6 +143,15 @@ public class PageIntent implements PageIntentInterface {
     public void toSearch(Context context){
         Intent intent=new Intent();
         intent.setAction("tv.ismar.searchpage.search");
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void toFilmStar(Context context, String title, long pk) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.searchpage.filmstar");
+        intent.putExtra(EXTRA_TITLE, title);
+        intent.putExtra(EXTRA_PK, pk);
         context.startActivity(intent);
     }
 }

@@ -45,7 +45,7 @@ public class PosterAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public VodObjectEntity getItem(int position) {
         return mData.get(position);
     }
 

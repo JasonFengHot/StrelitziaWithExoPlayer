@@ -1,153 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    xmlns:labelimage="http://schemas.android.com/apk/res-auto">
+    android:layout_marginLeft="@dimen/child_mlr"
+    android:layout_marginRight="@dimen/child_mlr"
+    android:layout_marginTop="@dimen/child_mt"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout
+        android:id="@+id/left_layout"
+        android:layout_width="@dimen/child_img_small_w"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:id="@+id/center_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/child_top_space"
+        android:layout_toRightOf="@id/left_layout"
         android:clipChildren="false"
         android:clipToPadding="false"
-        >
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/left_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/child_fragment_leftlayout_margin_left"
-            android:layout_marginTop="@dimen/child_fragment_toplayout_margin_top"
-            android:orientation="vertical"
-            >
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/center_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/child_fragment_center_layout_margin_left"
-            android:layout_marginTop="@dimen/child_fragment_toplayout_margin_top"
-            android:layout_toRightOf="@id/left_layout"
+        <RelativeLayout
+            android:id="@+id/indicator_layout"
+            android:layout_width="@dimen/child_img_big_w"
+            android:layout_height="@dimen/child_img_big_h"
             android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            >
+            android:clipToPadding="false">
 
-            <RelativeLayout
-                android:id="@+id/indicator_layout"
-                android:layout_width="@dimen/child_fragment_center_layout_width"
-                android:layout_height="@dimen/child_fragment_center_layout_height"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                >
-
-                <tv.ismar.homepage.widget.LabelImageView3
-                    android:id="@+id/image_switcher"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scaleType="fitXY"
-                    labelimage:needzoom3="true"
-                    >
-                </tv.ismar.homepage.widget.LabelImageView3>
-
-                <LinearLayout
-                    android:id="@+id/indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/child_loop_indicator_layout_height"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <tv.ismar.homepage.widget.ChildThumbImageView
-                        android:id="@+id/indicator_1"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/child_fragment_indicator_height"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:scaleType="fitXY"
-                        />
-
-                    <tv.ismar.homepage.widget.ChildThumbImageView
-                        android:id="@+id/indicator_2"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/child_fragment_indicator_height"
-                        android:layout_weight="1"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:scaleType="fitXY"
-                        />
-
-                    <tv.ismar.homepage.widget.ChildThumbImageView
-                        android:id="@+id/indicator_3"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/child_fragment_indicator_height"
-                        android:layout_weight="1"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:scaleType="fitXY"
-                        />
-
-                    <TextView
-                        android:id="@+id/indicator_title"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/child_loop_indicator_text_height"
-                        android:layout_weight="3"
-                        android:alpha="0.7"
-                        android:background="#303030"
-                        android:gravity="center"
-                        android:textColor="#FFFFFFFF"
-                        android:textSize="@dimen/h5_text_size"
-                        />
-                </LinearLayout>
-            </RelativeLayout>
+            <tv.ismar.homepage.widget.LabelImageView3
+                android:id="@+id/image_switcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scaleType="fitXY"
+                labelimage:label3_needZoom="true" />
 
             <LinearLayout
-                android:id="@+id/bottom_layout"
-                android:layout_width="wrap_content"
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/child_fragment_center_layout_item_margin_top"
-                android:orientation="horizontal"
-                >
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <tv.ismar.homepage.widget.ChildThumbImageView
+                    android:id="@+id/indicator_1"
+                    android:layout_width="@dimen/child_thumb_width"
+                    android:layout_height="@dimen/child_thumb_h1"
+                    android:adjustViewBounds="true"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:scaleType="fitXY" />
+
+                <tv.ismar.homepage.widget.ChildThumbImageView
+                    android:id="@+id/indicator_2"
+                    android:layout_width="@dimen/child_thumb_width"
+                    android:layout_height="@dimen/child_thumb_h1"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:scaleType="fitXY" />
+
+                <tv.ismar.homepage.widget.ChildThumbImageView
+                    android:id="@+id/indicator_3"
+                    android:layout_width="@dimen/child_thumb_width"
+                    android:layout_height="@dimen/child_thumb_h1"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:id="@+id/indicator_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/child_thumb_h2"
+                    android:alpha="0.7"
+                    android:background="#303030"
+                    android:gravity="center"
+                    android:textColor="@color/color_base_white"
+                    android:textSize="@dimen/text_size_24sp" />
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/right_layout"
+            android:id="@+id/bottom_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/child_fragment_center_layout_margin_left"
-            android:layout_marginTop="@dimen/child_fragment_toplayout_margin_top"
-            android:layout_toRightOf="@id/center_layout"
-            android:orientation="vertical"
-            >
-        </LinearLayout>
+            android:layout_marginTop="@dimen/child_bottom_mt"
+            android:orientation="horizontal" />
 
-        <ImageButton
-            android:id="@+id/child_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="@dimen/child_fragment_center_layout_margin_left"
-            android:layout_toRightOf="@id/center_layout"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:background="@drawable/selector_child_more"/>
-    </RelativeLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/right_layout"
+        android:layout_width="@dimen/child_img_small_w"
+        android:layout_height="@dimen/child_right_h"
+        android:layout_marginLeft="@dimen/child_top_space"
+        android:layout_toRightOf="@id/center_layout"
+        android:orientation="vertical" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/bg_child_fragment"/>
+    <ImageButton
+        android:id="@+id/child_more"
+        android:layout_width="@dimen/child_more_w"
+        android:layout_height="@dimen/child_more_h"
+        android:layout_below="@id/right_layout"
+        android:layout_marginLeft="@dimen/child_more_ml"
+        android:layout_marginTop="@dimen/child_more_mt"
+        android:layout_toRightOf="@id/center_layout"
+        android:background="@drawable/selector_child_more"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
-</FrameLayout>
+</RelativeLayout>

@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="359px"
-              android:layout_height="67px"
-              android:paddingTop="19px"
-              android:paddingBottom="19px"
-              android:focusable="true"
-              android:background="@drawable/hotword_selector"
-              android:gravity="center_horizontal">
+                android:id="@+id/rl_hotword"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:nextFocusRight="@+id/poster_gridview"
+                android:gravity="center_horizontal"
+                android:background="@drawable/hotword_selector"
+               >
     <TextView
-            android:layout_width="359px"
-            android:layout_height="29px"
-            android:textSize="30px"
+            android:id="@+id/tv_hotword"
+            android:layout_width="@dimen/item_hotword_tv_width"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/item_hotword_tv_size"
+            android:layout_marginTop="@dimen/item_hotword_tv_margin_top"
             android:gravity="center"
-            android:text="百年传奇"
-            android:textColor="#a6a6a6"/>
+            android:singleLine="true"
+            android:paddingLeft="@dimen/item_hotword_iv_padding"
+            android:paddingRight="@dimen/item_hotword_iv_padding"
+            android:textColor="@color/text_color"
+            />
+    <ImageView
+            android:id="@+id/iv_line"
+            android:layout_width="@dimen/item_hotword_iv_width"
+            android:layout_height="@dimen/item_hotword_iv_height"
+            android:layout_marginTop="@dimen/item_hotword_tv_margin_top"
+            android:src="@drawable/nomal"/>
 
 </LinearLayout>

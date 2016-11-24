@@ -179,10 +179,9 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
             return;
         }
 
-        int marginTP = (int) mContext.getResources().getDimension(R.dimen.child_fragment_item_margin_tp);
-
-        int itemWidth = (int) mContext.getResources().getDimension(R.dimen.child_fragment_item_width);
-        int itemHeight = (int) mContext.getResources().getDimension(R.dimen.child_fragment_item_height);
+        int marginTP = getResources().getDimensionPixelOffset(R.dimen.child_img_small_space);
+        int itemWidth = getResources().getDimensionPixelOffset(R.dimen.child_img_small_w);
+        int itemHeight = getResources().getDimensionPixelOffset(R.dimen.child_img_small_h);
 
         for (int i = 0; i < 7; i++) {
             View itemContainer = LayoutInflater.from(mContext).inflate(R.layout.item_comic_fragment, null);
@@ -211,7 +210,6 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
              * left layout
              */
             if (i >= 0 && i < 3) {
-
                 LinearLayout.LayoutParams verticalParams = new LinearLayout.LayoutParams(itemWidth, itemHeight);
                 verticalParams.width = itemWidth;
                 verticalParams.height = itemHeight;
@@ -256,7 +254,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
                 horizontalParams.width = itemWidth;
                 horizontalParams.height = itemHeight;
 
-                int marginLeft = (int) mContext.getResources().getDimension(R.dimen.child_fragment_center_layout_item_margin_left);
+                int marginLeft = getResources().getDimensionPixelOffset(R.dimen.child_bottom_space);
 
                 if (i == 4) {
                     horizontalParams.setMargins(marginLeft, 0, 0, 0);

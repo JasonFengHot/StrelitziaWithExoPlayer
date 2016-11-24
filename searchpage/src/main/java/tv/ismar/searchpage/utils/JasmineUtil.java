@@ -16,12 +16,6 @@ import tv.ismar.searchpage.R;
  */
 public class JasmineUtil {
 
-    public static String HOTWORDS_URL="/api/tv/hotwords/";
-    public static String VODSEARCH_URL="/api/tv/vodsearch/";
-    public static String SUGGEST_URL="/api/tv/suggest/";
-    public static String RECOMMEND_URL="/api/tv/homepage/sharphotwords/8/";
-
-    public static PopupWindow popupWindow;
     public static void scaleOut(View view){
 
         Animator animator= AnimatorInflater.loadAnimator(view.getContext(), R.animator.scaleout_hotword);
@@ -58,43 +52,6 @@ public class JasmineUtil {
         showAnimator.setDuration(500);
         showAnimator.start();
 
-    }
-
-
-
-    /**
-     * 判断是否有网络连接
-     * @param context
-     * @return
-     */
-    public static boolean isNetworkConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (mNetworkInfo != null) {
-                return mNetworkInfo.isAvailable();
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 判断wifi是否连接
-     * @param context
-     * @return
-     */
-    public static boolean isWifiConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mWiFiNetworkInfo = mConnectivityManager
-                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if (mWiFiNetworkInfo != null) {
-                return mWiFiNetworkInfo.isAvailable();
-            }
-        }
-        return false;
     }
 
 }

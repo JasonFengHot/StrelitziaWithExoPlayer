@@ -20,26 +20,24 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.List;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
-import retrofit2.Call;
-import tv.ismar.searchpage.core.event.AnswerAvailableEvent;
-import tv.ismar.searchpage.core.http.HttpAPI;
-import tv.ismar.searchpage.core.http.HttpManager;
-import tv.ismar.searchpage.data.http.*;
-import tv.ismar.searchpage.model.Expense;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.Source;
+import tv.ismar.app.models.ActorRelateRequestParams;
+import tv.ismar.app.models.AttributesEntity;
+import tv.ismar.app.models.Expense;
+import tv.ismar.app.models.PersonEntitiy;
+import tv.ismar.app.models.SemanticSearchResponseEntity;
+import tv.ismar.app.models.SemantichObjectEntity;
 import tv.ismar.searchpage.utils.JasmineUtil;
 import tv.ismar.searchpage.weight.MyDialog;
 import tv.ismar.searchpage.weight.ReflectionTransformationBuilder;
 import tv.ismar.searchpage.weight.RotateTextView;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import tv.ismar.searchpage.R;
+import tv.ismar.app.BaseActivity;
 
 /**
  * Created by huaijie on 2/22/16.
@@ -65,7 +63,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     private ImageView indicatorArrowRight;
 
 
-//    private MessagePopWindow networkEorrorPopupWindow;
+    //    private MessagePopWindow networkEorrorPopupWindow;
     private ViewGroup contentView;
     private View indicatorSelectedView;
 
@@ -104,25 +102,12 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     @Override
     protected void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
         if (vodItemClickedView != null) {
             vodItemClickedView.requestFocusFromTouch();
             vodItemClickedView.requestFocus();
         }
     }
 
-    @Override
-    protected void onPause() {
-//        networkEorrorPopupWindow = null;
-        EventBus.getDefault().unregister(this);
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-//        ScreenManager.getScreenManager().popActivity(this);
-        super.onDestroy();
-    }
 
     private void initViews() {
         filmStartitle = (TextView) findViewById(R.id.film_star_title_new);
@@ -204,21 +189,22 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     }
 
     private void fetchPersonBG(String personId) {
-        HttpManager.getInstance().resetAdapter_SKY.create(HttpAPI.Person.class).doRequest(personId).enqueue(new Callback<PersonEntitiy>() {
-            @Override
-            public void onResponse(Call<PersonEntitiy> call, Response<PersonEntitiy> response) {
-                if (response.errorBody() == null)
-                    setPersonBG(response.body().getImage());
-                else
-                    EventBus.getDefault().post(new AnswerAvailableEvent(AnswerAvailableEvent.EventType.NETWORK_ERROR, AnswerAvailableEvent.NETWORK_ERROR));
-            }
+        mSkyService.apiFetchPersonBG(personId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<PersonEntitiy>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<PersonEntitiy> call, Throwable t) {
-                EventBus.getDefault().post(new AnswerAvailableEvent(AnswerAvailableEvent.EventType.NETWORK_ERROR, AnswerAvailableEvent.NETWORK_ERROR));
-            }
+                    }
 
-        });
+                    @Override
+                    public void onNext(PersonEntitiy personEntitiy) {
+                        setPersonBG(personEntitiy.getImage());
+                    }
+
+                });
+
     }
 
     private void setPersonBG(String imageUrl) {
@@ -234,63 +220,56 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         params.setActor_id(pk);
         params.setPage_no(1);
         params.setPage_count(100);
-        HttpManager.getInstance().resetAdapter_SKY.create(HttpAPI.ActorRelate.class).doRequest(params).enqueue(new Callback<SemanticSearchResponseEntity>() {
-            @Override
-            public void onResponse(Call<SemanticSearchResponseEntity> call, Response<SemanticSearchResponseEntity> response) {
-                if (response.errorBody() == null) {
-                    SemanticSearchResponseEntity entity = response.body();
-                    indicatorListLayout.removeAllViews();
-                    horizontalScrollView.scrollTo(0, 0);
-                    int i = 0;
-                    for (SemanticSearchResponseEntity.Facet facet : entity.getFacet()) {
-                        LinearLayout itemView = (LinearLayout) LayoutInflater.from(FilmStarActivity.this).inflate(R.layout.item_film_star_indicator, null);
-                        itemView.setNextFocusUpId(itemView.getId());
-                        TextView indicatorTitle = (TextView) itemView.findViewById(R.id.title_new);
+        mSkyService.apiFetchActorRelate(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<SemanticSearchResponseEntity>() {
+                    @Override
+                    public void onCompleted() {
 
-                        indicatorTitle.setText(facet.getName());
-                        itemView.setOnFocusChangeListener(new OnIndicatorItemFocusedListener());
-//                        itemView.setOnHoverListener(new OnIndicatorItemHoveredListener());
-                        itemView.setOnHoverListener(FilmStarActivity.this);
-                        itemView.setOnClickListener(FilmStarActivity.this);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        layoutParams.setMargins((int) getResources().getDimension(R.dimen.tab_margin_l), 1, (int) getResources().getDimension(R.dimen.tab_margin_l), 1);
-                        itemView.setTag(facet.getContent_type());
-                        itemView.setTag(R.id.filmStar_indicator_item_new, i);
-                        if (i == 0) {
-                            indicatorSelectedView = itemView;
-                            indicatorSelectedView.setSelected(true);
-//                            indicatorFocusedView = itemView;
-                            indicatorTitle.setTextColor(getResources().getColor(R.color.word_selected));
-                            itemView.setNextFocusLeftId(itemView.getId());
-                            indicatorListLayout.addView(itemView, layoutParams);
-                        } else {
-                            if (i == entity.getFacet().size() - 1) {
-                                itemView.setNextFocusRightId(itemView.getId());
+                    }
+
+                    @Override
+                    public void onNext(SemanticSearchResponseEntity semanticSearchResponseEntity) {
+                            SemanticSearchResponseEntity entity = semanticSearchResponseEntity;
+                            indicatorListLayout.removeAllViews();
+                            horizontalScrollView.scrollTo(0, 0);
+                            int i = 0;
+                            for (SemanticSearchResponseEntity.Facet facet : entity.getFacet()) {
+                                LinearLayout itemView = (LinearLayout) LayoutInflater.from(FilmStarActivity.this).inflate(R.layout.item_film_star_indicator, null);
+                                itemView.setNextFocusUpId(itemView.getId());
+                                TextView indicatorTitle = (TextView) itemView.findViewById(R.id.title_new);
+
+                                indicatorTitle.setText(facet.getName());
+                                itemView.setOnFocusChangeListener(new OnIndicatorItemFocusedListener());
+                                itemView.setOnHoverListener(FilmStarActivity.this);
+                                itemView.setOnClickListener(FilmStarActivity.this);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                layoutParams.setMargins((int) getResources().getDimension(R.dimen.tab_margin_l), 1, (int) getResources().getDimension(R.dimen.tab_margin_l), 1);
+                                itemView.setTag(facet.getContent_type());
+                                itemView.setTag(R.id.filmStar_indicator_item_new, i);
+                                if (i == 0) {
+                                    indicatorSelectedView = itemView;
+                                    indicatorSelectedView.setSelected(true);
+                                    indicatorTitle.setTextColor(getResources().getColor(R.color.word_selected));
+                                    itemView.setNextFocusLeftId(itemView.getId());
+                                    indicatorListLayout.addView(itemView, layoutParams);
+                                } else {
+                                    if (i == entity.getFacet().size() - 1) {
+                                        itemView.setNextFocusRightId(itemView.getId());
+                                    }
+                                    indicatorListLayout.addView(itemView, layoutParams);
+                                }
+                                i = i + 1;
                             }
-                            indicatorListLayout.addView(itemView, layoutParams);
+
+                            if (entity.getFacet().size() > 4) {
+                                indicatorArrowRight.setVisibility(View.VISIBLE);
+                            }
+
+                            fetchActorRelateByType(pk, entity.getFacet().get(0).getContent_type());
                         }
-                        i = i + 1;
-                    }
-
-                    if (entity.getFacet().size() > 4) {
-                        indicatorArrowRight.setVisibility(View.VISIBLE);
-                    }
-                    try {
-                        fetchActorRelateByType(pk, entity.getFacet().get(0).getContent_type());
-                    } catch (Exception e) {
-                        EventBus.getDefault().post(new AnswerAvailableEvent(AnswerAvailableEvent.EventType.NETWORK_ERROR, AnswerAvailableEvent.NETWORK_ERROR));
-                    }
-                } else {
-                    EventBus.getDefault().post(new AnswerAvailableEvent(AnswerAvailableEvent.EventType.NETWORK_ERROR, AnswerAvailableEvent.NETWORK_ERROR));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SemanticSearchResponseEntity> call, Throwable t) {
-                EventBus.getDefault().post(new AnswerAvailableEvent(AnswerAvailableEvent.EventType.NETWORK_ERROR, AnswerAvailableEvent.NETWORK_ERROR));
-
-            }
-        });
+                });
     }
 
     private void fillVodIndicator() {
@@ -304,22 +283,22 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         params.setPage_no(1);
         params.setPage_count(30);
         params.setContent_type(type);
-        HttpManager.getInstance().resetAdapter_SKY.create(HttpAPI.ActorRelate.class).doRequest(params).enqueue(new Callback<SemanticSearchResponseEntity>() {
-            @Override
-            public void onResponse(Call<SemanticSearchResponseEntity> call, Response<SemanticSearchResponseEntity> response) {
-                if (response.errorBody() == null) {
-                    SemanticSearchResponseEntity entity = response.body();
-                    fillVodList(entity.getFacet().get(0).getObjects());
-                } else {
-                    EventBus.getDefault().post(new AnswerAvailableEvent(AnswerAvailableEvent.EventType.NETWORK_ERROR, AnswerAvailableEvent.NETWORK_ERROR));
-                }
-            }
+        mSkyService.apiFetchActorRelate(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<SemanticSearchResponseEntity>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<SemanticSearchResponseEntity> call, Throwable t) {
-                EventBus.getDefault().post(new AnswerAvailableEvent(AnswerAvailableEvent.EventType.NETWORK_ERROR, AnswerAvailableEvent.NETWORK_ERROR));
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(SemanticSearchResponseEntity semanticSearchResponseEntity) {
+                            SemanticSearchResponseEntity entity = semanticSearchResponseEntity;
+                            fillVodList(entity.getFacet().get(0).getObjects());
+                    }
+                });
+
     }
 
     private void fillVodList(List<SemantichObjectEntity> list) {
@@ -327,7 +306,6 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         vodHorizontalScrollView.scrollTo(0, 0);
         for (int i = 0; i < list.size(); i++) {
             LinearLayout itemView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.item_vod_star, null);
-//            itemView.setOnHoverListener(new OnVodItemHoveredListener());
             itemView.setOnHoverListener(FilmStarActivity.this);
             itemView.setOnFocusChangeListener(new OnVodItemFocusedListener());
             TextView itemVodTitle = (TextView) itemView.findViewById(R.id.item_vod_title_new);
@@ -401,7 +379,18 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                 @Override
                 public void onClick(View v) {
                     vodItemClickedView = v;
-                    FilmStarActivity.this.onVodItemClick((SemantichObjectEntity) v.getTag());
+                    PageIntent pageIntent=new PageIntent();
+                    SemantichObjectEntity semantichObjectEntity= (SemantichObjectEntity) v.getTag();
+                    String contentModel =semantichObjectEntity.getContent_model();
+                    String title=semantichObjectEntity.getTitle();
+                    long pk=Long.valueOf(semantichObjectEntity.getPk());
+                    if(contentModel.equals("music")||(contentModel.equals("sport")&&semantichObjectEntity.getExpense()==null)||contentModel.equals("game")){
+                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,-1,Source.SEARCH);
+                    }else if("person".equals(contentModel)){
+                        pageIntent.toFilmStar(FilmStarActivity.this,title,pk);
+                    }else{
+                        pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk);
+                    }
                 }
             });
 
@@ -525,11 +514,6 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         }, 1000);
     }
 
-
-    @Subscribe
-    public void answerAvailable(AnswerAvailableEvent event) {
-        showNetworkErrorPop();
-    }
 
 
     @Override

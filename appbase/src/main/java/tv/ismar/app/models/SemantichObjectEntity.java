@@ -1,6 +1,4 @@
-package tv.ismar.searchpage.data.http;
-
-import tv.ismar.searchpage.model.Expense;
+package tv.ismar.app.models;
 
 /**
  * Created by huaijie on 1/20/16.

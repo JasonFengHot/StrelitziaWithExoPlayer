@@ -14,6 +14,7 @@ public interface PageIntentInterface {
     String EXTRA_SUBITEM_PK = "sub_item_pk";
     String EXTRA_SOURCE = "source";
     String EXTRA_TYPE = "type";
+    String EXTRA_TITLE= "title";
 
     String EXTRA_PRODUCT_CATEGORY = "product_category";
 
@@ -44,7 +45,7 @@ public interface PageIntentInterface {
 
     void toPaymentForResult(Activity context, String fromPage, PaymentInfo paymentInfo);
 
-    void toPlayPage(Context context, int pk, int sub_item_pk, String source);
+    void toPlayPage(Context context, int pk, int sub_item_pk, Source source);
 
     void toUserCenter(Context context);
 
@@ -52,6 +53,8 @@ public interface PageIntentInterface {
 
 
     void toPackageList(Context context, String source, long pk);
+
+    void toFilmStar(Context context, String title, long pk);
 
     class PaymentInfo {
         private ProductCategory category;
