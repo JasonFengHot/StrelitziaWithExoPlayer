@@ -81,6 +81,7 @@
             android:layout_width="@dimen/sport_top_center_w"
             android:layout_height="@dimen/sport_top_h"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/sport_top_space"
             android:layout_toRightOf="@id/sport_lefttop"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -95,72 +96,80 @@
             labelimage:label3_textSize="@dimen/text_size_36sp" />
 
         <FrameLayout
-            android:layout_width="@dimen/sport_top_item_w"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/sport_top_h"
             android:layout_marginLeft="@dimen/sport_top_space"
             android:layout_toRightOf="@id/sportspost"
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <RelativeLayout
-                android:id="@+id/sec_one_list_2"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clipChildren="false"
                 android:clipToPadding="false">
 
-                <tv.ismar.homepage.widget.LabelImageView3
-                    android:id="@+id/sports_live1"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/sport_top_item_h"
-                    android:layout_marginTop="@dimen/sport_top_item_space"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/list_item_preview_bg"
-                    labelimage:label3_needZoom="true"
-                    labelimage:label3_textBackColor="@color/color_alpha_black"
-                    labelimage:label3_textPaddingBottom="@dimen/sport_top_label_pb"
-                    labelimage:label3_textPaddingTop="@dimen/sport_top_label_pt"
-                    labelimage:label3_textSize="@dimen/text_size_18sp" />
+                <RelativeLayout
+                    android:id="@+id/sec_one_list_2"
+                    android:layout_width="@dimen/sport_top_item_w"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
 
-                <tv.ismar.homepage.widget.LabelImageView3
-                    android:id="@+id/sports_live2"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/sport_top_item_h"
-                    android:layout_below="@id/sports_live1"
-                    android:layout_marginTop="@dimen/sport_top_item_space"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/list_item_preview_bg"
-                    labelimage:label3_needZoom="true"
-                    labelimage:label3_textBackColor="@color/color_alpha_black"
-                    labelimage:label3_textPaddingBottom="@dimen/sport_top_label_pb"
-                    labelimage:label3_textPaddingTop="@dimen/sport_top_label_pt"
-                    labelimage:label3_textSize="@dimen/text_size_18sp" />
+                    <tv.ismar.homepage.widget.LabelImageView3
+                        android:id="@+id/sports_live1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sport_top_item_h"
+                        android:layout_marginTop="@dimen/sport_top_item_space"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/list_item_preview_bg"
+                        labelimage:label3_needZoom="true"
+                        labelimage:label3_textBackColor="@color/color_alpha_black"
+                        labelimage:label3_textPaddingBottom="@dimen/sport_top_label_pb"
+                        labelimage:label3_textPaddingTop="@dimen/sport_top_label_pt"
+                        labelimage:label3_textSize="@dimen/text_size_18sp" />
 
-                <tv.ismar.homepage.widget.LabelImageView3
-                    android:id="@+id/sports_live3"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/sport_top_item_h"
-                    android:layout_below="@id/sports_live2"
-                    android:layout_marginTop="@dimen/sport_top_item_space"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/list_item_preview_bg"
-                    labelimage:label3_needZoom="true"
-                    labelimage:label3_textBackColor="@color/color_alpha_black"
-                    labelimage:label3_textPaddingBottom="@dimen/sport_top_label_pb"
-                    labelimage:label3_textPaddingTop="@dimen/sport_top_label_pt"
-                    labelimage:label3_textSize="@dimen/text_size_18sp" />
+                    <tv.ismar.homepage.widget.LabelImageView3
+                        android:id="@+id/sports_live2"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sport_top_item_h"
+                        android:layout_below="@id/sports_live1"
+                        android:layout_marginTop="@dimen/sport_top_item_space"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/list_item_preview_bg"
+                        labelimage:label3_needZoom="true"
+                        labelimage:label3_textBackColor="@color/color_alpha_black"
+                        labelimage:label3_textPaddingBottom="@dimen/sport_top_label_pb"
+                        labelimage:label3_textPaddingTop="@dimen/sport_top_label_pt"
+                        labelimage:label3_textSize="@dimen/text_size_18sp" />
 
-            </RelativeLayout>
+                    <tv.ismar.homepage.widget.LabelImageView3
+                        android:id="@+id/sports_live3"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/sport_top_item_h"
+                        android:layout_below="@id/sports_live2"
+                        android:layout_marginTop="@dimen/sport_top_item_space"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/list_item_preview_bg"
+                        labelimage:label3_needZoom="true"
+                        labelimage:label3_textBackColor="@color/color_alpha_black"
+                        labelimage:label3_textPaddingBottom="@dimen/sport_top_label_pb"
+                        labelimage:label3_textPaddingTop="@dimen/sport_top_label_pt"
+                        labelimage:label3_textSize="@dimen/text_size_18sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/sec_one_list_1_arrowup"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/sport_top_item_w"
                 android:layout_height="@dimen/sport_top_arrow_h"
                 android:layout_gravity="top"
                 android:background="@color/color_alpha_black"
@@ -170,7 +179,7 @@
 
             <ImageView
                 android:id="@+id/sec_one_list_1_arrowdown"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/sport_top_item_w"
                 android:layout_height="@dimen/sport_top_arrow_h"
                 android:layout_gravity="bottom"
                 android:background="@color/color_alpha_black"

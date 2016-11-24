@@ -160,6 +160,7 @@
     <declare-styleable name="HorizontalListView"></declare-styleable>
 
     <declare-styleable name="LabelImageView3">
+        <attr name="label3_drawable" format="reference"/>
         <attr name="label3_textSize" format="dimension"/>
         <attr name="label3_textPaddingTop" format="dimension"/>
         <attr name="label3_textPaddingBottom" format="dimension"/>

@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:focusable="true"
-              android:focusableInTouchMode="true"
-              android:clickable="true"
-              android:background="@drawable/selector_child_item"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/child_img_small_w"
+    android:layout_height="@dimen/child_img_small_h">
 
-    <ImageView
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="@dimen/child_fragment_item_image_margin_top"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/child_img_small_pb"
+        android:paddingLeft="@dimen/child_img_small_plr"
+        android:paddingRight="@dimen/child_img_small_plr"
+        android:paddingTop="@dimen/child_img_small_pt">
+
+        <ImageView
             android:id="@+id/item_img"
-            android:scaleType="fitXY"
-            android:layout_width="@dimen/child_fragment_item_image_width"
-            android:layout_height="@dimen/child_fragment_item_image_height"
-            />
-
-    <TextView
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:textSize="@dimen/h3_text_size"
-            android:id="@+id/item_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:scaleType="fitXY" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/child_img_small_text_h"
+            android:background="@color/color_alpha_black"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textColor="@color/color_base_white"
+            android:textSize="@dimen/text_size_24sp" />
+
+    </RelativeLayout>
+
+    <tv.ismar.homepage.widget.LabelImageView3
+        android:id="@+id/item_img_focus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/child_small_normal"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scaleType="fitXY"
+        labelimage:label3_drawable="@drawable/child_small_focus"
+        labelimage:label3_needZoom="true" />
+
+</FrameLayout>

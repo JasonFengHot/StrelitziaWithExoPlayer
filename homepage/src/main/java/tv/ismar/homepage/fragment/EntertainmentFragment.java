@@ -80,6 +80,8 @@ public class EntertainmentFragment extends ChannelBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entertainment, null);
+//        int thumbH = getResources().getDimensionPixelOffset(R.dimen.entertainment_thumb_h2);
+//        PADDING = thumbH / 2;
         vaiety_post = (LabelImageView3) view.findViewById(R.id.vaiety_post);
         vaiety_thumb1 = (ImageView) view.findViewById(R.id.vaiety_thumb1);
         vaiety_thumb2 = (ImageView) view.findViewById(R.id.vaiety_thumb2);
@@ -213,7 +215,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                     imageswitch.removeMessages(IMAGE_SWITCH_KEY);
                     vaiety_post.setTag(R.drawable.launcher_selector, v.getTag(R.drawable.launcher_selector));
                 } else {
-                    v.setPadding(0, 22, 0, -PADDING);
+                    v.setPadding(0, PADDING, 0, -PADDING);
                     imageswitch.sendEmptyMessageDelayed(IMAGE_SWITCH_KEY, 6000);
                 }
             }

@@ -1416,6 +1416,8 @@
 <dimen name="ad_timer_mt">8.89dp</dimen>
 <dimen name="ad_timer_mr">8.89dp</dimen>
 
+<dimen name="label_image_corner_size">14.22dp</dimen>
+
 <dimen name="home_container_mt">6.67dp</dimen>
 <dimen name="home_container_mlr">16.22dp</dimen>
 <dimen name="home_scroll_arrow_w">9.11dp</dimen>
@@ -1498,6 +1500,7 @@
 <dimen name="child_img_small_w">84.44dp</dimen>
 <dimen name="child_img_small_h">51.78dp</dimen>
 <dimen name="child_img_small_space">9.78dp</dimen>
+<dimen name="child_img_small_text_h">8.89dp</dimen>
 <dimen name="child_img_big_w">186.67dp</dimen>
 <dimen name="child_img_big_h">111.11dp</dimen>
 <dimen name="child_img_small_plr">4.89dp</dimen>
@@ -1514,7 +1517,7 @@
 <dimen name="child_thumb_h2">12.22dp</dimen>
 <dimen name="child_right_h">113.33dp</dimen>
 <dimen name="child_more_w">94.00dp</dimen>
-<dimen name="child_more_h">72.67dp</dimen>
+<dimen name="child_more_h">82.67dp</dimen>
 <dimen name="child_more_mt">13.56dp</dimen>
 <dimen name="child_more_ml">11.56dp</dimen>
 

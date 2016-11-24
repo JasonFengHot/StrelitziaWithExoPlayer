@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical"
     android:paddingLeft="@dimen/guide_video_img_ml">
 
     <tv.ismar.homepage.widget.LabelImageView3

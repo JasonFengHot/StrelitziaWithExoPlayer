@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -36,7 +37,8 @@ public class LabelImageView3 extends AsyncImageView {
     private Animation scaleSmallAnimation;
     private Animation scaleBigAnimation;
     private Rect mBound;
-    private NinePatchDrawable mDrawable;
+    private NinePatchDrawable mNinePatchDrawable;
+    private Drawable mDrawable;
     private Rect mRect;
 
     public void setDrawBorder(boolean drawBorder) {
@@ -88,11 +90,17 @@ public class LabelImageView3 extends AsyncImageView {
         customFocus = a.getBoolean(R.styleable.LabelImageView3_label3_customFocus, false);
         needZoom = a.getBoolean(R.styleable.LabelImageView3_label3_needZoom, false);
         maxTextNum = a.getInt(R.styleable.LabelImageView3_label3_maxText, 0);
+        Drawable drawable = a.getDrawable(R.styleable.LabelImageView3_label3_drawable);
         a.recycle();
         setWillNotDraw(false);
         mRect = new Rect();
         mBound = new Rect();
-        mDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.vod_gv_selector);
+        if (drawable == null) {
+            mNinePatchDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.vod_gv_selector);
+        } else {
+            mDrawable = drawable;
+        }
+
     }
 
     protected void onFocusChanged(boolean gainFocus, int direction,
@@ -182,8 +190,12 @@ public class LabelImageView3 extends AsyncImageView {
                     break;
             }
 //			InputStream is = getResources().openRawResource(resId);
-            Bitmap mBitmap = BitmapFactory.decodeResource(getResources(), resId);
-            canvas.drawBitmap(mBitmap, width - mBitmap.getWidth(), paddingtop, paint);
+            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), resId),
+                    getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                    getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                    false
+            );
+            canvas.drawBitmap(bitmap, width - bitmap.getWidth(), paddingtop, paint);
         }
         // 绘制看点背景
         paint.setColor(Color.WHITE);
@@ -218,15 +230,24 @@ public class LabelImageView3 extends AsyncImageView {
 
         // if (customFocus) {
         if (drawBorder) {
-            mBound.set(-21 + mRect.left, -21 + mRect.top, 21 + mRect.right, mRect.bottom + 21);
-            mDrawable.setBounds(mBound);
-            canvas.save();
-            mDrawable.draw(canvas);
-            canvas.restore();
+            if (mNinePatchDrawable != null) {
+                mBound.set(-21 + mRect.left, -21 + mRect.top, 21 + mRect.right, 21 + mRect.bottom);
+                mNinePatchDrawable.setBounds(mBound);
+                canvas.save();
+                mNinePatchDrawable.draw(canvas);
+                canvas.restore();
+            } else if (mDrawable != null) {
+                mBound.set(-1 + mRect.left, -3 + mRect.top, 1 + mRect.right, -2 + mRect.bottom);
+                mDrawable.setBounds(mBound);
+                canvas.save();
+                mDrawable.draw(canvas);
+                canvas.restore();
+            }
+
         }
         // }
-        getRootView().requestLayout();
-        getRootView().invalidate();
+//        getRootView().requestLayout();
+//        getRootView().invalidate();
     }
 
     public void setCustomFocus(boolean customFocus) {
