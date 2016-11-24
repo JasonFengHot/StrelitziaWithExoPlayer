@@ -129,6 +129,7 @@
     <dimen name="gridview_margin_top">156dp</dimen>
     <dimen name="gridview_margin_left">116dp</dimen>
     <dimen name="gridview_padding">45dp</dimen>
+    <dimen name="content_arrow_left_new_mt">298dp</dimen>
     <dimen name="gridview_padding_top">52.5dp</dimen>
     <dimen name="gridview_padding_bottom">-19.5dp</dimen>
 
@@ -175,11 +176,11 @@
     <dimen name="update_dialog_title_margin_bottom">10dp</dimen>
     <dimen name="update_dialog_title_size">36sp</dimen>
     <dimen name="update_dialog_button_height">124dp</dimen>
-    <dimen name="update_dialog_arrow1_margin_left">180dp</dimen>
+    <dimen name="update_dialog_arrow1_margin_left">117dp</dimen>
     <dimen name="update_dialog_arrow2_margin_right">180dp</dimen>
     <dimen name="update_dialog_btn_width">167dp</dimen>
     <dimen name="update_dialog_btn_height">55dp</dimen>
-    <dimen name="update_dialog_btn1_margin_left">120dp</dimen>
+    <dimen name="update_dialog_btn1_margin_left">115dp</dimen>
     <dimen name="update_dialog_btn_margin_top">38dp</dimen>
     <dimen name="update_dialog_btn2_margin_right">120dp</dimen>
     <dimen name="update_dialog_focus_width">790dp</dimen>
@@ -203,7 +204,7 @@
     <dimen name="jump_view_height">800dp</dimen>
     <dimen name="jump_view_margin_top">150dp</dimen>
     <dimen name="jump_view_margin_left">170dp</dimen>
-    <dimen name="hotword_line_width">3dp</dimen>
+    <dimen name="hotword_line_width">1dp</dimen>
     <dimen name="hotword_line_height">1034dp</dimen>
     <dimen name="hotword_line_margin_top">25dp</dimen>
     <dimen name="hotword_line_margin_left">420dp</dimen>
@@ -226,7 +227,7 @@
     <dimen name="full_keyboard_width">518dp</dimen>
     <dimen name="full_keyboard_height">690dp</dimen>
     <dimen name="full_keyboard_margin_left">49dp</dimen>
-    <dimen name="full_keyboard_margin_top">219dp</dimen>
+    <dimen name="full_keyboard_margin_top">230dp</dimen>
     <dimen name="full_keyboard_vertival_spacing">24dp</dimen>
     <dimen name="full_keyboard_h_spacing">32dp</dimen>
     <dimen name="full_keyboard_padding">18dp</dimen>
@@ -267,7 +268,7 @@
     <dimen name="item_hotword_tv_size">30sp</dimen>
     <dimen name="item_hotword_tv_margin_top">17dp</dimen>
     <dimen name="item_hotword_iv_width">282dp</dimen>
-    <dimen name="item_hotword_iv_height">3dp</dimen>
+    <dimen name="item_hotword_iv_height">2dp</dimen>
     <dimen name="item_hotword_iv_padding">60.00dp</dimen>
 
     <dimen name="main_width">2521dp</dimen>
@@ -285,12 +286,12 @@
     <dimen name="search_guide_iv_width">48dp</dimen>
     <dimen name="search_guide_iv1_top">118dp</dimen>
     <dimen name="search_guide_iv2_top">421dp</dimen>
-    <dimen name="search_guide_iv_margin_left">55dp</dimen>
+    <dimen name="search_guide_iv_margin_left">54dp</dimen>
     <dimen name="search_guide_tv_margin_left">17dp</dimen>
     <dimen name="search_guide_tv1_margin_top">114dp</dimen>
     <dimen name="search_guide_tv2_margin_top">54dp</dimen>
-    <dimen name="search_guide_tv3_margin_top">30dp</dimen>
-    <dimen name="search_guide_tv4_margin_top">178dp</dimen>
+    <dimen name="search_guide_tv3_margin_top">35dp</dimen>
+    <dimen name="search_guide_tv4_margin_top">196dp</dimen>
     <dimen name="search_guide_tv1_size">40sp</dimen>
     <dimen name="search_guide_tv2_size">30sp</dimen>
 
@@ -298,6 +299,7 @@
 
     <dimen name="filmStar_item_horizontal_space">20dp</dimen>
     <dimen name="filmStar_item_vertical_space">30dp</dimen>
+    <dimen name="filmStar_item_top_space">32dp</dimen>
 
     <dimen name="item_vod_image_layout_new_w">298dp</dimen>
     <dimen name="item_vod_image_layout_new_h">400dp</dimen>
@@ -308,13 +310,15 @@
     <dimen name="indicator_bg_new_h">26dp</dimen>
     <dimen name="film_star_title_new_ml">171dp</dimen>
     <dimen name="film_star_title_new_mt">90dp</dimen>
+    <dimen name="film_star_title_new_h">40dp</dimen>
     <dimen name="indicator_ll_ml">630dp</dimen>
-    <dimen name="indicator_ll_mt">20dp</dimen>
-    <dimen name="indicator_rl_ml">30dp</dimen>
-    <dimen name="indicator_rl_mt">-10dp</dimen>
+    <dimen name="indicator_ll_h">136dp</dimen>
+    <dimen name="indicator_ll_mt">25dp</dimen>
+    <dimen name="indicator_rl_ml">23dp</dimen>
+    <dimen name="indicator_rl_mt">-15dp</dimen>
     <dimen name="arrow_padding">4dp</dimen>
-    <dimen name="film_scroll_list_new_h">600dp</dimen>
-    <dimen name="divider_line_new_h">2dp</dimen>
+    <dimen name="film_scroll_list_new_h">581dp</dimen>
+    <dimen name="divider_line_new_h">1dp</dimen>
     <dimen name="film_description_new_ml">140dp</dimen>
 
     <dimen name="tab_margin_l">5dp</dimen>

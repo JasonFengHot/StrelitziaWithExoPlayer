@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/film_star_title_new"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/film_star_title_new_h"
             android:layout_marginLeft="@dimen/film_star_title_new_ml"
             android:layout_marginTop="@dimen/film_star_title_new_mt"
             android:gravity="center"
@@ -29,12 +29,10 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/indicator_ll_h"
             android:layout_marginLeft="@dimen/indicator_ll_ml"
-            android:layout_marginTop="@dimen/indicator_ll_mt"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-
             >
 
             <RelativeLayout
@@ -110,7 +108,7 @@
                 android:layout_width="@dimen/top_arrow_height"
                 android:layout_height="@dimen/top_arrow_width"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/content_arrow_left_new_mt"
                 android:layout_marginLeft="@dimen/gridview_padding"
                 android:background="@drawable/arrow_left_selector_dearch"
                 android:clickable="true"
@@ -146,7 +144,7 @@
                 android:layout_width="@dimen/top_arrow_height"
                 android:layout_height="@dimen/top_arrow_width"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/content_arrow_left_new_mt"
                 android:layout_marginRight="@dimen/gridview_padding"
                 android:background="@drawable/arrow_right_selector_search"
                 android:clickable="true"

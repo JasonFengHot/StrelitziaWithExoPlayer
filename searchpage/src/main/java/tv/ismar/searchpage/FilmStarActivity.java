@@ -245,7 +245,8 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                                 itemView.setOnHoverListener(FilmStarActivity.this);
                                 itemView.setOnClickListener(FilmStarActivity.this);
                                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                layoutParams.setMargins((int) getResources().getDimension(R.dimen.tab_margin_l), 1, (int) getResources().getDimension(R.dimen.tab_margin_l), 1);
+                                int margin=(int) getResources().getDimension(R.dimen.tab_margin_l);
+                                layoutParams.setMargins(margin,margin,margin,margin);
                                 itemView.setTag(facet.getContent_type());
                                 itemView.setTag(R.id.filmStar_indicator_item_new, i);
                                 if (i == 0) {
@@ -396,11 +397,12 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
             int padding = (int) getResources().getDimension(R.dimen.filmStar_item_horizontal_space);
             int verticalPadding = (int) getResources().getDimension(R.dimen.filmStar_item_vertical_space);
+            int topPadding = (int) getResources().getDimension(R.dimen.filmStar_item_top_space);
 
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER;
-            layoutParams.setMargins(padding, verticalPadding, padding, verticalPadding);
+            layoutParams.setMargins(padding, topPadding, padding, verticalPadding);
             itemView.setNextFocusDownId(itemView.getId());
             vodListView.addView(itemView, layoutParams);
         }

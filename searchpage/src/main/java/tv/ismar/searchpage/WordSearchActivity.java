@@ -151,7 +151,6 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(firstin) {
-            fetchRecommendHotWords();
             lay_focus.requestFocus();
             firstin = false;
             isT9 = SharedPreferencesUtils.getBoolean(this, "T9", false);
@@ -177,6 +176,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 keyboard.requestFocus();
                 keyboard.requestFocusFromTouch();
             }
+            fetchRecommendHotWords();
         }
     }
 
