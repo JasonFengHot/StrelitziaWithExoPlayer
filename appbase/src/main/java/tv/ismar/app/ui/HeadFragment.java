@@ -42,6 +42,7 @@ import tv.ismar.app.core.WeatherInfoHandler;
 import tv.ismar.app.network.entity.WeatherEntity;
 import tv.ismar.app.widget.LaunchHeaderLayout;
 
+import static android.util.TypedValue.COMPLEX_UNIT_PX;
 import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
 
 public class HeadFragment extends Fragment implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
@@ -118,7 +119,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     break;
                 case HEADER_DETAILPAGE:
                     subTitleTextView.setText(bundle.getString("channel_name"));
-                    subTitleTextView.setTextSize(getResources().getDimension(R.dimen.text_size_48sp));
+                    subTitleTextView.setTextSize(COMPLEX_UNIT_PX,getResources().getDimensionPixelSize(R.dimen.text_size_48sp));
                     hideWeather();
                     hideIndicatorTable();
                     hideTitle();
