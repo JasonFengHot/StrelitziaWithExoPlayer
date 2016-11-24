@@ -1497,6 +1497,7 @@
 <dimen name="child_mt">5.33dp</dimen>
 <dimen name="child_img_small_w">337.78dp</dimen>
 <dimen name="child_img_small_h">207.11dp</dimen>
+<dimen name="child_img_small_space">39.11dp</dimen>
 <dimen name="child_img_big_w">746.67dp</dimen>
 <dimen name="child_img_big_h">444.44dp</dimen>
 <dimen name="child_img_small_plr">19.56dp</dimen>
@@ -1506,16 +1507,16 @@
 <dimen name="child_img_big_pt">16.89dp</dimen>
 <dimen name="child_img_big_pb">30.22dp</dimen>
 <dimen name="child_top_space">62.22dp</dimen>
-<dimen name="child_bottom_space1">62.22dp</dimen>
-<dimen name="child_bottom_space2">71.11dp</dimen>
-<dimen name="child_bottom_space3">46.22dp</dimen>
-<dimen name="child_bottom_mt">39.11dp</dimen>
-<dimen name="child_more_w">376.00dp</dimen>
-<dimen name="child_more_h">200.00dp</dimen>
-<dimen name="child_more_mt">15.11dp</dimen>
+<dimen name="child_bottom_space">71.11dp</dimen>
+<dimen name="child_bottom_mt">48.00dp</dimen>
 <dimen name="child_thumb_width">136.00dp</dimen>
 <dimen name="child_thumb_h1">75.56dp</dimen>
 <dimen name="child_thumb_h2">48.89dp</dimen>
+<dimen name="child_right_h">453.33dp</dimen>
+<dimen name="child_more_w">376.00dp</dimen>
+<dimen name="child_more_h">290.67dp</dimen>
+<dimen name="child_more_mt">54.22dp</dimen>
+<dimen name="child_more_ml">46.22dp</dimen>
 
 <!--longhai 首页相关ui End -->
 

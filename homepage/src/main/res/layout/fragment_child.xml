@@ -102,7 +102,7 @@
     <LinearLayout
         android:id="@+id/right_layout"
         android:layout_width="@dimen/child_img_small_w"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/child_right_h"
         android:layout_marginLeft="@dimen/child_top_space"
         android:layout_toRightOf="@id/center_layout"
         android:orientation="vertical" />
@@ -112,7 +112,7 @@
         android:layout_width="@dimen/child_more_w"
         android:layout_height="@dimen/child_more_h"
         android:layout_below="@id/right_layout"
-        android:layout_marginLeft="@dimen/child_bottom_space3"
+        android:layout_marginLeft="@dimen/child_more_ml"
         android:layout_marginTop="@dimen/child_more_mt"
         android:layout_toRightOf="@id/center_layout"
         android:background="@drawable/selector_child_more"

@@ -675,7 +675,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         public  void gotoSpecialPage(long pk, String title, String contentMode, boolean isexpensive) {
             PageIntent pageIntent=new PageIntent();
             if(contentMode.equals("music")||(contentMode.equals("sport")&&!isexpensive)||contentMode.equals("game")){
-               pageIntent.toPlayPage(this, (int) pk,-1,Source.SEARCH.getValue());
+               pageIntent.toPlayPage(this, (int) pk,-1,Source.SEARCH);
             }else if(contentMode.equals("person")){
                 pageIntent.toFilmStar(this,title,pk);
             }else{
