@@ -33,6 +33,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import okhttp3.ResponseBody;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
@@ -67,6 +68,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     private List<View> indicatorTableList;
 
 
+
     public HeadFragment() {
 
     }
@@ -94,9 +96,6 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
 
         createGuideIndicator();
 
-        HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
-        String geoId = hashMap.get("geo_id");
-        fetchWeatherInfo(geoId);
 
     }
 
@@ -216,10 +215,15 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     private void fetchWeatherInfo(String geoId) {
         ((BaseActivity) getActivity()).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(((BaseActivity) getActivity()).new BaseObserver<ResponseBody>() {
+                .subscribe((new Observer<ResponseBody>() {
                     @Override
                     public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
                     }
 
                     @Override
@@ -232,7 +236,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                             e.printStackTrace();
                         }
                     }
-                });
+                }));
     }
 
 
@@ -335,5 +339,14 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
 
     public void setHeadItemClickListener(HeadItemClickListener headItemClickListener) {
         mHeadItemClickListener = headItemClickListener;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
+        String geoId = hashMap.get("geo_id");
+        fetchWeatherInfo(geoId);
     }
 }
