@@ -128,10 +128,10 @@
     <dimen name="gridview_vertical_spacing">36dp</dimen>
     <dimen name="gridview_margin_top">156dp</dimen>
     <dimen name="gridview_margin_left">116dp</dimen>
-    <dimen name="gridview_padding">45dp</dimen>
+    <dimen name="gridview_padding">35dp</dimen>
     <dimen name="content_arrow_left_new_mt">298dp</dimen>
-    <dimen name="gridview_padding_top">52.5dp</dimen>
-    <dimen name="gridview_padding_bottom">-19.5dp</dimen>
+    <dimen name="gridview_padding_top">40dp</dimen>
+    <dimen name="gridview_padding_bottom">-21dp</dimen>
 
     <dimen name="left_arrow_width">39dp</dimen>
     <dimen name="left_arrow_height">36dp</dimen>
@@ -230,7 +230,7 @@
     <dimen name="full_keyboard_margin_top">230dp</dimen>
     <dimen name="full_keyboard_vertival_spacing">24dp</dimen>
     <dimen name="full_keyboard_h_spacing">32dp</dimen>
-    <dimen name="full_keyboard_padding">18dp</dimen>
+    <dimen name="full_keyboard_padding">15dp</dimen>
 
     <dimen name="item_key_width">78dp</dimen>
     <dimen name="key_width">60dp</dimen>
@@ -242,7 +242,7 @@
     <dimen name="t9_keyboard_margin_top">230dp</dimen>
     <dimen name="t9_keyboard_v_spacing">54dp</dimen>
     <dimen name="t9_keyboard_h_spacing">54dp</dimen>
-    <dimen name="t9_keyboard_padding">11.25dp</dimen>
+    <dimen name="t9_keyboard_padding">10dp</dimen>
 
     <dimen name="item_t9_width">138dp</dimen>
     <dimen name="item_t9_padding">9dp</dimen>
