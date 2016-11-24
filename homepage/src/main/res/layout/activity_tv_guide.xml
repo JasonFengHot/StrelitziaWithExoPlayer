@@ -82,13 +82,6 @@
 
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/home_shadow_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@color/shawdow"
-        android:visibility="gone" />
-
     <FrameLayout
         android:id="@+id/home_layout_advertisement"
         android:layout_width="match_parent"

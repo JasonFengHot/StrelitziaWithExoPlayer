@@ -96,7 +96,6 @@
                 android:clipToPadding="false"
                 android:focusable="false"
                 android:orientation="vertical"
-                android:paddingRight="@dimen/entertainment_top_right_image_mt"
                 android:paddingTop="@dimen/entertainment_top_right_image_mt">
 
                 <tv.ismar.homepage.widget.LabelImageView3
@@ -137,7 +136,6 @@
                 android:layout_toRightOf="@id/vaiety_card1"
                 android:clipChildren="false"
                 android:clipToPadding="false"
-                android:paddingRight="@dimen/entertainment_top_right_image_mt"
                 android:paddingTop="@dimen/entertainment_top_right_image_mt">
 
                 <RelativeLayout
@@ -189,8 +187,7 @@
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="false"
-                android:orientation="vertical"
-                android:paddingRight="@dimen/entertainment_top_right_image_mt">
+                android:orientation="vertical">
 
                 <tv.ismar.homepage.widget.LabelImageView3
                     android:id="@+id/vaiety_card3_image"
@@ -229,8 +226,7 @@
                 android:layout_marginTop="@dimen/entertainment_top_right_item_text_mt"
                 android:layout_toRightOf="@id/vaiety_card3"
                 android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingRight="@dimen/entertainment_top_right_image_mt">
+                android:clipToPadding="false">
 
                 <RelativeLayout
                     android:id="@+id/vaiety_card4"

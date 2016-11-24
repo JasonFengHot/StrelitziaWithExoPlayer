@@ -157,7 +157,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private int lastchannelindex = -1;
     private boolean rightscroll;
     private LeavePosition leavePosition = LeavePosition.RightBottom;
-    private ImageView home_shadow_view;
     private static int channelscrollIndex = 0;
 
     public boolean isneedpause;
@@ -369,6 +368,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
 //        new Thread(new InitializeProcess(this)).start();
+//        Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
         fragmentSwitch = new FragmentSwitchHandler(this);
         activityTag = "BaseActivity";
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
@@ -503,7 +503,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         home_scroll_right.setOnHoverListener(onArrowHoverListener);
         home_scroll_left.setOnFocusChangeListener(scrollViewListener);
         home_scroll_right.setOnFocusChangeListener(scrollViewListener);
-        home_shadow_view = (ImageView) findViewById(R.id.home_shadow_view);
 
         home_tab_list.requestFocus();
         recyclerAdapter.setOnItemActionListener(new OnItemActionListener() {
@@ -904,14 +903,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         exitPopup.setConfirmBtn(getString(R.string.vod_ok));
         exitPopup.setCancelBtn(getString(R.string.vod_cancel));
         exitPopup.setFirstMessage(getString(R.string.str_exit));
-        home_shadow_view.setVisibility(View.VISIBLE);
-        exitPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
-            @Override
-            public void onDismiss() {
-                home_shadow_view.setVisibility(View.GONE);
-            }
-        });
         exitPopup.showAtLocation(view, Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
@@ -939,7 +931,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                     @Override
                     public void cancelClick(View view) {
                         exitPopup.dismiss();
-                        home_shadow_view.setVisibility(View.GONE);
                     }
                 }
         );
@@ -1316,6 +1307,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 break;
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        Log.i("LH/", "HomeOnStart:" + System.currentTimeMillis());
     }
 
     enum ChannelChange {

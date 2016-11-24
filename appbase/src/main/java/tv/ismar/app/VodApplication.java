@@ -78,6 +78,7 @@ public class VodApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+//        Log.i("LH/", "application:" + System.currentTimeMillis());
         initTrueTime(this);
         SPUtils.init(this);
         appInstance = this;
