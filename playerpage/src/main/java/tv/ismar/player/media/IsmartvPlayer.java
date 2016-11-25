@@ -217,7 +217,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                                     PlayerSdk.getInstance().login(zdevice_token);
                                 }
                                 isQiyiSdkInit = true;
-                                Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time) + "Iqiyi_4_0: " + mClipEntity.getIqiyi_4_0());
+                                Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time));
                                 String[] array = mClipEntity.getIqiyi_4_0().split(":");
                                 SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mDrmType, mStartPosition, null);
                                 setMedia(qiyiInfo);

@@ -13,14 +13,7 @@
         android:paddingLeft="@dimen/header_fragment_padding_l"
         android:paddingRight="@dimen/header_fragment_padding_r">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/header_fragment_divider_mlr"
-            android:layout_marginRight="@dimen/header_fragment_divider_mlr"
-            android:scaleType="fitXY"
-            android:src="@drawable/header_divider"/>
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -78,6 +71,15 @@
             android:orientation="horizontal"/>
 
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/header_fragment_divider_mlr"
+        android:layout_marginRight="@dimen/header_fragment_divider_mlr"
+        android:scaleType="fitXY"
+        android:src="@drawable/header_divider"/>
 
 
 </LinearLayout>

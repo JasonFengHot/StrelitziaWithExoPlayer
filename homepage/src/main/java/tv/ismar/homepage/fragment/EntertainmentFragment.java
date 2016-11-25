@@ -48,16 +48,16 @@ public class EntertainmentFragment extends ChannelBaseFragment {
     private ImageView vaiety_thumb2;
     private ImageView vaiety_thumb3;
     private TextView vaiety_fouce_label;
-    private RelativeLayout vaiety_card1;
+//    private RelativeLayout vaiety_card1;
     private LabelImageView3 vaiety_card1_image;
     private TextView vaiety_card1_subtitle;
-    private RelativeLayout vaiety_card2;
+//    private RelativeLayout vaiety_card2;
     private LabelImageView3 vaiety_card2_image;
     private TextView vaiety_card2_subtitle;
-    private RelativeLayout vaiety_card3;
+//    private RelativeLayout vaiety_card3;
     private LabelImageView3 vaiety_card3_image;
     private TextView vaiety_card3_subtitle;
-    private RelativeLayout vaiety_card4;
+//    private RelativeLayout vaiety_card4;
     private LabelImageView3 vaiety_card4_image;
     private TextView vaiety_card4_subtitle;
     private LabelImageView3 vaiety_channel1_image;
@@ -88,22 +88,22 @@ public class EntertainmentFragment extends ChannelBaseFragment {
         vaiety_thumb3 = (ImageView) view.findViewById(R.id.vaiety_thumb3);
         vaiety_fouce_label = (TextView) view
                 .findViewById(R.id.vaiety_fouce_label);
-        vaiety_card1 = (RelativeLayout) view.findViewById(R.id.vaiety_card1);
+//        vaiety_card1 = (RelativeLayout) view.findViewById(R.id.vaiety_card1);
         vaiety_card1_image = (LabelImageView3) view
                 .findViewById(R.id.vaiety_card1_image);
         vaiety_card1_subtitle = (TextView) view
                 .findViewById(R.id.vaiety_card1_subtitle);
-        vaiety_card2 = (RelativeLayout) view.findViewById(R.id.vaiety_card2);
+//        vaiety_card2 = (RelativeLayout) view.findViewById(R.id.vaiety_card2);
         vaiety_card2_image = (LabelImageView3) view
                 .findViewById(R.id.vaiety_card2_image);
         vaiety_card2_subtitle = (TextView) view
                 .findViewById(R.id.vaiety_card2_subtitle);
-        vaiety_card3 = (RelativeLayout) view.findViewById(R.id.vaiety_card3);
+//        vaiety_card3 = (RelativeLayout) view.findViewById(R.id.vaiety_card3);
         vaiety_card3_image = (LabelImageView3) view
                 .findViewById(R.id.vaiety_card3_image);
         vaiety_card3_subtitle = (TextView) view
                 .findViewById(R.id.vaiety_card3_subtitle);
-        vaiety_card4 = (RelativeLayout) view.findViewById(R.id.vaiety_card4);
+//        vaiety_card4 = (RelativeLayout) view.findViewById(R.id.vaiety_card4);
         vaiety_card4_image = (LabelImageView3) view
                 .findViewById(R.id.vaiety_card4_image);
         vaiety_card4_subtitle = (TextView) view
@@ -126,10 +126,10 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                 .findViewById(R.id.vaiety_channel4_subtitle);
         vaiety_channel5 = (HomeItemContainer) view
                 .findViewById(R.id.listmore);
-        vaiety_card1.setOnClickListener(ItemClickListener);
-        vaiety_card2.setOnClickListener(ItemClickListener);
-        vaiety_card3.setOnClickListener(ItemClickListener);
-        vaiety_card4.setOnClickListener(ItemClickListener);
+        vaiety_card1_image.setOnClickListener(ItemClickListener);
+        vaiety_card2_image.setOnClickListener(ItemClickListener);
+        vaiety_card3_image.setOnClickListener(ItemClickListener);
+        vaiety_card4_image.setOnClickListener(ItemClickListener);
         vaiety_channel1_image.setOnClickListener(ItemClickListener);
         vaiety_channel2_image.setOnClickListener(ItemClickListener);
         vaiety_channel3_image.setOnClickListener(ItemClickListener);
@@ -154,7 +154,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                 }
             }
         });
-        vaiety_card2.setOnFocusChangeListener(new OnFocusChangeListener() {
+        vaiety_card2_image.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
@@ -163,7 +163,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                 }
             }
         });
-        vaiety_card4.setOnFocusChangeListener(new OnFocusChangeListener() {
+        vaiety_card4_image.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
@@ -275,7 +275,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                 if ("bottom".equals(bottomFlag)) {//下边界移入
                     vaiety_channel5.requestFocus();
                 } else {//上边界边界移入
-                    vaiety_card2.requestFocus();
+                    vaiety_card2_image.requestFocus();
                 }
 //        		}
             } else {//左侧移入
@@ -304,7 +304,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
         postlist.get(0).setPosition(0);
         Picasso.with(mContext).load(postlist.get(0).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(vaiety_card1_image);
         vaiety_card1_image.setTitle(postlist.get(0).getIntroduction());
-        vaiety_card1.setTag(postlist.get(0));
+        vaiety_card1_image.setTag(postlist.get(0));
         vaiety_card1_subtitle.setText(postlist.get(0).getTitle());
         vaiety_card1_image.setModeType(0);
         if (postlist.get(0).getCorner() == 2) {
@@ -315,7 +315,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
         postlist.get(1).setPosition(1);
         Picasso.with(mContext).load(postlist.get(1).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(vaiety_card2_image);
         vaiety_card2_image.setTitle(postlist.get(1).getIntroduction());
-        vaiety_card2.setTag(postlist.get(1));
+        vaiety_card2_image.setTag(postlist.get(1));
         vaiety_card2_subtitle.setText(postlist.get(1).getTitle());
         vaiety_card2_image.setModeType(0);
         if (postlist.get(1).getCorner() == 2) {
@@ -327,7 +327,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
         Picasso.with(mContext).load(postlist.get(2).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(vaiety_card3_image);
         vaiety_card3_image.setTitle(postlist.get(2).getIntroduction());
         vaiety_card3_subtitle.setText(postlist.get(2).getTitle());
-        vaiety_card3.setTag(postlist.get(2));
+        vaiety_card3_image.setTag(postlist.get(2));
         vaiety_card3_image.setModeType(0);
         if (postlist.get(2).getCorner() == 2) {
             vaiety_card3_image.setModeType(1);
@@ -338,7 +338,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
         Picasso.with(mContext).load(postlist.get(3).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(vaiety_card4_image);
         vaiety_card4_image.setTitle(postlist.get(3).getIntroduction());
         vaiety_card4_subtitle.setText(postlist.get(3).getTitle());
-        vaiety_card4.setTag(postlist.get(3));
+        vaiety_card4_image.setTag(postlist.get(3));
         vaiety_card4_image.setModeType(0);
         if (postlist.get(3).getCorner() == 2) {
             vaiety_card4_image.setModeType(1);

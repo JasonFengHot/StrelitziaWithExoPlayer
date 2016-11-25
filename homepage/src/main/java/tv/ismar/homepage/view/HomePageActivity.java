@@ -367,12 +367,23 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (savedInstanceState != null)
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
-//        new Thread(new InitializeProcess(this)).start();
-//        Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
         fragmentSwitch = new FragmentSwitchHandler(this);
         activityTag = "BaseActivity";
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
+
+        Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
+        homepage_template = getIntent().getStringExtra("homepage_template");
+        homepage_url = getIntent().getStringExtra("homepage_url");
+        final View vv = findViewById(R.id.large_layout);
+        bitmapDecoder = new BitmapDecoder();
+        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+            @Override
+            public void onSuccess(BitmapDrawable bitmapDrawable) {
+                vv.setBackgroundDrawable(bitmapDrawable);
+            }
+        });
+
         /**
          * advertisement start
          */
@@ -392,18 +403,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         /**
          * advertisement end
          */
-
-        homepage_template = getIntent().getStringExtra("homepage_template");
-        homepage_url = getIntent().getStringExtra("homepage_url");
-        final View vv = findViewById(R.id.large_layout);
-        bitmapDecoder = new BitmapDecoder();
-        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-                vv.setBackgroundDrawable(bitmapDrawable);
-            }
-        });
-
 
         vv.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -1307,12 +1306,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 break;
         }
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        Log.i("LH/", "HomeOnStart:" + System.currentTimeMillis());
     }
 
     enum ChannelChange {
