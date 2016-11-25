@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/film_star_title_new"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/film_star_title_new_h"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/film_star_title_new_ml"
             android:layout_marginTop="@dimen/film_star_title_new_mt"
             android:gravity="center"

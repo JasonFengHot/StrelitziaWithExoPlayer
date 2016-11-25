@@ -41,14 +41,14 @@ public class JasmineUtil {
         animator.start();
     }
     public static void showKeyboard(Context context, final View view) {
-        ObjectAnimator showAnimator = ObjectAnimator.ofFloat(view, "translationX", -601, 0);
+        ObjectAnimator showAnimator = ObjectAnimator.ofFloat(view, "translationX", -context.getResources().getDimensionPixelOffset(R.dimen.keyboard_width), 0);
         showAnimator.setDuration(500);
         showAnimator.start();
 
     }
 
     public static void hideKeyboard(Context context, View view) {
-        ObjectAnimator showAnimator = ObjectAnimator.ofFloat(view, "translationX", 0, -601);
+        ObjectAnimator showAnimator = ObjectAnimator.ofFloat(view, "translationX", 0, -context.getResources().getDimensionPixelOffset(R.dimen.keyboard_width));
         showAnimator.setDuration(500);
         showAnimator.start();
 

@@ -306,6 +306,7 @@
     <dimen name="item_vod_score_new_w">55dp</dimen>
     <dimen name="item_vod_price_new_w">70dp</dimen>
     <dimen name="item_vod_title_new_w">250dp</dimen>
+    <dimen name="item_vod_title_new_mt">-10dp</dimen>
     <dimen name="indicator_bg_new_w">267dp</dimen>
     <dimen name="indicator_bg_new_h">26dp</dimen>
     <dimen name="film_star_title_new_ml">171dp</dimen>
@@ -322,4 +323,14 @@
     <dimen name="film_description_new_ml">140dp</dimen>
 
     <dimen name="tab_margin_l">5dp</dimen>
+
+    <dimen name="t9_key_popup_h">226dp</dimen>
+    <dimen name="t9_key_popup_tv_top_w">160dp</dimen>
+    <dimen name="t9_key_popup_tv_top_h">82dp</dimen>
+    <dimen name="t9_key_popup_tv_top_ml">33dp</dimen>
+    <dimen name="t9_key_popup_tv_top_ts">36sp</dimen>
+    <dimen name="t9_key_popup_tv_center_w">94dp</dimen>
+    <dimen name="t9_key_popup_tv_center_ml">66dp</dimen>
+    <dimen name="t9_key_popup_drop_down_x">-51dp</dimen>
+    <dimen name="t9_key_popup_drop_down_Y">-172dp</dimen>
 </resources>

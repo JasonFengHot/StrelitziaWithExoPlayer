@@ -73,7 +73,7 @@
             android:nextFocusUp="@id/t9_keyboard"
             android:nextFocusLeft="@id/t9_keyboard"
             android:cacheColorHint="@android:color/transparent"
-            jasmine:listSelector="@drawable/t9_focus"
+            jasmine:listSelector="@drawable/t9_key_focus"
             jasmine:selectorLeftPadding="@dimen/t9_keyboard_padding"
             jasmine:selectorTopPadding="@dimen/t9_keyboard_padding"
             jasmine:selectorRightPadding="@dimen/t9_keyboard_padding"
