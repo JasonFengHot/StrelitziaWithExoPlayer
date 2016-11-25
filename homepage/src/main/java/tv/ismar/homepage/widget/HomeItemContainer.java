@@ -95,8 +95,8 @@ public class HomeItemContainer extends FrameLayout {
 			mDrawable.setBounds(mBound);
 			mDrawable.draw(canvas);
 		}
-		getRootView().requestLayout();
-		getRootView().invalidate();
+//		getRootView().requestLayout();
+//		getRootView().invalidate();
 	}
 
 	@Override

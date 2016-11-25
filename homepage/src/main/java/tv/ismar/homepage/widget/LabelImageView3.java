@@ -114,10 +114,10 @@ public class LabelImageView3 extends AsyncImageView {
                 drawBorder = true;
                 getRootView().requestLayout();
                 getRootView().invalidate();
-                zoomOut();
+//                zoomOut();
             } else {
                 drawBorder = false;
-                zoomIn();
+//                zoomIn();
             }
         }
     }
@@ -252,7 +252,7 @@ public class LabelImageView3 extends AsyncImageView {
 
     public void setCustomFocus(boolean customFocus) {
         this.customFocus = customFocus;
-        invalidate();
+//        invalidate();
     }
 
     private void zoomIn() {
