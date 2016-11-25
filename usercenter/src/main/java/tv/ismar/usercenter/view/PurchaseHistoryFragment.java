@@ -3,12 +3,12 @@ package tv.ismar.usercenter.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -47,6 +47,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         return new PurchaseHistoryFragment();
     }
 
+    private FragmentPurchasehistoryBinding purchasehistoryBinding;
 
     private RecyclerViewTV mRecyclerView;
 
@@ -67,7 +68,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        FragmentPurchasehistoryBinding purchasehistoryBinding = FragmentPurchasehistoryBinding.inflate(inflater, container, false);
+        purchasehistoryBinding = FragmentPurchasehistoryBinding.inflate(inflater, container, false);
         purchasehistoryBinding.setTasks(mViewModel);
         purchasehistoryBinding.setActionHandler(mPresenter);
 
@@ -167,12 +168,13 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         }
 
         HistoryAdapter adapter = new HistoryAdapter(getContext(), arrayList);
+        mRecyclerView.setSelectedItemAtCentered(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(adapter);
 
     }
 
-    private class HistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryFragment.HistoryViewHolder> {
+    private class HistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryFragment.HistoryViewHolder> implements View.OnHoverListener {
         private Context mContext;
 
         private List<AccountsOrdersEntity.OrderEntity> mOrderEntities;
@@ -185,6 +187,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         @Override
         public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_purchase_history, parent, false);
+            view.setOnHoverListener(this);
             HistoryViewHolder holder = new HistoryViewHolder(view);
             return holder;
         }
@@ -280,6 +283,25 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 e.printStackTrace();
             }
             return 0;
+        }
+
+        @Override
+        public boolean onHover(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                case MotionEvent.ACTION_HOVER_MOVE:
+                    if (!v.hasFocus()) {
+                        v.requestFocus();
+                        v.requestFocusFromTouch();
+                    }
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    purchasehistoryBinding.mainupView.requestFocus();
+                    purchasehistoryBinding.mainupView.requestFocusFromTouch();
+                    break;
+
+            }
+            return false;
         }
     }
 

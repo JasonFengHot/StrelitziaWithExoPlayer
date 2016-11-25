@@ -2,19 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/launcher_selector"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:background="@drawable/launcher_selector"
                 android:minHeight="@dimen/purchaseFragment_item_minHeight"
                 android:paddingLeft="@dimen/purchaseFragment_item_paddingLeft"
 >
-
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/header_divider"/>
+    <ImageView
+        android:layout_marginLeft="1px"
         android:id="@+id/orderlistitem_icon"
         android:layout_width="@dimen/purchaseFragment_item_image_width"
         android:layout_height="@dimen/purchaseFragment_item_image_height"
-        android:layout_marginTop="@dimen/purchaseFragment_item_icon_marginTop"
         android:scaleType="fitXY"
     />
 
