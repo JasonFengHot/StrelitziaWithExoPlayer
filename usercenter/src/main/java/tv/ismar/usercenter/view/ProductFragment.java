@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     private RecyclerViewTV mRecyclerView;
 
     private YouHuiDingGouEntity mYouHuiDingGouEntity;
+    private FragmentProductBinding productBinding;
 
     @Override
     public void onAttach(Context context) {
@@ -60,7 +62,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        FragmentProductBinding productBinding = FragmentProductBinding.inflate(inflater, container, false);
+        productBinding = FragmentProductBinding.inflate(inflater, container, false);
         productBinding.setTasks(mViewModel);
         productBinding.setActionHandler(mPresenter);
 
@@ -148,11 +150,11 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     @Override
     public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
         PageIntent pageIntent = new PageIntent();
-        pageIntent.toPackageDetail(getContext(),"usercenter", (int) mYouHuiDingGouEntity.getObjects().get(i).getPk());
+        pageIntent.toPackageDetail(getContext(), "usercenter", (int) mYouHuiDingGouEntity.getObjects().get(i).getPk());
     }
 
 
-    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
+    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener {
         private Context mContext;
 
         private List<YouHuiDingGouEntity.Object> mObjects;
@@ -167,6 +169,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
         public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_product_list, viewGroup, false);
+            view.setOnHoverListener(this);
             ProductViewHolder holder = new ProductViewHolder(view);
             return holder;
         }
@@ -185,6 +188,24 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         @Override
         public int getItemCount() {
             return mObjects.size();
+        }
+
+        @Override
+        public boolean onHover(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                case MotionEvent.ACTION_HOVER_MOVE:
+                    if (!v.hasFocus()) {
+                        v.requestFocus();
+                        v.requestFocusFromTouch();
+                    }
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    productBinding.tmp.requestFocus();
+                    productBinding.tmp.requestFocusFromTouch();
+                    break;
+            }
+            return true;
         }
     }
 
