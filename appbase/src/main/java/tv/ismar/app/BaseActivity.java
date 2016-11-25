@@ -166,16 +166,16 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onError(Throwable e) {
             e.printStackTrace();
-            if (e instanceof HttpException) {
-                HttpException httpException = (HttpException) e;
-                if (httpException.code() == 401) {
-                    showExpireAccessTokenPop();
-                } else {
-                    showNetWorkErrorDialog(e);
-                }
-            } else {
-                showNetWorkErrorDialog(e);
-            }
+//            if (e instanceof HttpException) {
+//                HttpException httpException = (HttpException) e;
+//                if (httpException.code() == 401) {
+//                    showExpireAccessTokenPop();
+//                } else {
+//                    showNetWorkErrorDialog(e);
+//                }
+//            } else {
+//                showNetWorkErrorDialog(e);
+//            }
         }
     }
 

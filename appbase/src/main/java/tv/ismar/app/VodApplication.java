@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,7 @@ import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
 import cn.ismartv.truetime.TrueTimeRx;
 import rx.Observable;
+import rx.Observer;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.HttpParamsInterceptor;
@@ -388,7 +390,22 @@ public class VodApplication extends Application {
                                 .withSharedPreferences(context)
                                 .withLoggingEnabled(true)
                                 .initialize(ntpHosts)
-                                .subscribe();
+                                .subscribe(new Observer<Date>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        throwable.printStackTrace();
+                                    }
+
+                                    @Override
+                                    public void onNext(Date date) {
+
+                                    }
+                                });
                         return null;
                     }
                 })
@@ -398,6 +415,21 @@ public class VodApplication extends Application {
                         return false;
                     }
                 })
-                .subscribe();
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+
+                    }
+                });
     }
 }
