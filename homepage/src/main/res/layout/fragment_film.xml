@@ -37,7 +37,8 @@
             android:layout_toRightOf="@id/film_lefttop_image"
             android:clickable="true"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:nextFocusRight="@+id/film_carous_imageView1">
 
             <tv.ismar.homepage.widget.DaisyVideoView
                 android:id="@+id/film_linked_video"

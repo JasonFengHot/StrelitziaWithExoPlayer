@@ -535,37 +535,34 @@ public class FilmFragment extends ChannelBaseFragment {
 
 
     private void startPlayback() {
-        Log.d(TAG, "startPlayback is invoke...");
-
-        mSurfaceView.setFocusable(false);
-        mSurfaceView.setFocusableInTouchMode(false);
-        String videoName = mChannelName + "_" + mCurrentCarouselIndex + ".mp4";
-
-        String videoPath = mCarousels.get(mCurrentCarouselIndex).getVideo_url();
-        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(videoPath)).executeSingle();
-        if (downloadEntity!= null && downloadEntity.status == DownloadStatus.COMPLETED){
-            videoPath = downloadEntity.savePath;
-        }
-        Log.d(TAG, "current video path ====> " + videoPath);
-
-        if (mSurfaceView.isPlaying() &&mSurfaceView.getDataSource().equals(videoPath)) {
+        if (mSurfaceView == null)
             return;
-        }
-        stopPlayback();
-        linkedVideoImage.setImageResource(R.drawable.guide_video_loading);
-        if (mContext != null)
-            new BitmapDecoder().decode(mContext, R.drawable.guide_video_loading, new BitmapDecoder.Callback() {
-                @Override
-                public void onSuccess(BitmapDrawable bitmapDrawable) {
-                    linkedVideoImage.setBackgroundDrawable(bitmapDrawable);
-                }
-            });
-        linkedVideoImage.setVisibility(View.VISIBLE);
+        try {
+            Log.d(TAG, "startPlayback is invoke...");
 
-        mSurfaceView.setVideoPath(videoPath);
-        mSurfaceView.start();
-        mSurfaceView.setFocusable(true);
-        mSurfaceView.setFocusableInTouchMode(true);
+            mSurfaceView.setFocusable(false);
+            mSurfaceView.setFocusableInTouchMode(false);
+            String videoName = "guide_" + mCurrentCarouselIndex + ".mp4";
+            String videoPath = mCarousels.get(mCurrentCarouselIndex).getVideo_url();
+            DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(videoPath)).executeSingle();
+            if (downloadEntity!= null && downloadEntity.status == DownloadStatus.COMPLETED){
+                videoPath = downloadEntity.savePath;
+            }
+
+            Log.d(TAG, "current video path ====> " + videoPath);
+
+            if (mSurfaceView.isPlaying() && mSurfaceView.getDataSource().equals(videoPath)) {
+                return;
+            }
+            linkedVideoImage.setVisibility(View.VISIBLE);
+            stopPlayback();
+            mSurfaceView.setVideoPath(videoPath);
+            mSurfaceView.start();
+            mSurfaceView.setFocusable(true);
+            mSurfaceView.setFocusableInTouchMode(true);
+
+        } catch (Exception e) {
+        }
     }
 
     private void stopPlayback() {
