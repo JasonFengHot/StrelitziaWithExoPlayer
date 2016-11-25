@@ -74,13 +74,12 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <RelativeLayout
-                android:id="@+id/film_carousel_layout"
+            <include
+                layout="@layout/film_carouse"
                 android:layout_width="@dimen/film_carousel_item_w"
                 android:layout_height="match_parent"
                 android:clipChildren="false"
-                android:clipToPadding="false"
-                android:orientation="vertical" />
+                android:clipToPadding="false" />
 
         </LinearLayout>
 

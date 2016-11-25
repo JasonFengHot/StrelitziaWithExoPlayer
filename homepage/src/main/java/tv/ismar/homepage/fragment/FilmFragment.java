@@ -65,8 +65,13 @@ public class FilmFragment extends ChannelBaseFragment {
     private static final int CAROUSEL_NEXT = 0x0010;
 
     private LinearLayout guideRecommmendList;
-    private RelativeLayout carouselLayout;
+//    private RelativeLayout carouselLayout;
     private HomeItemContainer film_post_layout;
+    private LabelImageView3 film_carous_imageView1;
+    private LabelImageView3 film_carous_imageView2;
+    private LabelImageView3 film_carous_imageView3;
+    private LabelImageView3 film_carous_imageView4;
+    private LabelImageView3 film_carous_imageView5;
 
     private ImageView linkedVideoImage;
     private TextView film_linked_title;
@@ -109,7 +114,12 @@ public class FilmFragment extends ChannelBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mView = LayoutInflater.from(mContext).inflate(R.layout.fragment_film, null);
         guideRecommmendList = (LinearLayout) mView.findViewById(R.id.film_recommend_list);
-        carouselLayout = (RelativeLayout) mView.findViewById(R.id.film_carousel_layout);
+        film_carous_imageView1 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView1);
+        film_carous_imageView2 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView2);
+        film_carous_imageView3 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView3);
+        film_carous_imageView4 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView4);
+        film_carous_imageView5 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView5);
+        mRightTopView = film_carous_imageView1;
         mSurfaceView = (DaisyVideoView) mView.findViewById(R.id.film_linked_video);
         mSurfaceView.setOnCompletionListener(mOnCompletionListener);
         mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
@@ -178,9 +188,12 @@ public class FilmFragment extends ChannelBaseFragment {
         mHandler.removeMessages(CAROUSEL_NEXT);
         film_post_layout.removeAllViews();
         guideRecommmendList.removeAllViews();
-        carouselLayout.removeAllViews();
         guideRecommmendList = null;
-        carouselLayout = null;
+        film_carous_imageView1 = null;
+        film_carous_imageView2 = null;
+        film_carous_imageView3 = null;
+        film_carous_imageView4 = null;
+        film_carous_imageView5 = null;
         film_post_layout = null;
         if (film_lefttop_image != null && film_lefttop_image.getDrawingCache() != null && !film_lefttop_image.getDrawingCache().isRecycled()) {
             film_lefttop_image.getDrawingCache().recycle();
@@ -195,12 +208,12 @@ public class FilmFragment extends ChannelBaseFragment {
     public void onResume() {
         super.onResume();
         checkExternalIsEnable();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-        intentFilter.addAction(Intent.ACTION_MEDIA_EJECT);
-        intentFilter.addAction(Intent.ACTION_MEDIA_REMOVED);
-        intentFilter.addAction(Intent.ACTION_MEDIA_BAD_REMOVAL);
-        intentFilter.addDataScheme("file");
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+//        intentFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+//        intentFilter.addAction(Intent.ACTION_MEDIA_REMOVED);
+//        intentFilter.addAction(Intent.ACTION_MEDIA_BAD_REMOVAL);
+//        intentFilter.addDataScheme("file");
         if (mCarousels == null) {
             if (channelEntity != null)
                 fetchHomePage(channelEntity.getHomepage_url());
@@ -395,13 +408,12 @@ public class FilmFragment extends ChannelBaseFragment {
 
 
     private void initCarousel( ArrayList<HomePagerEntity.Carousel> carousels) {
-        carouselLayout.removeAllViews();
         allItem = new ArrayList<LabelImageView3>();
         mCarousels = carousels;
         carouselMap =new HashMap<>();
 
         ArrayList<HomePagerEntity.Carousel> newerCarousels = new ArrayList<>();
-        Log.i("LH/", "filmCarousel:" + newerCarousels.size());
+        Log.i("LH/", "filmCarousel:" + carousels.size());
 
 
         for (int i = 0; i < carousels.size(); i++) {
@@ -430,46 +442,94 @@ public class FilmFragment extends ChannelBaseFragment {
         carousels = newerCarousels;
         mCarousels = newerCarousels;
 
+        try {
+            Picasso.with(mContext).load(carousels.get(0).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(film_carous_imageView1);
+            film_carous_imageView1.setTag(0);
+            film_carous_imageView1.setTag(R.drawable.launcher_selector, carousels.get(0));
+            film_carous_imageView1.setOnClickListener(ItemClickListener);
+            film_carous_imageView1.setOnFocusChangeListener(itemFocusChangeListener);
+            carousels.get(0).setPosition(0);
+            Picasso.with(mContext).load(carousels.get(1).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(film_carous_imageView2);
+            film_carous_imageView2.setTag(1);
+            film_carous_imageView2.setTag(R.drawable.launcher_selector, carousels.get(1));
+            film_carous_imageView2.setOnClickListener(ItemClickListener);
+            film_carous_imageView2.setOnFocusChangeListener(itemFocusChangeListener);
+            carousels.get(1).setPosition(1);
+            Picasso.with(mContext).load(carousels.get(2).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(film_carous_imageView3);
+            film_carous_imageView3.setTag(2);
+            film_carous_imageView3.setTag(R.drawable.launcher_selector, carousels.get(2));
+            film_carous_imageView3.setOnClickListener(ItemClickListener);
+            film_carous_imageView3.setOnFocusChangeListener(itemFocusChangeListener);
+            carousels.get(2).setPosition(2);
 
-        int width = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_w);
-        int height = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_h);
-        int topMargin = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_space);
-        for (int i = 0; i < carousels.size() && i < 5; i++) {
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-            LabelImageView3 itemView = new LabelImageView3(mContext);
-            if (i == 0) {
-                params.topMargin = 0;
-                itemView.setId(R.id.filmfragment_firstcarousel);
-                firstcarousel = itemView;
-            } else {
-                itemView.setId(R.id.filmfragment_firstcarousel + i * 5);
-                params.topMargin = topMargin;
-                params.addRule(RelativeLayout.BELOW, R.id.filmfragment_firstcarousel + 5 * (i - 1));
-            }
-            if (mContext == null)
-                return;
-            itemView.setFocusable(true);
-            itemView.setFocusableInTouchMode(true);
-            itemView.setNeedZoom(true);
-            Picasso.with(mContext).load(carousels.get(i).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE)
-                    .into(itemView);
-            itemView.setScaleType(ImageView.ScaleType.FIT_XY);
-            itemView.setLayoutParams(params);
-            itemView.setTag(i);
-            carousels.get(i).setPosition(i);
-            itemView.setTag(R.drawable.launcher_selector, carousels.get(i));
-            itemView.setOnClickListener(ItemClickListener);
-            itemView.setOnFocusChangeListener(itemFocusChangeListener);
-            int shadowcolor = mContext.getResources().getColor(R.color.carousel_focus);
-            itemView.setFrontColor(shadowcolor);
-            carouselMap.put(i, itemView.getId());
-            allItem.add(itemView);
-            carouselLayout.addView(itemView);
+            Picasso.with(mContext).load(carousels.get(3).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(film_carous_imageView4);
+            film_carous_imageView4.setTag(3);
+            film_carous_imageView4.setTag(R.drawable.launcher_selector, carousels.get(3));
+            film_carous_imageView4.setOnClickListener(ItemClickListener);
+            film_carous_imageView4.setOnFocusChangeListener(itemFocusChangeListener);
+            carousels.get(3).setPosition(3);
 
-            if (i == 0) {
-                mRightTopView = itemView;
-            }
+            Picasso.with(mContext).load(carousels.get(4).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(film_carous_imageView5);
+            film_carous_imageView5.setTag(4);
+            film_carous_imageView5.setTag(R.drawable.launcher_selector, carousels.get(4));
+            film_carous_imageView5.setOnClickListener(ItemClickListener);
+            film_carous_imageView5.setOnFocusChangeListener(itemFocusChangeListener);
+            carousels.get(4).setPosition(4);
+            allItem.add(film_carous_imageView1);
+            allItem.add(film_carous_imageView2);
+            allItem.add(film_carous_imageView3);
+            allItem.add(film_carous_imageView4);
+            allItem.add(film_carous_imageView5);
+        } catch (Exception e) {
         }
+
+        firstcarousel = film_carous_imageView1;
+        carouselMap = new HashMap<>();
+        carouselMap.put(0, film_carous_imageView1.getId());
+        carouselMap.put(1, film_carous_imageView2.getId());
+        carouselMap.put(2, film_carous_imageView3.getId());
+        carouselMap.put(3, film_carous_imageView4.getId());
+        carouselMap.put(4, film_carous_imageView5.getId());
+
+//        int width = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_w);
+//        int height = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_h);
+//        int topMargin = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_space);
+//        for (int i = 0; i < carousels.size() && i < 5; i++) {
+//            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+//            LabelImageView3 itemView = new LabelImageView3(mContext);
+//            if (i == 0) {
+//                params.topMargin = 0;
+//                itemView.setId(R.id.filmfragment_firstcarousel);
+//                firstcarousel = itemView;
+//            } else {
+//                itemView.setId(R.id.filmfragment_firstcarousel + i * 5);
+//                params.topMargin = topMargin;
+//                params.addRule(RelativeLayout.BELOW, R.id.filmfragment_firstcarousel + 5 * (i - 1));
+//            }
+//            if (mContext == null)
+//                return;
+//            itemView.setFocusable(true);
+//            itemView.setFocusableInTouchMode(true);
+//            itemView.setNeedZoom(true);
+//            Picasso.with(mContext).load(carousels.get(i).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE)
+//                    .into(itemView);
+//            itemView.setScaleType(ImageView.ScaleType.FIT_XY);
+//            itemView.setLayoutParams(params);
+//            itemView.setTag(i);
+//            carousels.get(i).setPosition(i);
+//            itemView.setTag(R.drawable.launcher_selector, carousels.get(i));
+//            itemView.setOnClickListener(ItemClickListener);
+//            itemView.setOnFocusChangeListener(itemFocusChangeListener);
+//            int shadowcolor = mContext.getResources().getColor(R.color.carousel_focus);
+//            itemView.setFrontColor(shadowcolor);
+//            carouselMap.put(i, itemView.getId());
+//            allItem.add(itemView);
+//            carouselLayout.addView(itemView);
+//
+//            if (i == 0) {
+//
+//            }
+//        }
         playCarousel(0);
     }
 
@@ -513,7 +573,7 @@ public class FilmFragment extends ChannelBaseFragment {
         mSurfaceView.stopPlayback();
     }
 
-    private void playCarousel(int delay) {
+    private void playCarousel(final int delay) {
         mHandler.removeMessages(CAROUSEL_NEXT);
         if (film_post_layout == null)
             return;
@@ -529,7 +589,6 @@ public class FilmFragment extends ChannelBaseFragment {
                 }
                 break;
         }
-        film_post_layout.setTag(R.drawable.launcher_selector, mCarousels.get(mCurrentCarouselIndex));
         for (int i = 0; i < allItem.size(); i++) {
             LabelImageView3 imageView = allItem.get(i);
             if (mCurrentCarouselIndex != i) {
@@ -539,49 +598,52 @@ public class FilmFragment extends ChannelBaseFragment {
             }
         }
 
-        String videoUrl = mCarousels.get(mCurrentCarouselIndex).getVideo_url();
-        if (playSubscription != null && !playSubscription.isUnsubscribed()) {
-            playSubscription.unsubscribe();
-        }
+//        String videoUrl = mCarousels.get(mCurrentCarouselIndex).getVideo_url();
+//        if (playSubscription != null && !playSubscription.isUnsubscribed()) {
+//            playSubscription.unsubscribe();
+//        }
         film_post_layout.setNextFocusRightId(carouselMap.get(mCurrentCarouselIndex));
-        playSubscription = null;
-        playSubscription = Observable.just(videoUrl)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        Log.i(TAG, "map thread: " + Thread.currentThread().getName());
-                        HttpUrl parsed = HttpUrl.parse(s);
-                        if (TextUtils.isEmpty(s) || parsed == null) {
-                            return false;
-                        }
-                        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(s)).executeSingle();
-                        return externalStorageIsEnable && downloadEntity.status == DownloadStatus.COMPLETED;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Boolean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        playImage();
-                    }
-
-                    @Override
-                    public void onNext(Boolean enable) {
-                        Log.i(TAG, "onNext thread: " + Thread.currentThread().getName());
-                        if (enable) {
-                            playVideo(0);
-                        } else {
-                            playImage();
-                        }
-                    }
-                });
+        film_post_layout.setTag(R.drawable.launcher_selector, mCarousels.get(mCurrentCarouselIndex));
+        mHandler.removeMessages(START_PLAYBACK);
+        mHandler.sendEmptyMessageDelayed(START_PLAYBACK, delay);
+//        playSubscription = null;
+//        playSubscription = Observable.just(videoUrl)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(Schedulers.io())
+//                .map(new Func1<String, Boolean>() {
+//                    @Override
+//                    public Boolean call(String s) {
+//                        Log.i(TAG, "map thread: " + Thread.currentThread().getName());
+//                        HttpUrl parsed = HttpUrl.parse(s);
+//                        if (TextUtils.isEmpty(s) || parsed == null) {
+//                            return false;
+//                        }
+//                        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(s)).executeSingle();
+//                        return externalStorageIsEnable && downloadEntity.status == DownloadStatus.COMPLETED;
+//                    }
+//                })
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<Boolean>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        playImage();
+//                    }
+//
+//                    @Override
+//                    public void onNext(Boolean enable) {
+//                        Log.i(TAG, "onNext thread: " + Thread.currentThread().getName());
+//                        if (enable) {
+//                            playVideo(delay);
+//                        } else {
+//                            playImage();
+//                        }
+//                    }
+//                });
     }
 
     private boolean externalStorageIsEnable() {
@@ -718,7 +780,7 @@ public class FilmFragment extends ChannelBaseFragment {
                     int position = (Integer) v.getTag();
                     mCarouselRepeatType = CarouselRepeatType.Once;
                     mCurrentCarouselIndex = position;
-                    playCarousel(0);
+                    playCarousel(100);
                 }
             }
         }
