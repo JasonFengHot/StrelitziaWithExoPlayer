@@ -113,8 +113,7 @@
 <dimen name="privilege_item_btn_ml">4.44dp</dimen>
 
 <dimen name="privilege_item_margin_bottom">5.33dp</dimen>
-
-
+<dimen name="usercenter_purchase_history_ml">14.44dp</dimen>
 
 
 </resources>

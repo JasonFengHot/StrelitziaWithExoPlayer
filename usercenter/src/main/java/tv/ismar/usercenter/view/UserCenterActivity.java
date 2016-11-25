@@ -302,24 +302,24 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     v.callOnClick();
                 } else {
                     Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-
+                    View itemView = null;
                     if (fragment instanceof ProductFragment) {
-                        userCenterIndicatorLayout.getChildAt(0).requestFocus();
+                        itemView = userCenterIndicatorLayout.getChildAt(0);
                     } else if (fragment instanceof UserInfoFragment) {
-                        userCenterIndicatorLayout.getChildAt(1).requestFocus();
+                        itemView = userCenterIndicatorLayout.getChildAt(1);
                     } else if (fragment instanceof LoginFragment) {
-                        userCenterIndicatorLayout.getChildAt(2).requestFocus();
+                        itemView = userCenterIndicatorLayout.getChildAt(2);
                     } else if (fragment instanceof PurchaseHistoryFragment) {
-                        userCenterIndicatorLayout.getChildAt(3).requestFocus();
+                        itemView = userCenterIndicatorLayout.getChildAt(3);
                     } else if (fragment instanceof HelpFragment) {
-                        userCenterIndicatorLayout.getChildAt(4).requestFocus();
+                        itemView = userCenterIndicatorLayout.getChildAt(4);
                     } else if (fragment instanceof LocationFragment) {
-                        View itemView = userCenterIndicatorLayout.getChildAt(5);
-                        if (itemView.hasFocus()) {
-                            itemView.callOnClick();
-                        } else {
-                            itemView.requestFocus();
-                        }
+                        itemView = userCenterIndicatorLayout.getChildAt(5);
+                    }
+                    if (itemView != null && itemView.hasFocus()) {
+                        itemView.callOnClick();
+                    } else if (itemView != null) {
+                        itemView.requestFocus();
                     }
                 }
             } else {
