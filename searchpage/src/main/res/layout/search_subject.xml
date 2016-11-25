@@ -56,7 +56,7 @@
                 jasmine:selectorTopPadding="@dimen/gridview_padding_top"
                 jasmine:selectorRightPadding="@dimen/gridview_padding"
                 jasmine:selectorBottomPadding="@dimen/gridview_padding_bottom"
-                />
+                jasmine:scaleSize="1.1" />
         <ImageView
                 android:id="@+id/iv_left_arrow"
                 android:layout_width="@dimen/left_arrow_width"

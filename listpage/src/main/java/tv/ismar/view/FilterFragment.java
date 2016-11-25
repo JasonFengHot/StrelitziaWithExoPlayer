@@ -216,7 +216,7 @@ public class FilterFragment extends BackHandledFragment {
                                 initRadioButton(nolimitRbtn);
 
                                 nolimitRbtn.setChecked(true);
-                                valueViews.addView(nolimitRbtn,new LinearLayout.LayoutParams(72, 48));
+                                valueViews.addView(nolimitRbtn,new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.filter_radio_W), getResources().getDimensionPixelSize(R.dimen.filter_radio_H)));
                                 for(int i=0; i<arrayCount; i++){
                                     JSONArray subArray = values.getJSONArray(i);
                                     FilterItem item = new FilterItem();
@@ -229,10 +229,10 @@ public class FilterFragment extends BackHandledFragment {
                                     rbtn.setText(subArray.getString(1));
                                     rbtn.setTag(item);
                                     initRadioButton(rbtn);
-                                    valueViews.addView(rbtn,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,48));
+                                    valueViews.addView(rbtn,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,getResources().getDimensionPixelSize(R.dimen.filter_radio_H)));
                                 }
-                                LinearLayout.LayoutParams groupLp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,126);
-                                groupLp.setMargins(0,22,0,0);
+                                LinearLayout.LayoutParams groupLp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getResources().getDimensionPixelSize(R.dimen.filter_groupView_H));
+                                groupLp.setMargins(0,getResources().getDimensionPixelSize(R.dimen.filter_groupView_mt),0,0);
                                 filtermenulayout.addView(view,groupLp);
                             }
                         } catch (JSONException e) {

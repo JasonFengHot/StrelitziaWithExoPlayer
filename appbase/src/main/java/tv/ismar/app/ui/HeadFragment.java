@@ -279,9 +279,9 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         if (mHeadItemClickListener != null) {
             int i = v.getId();
             if (i == R.string.vod_movielist_title_history) {
-
+                mHeadItemClickListener.onHistoryClick();
             } else if (i == R.string.guide_my_favorite) {
-
+                mHeadItemClickListener.onFavoriteClick();
             } else if (i == R.string.guide_user_center) {
                 mHeadItemClickListener.onUserCenterClick();
 

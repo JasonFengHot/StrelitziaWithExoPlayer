@@ -452,6 +452,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
 	private boolean first=true;
 	private static float mScale;
 	private boolean moved;
+	private final float mScaleSize;
 
 	/**
 	 * Responsible for fling behavior. Use {@link #start(int)} to initiate a
@@ -768,6 +769,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
 				R.styleable.ZGridView_selectorRightPadding, 0);// 24;
 		mSelectionBottomPadding = a.getDimensionPixelOffset(
 				R.styleable.ZGridView_selectorBottomPadding, 0);
+		mScaleSize = a.getFloat(R.styleable.ZGridView_scaleSize,1.0f);
 		if (d != null) {
 			setSelector(d);
 		}
@@ -1348,8 +1350,8 @@ public class ZGridView extends AdapterView<ListAdapter> {
 			}
 			if (sel != null) {
 				if(focus){
-					sel.setScaleX(1.1f);
-					sel.setScaleY(1.1f);
+					sel.setScaleX(mScaleSize);
+					sel.setScaleY(mScaleSize);
 					xxxsele = sel;
 				}
 				positionSelector(INVALID_POSITION, sel);

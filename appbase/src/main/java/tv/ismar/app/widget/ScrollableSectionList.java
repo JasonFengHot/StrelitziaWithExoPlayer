@@ -141,10 +141,10 @@ public class ScrollableSectionList extends HorizontalScrollView {
             }
         }
         if (scaleSmallAnimation == null) {
-            scaleSmallAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_small);
+            scaleSmallAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.section_tab_small);
         }
         if (scaleBigAnimation == null) {
-            scaleBigAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_big);
+            scaleBigAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.section_tab_big);
         }
         FrameLayout sectionFilter = getSectionFilterLabel();
         sectionFilter.setFocusable(true);
@@ -266,6 +266,8 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 if(v.isHovered()){
                     v.setHovered(false);
                 }
+                v.startAnimation(scaleSmallAnimation);
+                v.clearAnimation();
 //                Log.i("LH/", "sectionfocus:"+index+" "+mSelectPosition);
                 if (index == mSelectPosition) {
                     sectionWhenGoto = label;
@@ -326,7 +328,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
 
         TextView label = (TextView) currentView.findViewById(R.id.section_label);
         label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
-        label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize_big));
+        label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
         ImageView section_image = (ImageView) currentView.findViewById(R.id.section_image);
         ((LayoutParams) section_image.getLayoutParams()).width = currentView.getWidth();
         if (currentState == STATE_SECTION) {
