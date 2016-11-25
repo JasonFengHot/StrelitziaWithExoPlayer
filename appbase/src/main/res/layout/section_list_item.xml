@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:textSize="@dimen/channel_section_tabs_label_textsize"
+        android:textSize="30px"
         android:textColor="@color/color_base_white"
         android:singleLine="true"
         />
