@@ -98,7 +98,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:textColor="@color/word_selected"
-        android:layout_marginTop="-10dp"
+        android:layout_marginTop="@dimen/item_vod_title_new_mt"
             android:textSize="@dimen/textSize_36sp"/>
 
 </LinearLayout>

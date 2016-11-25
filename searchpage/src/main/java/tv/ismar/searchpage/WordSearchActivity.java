@@ -408,6 +408,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view.findViewById(R.id.btn_key);
                 String keyValue = textView.getText().toString();
+
                 if (et_input.getText().toString().length() <= 26) {
                     et_input.append(keyValue);
                 } else {
@@ -1031,7 +1032,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
             tv_bottom.setText("");
             tv_bottom.setFocusable(false);
         }
-        popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow = new PopupWindow(contentView, getResources().getDimensionPixelOffset(R.dimen.t9_key_popup_h), getResources().getDimensionPixelOffset(R.dimen.t9_key_popup_h), true);
         popupWindow.setTouchable(true);
         popupWindow.setTouchInterceptor(new View.OnTouchListener() {
             @Override
@@ -1040,7 +1041,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
             }
         });
         popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.t9_background));
-        popupWindow.showAsDropDown(view, -51, -172);
+        popupWindow.showAsDropDown(view, getResources().getDimensionPixelOffset(R.dimen.t9_key_popup_drop_down_x), getResources().getDimensionPixelOffset(R.dimen.t9_key_popup_drop_down_Y));
 
         tv_center.requestFocus();
 

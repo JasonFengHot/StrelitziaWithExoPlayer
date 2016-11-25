@@ -80,13 +80,18 @@ public class VodApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        Log.i("LH/", "application:" + System.currentTimeMillis());
+        Log.i("LH/", "application1:" + System.currentTimeMillis());
         initTrueTime(this);
+        Log.i("LH/", "application2:" + System.currentTimeMillis());
         SPUtils.init(this);
+        Log.i("LH/", "application3:" + System.currentTimeMillis());
         appInstance = this;
         ActiveAndroid.initialize(this);
+        Log.i("LH/", "application4:" + System.currentTimeMillis());
         AccountSharedPrefs.initialize(this);
+        Log.i("LH/", "application5:" + System.currentTimeMillis());
         load(this);
+        Log.i("LH/", "application6:" + System.currentTimeMillis());
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
         Picasso.setSingletonInstance(picasso);

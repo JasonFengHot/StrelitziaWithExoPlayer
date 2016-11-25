@@ -376,13 +376,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         homepage_template = getIntent().getStringExtra("homepage_template");
         homepage_url = getIntent().getStringExtra("homepage_url");
         final View vv = findViewById(R.id.large_layout);
-        bitmapDecoder = new BitmapDecoder();
-        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-                vv.setBackgroundDrawable(bitmapDrawable);
-            }
-        });
 
         /**
          * advertisement start
@@ -399,7 +392,17 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             int duration = adTable.duration;
             countAdTime += duration;
         }
-        playLaunchAd(0);
+        bitmapDecoder = new BitmapDecoder();
+        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+            @Override
+            public void onSuccess(BitmapDrawable bitmapDrawable) {
+                vv.setBackgroundDrawable(bitmapDrawable);
+                home_ad_timer.setTextColor(Color.WHITE);
+                home_ad_timer.setText(countAdTime + "s");
+                playLaunchAd(0);
+            }
+        });
+
         /**
          * advertisement end
          */
@@ -432,7 +435,13 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fetchChannels();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fetchChannels();
+            }
+        }, 2000);
+
     }
 
     private boolean hoverOnArrow;
