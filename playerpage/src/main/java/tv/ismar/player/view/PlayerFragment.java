@@ -105,6 +105,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private ItemEntity mItemEntity;
     private ClipEntity mClipEntity;
     private boolean mIsPreview;// 是否试看
+    private boolean isSwitchTelevision = false;// 手动切换剧集，不查历史记录
 
     // 历史记录
     private HistoryManager historyManager;
@@ -906,9 +907,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void previousClick(View view) {
         if (!mItemEntity.getLiveVideo()) {
             if (!isSeeking) {
-                if (mIsmartvPlayer.isPlaying()) {
-                    mIsmartvPlayer.pause();
-                }
+//                if (mIsmartvPlayer.isPlaying()) {
+//                    mIsmartvPlayer.pause();
+//                }
                 // 拖动进度条是需要一直显示Panel
                 mHidePanelHandler.removeCallbacks(mHidePanelRunnable);
                 if (panel_layout.getVisibility() != View.VISIBLE) {
@@ -931,9 +932,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void forwardClick(View view) {
         if (!mItemEntity.getLiveVideo()) {
             if (!isSeeking) {
-                if (mIsmartvPlayer.isPlaying()) {
-                    mIsmartvPlayer.pause();
-                }
+//                if (mIsmartvPlayer.isPlaying()) {
+//                    mIsmartvPlayer.pause();
+//                }
                 // 拖动进度条是需要一直显示Panel
                 mHidePanelHandler.removeCallbacks(mHidePanelRunnable);
                 if (panel_layout.getVisibility() != View.VISIBLE) {
@@ -1154,18 +1155,21 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
             isLogin = "yes";
         }
-        mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
-        if (mHistory != null) {
-            initQuality = ClipEntity.Quality.getQuality(mHistory.last_quality);
-            mIsContinue = mHistory.is_continue;
-            mediaHistoryPosition = (int) mHistory.last_position;
+        if(!isSwitchTelevision){
+            mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
+            if (mHistory != null) {
+                initQuality = ClipEntity.Quality.getQuality(mHistory.last_quality);
+                mIsContinue = mHistory.is_continue;
+                mediaHistoryPosition = (int) mHistory.last_position;
 
+            }
         }
         if (mediaHistoryPosition > 0) {
             showBuffer(HISTORYCONTINUE + getTimeString(mediaHistoryPosition));
         } else {
             showBuffer(PlAYSTART + mItemEntity.getTitle());
         }
+        isSwitchTelevision = false;
         return initQuality;
 
     }
@@ -1306,6 +1310,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     mItemEntity.setTitle(subItem.getTitle());
                     mItemEntity.setClip(clip);
                     subItemPk = subItem.getPk();
+                    isSwitchTelevision = true;
                     if (clip != null) {
                         testLoadClipTime = System.currentTimeMillis();
                         mPresenter.fetchMediaUrl(clip.getUrl(), sign, code);
@@ -1614,7 +1619,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 if (mIsmartvPlayer.isPlaying()) {
                     mIsOnPaused = true;
                     mIsmartvPlayer.pause();
-                    mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+                    if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                        mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+                    }
                 } else {
                     mIsOnPaused = false;
                     mIsmartvPlayer.start();

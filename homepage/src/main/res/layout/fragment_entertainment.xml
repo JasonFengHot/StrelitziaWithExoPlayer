@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:nextFocusRight="@+id/vaiety_card1"
+                android:nextFocusRight="@+id/vaiety_card1_image"
                 android:nextFocusUp="@id/vaiety_post"
                 android:scaleType="fitXY"
                 android:src="@drawable/list_item_preview_bg"

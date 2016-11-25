@@ -3,11 +3,11 @@
     xmlns:labelimage="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/child_mlr"
-    android:layout_marginRight="@dimen/child_mlr"
     android:layout_marginTop="@dimen/child_mt"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingLeft="@dimen/child_mlr"
+    android:paddingRight="@dimen/child_mlr">
 
     <LinearLayout
         android:id="@+id/left_layout"
@@ -141,7 +141,8 @@
             android:layout_height="@dimen/child_more_h"
             android:background="@drawable/selector_child_more"
             android:focusable="true"
-            android:focusableInTouchMode="true" />
+            android:focusableInTouchMode="true"
+            android:nextFocusDown="@+id/home_tab_list"/>
 
     </LinearLayout>
 

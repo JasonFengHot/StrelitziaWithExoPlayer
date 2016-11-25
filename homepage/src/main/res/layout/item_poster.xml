@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tv.ismar.homepage.widget.HomeItemContainer xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/guide_bottom_item_w"
+    android:layout_height="@dimen/guide_bottom_h"
     android:clickable="true"
     android:descendantFocusability="afterDescendants"
     android:focusable="true"
@@ -9,16 +9,15 @@
 
     <ImageView
         android:id="@+id/poster_image"
-        android:layout_width="@dimen/guide_bottom_item_w"
-        android:layout_height="@dimen/guide_bottom_h"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/poster_title"
-        android:layout_width="@dimen/guide_bottom_item_w"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/guide_bottom_alpha_h"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom"
         android:background="@color/color_alpha_black"
         android:ellipsize="marquee"
         android:focusable="true"

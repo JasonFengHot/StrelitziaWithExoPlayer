@@ -1438,7 +1438,7 @@
 <dimen name="guide_bottom_mt">9.78dp</dimen>
 <dimen name="guide_bottom_item_w">88.44dp</dimen>
 <dimen name="guide_bottom_space">11.56dp</dimen>
-<dimen name="guide_bottom_alpha_h">24.00dp</dimen>
+<dimen name="guide_bottom_alpha_h">22.22dp</dimen>
 <dimen name="guide_bottom_text_plr">1.33dp</dimen>
 
 <dimen name="film_top_h">221.33dp</dimen>
@@ -1462,7 +1462,7 @@
 <dimen name="entertainment_thumb_ml">0.44dp</dimen>
 <dimen name="entertainment_thumb_text_h">22.67dp</dimen>
 <dimen name="entertainment_top_right_ml">11.56dp</dimen>
-<dimen name="entertainment_top_right_item_w">176.89dp</dimen>
+<dimen name="entertainment_top_right_item_w">178.67dp</dimen>
 <dimen name="entertainment_top_right_item_h">100.89dp</dimen>
 <dimen name="entertainment_top_right_card_h">112.89dp</dimen>
 <dimen name="entertainment_top_right_image_mt">0.89dp</dimen>

@@ -25,11 +25,11 @@
 <dimen name="header_fragment_title_divider_w">44.44dp</dimen>
 <dimen name="header_fragment_title_divider_h">4.44dp</dimen>
 <dimen name="header_fragment_weather_ml">11.56dp</dimen>
-<dimen name="header_fragment_divider_mlr">-26.67dp</dimen>
+<dimen name="header_fragment_divider_mlr">30.22dp</dimen>
 <dimen name="header_fragment_btn_width">106.67dp</dimen>
 <dimen name="header_fragment_mine_space">30.22dp</dimen>
 <dimen name="header_fragment_mine_indicator_h">3.56dp</dimen>
-<dimen name="header_fragment_mine_indicator_w">90.67dp</dimen>
+<dimen name="header_fragment_mine_indicator_w">83.56dp</dimen>
 
 <dimen name="label_image_padding">14.67dp</dimen>
 <dimen name="loading_size">58.67dp</dimen>

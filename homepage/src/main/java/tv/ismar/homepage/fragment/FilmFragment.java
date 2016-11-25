@@ -307,11 +307,11 @@ public class FilmFragment extends ChannelBaseFragment {
         mLeftTopView = film_lefttop_image;
         int width = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_item_w);
         int height = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_h);
-        int space = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_space);
+        float space = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_space);
         for (int i = 1; i <= posters.size(); i++) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
             if (i > 1) {
-                params.setMargins(space, 0, 0, 0);
+                params.setMargins((int)space, 0, 0, 0);
             }
             ImageView itemView = new ImageView(mContext);
             itemView.setFocusable(true);
