@@ -2,6 +2,7 @@ package tv.ismar.usercenter.view;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,8 @@ import java.util.List;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseFragment;
+import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
@@ -31,6 +34,9 @@ import tv.ismar.usercenter.UserInfoContract;
 import tv.ismar.usercenter.databinding.FragmentUserinfoBinding;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 
+import static tv.ismar.app.core.PageIntentInterface.PAYMENT;
+import static tv.ismar.app.core.PageIntentInterface.ProductCategory.Package;
+import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
 import static tv.ismar.app.network.entity.AccountPlayAuthEntity.PlayAuth;
 
 /**
@@ -215,7 +221,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     }
 
 
-    private class PrivilegeAdapter extends RecyclerView.Adapter<PrivilegeViewHolder> {
+    private class PrivilegeAdapter extends RecyclerView.Adapter<PrivilegeViewHolder> implements View.OnClickListener {
         private Context mContext;
 
         private List<AccountPlayAuthEntity.PlayAuth> mPlayAuths;
@@ -242,7 +248,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             if (playAuth.getAction() == null) {
                 holder.mButton.setVisibility(View.INVISIBLE);
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.watch) {
-                holder.mButton.setText("观看");
+                holder.mButton.setText("详情");
 
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
                 holder.mButton.setText("续费");
@@ -251,6 +257,8 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 holder.mButton.setVisibility(View.INVISIBLE);
 
             }
+            holder.mButton.setTag(playAuth);
+            holder.mButton.setOnClickListener(this);
 
         }
 
@@ -268,6 +276,44 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             return 0;
         }
 
+        @Override
+        public void onClick(View v) {
+            PlayAuth playAuth = (PlayAuth) v.getTag();
+            List<String> pathSegments = Uri.parse(playAuth.getUrl()).getPathSegments();
+            String pk = pathSegments.get(pathSegments.size() - 1);
+            String type = pathSegments.get(pathSegments.size() - 2);
+            PageIntent pageIntent = new PageIntent();
+            if (playAuth.getAction() == null) {
+                //
+            } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.watch) {
+
+                switch (type) {
+                    case "package":
+                        pageIntent.toPackageDetail(mContext, "privilege", Integer.parseInt(pk));
+                        break;
+                    case "item":
+                        pageIntent.toDetailPage(mContext, "privilege", Integer.parseInt(pk));
+                        break;
+                    default:
+                        throw new IllegalArgumentException(playAuth.getUrl() + " type not support!!!");
+                }
+            } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
+                PaymentInfo paymentInfo;
+                switch (type) {
+                    case "package":
+                        paymentInfo = new PaymentInfo(Package, Integer.parseInt(pk), PAYMENT);
+                        break;
+                    case "item":
+                        paymentInfo = new PaymentInfo(item, Integer.parseInt(pk), PAYMENT);
+                        break;
+                    default:
+                        throw new IllegalArgumentException(playAuth.getUrl() + " type not support!!!");
+                }
+                pageIntent.toPayment(mContext, "privilege", paymentInfo);
+            } else {
+                //other type
+            }
+        }
     }
 
     private class PrivilegeViewHolder extends RecyclerView.ViewHolder {
