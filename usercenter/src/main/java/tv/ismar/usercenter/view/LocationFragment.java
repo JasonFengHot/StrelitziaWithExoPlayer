@@ -361,10 +361,12 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         RecyclerViewTV cityGridView = (RecyclerViewTV) popupLayout.findViewById(R.id.area_grid);
         cityGridView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.usercenter_province_recycler_item_spacing)));
-
+        cityGridView.setNextFocusDownId(R.id.cancel_btn);
 
         final Button confirmBtn = (Button) popupLayout.findViewById(R.id.confirm_btn);
         final Button cancelBtn = (Button) popupLayout.findViewById(R.id.cancel_btn);
+        cancelBtn.setNextFocusDownId(R.id.cancel_btn);
+        confirmBtn.setNextFocusDownId(R.id.confirm_btn);
         confirmBtn.setOnHoverListener(new OnHoverListener() {
 
             @Override

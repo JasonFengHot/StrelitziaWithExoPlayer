@@ -3,9 +3,9 @@ package tv.ismar.usercenter.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,7 +18,7 @@ import tv.ismar.usercenter.viewmodel.HelpViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class HelpFragment extends BaseFragment implements HelpContract.View {
+public class HelpFragment extends BaseFragment implements HelpContract.View, View.OnHoverListener {
     private static final String TAG = HelpFragment.class.getSimpleName();
 
 
@@ -29,6 +29,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         return new HelpFragment();
     }
 
+    FragmentHelpBinding helpBinding;
 
     @Override
     public void onAttach(Context context) {
@@ -48,7 +49,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
 
-        FragmentHelpBinding helpBinding = FragmentHelpBinding.inflate(inflater, container, false);
+        helpBinding = FragmentHelpBinding.inflate(inflater, container, false);
         helpBinding.setTasks(mViewModel);
         helpBinding.setActionHandler(mPresenter);
         View root = helpBinding.getRoot();
@@ -59,6 +60,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
+        helpBinding.ismartvIcon.setOnHoverListener(this);
     }
 
     @Override
@@ -118,5 +120,21 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     @Override
     public void setPresenter(HelpContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                helpBinding.tmp.requestFocus();
+                helpBinding.tmp.requestFocusFromTouch();
+                break;
+        }
+        return true;
     }
 }
