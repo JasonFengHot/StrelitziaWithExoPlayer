@@ -713,7 +713,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                     arrow_right.setVisibility(View.VISIBLE);
                                 }
 
-                                mScrollableSectionList.init(mSectionList, getResources().getDimensionPixelSize(R.dimen.gridview_channel_section_tabs_width), false);
+                                mScrollableSectionList.init(mSectionList,getResources().getDimensionPixelSize(R.dimen.list_section_width), false);
                                 mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections);
                                 if (isPortrait)
                                     mHGridAdapter.setIsPortrait(true);

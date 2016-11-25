@@ -375,7 +375,7 @@
     <dimen name="channel_section_tabs_text_PT">0dip</dimen>
 
     <dimen name="list_section_tabMargin">232dp</dimen>
-    <dimen name="list_section_tabSpace">35dp</dimen>
+    <dimen name="list_section_tabSpace">34dp</dimen>
     <dimen name="list_section_tabSize">30px</dimen>
     <dimen name="list_section_tabSize_big">36px</dimen>
     <dimen name="list_section_width">1456dp</dimen>
