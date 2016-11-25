@@ -16,10 +16,9 @@
 
 
     <RelativeLayout
-        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true">
+    >
 
         <LinearLayout
             android:id="@+id/userinfo_layout"
@@ -71,7 +70,6 @@
                     android:layout_toRightOf="@id/phone_number"
                     android:background="@drawable/selector_daisy_button_style"
                     android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:gravity="center"
                     android:text="@string/change_account"
                     android:textColor="#FFFFFF"
@@ -207,12 +205,13 @@
                 />
 
                 <Button
+                    android:id="@+id/charge_money"
                     android:layout_width="@dimen/charge_btn_width"
                     android:layout_height="@dimen/charge_btn_height"
                     android:layout_marginLeft="@dimen/charge_btn_margin_left"
                     android:background="@drawable/selector_button"
-                    android:text="@string/usercenter_charge"
                     android:nextFocusUp="@id/exit_account"
+                    android:text="@string/usercenter_charge"
                     android:textSize="@dimen/text_size_30sp"/>
             </LinearLayout>
 
@@ -254,6 +253,11 @@
             android:layout_width="@dimen/usercenter_info_association_pop_widht"
             android:layout_height="@dimen/usercenter_info_association_pop_height"
             android:layout_centerInParent="true"/>
+        <ImageView
+            android:id="@+id/tmp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"/>
     </RelativeLayout>
 
 </layout>

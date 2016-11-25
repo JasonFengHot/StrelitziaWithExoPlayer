@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,7 +44,7 @@ import static tv.ismar.app.network.entity.AccountPlayAuthEntity.PlayAuth;
  * Created by huibin on 10/27/16.
  */
 
-public class UserInfoFragment extends BaseFragment implements UserInfoContract.View, IsmartvActivator.AccountChangeCallback {
+public class UserInfoFragment extends BaseFragment implements UserInfoContract.View, IsmartvActivator.AccountChangeCallback, View.OnHoverListener {
     private static final String TAG = UserInfoFragment.class.getSimpleName();
     private UserInfoViewModel mViewModel;
     private UserInfoContract.Presenter mPresenter;
@@ -56,6 +57,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         return new UserInfoFragment();
     }
 
+    private FragmentUserinfoBinding userinfoBinding;
 
     @Override
     public void onAttach(Context context) {
@@ -75,17 +77,17 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        final FragmentUserinfoBinding userinfoBinding = FragmentUserinfoBinding.inflate(inflater, container, false);
+        userinfoBinding = FragmentUserinfoBinding.inflate(inflater, container, false);
         userinfoBinding.setTasks(mViewModel);
         userinfoBinding.setActionHandler(mPresenter);
-        userinfoBinding.fragmentContainer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (userinfoBinding.exitAccount.getVisibility() == View.VISIBLE) {
-                    userinfoBinding.exitAccount.requestFocus();
-                }
-            }
-        });
+//        userinfoBinding.fragmentContainer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (userinfoBinding.exitAccount.getVisibility() == View.VISIBLE) {
+//                    userinfoBinding.exitAccount.requestFocus();
+//                }
+//            }
+//        });
 
         privilegeRecyclerView = userinfoBinding.privilegeRecycler;
         privilegeRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.privilege_item_margin_bottom)));
@@ -97,6 +99,8 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
+        userinfoBinding.exitAccount.setOnHoverListener(this);
+        userinfoBinding.chargeMoney.setOnHoverListener(this);
     }
 
     @Override
@@ -220,6 +224,24 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         mViewModel.refresh();
     }
 
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                if (!v.hasFocus()) {
+                    v.requestFocus();
+                    v.requestFocusFromTouch();
+                }
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                userinfoBinding.tmp.requestFocus();
+                userinfoBinding.tmp.requestFocusFromTouch();
+                break;
+        }
+        return true;
+    }
+
 
     private class PrivilegeAdapter extends RecyclerView.Adapter<PrivilegeViewHolder> implements View.OnClickListener {
         private Context mContext;
@@ -258,6 +280,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
             }
             holder.mButton.setTag(playAuth);
+            holder.mButton.setOnHoverListener(UserInfoFragment.this);
             holder.mButton.setOnClickListener(this);
 
         }
