@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
@@ -58,6 +59,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
     private ProvinceTable mProvinceTable;
     private CityTable mCityTable;
+    private FragmentLocationBinding locationBinding;
+    private View cityTmpView;
 
 
     @Override
@@ -77,7 +80,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        FragmentLocationBinding locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
+        locationBinding = FragmentLocationBinding.inflate(inflater, container, false);
         locationBinding.setTasks(mViewModel);
         locationBinding.setActionHandler(mPresenter);
 
@@ -219,7 +222,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     }
 
 
-    private class ProvinceAdapter extends RecyclerView.Adapter<LocationViewHolder> {
+    private class ProvinceAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener {
         private Context mContext;
 
         private List<ProvinceTable> mProvinceTableList;
@@ -237,6 +240,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_province, viewGroup, false);
+            view.setOnHoverListener(this);
             LocationViewHolder holder = new LocationViewHolder(view);
             return holder;
         }
@@ -256,9 +260,27 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         public int getItemCount() {
             return mProvinceTableList.size();
         }
+
+        @Override
+        public boolean onHover(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                case MotionEvent.ACTION_HOVER_MOVE:
+                    if (!v.hasFocus()) {
+                        v.requestFocus();
+                        v.requestFocusFromTouch();
+                    }
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    locationBinding.tmp.requestFocus();
+                    locationBinding.tmp.requestFocusFromTouch();
+                    break;
+            }
+            return true;
+        }
     }
 
-    private class CityAdapter extends RecyclerView.Adapter<LocationViewHolder> {
+    private class CityAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener {
         private Context mContext;
 
         private List<CityTable> mCityTableList;
@@ -277,6 +299,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_province, viewGroup, false);
+            view.setOnHoverListener(this);
             LocationViewHolder holder = new LocationViewHolder(view);
             return holder;
         }
@@ -295,6 +318,24 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         @Override
         public int getItemCount() {
             return mCityTableList.size();
+        }
+
+        @Override
+        public boolean onHover(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                case MotionEvent.ACTION_HOVER_MOVE:
+                    if (!v.hasFocus()) {
+                        v.requestFocus();
+                        v.requestFocusFromTouch();
+                    }
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    cityTmpView.requestFocus();
+                    cityTmpView.requestFocusFromTouch();
+                    break;
+            }
+            return true;
         }
     }
 
@@ -315,6 +356,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         String provinceId = provinceTable.province_id;
         final View popupLayout = LayoutInflater.from(mContext).inflate(R.layout.popup_area, null);
+        cityTmpView = popupLayout.findViewById(R.id.tmp);
         final View promptLayout = popupLayout.findViewById(R.id.prompt_layout);
 
         RecyclerViewTV cityGridView = (RecyclerViewTV) popupLayout.findViewById(R.id.area_grid);
@@ -323,7 +365,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         final Button confirmBtn = (Button) popupLayout.findViewById(R.id.confirm_btn);
         final Button cancelBtn = (Button) popupLayout.findViewById(R.id.cancel_btn);
-        confirmBtn.setOnHoverListener(new View.OnHoverListener() {
+        confirmBtn.setOnHoverListener(new OnHoverListener() {
 
             @Override
             public boolean onHover(View v, MotionEvent event) {
@@ -334,7 +376,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 return false;
             }
         });
-        cancelBtn.setOnHoverListener(new View.OnHoverListener() {
+        cancelBtn.setOnHoverListener(new OnHoverListener() {
 
             @Override
             public boolean onHover(View v, MotionEvent event) {
@@ -420,6 +462,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             }
 
         });
+        cancelBtn.setOnHoverListener(cityAdapter);
+        confirmBtn.setOnHoverListener(cityAdapter);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
