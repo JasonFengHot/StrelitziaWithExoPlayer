@@ -308,7 +308,7 @@ public class IsmartvActivator {
 
     public String getApiDomain() {
         String apiDomain = mSharedPreferences.getString("api_domain", "");
-        if (TextUtils.isEmpty(apiDomain)) {
+        if (TextUtils.isEmpty(apiDomain)||apiDomain.equals("1.1.1.1")) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
             return resultEntity.getDomain();
@@ -319,7 +319,7 @@ public class IsmartvActivator {
 
     public String getUpgradeDomain() {
         String upgradeDomain = mSharedPreferences.getString("upgrade_domain", "");
-        if (TextUtils.isEmpty(upgradeDomain)) {
+        if (TextUtils.isEmpty(upgradeDomain)||upgradeDomain.equals("1.1.1.1")) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
             return resultEntity.getUpgrade_domain();
@@ -343,7 +343,7 @@ public class IsmartvActivator {
 
     public String getLogDomain() {
         String logDomain = mSharedPreferences.getString("log_domain", "");
-        if (TextUtils.isEmpty(logDomain)) {
+        if (TextUtils.isEmpty(logDomain)||logDomain.equals("1.1.1.1")) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
             return resultEntity.getLog_Domain();
