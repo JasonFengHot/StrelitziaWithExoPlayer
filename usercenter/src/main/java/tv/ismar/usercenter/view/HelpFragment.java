@@ -61,6 +61,8 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         helpBinding.ismartvIcon.setOnHoverListener(this);
+
+
     }
 
     @Override

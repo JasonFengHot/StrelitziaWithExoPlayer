@@ -134,7 +134,7 @@
                 <ImageView
                     android:id="@+id/tmp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/ismartv_icon_w"
                     android:layout_gravity="center_vertical"
                     android:focusable="true"/>
             </LinearLayout>
