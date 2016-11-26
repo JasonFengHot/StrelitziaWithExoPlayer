@@ -85,6 +85,8 @@
                     android:background="@drawable/selector_usercenter_logout"
                     android:focusable="true"
                     android:gravity="center"
+                    android:nextFocusRight="@id/exit_account"
+                    android:nextFocusUp="@id/exit_account"
                     android:onClick="@{() -> actionHandler.exitAccount()}"
                     android:text="@string/exit_account"
                     android:textColor="#FFFFFF"
@@ -241,7 +243,8 @@
                     android:id="@+id/privilege_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_toRightOf="@id/privilege_txt"/>
+                    android:layout_toRightOf="@id/privilege_txt"
+                    android:descendantFocusability="afterDescendants"/>
 
 
             </RelativeLayout>

@@ -101,12 +101,18 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         super.onViewCreated(view, savedInstanceState);
         userinfoBinding.exitAccount.setOnHoverListener(this);
         userinfoBinding.chargeMoney.setOnHoverListener(this);
+
+        userinfoBinding.exitAccount.setNextFocusDownId(R.id.charge_money);
+        userinfoBinding.chargeMoney.setNextFocusUpId(R.id.exit_account);
+        userinfoBinding.chargeMoney.setNextFocusRightId(R.id.charge_money);
+        userinfoBinding.chargeMoney.setNextFocusDownId(R.id.btn);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated");
+
     }
 
     @Override
@@ -351,6 +357,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             title = (TextView) itemView.findViewById(R.id.title_txt);
             date = (TextView) itemView.findViewById(R.id.buydate_txt);
             mButton = (Button) itemView.findViewById(R.id.btn);
+            mButton.setNextFocusRightId(R.id.charge_money);
         }
     }
 
