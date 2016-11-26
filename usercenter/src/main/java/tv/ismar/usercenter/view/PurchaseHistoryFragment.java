@@ -254,6 +254,10 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 imageView.setLayoutParams(layoutParams);
 //                accountOrderListView.addView(imageView);
             }
+            if (position == mOrderEntities.size() - 1) {
+                holder.itemView.setId(R.id.purchase_last_item_id);
+                holder.itemView.setNextFocusDownId(R.id.purchase_last_item_id);
+            }
 
         }
 
@@ -306,6 +310,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
     }
 
     private class HistoryViewHolder extends RecyclerView.ViewHolder {
+        View itemView;
 
         TextView title;
         TextView buydate_txt;
@@ -318,6 +323,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
         public HistoryViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             title = (TextView) itemView.findViewById(R.id.orderlistitem_title);
             buydate_txt = (TextView) itemView.findViewById(R.id.orderlistitem_time);
             orderlistitem_remainday = (TextView) itemView.findViewById(R.id.orderlistitem_remainday);
