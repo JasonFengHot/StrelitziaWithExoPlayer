@@ -10,7 +10,7 @@
             android:name=".view.DetailPageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
-            android:hardwareAccelerated="false"
+
         >
             <intent-filter>
                 <action android:name="tv.ismar.daisy.detailpage"/>

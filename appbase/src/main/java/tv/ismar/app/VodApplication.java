@@ -391,7 +391,7 @@ public class VodApplication extends Application {
                         TrueTimeRx.clearCachedInfo(context);
                         TrueTimeRx.build()
                                 .withConnectionTimeout(31_428)
-                                .withRetryCount(100)
+//                                .withRetryCount(100)
                                 .withSharedPreferences(context)
                                 .withLoggingEnabled(true)
                                 .initialize(ntpHosts)

@@ -9,9 +9,9 @@
     <ImageView
         android:id="@+id/transfocus"
         android:layout_width="@dimen/location_divider_width"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_marginLeft="@dimen/location_divider_margin_left"
-        android:src="@drawable/horizontal_divider_line"/>
+        android:background="@drawable/horizontal_divider_line"/>
 
     <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
         android:id="@+id/area_grid"
@@ -47,7 +47,7 @@
                 android:layout_height="@dimen/locationFragment_areaPop_btn_height"
                 android:background="@drawable/selector_button"
                 android:focusable="true"
-                android:text="@string/confirm"
+                android:text="@string/location_confirm"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_36sp"
             />
@@ -59,7 +59,7 @@
                 android:layout_marginLeft="@dimen/locatoinFragment_areaPop_cancelBtn_marginLeft"
                 android:background="@drawable/selector_button"
                 android:focusable="true"
-                android:text="@string/cancel"
+                android:text="@string/location_cancel"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_36sp"
             />

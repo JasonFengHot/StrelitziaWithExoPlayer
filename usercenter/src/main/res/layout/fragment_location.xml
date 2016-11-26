@@ -168,7 +168,7 @@
             <ImageView
                 android:id="@+id/transfocus"
                 android:layout_width="@dimen/location_divider_width"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:layout_marginLeft="@dimen/location_divider_margin_left"
                 android:src="@drawable/horizontal_divider_line"/>
 

@@ -48,4 +48,6 @@
     <string name="ismartv_copyright_english">Copyright © 2011–2031 All right reserved</string>
     <string name="confirm_selected_position_prompt">您是否确定要将当前位置更换为选中位置?</string>
 
+    <string name="location_confirm">确&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;定</string>
+    <string name="location_cancel">取&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;消</string>
 </resources>
