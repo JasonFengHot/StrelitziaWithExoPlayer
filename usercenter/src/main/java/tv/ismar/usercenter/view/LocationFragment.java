@@ -477,6 +477,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
                 mViewModel.setSelectedCity("");
                 mViewModel.loadselectedCity();
+                areaPopup.dismiss();
             }
         });
 
