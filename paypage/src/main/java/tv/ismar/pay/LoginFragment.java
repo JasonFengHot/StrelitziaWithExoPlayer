@@ -114,6 +114,9 @@ public class LoginFragment extends BaseFragment {
         identifyCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                edit_identifycode.requestFocus();
+                edit_identifycode.requestFocusFromTouch();
+
                 fetchVerificationCode();
             }
         });
