@@ -254,6 +254,16 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             }
             holder.mTextView.setText(stringBuffer);
 
+            holder.itemView.setId(View.generateViewId());
+            if (position == 0 || position == 1 || position == 2 || position == 3 || position == 4) {
+                holder.itemView.setNextFocusUpId(holder.itemView.getId());
+            }
+
+            if ((position + 1) % 6 == 0) {
+                holder.itemView.setNextFocusRightId(holder.itemView.getId());
+            }
+
+
         }
 
         @Override
@@ -340,11 +350,12 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     }
 
     private class LocationViewHolder extends RecyclerView.ViewHolder {
+        private View itemView;
         private TextView mTextView;
 
         public LocationViewHolder(View itemView) {
             super(itemView);
-
+            this.itemView = itemView;
             mTextView = (TextView) itemView.findViewById(R.id.province_text);
         }
     }
