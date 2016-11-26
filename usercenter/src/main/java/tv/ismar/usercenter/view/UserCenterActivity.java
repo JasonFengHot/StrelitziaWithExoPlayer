@@ -107,20 +107,15 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (isClickEvent == true) {
-                    isClickEvent = false;
-
+                if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
+                    Log.d(TAG, "onGlobalFocusChanged same side");
+                    isFromRightToLeft = false;
                 } else {
-                    if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
-                        Log.d(TAG, "onGlobalFocusChanged same side");
-                        isFromRightToLeft = false;
+                    if (newFocus != null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
+                        Log.d(TAG, "onGlobalFocusChanged from right to left");
+                        isFromRightToLeft = true;
                     } else {
-                        if (newFocus != null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
-                            Log.d(TAG, "onGlobalFocusChanged from right to left");
-                            isFromRightToLeft = true;
-                        } else {
-                            isFromRightToLeft = false;
-                        }
+                        isFromRightToLeft = false;
                     }
                 }
             }
@@ -308,25 +303,29 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 if (!isFromRightToLeft) {
                     v.callOnClick();
                 } else {
-                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-                    View itemView = null;
-                    if (fragment instanceof ProductFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(0);
-                    } else if (fragment instanceof UserInfoFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(1);
-                    } else if (fragment instanceof LoginFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(2);
-                    } else if (fragment instanceof PurchaseHistoryFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(3);
-                    } else if (fragment instanceof HelpFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(4);
-                    } else if (fragment instanceof LocationFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(5);
-                    }
-                    if (itemView != null && itemView.hasFocus()) {
-                        itemView.callOnClick();
-                    } else if (itemView != null) {
-                        itemView.requestFocus();
+                    if (isClickEvent) {
+                        isClickEvent = false;
+                    } else {
+                        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
+                        View itemView = null;
+                        if (fragment instanceof ProductFragment) {
+                            itemView = userCenterIndicatorLayout.getChildAt(0);
+                        } else if (fragment instanceof UserInfoFragment) {
+                            itemView = userCenterIndicatorLayout.getChildAt(1);
+                        } else if (fragment instanceof LoginFragment) {
+                            itemView = userCenterIndicatorLayout.getChildAt(2);
+                        } else if (fragment instanceof PurchaseHistoryFragment) {
+                            itemView = userCenterIndicatorLayout.getChildAt(3);
+                        } else if (fragment instanceof HelpFragment) {
+                            itemView = userCenterIndicatorLayout.getChildAt(4);
+                        } else if (fragment instanceof LocationFragment) {
+                            itemView = userCenterIndicatorLayout.getChildAt(5);
+                        }
+                        if (itemView != null && itemView.hasFocus()) {
+                            itemView.callOnClick();
+                        } else if (itemView != null) {
+                            itemView.requestFocus();
+                        }
                     }
                 }
             } else {
