@@ -67,6 +67,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         productBinding.setActionHandler(mPresenter);
 
         mRecyclerView = productBinding.recyclerview;
+        mRecyclerView.setSelectedItemAtCentered(false);
         mRecyclerView.setOnItemClickListener(this);
         View root = productBinding.getRoot();
         return root;
