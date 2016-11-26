@@ -72,6 +72,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     private View fragmentContainer;
 
+    private boolean isClickEvent = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,16 +107,20 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                if (isClickEvent == true) {
+                    isClickEvent = false;
 
-                if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
-                    Log.d(TAG, "onGlobalFocusChanged same side");
-                    isFromRightToLeft = false;
                 } else {
-                    if (newFocus != null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
-                        Log.d(TAG, "onGlobalFocusChanged from right to left");
-                        isFromRightToLeft = true;
-                    } else {
+                    if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
+                        Log.d(TAG, "onGlobalFocusChanged same side");
                         isFromRightToLeft = false;
+                    } else {
+                        if (newFocus != null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
+                            Log.d(TAG, "onGlobalFocusChanged from right to left");
+                            isFromRightToLeft = true;
+                        } else {
+                            isFromRightToLeft = false;
+                        }
                     }
                 }
             }
@@ -151,7 +156,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private View.OnClickListener indicatorViewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeViewState(v, ViewState.Select);
+            isClickEvent = true;
             int i = v.getId();
             if (i == R.string.usercenter_store) {
                 selectProduct();
@@ -166,6 +171,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             } else if (i == R.string.usercenter_location) {
                 selectLocation();
             }
+            changeViewState(v, ViewState.Select);
         }
     };
 

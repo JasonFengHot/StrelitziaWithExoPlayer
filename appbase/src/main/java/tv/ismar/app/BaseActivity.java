@@ -9,27 +9,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
-import com.blankj.utilcode.utils.AppUtils;
-
-import java.util.ArrayList;
 import java.util.Stack;
 
-import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
-import tv.ismar.app.models.SemantichObjectEntity;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.widget.ExpireAccessTokenPop;
 import tv.ismar.app.widget.LoadingDialog;
@@ -56,7 +45,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public static Stack<Bundle> updateInfo = new Stack<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,16 +60,6 @@ public class BaseActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         registerUpdateReceiver();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-                  //  showUpdatePopup(mRootView);
-                }
-            }
-        }, 2000);
-
     }
 
     @Override
@@ -216,7 +194,7 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-                         //   showUpdatePopup(getRootView(), updateInfo);
+                            showUpdatePopup(getRootView(), updateInfo);
                         }
                     }
                 }, 2000);
@@ -239,7 +217,7 @@ public class BaseActivity extends AppCompatActivity {
             updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                  //  showUpdatePopup(view, stack);
+                    showUpdatePopup(view, stack);
                 }
             });
         }
