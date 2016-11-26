@@ -290,6 +290,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     public void onSuccess() {
         changeViewState(indicatorView.get(2), ViewState.Disable);
+        changeViewState(indicatorView.get(1), ViewState.Select);
         selectUserInfo();
 
     }
