@@ -72,7 +72,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     private View fragmentContainer;
 
-    private boolean isClickEvent = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +116,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     } else {
                         isFromRightToLeft = false;
                     }
+
                 }
             }
         });
@@ -151,7 +151,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private View.OnClickListener indicatorViewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            isClickEvent = true;
+            ImageView focusImage = (ImageView) v.findViewById(R.id.text_focus_bg);
+            focusImage.requestFocus();
+            focusImage.requestFocusFromTouch();
             int i = v.getId();
             if (i == R.string.usercenter_store) {
                 selectProduct();
@@ -303,29 +305,25 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 if (!isFromRightToLeft) {
                     v.callOnClick();
                 } else {
-                    if (isClickEvent) {
-                        isClickEvent = false;
-                    } else {
-                        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-                        View itemView = null;
-                        if (fragment instanceof ProductFragment) {
-                            itemView = userCenterIndicatorLayout.getChildAt(0);
-                        } else if (fragment instanceof UserInfoFragment) {
-                            itemView = userCenterIndicatorLayout.getChildAt(1);
-                        } else if (fragment instanceof LoginFragment) {
-                            itemView = userCenterIndicatorLayout.getChildAt(2);
-                        } else if (fragment instanceof PurchaseHistoryFragment) {
-                            itemView = userCenterIndicatorLayout.getChildAt(3);
-                        } else if (fragment instanceof HelpFragment) {
-                            itemView = userCenterIndicatorLayout.getChildAt(4);
-                        } else if (fragment instanceof LocationFragment) {
-                            itemView = userCenterIndicatorLayout.getChildAt(5);
-                        }
-                        if (itemView != null && itemView.hasFocus()) {
-                            itemView.callOnClick();
-                        } else if (itemView != null) {
-                            itemView.requestFocus();
-                        }
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
+                    View itemView = null;
+                    if (fragment instanceof ProductFragment) {
+                        itemView = userCenterIndicatorLayout.getChildAt(0);
+                    } else if (fragment instanceof UserInfoFragment) {
+                        itemView = userCenterIndicatorLayout.getChildAt(1);
+                    } else if (fragment instanceof LoginFragment) {
+                        itemView = userCenterIndicatorLayout.getChildAt(2);
+                    } else if (fragment instanceof PurchaseHistoryFragment) {
+                        itemView = userCenterIndicatorLayout.getChildAt(3);
+                    } else if (fragment instanceof HelpFragment) {
+                        itemView = userCenterIndicatorLayout.getChildAt(4);
+                    } else if (fragment instanceof LocationFragment) {
+                        itemView = userCenterIndicatorLayout.getChildAt(5);
+                    }
+                    if (itemView != null && itemView.hasFocus()) {
+                        itemView.callOnClick();
+                    } else if (itemView != null) {
+                        itemView.requestFocus();
                     }
                 }
             } else {
