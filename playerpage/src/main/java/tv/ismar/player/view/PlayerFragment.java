@@ -661,8 +661,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     }
                 }
             }
+            String itemJson = new Gson().toJson(mItemEntity);
             Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
-            intent.putExtra("itemPk", String.valueOf(mItemEntity.getPk()));
+            intent.putExtra("itemJson", itemJson);
             startActivity(intent);
             if (player_seekBar != null) {
                 player_seekBar.setProgress(0);

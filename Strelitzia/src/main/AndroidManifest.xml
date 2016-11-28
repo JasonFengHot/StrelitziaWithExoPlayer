@@ -29,7 +29,7 @@
             android:name="tv.ismar.daisy.PlayFinishedActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@style/IsmartvAppTheme.Fullscreen">
             <intent-filter>
                 <action android:name="tv.ismar.daisy.PlayFinished"/>
 
