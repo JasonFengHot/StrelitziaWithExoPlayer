@@ -23,7 +23,7 @@
     <dimen name="test_height">300dip</dimen>
     <dimen name="weather_guide_text_margin_lr">20dp</dimen>
     <dimen name="weather_guide_text_margin_margin_top">55dp</dimen>
-    <dimen name="weather_guide_text_margin_margin_bottom">19dp</dimen>
+    <dimen name="weather_guide_text_margin_margin_bottom">18dp</dimen>
     <dimen name="weather_layout_margin_left">74dp</dimen>
     <dimen name="weather_divider_width">50dp</dimen>
     <dimen name="weather_divider_height">5dp</dimen>
