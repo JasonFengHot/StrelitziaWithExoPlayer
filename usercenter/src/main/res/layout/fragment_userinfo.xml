@@ -82,7 +82,7 @@
                     android:layout_height="@dimen/user_center_logout_height"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center"
-                    android:background="@drawable/selector_usercenter_logout"
+                    android:background="@drawable/selector_button"
                     android:focusable="true"
                     android:gravity="center"
                     android:nextFocusRight="@id/exit_account"
