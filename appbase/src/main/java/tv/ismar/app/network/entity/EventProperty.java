@@ -49,5 +49,6 @@ public class EventProperty {
     public final static String CITY = "city";
     public final static String ISP = "isp";
     public final static String MAC = "MAC";
+    public final static String INTERFACE_TYPE = "interface_type";
 
 }

@@ -274,7 +274,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mHelpFragment, R.id.user_center_container);
 
-
     }
 
     private void selectLocation() {
@@ -344,6 +343,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private View.OnHoverListener indicatorOnHoverListener = new View.OnHoverListener() {
         @Override
         public boolean onHover(View v, MotionEvent event) {
+            if (mIndicatorItemHoverCallback!=null){
+                mIndicatorItemHoverCallback.onIndicatorItemHover();
+            }
             ImageView textHoverImage = (ImageView) v.findViewById(R.id.text_select_bg);
             switch (event.getAction()) {
                 case MotionEvent.ACTION_HOVER_ENTER:
@@ -443,5 +445,15 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         Unfocus,
         Hover,
         None
+    }
+
+    public interface IndicatorItemHoverCallback{
+        void onIndicatorItemHover();
+    }
+
+    private IndicatorItemHoverCallback mIndicatorItemHoverCallback;
+
+    public void setIndicatorItemHoverCallback(IndicatorItemHoverCallback indicatorItemHoverCallback) {
+        mIndicatorItemHoverCallback = indicatorItemHoverCallback;
     }
 }

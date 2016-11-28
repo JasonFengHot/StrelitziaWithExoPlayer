@@ -72,8 +72,8 @@ public class FilterActivity extends BaseActivity implements BackHandledInterface
         //  doFilterRequest();
         headFragment = new HeadFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("type", HeadFragment.HEADER_USERCENTER);
-        bundle.putString("channel_name", mChannel);
+        bundle.putString("type", HeadFragment.HEADER_FILTER);
+        bundle.putString("channel_name", mTitle);
         headFragment = new HeadFragment();
         headFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(R.id.fitle_head, headFragment).commit();
