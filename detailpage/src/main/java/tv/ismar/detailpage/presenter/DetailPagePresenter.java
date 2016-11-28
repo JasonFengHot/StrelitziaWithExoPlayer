@@ -355,4 +355,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         removeBookmarks(String.valueOf(mItemEntity.getPk()));
     }
 
+    public void setItemEntity(ItemEntity itemEntity) {
+        mItemEntity = itemEntity;
+    }
 }
