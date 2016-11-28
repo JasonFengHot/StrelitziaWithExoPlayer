@@ -18,7 +18,7 @@ import tv.ismar.usercenter.viewmodel.HelpViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class HelpFragment extends BaseFragment implements HelpContract.View, View.OnHoverListener {
+public class HelpFragment extends BaseFragment implements HelpContract.View, View.OnHoverListener ,UserCenterActivity.IndicatorItemHoverCallback{
     private static final String TAG = HelpFragment.class.getSimpleName();
 
 
@@ -35,6 +35,9 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach");
+
+        ((UserCenterActivity)getActivity()).setIndicatorItemHoverCallback(this);
+
     }
 
     @Override
@@ -69,6 +72,8 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated");
+
+
     }
 
     @Override
@@ -138,5 +143,11 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onIndicatorItemHover() {
+        helpBinding.tmp.requestFocus();
+        helpBinding.tmp.requestFocusFromTouch();
     }
 }
