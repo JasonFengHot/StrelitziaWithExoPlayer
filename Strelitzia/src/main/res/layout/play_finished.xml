@@ -1,0 +1,177 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/large_layout"
+              android:baselineAligned="false"
+              android:orientation="horizontal"
+              xmlns:sakura="http://schemas.android.com/apk/res-auto"
+    >
+
+    <!-- 左边整块 -->
+
+    <LinearLayout
+        android:id="@+id/linear_left"
+        android:layout_width="@dimen/play_finished_leftlayout_W"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/play_finished_leftlayout_PR"
+        android:paddingLeft="@dimen/play_finished_leftlayout_PL">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/play_finished_tv_releted_textsize"
+            android:text="@string/play_finished"
+            android:layout_marginTop="@dimen/play_finished_tv_releted_margintop"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/play_finished_left_subcontainer_marginleft">
+
+            <TextView
+                android:id="@+id/tv_vodie_name"
+                android:layout_width="@dimen/play_finished_tv_vodie_name_W"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/play_finished_tv_vodie_name_marginright"
+                android:textSize="@dimen/play_finished_tv_vodie_name_textsize"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:layout_marginTop="@dimen/play_finished_tv_vodie_name_marginTop"/>
+
+            <LinearLayout
+                android:id="@+id/linear_vodie_backgroud"
+                android:layout_width="@dimen/play_finished_linear_vodie_backgroud_W"
+                android:layout_height="@dimen/play_finished_linear_vodie_backgroud_H"
+                android:layout_below="@+id/tv_vodie_name"
+                android:background="@drawable/preview_img_bg"
+                android:layout_marginTop="@dimen/play_finished_image_vodie_backgroud_marginTop"
+                >
+
+                <tv.ismar.daisy.views.AsyncImageView
+                    android:id="@+id/image_vodie_backgroud"
+                    android:layout_width="@dimen/play_finished_image_vodie_backgroud_W"
+                    android:layout_height="@dimen/play_finished_image_vodie_backgroud_H"
+                    android:layout_marginLeft="@dimen/play_finished_image_vodie_backgroud_marginleft"
+                    android:layout_marginTop="@dimen/play_finished_image_vodie_backgroud_margintop"
+                    android:focusable="false"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/image_vod_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/linear_vodie_backgroud"
+                android:layout_alignTop="@+id/linear_vodie_backgroud"
+                android:layout_marginRight="@dimen/play_finished_image_vod_label_marginright"
+                android:layout_marginTop="@dimen/play_finished_image_vod_label_margintop"/>
+
+            <Button
+                android:layout_marginTop="@dimen/play_finished_btn_reply_marginTop"
+                android:id="@+id/btn_replay"
+                android:layout_width="@dimen/play_finished_image_vodie_backgroud_W"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear_vodie_backgroud"
+                android:nextFocusUp="@id/btn_replay"
+                android:background="@drawable/vod_detail_relatemore_button_selector"
+                android:text="@string/daram_restart"
+                android:textSize="@dimen/play_finished_btn_replay_textsize"
+                android:drawableLeft="@drawable/vod_detail_end_poster_replay_normal_icon"
+                android:textColor="#FFF8F8FF"
+                android:paddingLeft="@dimen/item_detail_btn_favorite_paddingleft"
+                android:paddingRight="@dimen/item_detail_btn_favorite_paddingright"
+                android:paddingTop="@dimen/item_detail_btn_favorite_paddingtop"
+                android:paddingBottom="@dimen/item_detail_btn_favorite_paddingtop"/>
+
+            <Button
+                android:id="@+id/btn_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_replay"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/play_finished_btn_favorites_margintop"
+                android:background="@drawable/vod_detail_relatemore_button_selector"
+                android:gravity="center_horizontal|center_vertical"
+                android:paddingLeft="@dimen/item_detail_btn_favorite_paddingleft"
+                android:paddingRight="@dimen/item_detail_btn_favorite_paddingright"
+                android:paddingTop="@dimen/item_detail_btn_favorite_paddingtop"
+                android:text="@string/daram_favorites"
+                android:textColor="#FFF8F8FF"
+                android:textSize="@dimen/play_finished_btn_favorites_textsize"
+                android:drawableLeft="@drawable/vod_detail_poster_favorite_icon_selector"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- 左边整块 -->
+    <!-- 右边整块 -->
+
+    <LinearLayout
+        android:id="@+id/linear_right"
+        android:layout_width="@dimen/play_finished_rightlayout_W"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_releted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/play_finished_tv_releted_margintop"
+                android:text="@string/vod_releted"
+                android:textSize="@dimen/play_finished_tv_releted_textsize"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_releted"
+                android:background="@drawable/related_dation"/>
+        </RelativeLayout>
+
+        <!--         <GridView -->
+        <!--             android:id="@+id/gridview_related" -->
+        <!--             android:layout_width="match_parent" -->
+        <!--             android:layout_height="wrap_content" -->
+        <!--             android:layout_margin="@dimen/play_finished_gridview_related_margin" -->
+        <!--             android:listSelector="#00000000" -->
+        <!--              > -->
+        <!--         </GridView> -->
+
+        <org.sakuratya.horizontal.ui.ZGridView
+            android:id="@+id/gridview_related"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            sakura:columnWidth="@dimen/playfinish_gridview_item_linearimage_W"
+            sakura:horizontalSpace="@dimen/play_finished_gridview_related_horizontalSpace"
+            sakura:listSelector="@drawable/vod_gv_selector"
+            sakura:numColumns="3"
+            sakura:stretchMode="columnWidth"
+            sakura:verticalSpace="@dimen/play_finished_gridview_related_verticalSpace"
+            android:layout_margin="@dimen/play_finished_gridview_related_margin"
+            sakura:selectorLeftPadding="@dimen/ZGridView_played_selectorLeftPadding"
+            sakura:selectorTopPadding="@dimen/ZGridView_played_selectorTopPadding"
+            sakura:selectorRightPadding="@dimen/ZGridView_played_selectorRightPadding"
+            sakura:selectorBottomPadding="@dimen/ZGridView_played_selectorBottomPadding"
+            android:paddingLeft="@dimen/play_finished_gridview_Padding"
+            android:paddingTop="@dimen/play_finished_gridview_Padding"
+            android:nextFocusUp="@id/gridview_related"
+            >
+        </org.sakuratya.horizontal.ui.ZGridView>
+        <TextView
+                android:id="@+id/tv_releted_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/play_finished_tv_releted_margintop"
+                android:text="无相关推荐"
+                android:textSize="@dimen/play_finished_tv_releted_textsize"/>
+    </LinearLayout>
+    <!-- 右边整块 -->
+
+</LinearLayout>

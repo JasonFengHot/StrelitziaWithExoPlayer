@@ -375,12 +375,11 @@
 <dimen name="channel_section_tabs_text_PT">0.00dip</dimen>
 
 <dimen name="list_section_tabMargin">154.67dp</dimen>
-<dimen name="list_section_tabSpace">23.33dp</dimen>
+<dimen name="list_section_tabSpace">22.67dp</dimen>
 <dimen name="list_section_tabSize">20.00px</dimen>
 <dimen name="list_section_tabSize_big">24.00px</dimen>
 <dimen name="list_section_width">970.67dp</dimen>
-<dimen name="list_section_image_H">40.00dp</dimen>
-<dimen name="list_section_image_W">56.00dp</dimen>
+
 <dimen name="list_head_H">66.67dp</dimen>
 <dimen name="list_head_paddingL">49.33dp</dimen>
 <dimen name="divider_blowhead_ML">22.67dp</dimen>
@@ -547,7 +546,8 @@
 <dimen name="filter_noresult_text_mt">38.67dp</dimen>
 <dimen name="pop_btn_margin_lr">82.00dp</dimen>
 <dimen name="usercenter_subtitle_ml">48.67dp</dimen>
-<dimen name="head_weather_ml">320.00dp</dimen>
+<dimen name="head_weather_ml">276.67dp</dimen>
+<dimen name="head_listpage_title_ml">6.00dp</dimen>
 <dimen name="filter_noresult_button_W">182.67dp</dimen>
 <dimen name="filter_noresult_button_H">48.00dp</dimen>
 <dimen name="filter_noresult_text_ML">75.33dp</dimen>

@@ -83,7 +83,6 @@
 <dimen name="gridview_channel_label_marginright">5.56dip</dimen>
 <dimen name="gridview_channel_label_textsize">16.00sp</dimen>
 <dimen name="gridview_channel_label_padding">0.67dip</dimen>
-<dimen name="gridview_channel_section_tabs_width">375.56dip</dimen>
 <dimen name="gridview_channel_section_tabs_margintop">38.67dip</dimen>
 <dimen name="gridview_channel_section_tabs_space">23.11dp</dimen>
 <dimen name="gridview_main_panel_height">180.00dip</dimen>

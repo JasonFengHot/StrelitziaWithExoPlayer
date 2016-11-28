@@ -25,6 +25,19 @@
             android:theme="@style/IsmartvAppTheme.Fullscreen">
         </activity>
 
+        <activity
+            android:name="tv.ismar.daisy.PlayFinishedActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="tv.ismar.daisy.PlayFinished"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+
         <meta-data
             android:name="AA_DB_NAME"
             android:value="daisy_app.db"/>
