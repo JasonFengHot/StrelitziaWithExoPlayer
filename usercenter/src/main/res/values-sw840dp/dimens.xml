@@ -116,4 +116,5 @@
 <dimen name="usercenter_purchase_history_ml">50.56dp</dimen>
 
 
+<dimen name="u_purchase_history_item_margin_top">-46.67dp</dimen>
 </resources>

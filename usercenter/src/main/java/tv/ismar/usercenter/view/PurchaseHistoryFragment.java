@@ -1,6 +1,7 @@
 package tv.ismar.usercenter.view;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,6 +74,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         purchasehistoryBinding.setActionHandler(mPresenter);
 
         mRecyclerView = purchasehistoryBinding.recyclerview;
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.u_purchase_history_item_margin_top)));
         View root = purchasehistoryBinding.getRoot();
         return root;
     }
@@ -171,7 +173,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         mRecyclerView.setSelectedItemAtCentered(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(adapter);
-        if (mPurchaseLoadCallback!= null){
+        if (mPurchaseLoadCallback != null) {
             mPurchaseLoadCallback.onPurchaseLoadFinish();
         }
 
@@ -346,5 +348,23 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
     public void setPurchaseLoadCallback(PurchaseLoadCallback purchaseLoadCallback) {
         mPurchaseLoadCallback = purchaseLoadCallback;
+    }
+
+    private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildLayoutPosition(view)!= 0){
+                outRect.top = space;
+            }
+        }
     }
 }
