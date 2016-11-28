@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 
 import com.blankj.utilcode.utils.StringUtils;
 
+import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.widget.AsyncImageView;
 import tv.ismar.homepage.R;
 
@@ -40,6 +41,7 @@ public class LabelImageView3 extends AsyncImageView {
     private NinePatchDrawable mNinePatchDrawable;
     private Drawable mDrawable;
     private Rect mRect;
+    private int drawablePadding;
 
     public void setDrawBorder(boolean drawBorder) {
         this.drawBorder = drawBorder;
@@ -97,6 +99,7 @@ public class LabelImageView3 extends AsyncImageView {
         mBound = new Rect();
         if (drawable == null) {
             mNinePatchDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.vod_gv_selector);
+            drawablePadding = DeviceUtils.dpToPx(context, 21);
         } else {
             mDrawable = drawable;
         }
@@ -231,7 +234,7 @@ public class LabelImageView3 extends AsyncImageView {
         // if (customFocus) {
         if (drawBorder) {
             if (mNinePatchDrawable != null) {
-                mBound.set(-21 + mRect.left, -21 + mRect.top, 21 + mRect.right, 21 + mRect.bottom);
+                mBound.set(-drawablePadding + mRect.left, -drawablePadding + mRect.top, drawablePadding + mRect.right, drawablePadding + mRect.bottom);
                 mNinePatchDrawable.setBounds(mBound);
                 canvas.save();
                 mNinePatchDrawable.draw(canvas);

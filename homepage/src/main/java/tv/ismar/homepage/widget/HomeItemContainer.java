@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
+import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.homepage.R;
 
 
@@ -21,9 +22,10 @@ public class HomeItemContainer extends FrameLayout {
 	private Animation scaleSmallAnimation;
 	private Animation scaleBigAnimation;
 	private boolean isDrawBorder = false;
+	private int drawablePadding;
 	public HomeItemContainer(Context context) {
 		super(context);
-		init();
+		init(context);
 	}
 
 	public void setDrawBorder(boolean isDrawBorder) {
@@ -32,19 +34,20 @@ public class HomeItemContainer extends FrameLayout {
 
 	public HomeItemContainer(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
+		init(context);
 	}
 
 	public HomeItemContainer(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
+		init(context);
 	}
 
-	protected void init() {
+	protected void init(Context context) {
 		setWillNotDraw(false);
 		mRect = new Rect();
 		mBound = new Rect();
 		mDrawable = (NinePatchDrawable)getResources().getDrawable(R.drawable.vod_gv_selector);//nav_focused_2,poster_shadow_4
+		drawablePadding = DeviceUtils.dpToPx(context, 21);
 		setChildrenDrawingOrderEnabled(true);
 	}
 
@@ -85,7 +88,7 @@ public class HomeItemContainer extends FrameLayout {
 		super.onDraw(canvas);
 		if (isDrawBorder) {
 			super.getDrawingRect(mRect);
-			mBound.set(-21+mRect.left, -21+mRect.top, 21+mRect.right, mRect.bottom+21);
+			mBound.set(-drawablePadding + mRect.left, -drawablePadding + mRect.top, drawablePadding + mRect.right, drawablePadding + mRect.bottom);
 			mDrawable.setBounds(mBound);
 			canvas.save();
 			mDrawable.draw(canvas);
