@@ -25,7 +25,7 @@ public class HomeItemContainer extends FrameLayout {
 	private int drawablePadding;
 	public HomeItemContainer(Context context) {
 		super(context);
-		init(context);
+		init();
 	}
 
 	public void setDrawBorder(boolean isDrawBorder) {
@@ -34,15 +34,15 @@ public class HomeItemContainer extends FrameLayout {
 
 	public HomeItemContainer(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(context);
+		init();
 	}
 
 	public HomeItemContainer(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context);
+		init();
 	}
 
-	protected void init(Context context) {
+	protected void init() {
 		setWillNotDraw(false);
 		mRect = new Rect();
 		mBound = new Rect();
@@ -98,8 +98,8 @@ public class HomeItemContainer extends FrameLayout {
 			mDrawable.setBounds(mBound);
 			mDrawable.draw(canvas);
 		}
-//		getRootView().requestLayout();
-//		getRootView().invalidate();
+		getRootView().requestLayout();
+		getRootView().invalidate();
 	}
 
 	@Override
