@@ -171,6 +171,9 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         mRecyclerView.setSelectedItemAtCentered(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(adapter);
+        if (mPurchaseLoadCallback!= null){
+            mPurchaseLoadCallback.onPurchaseLoadFinish();
+        }
 
     }
 
@@ -333,5 +336,15 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
             purchaseExtra = (TextView) itemView.findViewById(R.id.purchase_extra);
             mergeTxt = (TextView) itemView.findViewById(R.id.orderlistitem_merge);
         }
+    }
+
+    public interface PurchaseLoadCallback {
+        void onPurchaseLoadFinish();
+    }
+
+    PurchaseLoadCallback mPurchaseLoadCallback;
+
+    public void setPurchaseLoadCallback(PurchaseLoadCallback purchaseLoadCallback) {
+        mPurchaseLoadCallback = purchaseLoadCallback;
     }
 }

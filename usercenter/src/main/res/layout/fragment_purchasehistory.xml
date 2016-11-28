@@ -21,11 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ImageView
-            android:id="@+id/mainup_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"/>
+
         <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
             android:clipToPadding="false"
             android:clipChildren="false"
@@ -33,7 +29,11 @@
             android:layout_marginLeft="@dimen/usercenter_purchase_history_ml"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
+        <ImageView
+            android:id="@+id/mainup_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"/>
     </LinearLayout>
 </layout>
 
