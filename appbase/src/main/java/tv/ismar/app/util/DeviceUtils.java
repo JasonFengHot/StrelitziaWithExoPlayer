@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -52,6 +53,12 @@ public class DeviceUtils {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public static int dpToPx(Context context, float dp) {
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                context.getResources().getDisplayMetrics());
+        return (int) px;
     }
 
 }
