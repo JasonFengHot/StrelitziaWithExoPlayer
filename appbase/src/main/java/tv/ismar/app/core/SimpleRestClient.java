@@ -3,7 +3,6 @@ package tv.ismar.app.core;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
-import com.google.common.util.concurrent.AbstractScheduledService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;

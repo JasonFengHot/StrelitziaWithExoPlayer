@@ -29,22 +29,20 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Table;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class SelectionBuilder {
     private static final String TAG = "basicsyncadapter";
 
     private String mTable = null;
-    private Map<String, String> mProjectionMap = Maps.newHashMap();
+    private Map<String, String> mProjectionMap =new HashMap<>();
     private StringBuilder mSelection = new StringBuilder();
-    private ArrayList<String> mSelectionArgs = Lists.newArrayList();
+    private ArrayList<String> mSelectionArgs = new ArrayList<>();
 
     public SelectionBuilder reset() {
         mTable = null;

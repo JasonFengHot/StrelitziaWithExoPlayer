@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-import com.google.common.util.concurrent.AbstractScheduledService;
 
 import java.io.IOException;
 import java.util.ArrayList;

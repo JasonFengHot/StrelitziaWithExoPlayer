@@ -38,7 +38,6 @@ dependencies {
     compile project(':utilcode-1.3.0')
     compile dependencies.appCompat
     compile dependencies.recyclerView
-    compile 'com.android.support:multidex:1.0.1'
 }
 
 tasks.withType(JavaCompile) {
