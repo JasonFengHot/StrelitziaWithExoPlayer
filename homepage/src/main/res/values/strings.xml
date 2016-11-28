@@ -332,6 +332,7 @@
     <!--longhai 首页相关ui Start -->
     <string name="str_home">首页</string>
     <string name="str_exit">你是否确定退出视云影院</string>
+    <string name="str_recommend_more">更 多</string>
 
     <!--longhai 首页相关ui End -->
 </resources>
