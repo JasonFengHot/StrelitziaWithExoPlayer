@@ -333,4 +333,14 @@
 <dimen name="t9_key_popup_tv_center_ml">31.31dp</dimen>
 <dimen name="t9_key_popup_drop_down_x">-24.19dp</dimen>
 <dimen name="t9_key_popup_drop_down_Y">-81.59dp</dimen>
+
+<dimen name="dimention_6">128.07dp</dimen>
+<dimen name="dimention_7">256.14dp</dimen>
+<dimen name="dimention_8">384.21dp</dimen>
+<dimen name="dimention_9">512.28dp</dimen>
+<dimen name="dimention_10">640.35dp</dimen>
+<dimen name="dimention_11">768.42dp</dimen>
+<dimen name="dimention_12">896.49dp</dimen>
+<dimen name="dimention_left">642.72dp</dimen>
+<dimen name="dimention_right">899.81dp</dimen>
 </resources>

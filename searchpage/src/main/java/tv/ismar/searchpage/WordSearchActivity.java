@@ -60,11 +60,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     private View tv_key_0;
     private Editable editable;
     private TextView today_hotword;
-    private final int HOTWORDS = 0;
-    private final int SEARCH_RESULT = 1;
     private final int VODSEARCH = 2;
-    private final int RECOMMEND = 3;
-    private final int VODSEARCH_CLASS = 4;
+    private final int VODSEARCH_CLASS = 1;
     private View clickView;
     private List<HotWords> hotWords;
     private List<HotWords> searchResult;
@@ -225,7 +222,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                         if (selectdHotWord == finalI1) {
                             ((TextView) view.findViewById(R.id.tv_hotword)).setTextColor(getResources().getColor(R.color.word_selected));
 
-                                } else {
+                        } else {
                             ((TextView) view.findViewById(R.id.tv_hotword)).setTextColor(getResources().getColor(R.color.word_nomal));
                         }
                         JasmineUtil.scaleIn(view.findViewById(R.id.tv_hotword));
@@ -600,25 +597,25 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                              dimension = 0;
                                                              switch (count) {
                                                                  case 6:
-                                                                     dimension = 270;
+                                                                     dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_6);
                                                                      break;
                                                                  case 7:
-                                                                     dimension = 540;
+                                                                     dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_7);
                                                                      break;
                                                                  case 8:
-                                                                     dimension = 810;
+                                                                     dimension =getResources().getDimensionPixelOffset(R.dimen.dimention_8);
                                                                      break;
                                                                  case 9:
-                                                                     dimension = 1080;
+                                                                     dimension =getResources().getDimensionPixelOffset(R.dimen.dimention_9);
                                                                      break;
                                                                  case 10:
-                                                                     dimension = 1350;
+                                                                     dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_10);
                                                                      break;
                                                                  case 11:
-                                                                     dimension = 1620;
+                                                                     dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_11);
                                                                      break;
                                                                  case 12:
-                                                                     dimension = 1890;
+                                                                     dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_12);
                                                                      break;
 
                                                              }
@@ -668,19 +665,19 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
         );
     }
-        /**
-         * 跳转到详情页
-         */
-        public  void gotoSpecialPage(long pk, String title, String contentMode, boolean isexpensive) {
-            PageIntent pageIntent=new PageIntent();
-            if(contentMode.equals("music")||(contentMode.equals("sport")&&!isexpensive)||contentMode.equals("game")){
-               pageIntent.toPlayPage(this, (int) pk,-1,Source.SEARCH);
-            }else if(contentMode.equals("person")){
-                pageIntent.toFilmStar(this,title,pk);
-            }else{
-                pageIntent.toDetailPage(this,Source.SEARCH.getValue(), (int) pk);
-            }
+    /**
+     * 跳转到详情页
+     */
+    public  void gotoSpecialPage(long pk, String title, String contentMode, boolean isexpensive) {
+        PageIntent pageIntent=new PageIntent();
+        if(contentMode.equals("music")||(contentMode.equals("sport")&&!isexpensive)||contentMode.equals("game")){
+            pageIntent.toPlayPage(this, (int) pk,-1,Source.SEARCH);
+        }else if(contentMode.equals("person")){
+            pageIntent.toFilmStar(this,title,pk);
+        }else{
+            pageIntent.toDetailPage(this,Source.SEARCH.getValue(), (int) pk);
         }
+    }
 
 
     /**
@@ -907,8 +904,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
         } else if (i1 == R.id.iv_left_arrow) {
             scroll = scrowview.getScrollX();
-            if (scroll - 1355 > 0) {
-                scrowview.scrollTo(scroll - 1355, 0);
+            if (scroll - getResources().getDimensionPixelOffset(R.dimen.dimention_left) > 0) {
+                scrowview.scrollTo(scroll - getResources().getDimensionPixelOffset(R.dimen.dimention_left), 0);
                 iv_right_arrow.setVisibility(View.VISIBLE);
             } else {
                 scrowview.scrollTo(0, 0);
@@ -917,11 +914,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
             }
         } else if (i1 == R.id.iv_right_arrow) {
             scroll = scrowview.getScrollX();
-            if (scroll + 1355 < dimension) {
-                scrowview.scrollTo(scroll + 1355, 0);
+            if (scroll + getResources().getDimensionPixelOffset(R.dimen.dimention_left) < dimension) {
+                scrowview.scrollTo(scroll + getResources().getDimensionPixelOffset(R.dimen.dimention_left), 0);
                 iv_left_arrow.setVisibility(View.VISIBLE);
             } else {
-                scrowview.scrollTo(1897, 0);
+                scrowview.scrollTo(getResources().getDimensionPixelOffset(R.dimen.dimention_right), 0);
                 iv_right_arrow.setVisibility(View.INVISIBLE);
                 iv_left_arrow.setVisibility(View.VISIBLE);
             }

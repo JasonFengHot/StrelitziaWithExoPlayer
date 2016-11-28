@@ -306,7 +306,7 @@
 <dimen name="item_vod_score_new_w">110.00dp</dimen>
 <dimen name="item_vod_price_new_w">140.00dp</dimen>
 <dimen name="item_vod_title_new_w">500.00dp</dimen>
-<dimen name="item_vod_title_new_mt">-20dp</dimen>
+<dimen name="item_vod_title_new_mt">-20.00dp</dimen>
 <dimen name="indicator_bg_new_w">534.00dp</dimen>
 <dimen name="indicator_bg_new_h">52.00dp</dimen>
 <dimen name="film_star_title_new_ml">342.00dp</dimen>
@@ -333,4 +333,14 @@
 <dimen name="t9_key_popup_tv_center_ml">132.00dp</dimen>
 <dimen name="t9_key_popup_drop_down_x">-102.00dp</dimen>
 <dimen name="t9_key_popup_drop_down_Y">-344.00dp</dimen>
+
+<dimen name="dimention_6">540.00dp</dimen>
+<dimen name="dimention_7">1080.00dp</dimen>
+<dimen name="dimention_8">1620.00dp</dimen>
+<dimen name="dimention_9">2160.00dp</dimen>
+<dimen name="dimention_10">2700.00dp</dimen>
+<dimen name="dimention_11">3240.00dp</dimen>
+<dimen name="dimention_12">3780.00dp</dimen>
+<dimen name="dimention_left">2710.00dp</dimen>
+<dimen name="dimention_right">3794.00dp</dimen>
 </resources>
