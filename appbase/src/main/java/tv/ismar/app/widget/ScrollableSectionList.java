@@ -2,11 +2,15 @@ package tv.ismar.app.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -210,6 +214,13 @@ public class ScrollableSectionList extends HorizontalScrollView {
         return sectionHolder;
     }
 
+    private int getTextWidth(TextView textView){
+        int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+        textView.measure(spec, spec);
+        int measuredWidth = textView.getMeasuredWidth();
+        return measuredWidth;
+    }
+
     private OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 
         @Override
@@ -220,9 +231,10 @@ public class ScrollableSectionList extends HorizontalScrollView {
             int index = (Integer) v.getTag();
 //            Log.i("LH/","onFocusChange:"+index + " mSelected:"+mSelectPosition + " hovered:"+v.isHovered()+ " hasFocus:"+hasFocus);
             TextView label = (TextView) v.findViewById(R.id.section_label);
+            int textWidth = getTextWidth(label);
             ImageView section_image = (ImageView) v.findViewById(R.id.section_image);
-            if (v.getWidth() > 0) {
-                ((LayoutParams) section_image.getLayoutParams()).width = v.getWidth();
+            if (textWidth > 0) {
+                ((LayoutParams) section_image.getLayoutParams()).width = textWidth + tabSpace * 2;
             }
             if (hasFocus) {
                 if (isFromArrow) {
