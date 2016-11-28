@@ -674,7 +674,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     @Override
     public void onBackPressed() {
-        showExitPopup(contentView);
+        if(countAdTime > 0 ){
+            super.onBackPressed();
+        } else {
+            showExitPopup(contentView);
+        }
     }
 
     private static boolean channelflag = false;

@@ -50,7 +50,7 @@
                 android:layout_marginTop="@dimen/play_finished_image_vodie_backgroud_marginTop"
                 >
 
-                <tv.ismar.daisy.views.AsyncImageView
+                <tv.ismar.app.widget.AsyncImageView
                     android:id="@+id/image_vodie_backgroud"
                     android:layout_width="@dimen/play_finished_image_vodie_backgroud_W"
                     android:layout_height="@dimen/play_finished_image_vodie_backgroud_H"
@@ -143,7 +143,7 @@
         <!--              > -->
         <!--         </GridView> -->
 
-        <org.sakuratya.horizontal.ui.ZGridView
+        <tv.ismar.app.ui.ZGridView
             android:id="@+id/gridview_related"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -162,7 +162,7 @@
             android:paddingTop="@dimen/play_finished_gridview_Padding"
             android:nextFocusUp="@id/gridview_related"
             >
-        </org.sakuratya.horizontal.ui.ZGridView>
+        </tv.ismar.app.ui.ZGridView>
         <TextView
                 android:id="@+id/tv_releted_empty"
                 android:layout_width="wrap_content"

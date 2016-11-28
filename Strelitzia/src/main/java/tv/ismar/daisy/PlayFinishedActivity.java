@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
@@ -29,19 +31,18 @@ import tv.ismar.app.core.Source;
 import tv.ismar.app.db.FavoriteManager;
 import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.entity.Favorite;
-import tv.ismar.app.entity.History;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.exception.NetworkException;
+import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.player.InitPlayerTool;
 import tv.ismar.app.ui.ZGridView;
 import tv.ismar.app.util.BitmapDecoder;
-import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.AsyncImageView;
 
 public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeListener, OnItemClickListener, OnClickListener {
 
-    private static final String TAG = "PlayFinishedActivity";
-    private Item item = new Item();
+    private static final String TAG = "PlayFinishedActivity/LH";
+    private ItemEntity mItemEntity;
     //	private Bitmap bitmap;
     LinearLayout linearLeft;
     LinearLayout linearRight;
@@ -73,7 +74,8 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
             Intent intent = getIntent();
             if (null != intent) {
 //                DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
-                item = (Item) intent.getExtras().get("item");
+                String itemJson = intent.getStringExtra("itemJson");
+                mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,8 +91,8 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
         @Override
         public void run() {
             try {
-                items = simpleRest.getRelatedItem("/api/tv/relate/" + item.item_pk + "/");
-                Log.i("09876tgbvfredc", "relate==" + item.item_pk);
+                items = simpleRest.getRelatedItem("/api/tv/relate/" + mItemEntity.getItemPk() + "/");
+                Log.i(TAG, "relate==" + mItemEntity.getItemPk());
             } catch (NetworkException e) {
                 e.printStackTrace();
             }
@@ -213,7 +215,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_replay:
-                if (item != null) {
+                if (mItemEntity != null) {
 //                    String url = SimpleRestClient.root_url + "/api/item/" + item.item_pk + "/";
 //                    int sub_item_pk = -1;
 //                    History history = null;
@@ -232,14 +234,8 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
 //                            sub_item_pk = Utils.getItemPk(url);
 //                        }
 //                    }
-                    Source source;
-                    try {
-                        source = Source.valueOf(item.fromPage);
-                    } catch (IllegalArgumentException e) {
-                        source = Source.UNKNOWN;
-                    }
                     PageIntent pageIntent = new PageIntent();
-                    pageIntent.toPlayPage(PlayFinishedActivity.this, item.item_pk, 0, source);
+                    pageIntent.toPlayPage(PlayFinishedActivity.this, mItemEntity.getItemPk(), 0, Source.UNKNOWN);
                 }
                 break;
             case R.id.btn_favorites:
@@ -250,7 +246,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
                     isnet = "no";
                 }
                 if (isFavorite()) {
-                    String url = SimpleRestClient.root_url + "/api/item/" + item.item_pk + "/";
+                    String url = SimpleRestClient.root_url + "/api/item/" + mItemEntity.getItemPk() + "/";
                     if (SimpleRestClient.isLogin()) {
                         deleteFavoriteByNet();
                         mFavoriteManager.deleteFavoriteByUrl(url, "yes");
@@ -260,14 +256,14 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
 
                     showToast(getResources().getString(R.string.vod_bookmark_remove_success));
                 } else {
-                    String url = SimpleRestClient.root_url + "/api/item/" + item.item_pk + "/";
+                    String url = SimpleRestClient.root_url + "/api/item/" + mItemEntity.getItemPk() + "/";
                     Favorite favorite = new Favorite();
-                    favorite.title = item.title;
-                    favorite.adlet_url = item.adlet_url;
-                    favorite.content_model = item.content_model;
+                    favorite.title = mItemEntity.getTitle();
+                    favorite.adlet_url = mItemEntity.getAdletUrl();
+                    favorite.content_model = mItemEntity.getContentModel();
                     favorite.url = url;
-                    favorite.quality = item.quality;
-                    favorite.is_complex = item.is_complex;
+                    favorite.quality = mItemEntity.getQuality();
+                    favorite.is_complex = mItemEntity.getIsComplex();
                     favorite.isnet = isnet;
                     if (isnet.equals("yes")) {
                         createFavoriteByNet();
@@ -290,7 +286,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
 
     private void deleteFavoriteByNet() {
         simpleRest.doSendRequest("/api/bookmarks/remove/", "post", "access_token=" +
-                SimpleRestClient.access_token + "&device_token=" + SimpleRestClient.device_token + "&item=" + item.item_pk, new SimpleRestClient.HttpPostRequestInterface() {
+                SimpleRestClient.access_token + "&device_token=" + SimpleRestClient.device_token + "&item=" + mItemEntity.getItemPk(), new SimpleRestClient.HttpPostRequestInterface() {
 
             @Override
             public void onSuccess(String info) {
@@ -315,7 +311,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
     }
 
     private void createFavoriteByNet() {
-        simpleRest.doSendRequest("/api/bookmarks/create/", "post", "access_token=" + SimpleRestClient.access_token + "&device_token=" + SimpleRestClient.device_token + "&item=" + item.item_pk, new SimpleRestClient.HttpPostRequestInterface() {
+        simpleRest.doSendRequest("/api/bookmarks/create/", "post", "access_token=" + SimpleRestClient.access_token + "&device_token=" + SimpleRestClient.device_token + "&item=" + mItemEntity.getItemPk(), new SimpleRestClient.HttpPostRequestInterface() {
 
             @Override
             public void onSuccess(String info) {
@@ -341,10 +337,10 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
      * get the favorite status of the item.
      */
     private boolean isFavorite() {
-        if (item != null) {
-            String url = item.item_url;
-            if (url == null && item.pk != 0) {
-                url = simpleRest.root_url + "/api/item/" + item.item_pk + "/";
+        if (mItemEntity != null) {
+            String url = mItemEntity.getItem_url();
+            if (url == null && mItemEntity.getItemPk() != 0) {
+                url = simpleRest.root_url + "/api/item/" + mItemEntity.getItemPk() + "/";
             }
             Favorite favorite;
             if (SimpleRestClient.isLogin()) {
@@ -360,8 +356,8 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
     }
 
     private void initLayout() {
-        tvVodName.setText(item.title);
-        switch (item.quality) {
+        tvVodName.setText(mItemEntity.getTitle());
+        switch (mItemEntity.getQuality()) {
             case 3:
                 imageVodLabel.setBackgroundResource(R.drawable.label_uhd);
                 break;
@@ -372,7 +368,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
                 imageVodLabel.setVisibility(View.GONE);
                 break;
         }
-        imageBackgroud.setUrl(item.poster_url);
+        imageBackgroud.setUrl(mItemEntity.getPosterUrl());
     }
 
     @Override
