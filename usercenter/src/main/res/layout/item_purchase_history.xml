@@ -14,7 +14,6 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/header_divider"/>
     <ImageView
-        android:layout_marginLeft="1px"
         android:id="@+id/orderlistitem_icon"
         android:layout_width="@dimen/purchaseFragment_item_image_width"
         android:layout_height="@dimen/purchaseFragment_item_image_height"

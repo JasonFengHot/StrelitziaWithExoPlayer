@@ -362,8 +362,10 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                                    RecyclerView parent, RecyclerView.State state) {
 
             // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildLayoutPosition(view)!= 0){
+            if (parent.getChildLayoutPosition(view) != 0) {
                 outRect.top = space;
+            } else {
+                outRect.top = (int) (space / 2.1);
             }
         }
     }
