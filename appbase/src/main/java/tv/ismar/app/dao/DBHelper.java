@@ -10,8 +10,8 @@ import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 
-import tv.ismar.app.models.Favorite;
-import tv.ismar.app.models.History;
+import tv.ismar.app.entity.Favorite;
+import tv.ismar.app.entity.History;
 import tv.ismar.app.models.Quality;
 
 public class DBHelper extends SQLiteOpenHelper {

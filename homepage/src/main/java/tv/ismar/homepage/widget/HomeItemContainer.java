@@ -47,7 +47,7 @@ public class HomeItemContainer extends FrameLayout {
 		mRect = new Rect();
 		mBound = new Rect();
 		mDrawable = (NinePatchDrawable)getResources().getDrawable(R.drawable.vod_gv_selector);//nav_focused_2,poster_shadow_4
-		drawablePadding = DeviceUtils.dpToPx(context, 21);
+		drawablePadding = 22;
 		setChildrenDrawingOrderEnabled(true);
 	}
 
