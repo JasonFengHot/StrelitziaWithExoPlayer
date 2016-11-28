@@ -126,7 +126,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                 case HEADER_LISTPAGE:
                     subTitleTextView.setText(bundle.getString("channel_name"));
                     RelativeLayout.LayoutParams listlayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    listlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.usercenter_subtitle_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
+                    listlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
                     listlayoutParams.addRule(ALIGN_PARENT_BOTTOM);
                     titleTextView.setLayoutParams(listlayoutParams);
                     RelativeLayout.LayoutParams weatherParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

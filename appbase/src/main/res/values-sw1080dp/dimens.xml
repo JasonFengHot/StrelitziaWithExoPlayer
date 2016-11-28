@@ -546,7 +546,8 @@
     <dimen name="filter_noresult_text_mt">58dp</dimen>
     <dimen name="pop_btn_margin_lr">123dp</dimen>
     <dimen name="usercenter_subtitle_ml">73dp</dimen>
-    <dimen name="head_weather_ml">480dp</dimen>
+    <dimen name="head_weather_ml">415dp</dimen>
+    <dimen name="head_listpage_title_ml">9dp</dimen>
     <dimen name="filter_noresult_button_W">274dp</dimen>
     <dimen name="filter_noresult_button_H">72dp</dimen>
     <dimen name="filter_noresult_text_ML">113dp</dimen>
