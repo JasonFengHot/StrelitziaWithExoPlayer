@@ -158,7 +158,12 @@ public class PackageDetailFragment extends BaseFragment {
                 vod_payment_item_more.setFocusable(true);
 
                 vod_payment_item_of_package_container.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                List<ItemEntity> itemEntities = mItemEntity.getItems().subList(0, 3);
+                List<ItemEntity> itemEntities;
+                if (mItemEntity.getItems().size() > 3) {
+                    itemEntities = mItemEntity.getItems().subList(0, 3);
+                } else {
+                    itemEntities = mItemEntity.getItems();
+                }
                 vod_payment_item_of_package_container.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.package_detail_list_item_margin_left)));
                 vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
                 vod_payment_item_of_package_container.setOnItemClickListener(PackageItemClickListener);
