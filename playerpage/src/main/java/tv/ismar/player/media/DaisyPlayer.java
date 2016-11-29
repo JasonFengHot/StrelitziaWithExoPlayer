@@ -219,13 +219,27 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             if (mPlayer != null) {
                 int currentPlayIndex = mPlayer.getCurrentPlayUrl();
                 if (mPaths != null && currentPlayIndex != mPaths.length - 1) {
+                    if (mPlayer != null) {
+                        mPlayer.stop();
+                        mPlayer.reset();
+                        mPlayer.release();
+                        mPlayer = null;
+                        mCurrentState = STATE_IDLE;
+                    }
                     try {
                         Log.d(TAG, "Play ad error.");
-                        mPlayer.playUrl(currentPlayIndex + 1);
-                        return false;
-                    } catch (IOException e) {
+                        String[] tempPaths = Arrays.copyOfRange(mPaths, currentPlayIndex, mPaths.length + 1);
+                        setMedia(tempPaths);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
+//                    try {
+//                        // TODO surface has released
+//                        mPlayer.playUrl(currentPlayIndex + 1);
+//                        return false;
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
             String errorMsg = ERROR_DEFAULT_MSG;
@@ -381,12 +395,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         }
         String mediaUrl = getSmartQualityUrl(quality);
         if (!Utils.isEmptyText(mediaUrl)) {
-            mPaths = new String[]{mediaUrl};
-
+            String[] paths = new String[]{mediaUrl};
             mQuality = quality;
-            setMedia(mPaths);
-//            openVideo();
-//            mPlayer.prepareAsync();
+            setMedia(paths);
         }
     }
 
