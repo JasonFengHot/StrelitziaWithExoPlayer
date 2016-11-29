@@ -188,6 +188,10 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
             if (position == 0 || position == 1 || position == 2 || position == 3) {
                 holder.mImageView.setNextFocusUpId(holder.mImageView.getId());
             }
+
+            if (position == mObjects.size() - 1 || position == mObjects.size() - 2 || position == mObjects.size() - 3 || position == mObjects.size() - 4){
+                holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
+            }
         }
 
         @Override
