@@ -310,6 +310,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                     break;
 
             }
+            ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
             return false;
         }
     }

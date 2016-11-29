@@ -255,6 +255,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 userinfoBinding.tmp.requestFocusFromTouch();
                 break;
         }
+        ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
         return true;
     }
 

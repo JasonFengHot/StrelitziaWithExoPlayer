@@ -155,7 +155,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     }
 
 
-    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener {
+    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener , View.OnFocusChangeListener{
         private Context mContext;
 
         private List<YouHuiDingGouEntity.Object> mObjects;
@@ -171,6 +171,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_product_list, viewGroup, false);
             view.setOnHoverListener(this);
+            view.setOnFocusChangeListener(this);
             ProductViewHolder holder = new ProductViewHolder(view);
             return holder;
         }
@@ -205,8 +206,14 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                     productBinding.tmp.requestFocus();
                     productBinding.tmp.requestFocusFromTouch();
                     break;
+
             }
             return true;
+        }
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
         }
     }
 

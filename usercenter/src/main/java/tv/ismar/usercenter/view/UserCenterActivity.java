@@ -109,6 +109,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                clearTheLastHoveredVewState();
                 if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
                     Log.d(TAG, "onGlobalFocusChanged same side");
                     isFromRightToLeft = false;
@@ -144,7 +145,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             frameLayout.setOnClickListener(indicatorViewOnClickListener);
             frameLayout.setOnFocusChangeListener(indicatorOnFocusListener);
             frameLayout.setOnHoverListener(indicatorOnHoverListener);
-            if (res == R.string.usercenter_userinfo){
+            if (res == R.string.usercenter_userinfo) {
                 frameLayout.setNextFocusRightId(R.id.charge_money);
             }
             indicatorView.add(frameLayout);
@@ -346,7 +347,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private View.OnHoverListener indicatorOnHoverListener = new View.OnHoverListener() {
         @Override
         public boolean onHover(View v, MotionEvent event) {
-            if (mIndicatorItemHoverCallback!=null){
+            if (mIndicatorItemHoverCallback != null) {
                 mIndicatorItemHoverCallback.onIndicatorItemHover();
             }
             ImageView textHoverImage = (ImageView) v.findViewById(R.id.text_select_bg);
@@ -450,7 +451,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         None
     }
 
-    public interface IndicatorItemHoverCallback{
+    public interface IndicatorItemHoverCallback {
         void onIndicatorItemHover();
     }
 
@@ -458,5 +459,13 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     public void setIndicatorItemHoverCallback(IndicatorItemHoverCallback indicatorItemHoverCallback) {
         mIndicatorItemHoverCallback = indicatorItemHoverCallback;
+    }
+
+    public void clearTheLastHoveredVewState() {
+        if (lastHoveredView != null) {
+            ImageView lastTextSelectImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
+            lastTextSelectImage.setVisibility(View.INVISIBLE);
+        }
+
     }
 }
