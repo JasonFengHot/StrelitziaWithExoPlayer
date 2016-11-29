@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
@@ -246,7 +247,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
                     isnet = "no";
                 }
                 if (isFavorite()) {
-                    String url = SimpleRestClient.root_url + "/api/item/" + mItemEntity.getItemPk() + "/";
+                    String url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getItemPk() + "/";
                     if (SimpleRestClient.isLogin()) {
                         deleteFavoriteByNet();
                         mFavoriteManager.deleteFavoriteByUrl(url, "yes");
