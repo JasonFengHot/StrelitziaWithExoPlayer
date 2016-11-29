@@ -127,11 +127,11 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                 case HEADER_LISTPAGE:
                     subTitleTextView.setText(bundle.getString("channel_name"));
                     RelativeLayout.LayoutParams listlayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    listlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
+                    listlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
                     listlayoutParams.addRule(ALIGN_PARENT_BOTTOM);
                     titleTextView.setLayoutParams(listlayoutParams);
                     RelativeLayout.LayoutParams weatherParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    weatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml),0,0,getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
+                    weatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml),0,0,getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
                     weatherParams.addRule(ALIGN_PARENT_BOTTOM);
                     weatherInfoTextView.setLayoutParams(weatherParams);
                     hideIndicatorTable();
@@ -143,11 +143,11 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     titleTextView.setText(bundle.getString("channel_name"));
                     subTitleTextView.setText("筛选");
                     RelativeLayout.LayoutParams filterlayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    filterlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
+                    filterlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
                     filterlayoutParams.addRule(ALIGN_PARENT_BOTTOM);
                     titleTextView.setLayoutParams(filterlayoutParams);
                     RelativeLayout.LayoutParams filterweatherParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    filterweatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml),0,0,getResources().getDimensionPixelSize(R.dimen.weather_guide_text_margin_margin_bottom));
+                    filterweatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml),0,0,getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
                     filterweatherParams.addRule(ALIGN_PARENT_BOTTOM);
                     weatherInfoTextView.setLayoutParams(filterweatherParams);
                     hideIndicatorTable();

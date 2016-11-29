@@ -20,6 +20,7 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
@@ -27,12 +28,14 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
+import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.models.ActorRelateRequestParams;
 import tv.ismar.app.models.AttributesEntity;
 import tv.ismar.app.models.Expense;
 import tv.ismar.app.models.PersonEntitiy;
 import tv.ismar.app.models.SemanticSearchResponseEntity;
 import tv.ismar.app.models.SemantichObjectEntity;
+import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.searchpage.utils.JasmineUtil;
 import tv.ismar.searchpage.weight.MyDialog;
 import tv.ismar.searchpage.weight.ReflectionTransformationBuilder;
@@ -76,6 +79,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
     private ImageView mContentBackgroundView;
     private MyDialog errorDialog;
+    private String title;
 
 
     @Override
@@ -90,7 +94,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         Intent intent = getIntent();
         pk = intent.getLongExtra("pk", 0);
 //        pk = 2857;
-        String title = intent.getStringExtra("title");
+        title = intent.getStringExtra("title");
 //        String title = "刘德华";
         filmStartitle.setText(title);
         fetchPersonBG(String.valueOf(pk));
@@ -383,15 +387,16 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                     PageIntent pageIntent=new PageIntent();
                     SemantichObjectEntity semantichObjectEntity= (SemantichObjectEntity) v.getTag();
                     String contentModel =semantichObjectEntity.getContent_model();
-                    String title=semantichObjectEntity.getTitle();
+                    String itemTitle=semantichObjectEntity.getTitle();
                     long pk=Long.valueOf(semantichObjectEntity.getPk());
                     if(contentModel.equals("music")||(contentModel.equals("sport")&&semantichObjectEntity.getExpense()==null)||contentModel.equals("game")){
                         pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,-1,Source.SEARCH);
                     }else if("person".equals(contentModel)){
-                        pageIntent.toFilmStar(FilmStarActivity.this,title,pk);
+                        pageIntent.toFilmStar(FilmStarActivity.this,itemTitle,pk);
                     }else{
                         pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk);
                     }
+                    JasmineUtil.video_search_arrive(title,"text", (int) pk,0,itemTitle);
                 }
             });
 
@@ -438,7 +443,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
             indicatorSelectedView.setSelected(true);
             String type = (String) v.getTag();
             fetchActorRelateByType(pk, type);
-
+            JasmineUtil.video_search(type,title);
         }
     }
 
@@ -599,5 +604,4 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
             }
         }
     }
-
 }

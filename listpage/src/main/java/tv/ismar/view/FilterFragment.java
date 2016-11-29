@@ -180,10 +180,7 @@ public class FilterFragment extends BackHandledFragment {
                             submitBtn.setVisibility(View.VISIBLE);
                             submitBtn.setFocusable(true);
                             submitBtn.requestFocus();
-                            int sum=0;
-                            int length=1;
                             while(it.hasNext()){
-                                sum=sum+length;
                                 String key = (String) it.next();
                                 JSONObject jsonObj = attributes.getJSONObject(key);
                                 String label = jsonObj.getString("label");
@@ -236,9 +233,8 @@ public class FilterFragment extends BackHandledFragment {
                                     valueViews.addView(rbtn,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,getResources().getDimensionPixelSize(R.dimen.filter_radio_H)));
                                 }
                                 LinearLayout.LayoutParams groupLp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getResources().getDimensionPixelSize(R.dimen.filter_groupView_H));
-                                Log.i("Sum",sum+"");
-                                if(sum==3){
-                                    groupLp.weight=1;
+                                if(attributes.length()==3){
+                                    groupLp.setMargins(0,getResources().getDimensionPixelSize(R.dimen.filter_groupView_mt_2), 0, 0);
                                 }else {
                                     groupLp.setMargins(0, getResources().getDimensionPixelSize(R.dimen.filter_groupView_mt), 0, 0);
                                 }

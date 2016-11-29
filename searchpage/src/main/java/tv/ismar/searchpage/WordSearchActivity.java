@@ -1,12 +1,9 @@
 package tv.ismar.searchpage;
 
-import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,24 +21,19 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.VodApplication;
-import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VodUserAgent;
-import tv.ismar.app.core.client.NetworkUtils;
-import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.models.HotWords;
 import tv.ismar.app.models.Recommend;
 import tv.ismar.app.models.VodFacetEntity;
 import tv.ismar.app.models.VodSearchRequestEntity;
-import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.searchpage.adapter.KeyboardAdapter;
@@ -74,8 +66,6 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     private final int VODSEARCH = 2;
     private final int VODSEARCH_CLASS = 1;
     private View clickView;
-    private List<HotWords> hotWords;
-    private List<HotWords> searchResult;
     private List<String> hotWordsList;
     private KeyboardAdapter keyboardAdapter;
     private ImageView iv_left_arrow;
@@ -85,7 +75,6 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     private ZGridView poster_gridview;
     private View search_guide;
     private boolean isHide = false;
-    private StringBuffer sb;
     private int selectedTab = -1;
     private LinearLayout ll_hotwords;
     private int selectdHotWord = -1;
@@ -141,8 +130,6 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     private View lay_focus;
     private int scroll = 0;
     private int dimension;
-    private HashMap<String, Object> properties = new HashMap<String, Object>();
-    private String eventName = "";
 
 
     @Override
@@ -152,18 +139,21 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         view = findViewById(R.id.view);
         initView();
         initData();
-        AccountSharedPrefs accountSharedPrefs = AccountSharedPrefs.getInstance();
-        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String province = accountSharedPrefs.getSharedPrefs(AccountSharedPrefs.PROVINCE);
-        String city = accountSharedPrefs.getSharedPrefs(AccountSharedPrefs.CITY);
-        String isp = accountSharedPrefs.getSharedPrefs(AccountSharedPrefs.ISP);
-        String userId= DaisyUtils.getVodApplication(this).getPreferences().getString(VodApplication.MOBILE_NUMBER, "");
-        app_start(mSharedPreferences.getString("sn_token",""),
-                VodUserAgent.getModelName(), "0",
-                android.os.Build.VERSION.RELEASE,
+        /**
+         * 上传app启动日志
+         */
+        String sn=IsmartvActivator.getInstance().getSnToken();
+        String province = IsmartvActivator.getInstance().getProvince().get("province");
+        String city = IsmartvActivator.getInstance().getCity().get("city");
+        String isp = IsmartvActivator.getInstance().getIsp();
+        String userId= IsmartvActivator.getInstance().getUsername();
+        String modelname=VodUserAgent.getModelName();
+        String macAddress=DeviceUtils.getLocalMacAddress(this);
+        String version=DeviceUtils.getVersionCode(this)+"";
+        JasmineUtil.app_start(sn,modelname,"0", android.os.Build.VERSION.RELEASE,
                 SystemFileUtil.getSdCardTotal(this),
                 SystemFileUtil.getSdCardAvalible(this),
-                userId, province, city, isp, "search", DeviceUtils.getLocalMacAddress(this));
+                userId, province, city, isp, "search", macAddress,"text","",version);
     }
 
     @Override
@@ -195,6 +185,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 keyboard.requestFocus();
                 keyboard.requestFocusFromTouch();
             }
+            tv_back.setVisibility(View.VISIBLE);
+            tv_t9.setVisibility(View.VISIBLE);
             fetchRecommendHotWords();
         }
     }
@@ -308,16 +300,9 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                         handler.removeMessages(1);
                     }
                     handler.sendEmptyMessageDelayed(1, 15000);
-
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            SystemClock.sleep(500);
                             String title = ((TextView) view.findViewById(R.id.tv_hotword)).getText().toString().trim();
                             keyWord_now = title.contains("...")?title.substring(0,8):title;
                             fetchSearchResult(title, null, page);
-//                        }
-//                    }).start();
                     view.requestFocus();
                     ((TextView) view.findViewById(R.id.tv_hotword)).setTextColor(getResources().getColor(R.color.word_focus));
                 }
@@ -578,14 +563,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                    handler.removeMessages(1);
                                                }
                                                handler.sendEmptyMessageDelayed(1, 15000);
-//                                               new Thread(new Runnable() {
-//
-//                                                   @Override
-//                                                   public void run() {
                                                        type_now = tags[selectedTab];
                                                        fetchSearchResult(keyWord_now, tags[selectedTab], page);
-//                                                   }
-//                                               }).start();
 
                                            }
                                        }
@@ -679,10 +658,10 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                        if (poster_gridview.getAdapter() instanceof PosterAdapter) {
                                                            gotoSpecialPage( posterAdapter.getItem(position).getPk(),  posterAdapter.getItem(position).getTitle(), posterAdapter.getItem(position).getContent_model(), posterAdapter.getItem(position).getExpense() != null);
-                                                           video_search_arrive(keyWord_now,type_now,((int)posterAdapter.getItem(position).getPk()),0,posterAdapter.getItem(position).getTitle());
+                                                           JasmineUtil.video_search_arrive(keyWord_now,type_now,((int)posterAdapter.getItem(position).getPk()),0,posterAdapter.getItem(position).getTitle());
                                                        } else {
                                                            gotoSpecialPage( recommendAdapter.getItem(position).pk, null,recommendAdapter.getItem(position).content_model, recommendAdapter.getItem(position).expense != null);
-                                                           video_search_arrive(keyWord_now,type_now,recommendAdapter.getItem(position).pk,recommendAdapter.getItem(position).item_pk,recommendAdapter.getItem(position).title);
+                                                           JasmineUtil.video_search_arrive(keyWord_now,type_now,recommendAdapter.getItem(position).pk,recommendAdapter.getItem(position).item_pk,recommendAdapter.getItem(position).title);
                                                        }
                                                    }
                                                }
@@ -897,14 +876,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                     }
                 }, 500);
             }
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    SystemClock.sleep(500);
                     keyWord_now = et_input.getText().toString().trim();
                     fetchSearchResult(keyWord_now, null, page);
-//                }
-//            }).start();
 
         } else if (i1 == R.id.iv_toggle) {
             iv_toggle.setVisibility(View.GONE);
@@ -1072,9 +1045,9 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
      * 网络请求
      */
 
-    private void fetchSearchResult(String keywords, final String type, int page) {
+    public void fetchSearchResult(String keywords, final String type, int page) {
 
-        video_search(type,keywords);
+        JasmineUtil.video_search(type,keywords);
         VodSearchRequestEntity requestEntity = new VodSearchRequestEntity();
         requestEntity.setKeyword(keywords);
         if (type != null) {
@@ -1325,14 +1298,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                 handler.removeMessages(1);
                             }
                             handler.sendEmptyMessageDelayed(1, 15000);
-
-//                            new Thread(new Runnable() {
-//                                @Override
-//                                public void run() {
-                                    fetchSearchResult(keyWord_now, tags[finalJ], 1);
-                                    poster_gridview.setNextFocusUpId(top_tabs.getChildAt(finalJ).getId());
-//                                }
-//                            }).start();
+                            fetchSearchResult(keyWord_now, tags[finalJ], 1);
+                            poster_gridview.setNextFocusUpId(top_tabs.getChildAt(finalJ).getId());
                             break;
                         }
                     }
@@ -1362,58 +1329,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    /**
-     * 打开搜索app日志上报
-     */
-    public void app_start(String sn,String device,String size,String os_version,long sd_size,long sd_free_size,String userid,String province,String city,String isp,String source,String Mac) {
-        HashMap<String, Object> tempMap = new HashMap<>();
-        tempMap.put(EventProperty.SN, sn);
-        tempMap.put(EventProperty.DEVICE, device);
-        tempMap.put(EventProperty.SIZE, size);
-        tempMap.put(EventProperty.OS_VERSION, os_version);
-        tempMap.put(EventProperty.SD_SIZE, sd_size);
-        tempMap.put(EventProperty.SD_FREE_SIZE, sd_free_size);
-        tempMap.put(EventProperty.USER_ID, userid);
-        tempMap.put(EventProperty.PROVINCE, province);
-        tempMap.put(EventProperty.CITY, city);
-        tempMap.put(EventProperty.ISP, isp);
-        tempMap.put(EventProperty.SOURCE, source);
-        tempMap.put(EventProperty.MAC, Mac);
-        tempMap.put(EventProperty.TITLE,"text");
-        tempMap.put(EventProperty.CODE,1);
-        tempMap.put(EventProperty.VERSION, DeviceUtils.getVersionCode(this));
-        eventName = NetworkUtils.APP_START;
-        properties = tempMap;
-        new NetworkUtils.DataCollectionTask().execute(eventName, properties);
-    }
 
-    /**
-     * 搜索日志上报
-     */
-    public void video_search(String content_type,String qWord){
-        HashMap<String, Object> tempMap = new HashMap<String, Object>();
-        tempMap.put(EventProperty.INTERFACE_TYPE, "text");
-        tempMap.put(EventProperty.CONTENT_TYPE, content_type);
-        tempMap.put(EventProperty.Q, qWord);
-        eventName = NetworkUtils.VIDEO_SEARCH;
-        properties = tempMap;
-        new NetworkUtils.DataCollectionTask().execute(eventName, properties);
-    }
-
-    /**
-     * 点击搜索结果日志上报
-     */
-    public void video_search_arrive(String qWord,String content_type,int item,int subitem,String title){
-        HashMap<String, Object> tempMap = new HashMap<String, Object>();
-        tempMap.put(EventProperty.Q, qWord);
-        tempMap.put(EventProperty.CONTENT_TYPE, content_type);
-        tempMap.put(EventProperty.ITEM, item);
-        tempMap.put(EventProperty.SUBITEM, subitem);
-        tempMap.put(EventProperty.TITLE, title);
-        eventName = NetworkUtils.VIDEO_SEARCH_ARRIVE;
-        properties = tempMap;
-        new NetworkUtils.DataCollectionTask().execute(eventName, properties);
-    }
     @Override
     protected void onDestroy() {
         if (keyboard.getVisibility() == View.VISIBLE) {

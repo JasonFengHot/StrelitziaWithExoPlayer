@@ -75,7 +75,6 @@ public class VodApplication extends Application {
     private SharedPreferences.Editor mEditor;
     public static final String PREFERENCE_FILE_NAME = "Daisy";
     private boolean isFinish = true;
-    public static String MOBILE_NUMBER = "mobile_number";
 
     @Override
     public void onCreate() {
