@@ -185,6 +185,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 keyboard.requestFocus();
                 keyboard.requestFocusFromTouch();
             }
+            tv_back.setVisibility(View.VISIBLE);
+            tv_t9.setVisibility(View.VISIBLE);
             fetchRecommendHotWords();
         }
     }
