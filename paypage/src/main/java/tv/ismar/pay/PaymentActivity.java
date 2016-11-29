@@ -71,21 +71,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         category = intent.getStringExtra(PageIntentInterface.EXTRA_PRODUCT_CATEGORY);
-        String itemJson = intent.getStringExtra(PageIntent.EXTRA_ITEM_JSON);
-
-        if (!TextUtils.isEmpty(itemJson)) {
-            mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
-            pk = mItemEntity.getPk();
-            purchaseCheck(CheckType.PlayCheck);
-
-        } else {
-            pk = intent.getIntExtra("pk", 0);
-            fetchItem(pk, category);
-        }
-
-
         setContentView(R.layout.activity_payment);
-
 
         weixinPayBtn = (Button) findViewById(R.id.weixin);
         aliPayBtn = (Button) findViewById(R.id.alipay);
@@ -108,6 +94,21 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         cardpayFragment = new CardPayFragment();
         balanceFragment = new BalancePayFragment();
 
+        if (category.equals(PageIntentInterface.ProductCategory.charge.name())) {
+            changeChagrgeStatus();
+            title.setText("充值");
+        } else {
+            String itemJson = intent.getStringExtra(PageIntent.EXTRA_ITEM_JSON);
+            if (!TextUtils.isEmpty(itemJson)) {
+                mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+                pk = mItemEntity.getPk();
+                purchaseCheck(CheckType.PlayCheck);
+
+            } else {
+                pk = intent.getIntExtra("pk", 0);
+                fetchItem(pk, category);
+            }
+        }
 
     }
 
@@ -394,6 +395,25 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         if (payTypeLayout.getVisibility() == View.INVISIBLE)
             payTypeLayout.setVisibility(View.VISIBLE);
     }
+
+
+    public void changeChagrgeStatus() {
+        loginTip.setVisibility(View.INVISIBLE);
+        for (int i = 0; i < payTypeLayout.getChildCount(); i++) {
+            if (i != 2) {
+                Button button = (Button) payTypeLayout.getChildAt(i);
+                button.setTextColor(getResources().getColor(R.color.paychannel_button_disable));
+                button.setFocusable(false);
+                button.setEnabled(false);
+            }
+        }
+        if (payTypeLayout.getVisibility() == View.INVISIBLE)
+            payTypeLayout.setVisibility(View.VISIBLE);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_page, cardpayFragment)
+                .commit();
+    }
+
 
     @Override
     protected void onStop() {

@@ -1,6 +1,7 @@
 package tv.ismar.usercenter.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import java.util.List;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
@@ -36,6 +38,7 @@ import tv.ismar.usercenter.UserInfoContract;
 import tv.ismar.usercenter.databinding.FragmentUserinfoBinding;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_PRODUCT_CATEGORY;
 import static tv.ismar.app.core.PageIntentInterface.PAYMENT;
 import static tv.ismar.app.core.PageIntentInterface.ProductCategory.Package;
 import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
@@ -110,6 +113,15 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         userinfoBinding.chargeMoney.setNextFocusUpId(R.id.exit_account);
         userinfoBinding.chargeMoney.setNextFocusRightId(R.id.exit_account);
         userinfoBinding.chargeMoney.setNextFocusDownId(R.id.btn);
+        userinfoBinding.chargeMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction("tv.ismar.pay.payment");
+                intent.putExtra(EXTRA_PRODUCT_CATEGORY, PageIntentInterface.ProductCategory.charge.name());
+                startActivity(intent);
+            }
+        });
 
 
     }
