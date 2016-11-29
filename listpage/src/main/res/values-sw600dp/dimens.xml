@@ -239,6 +239,8 @@
 <dimen name="filter_condition_item_linegroup_ml">52.78dp</dimen>
 <dimen name="filter_condition_item_linegroup_mt">3.33dp</dimen>
 <dimen name="filter_condition_groupview_h">60.00dp</dimen>
+<dimen name="filter_noresult_text_mt">32.22dp</dimen>
+<dimen name="filter_noresult_layout_h">216.67dp</dimen>
 
 <dimen name="filter_condition_item_h">70.00dp</dimen>
 <dimen name="filter_view_scrollview_h">367.22dp</dimen>

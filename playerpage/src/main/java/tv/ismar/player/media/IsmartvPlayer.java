@@ -216,11 +216,14 @@ public abstract class IsmartvPlayer implements IPlayer {
                                 } else if(!Utils.isEmptyText(zdevice_token)){
                                     PlayerSdk.getInstance().login(zdevice_token);
                                 }
-                                isQiyiSdkInit = true;
-                                Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time));
-                                String[] array = mClipEntity.getIqiyi_4_0().split(":");
-                                SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mDrmType, mStartPosition, null);
-                                setMedia(qiyiInfo);
+                                if(mClipEntity != null){
+                                    // 此为异步回调
+                                    isQiyiSdkInit = true;
+                                    Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time));
+                                    String[] array = mClipEntity.getIqiyi_4_0().split(":");
+                                    SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mDrmType, mStartPosition, null);
+                                    setMedia(qiyiInfo);
+                                }
                             }
 
                             @Override
