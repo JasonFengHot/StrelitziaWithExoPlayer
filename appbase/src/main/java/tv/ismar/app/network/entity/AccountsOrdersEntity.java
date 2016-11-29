@@ -27,6 +27,16 @@ public class AccountsOrdersEntity {
     }
 
     public class OrderEntity {
+        private String url;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
         private String title;
         private String info;
         private String source;

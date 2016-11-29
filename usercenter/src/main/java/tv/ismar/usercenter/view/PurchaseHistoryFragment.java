@@ -2,6 +2,7 @@ package tv.ismar.usercenter.view;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.squareup.picasso.Picasso;
@@ -27,6 +29,7 @@ import java.util.List;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseFragment;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.network.entity.AccountsOrdersEntity;
 import tv.ismar.usercenter.PurchaseHistoryContract;
@@ -179,7 +182,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
     }
 
-    private class HistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryFragment.HistoryViewHolder> implements View.OnHoverListener {
+    private class HistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryFragment.HistoryViewHolder> implements View.OnHoverListener, View.OnClickListener {
         private Context mContext;
 
         private List<AccountsOrdersEntity.OrderEntity> mOrderEntities;
@@ -193,6 +196,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_purchase_history, parent, false);
             view.setOnHoverListener(this);
+            view.setOnClickListener(this);
             HistoryViewHolder holder = new HistoryViewHolder(view);
             return holder;
         }
@@ -203,7 +207,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
             AccountsOrdersEntity.OrderEntity item = mOrderEntities.get(position);
 
 
-            holder.icon.setTag(position);
+            holder.itemView.setTag(item);
 
 
             String orderday = mContext.getResources().getString(R.string.personcenter_orderlist_item_orderday);
@@ -236,28 +240,12 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 holder.mergeTxt.setVisibility(View.INVISIBLE);
             }
 
-//            accountOrderListView.addView(convertView);
-//            if (i == 0) {
-//                icon.setId(R.id.purchase_history_list_first_id);
-//                icon.setNextFocusUpId(icon.getId());
-//            }
-//            icon.setOnKeyListener(new View.OnKeyListener() {
-//                @Override
-//                public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                    int tag = (int) v.getTag();
-//                    if (tag == 0 && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
 
             if (position != mOrderEntities.size() - 1) {
                 ImageView imageView = new ImageView(mContext);
                 imageView.setBackgroundResource(R.color.history_divider);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
                 imageView.setLayoutParams(layoutParams);
-//                accountOrderListView.addView(imageView);
             }
             if (position == mOrderEntities.size() - 1) {
                 holder.itemView.setId(R.id.purchase_last_item_id);
@@ -310,8 +298,31 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                     break;
 
             }
-            ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
+            ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
             return false;
+        }
+
+        @Override
+        public void onClick(View v) {
+            AccountsOrdersEntity.OrderEntity orderEntity = (AccountsOrdersEntity.OrderEntity) v.getTag();
+            if (TextUtils.isEmpty(orderEntity.getUrl())) {
+                Toast.makeText(mContext, "url is empty!!!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            List<String> pathSegments = Uri.parse(orderEntity.getUrl()).getPathSegments();
+            String pk = pathSegments.get(pathSegments.size() - 1);
+            String type = pathSegments.get(pathSegments.size() - 2);
+            PageIntent pageIntent = new PageIntent();
+            switch (type) {
+                case "package":
+                    pageIntent.toPackageDetail(mContext, "history", Integer.parseInt(pk));
+                    break;
+                case "item":
+                    pageIntent.toDetailPage(mContext, "history", Integer.parseInt(pk));
+                    break;
+                default:
+                    throw new IllegalArgumentException(orderEntity.getUrl() + " type not support!!!");
+            }
         }
     }
 
