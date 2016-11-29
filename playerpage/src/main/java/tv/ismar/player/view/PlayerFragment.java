@@ -792,9 +792,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     mIsmartvPlayer.seekTo(mCurrentPosition);
                     offsets = 0;
                     offn = 1;
+                    showBuffer(null);
                     if (isFastFBClick) {
                         isFastFBClick = false;
-                        showBuffer(null);
                     }
                     break;
                 case MSG_AD_COUNTDOWN:
@@ -1699,7 +1699,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
                 case KeyEvent.KEYCODE_FORWARD:
                 case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                    showBuffer(null);
                     mHandler.sendEmptyMessageDelayed(MSG_SEK_ACTION, 1000);
                     return true;
             }

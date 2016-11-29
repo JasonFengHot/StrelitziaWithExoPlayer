@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,7 +26,6 @@ import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.Constants;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LabelImageView;
-import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.databinding.FragmentDetailpageEntertainmentSharpBinding;
@@ -37,7 +37,7 @@ import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 
-public class DetailPageFragment extends Fragment implements DetailPageContract.View {
+public class DetailPageFragment extends Fragment implements DetailPageContract.View, View.OnHoverListener {
     private static final String TAG = "LH/DetailPageFragment";
     private static final String ARG_PK = "ARG_PK";
     private static final String ARG_CONTENT_MODEL = "ARG_CONTENT_MODEL";
@@ -71,15 +71,20 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private int mRemandDay = 0;
     private BaseActivity mActivity;
 
+    private View tmp;
 
-
+    private View palyBtnView;
+    private View purchaseBtnView;
+    private View exposideBtnView;
+    private View favoriteBtnView;
+    private View moreBtnView;
 
     public DetailPageFragment() {
         // Required empty public constructor
     }
 
 
-    public static DetailPageFragment newInstance(String fromPage,String itemJson) {
+    public static DetailPageFragment newInstance(String fromPage, String itemJson) {
         DetailPageFragment fragment = new DetailPageFragment();
         Bundle args = new Bundle();
         args.putString(EXTRA_SOURCE, fromPage);
@@ -105,7 +110,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             return;
         }
         mActivity = (BaseActivity) getActivity();
-        mDetailPagePresenter = new DetailPagePresenter((DetailPageActivity)getActivity(), this, mItemEntity.getContentModel());
+        mDetailPagePresenter = new DetailPagePresenter((DetailPageActivity) getActivity(), this, mItemEntity.getContentModel());
         mModel = new DetailPageViewModel(mActivity, mDetailPagePresenter);
         mDetailPagePresenter.setItemEntity(mItemEntity);
 
@@ -166,6 +171,9 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             }
             relRelImageViews[i].setTag(i);
             relRelImageViews[i].setOnClickListener(relateItemOnClickListener);
+            relRelImageViews[i].setOnHoverListener(this);
+            relRelImageViews[i].setNextFocusDownId(relRelImageViews[i].getId());
+
             relRelImageViews[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
@@ -196,6 +204,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
                     relRelImageViews[i].setLivRate(score);
                 }
             }
+//            relTextViews[i].setMarqueeRepeatLimit(-1);
+//            relTextViews[i].setEllipsize(TextUtils.TruncateAt.MARQUEE);
             relTextViews[i].setText(itemEntities[i].getTitle());
 
             if (!mItemEntity.getContentModel().equals("variety") && !mItemEntity.getContentModel().equals("entertainment") && !mItemEntity.getContentModel().equals("movie")) {
@@ -209,7 +219,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         relateIsLoad = true;
         hideLoading();
     }
-
 
 
     @Override
@@ -242,8 +251,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     }
 
     private void hideLoading() {
-        if (((DetailPageActivity)getActivity()).mLoadingDialog != null && ((DetailPageActivity)getActivity()).mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
-            ((DetailPageActivity)getActivity()).mLoadingDialog.dismiss();
+        if (((DetailPageActivity) getActivity()).mLoadingDialog != null && ((DetailPageActivity) getActivity()).mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
+            ((DetailPageActivity) getActivity()).mLoadingDialog.dismiss();
         }
 
         mModel.showLayout();
@@ -253,7 +262,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         @Override
         public void onClick(View v) {
             ItemEntity item = relateItems[(int) v.getTag()];
-            new PageIntent().toDetailPage(getContext(),Source.RELATED.getValue(), item.getPk());
+            new PageIntent().toDetailPage(getContext(), Source.RELATED.getValue(), item.getPk());
         }
     };
 
@@ -305,18 +314,31 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         View contentView;
         String content_model = itemEntity.getContentModel();
         mHeadTitle = getModelType(content_model);
-        if ((("variety".equals(content_model) && mItemEntity.getExpense() == null))|| "entertainment".equals(content_model)) {
+        if ((("variety".equals(content_model) && mItemEntity.getExpense() == null)) || "entertainment".equals(content_model)) {
             relViews = 4;
             mEntertainmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_entertainment_sharp, container, false);
             mEntertainmentBinding.setTasks(mModel);
             mEntertainmentBinding.setActionHandler(mPresenter);
             contentView = mEntertainmentBinding.getRoot();
+            tmp = mEntertainmentBinding.tmp;
+
+            palyBtnView = mEntertainmentBinding.detailBtnPlay;
+//            purchaseBtnView = mEntertainmentBinding.
+            exposideBtnView = mEntertainmentBinding.detailBtnDrama;
+            favoriteBtnView = mEntertainmentBinding.detailBtnCollect;
+            moreBtnView = mEntertainmentBinding.detailRelativeButton;
         } else if ("movie".equals(content_model)) {
             relViews = 6;
             mMovieBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_movie_sharp, container, false);
             mMovieBinding.setTasks(mModel);
             mMovieBinding.setActionHandler(mPresenter);
             contentView = mMovieBinding.getRoot();
+            tmp = mMovieBinding.tmp;
+            palyBtnView = mMovieBinding.detailBtnPlay;
+            purchaseBtnView = mMovieBinding.detailBtnBuy;
+//            exposideBtnView = mMovieBinding.detailBtnDrama;
+            favoriteBtnView = mMovieBinding.detailBtnCollect;
+            moreBtnView = mMovieBinding.detailRelativeButton;
         } else {
             relViews = 4;
             relFocusTextViews = new TextView[relViews];
@@ -324,9 +346,30 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             mNormalBinding.setTasks(mModel);
             mNormalBinding.setActionHandler(mPresenter);
             contentView = mNormalBinding.getRoot();
+            tmp = mNormalBinding.tmp;
+            palyBtnView = mNormalBinding.detailBtnPlay;
+            purchaseBtnView = mNormalBinding.detailBtnBuy;
+            exposideBtnView = mNormalBinding.detailBtnDrama;
+            favoriteBtnView = mNormalBinding.detailBtnCollect;
+            moreBtnView = mNormalBinding.detailRelativeButton;
         }
+
+        palyBtnView.setOnHoverListener(this);
+        if (purchaseBtnView != null) {
+            purchaseBtnView.setOnHoverListener(this);
+        }
+
+        if (exposideBtnView != null) {
+            exposideBtnView.setOnHoverListener(this);
+        }
+        favoriteBtnView.setOnHoverListener(this);
+        moreBtnView.setOnHoverListener(this);
+
         relRelImageViews = new LabelImageView[relViews];
         relTextViews = new TextView[relViews];
+
+        palyBtnView.requestFocus();
+        palyBtnView.requestFocusFromTouch();
 
         for (int i = 0; i < relViews; i++) {
             relRelImageViews[i] = (LabelImageView) contentView.findViewById(mRelImageViewIds[i]);
@@ -342,7 +385,25 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         bundle.putString("channel_name", mHeadTitle);
         headFragment = new HeadFragment();
         headFragment.setArguments(bundle);
-        getChildFragmentManager().beginTransaction().add( R.id.detail_head, headFragment).commit();
+        getChildFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();
         return contentView;
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+
+            case MotionEvent.ACTION_HOVER_EXIT:
+                tmp.requestFocus();
+                tmp.requestFocusFromTouch();
+                break;
+        }
+
+        return false;
     }
 }

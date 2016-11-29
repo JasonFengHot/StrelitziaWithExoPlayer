@@ -249,13 +249,13 @@ public class LabelImageView3 extends AsyncImageView {
 
         }
         // }
-//        getRootView().requestLayout();
-//        getRootView().invalidate();
+        getRootView().requestLayout();
+        getRootView().invalidate();
     }
 
     public void setCustomFocus(boolean customFocus) {
         this.customFocus = customFocus;
-//        invalidate();
+        invalidate();
     }
 
     private void zoomIn() {
