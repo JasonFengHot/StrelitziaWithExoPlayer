@@ -278,6 +278,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         intent.putExtra(EXTRA_ITEM_JSON, new Gson().toJson(mItemEntity));
         intent.putExtra(EXTRA_SOURCE, "detail");
         mDetailView.getContext().startActivity(intent);
+
     }
 
     private void addFavorite() {
