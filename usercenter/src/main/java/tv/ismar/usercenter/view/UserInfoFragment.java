@@ -91,6 +91,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 //        });
 
         privilegeRecyclerView = userinfoBinding.privilegeRecycler;
+        privilegeRecyclerView.setSelectedItemAtCentered(false);
         privilegeRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.privilege_item_margin_bottom)));
         View root = userinfoBinding.getRoot();
         return root;
