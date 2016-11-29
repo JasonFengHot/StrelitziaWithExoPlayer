@@ -1377,6 +1377,7 @@
     <dimen name="home_scroll_arrow_w">41dp</dimen>
     <dimen name="home_scroll_arrow_h">83dp</dimen>
     <dimen name="home_scroll_arrow_mlr">10dp</dimen>
+    <dimen name="home_scroll_arrow_mt">514dp</dimen>
     <dimen name="home_tab_list_h">66dp</dimen>
     <dimen name="home_tab_list_padding_lr">58dp</dimen>
     <dimen name="home_tab_list_space">14dp</dimen>
@@ -1422,7 +1423,7 @@
     <dimen name="entertainment_top_right_image_mt">2dp</dimen>
     <dimen name="entertainment_top_right_item_text_mt">3dp</dimen>
     <dimen name="entertainment_top_right_item_text_h">33dp</dimen>
-    <dimen name="entertainment_bottom_mt">52dp</dimen>
+    <dimen name="entertainment_bottom_mt">33dp</dimen>
     <dimen name="entertainment_bottom_item_w">332dp</dimen>
     <dimen name="entertainment_bottom_item_h">189dp</dimen>
     <dimen name="entertainment_bottom_item_space1">29dp</dimen>
@@ -1442,6 +1443,7 @@
     <dimen name="sport_top_center_w">1184dp</dimen>
     <dimen name="sport_top_space">2dp</dimen>
     <dimen name="sport_top_arrow_h">30dp</dimen>
+    <dimen name="sport_top_arrow_p">8dp</dimen>
     <dimen name="sport_top_label_pt">5dp</dimen>
     <dimen name="sport_top_label_pb">6dp</dimen>
     <dimen name="sport_bottom_label_pt">5dp</dimen>
@@ -1462,7 +1464,7 @@
     <dimen name="child_img_small_pb">27dp</dimen>
     <dimen name="child_img_big_plr">26dp</dimen>
     <dimen name="child_img_big_pt">19dp</dimen>
-    <dimen name="child_img_big_pb">34dp</dimen>
+    <dimen name="child_img_big_pb">35dp</dimen>
     <dimen name="child_top_space">70dp</dimen>
     <dimen name="child_bottom_space">80dp</dimen>
     <dimen name="child_bottom_mt">54dp</dimen>

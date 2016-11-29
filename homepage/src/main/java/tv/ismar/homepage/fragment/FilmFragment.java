@@ -320,19 +320,17 @@ public class FilmFragment extends ChannelBaseFragment {
         mLeftTopView = film_lefttop_image;
         int width = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_item_w);
         int height = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_h);
-        float space = getResources().getDimensionPixelOffset(R.dimen.guide_bottom_space);
+        float space = getResources().getDimensionPixelSize(R.dimen.guide_bottom_space);
         for (int i = 1; i <= posters.size(); i++) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
             if (i > 1) {
                 params.setMargins((int)space, 0, 0, 0);
             }
-            ImageView itemView = new ImageView(mContext);
-            itemView.setFocusable(true);
-            itemView.setLayoutParams(params);
-            itemView.setOnClickListener(ItemClickListener);
             if (i <= posters.size() - 1) {
                 posters.get(i).setPosition(i);
                 HomeItemContainer frameLayout = (HomeItemContainer) LayoutInflater.from(mContext).inflate(R.layout.item_poster, null);
+                frameLayout.setLayoutParams(params);
+                frameLayout.setOnClickListener(ItemClickListener);
                 ImageView postitemView = (ImageView) frameLayout.findViewById(R.id.poster_image);
                 TextView textView = (TextView) frameLayout.findViewById(R.id.poster_title);
                 if (!StringUtils.isEmpty(posters.get(i).getIntroduction())) {
@@ -490,46 +488,6 @@ public class FilmFragment extends ChannelBaseFragment {
         carouselMap.put(2, film_carous_imageView3.getId());
         carouselMap.put(3, film_carous_imageView4.getId());
         carouselMap.put(4, film_carous_imageView5.getId());
-
-//        int width = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_w);
-//        int height = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_h);
-//        int topMargin = getResources().getDimensionPixelOffset(R.dimen.film_carousel_item_space);
-//        for (int i = 0; i < carousels.size() && i < 5; i++) {
-//            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-//            LabelImageView3 itemView = new LabelImageView3(mContext);
-//            if (i == 0) {
-//                params.topMargin = 0;
-//                itemView.setId(R.id.filmfragment_firstcarousel);
-//                firstcarousel = itemView;
-//            } else {
-//                itemView.setId(R.id.filmfragment_firstcarousel + i * 5);
-//                params.topMargin = topMargin;
-//                params.addRule(RelativeLayout.BELOW, R.id.filmfragment_firstcarousel + 5 * (i - 1));
-//            }
-//            if (mContext == null)
-//                return;
-//            itemView.setFocusable(true);
-//            itemView.setFocusableInTouchMode(true);
-//            itemView.setNeedZoom(true);
-//            Picasso.with(mContext).load(carousels.get(i).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE)
-//                    .into(itemView);
-//            itemView.setScaleType(ImageView.ScaleType.FIT_XY);
-//            itemView.setLayoutParams(params);
-//            itemView.setTag(i);
-//            carousels.get(i).setPosition(i);
-//            itemView.setTag(R.drawable.launcher_selector, carousels.get(i));
-//            itemView.setOnClickListener(ItemClickListener);
-//            itemView.setOnFocusChangeListener(itemFocusChangeListener);
-//            int shadowcolor = mContext.getResources().getColor(R.color.carousel_focus);
-//            itemView.setFrontColor(shadowcolor);
-//            carouselMap.put(i, itemView.getId());
-//            allItem.add(itemView);
-//            carouselLayout.addView(itemView);
-//
-//            if (i == 0) {
-//
-//            }
-//        }
         playCarousel(0);
     }
 

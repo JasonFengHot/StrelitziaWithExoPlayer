@@ -1,4 +1,5 @@
 <resources>
+<dimen name="text_size_50sp">22.22dp</dimen>
 <dimen name="text_size_48sp">21.33dp</dimen>
 <dimen name="text_size_36sp">16.00dp</dimen>
 <dimen name="text_size_24sp">10.67dp</dimen>
@@ -20,11 +21,11 @@
 <dimen name="header_fragment_h">44.44dp</dimen>
 <dimen name="header_fragment_padding_l">28.89dp</dimen>
 <dimen name="header_fragment_padding_r">36.44dp</dimen>
-<dimen name="header_fragment_padding_bottom1">8.44dp</dimen>
-<dimen name="header_fragment_padding_bottom2">8.89dp</dimen>
+<dimen name="header_fragment_padding_bottom1">6.22dp</dimen>
+<dimen name="header_fragment_padding_bottom2">7.11dp</dimen>
 <dimen name="header_fragment_title_divider_w">22.22dp</dimen>
 <dimen name="header_fragment_title_divider_h">2.22dp</dimen>
-<dimen name="header_fragment_weather_ml">5.78dp</dimen>
+<dimen name="header_fragment_weather_ml">186.67dp</dimen>
 <dimen name="header_fragment_divider_mlr">15.11dp</dimen>
 <dimen name="header_fragment_btn_width">53.33dp</dimen>
 <dimen name="header_fragment_mine_space">15.11dp</dimen>

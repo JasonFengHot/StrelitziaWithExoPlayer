@@ -175,8 +175,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             view.setId(res);
 
             ImageView imageView = (ImageView) view.findViewById(R.id.indicator_image);
-            String text = getString(res);
-            int width = (int) (getResources().getDimensionPixelOffset(R.dimen.header_fragment_mine_indicator_w) / (4.0f / text.length()));
+            int width = getTextWidth(textView);
             ((LinearLayout.LayoutParams) imageView.getLayoutParams()).width = width;
 
             if (i == 0) {
@@ -189,6 +188,13 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             indicatorTableList.add(view);
             i++;
         }
+    }
+
+    private int getTextWidth(TextView textView){
+        int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        textView.measure(spec, spec);
+        int measuredWidth = textView.getMeasuredWidth();
+        return measuredWidth;
     }
 
     public void setTitle(String title) {
@@ -270,7 +276,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             String todayTime = dateFormat.format(now);
 
             weatherInfoTextView.setText("");
-            weatherInfoTextView.append("   " + todayTime + "   ");
+            weatherInfoTextView.append(todayTime + "   ");
             weatherInfoTextView.append(weatherEntity.getToday().getCondition() + "   ");
             if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
                 weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + getText(R.string.degree));

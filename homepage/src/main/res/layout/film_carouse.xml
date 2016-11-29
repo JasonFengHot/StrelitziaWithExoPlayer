@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:clipToPadding="false"
-    android:paddingLeft="@dimen/guide_video_img_ml">
+    android:clipToPadding="false">
 
     <tv.ismar.homepage.widget.LabelImageView3
         android:id="@+id/film_carous_imageView1"

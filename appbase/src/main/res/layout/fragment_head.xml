@@ -54,9 +54,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginBottom="@dimen/header_fragment_padding_bottom2"
             android:layout_marginLeft="@dimen/header_fragment_weather_ml"
-            android:layout_toRightOf="@id/header_sub"
             android:textColor="@color/color_base_white"
             android:textSize="@dimen/text_size_24sp"/>
 
