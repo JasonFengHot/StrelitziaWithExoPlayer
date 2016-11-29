@@ -309,6 +309,11 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 							no_video();
 						}
 					}
+
+					@Override
+					public void onError(Throwable e) {
+						super.onError(e);
+					}
 				});
 	}
 	private void EmptyAllHistory(){
