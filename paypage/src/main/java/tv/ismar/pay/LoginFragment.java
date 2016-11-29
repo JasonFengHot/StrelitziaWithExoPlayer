@@ -329,9 +329,11 @@ public class LoginFragment extends BaseFragment {
                     @Override
                     public void onNext(Integer integer) {
                         if (integer == 1) {
+                            edit_mobile.setNextFocusRightId(identifyCodeBtn.getId());
                             identifyCodeBtn.setText("获取验证码");
                             identifyCodeBtn.setEnabled(true);
                         } else {
+                            edit_mobile.setNextFocusRightId(edit_mobile.getId());
                             identifyCodeBtn.setEnabled(false);
                             identifyCodeBtn.setTextColor(Color.WHITE);
                             identifyCodeBtn.setText(integer + " s");
