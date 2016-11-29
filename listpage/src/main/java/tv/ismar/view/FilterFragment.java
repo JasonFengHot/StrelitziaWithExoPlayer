@@ -3,8 +3,10 @@ package tv.ismar.view;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.text.Layout;
 import android.util.Log;
@@ -87,7 +89,6 @@ public class FilterFragment extends BackHandledFragment {
             doFilterRequest();
         }
         return fragmentView;
-
     }
 
     @Override
@@ -235,10 +236,12 @@ public class FilterFragment extends BackHandledFragment {
                                     valueViews.addView(rbtn,new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,getResources().getDimensionPixelSize(R.dimen.filter_radio_H)));
                                 }
                                 LinearLayout.LayoutParams groupLp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getResources().getDimensionPixelSize(R.dimen.filter_groupView_H));
+                                Log.i("Sum",sum+"");
                                 if(sum==3){
-
+                                    groupLp.weight=1;
+                                }else {
+                                    groupLp.setMargins(0, getResources().getDimensionPixelSize(R.dimen.filter_groupView_mt), 0, 0);
                                 }
-                                groupLp.setMargins(0,getResources().getDimensionPixelSize(R.dimen.filter_groupView_mt),0,0);
                                 filtermenulayout.addView(view,groupLp);
                             }
                         } catch (JSONException e) {
