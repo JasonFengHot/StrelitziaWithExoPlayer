@@ -36,7 +36,7 @@ public class ItemEntity {
     private List<String> tags;
     @SerializedName("rating_average")
     private String ratingAverage;
-    private SubItem[] subitems;
+    private ItemEntity[] subitems;
     private boolean finished;
     @SerializedName("live_video")
     private boolean liveVideo;
@@ -62,6 +62,16 @@ public class ItemEntity {
     private Expense expense;
     private boolean repeat_buy;
     private Preview preview;
+
+    private String subtitle;
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
 
     private List<ItemEntity> items;
 
@@ -257,11 +267,11 @@ public class ItemEntity {
         this.ratingAverage = ratingAverage;
     }
 
-    public SubItem[] getSubitems() {
+    public ItemEntity[] getSubitems() {
         return subitems;
     }
 
-    public void setSubitems(SubItem[] subitems) {
+    public void setSubitems(ItemEntity[] subitems) {
         this.subitems = subitems;
     }
 
@@ -488,137 +498,6 @@ public class ItemEntity {
 
     }
 
-    public class SubItem {
-        private String subtitle;
-
-        private Clip clip;
-
-        private String air_date;
-
-        private String focus;
-
-        private String month;
-
-        private int pk;
-
-        private String thumb_url;
-
-        private String title;
-
-        private String url;
-
-        private String adlet_url;
-
-        private String publish_date;
-
-        private String poster_url;
-
-        private int position;
-
-        public String getSubtitle() {
-            return subtitle;
-        }
-
-        public void setSubtitle(String subtitle) {
-            this.subtitle = subtitle;
-        }
-
-        public Clip getClip() {
-            return clip;
-        }
-
-        public void setClip(Clip clip) {
-            this.clip = clip;
-        }
-
-        public String getAir_date() {
-            return air_date;
-        }
-
-        public void setAir_date(String air_date) {
-            this.air_date = air_date;
-        }
-
-        public String getFocus() {
-            return focus;
-        }
-
-        public void setFocus(String focus) {
-            this.focus = focus;
-        }
-
-        public String getMonth() {
-            return month;
-        }
-
-        public void setMonth(String month) {
-            this.month = month;
-        }
-
-        public int getPk() {
-            return pk;
-        }
-
-        public void setPk(int pk) {
-            this.pk = pk;
-        }
-
-        public String getThumb_url() {
-            return thumb_url;
-        }
-
-        public void setThumb_url(String thumb_url) {
-            this.thumb_url = thumb_url;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getAdlet_url() {
-            return adlet_url;
-        }
-
-        public void setAdlet_url(String adlet_url) {
-            this.adlet_url = adlet_url;
-        }
-
-        public String getPublish_date() {
-            return publish_date;
-        }
-
-        public void setPublish_date(String publish_date) {
-            this.publish_date = publish_date;
-        }
-
-        public String getPoster_url() {
-            return poster_url;
-        }
-
-        public void setPoster_url(String poster_url) {
-            this.poster_url = poster_url;
-        }
-
-        public int getPosition() {
-            return position;
-        }
-
-        public void setPosition(int position) {
-            this.position = position;
-        }
-    }
 
     public class Point {
         private String image;

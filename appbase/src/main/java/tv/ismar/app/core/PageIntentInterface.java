@@ -56,6 +56,8 @@ public interface PageIntentInterface {
 
     void toFilmStar(Context context, String title, long pk);
 
+    void toEpisodePage(Context context, String source, String itemJson);
+
     class PaymentInfo {
         private ProductCategory category;
         private int pk;

@@ -1,52 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:sakura="http://schemas.android.com/apk/res-auto">
-     
-   <Button 
-    android:id="@+id/down_btn"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/search_main_autocomplete_H"
-    android:background="@drawable/vod_arrow_down_selector"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    />
-    <Button 
-    android:id="@+id/up_btn"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/search_main_autocomplete_H"
-    android:background="@drawable/vod_arrow_up_selector"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentTop="true"
-    android:visibility="invisible"
-    />
-<!-- <GridView  -->
-<!--     android:id="@+id/drama_zgridview" -->
-<!--     android:layout_width="match_parent" -->
-<!--     android:layout_height="match_parent" -->
-<!--     android:scrollbarDefaultDelayBeforeFade="60000" -->
-<!--     android:scrollbarThumbVertical="@drawable/srollbar" -->
-<!--     android:scrollbarTrackVertical="@drawable/srollbar_backgroud" -->
-<!--     android:verticalSpacing="@dimen/drama_gridview_verticalspacing" -->
-<!--     android:listSelector="#00000000" -->
-<!--        android:layout_above="@id/down_btn" -->
-<!--         android:layout_below="@id/up_btn"/> -->
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/down_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/search_main_autocomplete_H"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/vod_arrow_down_selector"
+    />
+    <Button
+        android:id="@+id/up_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/search_main_autocomplete_H"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/vod_arrow_up_selector"
+        android:visibility="invisible"
+    />
 
-    <tv.ismar.app.ui.ZGridView
-        android:layout_above="@id/down_btn"
-        android:layout_below="@id/up_btn"
+    <GridView
         android:id="@+id/drama_zgridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        sakura:numColumns="10"
-        sakura:verticalSpace="@dimen/drama_gridview_verticalspacing"
-        android:scrollbars="vertical"
+        android:layout_above="@id/down_btn"
+        android:layout_below="@id/up_btn"
         android:scrollbarDefaultDelayBeforeFade="60000"
         android:scrollbarThumbVertical="@drawable/srollbar"
         android:scrollbarTrackVertical="@drawable/srollbar_backgroud"
-        >
-    </tv.ismar.app.ui.ZGridView>
+        android:scrollbars="vertical"
+    >
+    </GridView>
 
 </RelativeLayout>

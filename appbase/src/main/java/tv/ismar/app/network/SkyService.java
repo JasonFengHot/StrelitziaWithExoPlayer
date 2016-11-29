@@ -183,7 +183,7 @@ public interface SkyService {
     );
 
     @GET("api/subitem/{pk}/")
-    Observable<ItemEntity.SubItem> apiSubItem(
+    Observable<ItemEntity> apiSubItem(
             @Path("pk") int pk
     );
 

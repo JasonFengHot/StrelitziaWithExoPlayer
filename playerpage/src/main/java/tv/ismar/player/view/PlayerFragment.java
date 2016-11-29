@@ -636,11 +636,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 goOtherPage(EVENT_COMPLETE_BUY);
             }
         } else {
-            ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+            ItemEntity[] subItems = mItemEntity.getSubitems();
             if (subItems != null) {
                 for (int i = 0; i < subItems.length; i++) {
                     if (subItemPk == subItems[i].getPk() && i < subItems.length - 1) {
-                        ItemEntity.SubItem nextItem = subItems[i + 1];
+                        ItemEntity nextItem = subItems[i + 1];
                         if (nextItem != null && nextItem.getClip() != null) {
                             if (mIsmartvPlayer != null) {
                                 mIsmartvPlayer.release(true);
@@ -972,7 +972,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         final String previewTitle = mItemEntity.getTitle();
         showBuffer(PlAYSTART + mItemEntity.getTitle());
         ItemEntity.Clip clip = itemEntity.getClip();
-        ItemEntity.SubItem[] subItems = itemEntity.getSubitems();
+        ItemEntity[] subItems = itemEntity.getSubitems();
         if (subItems != null && subItems.length > 0) {
             int history_sub_item = initHistorySubItemPk();
             if (history_sub_item > 0) {
@@ -1199,7 +1199,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         history.last_position = last_position;
         history.last_quality = mIsmartvPlayer.getCurrentQuality().getValue();
         history.url = Utils.getItemUrl(itemPK);
-        ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+        ItemEntity[] subItems = mItemEntity.getSubitems();
         if (subItems != null && subItems.length > 0) {
             history.sub_url = Utils.getSubItemUrl(subItemPk);
         }
@@ -1234,10 +1234,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         playerMenu.setOnCreateMenuListener(this);
         // 添加电视剧子集
         PlayerMenuItem subMenu;
-        ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+        ItemEntity[] subItems = mItemEntity.getSubitems();
         if (subItems != null && subItems.length > 0 && !mIsPreview) {
             subMenu = playerMenu.addSubMenu(MENU_TELEPLAY_ID_START, getResources().getString(R.string.player_menu_teleplay));
-            for (ItemEntity.SubItem subItem : subItems) {
+            for (ItemEntity subItem : subItems) {
                 boolean isSelected = false;
                 if (subItemPk == subItem.getPk()) {
                     isSelected = true;
@@ -1299,7 +1299,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             if (id == subItemPk) {
                 return false;
             }
-            for (ItemEntity.SubItem subItem : mItemEntity.getSubitems()) {
+            for (ItemEntity subItem : mItemEntity.getSubitems()) {
                 if (subItem.getPk() == id) {
                     mediaHistoryPosition = 0;
                     timerStop();

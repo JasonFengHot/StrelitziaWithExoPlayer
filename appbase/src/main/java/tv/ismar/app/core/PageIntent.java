@@ -51,7 +51,6 @@ public class PageIntent implements PageIntentInterface {
     }
 
 
-
     @Override
     public void toPayment(Context context, String fromPage, PaymentInfo paymentInfo) {
         Intent intent = new Intent();
@@ -128,20 +127,22 @@ public class PageIntent implements PageIntentInterface {
 
     }
 
-    public void toHistory(Context context){
-        Intent intent=new Intent();
-        intent.setAction( "tv.ismar.daisy.Channel");
+    public void toHistory(Context context) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.Channel");
         intent.putExtra("channel", "histories");
         context.startActivity(intent);
     }
-    public void toFavorite(Context context){
-        Intent intent=new Intent();
+
+    public void toFavorite(Context context) {
+        Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.Channel");
         intent.putExtra("channel", "$bookmarks");
         context.startActivity(intent);
     }
-    public void toSearch(Context context){
-        Intent intent=new Intent();
+
+    public void toSearch(Context context) {
+        Intent intent = new Intent();
         intent.setAction("tv.ismar.searchpage.search");
         context.startActivity(intent);
     }
@@ -152,6 +153,15 @@ public class PageIntent implements PageIntentInterface {
         intent.setAction("tv.ismar.searchpage.filmstar");
         intent.putExtra(EXTRA_TITLE, title);
         intent.putExtra(EXTRA_PK, pk);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void toEpisodePage(Context context, String source, String itemJson) {
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.episode");
+        intent.putExtra(EXTRA_ITEM_JSON, itemJson);
+        intent.putExtra(EXTRA_SOURCE, source);
         context.startActivity(intent);
     }
 }

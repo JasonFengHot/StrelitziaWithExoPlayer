@@ -437,7 +437,7 @@ public class DetailPageViewModel extends BaseObservable {
         switch (mPresenter.getContentModel()) {
             case "entertainment":
             case "variety":
-                ItemEntity.SubItem[] subItems = mItemEntity.getSubitems();
+                ItemEntity[] subItems = mItemEntity.getSubitems();
                 if (subItems == null || subItems.length == 0) {
                     return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
                             mContext.getString(R.string.video_play);

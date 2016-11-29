@@ -26,6 +26,8 @@ import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.view.DetailPageActivity;
 
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
 import static tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
@@ -241,7 +243,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void handlePlay() {
-        if(detailPageActivity != null){
+        if (detailPageActivity != null) {
             detailPageActivity.goPlayer();
         }
 
@@ -272,8 +274,9 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
     @Override
     public void handleEpisode() {
         Intent intent = new Intent();
-        intent.setAction("tv.ismar.daisy.dramalist");
-        intent.putExtra("item_json", new Gson().toJson(mItemEntity));
+        intent.setAction("tv.ismar.daisy.episode");
+        intent.putExtra(EXTRA_ITEM_JSON, new Gson().toJson(mItemEntity));
+        intent.putExtra(EXTRA_SOURCE, "detail");
         mDetailView.getContext().startActivity(intent);
     }
 
@@ -281,7 +284,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         VodApplication vodApplication = (VodApplication) detailPageActivity.getApplicationContext();
         FavoriteManager favoriteManager = vodApplication.getModuleFavoriteManager();
         String url = mItemEntity.getItem_url();
-        if (TextUtils.isEmpty(url)){
+        if (TextUtils.isEmpty(url)) {
             url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getPk() + "/";
         }
         if (isFavorite()) {
@@ -326,7 +329,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         VodApplication vodApplication = (VodApplication) detailPageActivity.getApplicationContext();
         FavoriteManager favoriteManager = vodApplication.getModuleFavoriteManager();
         String url = mItemEntity.getItem_url();
-        if (TextUtils.isEmpty(url)){
+        if (TextUtils.isEmpty(url)) {
             url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getPk() + "/";
         }
         Favorite favorite;

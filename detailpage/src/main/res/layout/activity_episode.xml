@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/large_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/drama_main_layout_PB"
+              android:paddingLeft="@dimen/drama_main_layout_PL"
+              android:paddingRight="@dimen/drama_main_layout_PR"
+              android:paddingTop="@dimen/drama_main_layout_PT">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <RelativeLayout
+            android:layout_width="@dimen/drama_main_img_layout_W"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/drama_main_img_layout_marginleft"
+        >
+
+            <ImageView
+                android:id="@+id/image_daram_back"
+                android:layout_width="@dimen/drama_main_image_daram_back_W"
+                android:layout_height="@dimen/drama_main_image_daram_back_H"
+                android:layout_marginLeft="@dimen/drama_main_image_daram_back_marginleft"
+                android:layout_marginTop="@dimen/drama_main_image_daram_back_margintop"
+                android:focusable="false"/>
+
+            <ImageView
+                android:id="@+id/image_daram_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/image_daram_back"
+                android:layout_alignTop="@+id/image_daram_back"
+                android:layout_marginRight="@dimen/drama_main_image_daram_label_MR"
+                android:layout_marginTop="@dimen/drama_main_image_daram_label_MT"/>
+
+            <Button
+                android:id="@+id/orderAll_drama"
+                android:layout_width="@dimen/drama_main_image_daram_back_W"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_daram_back"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/person_btn_selector"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text="@string/orderall_drama"
+                android:textColor="#FFF8F8FF"
+                android:textSize="@dimen/pay_shiyuncard_submit_textsize"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/drama_main_content_layout_ML"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_drama_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/drama_main_tv_drama_name_textsize"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/drama_main_sub_content_layout_MT"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_daram_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/drama_main_tv_daram_textsize"/>
+
+                <TextView
+                    android:id="@+id/tv_daram_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/drama_main_tv_daram_marginleft"
+                    android:singleLine="true"
+                    android:textSize="@dimen/drama_main_tv_daram_textsize"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/one_drama_order_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="53dp"
+                android:text="@string/one_drama_order_info"
+                android:textSize="25sp"
+                android:visibility="gone"
+            />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:orientation="vertical"
+    >
+
+        <include
+            android:id="@+id/drama_gridview"
+            layout="@layout/daram_gridview"/>
+    </LinearLayout>
+
+</LinearLayout>
