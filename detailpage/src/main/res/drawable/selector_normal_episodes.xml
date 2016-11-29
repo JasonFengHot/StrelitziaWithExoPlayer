@@ -3,7 +3,6 @@
 
     <item android:drawable="@mipmap/normal_episodes_focus" android:state_focused="true" />
     <item android:drawable="@mipmap/normal_episodes_focus" android:state_pressed="true" />
-    <item android:drawable="@mipmap/normal_episodes_focus" android:state_hovered="true" />
     <item android:drawable="@mipmap/normal_episodes_normal" />
 
 </selector>

@@ -626,6 +626,7 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/detail_relative_button"
                     android:layout_width="@dimen/normal_detail_relative_button_w"
                     android:layout_height="@dimen/normal_detail_relative_button_h"
                     android:layout_gravity="center_horizontal"
@@ -640,6 +641,10 @@
             </LinearLayout>
 
         </LinearLayout>
-
+        <ImageView
+            android:id="@+id/tmp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"/>
     </LinearLayout>
 </layout>

@@ -603,6 +603,10 @@
             </RelativeLayout>
 
         </LinearLayout>
-
+        <ImageView
+            android:id="@+id/tmp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"/>
     </LinearLayout>
 </layout>
