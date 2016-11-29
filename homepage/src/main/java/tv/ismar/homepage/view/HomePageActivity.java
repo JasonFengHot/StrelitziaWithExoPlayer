@@ -232,7 +232,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             msg.what = SWITCH_PAGE;
             if (fragmentSwitch.hasMessages(SWITCH_PAGE))
                 fragmentSwitch.removeMessages(SWITCH_PAGE);
-            fragmentSwitch.sendMessageDelayed(msg, 500);
+            fragmentSwitch.sendMessageDelayed(msg, 300);
             if (!scrollFromBorder) {
                 home_tab_list.requestFocus();
             }
