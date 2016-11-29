@@ -28,7 +28,6 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
-import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
@@ -39,9 +38,6 @@ import tv.ismar.usercenter.databinding.FragmentUserinfoBinding;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PRODUCT_CATEGORY;
-import static tv.ismar.app.core.PageIntentInterface.PAYMENT;
-import static tv.ismar.app.core.PageIntentInterface.ProductCategory.Package;
-import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
 import static tv.ismar.app.network.entity.AccountPlayAuthEntity.PlayAuth;
 
 /**
@@ -341,7 +337,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             if (playAuth.getAction() == null) {
                 //
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.watch) {
-
                 switch (type) {
                     case "package":
                         pageIntent.toPackageDetail(mContext, "privilege", Integer.parseInt(pk));
@@ -353,18 +348,16 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                         throw new IllegalArgumentException(playAuth.getUrl() + " type not support!!!");
                 }
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
-                PaymentInfo paymentInfo;
                 switch (type) {
                     case "package":
-                        paymentInfo = new PaymentInfo(Package, Integer.parseInt(pk), PAYMENT);
+                        pageIntent.toPackageDetail(mContext, "privilege", Integer.parseInt(pk));
                         break;
                     case "item":
-                        paymentInfo = new PaymentInfo(item, Integer.parseInt(pk), PAYMENT);
+                        pageIntent.toDetailPage(mContext, "privilege", Integer.parseInt(pk));
                         break;
                     default:
                         throw new IllegalArgumentException(playAuth.getUrl() + " type not support!!!");
                 }
-                pageIntent.toPayment(mContext, "privilege", paymentInfo);
             } else {
                 //other type
             }
