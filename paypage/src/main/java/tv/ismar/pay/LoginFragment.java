@@ -331,6 +331,7 @@ public class LoginFragment extends BaseFragment {
                             identifyCodeBtn.setEnabled(true);
                         } else {
                             identifyCodeBtn.setEnabled(false);
+                            identifyCodeBtn.setTextColor(Color.WHITE);
                             identifyCodeBtn.setText(integer + " s");
                         }
                     }
