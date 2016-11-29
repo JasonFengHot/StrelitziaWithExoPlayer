@@ -15,6 +15,6 @@
         android:gravity="center"
         android:text="@string/str_recommend_more"
         android:textColor="@color/color_base_white"
-        android:textSize="@dimen/text_size_48sp" />
+        android:textSize="@dimen/text_size_50sp" />
 
 </tv.ismar.homepage.widget.HomeItemContainer>
