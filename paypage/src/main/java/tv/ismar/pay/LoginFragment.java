@@ -82,6 +82,8 @@ public class LoginFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
+        edit_mobile.requestFocus();
+
     }
 
     @Override
@@ -331,6 +333,7 @@ public class LoginFragment extends BaseFragment {
                             identifyCodeBtn.setEnabled(true);
                         } else {
                             identifyCodeBtn.setEnabled(false);
+                            identifyCodeBtn.setTextColor(Color.WHITE);
                             identifyCodeBtn.setText(integer + " s");
                         }
                     }

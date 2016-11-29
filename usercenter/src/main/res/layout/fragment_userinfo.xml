@@ -212,6 +212,7 @@
                     android:layout_height="@dimen/charge_btn_height"
                     android:layout_marginLeft="@dimen/charge_btn_margin_left"
                     android:background="@drawable/selector_button"
+                    android:nextFocusRight="@id/exit_account"
                     android:nextFocusUp="@id/exit_account"
                     android:text="@string/usercenter_charge"
                     android:textSize="@dimen/text_size_30sp"/>

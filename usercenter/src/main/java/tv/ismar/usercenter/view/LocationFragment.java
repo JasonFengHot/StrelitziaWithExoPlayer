@@ -345,6 +345,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                     cityTmpView.requestFocusFromTouch();
                     break;
             }
+            ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
             return true;
         }
     }

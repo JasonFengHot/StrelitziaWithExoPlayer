@@ -142,6 +142,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
                 helpBinding.tmp.requestFocusFromTouch();
                 break;
         }
+        ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
         return true;
     }
 

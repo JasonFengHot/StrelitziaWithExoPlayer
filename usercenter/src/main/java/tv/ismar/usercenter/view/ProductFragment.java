@@ -155,7 +155,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     }
 
 
-    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener {
+    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener, View.OnFocusChangeListener {
         private Context mContext;
 
         private List<YouHuiDingGouEntity.Object> mObjects;
@@ -171,6 +171,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_product_list, viewGroup, false);
             view.setOnHoverListener(this);
+            view.setOnFocusChangeListener(this);
             ProductViewHolder holder = new ProductViewHolder(view);
             return holder;
         }
@@ -183,6 +184,13 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                 Picasso.with(mContext).load(R.drawable.list_item_preview_bg).into(holder.mImageView);
             } else {
                 Picasso.with(mContext).load(item.getPoster_url()).into(holder.mImageView);
+            }
+            if (position == 0 || position == 1 || position == 2 || position == 3) {
+                holder.mImageView.setNextFocusUpId(holder.mImageView.getId());
+            }
+
+            if (position == mObjects.size() - 1 || position == mObjects.size() - 2 || position == mObjects.size() - 3 || position == mObjects.size() - 4){
+                holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
             }
         }
 
@@ -205,8 +213,14 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                     productBinding.tmp.requestFocus();
                     productBinding.tmp.requestFocusFromTouch();
                     break;
+
             }
             return true;
+        }
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
         }
     }
 

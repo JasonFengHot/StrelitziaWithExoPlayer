@@ -108,6 +108,7 @@ public interface PageIntentInterface {
     enum ProductCategory {
         item,
         Package,
+        charge,
         subitem;
 
         @Override

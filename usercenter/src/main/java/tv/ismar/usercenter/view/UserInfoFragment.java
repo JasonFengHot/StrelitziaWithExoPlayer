@@ -1,6 +1,7 @@
 package tv.ismar.usercenter.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.List;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
@@ -35,6 +38,7 @@ import tv.ismar.usercenter.UserInfoContract;
 import tv.ismar.usercenter.databinding.FragmentUserinfoBinding;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_PRODUCT_CATEGORY;
 import static tv.ismar.app.core.PageIntentInterface.PAYMENT;
 import static tv.ismar.app.core.PageIntentInterface.ProductCategory.Package;
 import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
@@ -90,6 +94,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 //        });
 
         privilegeRecyclerView = userinfoBinding.privilegeRecycler;
+        privilegeRecyclerView.setSelectedItemAtCentered(false);
         privilegeRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.privilege_item_margin_bottom)));
         View root = userinfoBinding.getRoot();
         return root;
@@ -102,10 +107,23 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         userinfoBinding.exitAccount.setOnHoverListener(this);
         userinfoBinding.chargeMoney.setOnHoverListener(this);
 
-        userinfoBinding.exitAccount.setNextFocusDownId(R.id.charge_money);
+        userinfoBinding.exitAccount.setNextFocusDownId(R.id.exit_account);
+        userinfoBinding.exitAccount.setNextFocusLeftId(R.id.charge_money);
+
         userinfoBinding.chargeMoney.setNextFocusUpId(R.id.exit_account);
-        userinfoBinding.chargeMoney.setNextFocusRightId(R.id.charge_money);
+        userinfoBinding.chargeMoney.setNextFocusRightId(R.id.exit_account);
         userinfoBinding.chargeMoney.setNextFocusDownId(R.id.btn);
+        userinfoBinding.chargeMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction("tv.ismar.pay.payment");
+                intent.putExtra(EXTRA_PRODUCT_CATEGORY, PageIntentInterface.ProductCategory.charge.name());
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -183,6 +201,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     @Override
     public void loadBalance(AccountBalanceEntity entity) {
+        if (entity.getBalance().add(entity.getSn_balance()).setScale(1).equals(new BigDecimal(0).setScale(1))) {
+            userinfoBinding.exitAccount.setNextFocusDownId(R.id.btn);
+        } else {
+            userinfoBinding.exitAccount.setNextFocusDownId(R.id.charge_money);
+        }
         mViewModel.refresh();
     }
 
@@ -245,6 +268,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 userinfoBinding.tmp.requestFocusFromTouch();
                 break;
         }
+        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
         return true;
     }
 
@@ -285,6 +309,8 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 holder.mButton.setVisibility(View.INVISIBLE);
 
             }
+            holder.mButton.setNextFocusLeftId(holder.mButton.getId());
+            holder.mButton.setNextFocusRightId(holder.mButton.getId());
             holder.mButton.setTag(playAuth);
             holder.mButton.setOnHoverListener(UserInfoFragment.this);
             holder.mButton.setOnClickListener(this);

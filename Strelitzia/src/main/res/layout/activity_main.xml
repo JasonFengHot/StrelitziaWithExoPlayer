@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="tv.ismar.daisy.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context="tv.ismar.daisy.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -20,7 +25,7 @@
             android:layout_height="wrap_content"
             android:text="详情页:"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,7 +39,7 @@
                 android:padding="8dp"
                 android:text="电影"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/demo_detail_btn2"
@@ -45,7 +50,7 @@
                 android:padding="8dp"
                 android:text="电视剧"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/demo_detail_btn3"
@@ -56,7 +61,8 @@
                 android:padding="8dp"
                 android:text="娱乐综艺"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
+
             <Button
                 android:id="@+id/channel"
                 android:layout_width="wrap_content"
@@ -66,8 +72,8 @@
                 android:padding="8dp"
                 android:text="列表页"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"
-            />
+                android:textSize="18sp" />
+
             <Button
                 android:id="@+id/history"
                 android:layout_width="wrap_content"
@@ -77,8 +83,8 @@
                 android:padding="8dp"
                 android:text="历史记录"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"
-            />
+                android:textSize="18sp" />
+
             <Button
                 android:id="@+id/favorit"
                 android:layout_width="wrap_content"
@@ -88,8 +94,8 @@
                 android:padding="8dp"
                 android:text="收藏记录"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"
-            />
+                android:textSize="18sp" />
+
             <Button
                 android:id="@+id/launcher"
                 android:layout_width="wrap_content"
@@ -99,8 +105,8 @@
                 android:padding="8dp"
                 android:text="首页"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
+
             <Button
                 android:id="@+id/search"
                 android:layout_width="wrap_content"
@@ -110,8 +116,7 @@
                 android:padding="8dp"
                 android:text="搜索"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <TextView
@@ -120,17 +125,18 @@
 
             android:text="个人中心:"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <Button
-                android:background="@drawable/s_button_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/s_button_color"
                 android:onClick="userCenter"
-                android:text="个人中心"/>
+                android:text="个人中心" />
 
         </LinearLayout>
 
@@ -140,7 +146,7 @@
             android:layout_marginTop="20dp"
             android:text="播放器:"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,7 +160,7 @@
                 android:padding="8dp"
                 android:text="单集节目"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -165,7 +171,7 @@
                 android:padding="8dp"
                 android:text="多集节目"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -176,33 +182,29 @@
                 android:padding="8dp"
                 android:text="付费节目"
                 android:textColor="@color/module_color_white"
-                android:textSize="18sp"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="奇艺广告测试:"
-            android:textColor="@color/colorAccent"
-            android:textSize="20sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/s_button_color"
-                android:onClick="onAdClick"
-                android:padding="8dp"
-                android:text="中插,角标广告"
-                android:textColor="@color/module_color_white"
                 android:textSize="18sp" />
 
         </LinearLayout>
+
+        <tv.ismar.app.widget.LabelImageView
+            android:id="@+id/rel_1_img"
+            android:layout_width="82dp"
+            android:layout_height="118dp"
+            android:layout_marginTop="20dp"
+            app:livContentPadding="5.5dp"
+            app:livErrorDrawable="@mipmap/img_error_vertical"
+            app:livLabelBackColor="#b3303030"
+            app:livLabelColor="#ffffff"
+            app:livLabelSize="18sp"
+            app:livLabelText="LabelImage"
+            app:livRate="3.0"
+            app:livRateColor="#ff9c3c"
+            app:livRateSize="16sp"
+            app:livSelectorDrawable="@drawable/vod_gv_selector"
+            app:livUrl=""
+            app:livVipPosition="gone"
+            app:livVipSize="0dp"
+            app:livVipUrl="" />
 
     </LinearLayout>
 

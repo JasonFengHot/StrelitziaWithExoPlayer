@@ -16,6 +16,7 @@ import tv.ismar.usercenter.view.UserCenterActivity;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_MODEL;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_TYPE;
 
 public class MainActivity extends BaseActivity {
 
@@ -33,6 +34,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "movie");
+                intent.putExtra(EXTRA_TYPE, PageIntentInterface.DETAIL_TYPE_ITEM);
                 intent.putExtra(EXTRA_PK, 81025);
                 startActivity(intent);
             }
@@ -44,6 +46,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "television");
+                intent.putExtra(EXTRA_TYPE, PageIntentInterface.DETAIL_TYPE_ITEM);
                 intent.putExtra(EXTRA_PK, 692464);
                 startActivity(intent);
             }
@@ -55,6 +58,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailPageActivity.class);
                 intent.putExtra(EXTRA_MODEL, "variety");
+                intent.putExtra(EXTRA_TYPE, PageIntentInterface.DETAIL_TYPE_ITEM);
                 intent.putExtra(EXTRA_PK, 688464);
                 startActivity(intent);
             }

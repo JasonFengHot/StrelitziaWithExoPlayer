@@ -144,7 +144,6 @@ public class EpisodeActivity extends BaseActivity implements AdapterView.OnItemS
             }
         });
 
-
         down_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
