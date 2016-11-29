@@ -144,6 +144,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             frameLayout.setOnClickListener(indicatorViewOnClickListener);
             frameLayout.setOnFocusChangeListener(indicatorOnFocusListener);
             frameLayout.setOnHoverListener(indicatorOnHoverListener);
+            if (res == R.string.usercenter_userinfo){
+                frameLayout.setNextFocusRightId(R.id.charge_money);
+            }
             indicatorView.add(frameLayout);
             userCenterIndicatorLayout.addView(frameLayout);
         }

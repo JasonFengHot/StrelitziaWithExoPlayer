@@ -104,9 +104,13 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         userinfoBinding.chargeMoney.setOnHoverListener(this);
 
         userinfoBinding.exitAccount.setNextFocusDownId(R.id.exit_account);
+        userinfoBinding.exitAccount.setNextFocusLeftId(R.id.charge_money);
+
         userinfoBinding.chargeMoney.setNextFocusUpId(R.id.exit_account);
-        userinfoBinding.chargeMoney.setNextFocusRightId(R.id.charge_money);
+        userinfoBinding.chargeMoney.setNextFocusRightId(R.id.exit_account);
         userinfoBinding.chargeMoney.setNextFocusDownId(R.id.btn);
+
+
     }
 
     @Override
