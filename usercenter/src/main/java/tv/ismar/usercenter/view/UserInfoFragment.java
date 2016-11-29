@@ -309,6 +309,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 holder.mButton.setVisibility(View.INVISIBLE);
 
             }
+            holder.mButton.setNextFocusLeftId(R.id.charge_money);
             holder.mButton.setTag(playAuth);
             holder.mButton.setOnHoverListener(UserInfoFragment.this);
             holder.mButton.setOnClickListener(this);
