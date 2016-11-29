@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +103,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         userinfoBinding.exitAccount.setOnHoverListener(this);
         userinfoBinding.chargeMoney.setOnHoverListener(this);
 
-        userinfoBinding.exitAccount.setNextFocusDownId(R.id.charge_money);
+        userinfoBinding.exitAccount.setNextFocusDownId(R.id.exit_account);
         userinfoBinding.chargeMoney.setNextFocusUpId(R.id.exit_account);
         userinfoBinding.chargeMoney.setNextFocusRightId(R.id.charge_money);
         userinfoBinding.chargeMoney.setNextFocusDownId(R.id.btn);
@@ -183,6 +184,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     @Override
     public void loadBalance(AccountBalanceEntity entity) {
+        if (entity.getBalance().add(entity.getSn_balance()).setScale(1).equals(new BigDecimal(0).setScale(1))){
+            userinfoBinding.exitAccount.setNextFocusDownId(R.id.btn);
+        }else {
+            userinfoBinding.exitAccount.setNextFocusDownId(R.id.charge_money);
+        }
         mViewModel.refresh();
     }
 
