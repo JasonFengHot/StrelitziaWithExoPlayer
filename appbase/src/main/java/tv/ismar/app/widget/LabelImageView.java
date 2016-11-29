@@ -142,9 +142,10 @@ public class LabelImageView extends FrameLayout {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         super.getDrawingRect(mRect);
+        Log.i(TAG, "labelOnDraw");
         if (drawBorder) {
             mBound.set(-dp2px(21) + mRect.left, -dp2px(21) + mRect.top, dp2px(21) + mRect.right, dp2px(21) + mRect.bottom);
             livSelectorDrawable.setBounds(mBound);
@@ -152,20 +153,15 @@ public class LabelImageView extends FrameLayout {
             livSelectorDrawable.draw(canvas);
             canvas.restore();
         }
-        getRootView().requestLayout();
-        getRootView().invalidate();
     }
 
     private void setBackgroundBorder(boolean focus) {
         if (focus) {
             drawBorder = true;
-            getRootView().requestLayout();
-            getRootView().invalidate();
-            zoomOut();
         } else {
             drawBorder = false;
-            zoomIn();
         }
+        invalidate();
     }
 
     @Override
@@ -184,6 +180,7 @@ public class LabelImageView extends FrameLayout {
         super.onHoverChanged(hovered);
         Log.i(TAG, "onHoverChanged:" + hovered);
         if (hovered) {
+            requestFocusFromTouch();
             setBackgroundBorder(true);
         } else {
             setBackgroundBorder(false);

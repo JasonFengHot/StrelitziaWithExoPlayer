@@ -11,7 +11,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,43 +24,51 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top" />
 
-            <FrameLayout
-                android:id="@+id/home_container"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/home_container_mlr"
-                android:layout_marginRight="@dimen/home_container_mlr"
-                android:layout_marginTop="@dimen/home_container_mt"
                 android:clipChildren="false"
-                android:clipToPadding="false" />
+                android:clipToPadding="false">
+
+                <FrameLayout
+                    android:id="@+id/home_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/home_container_mlr"
+                    android:layout_marginRight="@dimen/home_container_mlr"
+                    android:layout_marginTop="@dimen/home_container_mt"
+                    android:clipChildren="false"
+                    android:clipToPadding="false" />
+
+                <ImageView
+                    android:id="@+id/home_scroll_left"
+                    android:layout_width="@dimen/home_scroll_arrow_w"
+                    android:layout_height="@dimen/home_scroll_arrow_h"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/home_scroll_arrow_mlr"
+                    android:layout_marginTop="@dimen/home_scroll_arrow_mt"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:nextFocusLeft="@id/home_scroll_left"
+                    android:src="@drawable/selector_scroll_left"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/home_scroll_right"
+                    android:layout_width="@dimen/home_scroll_arrow_w"
+                    android:layout_height="@dimen/home_scroll_arrow_h"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/home_scroll_arrow_mlr"
+                    android:layout_marginTop="@dimen/home_scroll_arrow_mt"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:nextFocusRight="@id/home_scroll_right"
+                    android:src="@drawable/selector_scroll_right"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
 
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/home_scroll_left"
-            android:layout_width="@dimen/home_scroll_arrow_w"
-            android:layout_height="@dimen/home_scroll_arrow_h"
-            android:layout_gravity="left"
-            android:layout_marginLeft="@dimen/home_scroll_arrow_mlr"
-            android:layout_marginTop="@dimen/home_scroll_arrow_mt"
-            android:clickable="true"
-            android:focusable="true"
-            android:nextFocusLeft="@id/home_scroll_left"
-            android:src="@drawable/selector_scroll_left"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/home_scroll_right"
-            android:layout_width="@dimen/home_scroll_arrow_w"
-            android:layout_height="@dimen/home_scroll_arrow_h"
-            android:layout_gravity="right"
-            android:layout_marginRight="@dimen/home_scroll_arrow_mlr"
-            android:layout_marginTop="@dimen/home_scroll_arrow_mt"
-            android:clickable="true"
-            android:focusable="true"
-            android:nextFocusRight="@id/home_scroll_right"
-            android:src="@drawable/selector_scroll_right"
-            android:visibility="invisible" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/home_tab_list"
@@ -105,6 +113,7 @@
             android:gravity="center"
             android:textAllCaps="false"
             android:textColor="@color/color_base_white"
-            android:textSize="@dimen/text_size_48sp" />
+            android:textSize="@dimen/text_size_48sp"
+            android:visibility="invisible" />
     </FrameLayout>
 </FrameLayout>
