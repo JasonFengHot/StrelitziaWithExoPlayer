@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.foregroundimageview.ForegroundImageView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -119,7 +118,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         layoutParams.setMargins(margin, 0, margin, 0);
         for (final PayLayerVipEntity.Vip_list vipList : payLayerVipEntity.getVip_list()) {
             RelativeLayout itemView = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.item_paylayervip, null);
-            ForegroundImageView imageView = (ForegroundImageView) itemView.findViewById(R.id.image);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.image);
             if (TextUtils.isEmpty(vipList.getVertical_url())) {
                 Picasso.with(this).load(R.drawable.error_ver).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(imageView);
             } else {

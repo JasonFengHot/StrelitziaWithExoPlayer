@@ -10,7 +10,7 @@
                 android:nextFocusUp="@id/item_qiyi_vip"
 >
 
-    <com.example.foregroundimageview.ForegroundImageView
+    <ImageView
         android:id="@+id/image"
         android:layout_width="@dimen/paylayervip_img_width"
         android:layout_height="@dimen/paylayervip_img_height"
