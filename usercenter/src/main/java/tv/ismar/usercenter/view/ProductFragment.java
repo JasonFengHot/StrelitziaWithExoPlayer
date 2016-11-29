@@ -155,7 +155,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     }
 
 
-    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener , View.OnFocusChangeListener{
+    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener, View.OnFocusChangeListener {
         private Context mContext;
 
         private List<YouHuiDingGouEntity.Object> mObjects;
@@ -185,6 +185,9 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
             } else {
                 Picasso.with(mContext).load(item.getPoster_url()).into(holder.mImageView);
             }
+            if (position == 0 || position == 1 || position == 2 || position == 3) {
+                holder.mImageView.setNextFocusUpId(holder.mImageView.getId());
+            }
         }
 
         @Override
@@ -213,7 +216,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
+            ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
         }
     }
 
