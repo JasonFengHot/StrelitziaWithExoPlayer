@@ -42,6 +42,9 @@ public class LabelImageView3 extends AsyncImageView {
     private Drawable mDrawable;
     private Rect mRect;
     private int drawablePadding;
+    private Bitmap cornerBitmap;
+    private Bitmap corner1, corner2, corner3, corner4, corner5, corner6;
+    private Paint paint;
 
     public void setDrawBorder(boolean drawBorder) {
         this.drawBorder = drawBorder;
@@ -97,12 +100,43 @@ public class LabelImageView3 extends AsyncImageView {
         setWillNotDraw(false);
         mRect = new Rect();
         mBound = new Rect();
+        paint = new Paint();
         if (drawable == null) {
             mNinePatchDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.vod_gv_selector);
             drawablePadding = 22;
         } else {
             mDrawable = drawable;
         }
+        corner1 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.entertainment_bg),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                false
+        );
+        corner2 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.variety_bg),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                false
+        );
+        corner3 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.all_match),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                false
+        );
+        corner4 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.living),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                false
+        );
+        corner5 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.beonline),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                false
+        );
+        corner6 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.collection),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                false
+        );
 
     }
 
@@ -111,17 +145,16 @@ public class LabelImageView3 extends AsyncImageView {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (needZoom) {
             if (gainFocus) {
-                if (getId() != R.id.vaiety_post && getId() != R.id.image_switcher) {
-                    bringToFront();
-                }
+//                if (getId() != R.id.vaiety_post && getId() != R.id.image_switcher) {
+//                    bringToFront();
+//                }
                 drawBorder = true;
-                getRootView().requestLayout();
-                getRootView().invalidate();
 //                zoomOut();
             } else {
                 drawBorder = false;
 //                zoomIn();
             }
+            invalidate();
         }
     }
 
@@ -134,32 +167,31 @@ public class LabelImageView3 extends AsyncImageView {
         // TODO Auto-generated method stub
         switch (event.getAction()) {
             case MotionEvent.ACTION_HOVER_ENTER:
-//			drawBorder = true;
-//			requestFocus();
-//			invalidate();
-//			break;
             case MotionEvent.ACTION_HOVER_MOVE:
-//			drawBorder = true;
-                if (isFocusable() && isFocusableInTouchMode())
-                    requestFocus();
-                setHovered(true);
-//			invalidate();
+                drawBorder = true;
+//                if (isFocusable() && isFocusableInTouchMode())
+//                    requestFocus();
+//                setHovered(true);
+                requestFocusFromTouch();
+                invalidate();
                 break;
             case MotionEvent.ACTION_HOVER_EXIT:
-                setHovered(false);
-//			drawBorder = false;
-//			invalidate();
+//                setHovered(false);
+                drawBorder = false;
+                invalidate();
                 break;
         }
         return false;
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         super.getDrawingRect(mRect);
+        Log.i("LH/", "Label3OnDraw");
         int width = getLayoutParams().width;
         int height = getLayoutParams().height;
+        int paddingleft = getPaddingLeft();
         int paddingright = getPaddingRight();
         int paddingtop = getPaddingTop();
         int paddingBottom = getPaddingBottom();
@@ -167,38 +199,33 @@ public class LabelImageView3 extends AsyncImageView {
             width = getWidth();
         if (height <= 0)
             height = getHeight();
-        Paint paint = new Paint();
         paint.setAntiAlias(true);
         // 绘制角标
         if (modeType > 0 && getDrawable() != null) {
-            int resId = R.drawable.entertainment_bg;
             switch (modeType) {
                 case 1:
-                    resId = R.drawable.entertainment_bg;
+                    cornerBitmap = corner1;
                     break;
                 case 2:
-                    resId = R.drawable.variety_bg;
+                    cornerBitmap = corner2;
                     break;
                 case 3:
-                    resId = R.drawable.all_match;
+                    cornerBitmap = corner3;
                     break;
                 case 4:
-                    resId = R.drawable.living;
+                    cornerBitmap = corner4;
                     break;
                 case 5:
-                    resId = R.drawable.beonline;
+                    cornerBitmap = corner5;
                     break;
                 case 6:
-                    resId = R.drawable.collection;
+                    cornerBitmap = corner6;
+                    break;
+                default:
+                    cornerBitmap = corner1;
                     break;
             }
-//			InputStream is = getResources().openRawResource(resId);
-            Bitmap bitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), resId),
-                    getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                    getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                    false
-            );
-            canvas.drawBitmap(bitmap, width - bitmap.getWidth(), paddingtop, paint);
+            canvas.drawBitmap(cornerBitmap, width - cornerBitmap.getWidth(), paddingtop, paint);
         }
         // 绘制看点背景
         paint.setColor(Color.WHITE);
@@ -209,9 +236,11 @@ public class LabelImageView3 extends AsyncImageView {
                 title = title.substring(0, maxTextNum);
             }
             paint.setColor(textBackColor);
-            canvas.drawRect(new Rect(getPaddingLeft(),
-                    shadowT, width - paddingright,
-                    height - paddingBottom), paint);
+            mRect.left = paddingleft;
+            mRect.top = shadowT;
+            mRect.right = width - paddingright;
+            mRect.bottom = height - paddingBottom;
+            canvas.drawRect(mRect, paint);
             // 看点内容
             paint.setColor(Color.WHITE);
             paint.setTextSize(textSize);
@@ -223,6 +252,10 @@ public class LabelImageView3 extends AsyncImageView {
             int baseline = shadowT - fontMetrics.top;
             canvas.drawText(title, xfocus, baseline, paint);
         }
+        mRect.left = getPaddingLeft();
+        mRect.top = getPaddingTop();
+        mRect.right = width - getPaddingRight();
+        mRect.bottom = height - getPaddingBottom();
         // 绘制遮罩效果
         if (frontColor != 0) {
             if (!customFocus) {
@@ -231,7 +264,6 @@ public class LabelImageView3 extends AsyncImageView {
             }
         }
 
-        // if (customFocus) {
         if (drawBorder) {
             if (mNinePatchDrawable != null) {
                 mBound.set(-drawablePadding + mRect.left, -drawablePadding + mRect.top, drawablePadding + mRect.right, drawablePadding + mRect.bottom);
@@ -248,9 +280,8 @@ public class LabelImageView3 extends AsyncImageView {
             }
 
         }
-        // }
-        getRootView().requestLayout();
-        getRootView().invalidate();
+//        getRootView().requestLayout();
+//        getRootView().invalidate();
     }
 
     public void setCustomFocus(boolean customFocus) {

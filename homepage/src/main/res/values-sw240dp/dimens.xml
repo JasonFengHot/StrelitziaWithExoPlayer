@@ -1377,7 +1377,7 @@
 <dimen name="home_scroll_arrow_w">9.11dp</dimen>
 <dimen name="home_scroll_arrow_h">18.44dp</dimen>
 <dimen name="home_scroll_arrow_mlr">2.22dp</dimen>
-<dimen name="home_scroll_arrow_mt">114.22dp</dimen>
+<dimen name="home_scroll_arrow_mt">92.00dp</dimen>
 <dimen name="home_tab_list_h">14.67dp</dimen>
 <dimen name="home_tab_list_padding_lr">12.89dp</dimen>
 <dimen name="home_tab_list_space">3.11dp</dimen>

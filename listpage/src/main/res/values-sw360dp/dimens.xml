@@ -257,6 +257,7 @@
 <dimen name="filter_noresult_Gride_ML">55.00dp</dimen>
 <dimen name="filter_noresult_Gride_MB">15.00dp</dimen>
 <dimen name="filter_groupView_mt">7.33dp</dimen>
+<dimen name="filter_groupView_mt_2">16.67dp</dimen>
 <dimen name="filter_groupView_H">42.00dp</dimen>
 <dimen name="filter_radio_H">16.00dp</dimen>
 <dimen name="filter_radio_W">24.00dp</dimen>

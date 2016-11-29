@@ -31,6 +31,7 @@
 <dimen name="header_fragment_mine_space">22.67dp</dimen>
 <dimen name="header_fragment_mine_indicator_h">2.67dp</dimen>
 <dimen name="header_fragment_mine_indicator_w">62.67dp</dimen>
+<dimen name="header_title_bottom">10.67dp</dimen>
 
 <dimen name="label_image_padding">11.00dp</dimen>
 <dimen name="loading_size">44.00dp</dimen>
@@ -547,7 +548,7 @@
 <dimen name="filter_noresult_text_mt">38.67dp</dimen>
 <dimen name="pop_btn_margin_lr">82.00dp</dimen>
 <dimen name="usercenter_subtitle_ml">48.67dp</dimen>
-<dimen name="head_weather_ml">276.67dp</dimen>
+<dimen name="head_weather_ml">290.00dp</dimen>
 <dimen name="head_listpage_title_ml">6.00dp</dimen>
 <dimen name="filter_noresult_button_W">182.67dp</dimen>
 <dimen name="filter_noresult_button_H">48.00dp</dimen>

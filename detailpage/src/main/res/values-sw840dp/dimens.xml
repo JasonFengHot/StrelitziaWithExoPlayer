@@ -209,4 +209,23 @@
 <dimen name="detail_normal_title_mt">38.89dp</dimen>
 <dimen name="entertainment_detail_des_ml">62.22dp</dimen>
 
+<dimen name="drama_main_image_daram_label_MR">-2.33dp</dimen>
+<dimen name="drama_main_tv_daram_textsize">28.00sp</dimen>
+<dimen name="drama_main_image_daram_back_marginleft">0.78dp</dimen>
+<dimen name="drama_main_image_daram_label_MT">-2.33dp</dimen>
+<dimen name="drama_main_layout_PR">202.22dp</dimen>
+<dimen name="drama_main_image_daram_back_W">371.78dp</dimen>
+<dimen name="drama_main_tv_drama_name_textsize">42.78sp</dimen>
+<dimen name="drama_main_tv_daram_marginleft">15.56dp</dimen>
+<dimen name="drama_main_image_daram_back_H">209.22dp</dimen>
+<dimen name="drama_main_sub_content_layout_MT">15.56dp</dimen>
+<dimen name="drama_main_layout_PL">202.22dp</dimen>
+<dimen name="drama_main_image_daram_back_margintop">0.78dp</dimen>
+<dimen name="drama_main_img_layout_marginleft">7.78dp</dimen>
+<dimen name="drama_main_layout_PB">77.78dp</dimen>
+<dimen name="drama_main_img_layout_W">373.33dp</dimen>
+<dimen name="drama_main_content_layout_ML">77.78dp</dimen>
+<dimen name="pay_shiyuncard_submit_textsize">27.22sp</dimen>
+<dimen name="drama_main_layout_PT">77.78dp</dimen>
+
 </resources>

@@ -227,12 +227,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             } else {
                 home_scroll_right.setVisibility(View.VISIBLE);
             }
-            Message msg = new Message();
+            Message msg = fragmentSwitch.obtainMessage();
             msg.arg1 = position;
             msg.what = SWITCH_PAGE;
             if (fragmentSwitch.hasMessages(SWITCH_PAGE))
                 fragmentSwitch.removeMessages(SWITCH_PAGE);
-            fragmentSwitch.sendMessageDelayed(msg, 300);
+            fragmentSwitch.sendMessageDelayed(msg, 500);
             if (!scrollFromBorder) {
                 home_tab_list.requestFocus();
             }
@@ -397,6 +397,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             @Override
             public void onSuccess(BitmapDrawable bitmapDrawable) {
                 vv.setBackgroundDrawable(bitmapDrawable);
+                home_ad_timer.setVisibility(View.VISIBLE);
                 home_ad_timer.setTextColor(Color.WHITE);
                 home_ad_timer.setText(countAdTime + "s");
                 playLaunchAd(0);
