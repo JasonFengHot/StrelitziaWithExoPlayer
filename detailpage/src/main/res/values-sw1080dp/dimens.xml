@@ -228,4 +228,13 @@
     <dimen name="pay_shiyuncard_submit_textsize">35sp</dimen>
     <dimen name="drama_main_layout_PT">100dp</dimen>
 
+    <dimen name="episode_item_horizontal_space">24dp</dimen>
+    <dimen name="episode_item_vertical_space">19dp</dimen>
+    <dimen name="epsisode_recycler_height">525dp</dimen>
+    <dimen name="episode_header_height">280dp</dimen>
+    <dimen name="episode_layout_mb">20dp</dimen>
+    <dimen name="usercenter_horizontal_divider_line_height">1dp</dimen>
+    <dimen name="horizontal_divider_ml">26dp</dimen>
+    <dimen name="horizontal_divider_mr">26dp</dimen>
+    <dimen name="episode_post_mt">30dp</dimen>
 </resources>

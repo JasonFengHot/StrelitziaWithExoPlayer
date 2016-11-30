@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/large_layout"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/drama_main_layout_PB"
-              android:paddingLeft="@dimen/drama_main_layout_PL"
-              android:paddingRight="@dimen/drama_main_layout_PR"
-              android:paddingTop="@dimen/drama_main_layout_PT">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/large_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+>
+    <FrameLayout
+        android:id="@+id/detail_head"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/detail_header_height"
+    />
+
+    <ImageView
+        android:id="@+id/tmp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/usercenter_horizontal_divider_line_height"
+        android:layout_marginLeft="@dimen/horizontal_divider_ml"
+        android:layout_marginRight="@dimen/horizontal_divider_mr"
+        android:focusable="false"
+        android:scaleType="fitXY"
+        android:src="@drawable/horizontal_divider_line"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4">
+        android:layout_height="@dimen/episode_header_height"
+        android:layout_marginTop="@dimen/episode_post_mt"
+        android:paddingLeft="@dimen/drama_main_layout_PL"
+        android:paddingRight="@dimen/drama_main_layout_PR"
+    >
 
         <RelativeLayout
             android:layout_width="@dimen/drama_main_img_layout_W"
@@ -36,20 +54,6 @@
                 android:layout_alignTop="@+id/image_daram_back"
                 android:layout_marginRight="@dimen/drama_main_image_daram_label_MR"
                 android:layout_marginTop="@dimen/drama_main_image_daram_label_MT"/>
-
-            <Button
-                android:id="@+id/orderAll_drama"
-                android:layout_width="@dimen/drama_main_image_daram_back_W"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/image_daram_back"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/person_btn_selector"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:text="@string/orderall_drama"
-                android:textColor="#FFF8F8FF"
-                android:textSize="@dimen/pay_shiyuncard_submit_textsize"
-                android:visibility="gone"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -62,7 +66,7 @@
                 android:id="@+id/tv_drama_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/drama_main_tv_drama_name_textsize"/>
+                android:textSize="@dimen/text_size_36sp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -99,14 +103,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/episode_layout_mb"
         android:orientation="vertical"
+        android:paddingLeft="@dimen/drama_main_layout_PL"
+        android:paddingRight="@dimen/drama_main_layout_PR"
     >
+        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+            android:id="@+id/episode_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/epsisode_recycler_height"
+        />
 
-        <include
-            android:id="@+id/drama_gridview"
-            layout="@layout/daram_gridview"/>
     </LinearLayout>
 
 </LinearLayout>

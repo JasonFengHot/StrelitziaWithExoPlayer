@@ -553,4 +553,6 @@
 <dimen name="filter_noresult_button_W">60.89dp</dimen>
 <dimen name="filter_noresult_button_H">16.00dp</dimen>
 <dimen name="filter_noresult_text_ML">25.11dp</dimen>
+<dimen name="episode_item_btn_width">19.78dp</dimen>
+<dimen name="episode_item_btn_height">15.56dp</dimen>
 </resources>
