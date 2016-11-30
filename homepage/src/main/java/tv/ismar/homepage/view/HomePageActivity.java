@@ -789,6 +789,15 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
     }
 
+    private void destroybackground() {
+        BitmapDrawable bd = (BitmapDrawable) home_back_layout.getBackground();
+        home_back_layout.setBackgroundResource(0);//别忘了把背景设为null，避免onDraw刷新背景时候出现used a recycled bitmap错误
+        if (bd == null)
+            return;
+        bd.setCallback(null);
+        bd.getBitmap().recycle();
+    }
+
     private void selectChannelByPosition(int position) {
         String tag;
         if (lastchannelindex != -1) {
@@ -812,6 +821,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         ChannelEntity channelEntity = channelEntityList.get(position);
         headFragment.setSubTitle(channelEntity.getName());
         currentFragment = null;
+        destroybackground();
         if ("template1".equals(channelEntity.getHomepage_template())) {
             currentFragment = new FilmFragment();
             tag = "template1";

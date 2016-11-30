@@ -260,7 +260,7 @@ public class GuideFragment extends ChannelBaseFragment {
                     .findViewById(R.id.poster_image);
             TextView textView = (TextView) frameLayout
                     .findViewById(R.id.poster_title);
-            if (!StringUtils.isEmpty(posters.get(i).getIntroduction())) {
+            if (StringUtils.isEmpty(posters.get(i).getIntroduction())) {
                 textView.setText(posters.get(i).getIntroduction());
                 textView.setVisibility(View.VISIBLE);
             } else {
