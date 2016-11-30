@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -108,12 +109,13 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
 
         @Override
         public void run() {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    mAdvertisement.fetchAppStartAd(Advertisement.AD_MODE_APPSTART);
-                }
-            });
+            mAdvertisement.fetchAppStartAd(Advertisement.AD_MODE_APPSTART);
+//            new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                }
+//            });
         }
 
     }

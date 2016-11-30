@@ -75,7 +75,7 @@ public class BitmapDecoder extends Thread {
     private byte[] doRead(InputStream is) throws IOException{
         DataInputStream dis = new DataInputStream(is);
         byte[]buffer = new byte[is.available()];
-        dis.readFully(buffer); 
+        dis.readFully(buffer);
         dis.close();
         is.close();
         return buffer;

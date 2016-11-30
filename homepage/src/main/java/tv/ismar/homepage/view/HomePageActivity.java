@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,21 +18,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -57,6 +53,7 @@ import java.util.TimerTask;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.ad.AdsUpdateService;
@@ -73,7 +70,6 @@ import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.Utils;
-import tv.ismar.app.widget.LaunchHeaderLayout;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.adapter.ChannelRecyclerAdapter;
@@ -88,17 +84,15 @@ import tv.ismar.homepage.fragment.MessageDialogFragment;
 import tv.ismar.homepage.fragment.SportFragment;
 import tv.ismar.homepage.widget.Position;
 
-//import org.apache.commons.lang3.StringUtils;
-
 /**
  * Created by huaijie on 5/18/15.
  */
 public class HomePageActivity extends BaseActivity implements HeadFragment.HeadItemClickListener {
-    private static final String TAG = "TVGuideActivity";
+    private static final String TAG = "LH/HomePageActivity";
     private static final int SWITCH_PAGE = 0X01;
     private static final int SWITCH_PAGE_FROMLAUNCH = 0X02;
     private ChannelBaseFragment currentFragment;
-    private ChannelBaseFragment lastFragment;
+    private boolean isLastFragmentChild = false;
 
     private HeadFragment headFragment;
     private ModuleMessagePopWindow exitPopup;
@@ -108,15 +102,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     /**
      * advertisement start
      */
-//    private static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
-//    private static final int TIME_COUNTDOWN = 0x0001;
-//
-//    private static final int[] secondsResId = {R.drawable.second_1, R.drawable.second_1, R.drawable.second_2,
-//            R.drawable.second_3, R.drawable.second_4, R.drawable.second_5};
-//    private ImageView adverPic;
-//    private ImageView timerText;
-//    private Handler messageHandler;
-//    private AdvertisementManager mAdvertisementManager;
     private static final int MSG_AD_COUNTDOWN = 0x01;
     private VideoView home_ad_video;
     private ImageView home_ad_pic;
@@ -128,44 +113,29 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private boolean isStartImageCountDown = false;
     private boolean isPlayingVideo = false;
     private int playIndex;
-    private FrameLayout home_layout_advertisement;
+    private FrameLayout home_back_layout;
+    private RelativeLayout home_layout_advertisement;
     private FrameLayout layout_homepage;
     /**
      * advertisement end
      */
-
-
     /**
      * PopupWindow
      */
     PopupWindow updatePopupWindow;
-
-    PopupWindow netErrorPopupWindow;
-
-    private LinearLayout channelListView;
-
-    private View contentView;
     private ImageView home_scroll_left;
     private ImageView home_scroll_right;
-    private ChannelChange channelChange = ChannelChange.CLICK_CHANNEL;
     private String homepage_template;
     private String homepage_url;
-
     private boolean scrollFromBorder;
     private ScrollType scrollType = ScrollType.right;
     private String lastviewTag;
     private int lastchannelindex = -1;
     private boolean rightscroll;
-    private LeavePosition leavePosition = LeavePosition.RightBottom;
-    private static int channelscrollIndex = 0;
-
     public boolean isneedpause;
-
     private FragmentSwitchHandler fragmentSwitch;
     private BitmapDecoder bitmapDecoder;
-    private Handler netErrorPopupHandler;
-    private Runnable netErrorPopupRunnable;
-    public static String brandName;
+    private String brandName;
 
     @Override
     public void onUserCenterClick() {
@@ -191,39 +161,14 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         pageIntent.toSearch(this);
     }
 
-    private enum LeavePosition {
-        LeftTop,
-        LeftBottom,
-        RightTop,
-        RightBottom
-    }
-
-    public LeavePosition getLeavePosition() {
-        return leavePosition;
-    }
-
-    public void setLeavePosition(LeavePosition leavePosition) {
-        this.leavePosition = leavePosition;
-    }
-
     private Position mCurrentChannelPosition = new Position(new Position.PositioinChangeCallback() {
         @Override
         public void onChange(int position) {
             if (channelEntityList.isEmpty()) {
                 return;
             }
-            if (position == 0) {
-                home_scroll_left.setVisibility(View.GONE);
-                if (channelChange != null && channelChange != ChannelChange.CLICK_CHANNEL)
-                    channelChange = ChannelChange.RIGHT_ARROW;
-            } else {
-                home_scroll_left.setVisibility(View.VISIBLE);
-            }
-
             if (position == channelEntityList.size() - 1) {
                 home_scroll_right.setVisibility(View.GONE);
-                if (channelChange != null && channelChange != ChannelChange.CLICK_CHANNEL)
-                    channelChange = ChannelChange.LEFT_ARROW;
             } else {
                 home_scroll_right.setVisibility(View.VISIBLE);
             }
@@ -247,15 +192,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 if (i == R.id.home_scroll_left) {
                     scrollFromBorder = true;
                     scrollType = ScrollType.left;
-                    channelChange = ChannelChange.LEFT_ARROW;
                     recyclerAdapter.arrowScroll(View.FOCUS_LEFT, true);
                     rightscroll = true;
-
-
                 } else if (i == R.id.home_scroll_right) {
                     scrollFromBorder = true;
                     scrollType = ScrollType.right;
-                    channelChange = ChannelChange.RIGHT_ARROW;
                     recyclerAdapter.arrowScroll(View.FOCUS_RIGHT, true);
                     rightscroll = false;
 
@@ -367,20 +308,17 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (savedInstanceState != null)
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
-        fragmentSwitch = new FragmentSwitchHandler(this);
-        activityTag = "BaseActivity";
-        contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
-        setContentView(contentView);
-
         Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
+        setContentView(R.layout.activity_tv_guide);
+        fragmentSwitch = new FragmentSwitchHandler(this);
         homepage_template = getIntent().getStringExtra("homepage_template");
         homepage_url = getIntent().getStringExtra("homepage_url");
-        final View vv = findViewById(R.id.large_layout);
+        home_back_layout = (FrameLayout) findViewById(R.id.home_back_layout);
 
         /**
          * advertisement start
          */
-        home_layout_advertisement = (FrameLayout) findViewById(R.id.home_layout_advertisement);
+        home_layout_advertisement = (RelativeLayout) findViewById(R.id.home_layout_advertisement);
         layout_homepage = (FrameLayout) findViewById(R.id.layout_homepage);
         home_ad_video = (VideoView) findViewById(R.id.home_ad_video);
         home_ad_pic = (ImageView) findViewById(R.id.home_ad_pic);
@@ -396,38 +334,20 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
             @Override
             public void onSuccess(BitmapDrawable bitmapDrawable) {
-                vv.setBackgroundDrawable(bitmapDrawable);
+                home_back_layout.setBackground(bitmapDrawable);
                 home_ad_timer.setVisibility(View.VISIBLE);
                 home_ad_timer.setTextColor(Color.WHITE);
                 home_ad_timer.setText(countAdTime + "s");
                 playLaunchAd(0);
+                bitmapDecoder = null;
             }
         });
 
         /**
          * advertisement end
          */
-
-        vv.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                boolean ret = false;
-                switch (keyCode) {
-                    case KeyEvent.KEYCODE_DPAD_LEFT:
-                        Log.i("zhangjiqiang", "KEYCODE_DPAD_LEFT getNextFocusRightId==" + v.getNextFocusLeftId() + "//getLeft" + v.getLeft());
-                        ret = true;
-                        break;
-                    case KeyEvent.KEYCODE_DPAD_RIGHT:
-                        Log.i("zhangjiqiang", "KEYCODE_DPAD_RIGHT getNextFocusRightId==" + v.getNextFocusRightId() + "//getRight" + v.getRight());
-                        ret = true;
-                        break;
-                }
-                return ret;
-            }
-        });
-
         initViews();
-        getHardInfo();
+        tempInitStaticVariable();
         Properties sysProperties = new Properties();
         try {
             InputStream is = getAssets().open("configure/setup.properties");
@@ -436,7 +356,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         } catch (IOException e) {
             e.printStackTrace();
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
                 fetchChannels();
+            }
+        }, 1000);
 
     }
 
@@ -492,7 +417,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             @Override
             public void onClick(View v) {
                 // longhai add
-                recyclerAdapter.arrowScroll(View.FOCUS_LEFT, false);
+                if (lastchannelindex != 0) {
+                    recyclerAdapter.arrowScroll(View.FOCUS_LEFT, false);
+                }
             }
         });
         home_scroll_right.setOnClickListener(new View.OnClickListener() {
@@ -500,7 +427,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             @Override
             public void onClick(View v) {
                 // longhai add
-                recyclerAdapter.arrowScroll(View.FOCUS_RIGHT, false);
+                if (lastchannelindex != channelEntityList.size() - 1) {
+                    recyclerAdapter.arrowScroll(View.FOCUS_RIGHT, false);
+                }
             }
         });
         home_scroll_left.setOnHoverListener(onArrowHoverListener);
@@ -532,8 +461,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             @Override
             public void onItemClickListener(View v, int position) {
                 checkScroll(position, 0);
-
-                channelChange = ChannelChange.CLICK_CHANNEL;
                 mCurrentChannelPosition.setPosition(position);
 
 
@@ -668,16 +595,38 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if(countAdTime > 0 ){
-            super.onBackPressed();
-        } else {
-            showExitPopup(contentView);
+    private void tempInitStaticVariable() {
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        SimpleRestClient.densityDpi = metric.densityDpi;
+        SimpleRestClient.screenWidth = metric.widthPixels;
+        SimpleRestClient.screenHeight = metric.heightPixels;
+        PackageManager manager = getPackageManager();
+        try {
+            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+            SimpleRestClient.appVersion = info.versionCode;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
         }
+        SimpleRestClient.root_url = IsmartvActivator.getInstance().getApiDomain();
+        SimpleRestClient.ad_domain = IsmartvActivator.getInstance().getAdDomain();
+        SimpleRestClient.log_domain = IsmartvActivator.getInstance().getLogDomain();
+        SimpleRestClient.upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
+        SimpleRestClient.device_token = IsmartvActivator.getInstance().getDeviceToken();
+        SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
+        SimpleRestClient.access_token = IsmartvActivator.getInstance().getAuthToken();
+        SimpleRestClient.zuser_token = IsmartvActivator.getInstance().getZUserToken();
+        SimpleRestClient.zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
     }
 
-    private static boolean channelflag = false;
+    @Override
+    public void onBackPressed() {
+        if (countAdTime > 0) {
+            super.onBackPressed();
+        } else {
+            showExitPopup(getRootView());
+        }
+    }
 
     /**
      * fetch channel
@@ -712,14 +661,14 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         ChannelEntity launcher = new ChannelEntity();
         launcher.setChannel("launcher");
         launcher.setName("首页");
-        launcher.setHomepage_template("launcher");
+        launcher.setHomepage_template("template");
         channelEntityList.add(launcher);
+        int channelscrollIndex = 0;
 
         for (ChannelEntity e : mChannelEntitys) {
             channelEntityList.add(e);
         }
         recyclerAdapter.notifyDataSetChanged();
-//                createChannelView();
         if (brandName != null && brandName.toLowerCase().contains("changhong")) {
             homepage_template = "template3";
         }
@@ -741,7 +690,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                             scrollType = ScrollType.none;
                             recyclerAdapter.setSelectedPosition(channelscrollIndex);
                             mCurrentChannelPosition.setPosition(channelscrollIndex);
-//                                fragmentSwitch.sendEmptyMessage(SWITCH_PAGE_FROMLAUNCH);
                         }
                         headFragment.setSubTitle(mChannelEntitys[i].getName());
                         break;
@@ -752,15 +700,14 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (currentFragment == null && !isFinishing() && channelscrollIndex <= 0) {
             try {
                 currentFragment = new GuideFragment();
-                lastFragment = currentFragment;
                 ChannelEntity channelEntity = new ChannelEntity();
                 launcher.setChannel("launcher");
                 launcher.setName("首页");
-                launcher.setHomepage_template("launcher");
+                launcher.setHomepage_template("template");
                 currentFragment.setChannelEntity(channelEntity);
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
-                transaction.replace(R.id.home_container, currentFragment, "template").commitAllowingStateLoss();
+                transaction.replace(R.id.home_container, currentFragment, "template").commit();
                 home_tab_list.requestFocus();
             } catch (IllegalStateException e) {
             }
@@ -768,144 +715,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
     }
 
-    private void setFocusChannelView(View view) {
-        TextView channelBtn = (TextView) view.findViewById(R.id.channel_item);
-        channelBtn.setBackgroundResource(R.drawable.channel_focus_frame);
-        channelBtn.setTextColor(FOCUS_CHANNEL_TEXTCOLOR);
-        AnimationSet animationSet = new AnimationSet(true);
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1.05f, 1, 1.05f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnimation.setDuration(200);
-        animationSet.addAnimation(scaleAnimation);
-        animationSet.setFillAfter(true);
-        channelBtn.startAnimation(animationSet);
-    }
-
-    private void setLostFocusChannel(View view) {
-        TextView channelBtn = (TextView) view.findViewById(R.id.channel_item);
-        channelBtn.setTextColor(NORMAL_CHANNEL_TEXTCOLOR);
-        channelBtn.setBackgroundResource(R.drawable.channel_item_normal);
-        AnimationSet animationSet = new AnimationSet(true);
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1.05f, 1f, 1.05f, 1f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnimation.setDuration(200);
-        animationSet.addAnimation(scaleAnimation);
-        animationSet.setFillAfter(true);
-        channelBtn.startAnimation(animationSet);
-    }
-
-    private void setClickChannelView(View view) {
-        Log.i("LH/", "view:" + view);
-        if (view == null) {
-            return;
-        }
-        TextView channelBtn = (TextView) view.findViewById(R.id.channel_item);
-        view.setBackgroundResource(R.drawable.channel_item_focus);
-        channelBtn.setTextColor(NORMAL_CHANNEL_TEXTCOLOR);
-    }
-
-    private int FOCUS_CHANNEL_BG = 0xffffba00;
-    private int FOCUS_CHANNEL_TEXTCOLOR = 0xffffba00;
-    private int NORMAL_CHANNEL_TEXTCOLOR = 0xffffffff;
-
-    private void createChannelView() {
-//        List<ChannelEntity> channelList;
-//        ChannelEntity launcher = new ChannelEntity();
-//        launcher.setChannel("launcher");
-//        launcher.setName("首页");
-//        launcher.setHomepage_template("launcher");
-
-//        channelList = new ArrayList<ChannelEntity>();
-//        // channelList.add(launcher);
-//        for (ChannelEntity entity : channelEntities) {
-//            channelList.add(entity);
-//        }
-
-    }
-
-//    private void registerUpdateReceiver() {
-//        appUpdateReceiver = new AppUpdateReceiver();
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction(AppConstant.APP_UPDATE_ACTION);
-//        registerReceiver(appUpdateReceiver, intentFilter);
-//    }
-
-    /**
-     * receive app update broadcast, and show update popup window
-     */
-//    class AppUpdateReceiver extends BroadcastReceiver {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            final Bundle bundle = intent.getBundleExtra("data");
-//            contentView.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    showUpdatePopup(contentView, bundle);
-//                }
-//            }, 2000);
-//
-//        }
-//    }
-
-    /**
-     * show update popup, now update app or next time update
-     */
-//    private void showUpdatePopup(View view, Bundle bundle) {
-//        final Context context = this;
-//        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
-//        contentView.setBackgroundResource(R.drawable.app_update_bg);
-//        home_shadow_view.setVisibility(View.VISIBLE);
-//        float density = getResources().getDisplayMetrics().density;
-//
-//        int appUpdateHeight = (int) (getResources().getDimension(R.dimen.app_update_bg_height));
-//        int appUpdateWidht = (int) (getResources().getDimension(R.dimen.app_update_bg_width));
-//
-//
-//        updatePopupWindow = new PopupWindow(null, appUpdateHeight, appUpdateWidht);
-//        updatePopupWindow.setContentView(contentView);
-//        updatePopupWindow.setFocusable(true);
-//        updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-//
-//        Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
-//        LinearLayout updateMsgLayout = (LinearLayout) contentView.findViewById(R.id.update_msg_layout);
-//
-//        final String path = bundle.getString("path");
-//
-//        ArrayList<String> msgs = bundle.getStringArrayList("msgs");
-//
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.WRAP_CONTENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT);
-//        layoutParams.leftMargin = (int) (getResources().getDimension(R.dimen.app_update_content_margin_left));
-//        layoutParams.topMargin = (int) (getResources().getDimension(R.dimen.app_update_line_margin_));
-//
-//        for (String msg : msgs) {
-//            View textLayout = LayoutInflater.from(this).inflate(R.layout.update_msg_text_item, null);
-//            TextView textView = (TextView) textLayout.findViewById(R.id.update_msg_text);
-//            textView.setText(msg);
-//            updateMsgLayout.addView(textLayout);
-//        }
-//
-//        updateNow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                updatePopupWindow.dismiss();
-//                home_shadow_view.setVisibility(View.GONE);
-//                installApk(context, path);
-//            }
-//        });
-//    }
-
-//    public void installApk(Context mContext, String path) {
-//        Uri uri = Uri.parse("file://" + path);
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.setDataAndType(uri, "application/vnd.android.package-archive");
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        mContext.startActivity(intent);
-//    }
-//
     private void showExitPopup(View view) {
         exitPopup = new ModuleMessagePopWindow(this);
         exitPopup.setConfirmBtn(getString(R.string.vod_ok));
@@ -953,7 +762,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         final MessageDialogFragment dialog = new MessageDialogFragment(HomePageActivity.this, getString(R.string.fetch_net_data_error), null);
         dialog.setButtonText(getString(R.string.setting_network), getString(R.string.i_know));
         try {
-            dialog.showAtLocation(contentView, Gravity.CENTER,
+            dialog.showAtLocation(getRootView(), Gravity.CENTER,
                     new MessageDialogFragment.ConfirmListener() {
                         @Override
                         public void confirmClick(View view) {
@@ -980,7 +789,14 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
     }
 
-    BitmapDecoder ddddBitmapDecoder;
+    private void destroybackground() {
+        BitmapDrawable bd = (BitmapDrawable) home_back_layout.getBackground();
+        home_back_layout.setBackgroundResource(0);//别忘了把背景设为null，避免onDraw刷新背景时候出现used a recycled bitmap错误
+        if (bd == null)
+            return;
+        bd.setCallback(null);
+        bd.getBitmap().recycle();
+    }
 
     private void selectChannelByPosition(int position) {
         String tag;
@@ -993,22 +809,19 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
         if (position == 0) {
             home_scroll_left.setVisibility(View.GONE);
-            if (channelChange != null && channelChange != ChannelChange.CLICK_CHANNEL)
-                channelChange = ChannelChange.RIGHT_ARROW;
         } else {
             home_scroll_left.setVisibility(View.VISIBLE);
         }
 
         if (position == channelEntityList.size() - 1) {
             home_scroll_right.setVisibility(View.GONE);
-            if (channelChange != null && channelChange != ChannelChange.CLICK_CHANNEL)
-                channelChange = ChannelChange.LEFT_ARROW;
         } else {
             home_scroll_right.setVisibility(View.VISIBLE);
         }
         ChannelEntity channelEntity = channelEntityList.get(position);
         headFragment.setSubTitle(channelEntity.getName());
         currentFragment = null;
+        destroybackground();
         if ("template1".equals(channelEntity.getHomepage_template())) {
             currentFragment = new FilmFragment();
             tag = "template1";
@@ -1025,172 +838,163 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             currentFragment = new GuideFragment();
             tag = "template";
         }
-        if (lastFragment != null) {
-            if (lastFragment instanceof ChildFragment) {
-                if (currentFragment instanceof ChildFragment) {
-                } else {
-//                    destroybackground();
-                    if (ddddBitmapDecoder != null) {
-                        ddddBitmapDecoder.removeAllCallback();
-//                                              ddddBitmapDecoder.interrupt();
-                    }
-                    ddddBitmapDecoder = new BitmapDecoder();
-                    ddddBitmapDecoder.decode(this, R.drawable.main_bg,
-                            new BitmapDecoder.Callback() {
-                                @Override
-                                public void onSuccess(
-                                        BitmapDrawable bitmapDrawable) {
-                                    contentView
-                                            .setBackgroundDrawable(bitmapDrawable);
-                                }
-                            });
-                }
-            } else {
-                if (currentFragment instanceof ChildFragment) {
-                    if (ddddBitmapDecoder != null) {
-                        ddddBitmapDecoder.removeAllCallback();
-                    }
-                    ddddBitmapDecoder = new BitmapDecoder();
-                    ddddBitmapDecoder.decode(this,
-                            R.drawable.channel_child_bg,
-                            new BitmapDecoder.Callback() {
-                                @Override
-                                public void onSuccess(
-                                        BitmapDrawable bitmapDrawable) {
-                                    contentView
-                                            .setBackgroundDrawable(bitmapDrawable);
-                                }
-                            });
-                } else {
-                }
+        if (currentFragment instanceof ChildFragment) {
+            isLastFragmentChild = true;
+            bitmapDecoder = new BitmapDecoder();
+            bitmapDecoder.decode(this,
+                    R.drawable.channel_child_bg,
+                    new BitmapDecoder.Callback() {
+                        @Override
+                        public void onSuccess(BitmapDrawable bitmapDrawable) {
+                            home_back_layout.setBackground(bitmapDrawable);
+                            bitmapDecoder = null;
+                        }
+                    });
+        } else {
+            if (isLastFragmentChild) {
+                bitmapDecoder = new BitmapDecoder();
+                bitmapDecoder.decode(this,
+                        R.drawable.main_bg,
+                        new BitmapDecoder.Callback() {
+                            @Override
+                            public void onSuccess(BitmapDrawable bitmapDrawable) {
+                                home_back_layout.setBackground(bitmapDrawable);
+                                bitmapDecoder = null;
+                            }
+                        });
             }
+            isLastFragmentChild = false;
+
         }
-        lastFragment = currentFragment;
+
         currentFragment.setScrollFromBorder(scrollFromBorder);
         if (scrollFromBorder) {
             currentFragment.setRight(rightscroll);
             currentFragment.setBottomFlag(lastviewTag);
         }
         currentFragment.setChannelEntity(channelEntity);
-        ChannelBaseFragment t = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template");
-        ChannelBaseFragment t1 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template1");
-        ChannelBaseFragment t2 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template2");
-        ChannelBaseFragment t3 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template3");
-        ChannelBaseFragment t4 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template4");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if ("template".equals(tag)) {
-            if (t1 != null)
-                transaction.hide(t1);
-            if (t2 != null)
-                transaction.hide(t2);
-            if (t3 != null)
-                transaction.hide(t3);
-            if (t4 != null)
-                transaction.hide(t4);
-            if (t != null) {
-                t.setScrollFromBorder(scrollFromBorder);
-                if (scrollFromBorder) {
-                    t.setRight(rightscroll);
-                    t.setBottomFlag(lastviewTag);
-                }
-                transaction.show(t);
-                transaction.commitAllowingStateLoss();
-            } else {
-                replaceFragment(currentFragment, tag, transaction);
-            }
-        }
-        if ("template1".equals(tag)) {
-            if (t != null)
-                transaction.hide(t);
-            if (t2 != null)
-                transaction.hide(t2);
-            if (t3 != null)
-                transaction.hide(t3);
-            if (t4 != null)
-                transaction.hide(t4);
-            if (t1 != null && !t1.isRemoving()) {
-                t1.setScrollFromBorder(scrollFromBorder);
-                if (scrollFromBorder) {
-                    t1.setRight(rightscroll);
-                    t1.setBottomFlag(lastviewTag);
-                }
-                t1.setChannelEntity(channelEntity);
-                t1.refreshData();
-                transaction.show(t1);
-                transaction.commitAllowingStateLoss();
-            } else {
-                replaceFragment(currentFragment, tag, transaction);
-            }
-        }
-        if ("template2".equals(tag)) {
-            if (t != null)
-                transaction.hide(t);
-            if (t1 != null)
-                transaction.hide(t1);
-            if (t3 != null)
-                transaction.hide(t3);
-            if (t4 != null)
-                transaction.hide(t4);
-            if (t2 != null && !t2.isRemoving()) {
-                t2.setChannelEntity(channelEntity);
-                t2.refreshData();
-                t2.setScrollFromBorder(scrollFromBorder);
-                if (scrollFromBorder) {
-                    t2.setRight(rightscroll);
-                    t2.setBottomFlag(lastviewTag);
-                }
-                transaction.show(t2);
-                transaction.commitAllowingStateLoss();
-            } else {
-                replaceFragment(currentFragment, tag, transaction);
-            }
-        }
-        if ("template3".equals(tag)) {
-            if (t != null)
-                transaction.hide(t);
-            if (t1 != null)
-                transaction.hide(t1);
-            if (t2 != null)
-                transaction.hide(t2);
-            if (t4 != null)
-                transaction.hide(t4);
-            if (t3 != null) {
-                t3.setChannelEntity(channelEntity);
-                t3.refreshData();
-                t3.setScrollFromBorder(scrollFromBorder);
-                if (scrollFromBorder) {
-                    t3.setRight(rightscroll);
-                    t3.setBottomFlag(lastviewTag);
-                }
-                transaction.show(t3);
-                transaction.commitAllowingStateLoss();
-            } else {
-                replaceFragment(currentFragment, tag, transaction);
-            }
-        }
-        if ("template4".equals(tag)) {
-            if (t != null)
-                transaction.hide(t);
-            if (t1 != null)
-                transaction.hide(t1);
-            if (t2 != null)
-                transaction.hide(t2);
-            if (t3 != null)
-                transaction.hide(t3);
-            if (t4 != null && !t4.isRemoving()) {
-                t4.setChannelEntity(channelEntity);
-                t4.refreshData();
-                t4.setScrollFromBorder(scrollFromBorder);
-                if (scrollFromBorder) {
-                    t4.setRight(rightscroll);
-                    t4.setBottomFlag(lastviewTag);
-                }
-                transaction.show(t4);
-                transaction.commitAllowingStateLoss();
-            } else {
-                replaceFragment(currentFragment, tag, transaction);
-            }
-        }
+        replaceFragment(currentFragment, tag, transaction);
+
+//        ChannelBaseFragment t = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template");
+//        ChannelBaseFragment t1 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template1");
+//        ChannelBaseFragment t2 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template2");
+//        ChannelBaseFragment t3 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template3");
+//        ChannelBaseFragment t4 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template4");
+
+//        if ("template".equals(tag)) {
+//            if (t1 != null)
+//                transaction.hide(t1);
+//            if (t2 != null)
+//                transaction.hide(t2);
+//            if (t3 != null)
+//                transaction.hide(t3);
+//            if (t4 != null)
+//                transaction.hide(t4);
+//            if (t != null) {
+//                t.setScrollFromBorder(scrollFromBorder);
+//                if (scrollFromBorder) {
+//                    t.setRight(rightscroll);
+//                    t.setBottomFlag(lastviewTag);
+//                }
+//                transaction.show(t);
+//                transaction.commitAllowingStateLoss();
+//            } else {
+//
+//            }
+//        }
+//        if ("template1".equals(tag)) {
+//            if (t != null)
+//                transaction.hide(t);
+//            if (t2 != null)
+//                transaction.hide(t2);
+//            if (t3 != null)
+//                transaction.hide(t3);
+//            if (t4 != null)
+//                transaction.hide(t4);
+//            if (t1 != null && !t1.isRemoving()) {
+//                t1.setScrollFromBorder(scrollFromBorder);
+//                if (scrollFromBorder) {
+//                    t1.setRight(rightscroll);
+//                    t1.setBottomFlag(lastviewTag);
+//                }
+//                t1.setChannelEntity(channelEntity);
+//                t1.refreshData();
+//                transaction.show(t1);
+//                transaction.commitAllowingStateLoss();
+//            } else {
+//                replaceFragment(currentFragment, tag, transaction);
+//            }
+//        }
+//        if ("template2".equals(tag)) {
+//            if (t != null)
+//                transaction.hide(t);
+//            if (t1 != null)
+//                transaction.hide(t1);
+//            if (t3 != null)
+//                transaction.hide(t3);
+//            if (t4 != null)
+//                transaction.hide(t4);
+//            if (t2 != null && !t2.isRemoving()) {
+//                t2.setChannelEntity(channelEntity);
+//                t2.refreshData();
+//                t2.setScrollFromBorder(scrollFromBorder);
+//                if (scrollFromBorder) {
+//                    t2.setRight(rightscroll);
+//                    t2.setBottomFlag(lastviewTag);
+//                }
+//                transaction.show(t2);
+//                transaction.commitAllowingStateLoss();
+//            } else {
+//                replaceFragment(currentFragment, tag, transaction);
+//            }
+//        }
+//        if ("template3".equals(tag)) {
+//            if (t != null)
+//                transaction.hide(t);
+//            if (t1 != null)
+//                transaction.hide(t1);
+//            if (t2 != null)
+//                transaction.hide(t2);
+//            if (t4 != null)
+//                transaction.hide(t4);
+//            if (t3 != null) {
+//                t3.setChannelEntity(channelEntity);
+//                t3.refreshData();
+//                t3.setScrollFromBorder(scrollFromBorder);
+//                if (scrollFromBorder) {
+//                    t3.setRight(rightscroll);
+//                    t3.setBottomFlag(lastviewTag);
+//                }
+//                transaction.show(t3);
+//                transaction.commitAllowingStateLoss();
+//            } else {
+//                replaceFragment(currentFragment, tag, transaction);
+//            }
+//        }
+//        if ("template4".equals(tag)) {
+//            if (t != null)
+//                transaction.hide(t);
+//            if (t1 != null)
+//                transaction.hide(t1);
+//            if (t2 != null)
+//                transaction.hide(t2);
+//            if (t3 != null)
+//                transaction.hide(t3);
+//            if (t4 != null && !t4.isRemoving()) {
+//                t4.setChannelEntity(channelEntity);
+//                t4.refreshData();
+//                t4.setScrollFromBorder(scrollFromBorder);
+//                if (scrollFromBorder) {
+//                    t4.setRight(rightscroll);
+//                    t4.setBottomFlag(lastviewTag);
+//                }
+//                transaction.show(t4);
+//                transaction.commitAllowingStateLoss();
+//            } else {
+//                replaceFragment(currentFragment, tag, transaction);
+//            }
+//        }
         // longhai add
         if (home_tab_list == null) {
             return;
@@ -1235,37 +1039,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
     }
 
-    private void setbackground(int id) {
-
-        BitmapFactory.Options opt = new BitmapFactory.Options();
-
-        opt.inPreferredConfig = Bitmap.Config.ALPHA_8;
-
-        opt.inPurgeable = true;
-
-        opt.inInputShareable = true;
-        opt.inTargetDensity = getResources().getDisplayMetrics().densityDpi;
-        opt.inDensity = getResources().getDisplayMetrics().densityDpi;
-
-        InputStream is = getResources().openRawResource(
-
-                id);
-
-        Bitmap bm = BitmapFactory.decodeStream(is, null, opt);
-
-        BitmapDrawable bd = new BitmapDrawable(getResources(), bm);
-        contentView.setBackgroundDrawable(bd);
-    }
-
-    private void destroybackground() {
-        BitmapDrawable bd = (BitmapDrawable) contentView.getBackground();
-        contentView.setBackgroundResource(0);//别忘了把背景设为null，避免onDraw刷新背景时候出现used a recycled bitmap错误
-        if (bd == null)
-            return;
-        bd.setCallback(null);
-        bd.getBitmap().recycle();
-    }
-
     private void replaceFragment(Fragment fragment, String tag, FragmentTransaction transaction) {
         switch (scrollType) {
             case left:
@@ -1280,61 +1053,26 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 break;
         }
 
-        transaction.replace(R.id.home_container, fragment, tag).commitAllowingStateLoss();
-    }
-
-    private void getHardInfo() {
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        SimpleRestClient.densityDpi = metric.densityDpi;
-        SimpleRestClient.screenWidth = metric.widthPixels;
-        SimpleRestClient.screenHeight = metric.heightPixels;
-        PackageManager manager = getPackageManager();
-        try {
-            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
-            SimpleRestClient.appVersion = info.versionCode;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        transaction.replace(R.id.home_container, fragment, tag).commit();
     }
 
     public void channelRequestFocus(String channel) {
-        switch (channelChange) {
-            case CLICK_CHANNEL:
-//                home_tab_list.requestFocus();
-//                channelHashMap.get(channel).requestFocus();
-//                channelHashMap.get(channel).requestFocusFromTouch();
-                break;
-            case LEFT_ARROW:
-//                arrow_left.requestFocus();
-//                arrow_left.requestFocusFromTouch();
-                break;
-            case RIGHT_ARROW:
-//                arrow_right.requestFocus();
-//                arrow_right.requestFocusFromTouch();
-                break;
-        }
 
-    }
-
-    enum ChannelChange {
-        CLICK_CHANNEL,
-        LEFT_ARROW,
-        RIGHT_ARROW
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         neterrorshow = false;
-        channelscrollIndex = 0;
-        try {
-            Class.forName("com.konka.android.media.KKMediaPlayer");
-            KKMediaPlayer localKKMediaPlayer1 = new KKMediaPlayer();
-            KKMediaPlayer.setContext(this);
-            localKKMediaPlayer1.setAspectRatio(0);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!TextUtils.isEmpty(brandName) && brandName.equalsIgnoreCase("konka")) {
+            try {
+                Class.forName("com.konka.android.media.KKMediaPlayer");
+                KKMediaPlayer localKKMediaPlayer1 = new KKMediaPlayer();
+                KKMediaPlayer.setContext(this);
+                localKKMediaPlayer1.setAspectRatio(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -1342,7 +1080,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (!DaisyUtils.isNetworkAvailable(this)) {
-            Log.e("tvguide", "onresume Isnetwork");
+            Log.e(TAG, "onresume Isnetwork");
             showNetErrorPopup();
         }
     }
@@ -1350,9 +1088,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onPause() {
         super.onPause();
-        if (netErrorPopupHandler != null && netErrorPopupRunnable != null) {
-            netErrorPopupHandler.removeCallbacks(netErrorPopupRunnable);
-        }
         if (fragmentSwitch.hasMessages(SWITCH_PAGE))
             fragmentSwitch.removeMessages(SWITCH_PAGE);
         if (fragmentSwitch.hasMessages(SWITCH_PAGE_FROMLAUNCH))
@@ -1363,9 +1098,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     protected void onDestroy() {
         if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
             bitmapDecoder.interrupt();
-        }
-        if (ddddBitmapDecoder != null && ddddBitmapDecoder.isAlive()) {
-            ddddBitmapDecoder.interrupt();
         }
         if (!(updatePopupWindow == null)) {
             updatePopupWindow.dismiss();
@@ -1385,9 +1117,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 || StringUtils.isEmpty(homepage_url)) {
             fetchChannels();
         } else {
-//            if (StringUtils.isNotEmpty(SimpleRestClient.root_url)) {
             fetchChannels();
-//            }
         }
     }
 
@@ -1437,8 +1167,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         return super.dispatchTouchEvent(ev);
     }
 
-    private static int nextselectflag;
-
     static class FragmentSwitchHandler extends Handler {
         private WeakReference<HomePageActivity> weakReference;
 
@@ -1452,10 +1180,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             if (activity != null) {
                 switch (msg.what) {
                     case SWITCH_PAGE:
-                        activity.selectChannelByPosition(msg.arg1);
+                        if(!activity.isFinishing()){
+                            activity.selectChannelByPosition(msg.arg1);
+                        }
                         break;
                     case SWITCH_PAGE_FROMLAUNCH:
-
                         // longhai
 //					if (nextselectflag == 0
 //							|| (nextselectflag != activity.scroll
@@ -1600,8 +1329,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private void goNextPage() {
         home_layout_advertisement.setVisibility(View.GONE);
         layout_homepage.setVisibility(View.VISIBLE);
+        if (home_ad_pic != null) {
+            home_ad_pic.setBackgroundResource(R.color.window_bg);
+        }
         if (home_ad_video != null) {
             home_ad_video.stopPlayback();
+            home_ad_video = null;
         }
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);

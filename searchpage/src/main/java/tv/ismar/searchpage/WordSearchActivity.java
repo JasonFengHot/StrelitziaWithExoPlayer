@@ -153,7 +153,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         JasmineUtil.app_start(sn,modelname,"0", android.os.Build.VERSION.RELEASE,
                 SystemFileUtil.getSdCardTotal(this),
                 SystemFileUtil.getSdCardAvalible(this),
-                userId, province, city, isp, "search", macAddress,"text","",version);
+                userId, province, city, isp, "search", macAddress,"text","tv.ismar.searchpage",version);
     }
 
     @Override

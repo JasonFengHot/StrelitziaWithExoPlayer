@@ -340,6 +340,16 @@ public class SportFragment extends ChannelBaseFragment {
         sport_channel5.setOnClickListener(ItemClickListener);
         sportspost.setOnClickListener(ItemClickListener);
 
+        sportspost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    getActivity().findViewById(R.id.sport_lefttop).bringToFront();
+                    getActivity().findViewById(R.id.sport_right_top_layout).bringToFront();
+                }
+            }
+        });
+
         if (scrollFromBorder) {
             if (isRight) {//右侧移入
                 if ("bottom".equals(bottomFlag)) {//下边界移入
@@ -524,13 +534,17 @@ public class SportFragment extends ChannelBaseFragment {
 
         if (games.size() - currentLiveIndex > 3) {
             arrowDown.setVisibility(View.VISIBLE);
+            sports_live3.setNextFocusDownId(R.id.sec_one_list_1_arrowdown);
         } else {
             arrowDown.setVisibility(View.INVISIBLE);
+            sports_live3.setNextFocusDownId(R.id.listmore);
         }
         if (currentLiveIndex > 0) {
             arrowUp.setVisibility(View.VISIBLE);
+            sports_live1.setNextFocusUpId(R.id.sec_one_list_1_arrowup);
         } else {
             arrowUp.setVisibility(View.INVISIBLE);
+            sports_live1.setNextFocusUpId(R.string.vod_movielist_title_history);
         }
         if (arrowDown.getVisibility() == View.VISIBLE) {
             arrowDown.bringToFront();

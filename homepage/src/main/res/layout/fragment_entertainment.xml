@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/entertainment_top_h"
+        android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal">
@@ -17,7 +17,7 @@
         <RelativeLayout
             android:id="@+id/vaiety_lefttop"
             android:layout_width="@dimen/entertainment_top_left_w"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/entertainment_top_h"
             android:clipChildren="false"
             android:clipToPadding="false">
 
@@ -92,6 +92,7 @@
                 android:id="@+id/vaiety_card1"
                 android:layout_width="@dimen/entertainment_top_right_item_w"
                 android:layout_height="@dimen/entertainment_top_right_card_h"
+                android:background="@drawable/entertainment_item_bg"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="false"
@@ -102,7 +103,6 @@
                     android:id="@+id/vaiety_card1_image"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/entertainment_top_right_item_h"
-                    android:background="@drawable/entertainment_item_bg"
                     android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
@@ -132,6 +132,7 @@
                 android:id="@+id/vaiety_card2_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/entertainment_top_right_ml"
                 android:layout_toRightOf="@id/vaiety_card1"
                 android:clipChildren="false"
@@ -142,6 +143,7 @@
                     android:id="@+id/vaiety_card2"
                     android:layout_width="@dimen/entertainment_top_right_item_w"
                     android:layout_height="@dimen/entertainment_top_right_card_h"
+                    android:background="@drawable/entertainment_item_bg"
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:focusable="false"
@@ -151,7 +153,6 @@
                         android:id="@+id/vaiety_card2_image"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/entertainment_top_right_item_h"
-                        android:background="@drawable/entertainment_item_bg"
                         android:clickable="true"
                         android:clipChildren="false"
                         android:clipToPadding="false"
@@ -184,6 +185,7 @@
                 android:layout_height="@dimen/entertainment_top_right_card_h"
                 android:layout_below="@id/vaiety_card1"
                 android:layout_marginTop="@dimen/entertainment_top_right_item_text_mt"
+                android:background="@drawable/entertainment_item_bg"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="false"
@@ -193,7 +195,6 @@
                     android:id="@+id/vaiety_card3_image"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/entertainment_top_right_item_h"
-                    android:background="@drawable/entertainment_item_bg"
                     android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
@@ -223,8 +224,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vaiety_card2_container"
                 android:layout_marginLeft="@dimen/entertainment_top_right_ml"
-                android:layout_marginTop="@dimen/entertainment_top_right_item_text_mt"
                 android:layout_toRightOf="@id/vaiety_card3"
+                android:layout_alignTop="@id/vaiety_card3"
                 android:clipChildren="false"
                 android:clipToPadding="false">
 
@@ -232,6 +233,7 @@
                     android:id="@+id/vaiety_card4"
                     android:layout_width="@dimen/entertainment_top_right_item_w"
                     android:layout_height="@dimen/entertainment_top_right_card_h"
+                    android:background="@drawable/entertainment_item_bg"
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:focusable="false"
@@ -241,7 +243,6 @@
                         android:id="@+id/vaiety_card4_image"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/entertainment_top_right_item_h"
-                        android:background="@drawable/entertainment_item_bg"
                         android:clickable="true"
                         android:clipChildren="false"
                         android:clipToPadding="false"

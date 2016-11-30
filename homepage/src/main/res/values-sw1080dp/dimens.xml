@@ -1419,7 +1419,7 @@
     <dimen name="entertainment_top_right_ml">26dp</dimen>
     <dimen name="entertainment_top_right_item_w">402dp</dimen>
     <dimen name="entertainment_top_right_item_h">227dp</dimen>
-    <dimen name="entertainment_top_right_card_h">254dp</dimen>
+    <dimen name="entertainment_top_right_card_h">260dp</dimen>
     <dimen name="entertainment_top_right_image_mt">2dp</dimen>
     <dimen name="entertainment_top_right_item_text_mt">3dp</dimen>
     <dimen name="entertainment_top_right_item_text_h">33dp</dimen>
@@ -1441,7 +1441,8 @@
     <dimen name="sport_top_item_h">165dp</dimen>
     <dimen name="sport_top_item_space">1dp</dimen>
     <dimen name="sport_top_center_w">1184dp</dimen>
-    <dimen name="sport_top_space">2dp</dimen>
+    <dimen name="sport_top_space">295dp</dimen>
+    <dimen name="sport_top_space1">2dp</dimen>
     <dimen name="sport_top_arrow_h">30dp</dimen>
     <dimen name="sport_top_arrow_p">8dp</dimen>
     <dimen name="sport_top_label_pt">5dp</dimen>

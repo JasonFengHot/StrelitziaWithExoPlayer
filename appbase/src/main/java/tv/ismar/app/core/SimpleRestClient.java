@@ -45,8 +45,6 @@ public class SimpleRestClient {
 	// public static String sRoot_url = "http://127.0.0.1:21098/cord";
 
 	public static String root_url = "http://v2.sky.tvxio.com/v2_0/SKY/dto";
-	// public static String sRoot_url = "http://cord.tvxio.com/v2_0/A21/dto";
-	public static String sRoot_url = "http://v2.sky.tvxio.com/v2_0/SKY/dto";
 	public static String ad_domain = "lilac.t.tvxio.com";
 	public static String log_domain = "cord.tvxio.com";
 	public static String upgrade_domain = "client.tvxio.com";

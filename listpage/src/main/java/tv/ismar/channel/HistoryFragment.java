@@ -576,7 +576,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				mCurrentGetItemTask.remove(item.url);
 				showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, new GetItemTask(), new Item[]{item});
 			} else if(result == ITEM_SUCCESS_GET){
-				String url = SimpleRestClient.sRoot_url + "/api/item/" + item.pk + "/";
+				String url = SimpleRestClient.root_url + "/api/item/" + item.pk + "/";
 				mCurrentGetItemTask.remove(url);
 				History history = null;
 				if(SimpleRestClient.isLogin())
@@ -676,7 +676,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					@Override
 					public void onNext(Item i) {
 						item = i;
-						String url = SimpleRestClient.sRoot_url + "/api/item/" + item.pk + "/";
+						String url = SimpleRestClient.root_url + "/api/item/" + item.pk + "/";
 						mCurrentGetItemTask.remove(url);
 						History history = null;
 						if (SimpleRestClient.isLogin())
