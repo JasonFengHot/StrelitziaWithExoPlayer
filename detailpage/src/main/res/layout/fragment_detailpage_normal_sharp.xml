@@ -309,7 +309,6 @@
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_32sp"
                     />
-
                     <Button
                         android:id="@+id/detail_btn_buy"
                         android:layout_width="@dimen/normal_detail_button1_w"
