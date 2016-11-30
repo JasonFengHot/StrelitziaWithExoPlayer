@@ -1419,7 +1419,7 @@
     <dimen name="entertainment_top_right_ml">26dp</dimen>
     <dimen name="entertainment_top_right_item_w">402dp</dimen>
     <dimen name="entertainment_top_right_item_h">227dp</dimen>
-    <dimen name="entertainment_top_right_card_h">254dp</dimen>
+    <dimen name="entertainment_top_right_card_h">260dp</dimen>
     <dimen name="entertainment_top_right_image_mt">2dp</dimen>
     <dimen name="entertainment_top_right_item_text_mt">3dp</dimen>
     <dimen name="entertainment_top_right_item_text_h">33dp</dimen>

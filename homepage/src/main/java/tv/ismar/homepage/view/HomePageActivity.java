@@ -1180,7 +1180,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             if (activity != null) {
                 switch (msg.what) {
                     case SWITCH_PAGE:
-                        activity.selectChannelByPosition(msg.arg1);
+                        if(!activity.isFinishing()){
+                            activity.selectChannelByPosition(msg.arg1);
+                        }
                         break;
                     case SWITCH_PAGE_FROMLAUNCH:
                         // longhai
