@@ -792,6 +792,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     mIsmartvPlayer.seekTo(mCurrentPosition);
                     offsets = 0;
                     offn = 1;
+                    mIsOnPaused = false;
                     showBuffer(null);
                     if (isFastFBClick) {
                         isFastFBClick = false;
@@ -1456,6 +1457,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
+        hidePanel();
         timerStop();
         if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
             mIsmartvPlayer.pause();
