@@ -144,6 +144,10 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         }
 
         scrollViewLayout.getChildAt(0).requestFocus();
+        if (scrollViewLayout.getChildCount() <= 4){
+            mTvHorizontalScrollView.setLeftArrow(new ImageView(this));
+            mTvHorizontalScrollView.setRightArrow(new ImageView(this));
+        }
     }
 
     @Override
