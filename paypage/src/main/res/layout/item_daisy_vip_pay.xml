@@ -10,13 +10,18 @@
     android:focusable="true"
     android:nextFocusUp="@id/daisy_vip_pay_item"
 >
-
-    <com.example.foregroundimageview.ForegroundImageView
-        android:id="@+id/item_newvip_pay_img"
+    <FrameLayout
         android:layout_width="@dimen/item_newvip_pay_img_width"
         android:layout_height="@dimen/item_newvip_pay_img_height"
-        android:foreground="#7f000000"
-        android:scaleType="fitXY"/>
+    >
+        <com.example.foregroundimageview.ForegroundImageView
+            android:id="@+id/item_newvip_pay_img"
+            android:layout_width="@dimen/item_newvip_pay_img_width"
+            android:layout_height="@dimen/item_newvip_pay_img_height"
+            android:foreground="#7f000000"
+            android:scaleType="fitStart"
+        />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/title"
