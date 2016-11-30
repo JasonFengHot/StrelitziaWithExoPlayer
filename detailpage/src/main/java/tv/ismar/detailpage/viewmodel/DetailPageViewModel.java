@@ -442,8 +442,12 @@ public class DetailPageViewModel extends BaseObservable {
                     return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
                             mContext.getString(R.string.video_play);
                 } else {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) + " " + subItems[subItems.length - 1].getSubtitle() :
-                            mContext.getString(R.string.video_play) + " " + subItems[subItems.length - 1].getSubtitle();
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ?
+                            mContext.getString(R.string.video_preview)
+//                            + " " + subItems[subItems.length - 1].getSubtitle()
+                            :
+                            mContext.getString(R.string.video_play);
+//                                    + " " + subItems[subItems.length - 1].getSubtitle();
                 }
 
             default:
