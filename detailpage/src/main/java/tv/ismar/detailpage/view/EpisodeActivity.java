@@ -262,5 +262,4 @@ public class EpisodeActivity extends BaseActivity {
             outRect.right = horizontal;
         }
     }
-
 }
