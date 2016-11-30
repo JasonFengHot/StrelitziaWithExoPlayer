@@ -632,6 +632,7 @@
                     android:layout_marginTop="@dimen/normal_detail_relative_button_mt"
                     android:background="@drawable/s_button_color"
                     android:gravity="center"
+                    android:nextFocusDown="@id/detail_relative_button"
                     android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:text="@string/more"
                     android:textColor="@color/module_color_white"
