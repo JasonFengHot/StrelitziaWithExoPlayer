@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -52,6 +51,8 @@ public class LoginFragment extends BaseFragment {
 
     private LoginCallback mLoginCallback;
 
+    private String source = "";
+
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -82,7 +83,14 @@ public class LoginFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        edit_mobile.requestFocus();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            source = bundle.getString("source");
+        }
+
+        if (!source.equals("usercenter")) {
+            edit_mobile.requestFocus();
+        }
 
     }
 

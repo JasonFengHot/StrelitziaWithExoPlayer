@@ -234,6 +234,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         }
         // Create the fragment
         mLoginFragment = LoginFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("source", "usercenter");
+        mLoginFragment.setArguments(bundle);
         mLoginFragment.setLoginCallback(this);
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mLoginFragment, R.id.user_center_container);
