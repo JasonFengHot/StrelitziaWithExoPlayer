@@ -262,7 +262,13 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             if ((position + 1) % 6 == 0) {
                 holder.itemView.setNextFocusRightId(holder.itemView.getId());
             }
+            if (position == 5){
+                holder.itemView.setNextFocusUpId(holder.itemView.getId());
+            }
 
+            if (position == mProvinceTableList.size() -1 -1){
+                holder.itemView.setNextFocusDownId(holder.itemView.getId());
+            }
 
         }
 
@@ -322,6 +328,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 stringBuffer.insert(1, "    ");
             }
             holder.mTextView.setText(stringBuffer);
+
+
 
         }
 
