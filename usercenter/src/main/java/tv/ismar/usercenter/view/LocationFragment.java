@@ -407,7 +407,6 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         int width = (int) mContext.getResources().getDimension(R.dimen.location_area_pop_width);
         int height = (int) mContext.getResources().getDimension(R.dimen.location_area_pop_height);
         areaPopup = new PopupWindow(popupLayout, width, height);
-        areaPopup.setFocusable(true);
         areaPopup.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.transparent));
         int xOffset = (int) mContext.getResources().getDimensionPixelSize(R.dimen.locationFragment_areaPop_xOffset);
         int yOffset = (int) mContext.getResources().getDimensionPixelSize(R.dimen.locationFragment_areaPop_yOffset);
@@ -509,4 +508,10 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
     }
 
+    public void clearStatus(){
+        if (areaPopup!=null){
+            areaPopup.dismiss();
+            areaPopup = null;
+        }
+    }
 }

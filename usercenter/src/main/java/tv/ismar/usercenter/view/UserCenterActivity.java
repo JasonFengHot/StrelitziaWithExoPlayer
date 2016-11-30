@@ -162,6 +162,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private View.OnClickListener indicatorViewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (mLocationFragment!=null){
+                mLocationFragment.clearStatus();
+            }
             ImageView focusImage = (ImageView) v.findViewById(R.id.text_focus_bg);
             focusImage.requestFocus();
             focusImage.requestFocusFromTouch();
