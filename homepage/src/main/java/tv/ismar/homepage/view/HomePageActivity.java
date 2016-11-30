@@ -436,12 +436,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         } catch (IOException e) {
             e.printStackTrace();
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
                 fetchChannels();
-            }
-        }, 2000);
 
     }
 
