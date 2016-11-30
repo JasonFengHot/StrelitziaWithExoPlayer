@@ -40,7 +40,6 @@ public class BaseActivity extends AppCompatActivity {
     private ModuleMessagePopWindow expireAccessTokenPop;
     public SkyService mSkyService;
     public SkyService mWeatherSkyService;
-    protected String activityTag = "";
     public long app_start_time;
 
     public static Stack<Bundle> updateInfo = new Stack<>();

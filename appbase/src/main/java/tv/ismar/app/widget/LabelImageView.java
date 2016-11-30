@@ -180,10 +180,10 @@ public class LabelImageView extends FrameLayout {
         super.onHoverChanged(hovered);
         Log.i(TAG, "onHoverChanged:" + hovered);
         if (hovered) {
-            requestFocusFromTouch();
-            setBackgroundBorder(true);
+            requestFocus();
+//            setBackgroundBorder(true);
         } else {
-            setBackgroundBorder(false);
+//            setBackgroundBorder(false);
         }
     }
 

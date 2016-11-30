@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -102,8 +103,8 @@ public class LabelImageView3 extends AsyncImageView {
         mBound = new Rect();
         paint = new Paint();
         if (drawable == null) {
-            mNinePatchDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.vod_gv_selector);
-            drawablePadding = 22;
+            mNinePatchDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.vod_img_selector);
+            drawablePadding = dp2px(21);
         } else {
             mDrawable = drawable;
         }
@@ -145,14 +146,12 @@ public class LabelImageView3 extends AsyncImageView {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (needZoom) {
             if (gainFocus) {
-//                if (getId() != R.id.vaiety_post && getId() != R.id.image_switcher) {
-//                    bringToFront();
-//                }
+                if (getId() != R.id.vaiety_post && getId() != R.id.image_switcher && getId() != R.id.sportspost) {
+                    bringToFront();
+                }
                 drawBorder = true;
-//                zoomOut();
             } else {
                 drawBorder = false;
-//                zoomIn();
             }
             invalidate();
         }
@@ -163,25 +162,15 @@ public class LabelImageView3 extends AsyncImageView {
     }
 
     @Override
-    protected boolean dispatchHoverEvent(MotionEvent event) {
-        // TODO Auto-generated method stub
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_HOVER_ENTER:
-            case MotionEvent.ACTION_HOVER_MOVE:
-                drawBorder = true;
-//                if (isFocusable() && isFocusableInTouchMode())
-//                    requestFocus();
-//                setHovered(true);
-                requestFocusFromTouch();
-                invalidate();
-                break;
-            case MotionEvent.ACTION_HOVER_EXIT:
-//                setHovered(false);
-                drawBorder = false;
-                invalidate();
-                break;
+    public void onHoverChanged(boolean hovered) {
+        super.onHoverChanged(hovered);
+        if (hovered) {
+            requestFocus();
+//            drawBorder = true;
+        } else {
+//            drawBorder = false;
         }
-        return false;
+//        invalidate();
     }
 
     @Override
@@ -280,8 +269,7 @@ public class LabelImageView3 extends AsyncImageView {
             }
 
         }
-//        getRootView().requestLayout();
-//        getRootView().invalidate();
+
     }
 
     public void setCustomFocus(boolean customFocus) {
@@ -303,6 +291,10 @@ public class LabelImageView3 extends AsyncImageView {
                     R.anim.anim_scale_big);
         }
         startAnimation(scaleBigAnimation);
+    }
+
+    private int dp2px(float dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
 
 }
