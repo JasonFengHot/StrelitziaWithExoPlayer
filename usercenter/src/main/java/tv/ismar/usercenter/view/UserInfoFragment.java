@@ -201,6 +201,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     public void loadBalance(AccountBalanceEntity entity) {
         if (entity.getBalance().add(entity.getSn_balance()).setScale(1).equals(new BigDecimal(0).setScale(1))) {
             userinfoBinding.exitAccount.setNextFocusDownId(R.id.btn);
+            userinfoBinding.exitAccount.setNextFocusLeftId(R.string.usercenter_userinfo);
             for (View v: privilegeView){
                 v.setNextFocusLeftId(View.NO_ID);
             }
