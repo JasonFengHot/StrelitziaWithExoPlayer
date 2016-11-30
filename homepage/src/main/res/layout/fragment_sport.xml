@@ -16,6 +16,24 @@
         android:clipToPadding="false"
         android:orientation="horizontal">
 
+        <tv.ismar.homepage.widget.LabelImageView3
+            android:id="@+id/sportspost"
+            android:layout_width="@dimen/sport_top_center_w"
+            android:layout_height="@dimen/sport_top_h"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/sport_top_space"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusLeft="@+id/sport_card1"
+            android:nextFocusRight="@+id/sports_live1"
+            android:scaleType="fitXY"
+            android:src="@drawable/list_item_preview_bg"
+            labelimage:label3_needZoom="true"
+            labelimage:label3_textBackColor="@color/color_alpha_black"
+            labelimage:label3_textPaddingBottom="@dimen/sport_center_label_pb"
+            labelimage:label3_textPaddingTop="@dimen/sport_center_label_pt"
+            labelimage:label3_textSize="@dimen/text_size_36sp" />
+
         <RelativeLayout
             android:id="@+id/sport_lefttop"
             android:layout_width="@dimen/sport_top_item_w"
@@ -76,30 +94,12 @@
                 labelimage:label3_textSize="@dimen/text_size_18sp" />
         </RelativeLayout>
 
-        <tv.ismar.homepage.widget.LabelImageView3
-            android:id="@+id/sportspost"
-            android:layout_width="@dimen/sport_top_center_w"
-            android:layout_height="@dimen/sport_top_h"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/sport_top_space"
-            android:layout_toRightOf="@id/sport_lefttop"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:nextFocusLeft="@+id/sport_card1"
-            android:nextFocusRight="@+id/sports_live1"
-            android:scaleType="fitXY"
-            android:src="@drawable/list_item_preview_bg"
-            labelimage:label3_needZoom="true"
-            labelimage:label3_textBackColor="@color/color_alpha_black"
-            labelimage:label3_textPaddingBottom="@dimen/sport_center_label_pb"
-            labelimage:label3_textPaddingTop="@dimen/sport_center_label_pt"
-            labelimage:label3_textSize="@dimen/text_size_36sp" />
-
         <FrameLayout
+            android:id="@+id/sport_right_top_layout"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/sport_top_h"
-            android:layout_marginLeft="@dimen/sport_top_space"
-            android:layout_toRightOf="@id/sportspost"
+            android:layout_marginLeft="@dimen/sport_top_space1"
+            android:layout_toRightOf="@+id/sportspost"
             android:clipChildren="false"
             android:clipToPadding="false">
 

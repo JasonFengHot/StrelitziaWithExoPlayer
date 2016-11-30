@@ -340,6 +340,16 @@ public class SportFragment extends ChannelBaseFragment {
         sport_channel5.setOnClickListener(ItemClickListener);
         sportspost.setOnClickListener(ItemClickListener);
 
+        sportspost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    getActivity().findViewById(R.id.sport_lefttop).bringToFront();
+                    getActivity().findViewById(R.id.sport_right_top_layout).bringToFront();
+                }
+            }
+        });
+
         if (scrollFromBorder) {
             if (isRight) {//右侧移入
                 if ("bottom".equals(bottomFlag)) {//下边界移入

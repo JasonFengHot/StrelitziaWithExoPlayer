@@ -1441,7 +1441,8 @@
 <dimen name="sport_top_item_h">128.33dp</dimen>
 <dimen name="sport_top_item_space">0.78dp</dimen>
 <dimen name="sport_top_center_w">920.89dp</dimen>
-<dimen name="sport_top_space">1.56dp</dimen>
+<dimen name="sport_top_space">229.44dp</dimen>
+<dimen name="sport_top_space1">1.56dp</dimen>
 <dimen name="sport_top_arrow_h">23.33dp</dimen>
 <dimen name="sport_top_arrow_p">6.22dp</dimen>
 <dimen name="sport_top_label_pt">3.89dp</dimen>

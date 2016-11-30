@@ -146,7 +146,7 @@ public class LabelImageView3 extends AsyncImageView {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         if (needZoom) {
             if (gainFocus) {
-                if (getId() != R.id.vaiety_post && getId() != R.id.image_switcher && getId() != R.id.sportspost) {
+                if (getId() != R.id.vaiety_post && getId() != R.id.image_switcher) {
                     bringToFront();
                 }
                 drawBorder = true;
