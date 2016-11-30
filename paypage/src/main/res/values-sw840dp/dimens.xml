@@ -140,5 +140,6 @@
 <dimen name="login_edit_h">62.22dp</dimen>
 <dimen name="login_tip_mt">23.33dp</dimen>
 <dimen name="username_mr">31.11dp</dimen>
+<dimen name="shiyuncard_input_widht">700.00dp</dimen>
 
 </resources>

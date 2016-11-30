@@ -26,10 +26,8 @@
 
     <EditText
         android:id="@+id/shiyuncard_input"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/shiyuncard_input_widht"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/card_input_ml"
         android:layout_marginTop="@dimen/pay_shiyuncard_input_margintop"
         android:focusable="true"
         android:focusableInTouchMode="true"
