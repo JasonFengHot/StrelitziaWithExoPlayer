@@ -197,6 +197,9 @@ public class LoginFragment extends BaseFragment {
                     @Override
                     public void confirmClick(View view) {
                         dialog.dismiss();
+                        if (mLoginCallback != null) {
+                            mLoginCallback.onSuccess();
+                        }
                     }
                 },
                 null);
