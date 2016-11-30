@@ -544,6 +544,7 @@ public class FilmFragment extends ChannelBaseFragment {
                 }
                 break;
         }
+        film_post_layout.setTag(R.drawable.launcher_selector, mCarousels.get(mCurrentCarouselIndex));
         for (int i = 0; i < allItem.size(); i++) {
             LabelImageView3 imageView = allItem.get(i);
             if (mCurrentCarouselIndex != i) {
@@ -553,52 +554,49 @@ public class FilmFragment extends ChannelBaseFragment {
             }
         }
 
-//        String videoUrl = mCarousels.get(mCurrentCarouselIndex).getVideo_url();
-//        if (playSubscription != null && !playSubscription.isUnsubscribed()) {
-//            playSubscription.unsubscribe();
-//        }
+        String videoUrl = mCarousels.get(mCurrentCarouselIndex).getVideo_url();
+        if (playSubscription != null && !playSubscription.isUnsubscribed()) {
+            playSubscription.unsubscribe();
+        }
         film_post_layout.setNextFocusRightId(carouselMap.get(mCurrentCarouselIndex));
-        film_post_layout.setTag(R.drawable.launcher_selector, mCarousels.get(mCurrentCarouselIndex));
-        mHandler.removeMessages(START_PLAYBACK);
-        mHandler.sendEmptyMessageDelayed(START_PLAYBACK, delay);
-//        playSubscription = null;
-//        playSubscription = Observable.just(videoUrl)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(Schedulers.io())
-//                .map(new Func1<String, Boolean>() {
-//                    @Override
-//                    public Boolean call(String s) {
-//                        Log.i(TAG, "map thread: " + Thread.currentThread().getName());
-//                        HttpUrl parsed = HttpUrl.parse(s);
-//                        if (TextUtils.isEmpty(s) || parsed == null) {
-//                            return false;
-//                        }
-//                        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(s)).executeSingle();
-//                        return externalStorageIsEnable && downloadEntity.status == DownloadStatus.COMPLETED;
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<Boolean>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        playImage();
-//                    }
-//
-//                    @Override
-//                    public void onNext(Boolean enable) {
-//                        Log.i(TAG, "onNext thread: " + Thread.currentThread().getName());
-//                        if (enable) {
-//                            playVideo(delay);
-//                        } else {
-//                            playImage();
-//                        }
-//                    }
-//                });
+        playSubscription = null;
+        playSubscription = Observable.just(videoUrl)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .map(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        Log.i(TAG, "map thread: " + Thread.currentThread().getName());
+                        HttpUrl parsed = HttpUrl.parse(s);
+                        if (TextUtils.isEmpty(s) || parsed == null) {
+                            return false;
+                        }
+                        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(s)).executeSingle();
+                        return externalStorageIsEnable && downloadEntity.status == DownloadStatus.COMPLETED;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        playImage();
+                    }
+
+                    @Override
+                    public void onNext(Boolean enable) {
+                        Log.i(TAG, "onNext thread: " + Thread.currentThread().getName());
+                        if (enable) {
+                            playVideo(delay);
+                        } else {
+                            playImage();
+                        }
+                    }
+                });
     }
 
     private boolean externalStorageIsEnable() {
