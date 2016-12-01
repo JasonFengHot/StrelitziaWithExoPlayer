@@ -41,6 +41,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
@@ -1110,51 +1111,31 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                     mSectionProperties.remove(EventProperty.SECTION);
                     Intent intent = new Intent();
                     if (item.is_complex) {
-//                        if (!isPortrait) {
-//                            if (item.content_model.equals("variety") || item.content_model.equals("entertainment")) {
-//                                //综艺详情
-//                                if (item.expense != null) {
-//                                    intent.setAction("tv.ismar.daisy.Item");
-//                                } else {
-//                                    intent.setAction("tv.ismar.daisy.EntertainmentItem");
-//                                }
-//                            } else if (item.content_model.equals("movie") ){
-//                                intent.setAction("tv.ismar.daisy.PFileItem");
-//                            }else {
-//                                intent.setAction("tv.ismar.daisy.Item");
-//                            }
-//                        } else {
-//                            intent.setAction("tv.ismar.daisy.PFileItem");
-//                        }
-//                        intent.putExtra("url", item.url);
-//                        intent.putExtra("title", mTitle);
-//                        intent.putExtra("channel", mChannel);
-//                        intent.putExtra("fromPage", "list");
-//                        intent.putExtra(EventProperty.SECTION, s.slug);
-//                        startActivity(intent);
                         boolean[] isSubItem = new boolean[1];
                         int pk = SimpleRestClient.getItemId(item.url, isSubItem);
                         PageIntent pageIntent=new PageIntent();
                         pageIntent.toDetailPage(getActivity(),"list",pk);
                     } else {
-                        tool = new InitPlayerTool(getActivity());
-                        tool.fromPage = "list";
-                        tool.setonAsyncTaskListener(new InitPlayerTool.onAsyncTaskHandler() {
-
-                            @Override
-                            public void onPreExecute(Intent intent) {
-                                // TODO Auto-generated method stub
-                                intent.putExtra(EventProperty.SECTION, s.slug);
-                                mLoadingDialog.show();
-                            }
-
-                            @Override
-                            public void onPostExecute() {
-                                // TODO Auto-generated method stub
-                                mLoadingDialog.dismiss();
-                            }
-                        });
-                        tool.initClipInfo(item.url, InitPlayerTool.FLAG_URL);
+//                        tool = new InitPlayerTool(getActivity());
+//                        tool.fromPage = "list";
+//                        tool.setonAsyncTaskListener(new InitPlayerTool.onAsyncTaskHandler() {
+//
+//                            @Override
+//                            public void onPreExecute(Intent intent) {
+//                                // TODO Auto-generated method stub
+//                                intent.putExtra(EventProperty.SECTION, s.slug);
+//                                mLoadingDialog.show();
+//                            }
+//
+//                            @Override
+//                            public void onPostExecute() {
+//                                // TODO Auto-generated method stub
+//                                mLoadingDialog.dismiss();
+//                            }
+//                        });
+//                        tool.initClipInfo(item.url, InitPlayerTool.FLAG_URL);
+                        PageIntent playintent=new PageIntent();
+                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST);
                     }
                 }
             }

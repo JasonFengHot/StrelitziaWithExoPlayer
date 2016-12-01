@@ -11,6 +11,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -245,16 +246,13 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 ((LayoutParams) section_image.getLayoutParams()).width = textWidth + tabSpace * 2;
             }
             if(textHeight>0){
-                ((LayoutParams) section_image.getLayoutParams()).height = textWidth;
+             //   ((LayoutParams) section_image.getLayoutParams()).height = textHeight;
             }
             if (hasFocus) {
                 if (isFromArrow) {
                     isFromArrow = false;
                 } else {
                     if (v.isHovered()) {
-//                    Drawable drawable = new BitmapDrawable(getResources(),BitmapUtil.scaleToBitmapRate(mContext,R.drawable.usercenter_indicator_selected,bitmapMatrix));
-//                    label.setBackgroundDrawable(drawable);
-//                    label.setBackgroundResource(R.drawable.usercenter_indicator_selected);
                         return;
                     }
                 }
@@ -294,11 +292,12 @@ public class ScrollableSectionList extends HorizontalScrollView {
 //                Log.i("LH/", "sectionfocus:"+index+" "+mSelectPosition);
                 if (index == mSelectPosition) {
                     sectionWhenGoto = label;
-                    section_image.setImageResource(R.drawable.gotogridview);
-                    v.startAnimation(scaleBigAnimation);
+                 //   section_image.setImageResource(R.drawable.gotogridview);
+                 //   v.startAnimation(scaleBigAnimation);
                     return;
                 }
                 label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
+                label.setGravity(Gravity.CENTER);
                 section_image.setImageResource(android.R.color.transparent);
             }
         }
@@ -346,12 +345,12 @@ public class ScrollableSectionList extends HorizontalScrollView {
         TextView lastLabel = (TextView) lastSelectedView.findViewById(R.id.section_label);
         ImageView last_section_image = (ImageView) lastSelectedView.findViewById(R.id.section_image);
         lastLabel.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
-        lastLabel.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
+      //  lastLabel.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
         last_section_image.setImageResource(android.R.color.transparent);
 
         TextView label = (TextView) currentView.findViewById(R.id.section_label);
         label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
-        label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
+       // label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
         ImageView section_image = (ImageView) currentView.findViewById(R.id.section_image);
         ((LayoutParams) section_image.getLayoutParams()).width = currentView.getWidth();
         if (currentState == STATE_SECTION) {

@@ -18,9 +18,9 @@
         android:gravity="center"
         android:id="@+id/section_label"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/h1_size"
         android:layout_gravity="center"
-        android:textSize="30px"
+        android:textSize="@dimen/list_section_tabSize"
         android:textColor="@color/color_base_white"
         android:singleLine="true"
         />

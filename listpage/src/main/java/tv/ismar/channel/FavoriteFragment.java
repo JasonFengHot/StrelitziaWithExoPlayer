@@ -32,6 +32,7 @@ import okhttp3.HttpUrl;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.adapter.RecommecdItemAdapter;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
@@ -193,7 +194,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 				if(mHGridAdapter!=null) {
 					if(mHGridAdapter!=null) {
 						if(!isInGetFavoriteTask) {
-							if("".equals(SimpleRestClient.access_token)){
+							if(!IsmartvActivator.getInstance().isLogin()){
 								DaisyUtils.getFavoriteManager(getActivity()).deleteAll("no");
 								reset();
 							}
@@ -254,7 +255,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					@Override
 					public void onNext(Item[] items) {
 						mLoadingDialog.dismiss();
-						if(items!=null&&FavoriteList.length>0){
+						if(items!=null){
 							mItemCollections = new ArrayList<ItemCollection>();
 							int num_pages = (int) Math.ceil((float)items.length / (float)ItemCollection.NUM_PER_PAGE);
 							ItemCollection itemCollection = new ItemCollection(num_pages, items.length, "1", "1");
@@ -276,6 +277,11 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 						}else{
 							no_video();
 						}
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						super.onError(e);
 					}
 				});
 	}
@@ -529,7 +535,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 	public void onResume() {
 		((ChannelListActivity)getActivity()).registerOnMenuToggleListener(this);
 		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_COLLECT_IN);
-		if("".equals(SimpleRestClient.access_token)){
+		if(!IsmartvActivator.getInstance().isLogin()){
 			getFavoriteTask = new GetFavoriteTask();
 			getFavoriteTask.execute();
 		}

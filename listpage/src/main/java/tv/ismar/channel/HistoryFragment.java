@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.adapter.RecommecdItemAdapter;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
@@ -195,7 +196,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			public void onClick(View v) {
 				if(mHGridAdapter!=null) {
 					if(!isInGetHistoryTask) {
-						if("".equals(SimpleRestClient.access_token)){
+						if(!IsmartvActivator.getInstance().isLogin()){
 							DaisyUtils.getHistoryManager(getActivity()).deleteAll("no");
 							reset();
 						}
@@ -494,7 +495,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 	@Override
 	public void onResume() {
-		if(!"".equals(SimpleRestClient.access_token)){
+		if(IsmartvActivator.getInstance().isLogin()){
 			//登录，网络获取
 			getHistoryByNet();
 		}else{
