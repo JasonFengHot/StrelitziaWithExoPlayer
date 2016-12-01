@@ -188,6 +188,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnSeekCompleteListener smartSeekCompleteListener = new SmartPlayer.OnSeekCompleteListener() {
         @Override
         public void onSeekComplete(SmartPlayer smartPlayer) {
+            if(smartPlayer.isPlaying()){
+                smartPlayer.pause();
+            }
             if (isInPlaybackState()) {
                 logVideoSeekComplete(mSpeed, mMediaIp);
             }
@@ -338,7 +341,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             mCurrentState = STATE_IDLE;
             PlayerBuilder.getInstance().release();
         }
-        if (mContainer != null) {
+        if(mContainer != null){
             mContainer.removeAllViews();
             mContainer.setVisibility(View.GONE);
         }

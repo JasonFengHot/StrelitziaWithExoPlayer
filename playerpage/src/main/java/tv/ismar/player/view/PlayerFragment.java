@@ -517,6 +517,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onAdStart() {
         Log.i(TAG, "onAdStart");
+        if(!onPlayerFragment){
+            return;
+        }
         mIsPlayingAd = true;
         ad_vip_btn.setVisibility(View.VISIBLE);
         ad_count_text.setVisibility(View.VISIBLE);
@@ -528,6 +531,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onAdEnd() {
         Log.i(TAG, "onAdEnd");
+        if(!onPlayerFragment){
+            return;
+        }
         mIsPlayingAd = false;
         ad_vip_btn.setVisibility(View.GONE);
         ad_count_text.setVisibility(View.GONE);
@@ -605,7 +611,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onSeekComplete() {
         Log.i(TAG, "onSeekComplete");
-        if (isSeeking) {
+        if (isSeeking && onPlayerFragment) {
             timerStart(500);
             showPannelDelayOut();
             if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
@@ -616,7 +622,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onCompleted() {
-        if(mIsmartvPlayer == null){
+        if(mIsmartvPlayer == null && !onPlayerFragment){
             return;
         }
         hideMenu();
@@ -684,7 +690,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public boolean onError(String message) {
         Log.e(TAG, "onError:" + message);
-        if(mIsmartvPlayer == null){
+        if(mIsmartvPlayer == null && !onPlayerFragment){
             return true;
         }
         showExitPopup(POP_TYPE_PLAYER_ERROR);
@@ -699,7 +705,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (mItemEntity == null || mItemEntity.getLiveVideo() || mModel == null) {
+            if (mItemEntity == null || mItemEntity.getLiveVideo() || mModel == null || !onPlayerFragment) {
                 return;
             }
             mModel.updateTimer(progress, mIsmartvPlayer.getDuration());
