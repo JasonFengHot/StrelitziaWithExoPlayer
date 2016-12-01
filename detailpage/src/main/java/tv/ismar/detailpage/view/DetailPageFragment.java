@@ -219,8 +219,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 //            relTextViews[i].setEllipsize(TextUtils.TruncateAt.MARQUEE);
             relTextViews[i].setText(itemEntities[i].getTitle());
 
-            if (!mItemEntity.getContentModel().equals("variety") && !mItemEntity.getContentModel().equals("entertainment") && !mItemEntity.getContentModel().equals("movie")) {
-                relFocusTextViews[i].setText(itemEntities[i].getFocus());
+            if (!mItemEntity.getContentModel().equals("movie")) {
+//                relFocusTextViews[i].setText(itemEntities[i].getFocus());
             } else {
                 relRelImageViews[i].setLivLabelText(itemEntities[i].getFocus());
             }
