@@ -114,6 +114,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnCompletionListenerUrl smartCompletionListenerUrl = new SmartPlayer.OnCompletionListenerUrl() {
         @Override
         public void onCompletion(SmartPlayer smartPlayer, String s) {
+            Log.i(TAG, "onCompletion:" + s);
             mCurrentState = STATE_COMPLETED;
             if (mIsPlayingAdvertisement && !mAdIdMap.isEmpty()) {
                 int mediaId = mAdIdMap.get(s);
@@ -337,7 +338,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             mCurrentState = STATE_IDLE;
             PlayerBuilder.getInstance().release();
         }
-        if(mContainer != null){
+        if (mContainer != null) {
             mContainer.removeAllViews();
             mContainer.setVisibility(View.GONE);
         }
