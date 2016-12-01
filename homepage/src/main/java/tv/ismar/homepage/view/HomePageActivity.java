@@ -53,6 +53,7 @@ import java.util.TimerTask;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.ActiveService;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
@@ -363,6 +364,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             }
         }, 1000);
 
+        startIntervalActive();
     }
 
     private boolean hoverOnArrow;
@@ -1367,4 +1369,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      * advertisement end
      */
 
+    private void startIntervalActive(){
+        Intent intent = new Intent();
+        intent.setClass(this, ActiveService.class);
+        startService(intent);
+    }
 }

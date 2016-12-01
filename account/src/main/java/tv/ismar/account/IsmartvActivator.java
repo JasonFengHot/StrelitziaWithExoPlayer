@@ -200,7 +200,7 @@ public class IsmartvActivator {
         }
     }
 
-    private ResultEntity active() {
+    public ResultEntity active() {
         String sign = "ismartv=201415&kind=" + kind + "&sn=" + sn;
         String rsaEncryptResult = encryptWithPublic(sign);
         try {

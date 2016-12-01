@@ -51,6 +51,8 @@
             <meta-data android:name="android.accounts.AccountAuthenticator"
                        android:resource="@xml/authenticator"/>
         </service>
+        <service android:name=".ActiveService"/>
+
 
     </application>
 
