@@ -38,8 +38,10 @@ import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.FilterItem;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.ui.view.AlertDialogFragment;
 import tv.ismar.app.ui.view.MyViewGroup;
 import tv.ismar.app.widget.LoadingDialog;
@@ -88,6 +90,9 @@ public class FilterFragment extends BackHandledFragment {
             mLoadingDialog.show();
             doFilterRequest();
         }
+        HashMap<String, Object> properties = new HashMap<String, Object>();
+        properties.put(EventProperty.TITLE, "shaixuan");
+        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_FILTER_IN, properties);
         return fragmentView;
     }
 
