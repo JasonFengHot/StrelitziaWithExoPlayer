@@ -661,6 +661,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     }
                 }
             }
+            addHistory(0);
+            mCurrentPosition = 0;
+            mediaHistoryPosition = 0;
             String itemJson = new Gson().toJson(mItemEntity);
             Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
             intent.putExtra("itemJson", itemJson);
@@ -668,10 +671,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             if (player_seekBar != null) {
                 player_seekBar.setProgress(0);
             }
-            mCurrentPosition = 0;
-            addHistory(0);
+            mIsmartvPlayer = null;
             if (isPlayInDetailPage) {
-                // 再次进入详情页时,需要处理逻辑
+                // 再次进入详情页时,需要处理逻辑,不能再此处切换界面
                 goFinishPageOnResume = true;
             } else {
                 getActivity().finish();
