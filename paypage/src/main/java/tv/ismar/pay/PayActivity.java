@@ -125,14 +125,8 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
             vipItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.putExtra("cpid", payLayerEntity.getCpid());
-                    intent.putExtra("item_id", mItemId);
-                    intent.setClass(PayActivity.this, PayLayerVipActivity.class);
-                    startActivityForResult(intent, PAYMENT_REQUEST_CODE);
-
-                    PaymentInfo paymentInfo = new PaymentInfo(mItemId, payLayerEntity.getCpid(), PAYVIP);
-                    new PageIntent().toPaymentForResult(PayActivity.this, unknown.toString(), paymentInfo );
+                    PaymentInfo paymentInfo = new PaymentInfo(mItemId, PAYVIP, payLayerEntity.getCpid());
+                    new PageIntent().toPaymentForResult(PayActivity.this, unknown.toString(), paymentInfo);
                 }
             });
             scrollViewLayout.addView(vipItem, layoutParams);
