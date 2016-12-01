@@ -45,7 +45,7 @@ public class HttpParamsInterceptor implements Interceptor {
         String deviceToken = activator.getDeviceToken();
         paramsMap = new HashMap<>();
 
-        paramsMap.put("device_token", deviceToken );
+        paramsMap.put("device_token", deviceToken);
         paramsMap.put("token_check", "1");
 
         if (!TextUtils.isEmpty(accessToken)) {
@@ -80,7 +80,7 @@ public class HttpParamsInterceptor implements Interceptor {
 
 
         // process post body inject
-        if (request.method().equals("POST") && request.body().contentType().subtype().equals("x-www-form-urlencoded")) {
+        if (request.method().equals("POST") && (request.body() == null || request.body().contentType().subtype().equals("x-www-form-urlencoded"))) {
             FormBody.Builder formBodyBuilder = new FormBody.Builder();
             if (paramsMap.size() > 0) {
                 Iterator iterator = paramsMap.entrySet().iterator();
