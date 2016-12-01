@@ -379,6 +379,7 @@
                     android:background="@drawable/s_button_color"
                     android:ems="1"
                     android:gravity="center"
+                    android:nextFocusDown="@id/detail_relative_button"
                     android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:text="@string/movie_more"
                     android:textColor="@color/module_color_white"
