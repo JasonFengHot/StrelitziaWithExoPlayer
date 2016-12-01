@@ -145,7 +145,6 @@ public class LabelImageView extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         super.getDrawingRect(mRect);
-        Log.i(TAG, "labelOnDraw");
         if (drawBorder) {
             mBound.set(-dp2px(21) + mRect.left, -dp2px(21) + mRect.top, dp2px(21) + mRect.right, dp2px(21) + mRect.bottom);
             livSelectorDrawable.setBounds(mBound);

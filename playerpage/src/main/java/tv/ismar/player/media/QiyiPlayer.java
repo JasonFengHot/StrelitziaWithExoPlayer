@@ -26,7 +26,6 @@ public class QiyiPlayer extends IsmartvPlayer {
 
     @Override
     protected void setMedia(IMedia media) {
-        mSurfaceView.setVisibility(View.GONE);
         mContainer.setVisibility(View.VISIBLE);
 
         //创建IVideoOverlay对象, 不支持实现IVideoOverlay接口，必须调用PlaySdk.getInstance().createVideoOverlay创建
