@@ -60,7 +60,6 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected ClipEntity.Quality mQuality;
     protected List<ClipEntity.Quality> mQualities;
     protected boolean mIsPlayingAdvertisement;
-    protected SurfaceView mSurfaceView;
     protected FrameLayout mContainer;
     protected int mStartPosition;
 
@@ -88,10 +87,6 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     public void setItemEntity(ItemEntity itemEntity) {
         mItemEntity = itemEntity;
-    }
-
-    public void setSurfaceView(SurfaceView surfaceView) {
-        mSurfaceView = surfaceView;
     }
 
     public void setContainer(FrameLayout container) {

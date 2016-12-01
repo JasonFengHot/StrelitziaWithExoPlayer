@@ -27,7 +27,6 @@ public class PlayerBuilder {
     private byte mPlayerMode = -1;
     private Activity mContext;
     private ItemEntity mItemEntity;
-    private SurfaceView mSurfaceView;
     private FrameLayout mContainer;
     private int mStartPosition = 0;
 
@@ -69,11 +68,6 @@ public class PlayerBuilder {
         return this;
     }
 
-    public PlayerBuilder setSurfaceView(SurfaceView surfaceView) {
-        mSurfaceView = surfaceView;
-        return this;
-    }
-
     public PlayerBuilder setContainer(FrameLayout container) {
         mContainer = container;
         return this;
@@ -97,10 +91,6 @@ public class PlayerBuilder {
             Log.e(TAG, "Must call setItemEntity first.");
             throw new IllegalAccessError("Must call setItemEntity first.");
         }
-        if (mSurfaceView == null) {
-            Log.e(TAG, "Must call setSurfaceView first.");
-            throw new IllegalAccessError("Must call setSurfaceView first.");
-        }
         if (mContainer == null) {
             Log.e(TAG, "Must call setContainer first.");
             throw new IllegalAccessError("Must call setContainer first.");
@@ -121,7 +111,6 @@ public class PlayerBuilder {
         Log.e(TAG, "new IsmartvPlayer success.");
         ismartvPlayer.setContext(mContext);
         ismartvPlayer.setItemEntity(mItemEntity);
-        ismartvPlayer.setSurfaceView(mSurfaceView);
         ismartvPlayer.setContainer(mContainer);
         ismartvPlayer.setStartPosition(mStartPosition);
         return ismartvPlayer;
@@ -131,7 +120,6 @@ public class PlayerBuilder {
         mPlayerMode = -1;
         mContext = null;
         mItemEntity = null;
-        mSurfaceView = null;
         mContainer = null;
         sInstance = null;
     }

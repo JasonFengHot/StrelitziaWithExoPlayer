@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private int mSpeed;
     private String mMediaIp;
     private static boolean isSurfaceInit;
+    private SurfaceView surfaceView;
 
     public DaisyPlayer() {
         this(PlayerBuilder.MODE_SMART_PLAYER);
@@ -43,12 +45,13 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     @Override
     protected void setMedia(String[] urls) {
         mPaths = urls;
-        mSurfaceView.setVisibility(View.VISIBLE);
-        mContainer.setVisibility(View.GONE);
-        mHolder = mSurfaceView.getHolder();
+        mContainer.setVisibility(View.VISIBLE);
+        surfaceView = new SurfaceView(mContext);
+        mContainer.addView(surfaceView);
+        mHolder = surfaceView.getHolder();
         mHolder.addCallback(this);
         logVideoStart(mSpeed);
-        Log.i(TAG, "setMedia");
+        Log.i(TAG, "setMedia:" + isSurfaceInit + " " + mHolder);
         if (isSurfaceInit && mHolder != null && mHolder.getSurface().isValid()) {
             openVideo();
             if (mOnDataSourceSetListener != null) {
@@ -257,7 +260,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             if (mOnStateChangedListener != null) {
                 mOnStateChangedListener.onError(errorMsg);
             }
-            return false;
+            return true;
         }
     };
 
@@ -285,10 +288,10 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.i(TAG, "surfaceDestroyed");
-        mHolder = null;
+        mHolder.removeCallback(this);
         isSurfaceInit = false;
         if (isInPlaybackState() && mPlayer != null && mPlayer.isPlaying()) {
-            pause();
+            release(true);
         }
     }
 
@@ -333,6 +336,10 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             }
             mCurrentState = STATE_IDLE;
             PlayerBuilder.getInstance().release();
+        }
+        if(mContainer != null){
+            mContainer.removeAllViews();
+            mContainer.setVisibility(View.GONE);
         }
     }
 
