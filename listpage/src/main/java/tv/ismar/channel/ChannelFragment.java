@@ -843,6 +843,11 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                     //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, new GetItemListTask(), new Object[]{index});
                 }
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
         });
     }
     private ScrollableSectionList.OnSectionSelectChangedListener mOnSectionSelectChangedListener = new ScrollableSectionList.OnSectionSelectChangedListener() {

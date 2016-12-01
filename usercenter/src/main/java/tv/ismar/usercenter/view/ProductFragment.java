@@ -189,8 +189,18 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                 holder.mImageView.setNextFocusUpId(holder.mImageView.getId());
             }
 
-            if (position == mObjects.size() - 1 || position == mObjects.size() - 2 || position == mObjects.size() - 3 || position == mObjects.size() - 4){
-                holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
+//            if (position == mObjects.size() - 1 || position == mObjects.size() - 2 || position == mObjects.size() - 3 || position == mObjects.size() - 4) {
+//                holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
+//            }
+
+            int theLastLineCount = (position + 1) % 4;
+
+            if (theLastLineCount != 0) {
+                if (position >= mObjects.size() - 1 - theLastLineCount) {
+                    holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
+                }
+
+
             }
         }
 
