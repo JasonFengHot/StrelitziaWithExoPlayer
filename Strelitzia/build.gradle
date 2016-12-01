@@ -5,6 +5,7 @@ android {
 
     dexOptions {
         preDexLibraries = false
+        javaMaxHeapSize "4g"
     }
 
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
