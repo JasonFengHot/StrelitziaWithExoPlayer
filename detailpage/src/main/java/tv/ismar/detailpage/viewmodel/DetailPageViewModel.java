@@ -540,4 +540,18 @@ public class DetailPageViewModel extends BaseObservable {
     public int getItemLayoutVisibility() {
         return itemIsload ? View.VISIBLE : View.INVISIBLE;
     }
+
+    @Bindable
+    public String getCpLogoUrl() {
+        try {
+            return mItemEntity.getExpense().getCplogo();
+        } catch (NullPointerException e) {
+            return "error";
+        }
+    }
+
+    @Bindable
+    public int getCpLogoVisibility() {
+        return getCpLogoUrl().equals("error") ? View.INVISIBLE : View.VISIBLE;
+    }
 }
