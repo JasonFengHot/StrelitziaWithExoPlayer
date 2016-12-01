@@ -33,6 +33,7 @@ import tv.ismar.detailpage.databinding.FragmentDetailpageMovieSharpBinding;
 import tv.ismar.detailpage.databinding.FragmentDetailpageNormalSharpBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
+import tv.ismar.statistics.DetailPageStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
@@ -79,6 +80,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private View favoriteBtnView;
     private View moreBtnView;
 
+    private DetailPageStatistics mPageStatistics;
+
     public DetailPageFragment() {
         // Required empty public constructor
     }
@@ -96,6 +99,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPageStatistics = new DetailPageStatistics();
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             fromPage = bundle.getString(EXTRA_SOURCE);
@@ -135,7 +139,14 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void onResume() {
         super.onResume();
+        mPageStatistics.videoDetailIn(mItemEntity, fromPage);
         mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
+    }
+
+    @Override
+    public void onPause() {
+        mPageStatistics.videoDetailOut(mItemEntity);
+        super.onPause();
     }
 
     @Override
@@ -262,6 +273,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         @Override
         public void onClick(View v) {
             ItemEntity item = relateItems[(int) v.getTag()];
+            mPageStatistics.videoRelateClick(mItemEntity.getPk(), item);
             new PageIntent().toDetailPage(getContext(), Source.RELATED.getValue(), item.getPk());
         }
     };

@@ -27,6 +27,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
+import tv.ismar.statistics.EpisodePageStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
@@ -58,10 +59,13 @@ public class EpisodeActivity extends BaseActivity {
 
     private View tmp;
 
+    private EpisodePageStatistics mPageStatistics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episode);
+        mPageStatistics = new EpisodePageStatistics();
         final View vv = findViewById(R.id.large_layout);
 
         initViews();
@@ -105,7 +109,10 @@ public class EpisodeActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
+        mPageStatistics.videoEpisodeIn(mItemEntity, source);
     }
+
+
 
 
     private void initViews() {
@@ -163,6 +170,7 @@ public class EpisodeActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
+        mPageStatistics.videoEpisodeOut(mItemEntity);
         if (loadDialog != null && loadDialog.isShowing()) {
             loadDialog.dismiss();
         }

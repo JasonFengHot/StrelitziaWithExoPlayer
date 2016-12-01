@@ -35,6 +35,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.R;
+import tv.ismar.statistics.DetailPageStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
@@ -71,6 +72,8 @@ public class PackageDetailFragment extends BaseFragment {
 
     private DetailPageActivity mActivity;
 
+    private DetailPageStatistics mPageStatistics;
+
     public static PackageDetailFragment newInstance(String fromPage, String itemJson) {
         PackageDetailFragment fragment = new PackageDetailFragment();
         Bundle args = new Bundle();
@@ -89,6 +92,7 @@ public class PackageDetailFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPageStatistics = new DetailPageStatistics();
         Bundle bundle = getArguments();
         mItemEntity = new Gson().fromJson(bundle.getString(EXTRA_ITEM_JSON), ItemEntity.class);
         source = bundle.getString(EXTRA_SOURCE);
@@ -288,6 +292,7 @@ public class PackageDetailFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             ItemEntity itemEntity = (ItemEntity) v.getTag();
+            mPageStatistics.videoRelateClick(mItemEntity.getPk(), itemEntity);
             PageIntent pageIntent = new PageIntent();
             pageIntent.toPackageDetail(getContext(), "package", itemEntity.getPk());
 
