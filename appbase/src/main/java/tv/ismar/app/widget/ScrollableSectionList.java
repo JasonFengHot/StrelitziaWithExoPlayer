@@ -221,6 +221,12 @@ public class ScrollableSectionList extends HorizontalScrollView {
         int measuredWidth = textView.getMeasuredWidth();
         return measuredWidth;
     }
+    private int getTextHeight(TextView textView){
+        int spec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+        textView.measure(spec, spec);
+        int measuredHeight=textView.getMeasuredHeight();
+        return measuredHeight;
+    }
 
     private OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 
@@ -233,9 +239,13 @@ public class ScrollableSectionList extends HorizontalScrollView {
 //            Log.i("LH/","onFocusChange:"+index + " mSelected:"+mSelectPosition + " hovered:"+v.isHovered()+ " hasFocus:"+hasFocus);
             TextView label = (TextView) v.findViewById(R.id.section_label);
             int textWidth = getTextWidth(label);
+            int textHeight=getTextHeight(label);
             ImageView section_image = (ImageView) v.findViewById(R.id.section_image);
             if (textWidth > 0) {
                 ((LayoutParams) section_image.getLayoutParams()).width = textWidth + tabSpace * 2;
+            }
+            if(textHeight>0){
+                ((LayoutParams) section_image.getLayoutParams()).height = textWidth;
             }
             if (hasFocus) {
                 if (isFromArrow) {

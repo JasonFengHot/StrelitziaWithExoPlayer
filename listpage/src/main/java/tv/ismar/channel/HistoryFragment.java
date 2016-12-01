@@ -30,7 +30,9 @@ import rx.schedulers.Schedulers;
 import tv.ismar.adapter.RecommecdItemAdapter;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Expense;
 import tv.ismar.app.entity.History;
@@ -41,7 +43,9 @@ import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.exception.ItemOfflineException;
 import tv.ismar.app.exception.NetworkException;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.ui.HGridView;
+import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.ui.ZGridView;
 import tv.ismar.app.ui.adapter.HGridAdapterImpl;
 import tv.ismar.app.ui.view.AlertDialogFragment;
@@ -186,6 +190,33 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		recommend_gridview = (ZGridView)fragmentView.findViewById(R.id.recommend_gridview);
 		recommend_txt = (TextView)fragmentView.findViewById(R.id.recommend_txt);
 
+		clerHistory.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mHGridAdapter!=null) {
+					if(!isInGetHistoryTask) {
+						if("".equals(SimpleRestClient.access_token)){
+							DaisyUtils.getHistoryManager(getActivity()).deleteAll("no");
+							reset();
+						}
+						else{
+							DaisyUtils.getHistoryManager(getActivity()).deleteAll("yes");
+							EmptyAllHistory();
+						}
+					}
+				}
+			}
+		});
+		clerHistory.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus){
+					clerHistory.setTextColor(getResources().getColor(R.color._ff9c3c));
+				}else{
+					clerHistory.setTextColor(getResources().getColor(R.color._ffffff));
+				}
+			}
+		});
 //		search_btn = (Button)fragmentView.findViewById(R.id.list_view_search);
 //		search_btn.setOnClickListener(new OnClickListener() {
 //
@@ -197,6 +228,9 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 ////				startActivity(searchIntent);
 //			}
 //		});
+		HashMap<String, Object> properties = new HashMap<String, Object>();
+		properties.put(EventProperty.TITLE, "history");
+		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_HISTORY_IN, properties);
 	}
 
 	private void initHistoryList(){
@@ -261,10 +295,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		View fragmentView = inflater.inflate(R.layout.historycollectlist_view, container, false);
-		if("".equals(SimpleRestClient.access_token)){
-			mGetHistoryTask = new GetHistoryTask();
-			mGetHistoryTask.execute(); //没有登录，取本地设备信息
-		}
 		initViews(fragmentView);
 		return fragmentView;
 	}
@@ -675,7 +705,10 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					}
 					@Override
 					public void onNext(Item i) {
+						Log.i("toPlayPage","onNext:"+i.item_url);
 						item = i;
+//						PageIntent intent=new PageIntent();
+//						intent.toPlayPage(getActivity(),item.pk,item.item_pk,Source.HISTORY);
 						String url = SimpleRestClient.root_url + "/api/item/" + item.pk + "/";
 						mCurrentGetItemTask.remove(url);
 						History history = null;
@@ -904,12 +937,16 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			getClicItem(item);
 
 		} else if (i == R.id.recommend_gridview) {
+			boolean[] isSubItem = new boolean[1];
+			int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
+			PageIntent intent=new PageIntent();
 			if (tvHome.getObjects().get(position).isIs_complex()) {
-				DaisyUtils.gotoSpecialPage(getActivity(), tvHome.getObjects().get(position).getContent_model(), tvHome.getObjects().get(position).getItem_url(), "history");
+				intent.toDetailPage(getActivity(),"tvhome",pk);
 			} else {
-				InitPlayerTool tool = new InitPlayerTool(getActivity());
-				tool.fromPage = "history";
-				tool.initClipInfo(tvHome.getObjects().get(position).getItem_url(), InitPlayerTool.FLAG_URL);
+//				InitPlayerTool tool = new InitPlayerTool(getActivity());
+//				tool.fromPage = "history";
+//				tool.initClipInfo(tvHome.getObjects().get(position).getItem_url(), InitPlayerTool.FLAG_URL);
+				intent.toPlayPage(getActivity(),pk,0, Source.HISTORY);
 			}
 		}
 	}
@@ -940,7 +977,8 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 
 	private void startPersoncenter(){
-//		Intent intent = new Intent(getActivity(),UserCenterActivity.class);
-//		startActivity(intent);
+		Intent intent = new Intent();
+		intent.setAction("tv.ismar.daisy.usercenter");
+		startActivity(intent);
 	}
 }

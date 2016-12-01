@@ -44,6 +44,8 @@
             android:textSize="@dimen/vod_payment_price_textsize"
             android:layout_marginLeft="@dimen/clear_history_Ml"
             android:layout_marginTop="@dimen/history_top_textBl"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             />
 </LinearLayout>
 

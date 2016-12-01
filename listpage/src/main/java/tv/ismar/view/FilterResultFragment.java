@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import okhttp3.ResponseBody;
@@ -30,12 +31,14 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
 import tv.ismar.app.entity.ItemList;
 import tv.ismar.app.exception.ItemOfflineException;
 import tv.ismar.app.exception.NetworkException;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.adapter.HGridFilterAdapterImpl;
 import tv.ismar.app.ui.view.AlertDialogFragment;
@@ -89,6 +92,9 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
             skyService=SkyService.ServiceManager.getService();
             doFilterRequest();
         }
+        HashMap<String, Object> properties = new HashMap<String, Object>();
+        properties.put(EventProperty.TITLE, "shaixuanjiegou");
+        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_FILTER, properties);
         return fragmentView;
     }
     private void initView(View fragmentView,boolean hasResult){

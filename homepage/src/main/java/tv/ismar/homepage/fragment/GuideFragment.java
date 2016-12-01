@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -260,13 +261,12 @@ public class GuideFragment extends ChannelBaseFragment {
                     .findViewById(R.id.poster_image);
             TextView textView = (TextView) frameLayout
                     .findViewById(R.id.poster_title);
-            if (StringUtils.isEmpty(posters.get(i).getIntroduction())) {
+            if (!TextUtils.isEmpty(posters.get(i).getIntroduction())) {
                 textView.setText(posters.get(i).getIntroduction());
                 textView.setVisibility(View.VISIBLE);
-            } else {
-                frameLayout.setFocusable(true);
-                frameLayout.setClickable(true);
             }
+            frameLayout.setFocusable(true);
+            frameLayout.setClickable(true);
             textView.setOnClickListener(ItemClickListener);
             frameLayout.setOnClickListener(ItemClickListener);
             textView.setTag(R.id.poster_title, i);

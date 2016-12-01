@@ -38,6 +38,7 @@ import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.ContentModel;
 import tv.ismar.app.entity.Expense;
@@ -49,6 +50,7 @@ import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.exception.ItemOfflineException;
 import tv.ismar.app.exception.NetworkException;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.ZGridView;
 import tv.ismar.app.ui.adapter.HGridAdapterImpl;
@@ -185,6 +187,38 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 //              //  startActivity(searchIntent);
 //			}
 //		});
+		clertFavorite.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mHGridAdapter!=null) {
+					if(mHGridAdapter!=null) {
+						if(!isInGetFavoriteTask) {
+							if("".equals(SimpleRestClient.access_token)){
+								DaisyUtils.getFavoriteManager(getActivity()).deleteAll("no");
+								reset();
+							}
+							else{
+								DaisyUtils.getFavoriteManager(getActivity()).deleteAll("yes");
+								EmptyAllFavorite();
+							}
+						}
+					}
+				}
+			}
+		});
+		clertFavorite.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus){
+					clertFavorite.setTextColor(getResources().getColor(R.color._ff9c3c));
+				}else{
+					clertFavorite.setTextColor(getResources().getColor(R.color._ffffff));
+				}
+			}
+		});
+		HashMap<String, Object> properties = new HashMap<String, Object>();
+		properties.put(EventProperty.TITLE, "favorite");
+		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_COLLECT_IN, properties);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -479,7 +513,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		if(item.is_complex) {
 			pageIntent.toDetailPage(getActivity(),"favorite",id);
 		} else {
-		//	pageIntent.toPlayPage(getActivity(),item.pk,item.,"favorite");
+			pageIntent.toPlayPage(getActivity(),item.pk,0,Source.FAVORITE);
 		}
 		if(mLoadingDialog!=null && mLoadingDialog.isShowing()) {
 			mLoadingDialog.dismiss();
@@ -647,19 +681,16 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		int i = parent.getId();
 		if (i == R.id.h_grid_view) {
 			Item item = mHGridAdapter.getItem(position);
-		//	new GetItemTask().execute(item);
 			getClikItem(item);
 
 		} else if (i == R.id.recommend_gridview) {
+			boolean[] isSubItem = new boolean[1];
+			int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
+			PageIntent intent=new PageIntent();
 			if (tvHome.getObjects().get(position).isIs_complex()) {
-				boolean[] isSubItem = new boolean[1];
-				int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
-				PageIntent intent=new PageIntent();
 				intent.toDetailPage(getActivity(),"tvhome",pk);
 			} else {
-				InitPlayerTool tool = new InitPlayerTool(getActivity());
-				tool.fromPage = "favorite";
-				tool.initClipInfo(tvHome.getObjects().get(position).getItem_url(), InitPlayerTool.FLAG_URL);
+				intent.toPlayPage(getActivity(),pk,0, Source.FAVORITE);
 			}
 
 		}

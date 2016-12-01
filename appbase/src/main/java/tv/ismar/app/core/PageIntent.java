@@ -3,6 +3,7 @@ package tv.ismar.app.core;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * Created by huibin on 9/13/16.
@@ -102,6 +103,7 @@ public class PageIntent implements PageIntentInterface {
 
 
     public void toPlayPage(Context context, int pk, int sub_item_pk, Source source) {
+        Log.i("toPlayPage","startpalyer");
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.Player");
         intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
