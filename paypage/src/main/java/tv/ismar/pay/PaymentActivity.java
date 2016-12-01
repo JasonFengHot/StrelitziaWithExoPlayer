@@ -247,7 +247,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "orderCheckLoop onError: " + e.getMessage());
-                        purchaseCheck(CheckType.OrderPurchase);
+                        e.printStackTrace();
+//                        purchaseCheck(CheckType.OrderPurchase);
                     }
 
                     @Override
