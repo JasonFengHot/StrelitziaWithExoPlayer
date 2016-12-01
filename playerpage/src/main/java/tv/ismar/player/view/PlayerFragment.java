@@ -508,12 +508,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void preparedToStart() {
         hideBuffer();
-        if (mIsPreview && mediaHistoryPosition > 0 && mediaHistoryPosition >= mIsmartvPlayer.getDuration()) {
-            goOtherPage(EVENT_COMPLETE_BUY);
-        } else {
-            if (!mIsmartvPlayer.isPlaying()) {
-                mIsmartvPlayer.start();
-            }
+        if (!mIsmartvPlayer.isPlaying()) {
+            mIsmartvPlayer.start();
         }
 
     }
