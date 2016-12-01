@@ -530,7 +530,7 @@ public class DetailPageViewModel extends BaseObservable {
         return TextUtils.isEmpty(getClassification()) ? View.GONE : View.VISIBLE;
     }
 
-    public void notifyBookmark(boolean mark, boolean isSuccess) {
+    public void notifyBookmark(boolean isSuccess) {
         if (isSuccess) {
             notifyPropertyChanged(BR.bookmarkText);
         }

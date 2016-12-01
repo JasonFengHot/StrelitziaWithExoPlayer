@@ -141,6 +141,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         super.onResume();
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
         mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
+        mModel.notifyBookmark(true);
     }
 
     @Override
@@ -240,7 +241,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void notifyBookmark(boolean mark, boolean isSuccess) {
-        mModel.notifyBookmark(mark, isSuccess);
+        mModel.notifyBookmark(isSuccess);
         if (mark) {
             if (isSuccess) {
                 showToast(getString(R.string.vod_bookmark_add_success));

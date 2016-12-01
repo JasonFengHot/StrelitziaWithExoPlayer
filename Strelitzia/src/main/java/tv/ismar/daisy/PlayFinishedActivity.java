@@ -242,14 +242,14 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
                 break;
             case R.id.btn_favorites:
                 String isnet = "";
-                if (SimpleRestClient.isLogin()) {
+                if (IsmartvActivator.getInstance().isLogin()) {
                     isnet = "yes";
                 } else {
                     isnet = "no";
                 }
                 if (isFavorite()) {
                     String url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getItemPk() + "/";
-                    if (SimpleRestClient.isLogin()) {
+                    if (IsmartvActivator.getInstance().isLogin()) {
                         deleteFavoriteByNet();
                         mFavoriteManager.deleteFavoriteByUrl(url, "yes");
                     } else {
