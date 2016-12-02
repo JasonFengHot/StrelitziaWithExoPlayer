@@ -42,14 +42,14 @@
 <dimen name="normal_detail_detail_mt">8.11dp</dimen>
 
 <dimen name="normal_detail_relative_mt">3.72dp</dimen>
-<dimen name="normal_detail_relative_ml">28.11dp</dimen>
+<dimen name="normal_detail_relative_ml">34.78dp</dimen>
 <dimen name="normal_detail_label_image_w">44.83dp</dimen>
-<dimen name="normal_detail_label_image_h">25.00dp</dimen>
-<dimen name="normal_detail_img_mt1">12.22dp</dimen>
-<dimen name="normal_detail_img_mt2">10.50dp</dimen>
+<dimen name="normal_detail_label_image_h">26.67dp</dimen>
+<dimen name="normal_detail_img_mt1">5.56dp</dimen>
+<dimen name="normal_detail_img_mt2">-5.56dp</dimen>
 <dimen name="normal_detail_relative_text_ml">4.00dp</dimen>
 <dimen name="normal_detail_relative_text_mt">3.33dp</dimen>
-<dimen name="normal_detail_relative_button_mt">16.89dp</dimen>
+<dimen name="normal_detail_relative_button_mt">5.78dp</dimen>
 <dimen name="normal_detail_relative_button_w">55.00dp</dimen>
 <dimen name="normal_detail_relative_button_h">20.67dp</dimen>
 <dimen name="normal_detail_button_padding_r">11.83dp</dimen>
@@ -237,4 +237,5 @@
 <dimen name="horizontal_divider_ml">5.78dp</dimen>
 <dimen name="horizontal_divider_mr">5.78dp</dimen>
 <dimen name="episode_post_mt">6.67dp</dimen>
+<dimen name="related_item_layout_width">115.56dp</dimen>
 </resources>

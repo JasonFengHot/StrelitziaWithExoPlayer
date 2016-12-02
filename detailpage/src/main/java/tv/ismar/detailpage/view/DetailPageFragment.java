@@ -55,6 +55,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private int[] mRelImageViewIds = {R.id.rel_1_img, R.id.rel_2_img, R.id.rel_3_img, R.id.rel_4_img, R.id.rel_5_img, R.id.rel_6_img};
     private int[] mRelTextViewIds = {R.id.rel_1_text, R.id.rel_2_text, R.id.rel_3_text, R.id.rel_4_text, R.id.rel_5_text, R.id.rel_6_text};
     private int[] mRelTextViewFocusIds = {R.id.rel_1_focus_text, R.id.rel_2_focus_text, R.id.rel_3_focus_text, R.id.rel_4_focus_text};
+    private int[] mRelItemViews = {R.id.related_item_layout_1, R.id.related_item_layout_2, R.id.related_item_layout_3, R.id.related_item_layout_4};
 
     private LabelImageView[] relRelImageViews;
     private TextView[] relTextViews;
@@ -181,22 +182,42 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
                     break;
 
             }
-            relRelImageViews[i].setTag(i);
-            relRelImageViews[i].setOnClickListener(relateItemOnClickListener);
-            relRelImageViews[i].setOnHoverListener(this);
-            relRelImageViews[i].setNextFocusDownId(relRelImageViews[i].getId());
-
-            relRelImageViews[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    int position = (int) v.getTag();
-                    if (hasFocus) {
-                        relTextViews[position].setSelected(true);
-                    } else {
-                        relTextViews[position].setSelected(false);
+            if (mNormalBinding != null) {
+                View itemView = mNormalBinding.getRoot().findViewById(mRelItemViews[i]);
+                itemView.setTag(i);
+                itemView.setOnClickListener(relateItemOnClickListener);
+                itemView.setOnHoverListener(this);
+                relRelImageViews[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        int position = (int) v.getTag();
+                        if (hasFocus) {
+                            relTextViews[position].setSelected(true);
+                        } else {
+                            relTextViews[position].setSelected(false);
+                        }
                     }
-                }
-            });
+                });
+
+            } else {
+                relRelImageViews[i].setTag(i);
+                relRelImageViews[i].setOnClickListener(relateItemOnClickListener);
+                relRelImageViews[i].setOnHoverListener(this);
+                relRelImageViews[i].setNextFocusDownId(relRelImageViews[i].getId());
+
+                relRelImageViews[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        int position = (int) v.getTag();
+                        if (hasFocus) {
+                            relTextViews[position].setSelected(true);
+                        } else {
+                            relTextViews[position].setSelected(false);
+                        }
+                    }
+                });
+            }
+
 
             ItemEntity.Expense expense = itemEntities[i].getExpense();
             if (expense != null && !Utils.isEmptyText(expense.getCptitle())) {
@@ -221,7 +242,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             relTextViews[i].setText(itemEntities[i].getTitle());
 
             if (!mItemEntity.getContentModel().equals("movie")) {
-//                relFocusTextViews[i].setText(itemEntities[i].getFocus());
+                relFocusTextViews[i].setText(itemEntities[i].getFocus());
             } else {
                 relRelImageViews[i].setLivLabelText(itemEntities[i].getFocus());
             }

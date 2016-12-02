@@ -401,17 +401,23 @@
                     android:textSize="@dimen/text_size_36sp"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/related_item_layout_1"
+                    android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_detail_img_mt1"
+                    android:background="@drawable/selector_related_item"
+                    android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    android:descendantFocusability="blocksDescendants"
+                    android:focusable="true"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
                         android:id="@+id/rel_1_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
+                        android:clickable="false"
                         android:nextFocusRight="@id/rel_1_img"
                         android:visibility="invisible"
                         app:livContentPadding="21dp"
@@ -423,7 +429,6 @@
                         app:livRate="0"
                         app:livRateColor="@color/module_color_focus"
                         app:livRateSize="@dimen/h2_size"
-                        app:livSelectorDrawable="@drawable/vod_img_selector"
                         app:livUrl=""
                         app:livVipPosition="gone"
                         app:livVipSize="0dp"
@@ -460,17 +465,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/related_item_layout_2"
+                    android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
+                    android:background="@drawable/selector_related_item"
+                    android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    android:descendantFocusability="blocksDescendants"
+                    android:focusable="true"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
                         android:id="@+id/rel_2_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
+                        android:clickable="false"
                         android:nextFocusRight="@id/rel_2_img"
                         android:visibility="invisible"
                         app:livContentPadding="21dp"
@@ -482,7 +493,6 @@
                         app:livRate="0"
                         app:livRateColor="@color/module_color_focus"
                         app:livRateSize="@dimen/h2_size"
-                        app:livSelectorDrawable="@drawable/vod_img_selector"
                         app:livUrl=""
                         app:livVipPosition="gone"
                         app:livVipSize="0dp"
@@ -519,17 +529,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/related_item_layout_3"
+                    android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
+                    android:background="@drawable/selector_related_item"
+                    android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    android:descendantFocusability="blocksDescendants"
+                    android:focusable="true"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
                         android:id="@+id/rel_3_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
+                        android:clickable="false"
                         android:nextFocusRight="@id/rel_3_img"
                         android:visibility="invisible"
                         app:livContentPadding="21dp"
@@ -541,7 +557,6 @@
                         app:livRate="0"
                         app:livRateColor="@color/module_color_focus"
                         app:livRateSize="@dimen/h2_size"
-                        app:livSelectorDrawable="@drawable/vod_img_selector"
                         app:livUrl=""
                         app:livVipPosition="gone"
                         app:livVipSize="0dp"
@@ -578,17 +593,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/related_item_layout_4"
+                    android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
+                    android:background="@drawable/selector_related_item"
+                    android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    android:descendantFocusability="blocksDescendants"
+                    android:focusable="true"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView
                         android:id="@+id/rel_4_img"
                         android:layout_width="@dimen/normal_detail_label_image_w"
                         android:layout_height="@dimen/normal_detail_label_image_h"
+                        android:clickable="false"
                         android:nextFocusRight="@id/rel_4_img"
                         android:visibility="invisible"
                         app:livContentPadding="21dp"
@@ -600,7 +621,6 @@
                         app:livRate="0"
                         app:livRateColor="@color/module_color_focus"
                         app:livRateSize="@dimen/h2_size"
-                        app:livSelectorDrawable="@drawable/vod_img_selector"
                         app:livUrl=""
                         app:livVipPosition="gone"
                         app:livVipSize="0dp"

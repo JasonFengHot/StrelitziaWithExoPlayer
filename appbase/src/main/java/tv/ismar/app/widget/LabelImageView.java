@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
@@ -145,7 +144,7 @@ public class LabelImageView extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         super.getDrawingRect(mRect);
-        if (drawBorder) {
+        if (drawBorder && livSelectorDrawable != null) {
             mBound.set(-dp2px(21) + mRect.left, -dp2px(21) + mRect.top, dp2px(21) + mRect.right, dp2px(21) + mRect.bottom);
             livSelectorDrawable.setBounds(mBound);
             canvas.save();
