@@ -180,6 +180,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     private IMediaPlayer.OnStateChangedListener qiyiStateChangedListener = new IMediaPlayer.OnStateChangedListener() {
         @Override
         public void onPrepared(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             mIsmartvPlayer.mCurrentState = IsmartvPlayer.STATE_PREPARED;
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onPrepared();
@@ -188,6 +191,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onAdStart(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             mIsmartvPlayer.mIsPlayingAdvertisement = true;
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onAdStart();
@@ -197,6 +203,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onAdEnd(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             mIsmartvPlayer.mIsPlayingAdvertisement = false;
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onAdEnd();
@@ -206,6 +215,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onMiddleAdStart(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             //中插广告开始播放
             mIsmartvPlayer.mIsPlayingAdvertisement = true;
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
@@ -217,6 +229,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onMiddleAdEnd(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             //中插广告播放结束
             mIsmartvPlayer.mIsPlayingAdvertisement = false;
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
@@ -228,6 +243,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onStarted(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             mIsmartvPlayer.mCurrentState = IsmartvPlayer.STATE_PLAYING;
             mIsmartvPlayer.logVideoPlayStart(0, "");
             if (mIsmartvPlayer.mCurrentState == IsmartvPlayer.STATE_PAUSED) {
@@ -240,6 +258,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onPaused(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             mIsmartvPlayer.logVideoPause(0);
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onPaused();
@@ -248,6 +269,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onCompleted(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             mIsmartvPlayer.mCurrentState = IsmartvPlayer.STATE_COMPLETED;
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onCompleted();
@@ -261,6 +285,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public boolean onError(IMediaPlayer iMediaPlayer, ISdkError iSdkError) {
+            if(mPlayer == null){
+                return true;
+            }
             mIsmartvPlayer.mCurrentState = IsmartvPlayer.STATE_ERROR;
             Log.e(TAG, "QiYiPlayer onError:" + iSdkError.getCode() + " " + iSdkError.getMsgFromError());
             mIsmartvPlayer.logVideoException(iSdkError.getCode(), 0);
@@ -274,6 +301,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     private IMediaPlayer.OnBitStreamInfoListener qiyiBitStreamInfoListener = new IMediaPlayer.OnBitStreamInfoListener() {
         @Override
         public void onPlayableBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
+            if(mPlayer == null){
+                return;
+            }
             mIsmartvPlayer.mQualities = new ArrayList<>();
             bitStreamList = list;
             for (BitStream bitStream : list) {
@@ -284,11 +314,17 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onVipBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
+            if(mPlayer == null){
+                return;
+            }
 
         }
 
         @Override
         public void onBitStreamSelected(IMediaPlayer iMediaPlayer, BitStream bitStream) {
+            if(mPlayer == null){
+                return;
+            }
             mIsmartvPlayer.mQuality = bitStreamConvertToQuality(bitStream);
         }
     };
@@ -297,6 +333,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         @Override
         public void onPreviewInfoReady(IMediaPlayer iMediaPlayer, boolean b, int i) {
             Log.d(TAG, "QiYiOnPreview: " + b + ", length = " + i);
+            if(mPlayer == null){
+                return;
+            }
             if (b) {
                 previewLength = i;
             }
@@ -307,6 +346,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         @Override
         public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int width, int height) {
             Log.i("LH/", "onVideoSizeChangedQiYi:" + width + " " + height);
+            if(mPlayer == null){
+                return;
+            }
             if (mIsmartvPlayer.mOnVideoSizeChangedListener != null) {
                 mIsmartvPlayer.mOnVideoSizeChangedListener.onVideoSizeChanged(width, height);
             }
@@ -316,6 +358,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     private IMediaPlayer.OnSeekCompleteListener qiyiSeekCompleteListener = new IMediaPlayer.OnSeekCompleteListener() {
         @Override
         public void onSeekCompleted(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             if (mIsmartvPlayer.isInPlaybackState()) {
                 mIsmartvPlayer.logVideoSeekComplete(0, "");
             }
@@ -328,6 +373,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     private IMediaPlayer.OnBufferChangedListener qiyiBufferChangedListener = new IMediaPlayer.OnBufferChangedListener() {
         @Override
         public void onBufferStart(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             if (mIsmartvPlayer.mOnBufferChangedListener != null) {
                 mIsmartvPlayer.mOnBufferChangedListener.onBufferStart();
             }
@@ -336,6 +384,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onBufferEnd(IMediaPlayer iMediaPlayer) {
+            if(mPlayer == null){
+                return;
+            }
             if (mIsmartvPlayer.mOnBufferChangedListener != null) {
                 mIsmartvPlayer.mOnBufferChangedListener.onBufferEnd();
             }
@@ -354,6 +405,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     private IMediaPlayer.OnInfoListener onInfoListener = new IMediaPlayer.OnInfoListener() {
         @Override
         public void onInfo(IMediaPlayer iMediaPlayer, int i, Object o) {
+            if(mPlayer == null){
+                return;
+            }
             if (mIsmartvPlayer.mOnInfoListener != null) {
                 mIsmartvPlayer.mOnInfoListener.onInfo(i, o);
             }
