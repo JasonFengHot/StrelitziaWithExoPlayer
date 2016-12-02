@@ -1,9 +1,12 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/balance_layout_ml"
     android:gravity="center"
-    android:orientation="vertical">
+    android:minHeight="@dimen/page_min_height"
+    android:minWidth="@dimen/page_min_width"
+    android:orientation="vertical"
+>
 
     <RelativeLayout
         android:id="@+id/card_balance_title"
@@ -15,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#a6d4f5"
-            android:textSize="@dimen/pay_guanyingcard_card_balance_title_textsize" />
+            android:textSize="@dimen/pay_guanyingcard_card_balance_title_textsize"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -28,7 +31,7 @@
             android:id="@+id/package_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/pay_guanyingcard_package_price_textsize" />
+            android:textSize="@dimen/pay_guanyingcard_package_price_textsize"/>
 
         <TextView
             android:id="@+id/package_exprice_label"
@@ -36,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/package_price"
             android:text="@string/package_exprice_label"
-            android:textSize="@dimen/pay_guanyingcard_package_exprice_textsize" />
+            android:textSize="@dimen/pay_guanyingcard_package_exprice_textsize"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -55,7 +58,7 @@
             android:nextFocusLeft="@+id/balance_pay"
             android:text="@string/card_balance_submit"
             android:textColor="#FFF8F8FF"
-            android:textSize="@dimen/pay_guanyingcard_card_balance_submit_textsize" />
+            android:textSize="@dimen/pay_guanyingcard_card_balance_submit_textsize"/>
 
         <Button
             android:id="@+id/card_balance_cancel"
@@ -68,7 +71,7 @@
             android:focusableInTouchMode="false"
             android:text="@string/card_balance_cancel"
             android:textColor="#FFF8F8FF"
-            android:textSize="@dimen/pay_guanyingcard_card_balance_cancel_textsize" />
+            android:textSize="@dimen/pay_guanyingcard_card_balance_cancel_textsize"/>
     </RelativeLayout>
 
 </LinearLayout>
