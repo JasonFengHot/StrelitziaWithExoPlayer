@@ -610,10 +610,26 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         } catch (NameNotFoundException e) {
             e.printStackTrace();
         }
-        SimpleRestClient.root_url = IsmartvActivator.getInstance().getApiDomain();
-        SimpleRestClient.ad_domain = IsmartvActivator.getInstance().getAdDomain();
-        SimpleRestClient.log_domain = IsmartvActivator.getInstance().getLogDomain();
-        SimpleRestClient.upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
+        String apiDomain = IsmartvActivator.getInstance().getApiDomain();
+        String ad_domain = IsmartvActivator.getInstance().getAdDomain();
+        String log_domain = IsmartvActivator.getInstance().getAdDomain();
+        String upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
+        if(apiDomain != null && !apiDomain.contains("http")){
+            apiDomain = "http://" + apiDomain;
+        }
+        if(ad_domain != null && !ad_domain.contains("http")){
+            ad_domain = "http://" + ad_domain;
+        }
+        if(log_domain != null && !log_domain.contains("http")){
+            log_domain = "http://" + log_domain;
+        }
+        if(upgrade_domain != null && !upgrade_domain.contains("http")){
+            upgrade_domain = "http://" + upgrade_domain;
+        }
+        SimpleRestClient.root_url = apiDomain;
+        SimpleRestClient.ad_domain = ad_domain;
+        SimpleRestClient.log_domain = log_domain;
+        SimpleRestClient.upgrade_domain = upgrade_domain;
         SimpleRestClient.device_token = IsmartvActivator.getInstance().getDeviceToken();
         SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
         SimpleRestClient.access_token = IsmartvActivator.getInstance().getAuthToken();
@@ -1332,6 +1348,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private void goNextPage() {
         home_layout_advertisement.setVisibility(View.GONE);
         layout_homepage.setVisibility(View.VISIBLE);
+        // TODO
         if (home_ad_pic != null) {
             home_ad_pic.setBackgroundResource(R.color.window_bg);
         }
