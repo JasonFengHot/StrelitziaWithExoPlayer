@@ -61,13 +61,29 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         String itemJson = intent.getStringExtra(EXTRA_ITEM_JSON);
         source = intent.getStringExtra(EXTRA_SOURCE);
         int type = intent.getIntExtra(EXTRA_TYPE, 0);
+        String url = intent.getStringExtra("url");
 
-        if (TextUtils.isEmpty(itemJson) && itemPK == -1) {
+        if (TextUtils.isEmpty(itemJson) && itemPK == -1 && TextUtils.isEmpty(url)) {
             finish();
             return;
         }
 
         showDialog();
+
+        //解析来至launcher的参数
+        if (!TextUtils.isEmpty(url)) {
+            String[] arrayTmp = url.split("/");
+            itemPK = Integer.parseInt(arrayTmp[arrayTmp.length - 1]);
+            switch (arrayTmp[arrayTmp.length - 2]) {
+                case "item":
+                    type = DETAIL_TYPE_ITEM;
+                    break;
+                case "package":
+                    type = DETAIL_TYPE_PKG;
+                    break;
+            }
+        }
+
         if (!TextUtils.isEmpty(itemJson)) {
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
             loadFragment(type);
@@ -86,7 +102,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         if (viewInit && playerFragment != null && playerFragment.goFinishPageOnResume) {
             // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
             onHide();
-        } else if(viewInit && playerFragment != null){
+        } else if (viewInit && playerFragment != null) {
             // 多个详情页显示时，逐一返回时需要初始化播放器
             playerFragment.initPlayer();
         }
