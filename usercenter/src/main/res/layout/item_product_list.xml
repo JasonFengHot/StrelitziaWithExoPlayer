@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginRight="@dimen/usercenter_storefragment_packagelist_item_layout_marginRight"
+    android:descendantFocusability="blocksDescendants"
+    android:focusable="true"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -11,7 +13,7 @@
         android:id="@+id/package_list_image"
         android:layout_width="@dimen/usercenter_storefragment_packagelist_item_image_width"
         android:layout_height="@dimen/usercenter_storefragment_packagelist_item_image_height"
-        android:background="@drawable/launcher_selector"
+        android:background="@drawable/selector_product_item"
         android:focusable="true"
         android:scaleType="fitXY"
 

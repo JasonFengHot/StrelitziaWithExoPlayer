@@ -81,7 +81,7 @@
 
     <dimen name="usercenter_header_height">100dp</dimen>
     <dimen name="product_recycler_mt">24dp</dimen>
-    <dimen name="product_recycler_item_spacing">-2dp</dimen>
+    <dimen name="product_recycler_item_spacing">-4dp</dimen>
     <dimen name="product_item_mt">-8dp</dimen>
     <dimen name="userinfo_layout_pb">60dp</dimen>
     <dimen name="user_info_other_item_vertical_spacing">45dp</dimen>

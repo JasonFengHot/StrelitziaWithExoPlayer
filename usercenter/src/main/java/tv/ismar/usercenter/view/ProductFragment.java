@@ -173,8 +173,8 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
             view.setOnHoverListener(this);
             view.setOnFocusChangeListener(this);
             ProductViewHolder holder = new ProductViewHolder(view);
-            holder.mImageView.setTag(i);
-            holder.mImageView.setOnClickListener(this);
+            holder.itemView.setTag(i);
+            holder.itemView.setOnClickListener(this);
             return holder;
         }
 
@@ -201,7 +201,6 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                 if (position >= mObjects.size() - 1 - theLastLineCount) {
                     holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
                 }
-
 
             }
         }
@@ -233,6 +232,14 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
+            if (v.getId() != R.id.tmp) {
+                View imageView = v.findViewById(R.id.package_list_image);
+                if (hasFocus) {
+                    imageView.setSelected(true);
+                } else {
+                    imageView.setSelected(false);
+                }
+            }
         }
 
         @Override
