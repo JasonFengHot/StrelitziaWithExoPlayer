@@ -1255,6 +1255,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
+            // TODO
             home_ad_video.start();
             if (playIndex == 0) {
                 mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);

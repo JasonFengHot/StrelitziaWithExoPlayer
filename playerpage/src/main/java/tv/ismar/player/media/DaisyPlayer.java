@@ -72,6 +72,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnPreparedListenerUrl smartPreparedListenerUrl = new SmartPlayer.OnPreparedListenerUrl() {
         @Override
         public void onPrepared(SmartPlayer smartPlayer, String s) {
+            if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
+                return;
+            }
             mCurrentMediaUrl = s;
             mCurrentState = STATE_PREPARED;
             long delayTime = 0;
@@ -98,7 +101,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         @Override
         public void onVideoSizeChanged(SmartPlayer smartPlayer, int width, int height) {
             Log.i(TAG, "onVideoSizeChanged:" + width + " " + height);
-            if (mHolder == null || mPlayer == null) {
+            if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
                 return;
             }
             int[] outputSize = computeVideoSize(width, height);
@@ -115,6 +118,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         @Override
         public void onCompletion(SmartPlayer smartPlayer, String s) {
             Log.i(TAG, "onCompletion:" + s);
+            if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
+                return;
+            }
             mCurrentState = STATE_COMPLETED;
             if (mIsPlayingAdvertisement && !mAdIdMap.isEmpty()) {
                 int mediaId = mAdIdMap.get(s);
@@ -150,6 +156,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnInfoListener smartInfoListener = new SmartPlayer.OnInfoListener() {
         @Override
         public boolean onInfo(SmartPlayer smartPlayer, int i, int i1) {
+            if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
+                return false;
+            }
             switch (i) {
                 case SmartPlayer.MEDIA_INFO_BUFFERING_START:
                 case 809:
@@ -188,8 +197,8 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnSeekCompleteListener smartSeekCompleteListener = new SmartPlayer.OnSeekCompleteListener() {
         @Override
         public void onSeekComplete(SmartPlayer smartPlayer) {
-            if(smartPlayer.isPlaying()){
-                smartPlayer.pause();
+            if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
+                return;
             }
             if (isInPlaybackState()) {
                 logVideoSeekComplete(mSpeed, mMediaIp);
@@ -203,6 +212,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnTsInfoListener onTsInfoListener = new SmartPlayer.OnTsInfoListener() {
         @Override
         public void onTsInfo(SmartPlayer smartPlayer, Map<String, String> map) {
+            if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
+                return;
+            }
             String spd = map.get("TsDownLoadSpeed");
             mSpeed = Integer.parseInt(spd);
             mSpeed = mSpeed / (1024 * 8);
@@ -213,6 +225,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnM3u8IpListener onM3u8IpListener = new SmartPlayer.OnM3u8IpListener() {
         @Override
         public void onM3u8TsInfo(SmartPlayer smartPlayer, String s) {
+            if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
+                return;
+            }
             mMediaIp = s;
         }
     };
@@ -220,8 +235,11 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnErrorListener smartErrorListener = new SmartPlayer.OnErrorListener() {
         @Override
         public boolean onError(SmartPlayer smartPlayer, int i, int i1) {
-            mCurrentState = STATE_ERROR;
             Log.e(TAG, "SmartPlayer onError:" + i + " " + i1);
+            if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
+                return true;
+            }
+            mCurrentState = STATE_ERROR;
             logVideoException(String.valueOf(i), mSpeed);
             if (mPlayer != null) {
                 int currentPlayIndex = mPlayer.getCurrentPlayUrl();
@@ -330,18 +348,17 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     @Override
     public void release(boolean flag) {
         super.release(flag);
-        logVideoExit(mSpeed);
         if (mPlayer != null) {
+            logVideoExit(mSpeed);
             mPlayer.stop();
             mPlayer.reset();
             if (flag) {
                 mPlayer.release();
                 mPlayer = null;
             }
-            mCurrentState = STATE_IDLE;
             PlayerBuilder.getInstance().release();
         }
-        if(mContainer != null){
+        if (mContainer != null) {
             mContainer.removeAllViews();
             mContainer.setVisibility(View.GONE);
         }
@@ -397,15 +414,19 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
 
     @Override
     public void switchQuality(ClipEntity.Quality quality) {
-        if (mPlayer != null) {
-            mPlayer.stop();
-            mPlayer.reset();
-            mPlayer.release();
-            mPlayer = null;
-            mCurrentState = STATE_IDLE;
-        }
         String mediaUrl = getSmartQualityUrl(quality);
         if (!Utils.isEmptyText(mediaUrl)) {
+            if (mPlayer != null) {
+                mPlayer.stop();
+                mPlayer.reset();
+                mPlayer.release();
+                mPlayer = null;
+            }
+            if (mContainer != null) {
+                mContainer.removeAllViews();
+                mContainer.setVisibility(View.GONE);
+            }
+
             String[] paths = new String[]{mediaUrl};
             mQuality = quality;
             setMedia(paths);
