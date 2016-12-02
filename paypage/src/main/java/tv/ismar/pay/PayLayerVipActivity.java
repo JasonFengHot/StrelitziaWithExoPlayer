@@ -3,7 +3,6 @@ package tv.ismar.pay;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -144,7 +143,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         }
 
         scrollViewLayout.getChildAt(0).requestFocus();
-        if (scrollViewLayout.getChildCount() <= 4){
+        if (scrollViewLayout.getChildCount() <= 4) {
             mTvHorizontalScrollView.setLeftArrow(new ImageView(this));
             mTvHorizontalScrollView.setRightArrow(new ImageView(this));
         }
@@ -190,5 +189,11 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
             finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(PaymentActivity.PAYMENT_FAILURE_CODE);
+        super.onBackPressed();
     }
 }

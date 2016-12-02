@@ -22,7 +22,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.PageIntentInterface.ProductCategory;
 import tv.ismar.app.network.entity.PayLayerEntity;
@@ -227,5 +226,11 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
             finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(PaymentActivity.PAYMENT_FAILURE_CODE);
+        super.onBackPressed();
     }
 }

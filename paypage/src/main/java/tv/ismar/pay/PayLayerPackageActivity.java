@@ -23,13 +23,11 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PlayCheckManager;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 
-import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
 import static tv.ismar.pay.PaymentActivity.PAYMENT_REQUEST_CODE;
 
 /**
@@ -141,7 +139,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             TextView itemTitle = (TextView) itemView.findViewById(R.id.title);
             itemTitle.setText(itemList.getTitle());
             ImageView expense_txt = (ImageView) itemView.findViewById(R.id.expense_txt);
-            if (!TextUtils.isEmpty(itemList.getCptitle() )) {
+            if (!TextUtils.isEmpty(itemList.getCptitle())) {
                 String imageUrl = VipMark.getInstance().getImage(this, itemList.getPay_type(), itemList.getCpid());
                 Picasso.with(this).load(imageUrl).into(expense_txt);
 
@@ -172,7 +170,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, Source.UNKNOWN.getValue(),itemList.getItem_id());
+                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, Source.UNKNOWN.getValue(), itemList.getItem_id());
                 }
             });
             if (listLayoutItemNextFocusUpIsSelf == true) {
@@ -280,5 +278,11 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(PaymentActivity.PAYMENT_FAILURE_CODE);
+        super.onBackPressed();
     }
 }
