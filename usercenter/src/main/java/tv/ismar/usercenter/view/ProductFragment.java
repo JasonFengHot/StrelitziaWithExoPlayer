@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -150,12 +151,11 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
     @Override
     public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
-        PageIntent pageIntent = new PageIntent();
-        pageIntent.toPackageDetail(getContext(), "usercenter", (int) mYouHuiDingGouEntity.getObjects().get(i).getPk());
+
     }
 
 
-    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener, View.OnFocusChangeListener {
+    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener, View.OnFocusChangeListener, OnClickListener {
         private Context mContext;
 
         private List<YouHuiDingGouEntity.Object> mObjects;
@@ -173,6 +173,8 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
             view.setOnHoverListener(this);
             view.setOnFocusChangeListener(this);
             ProductViewHolder holder = new ProductViewHolder(view);
+            holder.mImageView.setTag(i);
+            holder.mImageView.setOnClickListener(this);
             return holder;
         }
 
@@ -231,6 +233,13 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            PageIntent pageIntent = new PageIntent();
+            pageIntent.toPackageDetail(getContext(), "usercenter", (int) mYouHuiDingGouEntity.getObjects().get(position).getPk());
         }
     }
 
