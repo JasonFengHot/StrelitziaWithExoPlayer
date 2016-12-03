@@ -267,7 +267,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 holder.itemView.setNextFocusUpId(holder.itemView.getId());
             }
 
-            if (position == mProvinceTableList.size() -1 -1){
+            if (position <= mProvinceTableList.size() -1 -1 && position >= mProvinceTableList.size() -1 -3){
                 holder.itemView.setNextFocusDownId(holder.itemView.getId());
             }
 
