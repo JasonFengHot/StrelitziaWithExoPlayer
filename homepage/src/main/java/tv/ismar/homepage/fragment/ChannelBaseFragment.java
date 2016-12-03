@@ -75,11 +75,13 @@ public class ChannelBaseFragment extends Fragment {
         @Override
         public void onClick(View view) {
             String url = null;
+            String contentMode = null;
             String title = null;
             String mode_name = null;
             String channel = "top";
             String type;
-            int pk = 0;
+            int pk;
+            boolean expense = false;
             int position = -1;
             if (channelEntity != null)
                 if (channelEntity.getChannel() != null && !("".equals(channelEntity.getChannel()))) {
@@ -90,15 +92,19 @@ public class ChannelBaseFragment extends Fragment {
                 }
             if (view.getTag() instanceof Poster) {
                 Poster new_name = (Poster) view.getTag();
+                contentMode = new_name.getContent_model();
                 url = new_name.getUrl();
                 title = new_name.getTitle();
                 mode_name = new_name.getModel_name();
+                expense = new_name.isExpense();
                 position = new_name.getPosition();
             } else if (view.getTag(R.drawable.launcher_selector) instanceof Carousel) {
                 Carousel new_name = (Carousel) view.getTag(R.drawable.launcher_selector);
+                contentMode = new_name.getContent_model();
                 url = new_name.getUrl();
                 title = new_name.getTitle();
                 mode_name = new_name.getModel_name();
+                expense = new_name.isExpense();
                 position = new_name.getPosition();
             }
             type = mode_name;
@@ -113,6 +119,7 @@ public class ChannelBaseFragment extends Fragment {
                 intent.putExtra("portraitflag", channelEntity.getStyle());
                 mContext.startActivity(intent);
             } else {
+                pk = SimpleRestClient.getItemId(url, new boolean[1]);
                 if ("item".equals(mode_name)) {
                     pk = SimpleRestClient.getItemId(url, new boolean[1]);
                     PageIntent pageIntent = new PageIntent();
@@ -146,6 +153,10 @@ public class ChannelBaseFragment extends Fragment {
             play.homepage_vod_click(pk, title, channel, position, type);
         }
     };
+
+    public void playCarouselVideo(){
+
+    }
 
     public void refreshData() {
     }

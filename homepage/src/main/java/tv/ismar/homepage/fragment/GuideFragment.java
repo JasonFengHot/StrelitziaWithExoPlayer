@@ -34,8 +34,11 @@ import cn.ismartv.downloader.Md5;
 import cn.ismartv.injectdb.library.query.Select;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.core.cache.CacheManager;
+import tv.ismar.app.core.cache.DownloadClient;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.view.HomePageActivity;
@@ -164,7 +167,6 @@ public class GuideFragment extends ChannelBaseFragment {
     public void onResume() {
         super.onResume();
         if (mCarousels == null) {
-            Log.e("guidefragment","onresume");
             fetchHomePage();
         } else {
             if (!mSurfaceView.isPlaying()) {
@@ -275,9 +277,9 @@ public class GuideFragment extends ChannelBaseFragment {
                 public void onFocusChange(View v, boolean hasFocus) {
                     Object tagObject = v.getTag(R.id.poster_title);
                     if (hasFocus) {
-//                        ((HomeItemContainer) v.getParent())
-//                                .setDrawBorder(true);
-//                        ((HomeItemContainer) v.getParent()).invalidate();
+                        ((HomeItemContainer) v.getParent())
+                                .setDrawBorder(true);
+                        ((HomeItemContainer) v.getParent()).invalidate();
                         if (tagObject != null) {
                             int tagindex = Integer.parseInt(tagObject.toString());
                             if (tagindex == 0 || tagindex == 7) {
@@ -285,16 +287,15 @@ public class GuideFragment extends ChannelBaseFragment {
                             }
                         }
                     } else {
-//                        ((HomeItemContainer) v.getParent())
-//                                .setDrawBorder(false);
-//                        ((HomeItemContainer) v.getParent()).invalidate();
+                        ((HomeItemContainer) v.getParent())
+                                .setDrawBorder(false);
+                        ((HomeItemContainer) v.getParent()).invalidate();
                     }
                 }
             });
 
-            Picasso.with(mContext).load(posters.get(i).getCustom_image())
+            Picasso.with(mContext).load(posters.get(i).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE)
                     .into(itemView);
-            Log.e("guidefragment",posters.get(i).getCustom_image());
             posters.get(i).setPosition(i);
             textView.setTag(posters.get(i));
             frameLayout.setTag(posters.get(i));
@@ -323,39 +324,10 @@ public class GuideFragment extends ChannelBaseFragment {
     }
 
     private void initCarousel(ArrayList<HomePagerEntity.Carousel> carousels) {
+        carousels = new ArrayList<>(carousels.subList(0,3));
         mCarousels = carousels;
         allItem = new ArrayList<>();
         allVideoUrl = new ArrayList<>();
-
-        ArrayList<HomePagerEntity.Carousel> newerCarousels = new ArrayList<>();
-
-
-        for (int i = 0; i < carousels.size(); i++) {
-//            DownloadManager.getInstance().start(carousels.get(i).getVideo_url(), "guide_" + i, new Gson().toJson(carousels.get(i)), getContext().getFilesDir().getAbsolutePath());
-
-            List<DownloadEntity> downloadEntities = new Select().from(DownloadEntity.class).where("title = ?", "guide_" + i).orderBy(" start_time DESC").execute();
-
-            if (downloadEntities!= null && downloadEntities.size() >1){
-                if (downloadEntities.get(0).status == DownloadStatus.COMPLETED) {
-                    newerCarousels.add(carousels.get(i));
-
-                    File file = new File(downloadEntities.get(1).savePath);
-                    if (file.exists()) {
-                        file.delete();
-                    }
-                    downloadEntities.get(1).delete();
-
-                }else {
-                    newerCarousels.add(new Gson().fromJson(downloadEntities.get(1).json, HomePagerEntity.Carousel.class));
-                }
-
-            }else {
-                newerCarousels.add(carousels.get(i));
-            }
-        }
-        carousels = newerCarousels;
-        mCarousels = newerCarousels;
-
 
         try {
             Picasso.with(mContext).load(carousels.get(0).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView1);
@@ -382,7 +354,7 @@ public class GuideFragment extends ChannelBaseFragment {
             allVideoUrl.add(carousels.get(0).getVideo_url());
             allVideoUrl.add(carousels.get(1).getVideo_url());
             allVideoUrl.add(carousels.get(2).getVideo_url());
-        } catch (Exception e) {
+        }catch (Exception e){
         }
 
         carouselMap = new HashMap<>();
@@ -391,6 +363,21 @@ public class GuideFragment extends ChannelBaseFragment {
         carouselMap.put(2, toppage_carous_imageView3.getId());
 
         playCarousel(0);
+        boolean isPlayAd = ((HomePageActivity)getActivity()).isPlayingStartAd;
+        // 播放首页广告时，导视不播放
+        if(isPlayAd){
+            mHandler.removeMessages(START_PLAYBACK);
+        }
+
+    }
+
+    @Override
+    public void playCarouselVideo() {
+        super.playCarouselVideo();
+        Log.i("LH/", "playCarouselVideo");
+        if(carouselMap != null){
+            mHandler.sendEmptyMessageDelayed(START_PLAYBACK, 0);
+        }
 
     }
 
@@ -424,7 +411,7 @@ public class GuideFragment extends ChannelBaseFragment {
             film_post_layout.setTag(R.drawable.launcher_selector, mCarousels.get(mCurrentCarouselIndex));
             mHandler.removeMessages(START_PLAYBACK);
             mHandler.sendEmptyMessageDelayed(START_PLAYBACK, delay);
-        } catch (Exception e) {
+        }catch (Exception e){
 
         }
 
@@ -458,15 +445,11 @@ public class GuideFragment extends ChannelBaseFragment {
             mSurfaceView.setFocusable(false);
             mSurfaceView.setFocusableInTouchMode(false);
             String videoName = "guide_" + mCurrentCarouselIndex + ".mp4";
-            String videoPath = mCarousels.get(mCurrentCarouselIndex).getVideo_url();
-            DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(videoPath)).executeSingle();
-            if (downloadEntity!= null && downloadEntity.status == DownloadStatus.COMPLETED){
-                videoPath = downloadEntity.savePath;
-            }
-
+            String videoPath = CacheManager.getInstance().doRequest(mCarousels.get(mCurrentCarouselIndex).getVideo_url(), videoName, DownloadClient.StoreType.Internal);
             Log.d(TAG, "current video path ====> " + videoPath);
-
-            if (mSurfaceView.isPlaying() && mSurfaceView.getDataSource().equals(videoPath)) {
+            CallaPlay play = new CallaPlay();
+            play.homepage_vod_trailer_play(videoPath);
+            if (mSurfaceView.isPlaying() &&mSurfaceView.getDataSource().equals(videoPath)) {
                 return;
             }
             linkedVideoLoadingImage.setVisibility(View.VISIBLE);
@@ -477,6 +460,7 @@ public class GuideFragment extends ChannelBaseFragment {
             mSurfaceView.setFocusableInTouchMode(true);
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

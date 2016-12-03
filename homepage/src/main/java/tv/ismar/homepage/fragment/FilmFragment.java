@@ -46,8 +46,11 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.core.cache.CacheManager;
+import tv.ismar.app.core.cache.DownloadClient;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.HardwareUtils;
 import tv.ismar.homepage.R;
@@ -407,38 +410,10 @@ public class FilmFragment extends ChannelBaseFragment {
 
     private void initCarousel( ArrayList<HomePagerEntity.Carousel> carousels) {
         allItem = new ArrayList<LabelImageView3>();
+		carousels = new ArrayList<>(carousels.subList(0,5));
         mCarousels = carousels;
         carouselMap =new HashMap<>();
 
-        ArrayList<HomePagerEntity.Carousel> newerCarousels = new ArrayList<>();
-        Log.i("LH/", "filmCarousel:" + carousels.size());
-
-
-        for (int i = 0; i < carousels.size(); i++) {
-//            DownloadManager.getInstance().start(carousels.get(i).getVideo_url(), mChannelName + "_" + i, new Gson().toJson(carousels.get(i)), Environment.getExternalStorageDirectory() + "/Daisy/");
-
-            List<DownloadEntity> downloadEntities = new Select().from(DownloadEntity.class).where("title = ?", mChannelName + "_"+ i).orderBy(" start_time DESC").execute();
-
-            if (downloadEntities!= null && downloadEntities.size() >1){
-                if (downloadEntities.get(0).status == DownloadStatus.COMPLETED) {
-                    newerCarousels.add(carousels.get(i));
-
-                    File file = new File(downloadEntities.get(1).savePath);
-                    if (file.exists()) {
-                        file.delete();
-                    }
-                    downloadEntities.get(1).delete();
-
-                }else {
-                    newerCarousels.add(carousels.get(i));
-                }
-
-            }else {
-                newerCarousels.add(carousels.get(i));
-            }
-        }
-        carousels = newerCarousels;
-        mCarousels = newerCarousels;
 
         try {
             Picasso.with(mContext).load(carousels.get(0).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(film_carous_imageView1);
@@ -493,34 +468,33 @@ public class FilmFragment extends ChannelBaseFragment {
 
 
     private void startPlayback() {
-        if (mSurfaceView == null)
+        Log.d(TAG, "startPlayback is invoke...");
+
+        mSurfaceView.setFocusable(false);
+        mSurfaceView.setFocusableInTouchMode(false);
+        String videoName = mChannelName + "_" + mCurrentCarouselIndex + ".mp4";
+        String videoPath = CacheManager.getInstance().doRequest(mCarousels.get(mCurrentCarouselIndex).getVideo_url(), videoName, DownloadClient.StoreType.External);
+        Log.d(TAG, "current video path ====> " + videoPath);
+        CallaPlay play = new CallaPlay();
+        play.homepage_vod_trailer_play(videoPath);
+        if (mSurfaceView.isPlaying() &&mSurfaceView.getDataSource().equals(videoPath)) {
             return;
-        try {
-            Log.d(TAG, "startPlayback is invoke...");
-
-            mSurfaceView.setFocusable(false);
-            mSurfaceView.setFocusableInTouchMode(false);
-            String videoName = "guide_" + mCurrentCarouselIndex + ".mp4";
-            String videoPath = mCarousels.get(mCurrentCarouselIndex).getVideo_url();
-            DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(videoPath)).executeSingle();
-            if (downloadEntity!= null && downloadEntity.status == DownloadStatus.COMPLETED){
-                videoPath = downloadEntity.savePath;
-            }
-
-            Log.d(TAG, "current video path ====> " + videoPath);
-
-            if (mSurfaceView.isPlaying() && mSurfaceView.getDataSource().equals(videoPath)) {
-                return;
-            }
-            linkedVideoImage.setVisibility(View.VISIBLE);
-            stopPlayback();
-            mSurfaceView.setVideoPath(videoPath);
-            mSurfaceView.start();
-            mSurfaceView.setFocusable(true);
-            mSurfaceView.setFocusableInTouchMode(true);
-
-        } catch (Exception e) {
         }
+        stopPlayback();
+        linkedVideoImage.setImageResource(R.drawable.guide_video_loading);
+        if (mContext != null)
+            new BitmapDecoder().decode(mContext, R.drawable.guide_video_loading, new BitmapDecoder.Callback() {
+                @Override
+                public void onSuccess(BitmapDrawable bitmapDrawable) {
+                    linkedVideoImage.setBackgroundDrawable(bitmapDrawable);
+                }
+            });
+        linkedVideoImage.setVisibility(View.VISIBLE);
+
+        mSurfaceView.setVideoPath(videoPath);
+        mSurfaceView.start();
+        mSurfaceView.setFocusable(true);
+        mSurfaceView.setFocusableInTouchMode(true);
     }
 
     private void stopPlayback() {
@@ -528,7 +502,7 @@ public class FilmFragment extends ChannelBaseFragment {
         mSurfaceView.stopPlayback();
     }
 
-    private void playCarousel(final int delay) {
+    private void playCarousel(int delay) {
         mHandler.removeMessages(CAROUSEL_NEXT);
         if (film_post_layout == null)
             return;
@@ -571,8 +545,7 @@ public class FilmFragment extends ChannelBaseFragment {
                         if (TextUtils.isEmpty(s) || parsed == null) {
                             return false;
                         }
-                        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("url_md5 = ?", Md5.md5String(s)).executeSingle();
-                        return externalStorageIsEnable && downloadEntity.status == DownloadStatus.COMPLETED;
+                        return externalStorageIsEnable;
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -591,7 +564,7 @@ public class FilmFragment extends ChannelBaseFragment {
                     public void onNext(Boolean enable) {
                         Log.i(TAG, "onNext thread: " + Thread.currentThread().getName());
                         if (enable) {
-                            playVideo(delay);
+                            playVideo(0);
                         } else {
                             playImage();
                         }

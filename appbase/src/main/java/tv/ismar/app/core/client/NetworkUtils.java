@@ -37,6 +37,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VodUserAgent;
@@ -81,7 +82,7 @@ public class NetworkUtils {
             // "application/x-www-form-urlencoded");
             conn.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             //conn.addRequestProperty("User-Agent", Build.MODEL+"/"+SimpleRestClient.appVersion+" "+SimpleRestClient.sn_token);
-//            conn.setIfModifiedSince(System.currentTimeMillis());
+//            conn.setIfModifiedSince(TrueTime.now().getTime());
             conn.setConnectTimeout(CONNET_TIME_OUT);
             conn.setReadTimeout(READ_TIME_OUT);
             // conn.setUseCaches(false);
@@ -292,7 +293,9 @@ public class NetworkUtils {
                     response.append(line);
                 }
                 buff.close();
-                JSONObject rootJsonObject = new JSONObject(response.toString());
+                String adResult = response.toString();
+                Log.i(TAG, "GetAdResult:" + adResult);
+                JSONObject rootJsonObject = new JSONObject(adResult);
                 int retcode = rootJsonObject.getInt("retcode");
                 String retmsg = rootJsonObject.getString("retmsg");
                 if (retcode == 200) {
@@ -624,7 +627,7 @@ public class NetworkUtils {
     public static String getContentJson(String eventName,
                                          HashMap<String, Object> propertiesMap) throws JSONException {
         JSONObject propertiesJson = new JSONObject();
-        propertiesJson.put("time", System.currentTimeMillis() / 1000);
+        propertiesJson.put("time", TrueTime.now().getTime() / 1000);
         if (propertiesMap != null) {
             Set<String> set = propertiesMap.keySet();
             for (String key : set) {
@@ -988,4 +991,9 @@ public class NetworkUtils {
     public static final String BOOT_AD_DOWNLOAD = "boot_ad_download";
 
     public static final String BOOT_AD_EXCEPT = "boot_ad_except";
+    public static final String HOMEPAGE_VOD_TRAILER_PLAY = "homepage_vod_trailer_play";
+    /**
+     * 进入包详情
+     */
+    public static final String PACKAGE_DETAIL_IN = "package_detail_in";
 }

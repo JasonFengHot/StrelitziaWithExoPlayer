@@ -60,12 +60,12 @@ public class HomeItemContainer extends FrameLayout {
         switch (event.getAction()) {
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
-                isDrawBorder = true;
+//                isDrawBorder = true;
                 requestFocusFromTouch();
                 invalidate();
                 break;
             case MotionEvent.ACTION_HOVER_EXIT:
-                isDrawBorder = false;
+//                isDrawBorder = false;
                 invalidate();
                 break;
         }
@@ -85,7 +85,6 @@ public class HomeItemContainer extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.i("LH/", "HomeContainerOnDraw");
         if (isDrawBorder) {
             super.getDrawingRect(mRect);
             mBound.set(-drawablePadding + mRect.left, -drawablePadding + mRect.top, drawablePadding + mRect.right, drawablePadding + mRect.bottom);
@@ -98,8 +97,8 @@ public class HomeItemContainer extends FrameLayout {
             mDrawable.setBounds(mBound);
             mDrawable.draw(canvas);
         }
-//		getRootView().requestLayout();
-//		getRootView().invalidate();
+		getRootView().requestLayout();
+		getRootView().invalidate();
     }
 
     @Override
@@ -115,7 +114,6 @@ public class HomeItemContainer extends FrameLayout {
             isDrawBorder = false;
 //			zoomIn();
         }
-        invalidate();
     }
 
     private void zoomIn() {
