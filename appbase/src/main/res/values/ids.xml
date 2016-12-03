@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="usercenter_store" type="id"/>
+    <item name="usercenter_userinfo" type="id"/>
+    <item name="usercenter_login_register" type="id"/>
+    <item name="usercenter_purchase_history" type="id"/>
+    <item name="usercenter_help" type="id"/>
+    <item name="usercenter_location" type="id"/>
+</resources>

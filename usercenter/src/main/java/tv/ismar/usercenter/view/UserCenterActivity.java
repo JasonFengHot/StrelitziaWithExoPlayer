@@ -53,8 +53,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private UserInfoPresenter mUserInfoPresenter;
 
     private ArrayList<View> indicatorView;
-
-
     private boolean isFromRightToLeft = false;
 
 
@@ -65,6 +63,15 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             R.string.usercenter_purchase_history,
             R.string.usercenter_help,
             R.string.usercenter_location
+    };
+
+    private static final int[] INDICATOR_ID_RES_ARRAY = {
+            R.id.usercenter_store,
+            R.id.usercenter_userinfo,
+            R.id.usercenter_login_register,
+            R.id.usercenter_purchase_history,
+            R.id.usercenter_help,
+            R.id.usercenter_location
     };
     private LinearLayout userCenterIndicatorLayout;
 
@@ -109,6 +116,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                Log.d(TAG, "new focus view: " + newFocus);
+                if (lastHoveredView != null) {
+                    lastHoveredView.setHovered(false);
+                }
                 clearTheLastHoveredVewState();
                 if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
                     Log.d(TAG, "onGlobalFocusChanged same side");
@@ -136,17 +147,20 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private void createIndicatorView() {
         indicatorView = new ArrayList<>();
         userCenterIndicatorLayout.removeAllViews();
-        for (int res : INDICATOR_TEXT_RES_ARRAY) {
+        for (int i = 0; i < INDICATOR_TEXT_RES_ARRAY.length; i++) {
             View frameLayout = LayoutInflater.from(this).inflate(R.layout.item_usercenter_indicator, null);
             TextView textView = (TextView) frameLayout.findViewById(R.id.indicator_text);
-            textView.setText(res);
+            textView.setText(INDICATOR_TEXT_RES_ARRAY[i]);
             frameLayout.setTag("left");
-            frameLayout.setId(res);
+            frameLayout.setId(INDICATOR_ID_RES_ARRAY[i]);
             frameLayout.setOnClickListener(indicatorViewOnClickListener);
             frameLayout.setOnFocusChangeListener(indicatorOnFocusListener);
             frameLayout.setOnHoverListener(indicatorOnHoverListener);
-            if (res == R.string.usercenter_userinfo) {
+            if (i == 1) {
                 frameLayout.setNextFocusRightId(R.id.charge_money);
+            }
+            if (i == 5) {
+                frameLayout.setNextFocusDownId(frameLayout.getId());
             }
             indicatorView.add(frameLayout);
             userCenterIndicatorLayout.addView(frameLayout);
@@ -162,24 +176,22 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private View.OnClickListener indicatorViewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mLocationFragment!=null){
+            if (mLocationFragment != null) {
                 mLocationFragment.clearStatus();
             }
-            ImageView focusImage = (ImageView) v.findViewById(R.id.text_focus_bg);
-            focusImage.requestFocus();
-            focusImage.requestFocusFromTouch();
+
             int i = v.getId();
-            if (i == R.string.usercenter_store) {
+            if (i == R.id.usercenter_store) {
                 selectProduct();
-            } else if (i == R.string.usercenter_userinfo) {
+            } else if (i == R.id.usercenter_userinfo) {
                 selectUserInfo();
-            } else if (i == R.string.usercenter_login_register) {
+            } else if (i == R.id.usercenter_login_register) {
                 selectLogin();
-            } else if (i == R.string.usercenter_purchase_history) {
+            } else if (i == R.id.usercenter_purchase_history) {
                 selectPurchaseHistory();
-            } else if (i == R.string.usercenter_help) {
+            } else if (i == R.id.usercenter_help) {
                 selectHelp();
-            } else if (i == R.string.usercenter_location) {
+            } else if (i == R.id.usercenter_location) {
                 selectLocation();
             }
             changeViewState(v, ViewState.Select);
@@ -318,6 +330,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private View.OnFocusChangeListener indicatorOnFocusListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
+            if (v.isHovered()) {
+                return;
+            }
             if (hasFocus) {
                 if (!isFromRightToLeft) {
                     v.callOnClick();
@@ -360,6 +375,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             switch (event.getAction()) {
                 case MotionEvent.ACTION_HOVER_ENTER:
                 case MotionEvent.ACTION_HOVER_MOVE:
+                    v.setHovered(true);
+                    v.requestFocus();
+                    v.requestFocusFromTouch();
                     if (lastHoveredView != null) {
                         ImageView lastTextSelectImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
                         lastTextSelectImage.setVisibility(View.INVISIBLE);
@@ -368,12 +386,13 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     lastHoveredView = v;
                     break;
                 case MotionEvent.ACTION_HOVER_EXIT:
+                    v.setHovered(false);
                     textHoverImage.setVisibility(View.INVISIBLE);
                     break;
                 default:
                     break;
             }
-            return true;
+            return false;
         }
     };
 

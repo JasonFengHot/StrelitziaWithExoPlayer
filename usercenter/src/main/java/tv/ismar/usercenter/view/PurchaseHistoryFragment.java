@@ -86,6 +86,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
+        purchasehistoryBinding.mainupView.setNextFocusLeftId(R.id.usercenter_purchase_history);
     }
 
     @Override

@@ -121,7 +121,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             }
         });
 
-
+        userinfoBinding.tmp.setNextFocusLeftId(R.id.usercenter_userinfo);
     }
 
     @Override
@@ -201,14 +201,18 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     public void loadBalance(AccountBalanceEntity entity) {
         if (entity.getBalance().add(entity.getSn_balance()).setScale(1).equals(new BigDecimal(0).setScale(1))) {
             userinfoBinding.exitAccount.setNextFocusDownId(R.id.btn);
-            userinfoBinding.exitAccount.setNextFocusLeftId(R.string.usercenter_userinfo);
-            for (View v: privilegeView){
-                v.setNextFocusLeftId(View.NO_ID);
+            userinfoBinding.exitAccount.setNextFocusLeftId(R.id.usercenter_userinfo);
+            if (privilegeView != null) {
+                for (View v : privilegeView) {
+                    v.setNextFocusLeftId(View.NO_ID);
+                }
             }
         } else {
             userinfoBinding.exitAccount.setNextFocusDownId(R.id.charge_money);
-            for (View v: privilegeView){
-                v.setNextFocusLeftId(v.getId());
+            if (privilegeView != null) {
+                for (View v : privilegeView) {
+                    v.setNextFocusLeftId(v.getId());
+                }
             }
         }
         mViewModel.refresh();
@@ -286,7 +290,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         public PrivilegeAdapter(Context context, List<AccountPlayAuthEntity.PlayAuth> playAuths) {
             mContext = context;
             mPlayAuths = playAuths;
-            privilegeView =new ArrayList<>();
+            privilegeView = new ArrayList<>();
         }
 
         @Override

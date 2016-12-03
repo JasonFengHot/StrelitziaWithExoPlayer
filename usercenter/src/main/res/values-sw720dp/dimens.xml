@@ -117,4 +117,5 @@
 
 
 <dimen name="u_purchase_history_item_margin_top">-40.00dp</dimen>
+<dimen name="purchase_history_recycler_mt">3.33dp</dimen>
 </resources>

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -34,7 +35,7 @@ import tv.ismar.app.widget.ModuleMessagePopWindow;
 /**
  * Created by huibin on 2016/9/14.
  */
-public class LoginFragment extends BaseFragment {
+public class LoginFragment extends BaseFragment implements View.OnHoverListener {
     private Button identifyCodeBtn;
     private EditText edit_identifycode;
     private Button btn_submit;
@@ -52,6 +53,7 @@ public class LoginFragment extends BaseFragment {
     private LoginCallback mLoginCallback;
 
     private String source = "";
+    private ImageView tmp;
 
 
     public static LoginFragment newInstance() {
@@ -90,8 +92,12 @@ public class LoginFragment extends BaseFragment {
 
         if (!source.equals("usercenter")) {
             edit_mobile.requestFocus();
+        }else {
+            tmp.setNextFocusLeftId(R.id.usercenter_login_register);
         }
 
+        btn_submit.setOnHoverListener(this);
+        identifyCodeBtn.setOnHoverListener(this);
     }
 
     @Override
@@ -100,6 +106,7 @@ public class LoginFragment extends BaseFragment {
     }
 
     private void initView() {
+        tmp = (ImageView) contentView.findViewById(R.id.tmp);
         count_tip = (TextView) contentView.findViewById(R.id.pay_count_tip);
         edit_mobile = (EditText) contentView.findViewById(R.id.pay_edit_mobile);
         edit_identifycode = (EditText) contentView.findViewById(R.id.pay_edit_identifycode);
@@ -351,6 +358,22 @@ public class LoginFragment extends BaseFragment {
                         }
                     }
                 });
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                tmp.requestFocus();
+                tmp.requestFocusFromTouch();
+                break;
+        }
+        return false;
     }
 
     public interface LoginCallback {

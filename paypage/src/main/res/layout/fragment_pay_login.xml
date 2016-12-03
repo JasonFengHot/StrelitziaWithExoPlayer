@@ -107,5 +107,11 @@
         android:text="提&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;交"
         android:textColor="#FFF8F8FF"
         android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize"/>
+    <ImageView
+        android:id="@+id/tmp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:focusable="true"/>
 
 </LinearLayout>

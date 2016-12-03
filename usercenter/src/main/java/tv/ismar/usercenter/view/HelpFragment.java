@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import tv.ismar.app.BaseFragment;
 import tv.ismar.usercenter.HelpContract;
+import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.databinding.FragmentHelpBinding;
 import tv.ismar.usercenter.viewmodel.HelpViewModel;
 
@@ -64,7 +65,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         helpBinding.ismartvIcon.setOnHoverListener(this);
-
+        helpBinding.tmp.setNextFocusLeftId(R.id.usercenter_help);
 
     }
 

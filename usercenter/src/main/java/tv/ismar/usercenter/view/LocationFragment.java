@@ -108,6 +108,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
+        locationBinding.tmp.setNextFocusLeftId(R.id.usercenter_help);
     }
 
     @Override
