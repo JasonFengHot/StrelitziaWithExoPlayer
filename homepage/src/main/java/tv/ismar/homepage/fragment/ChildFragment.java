@@ -194,17 +194,17 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
             posters.get(i).setPosition(i);
             item_img_focus.setTag(posters.get(i));
             item_img_focus.setOnClickListener(ItemClickListener);
-            item_img_focus.setOnHoverListener(new View.OnHoverListener() {
-				
-				@Override
-				public boolean onHover(View v, MotionEvent event) {
-					if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER
-							|| event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-                          v.requestFocus();
-					}
-					return false;
-				}
-			});
+//            item_img_focus.setOnHoverListener(new View.OnHoverListener() {
+//
+//				@Override
+//				public boolean onHover(View v, MotionEvent event) {
+//					if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER
+//							|| event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+//                          v.requestFocus();
+//					}
+//					return false;
+//				}
+//			});
 
             if(mContext==null)
                 return;
@@ -337,7 +337,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
 
     private void playCarousel() {
         messageHandler.removeMessages(0);
-        imageSwitcher.setTag(R.drawable.launcher_selector, carousels.get(flag.getPosition()));
+        image_switcher_focus.setTag(R.drawable.launcher_selector, carousels.get(flag.getPosition()));
         Picasso.with(mContext).load(carousels.get(flag.getPosition()).getVideo_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(imageSwitcher, new Callback() {
             int pauseTime = Integer.parseInt(carousels.get(flag.getPosition()).getPause_time());
 

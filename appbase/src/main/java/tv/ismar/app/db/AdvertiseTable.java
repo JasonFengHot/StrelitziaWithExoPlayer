@@ -8,7 +8,7 @@ import cn.ismartv.injectdb.library.annotation.Table;
 /**
  * Created by huaijie on 7/31/15.
  */
-@Table(name = "advertisement", id = "_id")
+@Table(name = "smart_advertisement", id = "_id")
 public class AdvertiseTable extends Model {
 
     public static final String TITLE = "title";

@@ -39,6 +39,7 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.cache.CacheManager;
 import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.db.DBHelper;
@@ -85,6 +86,7 @@ public class VodApplication extends Application {
         appInstance = this;
         ActiveAndroid.initialize(this);
         AccountSharedPrefs.initialize(this);
+        CacheManager.initialize(this);// 首页导视相关
         load(this);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();

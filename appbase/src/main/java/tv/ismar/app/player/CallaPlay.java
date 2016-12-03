@@ -8,7 +8,6 @@ import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.network.entity.EventProperty;
 
-
 public class CallaPlay {
 
     private HashMap<String, Object> properties = new HashMap<String, Object>();
@@ -26,7 +25,7 @@ public class CallaPlay {
      * @param speed             (网速, 单位Kbits/s) INTEGER
      * @return HashMap<String,Object>
      */
-    public HashMap<String, Object> videoStart(Item item, Integer subitem, String title, Integer quality, Integer userid, Integer speed, String section, String sid,String playerflag) {
+    public HashMap<String, Object> videoStart(Item item, Integer subitem, String title, Integer quality, Integer userid, Integer speed, String section, String sid, String playerflag) {
 
         HashMap<String, Object> tempMap = new HashMap<String, Object>();
         tempMap.put(EventProperty.ITEM, item.pk);
@@ -647,7 +646,18 @@ public class CallaPlay {
         new NetworkUtils.DataCollectionTask().execute(eventName, properties);
     }
 
-
+    /**
+     * 导视预告片播放
+     *
+     * @param url    url 预告片地址, 例如: http://v.ismartv.cn/upload/topvideo/no10_20120411.mp4
+     */
+    public  void homepage_vod_trailer_play(String url) {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("url", url);
+        eventName = NetworkUtils.HOMEPAGE_VOD_TRAILER_PLAY;
+        properties = hashMap;
+        new NetworkUtils.DataCollectionTask().execute(eventName, properties);
+    }
 
     private String switchQuality(Integer currQuality) {
         String quality = "";

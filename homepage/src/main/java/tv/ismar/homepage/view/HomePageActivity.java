@@ -23,6 +23,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -95,6 +96,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private ChannelBaseFragment currentFragment;
     private boolean isLastFragmentChild = false;
 
+    private View contentView;
+    private FrameLayout large_layout;
     private HeadFragment headFragment;
     private ModuleMessagePopWindow exitPopup;
     private RecyclerView home_tab_list;
@@ -114,9 +117,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private boolean isStartImageCountDown = false;
     private boolean isPlayingVideo = false;
     private int playIndex;
-    private FrameLayout home_back_layout;
     private RelativeLayout home_layout_advertisement;
     private FrameLayout layout_homepage;
+    public boolean isPlayingStartAd = false;
     /**
      * advertisement end
      */
@@ -310,11 +313,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
         Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
-        setContentView(R.layout.activity_tv_guide);
+        contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
+        setContentView(contentView);
         fragmentSwitch = new FragmentSwitchHandler(this);
         homepage_template = getIntent().getStringExtra("homepage_template");
         homepage_url = getIntent().getStringExtra("homepage_url");
-        home_back_layout = (FrameLayout) findViewById(R.id.home_back_layout);
 
         /**
          * advertisement start
@@ -331,18 +334,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             int duration = adTable.duration;
             countAdTime += duration;
         }
-        bitmapDecoder = new BitmapDecoder();
-        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-                home_back_layout.setBackground(bitmapDrawable);
-                home_ad_timer.setVisibility(View.VISIBLE);
-                home_ad_timer.setTextColor(Color.WHITE);
-                home_ad_timer.setText(countAdTime + "s");
-                playLaunchAd(0);
-                bitmapDecoder = null;
-            }
-        });
 
         /**
          * advertisement end
@@ -357,13 +348,37 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         } catch (IOException e) {
             e.printStackTrace();
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fetchChannels();
-            }
-        }, 1000);
 
+        large_layout = (FrameLayout) findViewById(R.id.large_layout);
+        bitmapDecoder = new BitmapDecoder();
+        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+            @Override
+            public void onSuccess(BitmapDrawable bitmapDrawable) {
+                large_layout.setBackground(bitmapDrawable);
+                bitmapDecoder = null;
+                if (TextUtils.isEmpty(homepage_url)) {
+                    home_ad_timer.setVisibility(View.VISIBLE);
+                    home_ad_timer.setTextColor(Color.WHITE);
+                    home_ad_timer.setText(countAdTime + "s");
+                    playLaunchAd(0);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            fetchChannels();
+                        }
+                    }, 1000);
+                }
+            }
+        });
+
+        if (!TextUtils.isEmpty(homepage_url)) {
+            home_layout_advertisement.setVisibility(View.GONE);
+            large_layout.removeView(home_layout_advertisement);
+            layout_homepage.setVisibility(View.VISIBLE);
+            fetchChannels();
+            startAdsService();
+        }
         startIntervalActive();
     }
 
@@ -598,43 +613,49 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     }
 
     private void tempInitStaticVariable() {
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        SimpleRestClient.densityDpi = metric.densityDpi;
-        SimpleRestClient.screenWidth = metric.widthPixels;
-        SimpleRestClient.screenHeight = metric.heightPixels;
-        PackageManager manager = getPackageManager();
-        try {
-            PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
-            SimpleRestClient.appVersion = info.versionCode;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        String apiDomain = IsmartvActivator.getInstance().getApiDomain();
-        String ad_domain = IsmartvActivator.getInstance().getAdDomain();
-        String log_domain = IsmartvActivator.getInstance().getAdDomain();
-        String upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
-        if(apiDomain != null && !apiDomain.contains("http")){
-            apiDomain = "http://" + apiDomain;
-        }
-        if(ad_domain != null && !ad_domain.contains("http")){
-            ad_domain = "http://" + ad_domain;
-        }
-        if(log_domain != null && !log_domain.contains("http")){
-            log_domain = "http://" + log_domain;
-        }
-        if(upgrade_domain != null && !upgrade_domain.contains("http")){
-            upgrade_domain = "http://" + upgrade_domain;
-        }
-        SimpleRestClient.root_url = apiDomain;
-        SimpleRestClient.ad_domain = ad_domain;
-        SimpleRestClient.log_domain = log_domain;
-        SimpleRestClient.upgrade_domain = upgrade_domain;
-        SimpleRestClient.device_token = IsmartvActivator.getInstance().getDeviceToken();
-        SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
-        SimpleRestClient.access_token = IsmartvActivator.getInstance().getAuthToken();
-        SimpleRestClient.zuser_token = IsmartvActivator.getInstance().getZUserToken();
-        SimpleRestClient.zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
+        new Thread(){
+            @Override
+            public void run() {
+                DisplayMetrics metric = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(metric);
+                SimpleRestClient.densityDpi = metric.densityDpi;
+                SimpleRestClient.screenWidth = metric.widthPixels;
+                SimpleRestClient.screenHeight = metric.heightPixels;
+                PackageManager manager = getPackageManager();
+                try {
+                    PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+                    SimpleRestClient.appVersion = info.versionCode;
+                } catch (NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                String apiDomain = IsmartvActivator.getInstance().getApiDomain();
+                String ad_domain = IsmartvActivator.getInstance().getAdDomain();
+                String log_domain = IsmartvActivator.getInstance().getAdDomain();
+                String upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
+                if (apiDomain != null && !apiDomain.contains("http")) {
+                    apiDomain = "http://" + apiDomain;
+                }
+                if (ad_domain != null && !ad_domain.contains("http")) {
+                    ad_domain = "http://" + ad_domain;
+                }
+                if (log_domain != null && !log_domain.contains("http")) {
+                    log_domain = "http://" + log_domain;
+                }
+                if (upgrade_domain != null && !upgrade_domain.contains("http")) {
+                    upgrade_domain = "http://" + upgrade_domain;
+                }
+                SimpleRestClient.root_url = apiDomain;
+                SimpleRestClient.ad_domain = ad_domain;
+                SimpleRestClient.log_domain = log_domain;
+                SimpleRestClient.upgrade_domain = upgrade_domain;
+                SimpleRestClient.device_token = IsmartvActivator.getInstance().getDeviceToken();
+                SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
+                SimpleRestClient.access_token = IsmartvActivator.getInstance().getAuthToken();
+                SimpleRestClient.zuser_token = IsmartvActivator.getInstance().getZUserToken();
+                SimpleRestClient.zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
+            }
+        }.start();
+
     }
 
     @Override
@@ -679,7 +700,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         ChannelEntity launcher = new ChannelEntity();
         launcher.setChannel("launcher");
         launcher.setName("首页");
-        launcher.setHomepage_template("template");
+        launcher.setHomepage_template("launcher");
         channelEntityList.add(launcher);
         int channelscrollIndex = 0;
 
@@ -721,11 +742,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 ChannelEntity channelEntity = new ChannelEntity();
                 launcher.setChannel("launcher");
                 launcher.setName("首页");
-                launcher.setHomepage_template("template");
+                launcher.setHomepage_template("launcher");
                 currentFragment.setChannelEntity(channelEntity);
                 FragmentTransaction transaction = getSupportFragmentManager()
                         .beginTransaction();
-                transaction.replace(R.id.home_container, currentFragment, "template").commit();
+                transaction.replace(R.id.home_container, currentFragment, "template").commitAllowingStateLoss();
                 home_tab_list.requestFocus();
             } catch (IllegalStateException e) {
             }
@@ -807,14 +828,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
     }
 
-    private void destroybackground() {
-        BitmapDrawable bd = (BitmapDrawable) home_back_layout.getBackground();
-        home_back_layout.setBackgroundResource(0);//别忘了把背景设为null，避免onDraw刷新背景时候出现used a recycled bitmap错误
-        if (bd == null)
-            return;
-        bd.setCallback(null);
-        bd.getBitmap().recycle();
-    }
+    BitmapDecoder ddddBitmapDecoder;
 
     private void selectChannelByPosition(int position) {
         String tag;
@@ -839,7 +853,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         ChannelEntity channelEntity = channelEntityList.get(position);
         headFragment.setSubTitle(channelEntity.getName());
         currentFragment = null;
-        destroybackground();
         if ("template1".equals(channelEntity.getHomepage_template())) {
             currentFragment = new FilmFragment();
             tag = "template1";
@@ -858,26 +871,30 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
         if (currentFragment instanceof ChildFragment) {
             isLastFragmentChild = true;
-            bitmapDecoder = new BitmapDecoder();
-            bitmapDecoder.decode(this,
+            if (ddddBitmapDecoder != null) {
+                ddddBitmapDecoder.removeAllCallback();
+            }
+            ddddBitmapDecoder = new BitmapDecoder();
+            ddddBitmapDecoder.decode(this,
                     R.drawable.channel_child_bg,
                     new BitmapDecoder.Callback() {
                         @Override
                         public void onSuccess(BitmapDrawable bitmapDrawable) {
-                            home_back_layout.setBackground(bitmapDrawable);
-                            bitmapDecoder = null;
+                            contentView.setBackgroundDrawable(bitmapDrawable);
                         }
                     });
         } else {
             if (isLastFragmentChild) {
-                bitmapDecoder = new BitmapDecoder();
-                bitmapDecoder.decode(this,
+                if (ddddBitmapDecoder != null) {
+                    ddddBitmapDecoder.removeAllCallback();
+                }
+                ddddBitmapDecoder = new BitmapDecoder();
+                ddddBitmapDecoder.decode(this,
                         R.drawable.main_bg,
                         new BitmapDecoder.Callback() {
                             @Override
                             public void onSuccess(BitmapDrawable bitmapDrawable) {
-                                home_back_layout.setBackground(bitmapDrawable);
-                                bitmapDecoder = null;
+                                contentView.setBackgroundDrawable(bitmapDrawable);
                             }
                         });
             }
@@ -890,129 +907,128 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             currentFragment.setRight(rightscroll);
             currentFragment.setBottomFlag(lastviewTag);
         }
+
         currentFragment.setChannelEntity(channelEntity);
+
+        ChannelBaseFragment t = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template");
+        ChannelBaseFragment t1 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template1");
+        ChannelBaseFragment t2 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template2");
+        ChannelBaseFragment t3 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template3");
+        ChannelBaseFragment t4 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template4");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        replaceFragment(currentFragment, tag, transaction);
-
-//        ChannelBaseFragment t = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template");
-//        ChannelBaseFragment t1 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template1");
-//        ChannelBaseFragment t2 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template2");
-//        ChannelBaseFragment t3 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template3");
-//        ChannelBaseFragment t4 = (ChannelBaseFragment) getSupportFragmentManager().findFragmentByTag("template4");
-
-//        if ("template".equals(tag)) {
-//            if (t1 != null)
-//                transaction.hide(t1);
-//            if (t2 != null)
-//                transaction.hide(t2);
-//            if (t3 != null)
-//                transaction.hide(t3);
-//            if (t4 != null)
-//                transaction.hide(t4);
-//            if (t != null) {
-//                t.setScrollFromBorder(scrollFromBorder);
-//                if (scrollFromBorder) {
-//                    t.setRight(rightscroll);
-//                    t.setBottomFlag(lastviewTag);
-//                }
-//                transaction.show(t);
-//                transaction.commitAllowingStateLoss();
-//            } else {
-//
-//            }
-//        }
-//        if ("template1".equals(tag)) {
-//            if (t != null)
-//                transaction.hide(t);
-//            if (t2 != null)
-//                transaction.hide(t2);
-//            if (t3 != null)
-//                transaction.hide(t3);
-//            if (t4 != null)
-//                transaction.hide(t4);
-//            if (t1 != null && !t1.isRemoving()) {
-//                t1.setScrollFromBorder(scrollFromBorder);
-//                if (scrollFromBorder) {
-//                    t1.setRight(rightscroll);
-//                    t1.setBottomFlag(lastviewTag);
-//                }
-//                t1.setChannelEntity(channelEntity);
-//                t1.refreshData();
-//                transaction.show(t1);
-//                transaction.commitAllowingStateLoss();
-//            } else {
-//                replaceFragment(currentFragment, tag, transaction);
-//            }
-//        }
-//        if ("template2".equals(tag)) {
-//            if (t != null)
-//                transaction.hide(t);
-//            if (t1 != null)
-//                transaction.hide(t1);
-//            if (t3 != null)
-//                transaction.hide(t3);
-//            if (t4 != null)
-//                transaction.hide(t4);
-//            if (t2 != null && !t2.isRemoving()) {
-//                t2.setChannelEntity(channelEntity);
-//                t2.refreshData();
-//                t2.setScrollFromBorder(scrollFromBorder);
-//                if (scrollFromBorder) {
-//                    t2.setRight(rightscroll);
-//                    t2.setBottomFlag(lastviewTag);
-//                }
-//                transaction.show(t2);
-//                transaction.commitAllowingStateLoss();
-//            } else {
-//                replaceFragment(currentFragment, tag, transaction);
-//            }
-//        }
-//        if ("template3".equals(tag)) {
-//            if (t != null)
-//                transaction.hide(t);
-//            if (t1 != null)
-//                transaction.hide(t1);
-//            if (t2 != null)
-//                transaction.hide(t2);
-//            if (t4 != null)
-//                transaction.hide(t4);
-//            if (t3 != null) {
-//                t3.setChannelEntity(channelEntity);
-//                t3.refreshData();
-//                t3.setScrollFromBorder(scrollFromBorder);
-//                if (scrollFromBorder) {
-//                    t3.setRight(rightscroll);
-//                    t3.setBottomFlag(lastviewTag);
-//                }
-//                transaction.show(t3);
-//                transaction.commitAllowingStateLoss();
-//            } else {
-//                replaceFragment(currentFragment, tag, transaction);
-//            }
-//        }
-//        if ("template4".equals(tag)) {
-//            if (t != null)
-//                transaction.hide(t);
-//            if (t1 != null)
-//                transaction.hide(t1);
-//            if (t2 != null)
-//                transaction.hide(t2);
-//            if (t3 != null)
-//                transaction.hide(t3);
-//            if (t4 != null && !t4.isRemoving()) {
-//                t4.setChannelEntity(channelEntity);
-//                t4.refreshData();
-//                t4.setScrollFromBorder(scrollFromBorder);
-//                if (scrollFromBorder) {
-//                    t4.setRight(rightscroll);
-//                    t4.setBottomFlag(lastviewTag);
-//                }
-//                transaction.show(t4);
-//                transaction.commitAllowingStateLoss();
-//            } else {
-//                replaceFragment(currentFragment, tag, transaction);
-//            }
-//        }
+        if ("template".equals(tag)) {
+            if (t1 != null)
+                transaction.hide(t1);
+            if (t2 != null)
+                transaction.hide(t2);
+            if (t3 != null)
+                transaction.hide(t3);
+            if (t4 != null)
+                transaction.hide(t4);
+            if (t != null) {
+                t.setScrollFromBorder(scrollFromBorder);
+                if (scrollFromBorder) {
+                    t.setRight(rightscroll);
+                    t.setBottomFlag(lastviewTag);
+                }
+                transaction.show(t);
+                transaction.commitAllowingStateLoss();
+            } else {
+                replaceFragment(currentFragment, tag, transaction);
+            }
+        }
+        if ("template1".equals(tag)) {
+            if (t != null)
+                transaction.hide(t);
+            if (t2 != null)
+                transaction.hide(t2);
+            if (t3 != null)
+                transaction.hide(t3);
+            if (t4 != null)
+                transaction.hide(t4);
+            if (t1 != null && !t1.isRemoving()) {
+                t1.setScrollFromBorder(scrollFromBorder);
+                if (scrollFromBorder) {
+                    t1.setRight(rightscroll);
+                    t1.setBottomFlag(lastviewTag);
+                }
+                t1.setChannelEntity(channelEntity);
+                t1.refreshData();
+                transaction.show(t1);
+                transaction.commitAllowingStateLoss();
+            } else {
+                replaceFragment(currentFragment, tag, transaction);
+            }
+        }
+        if ("template2".equals(tag)) {
+            if (t != null)
+                transaction.hide(t);
+            if (t1 != null)
+                transaction.hide(t1);
+            if (t3 != null)
+                transaction.hide(t3);
+            if (t4 != null)
+                transaction.hide(t4);
+            if (t2 != null && !t2.isRemoving()) {
+                t2.setChannelEntity(channelEntity);
+                t2.refreshData();
+                t2.setScrollFromBorder(scrollFromBorder);
+                if (scrollFromBorder) {
+                    t2.setRight(rightscroll);
+                    t2.setBottomFlag(lastviewTag);
+                }
+                transaction.show(t2);
+                transaction.commitAllowingStateLoss();
+            } else {
+                replaceFragment(currentFragment, tag, transaction);
+            }
+        }
+        if ("template3".equals(tag)) {
+            if (t != null)
+                transaction.hide(t);
+            if (t1 != null)
+                transaction.hide(t1);
+            if (t2 != null)
+                transaction.hide(t2);
+            if (t4 != null)
+                transaction.hide(t4);
+            if (t3 != null) {
+                t3.setChannelEntity(channelEntity);
+                t3.refreshData();
+                t3.setScrollFromBorder(scrollFromBorder);
+                if (scrollFromBorder) {
+                    t3.setRight(rightscroll);
+                    t3.setBottomFlag(lastviewTag);
+                }
+                transaction.show(t3);
+                transaction.commitAllowingStateLoss();
+            } else {
+                replaceFragment(currentFragment, tag, transaction);
+            }
+        }
+        if ("template4".equals(tag)) {
+            if (t != null)
+                transaction.hide(t);
+            if (t1 != null)
+                transaction.hide(t1);
+            if (t2 != null)
+                transaction.hide(t2);
+            if (t3 != null)
+                transaction.hide(t3);
+            if (t4 != null && !t4.isRemoving()) {
+                t4.setChannelEntity(channelEntity);
+                t4.refreshData();
+                t4.setScrollFromBorder(scrollFromBorder);
+                if (scrollFromBorder) {
+                    t4.setRight(rightscroll);
+                    t4.setBottomFlag(lastviewTag);
+                }
+                transaction.show(t4);
+                transaction.commitAllowingStateLoss();
+            } else {
+                replaceFragment(currentFragment, tag, transaction);
+            }
+        }
         // longhai add
         if (home_tab_list == null) {
             return;
@@ -1071,7 +1087,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 break;
         }
 
-        transaction.replace(R.id.home_container, fragment, tag).commit();
+        transaction.replace(R.id.home_container, fragment, tag).commitAllowingStateLoss();
     }
 
     public void channelRequestFocus(String channel) {
@@ -1117,6 +1133,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
             bitmapDecoder.interrupt();
         }
+        if (ddddBitmapDecoder != null && ddddBitmapDecoder.isAlive()) {
+            ddddBitmapDecoder.interrupt();
+        }
         if (!(updatePopupWindow == null)) {
             updatePopupWindow.dismiss();
         }
@@ -1133,7 +1152,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         homepage_url = intent.getStringExtra("homepage_url");
         if (StringUtils.isEmpty(homepage_template)
                 || StringUtils.isEmpty(homepage_url)) {
-            fetchChannels();
+//            fetchChannels();
         } else {
             fetchChannels();
         }
@@ -1198,7 +1217,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             if (activity != null) {
                 switch (msg.what) {
                     case SWITCH_PAGE:
-                        if(!activity.isFinishing()){
+                        if (!activity.isFinishing()) {
                             activity.selectChannelByPosition(msg.arg1);
                         }
                         break;
@@ -1227,6 +1246,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      * advertisement start
      */
     private void playLaunchAd(final int index) {
+        isPlayingStartAd = true;
         playIndex = index;
         if (launchAds.get(index).media_type.equals(AdvertiseManager.TYPE_VIDEO)) {
             isPlayingVideo = true;
@@ -1346,11 +1366,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     }
 
     private void goNextPage() {
+        isPlayingStartAd = false;
         home_layout_advertisement.setVisibility(View.GONE);
+        large_layout.removeView(home_layout_advertisement);
         layout_homepage.setVisibility(View.VISIBLE);
-        // TODO
-        if (home_ad_pic != null) {
-            home_ad_pic.setBackgroundResource(R.color.window_bg);
+        if(currentFragment != null){
+            currentFragment.playCarouselVideo();
         }
         if (home_ad_video != null) {
             home_ad_video.stopPlayback();
@@ -1383,11 +1404,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         intent.setClass(this, AdsUpdateService.class);
         startService(intent);
     }
+
     /**
      * advertisement end
      */
 
-    private void startIntervalActive(){
+    private void startIntervalActive() {
         Intent intent = new Intent();
         intent.setClass(this, ActiveService.class);
         startService(intent);

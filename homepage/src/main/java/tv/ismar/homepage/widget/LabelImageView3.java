@@ -150,10 +150,11 @@ public class LabelImageView3 extends AsyncImageView {
                     bringToFront();
                 }
                 drawBorder = true;
+                getRootView().requestLayout();
+                getRootView().invalidate();
             } else {
                 drawBorder = false;
             }
-            invalidate();
         }
     }
 
@@ -162,22 +163,34 @@ public class LabelImageView3 extends AsyncImageView {
     }
 
     @Override
-    public void onHoverChanged(boolean hovered) {
-        super.onHoverChanged(hovered);
-        if (hovered) {
-            requestFocus();
-//            drawBorder = true;
-        } else {
-//            drawBorder = false;
+    protected boolean dispatchHoverEvent(MotionEvent event) {
+        // TODO Auto-generated method stub
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
+//			drawBorder = true;
+//			requestFocus();
+//			invalidate();
+//			break;
+            case MotionEvent.ACTION_HOVER_MOVE:
+//			drawBorder = true;
+                if(isFocusable() && isFocusableInTouchMode())
+                    requestFocus();
+                setHovered(true);
+//			invalidate();
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                setHovered(false);
+//			drawBorder = false;
+//			invalidate();
+                break;
         }
-//        invalidate();
+        return false;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         super.getDrawingRect(mRect);
-        Log.i("LH/", "Label3OnDraw");
         int width = getLayoutParams().width;
         int height = getLayoutParams().height;
         int paddingleft = getPaddingLeft();
@@ -269,6 +282,9 @@ public class LabelImageView3 extends AsyncImageView {
             }
 
         }
+
+        getRootView().requestLayout();
+        getRootView().invalidate();
 
     }
 
