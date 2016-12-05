@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -301,7 +302,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	}
 	private ArrayList<ItemCollection> mItemCollections;
 	private void getHistoryByNet(){
-		mLoadingDialog.show();
 		skyService.getHistoryByNet().subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(((BaseActivity) getActivity()).new BaseObserver<Item[]>() {
@@ -334,6 +334,12 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 								}
 								mItemCollections.get(0).fillItems(0, item);
 								mHGridAdapter.setList(mItemCollections);
+								mNoVideoContainer.setVisibility(View.GONE);
+								mNoVideoContainer.setBackgroundResource(R.drawable.no_record);
+								gideview_layuot.setVisibility(View.VISIBLE);
+								mScrollableSectionList.setVisibility(View.VISIBLE);
+								mHGridView.setVisibility(View.VISIBLE);
+								collect_or_history_txt.setVisibility(View.GONE);
 							}
 						}
 						else{
@@ -379,6 +385,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				final long todayStartPoint = getTodayStartPoint();
 				final long yesterdayStartPoint = getYesterdayStartPoint();
 				ArrayList<History> mHistories = DaisyUtils.getHistoryManager(getActivity()).getAllHistories("no");
+				Log.i(TAG,"mHistories.size:"+mHistories.size());
 				if(mHistories.size()>0) {
 					Collections.sort(mHistories);
 					mHistoryItemList.count=0;
@@ -434,6 +441,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 		@Override
 		protected void onPostExecute(Void result) {
+			Log.i(TAG,mHistoryItemList+"mHistoryItemList.count:"+mHistoryItemList.count);
 			if(mHistoryItemList!=null&&mHistoryItemList.count>0) {
 				//mScrollableSectionList.init(mSectionList, 1365,false);
 				ArrayList<ItemCollection> itemCollections = new ArrayList<ItemCollection>();
@@ -450,11 +458,12 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				mHGridAdapter = new HGridAdapterImpl(getActivity(), itemCollections,false);
 				mHGridView.setAdapter(mHGridAdapter);
 				mHGridView.setFocusable(true);
-				//mHGridView.setHorizontalFadingEdgeEnabled(true);
-				//mHGridView.setFadingEdgeLength(144);
-				//int rows = mHGridView.getRows();
-				//int totalColumnsOfSectionX = (int) FloatMath.ceil((float)mHGridAdapter.getSectionCount(mCurrentSectionPosition) / (float)rows);
-				//mScrollableSectionList.setPercentage(mCurrentSectionPosition, (int)(1f/(float)totalColumnsOfSectionX*100f));
+				mNoVideoContainer.setVisibility(View.GONE);
+				mNoVideoContainer.setBackgroundResource(R.drawable.no_record);
+				gideview_layuot.setVisibility(View.VISIBLE);
+				mScrollableSectionList.setVisibility(View.VISIBLE);
+				mHGridView.setVisibility(View.VISIBLE);
+				collect_or_history_txt.setVisibility(View.GONE);
 			} else {
 				no_video();
 			}
@@ -495,12 +504,26 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 	@Override
 	public void onResume() {
+		Log.i(TAG,"onResum"+"islogin:"+IsmartvActivator.getInstance().isLogin());
 		if(IsmartvActivator.getInstance().isLogin()){
 			//登录，网络获取
-			getHistoryByNet();
+			mLoadingDialog.show();
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					getHistoryByNet();
+				}
+			},2000);
+
 		}else{
-			mGetHistoryTask = new GetHistoryTask();
-			mGetHistoryTask.execute(); //没有登录，取本地设备信息
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					mLoadingDialog.show();
+					mGetHistoryTask = new GetHistoryTask();
+					mGetHistoryTask.execute(); //没有登录，取本地设备信息
+				}
+			},2000);
 		}
 		((ChannelListActivity)getActivity()).registerOnMenuToggleListener(this);
 		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_HISTORY_IN);
@@ -693,7 +716,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	public void getClicItem(Item mItem) {
 		mLoadingDialog.showDialog();
 		int pk = 0;
-		if (SimpleRestClient.isLogin()) {
+		if (IsmartvActivator.getInstance().isLogin()) {
 			if (mItem.model_name.equals("subitem"))
 				pk = mItem.item_pk;
 			else

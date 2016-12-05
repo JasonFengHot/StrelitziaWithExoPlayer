@@ -273,6 +273,12 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 								}
 								mItemCollections.get(0).fillItems(0, item);
 								mHGridAdapter.setList(mItemCollections);
+								mNoVideoContainer.setVisibility(View.GONE);
+								mNoVideoContainer.setBackgroundResource(R.drawable.no_record);
+								gideview_layuot.setVisibility(View.VISIBLE);
+								mScrollableSectionList.setVisibility(View.VISIBLE);
+								mHGridView.setVisibility(View.VISIBLE);
+								collect_or_history_txt.setVisibility(View.GONE);
 							}
 						}else{
 							no_video();
@@ -349,7 +355,14 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
             if(mHGridAdapter.getCount()==0) {
                 no_video();
                 return;
-            }
+            }else{
+				mNoVideoContainer.setVisibility(View.GONE);
+				mNoVideoContainer.setBackgroundResource(R.drawable.no_record);
+				gideview_layuot.setVisibility(View.VISIBLE);
+				mScrollableSectionList.setVisibility(View.VISIBLE);
+				mHGridView.setVisibility(View.VISIBLE);
+				collect_or_history_txt.setVisibility(View.GONE);
+			}
 			mHGridView.setAdapter(mHGridAdapter);
 			mHGridView.setFocusable(true);
             mItemCollections.get(0).fillItems(0, FavoriteLists);
@@ -536,11 +549,12 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		((ChannelListActivity)getActivity()).registerOnMenuToggleListener(this);
 		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_COLLECT_IN);
 		if(!IsmartvActivator.getInstance().isLogin()){
-			getFavoriteTask = new GetFavoriteTask();
-			getFavoriteTask.execute();
+					getFavoriteTask = new GetFavoriteTask();
+					getFavoriteTask.execute();
 		}
-		else
-			GetFavoriteByNet();
+		else {
+					GetFavoriteByNet();
+		}
 		super.onResume();
 	}
 	@Override
