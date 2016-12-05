@@ -112,6 +112,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
     @Override
     public void onStop() {
+        mPresenter.stop();
         super.onStop();
         Log.d(TAG, "onStop");
     }

@@ -31,5 +31,7 @@ public interface ProductContract {
     interface Presenter extends BasePresenter {
         void fetchProduct();
 
+        void stop();
+
     }
 }
