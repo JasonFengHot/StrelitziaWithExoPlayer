@@ -231,7 +231,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
     };
 
     private void fetchVerificationCode() {
-        edit_mobile.setText("15370770697");
+//        edit_mobile.setText("15370770697");
         String username = edit_mobile.getText().toString();
         if ("".equals(edit_mobile.getText().toString())) {
             setcount_tipText("请输入手机号");
