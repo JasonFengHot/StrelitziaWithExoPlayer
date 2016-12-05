@@ -350,6 +350,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 case MotionEvent.ACTION_HOVER_ENTER:
                 case MotionEvent.ACTION_HOVER_MOVE:
                     if (!v.hasFocus()) {
+                        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
                         v.requestFocus();
                         v.requestFocusFromTouch();
                     }
@@ -361,7 +362,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                     }
                     break;
             }
-            ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
+
             return true;
         }
     }

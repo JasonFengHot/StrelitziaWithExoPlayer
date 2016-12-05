@@ -378,7 +378,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 case MotionEvent.ACTION_HOVER_MOVE:
                     v.setHovered(true);
                     v.requestFocus();
-                    v.requestFocusFromTouch();
                     if (lastHoveredView != null) {
                         ImageView lastTextSelectImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
                         lastTextSelectImage.setVisibility(View.INVISIBLE);
@@ -387,13 +386,11 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     lastHoveredView = v;
                     break;
                 case MotionEvent.ACTION_HOVER_EXIT:
-                    v.setHovered(false);
                     textHoverImage.setVisibility(View.INVISIBLE);
-                    break;
-                default:
+                    v.setHovered(false);
                     break;
             }
-            return false;
+            return true;
         }
     };
 

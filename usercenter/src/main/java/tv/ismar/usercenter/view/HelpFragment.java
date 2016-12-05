@@ -139,6 +139,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         switch (event.getAction()) {
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
+                ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
                 v.requestFocus();
                 v.requestFocusFromTouch();
                 break;
@@ -149,7 +150,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
                 }
                 break;
         }
-        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
+
         return true;
     }
 
