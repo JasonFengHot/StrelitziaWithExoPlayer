@@ -21,4 +21,9 @@ public class HelpPresenter implements HelpContract.Presenter {
 
     }
 
+    @Override
+    public void stop() {
+
+    }
+
 }

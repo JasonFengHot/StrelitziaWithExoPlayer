@@ -293,10 +293,11 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 case MotionEvent.ACTION_HOVER_ENTER:
                 case MotionEvent.ACTION_HOVER_MOVE:
                     if (!v.hasFocus()) {
+                        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
                         v.requestFocus();
                         v.requestFocusFromTouch();
                     }
-                    ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
+
                     break;
                 case MotionEvent.ACTION_HOVER_EXIT:
                     Log.d(TAG, "MotionEvent.ACTION_HOVER_EXIT");

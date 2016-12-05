@@ -45,6 +45,11 @@ public class LocationPresenter implements LocationContract.Presenter {
     }
 
     @Override
+    public void stop() {
+
+    }
+
+    @Override
     public void fetchWeather(String geoId) {
         mSkyService.apifetchWeatherInfo(geoId)
                 .subscribeOn(Schedulers.io())

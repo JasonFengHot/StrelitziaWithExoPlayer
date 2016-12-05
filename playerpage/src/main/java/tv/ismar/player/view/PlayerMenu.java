@@ -211,16 +211,19 @@ public class PlayerMenu extends PlayerMenuItem {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (view != null)
+                    Log.i(TAG, "onItemSelected:" + position);
+                    if (view != null){
                         view.setBackgroundResource(R.color._ff9c3c);
-                    if (lastSelectMenu != null) {
-                        lastSelectMenu.setBackgroundResource(android.R.color.transparent);
+                        if (lastSelectMenu != null && view != lastSelectMenu) {
+                            lastSelectMenu.setBackgroundResource(android.R.color.transparent);
+                        }
+                        lastSelectMenu = view;
                     }
-                    lastSelectMenu = view;
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
+                    Log.i(TAG, "onNothingSelected");
                 }
 
             });
