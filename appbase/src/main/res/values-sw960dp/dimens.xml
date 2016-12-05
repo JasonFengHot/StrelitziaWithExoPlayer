@@ -378,10 +378,10 @@
 
 <dimen name="list_section_tabMargin">206.22dp</dimen>
 <dimen name="list_section_tabSpace">30.22dp</dimen>
-<dimen name="list_section_tabSize">26.67px</dimen>
-<dimen name="list_section_tabSize_big">32.00px</dimen>
+<dimen name="list_section_tabSize">26.67sp</dimen>
+<dimen name="list_section_tabSize_big">32.00sp</dimen>
 <dimen name="list_section_width">1294.22dp</dimen>
-
+<dimen name="list_section_filter_size">32.00sp</dimen>
 <dimen name="list_head_H">88.89dp</dimen>
 <dimen name="list_head_paddingL">65.78dp</dimen>
 <dimen name="divider_blowhead_ML">30.22dp</dimen>

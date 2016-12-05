@@ -11,6 +11,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -211,7 +212,8 @@ public class ScrollableSectionList extends HorizontalScrollView {
         TextView label = (TextView) sectionHolder.findViewById(R.id.section_label);
         ((LayoutParams) label.getLayoutParams()).setMargins(tabSpace, 0, tabSpace, 0);
         label.setText("筛选");
-        label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize_big));
+        label.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimensionPixelOffset(R.dimen.list_section_filter_size));
         label.setTag("filter");
         return sectionHolder;
     }
@@ -246,7 +248,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 ((LayoutParams) section_image.getLayoutParams()).width = textWidth + tabSpace * 2;
             }
             if(textHeight>0){
-             //   ((LayoutParams) section_image.getLayoutParams()).height = textHeight;
+           //   ((LayoutParams) section_image.getLayoutParams()).height = textHeight*2;
             }
             if (hasFocus) {
                 if (isFromArrow) {
@@ -297,7 +299,6 @@ public class ScrollableSectionList extends HorizontalScrollView {
                     return;
                 }
                 label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
-                label.setGravity(Gravity.CENTER);
                 section_image.setImageResource(android.R.color.transparent);
             }
         }
