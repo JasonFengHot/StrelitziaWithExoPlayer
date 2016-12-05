@@ -33,9 +33,9 @@
                 android:layout_marginTop="@dimen/playfinish_gridview_item_text_margintop"
                 android:ellipsize="marquee"
                 android:singleLine="true"
-                android:textSize="@dimen/playfinish_gridview_item_itemText_textsize"
+                android:textSize="@dimen/text_size_30sp"
                 android:textStyle="bold"
-                android:textColor="#FFF8F8FF"/>
+                android:textColor="@color/color_base_white"/>
 
 
         <ImageView
@@ -56,7 +56,7 @@
                 android:layout_alignTop="@id/itemImage"
                 android:gravity="center"
                 android:textColor="#ff9000"
-                android:textSize="@dimen/score_tag_txt_size"
+                android:textSize="@dimen/text_size_30sp"
                 android:textStyle="bold"
                 android:visibility="gone"/>
 
