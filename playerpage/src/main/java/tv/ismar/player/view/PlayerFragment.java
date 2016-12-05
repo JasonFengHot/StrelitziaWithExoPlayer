@@ -101,7 +101,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     // 数据相关
     private int itemPK = 0;// 当前影片pk值,通过/api/item/{pk}可获取详细信息
-    private int subItemPk = 0;// 当前多集片pk值,通过/api/subitem/{pk}可获取详细信息
+    public int subItemPk = 0;// 当前多集片pk值,通过/api/subitem/{pk}可获取详细信息
     private int mCurrentPosition;// 当前播放位置
     private ItemEntity mItemEntity;
     private ClipEntity mClipEntity;
@@ -983,6 +983,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity[] subItems = itemEntity.getSubitems();
         if (subItems != null && subItems.length > 0) {
+            Log.i(TAG, "loadPlayerItem_sub_item_pk:" + subItemPk);
             if (subItemPk <= 0) {
                 // 传入的subItemPk值大于0表示指定播放某一集
                 // 点击播放按钮时，如果有历史记录，应该播放历史记录的subItemPk,默认播放第一集
@@ -998,6 +999,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
                 if (mHistory != null) {
                     int sub_item_pk = Utils.getItemPk(mHistory.sub_url);
+                    Log.i(TAG, "CheckHistory_sub_item_pk:" + sub_item_pk);
                     if (sub_item_pk > 0) {
                         subItemPk = sub_item_pk;
                     }
@@ -1213,8 +1215,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             history.last_quality = mIsmartvPlayer.getCurrentQuality().getValue();
         }
         history.url = Utils.getItemUrl(itemPK);
-        ItemEntity[] subItems = mItemEntity.getSubitems();
-        if (subItems != null && subItems.length > 0) {
+        if (subItemPk > 0) {
             history.sub_url = Utils.getSubItemUrl(subItemPk);
         }
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()))
@@ -1240,46 +1241,48 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private boolean createMenu() {
-        playerMenu = new PlayerMenu(getActivity(), player_menu);
-        playerMenu.setOnCreateMenuListener(this);
-        // 添加电视剧子集
-        PlayerMenuItem subMenu;
-        ItemEntity[] subItems = mItemEntity.getSubitems();
-        if (subItems != null && subItems.length > 0 && !mIsPreview) {
-            subMenu = playerMenu.addSubMenu(MENU_TELEPLAY_ID_START, getResources().getString(R.string.player_menu_teleplay));
-            for (ItemEntity subItem : subItems) {
-                boolean isSelected = false;
-                if (subItemPk == subItem.getPk()) {
-                    isSelected = true;
+        if(playerMenu == null){
+            playerMenu = new PlayerMenu(getActivity(), player_menu);
+            playerMenu.setOnCreateMenuListener(this);
+            // 添加电视剧子集
+            PlayerMenuItem subMenu;
+            ItemEntity[] subItems = mItemEntity.getSubitems();
+            if (subItems != null && subItems.length > 0 && !mIsPreview) {
+                subMenu = playerMenu.addSubMenu(MENU_TELEPLAY_ID_START, getResources().getString(R.string.player_menu_teleplay));
+                for (ItemEntity subItem : subItems) {
+                    boolean isSelected = false;
+                    if (subItemPk == subItem.getPk()) {
+                        isSelected = true;
+                    }
+                    String subItemTitle = subItem.getTitle();
+                    if(subItemTitle.contains("第")){
+                        int ind = subItemTitle.indexOf("第");
+                        subItemTitle = subItemTitle.substring(ind);
+                    }
+                    subMenu.addItem(subItem.getPk(), subItemTitle, isSelected);
                 }
-                String subItemTitle = subItem.getTitle();
-                if(subItemTitle.contains("第")){
-                    int ind = subItemTitle.indexOf("第");
-                    subItemTitle = subItemTitle.substring(ind);
-                }
-                subMenu.addItem(subItem.getPk(), subItemTitle, isSelected);
             }
-        }
-        // 添加分辨率
-        subMenu = playerMenu.addSubMenu(MENU_QUALITY_ID_START, getResources().getString(R.string.player_menu_quality));
-        List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
-        if (!qualities.isEmpty()) {
-            for (int i = 0; i < qualities.size(); i++) {
-                ClipEntity.Quality quality = qualities.get(i);
-                String qualityName = ClipEntity.Quality.getString(quality);
-                boolean isSelected = false;
-                if (mIsmartvPlayer.getCurrentQuality() == quality) {
-                    isSelected = true;
+            // 添加分辨率
+            subMenu = playerMenu.addSubMenu(MENU_QUALITY_ID_START, getResources().getString(R.string.player_menu_quality));
+            List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
+            if (!qualities.isEmpty()) {
+                for (int i = 0; i < qualities.size(); i++) {
+                    ClipEntity.Quality quality = qualities.get(i);
+                    String qualityName = ClipEntity.Quality.getString(quality);
+                    boolean isSelected = false;
+                    if (mIsmartvPlayer.getCurrentQuality() == quality) {
+                        isSelected = true;
+                    }
+                    // quality id从0开始,此处加1
+                    subMenu.addItem(quality.getValue() + 1, qualityName, isSelected);
                 }
-                // quality id从0开始,此处加1
-                subMenu.addItem(quality.getValue() + 1, qualityName, isSelected);
             }
-        }
-        // 添加客服
-        playerMenu.addItem(MENU_KEFU_ID, getResources().getString(R.string.player_menu_kefu));
-        // 添加从头播放
-        if (mItemEntity != null && !mItemEntity.getLiveVideo()) {
-            playerMenu.addItem(MENU_RESTART, getResources().getString(R.string.player_menu_restart));
+            // 添加客服
+            playerMenu.addItem(MENU_KEFU_ID, getResources().getString(R.string.player_menu_kefu));
+            // 添加从头播放
+            if (mItemEntity != null && !mItemEntity.getLiveVideo()) {
+                playerMenu.addItem(MENU_RESTART, getResources().getString(R.string.player_menu_restart));
+            }
         }
         return true;
     }
