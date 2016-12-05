@@ -121,6 +121,10 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
                 return;
             }
+            if(mCurrentState == STATE_COMPLETED){
+                Log.i(TAG, "Already execute onCompletion:" + s);
+                return;
+            }
             mCurrentState = STATE_COMPLETED;
             if (mIsPlayingAdvertisement && !mAdIdMap.isEmpty()) {
                 int mediaId = mAdIdMap.get(s);

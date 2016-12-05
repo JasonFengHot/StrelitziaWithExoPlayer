@@ -260,7 +260,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
 
                     showToast(getResources().getString(R.string.vod_bookmark_remove_success));
                 } else {
-                    String url = SimpleRestClient.root_url + "/api/item/" + mItemEntity.getItemPk() + "/";
+                    String url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getItemPk() + "/";
                     Favorite favorite = new Favorite();
                     favorite.title = mItemEntity.getTitle();
                     favorite.adlet_url = mItemEntity.getAdletUrl();
@@ -277,8 +277,10 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
                     showToast(getResources().getString(R.string.vod_bookmark_add_success));
                 }
                 if (isFavorite()) {
+                    btnFavorites.setPadding(getResources().getDimensionPixelSize(R.dimen.play_finished_btn_fav_pl), 0, 0, 0);
                     btnFavorites.setText(getResources().getString(R.string.favorited));
                 } else {
+                    btnFavorites.setPadding(getResources().getDimensionPixelSize(R.dimen.play_finished_btn_pl), 0, 0, 0);
                     btnFavorites.setText(getResources().getString(R.string.favorite));
                 }
                 break;
@@ -344,10 +346,10 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
         if (mItemEntity != null) {
             String url = mItemEntity.getItem_url();
             if (url == null && mItemEntity.getItemPk() != 0) {
-                url = simpleRest.root_url + "/api/item/" + mItemEntity.getItemPk() + "/";
+                url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getItemPk() + "/";
             }
             Favorite favorite;
-            if (SimpleRestClient.isLogin()) {
+            if (IsmartvActivator.getInstance().isLogin()) {
                 favorite = mFavoriteManager.getFavoriteByUrl(url, "yes");
             } else {
                 favorite = mFavoriteManager.getFavoriteByUrl(url, "no");

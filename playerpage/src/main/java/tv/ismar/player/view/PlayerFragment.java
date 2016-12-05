@@ -1252,7 +1252,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 if (subItemPk == subItem.getPk()) {
                     isSelected = true;
                 }
-                subMenu.addItem(subItem.getPk(), subItem.getTitle(), isSelected);
+                String subItemTitle = subItem.getTitle();
+                if(subItemTitle.contains("第")){
+                    int ind = subItemTitle.indexOf("第");
+                    subItemTitle = subItemTitle.substring(ind);
+                }
+                subMenu.addItem(subItem.getPk(), subItemTitle, isSelected);
             }
         }
         // 添加分辨率

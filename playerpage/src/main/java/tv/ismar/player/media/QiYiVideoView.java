@@ -57,6 +57,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i("LH/", "surfaceCreatedQiYi");
+        if(mIsmartvPlayer == null){
+            return;
+        }
         mHolder = holder;
         openVideo();
         requestLayout();

@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.db.DBHelper.DBFields;
 import tv.ismar.app.entity.Favorite;
 import tv.ismar.app.network.entity.EventProperty;
@@ -149,10 +150,8 @@ public class LocalFavoriteManager implements FavoriteManager {
                 properties.put(EventProperty.ITEM, id);
                 properties.put(EventProperty.TITLE, title);
                 properties.put("userid", IsmartvActivator.getInstance().getDeviceToken());
-                // TODO 上传我的收藏至服务器
-//                if (params != null && params.length > 0) {
-//                    NetworkUtils.SaveLogToLocal(NetworkUtils.VIDEO_COLLECT, properties);
-//                }
+
+                NetworkUtils.SaveLogToLocal(NetworkUtils.VIDEO_COLLECT, properties);
             }
             return null;
         }
