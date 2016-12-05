@@ -482,7 +482,7 @@ Observable<ResponseBody> apifetchWeatherInfo(
                     .build();
 
             final CountDownLatch latch = new CountDownLatch(1);
-            final String[] domain = new String[3];
+            final String[] domain = new String[]{"1.1.1.1", "1.1.1.1", "1.1.1.1"};
             new Thread() {
                 @Override
                 public void run() {

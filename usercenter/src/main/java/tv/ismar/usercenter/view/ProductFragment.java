@@ -46,6 +46,8 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     private YouHuiDingGouEntity mYouHuiDingGouEntity;
     private FragmentProductBinding productBinding;
 
+    private boolean fragmentIsPause = false;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -95,6 +97,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     @Override
     public void onResume() {
         super.onResume();
+        fragmentIsPause = false;
         Log.d(TAG, "onResume");
         mPresenter.start();
 
@@ -102,6 +105,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
     @Override
     public void onPause() {
+        fragmentIsPause = true;
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -221,8 +225,10 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                     }
                     break;
                 case MotionEvent.ACTION_HOVER_EXIT:
-                    productBinding.tmp.requestFocus();
-                    productBinding.tmp.requestFocusFromTouch();
+                    if (!fragmentIsPause) {
+                        productBinding.tmp.requestFocus();
+                        productBinding.tmp.requestFocusFromTouch();
+                    }
                     break;
 
             }

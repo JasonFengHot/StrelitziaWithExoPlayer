@@ -55,6 +55,8 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
     private RecyclerViewTV mRecyclerView;
 
+    private boolean fragmentIsPause = false;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -104,6 +106,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
     @Override
     public void onResume() {
         super.onResume();
+        fragmentIsPause = false;
         Log.d(TAG, "onResume");
         mPresenter.start();
 
@@ -111,6 +114,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
     @Override
     public void onPause() {
+        fragmentIsPause = true;
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -292,14 +296,16 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                         v.requestFocus();
                         v.requestFocusFromTouch();
                     }
+                    ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
                     break;
                 case MotionEvent.ACTION_HOVER_EXIT:
-                    purchasehistoryBinding.mainupView.requestFocus();
-                    purchasehistoryBinding.mainupView.requestFocusFromTouch();
+                    Log.d(TAG, "MotionEvent.ACTION_HOVER_EXIT");
+                    if (!fragmentIsPause) {
+                        purchasehistoryBinding.mainupView.requestFocus();
+                        purchasehistoryBinding.mainupView.requestFocusFromTouch();
+                    }
                     break;
-
             }
-            ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
             return false;
         }
 

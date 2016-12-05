@@ -19,7 +19,7 @@ import tv.ismar.usercenter.viewmodel.HelpViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class HelpFragment extends BaseFragment implements HelpContract.View, View.OnHoverListener ,UserCenterActivity.IndicatorItemHoverCallback{
+public class HelpFragment extends BaseFragment implements HelpContract.View, View.OnHoverListener, UserCenterActivity.IndicatorItemHoverCallback {
     private static final String TAG = HelpFragment.class.getSimpleName();
 
 
@@ -32,12 +32,14 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
 
     FragmentHelpBinding helpBinding;
 
+    private boolean fragmentIsPause = false;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach");
 
-        ((UserCenterActivity)getActivity()).setIndicatorItemHoverCallback(this);
+        ((UserCenterActivity) getActivity()).setIndicatorItemHoverCallback(this);
 
     }
 
@@ -86,12 +88,14 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
     @Override
     public void onResume() {
         super.onResume();
+        fragmentIsPause = false;
         Log.d(TAG, "onResume");
 
     }
 
     @Override
     public void onPause() {
+        fragmentIsPause = true;
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -139,11 +143,13 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
                 v.requestFocusFromTouch();
                 break;
             case MotionEvent.ACTION_HOVER_EXIT:
-                helpBinding.tmp.requestFocus();
-                helpBinding.tmp.requestFocusFromTouch();
+                if (!fragmentIsPause) {
+                    helpBinding.tmp.requestFocus();
+                    helpBinding.tmp.requestFocusFromTouch();
+                }
                 break;
         }
-        ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
+        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
         return true;
     }
 
