@@ -25,6 +25,7 @@ import java.util.TimerTask;
 import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.reporter.EventReporter;
 import tv.ismar.app.network.entity.AdElementEntity;
+import tv.ismar.player.R;
 
 /**
  * Created by Beaver on 2016/6/16.
@@ -68,10 +69,14 @@ public class AdImageDialog extends Dialog {
         frameLayout.addView(imageView);
 
         button = new Button(mContext);
-        button.setGravity(Gravity.RIGHT | Gravity.TOP);
-        button.setBackgroundResource(android.R.drawable.ic_menu_close_clear_cancel);
+        int btn_wh = mContext.getResources().getDimensionPixelSize(R.dimen.pause_ad_btn_wh);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(btn_wh, btn_wh);
+        lp.gravity = Gravity.RIGHT | Gravity.TOP;
+        button.setLayoutParams(lp);
+        button.setBackgroundResource(R.drawable.ad_close_bt);
         button.setVisibility(View.GONE);
         frameLayout.addView(button);
+        setContentView(frameLayout);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

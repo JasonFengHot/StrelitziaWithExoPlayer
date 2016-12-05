@@ -141,6 +141,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean isClickKeFu = false;// 跳转至客服界面再返回后,不再做广告请求
     private boolean isPlayInDetailPage;// 是否在详情页加载,
     private boolean isShowExit;
+    private String mUser;// playerCheck 返回user类型
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -1022,10 +1023,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mItemEntity.getExpense() != null) {
             PlayCheckManager.getInstance(((BaseActivity) getActivity()).mSkyService).check(String.valueOf(mItemEntity.getPk()), new PlayCheckManager.Callback() {
                 @Override
-                public void onSuccess(boolean isBuy, int remainDay) {
+                public void onSuccess(boolean isBuy, int remainDay, String user) {
                     Log.d(TAG, "testPlayCheckTime:" + (System.currentTimeMillis() - testPlayCheckTime));
                     testLoadClipTime = System.currentTimeMillis();
-                    Log.e(TAG, "play check isBuy:" + isBuy + " " + remainDay);
+                    mUser = user;
+                    Log.e(TAG, "play check isBuy:" + isBuy + " " + remainDay + " " + mUser);
                     if (isBuy) {
                         mPresenter.fetchMediaUrl(playCheckClip.getUrl(), sign, code);
                     } else {
@@ -1115,6 +1117,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsmartvPlayer.setOnStateChangedListener(this);
         mIsmartvPlayer.setOnVideoSizeChangedListener(this);
         mIsmartvPlayer.setOnInfoListener(this);
+        mIsmartvPlayer.setUser(mUser);
         mIsmartvPlayer.setDataSource(mClipEntity, mCurrentQuality, adList, new IPlayer.OnDataSourceSetListener() {
             @Override
             public void onSuccess() {

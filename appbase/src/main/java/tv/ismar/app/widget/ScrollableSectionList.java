@@ -213,7 +213,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
         ((LayoutParams) label.getLayoutParams()).setMargins(tabSpace, 0, tabSpace, 0);
         label.setText("筛选");
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                getResources().getDimensionPixelOffset(R.dimen.list_section_filter_size));
+                getResources().getDimensionPixelOffset(R.dimen.text_size_36sp));
         label.setTag("filter");
         return sectionHolder;
     }
