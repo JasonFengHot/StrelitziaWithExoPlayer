@@ -128,6 +128,9 @@ public class QiyiPlayer extends IsmartvPlayer {
 
     @Override
     public IAdController getAdController() {
+        if (videoSurfaceView == null) {
+            return null;
+        }
         return videoSurfaceView.getAdController();
     }
 }
