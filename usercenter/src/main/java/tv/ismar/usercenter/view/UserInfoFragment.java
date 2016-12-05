@@ -61,6 +61,8 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     private List<View> privilegeView;
 
+    private boolean framgentIsPause = false;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -140,6 +142,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     @Override
     public void onResume() {
         super.onResume();
+        framgentIsPause = false;
         Log.d(TAG, "onResume");
         mPresenter.start();
 
@@ -147,6 +150,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     @Override
     public void onPause() {
+        framgentIsPause = true;
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -273,8 +277,10 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 }
                 break;
             case MotionEvent.ACTION_HOVER_EXIT:
-                userinfoBinding.tmp.requestFocus();
-                userinfoBinding.tmp.requestFocusFromTouch();
+                if (!framgentIsPause) {
+                    userinfoBinding.tmp.requestFocus();
+                    userinfoBinding.tmp.requestFocusFromTouch();
+                }
                 break;
         }
         ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();

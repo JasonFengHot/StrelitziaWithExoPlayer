@@ -62,6 +62,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     private FragmentLocationBinding locationBinding;
     private View cityTmpView;
 
+    private boolean fragmentIsPause = false;
+
 
     @Override
     public void onAttach(Context context) {
@@ -126,6 +128,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     @Override
     public void onResume() {
         super.onResume();
+        fragmentIsPause = false;
         Log.d(TAG, "onResume");
         mPresenter.start();
         createLocationView();
@@ -138,6 +141,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
     @Override
     public void onPause() {
+        fragmentIsPause = true;
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -263,11 +267,11 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             if ((position + 1) % 6 == 0) {
                 holder.itemView.setNextFocusRightId(holder.itemView.getId());
             }
-            if (position == 5){
+            if (position == 5) {
                 holder.itemView.setNextFocusUpId(holder.itemView.getId());
             }
 
-            if (position <= mProvinceTableList.size() -1 -1 && position >= mProvinceTableList.size() -1 -3){
+            if (position <= mProvinceTableList.size() - 1 - 1 && position >= mProvinceTableList.size() - 1 - 3) {
                 holder.itemView.setNextFocusDownId(holder.itemView.getId());
             }
 
@@ -289,8 +293,10 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                     }
                     break;
                 case MotionEvent.ACTION_HOVER_EXIT:
-                    locationBinding.tmp.requestFocus();
-                    locationBinding.tmp.requestFocusFromTouch();
+                    if (!fragmentIsPause) {
+                        locationBinding.tmp.requestFocus();
+                        locationBinding.tmp.requestFocusFromTouch();
+                    }
                     break;
             }
             return true;
@@ -331,7 +337,6 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             holder.mTextView.setText(stringBuffer);
 
 
-
         }
 
         @Override
@@ -350,11 +355,13 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                     }
                     break;
                 case MotionEvent.ACTION_HOVER_EXIT:
-                    cityTmpView.requestFocus();
-                    cityTmpView.requestFocusFromTouch();
+                    if (!fragmentIsPause) {
+                        cityTmpView.requestFocus();
+                        cityTmpView.requestFocusFromTouch();
+                    }
                     break;
             }
-            ((UserCenterActivity)getActivity()).clearTheLastHoveredVewState();
+            ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
             return true;
         }
     }
@@ -517,8 +524,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
     }
 
-    public void clearStatus(){
-        if (areaPopup!=null){
+    public void clearStatus() {
+        if (areaPopup != null) {
             areaPopup.dismiss();
             areaPopup = null;
         }

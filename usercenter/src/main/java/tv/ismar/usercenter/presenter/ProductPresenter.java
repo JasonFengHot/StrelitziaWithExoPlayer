@@ -1,5 +1,6 @@
 package tv.ismar.usercenter.presenter;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.network.SkyService;
@@ -17,6 +18,8 @@ public class ProductPresenter implements ProductContract.Presenter {
     private UserCenterActivity mActivity;
     private ProductFragment mFragment;
 
+    private Subscription youhuidinggouSubscription;
+
     public ProductPresenter(ProductFragment productFragment) {
         productFragment.setPresenter(this);
         mFragment = productFragment;
@@ -30,10 +33,16 @@ public class ProductPresenter implements ProductContract.Presenter {
         fetchProduct();
     }
 
+    public void stop() {
+        if (youhuidinggouSubscription != null && youhuidinggouSubscription.isUnsubscribed()) {
+            youhuidinggouSubscription.unsubscribe();
+            youhuidinggouSubscription = null;
+        }
+    }
 
     @Override
     public void fetchProduct() {
-        mSkyService.apiYouhuidinggou()
+        youhuidinggouSubscription = mSkyService.apiYouhuidinggou()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mActivity.new BaseObserver<YouHuiDingGouEntity>() {

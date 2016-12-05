@@ -55,6 +55,8 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
     private String source = "";
     private ImageView tmp;
 
+    private boolean fragmentIsPause = false;
+
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -92,7 +94,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
 
         if (!source.equals("usercenter")) {
             edit_mobile.requestFocus();
-        }else {
+        } else {
             tmp.setNextFocusLeftId(R.id.usercenter_login_register);
         }
 
@@ -103,6 +105,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
     @Override
     public void onResume() {
         super.onResume();
+        fragmentIsPause = false;
     }
 
     private void initView() {
@@ -363,15 +366,17 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
 
     @Override
     public boolean onHover(View v, MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
                 v.requestFocus();
                 v.requestFocusFromTouch();
                 break;
             case MotionEvent.ACTION_HOVER_EXIT:
-                tmp.requestFocus();
-                tmp.requestFocusFromTouch();
+                if (!fragmentIsPause) {
+                    tmp.requestFocus();
+                    tmp.requestFocusFromTouch();
+                }
                 break;
         }
         return false;
