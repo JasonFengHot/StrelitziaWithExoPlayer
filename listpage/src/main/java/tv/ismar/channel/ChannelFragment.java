@@ -1083,10 +1083,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         currentposition = position;
         if (item != null) {
             if (item.model_name.equals("package")) {
-                Intent intent = new Intent();
-                intent.setAction("tv.ismar.daisy.packageitem");
-                intent.putExtra("url", item.url);
-                startActivity(intent);
+                PageIntent intent =new PageIntent();
+                intent.toPackageDetail(getActivity(),"list",item.pk);
             } else if (item.model_name.equals("topic")) {
                 Intent intent = new Intent();
                 intent.setAction("tv.ismar.daisy.Topic");

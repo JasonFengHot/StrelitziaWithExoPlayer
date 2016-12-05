@@ -148,7 +148,7 @@ public interface SkyService {
     @GET("api/histories/")
     Observable<Item[]> getHistoryByNet(
     );
-
+    @FormUrlEncoded
     @POST("api/histories/empty/")
     Observable<ResponseBody> emptyHistory(
     );
@@ -156,7 +156,7 @@ public interface SkyService {
     @GET("api/bookmarks/")
     Observable<Item[]> getBookmarks(
     );
-
+    @FormUrlEncoded
     @POST("api/bookmarks/empty/")
     Observable<ResponseBody> emptyBookmarks(
     );

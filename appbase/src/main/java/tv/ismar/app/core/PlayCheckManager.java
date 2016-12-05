@@ -82,6 +82,7 @@ public class PlayCheckManager {
     private class PlayCheckEntity {
         private String expiry_date;
         private String iqiyi_code;
+        private String user;
 
         public String getExpiry_date() {
             return expiry_date;
@@ -98,17 +99,26 @@ public class PlayCheckManager {
         public void setIqiyi_code(String iqiyi_code) {
             this.iqiyi_code = iqiyi_code;
         }
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
     }
 
     private void handlePlaycheck(String info, Callback callback) {
         boolean isBuy = false;
         int remainDay = 0;
+        String user = "";
         switch (info) {
             case "0":
                 break;
             default:
                 PlayCheckEntity playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
-
+                user = playCheckEntity.getUser();
                 try {
                     remainDay = Util.daysBetween(Util.getTime(), playCheckEntity.getExpiry_date()) + 1;
                 } catch (ParseException e) {
@@ -121,11 +131,11 @@ public class PlayCheckManager {
                 break;
         }
 
-        callback.onSuccess(isBuy, remainDay);
+        callback.onSuccess(isBuy, remainDay, user);
     }
 
     public interface Callback {
-        void onSuccess(boolean isBuy, int remainDay);
+        void onSuccess(boolean isBuy, int remainDay, String user);
 
         void onFailure();
     }

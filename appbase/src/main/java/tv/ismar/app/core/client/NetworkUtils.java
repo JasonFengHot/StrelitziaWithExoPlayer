@@ -399,8 +399,6 @@ public class NetworkUtils {
     /**
      * LogSender 上报日志记录
      *
-     * @param eventName     上报的日志类型名。
-     * @param propertiesMap 键值对，属性值
      * @return true、false 是否成功
      */
     public static Boolean LogSender(String Content) {
@@ -408,8 +406,7 @@ public class NetworkUtils {
             String jsonContent = base64Code(Content);
 //            String url = "http://ismartv.calla.tvxio.com/log";
 //            String url = "http://192.168.1.119:8099/m3u8parse/parseM3u8";
-            String host =  AccountSharedPrefs.getInstance().getSharedPrefs(AccountSharedPrefs.LOG_DOMAIN);
-            String url = "http://" + host+ "/log";
+            String url = SimpleRestClient.log_domain + "/log";
             java.net.URL connURL = new URL(url);
             HttpURLConnection httpConn = (HttpURLConnection) connURL
                     .openConnection();
@@ -422,7 +419,7 @@ public class NetworkUtils {
             httpConn.setRequestProperty("Accept", "*/*");
             httpConn.setRequestProperty("Content-Type",
                     "application/x-www-form-urlencoded");
-            httpConn.setRequestProperty("Host", host);
+//            httpConn.setRequestProperty("Host", host);
             httpConn.setRequestProperty("Connection", "Keep-Alive");
             // httpConn.setRequestProperty("User-Agent",
             // "ideatv_A21/S0054.38 TD04007053");
@@ -502,8 +499,6 @@ public class NetworkUtils {
     /**
      * LogSender 上报日志文件
      *
-     * @param eventName     上报的日志类型名。
-     * @param propertiesMap 键值对，属性值
      * @return true、false 是否成功
      */
     public static Boolean LogUpLoad(Context context) {

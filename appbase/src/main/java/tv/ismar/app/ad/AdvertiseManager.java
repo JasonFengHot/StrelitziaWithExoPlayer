@@ -25,13 +25,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.network.entity.AdElementEntity;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.reporter.EventReporter;
 import tv.ismar.app.util.FileUtils;
 
 public class AdvertiseManager {
     private static final String TAG = "AdvertisementManager";
 
-    private static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
+    public static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
     private static final String LAUNCH_APP_ADVERTISEMENT = "launch_app";
     public static final String TYPE_IMAGE = "image";
     public static final String TYPE_VIDEO = "video";
@@ -97,7 +98,7 @@ public class AdvertiseManager {
             String filePath = mContext.getFilesDir() + "/" + AD_DIR + "/" + FileUtils.getFileByUrl(adElementEntity.getMedia_url());
             File localFile = new File(filePath);
             if (!localFile.exists()) {
-                new EventReporter().bootAdvDownload(
+                new CallaPlay().bootAdvDownload(
                         adElementEntity.getTitle(),
                         String.valueOf(adElementEntity.getMedia_id()),
                         adElementEntity.getMedia_url()
@@ -106,7 +107,7 @@ public class AdvertiseManager {
             } else {
                 String md5Code = adElementEntity.getMd5();
                 if (!md5Code.equalsIgnoreCase(FileUtils.getMd5ByFile(localFile))) {
-                    new EventReporter().bootAdvDownload(
+                    new CallaPlay().bootAdvDownload(
                             adElementEntity.getTitle(),
                             String.valueOf(adElementEntity.getMedia_id()),
                             adElementEntity.getMedia_url()
@@ -155,7 +156,9 @@ public class AdvertiseManager {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                new EventReporter().bootAdvExcept(BOOT_ADV_DOWNLOAD_EXCEPTION_CODE, BOOT_ADV_DOWNLOAD_EXCEPTION_STRING);
+                new CallaPlay().bootAdvExcept(
+                        BOOT_ADV_DOWNLOAD_EXCEPTION_CODE, BOOT_ADV_DOWNLOAD_EXCEPTION_STRING
+                );
             }
 
             @Override
@@ -178,7 +181,9 @@ public class AdvertiseManager {
                     saveToDb(adElementEntity);
                     fos.flush();
                 } catch (IOException e) {
-                    new EventReporter().bootAdvExcept(BOOT_ADV_DOWNLOAD_EXCEPTION_CODE, BOOT_ADV_DOWNLOAD_EXCEPTION_STRING);
+                    new CallaPlay().bootAdvExcept(
+                            BOOT_ADV_DOWNLOAD_EXCEPTION_CODE, BOOT_ADV_DOWNLOAD_EXCEPTION_STRING
+                    );
                     Log.e(TAG, e.toString());
                 } finally {
                     try {

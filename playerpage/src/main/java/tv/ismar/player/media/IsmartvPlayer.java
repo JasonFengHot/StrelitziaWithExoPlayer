@@ -1,6 +1,7 @@
 package tv.ismar.player.media;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
@@ -65,6 +66,7 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     // 奇艺播放器播放电视剧时,无需再次初始化
     private boolean isQiyiSdkInit = false;
+    private String mUser;
 
     protected IPlayer.OnDataSourceSetListener mOnDataSourceSetListener;
     protected IPlayer.OnVideoSizeChangedListener mOnVideoSizeChangedListener;
@@ -75,6 +77,10 @@ public abstract class IsmartvPlayer implements IPlayer {
     public IsmartvPlayer(byte mode) {
         mPlayerMode = mode;
         mEventReport = new EventReporter();
+    }
+
+    public void setUser(String user) {
+        mUser = user;
     }
 
     public byte getPlayerMode() {
@@ -180,7 +186,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mClipEntity.setIs_vip(clipEntity.is_vip());
 
                 mDrmType = DrmType.DRM_NONE;
-                if(mClipEntity.is_drm()){
+                if (mClipEntity.is_drm()) {
                     mDrmType = DrmType.DRM_INTERTRUST;
                 }
                 if (isQiyiSdkInit) {
@@ -204,14 +210,22 @@ public abstract class IsmartvPlayer implements IPlayer {
                         new PlayerSdk.OnInitializedListener() {
                             @Override
                             public void onSuccess() {
-                                String zuser_token = IsmartvActivator.getInstance().getZUserToken();
                                 String zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
-                                if(!Utils.isEmptyText(zuser_token)){
-                                    PlayerSdk.getInstance().login(zuser_token);
-                                } else if(!Utils.isEmptyText(zdevice_token)){
-                                    PlayerSdk.getInstance().login(zdevice_token);
+                                String zuser_token = IsmartvActivator.getInstance().getZUserToken();
+                                if (!TextUtils.isEmpty(mUser)) {
+                                    if (mUser.equals("device")) {
+                                        PlayerSdk.getInstance().login(zdevice_token);
+                                    } else if (mUser.equals("account")) {
+                                        PlayerSdk.getInstance().login(zuser_token);
+                                    }
+                                } else {
+                                    if (!Utils.isEmptyText(zuser_token)) {
+                                        PlayerSdk.getInstance().login(zuser_token);
+                                    } else if (!Utils.isEmptyText(zdevice_token)) {
+                                        PlayerSdk.getInstance().login(zdevice_token);
+                                    }
                                 }
-                                if(mClipEntity != null){
+                                if (mClipEntity != null) {
                                     // 此为异步回调
                                     isQiyiSdkInit = true;
                                     Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time));
@@ -269,7 +283,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mCurrentState != STATE_PREPARING;
     }
 
-    public boolean isVideoPrepared(){
+    public boolean isVideoPrepared() {
         return mCurrentState == STATE_PREPARED;
     }
 
@@ -355,7 +369,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         }
     }
 
-    public IAdController getAdController(){
+    public IAdController getAdController() {
         return null;
     }
 

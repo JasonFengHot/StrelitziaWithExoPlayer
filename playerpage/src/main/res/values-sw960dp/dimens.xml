@@ -26,4 +26,6 @@
 <dimen name="qiyi_ad_height">64.00dp</dimen>
 <dimen name="ad_text_margin_left">16.89dp</dimen>
 
+<dimen name="pause_ad_btn_wh">53.33dp</dimen>
+
 </resources>

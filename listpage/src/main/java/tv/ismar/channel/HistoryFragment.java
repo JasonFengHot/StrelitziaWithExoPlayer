@@ -933,8 +933,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		int i = parent.getId();
 		if (i == R.id.h_grid_view) {
 			Item item = mHGridAdapter.getItem(position);
-		//	new GetItemTask().execute(item);
-			// ExeCuteItemclick(item);
 			getClicItem(item);
 
 		} else if (i == R.id.recommend_gridview) {
@@ -944,9 +942,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			if (tvHome.getObjects().get(position).isIs_complex()) {
 				intent.toDetailPage(getActivity(),"tvhome",pk);
 			} else {
-//				InitPlayerTool tool = new InitPlayerTool(getActivity());
-//				tool.fromPage = "history";
-//				tool.initClipInfo(tvHome.getObjects().get(position).getItem_url(), InitPlayerTool.FLAG_URL);
 				intent.toPlayPage(getActivity(),pk,0, Source.HISTORY);
 			}
 		}

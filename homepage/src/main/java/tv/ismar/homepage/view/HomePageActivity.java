@@ -52,6 +52,7 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.ismartv.truetime.TrueTime;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.ActiveService;
@@ -61,16 +62,21 @@ import tv.ismar.app.VodApplication;
 import tv.ismar.app.ad.AdsUpdateService;
 import tv.ismar.app.ad.AdvertiseManager;
 import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.MessageQueue;
+import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
+import tv.ismar.app.util.DeviceUtils;
+import tv.ismar.app.util.SPUtils;
+import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.homepage.R;
@@ -330,9 +336,15 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
         advertiseManager = new AdvertiseManager(getApplicationContext());
         launchAds = advertiseManager.getAppLaunchAdvertisement();
+        int i = 0;
         for (AdvertiseTable adTable : launchAds) {
             int duration = adTable.duration;
             countAdTime += duration;
+
+            if ((i == launchAds.size() - 1) && !adTable.location.equals(AdvertiseManager.DEFAULT_ADV_PICTURE)) {
+                new CallaPlay().boot_ad_play(adTable.title, adTable.media_id, adTable.media_url, String.valueOf(countAdTime));
+            }
+            i++;
         }
 
         /**
@@ -380,6 +392,22 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             startAdsService();
         }
         startIntervalActive();
+
+        // 日志上报
+        String fromPage = getIntent().getStringExtra("fromPage");
+        String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
+        String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
+        String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
+        CallaPlay callaPlay = new CallaPlay();
+        app_start_time = TrueTime.now().getTime();
+        callaPlay.app_start(SimpleRestClient.sn_token,
+                        VodUserAgent.getModelName(), "0",
+                        android.os.Build.VERSION.RELEASE,
+                        SimpleRestClient.appVersion,
+                        SystemFileUtil.getSdCardTotal(this),
+                        SystemFileUtil.getSdCardAvalible(this),
+                        SimpleRestClient.mobile_number, province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this));
+
     }
 
     private boolean hoverOnArrow;

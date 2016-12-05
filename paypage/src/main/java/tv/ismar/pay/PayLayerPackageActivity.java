@@ -230,7 +230,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     private void orderCheck(String pkg) {
         PlayCheckManager.getInstance(mSkyService).checkPkg(pkg, new PlayCheckManager.Callback() {
             @Override
-            public void onSuccess(boolean isBuy, int remainDay) {
+            public void onSuccess(boolean isBuy, int remainDay, String user) {
                 if (isBuy) {
                     purchaseBtn.setFocusable(false);
                     purchaseBtn.setText("已购买");
