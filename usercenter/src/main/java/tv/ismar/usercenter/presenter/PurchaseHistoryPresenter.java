@@ -34,6 +34,11 @@ public class PurchaseHistoryPresenter implements PurchaseHistoryContract.Present
     }
 
     @Override
+    public void stop() {
+
+    }
+
+    @Override
     public void fetchAccountsOrders() {
 
         String timestamp = String.valueOf(TrueTime.now().getTime());

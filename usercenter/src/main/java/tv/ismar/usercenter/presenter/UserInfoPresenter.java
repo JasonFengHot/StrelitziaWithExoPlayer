@@ -50,6 +50,11 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
         fetchPrivilege();
     }
 
+    @Override
+    public void stop() {
+
+    }
+
 
     @Override
     public void fetchBalance() {
