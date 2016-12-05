@@ -551,72 +551,72 @@ public class EventReporter implements Runnable {
 
     }
 
-    public void app_start(String sn, String device, String size, String os_version, long sd_size, long sd_free_size, String userid, String province, String city, String isp, String source, String Mac) {
-        HashMap<String, Object> tempMap = new HashMap<String, Object>();
-        tempMap.put(EventProperty.SN, sn);
-        tempMap.put(EventProperty.DEVICE, device);
-        tempMap.put(EventProperty.SIZE, size);
-        tempMap.put(EventProperty.OS_VERSION, os_version);
-        tempMap.put(EventProperty.SD_SIZE, sd_size);
-        tempMap.put(EventProperty.SD_FREE_SIZE, sd_free_size);
-        tempMap.put(EventProperty.USER_ID, userid);
-        tempMap.put(EventProperty.PROVINCE, province);
-        tempMap.put(EventProperty.CITY, city);
-        tempMap.put(EventProperty.ISP, isp);
-        tempMap.put(EventProperty.SOURCE, source);
-        tempMap.put(EventProperty.MAC, Mac);
-        String eventName = APP_START;
-        addMessageList(eventName, tempMap);
-    }
+//    public void app_start(String sn, String device, String size, String os_version, long sd_size, long sd_free_size, String userid, String province, String city, String isp, String source, String Mac) {
+//        HashMap<String, Object> tempMap = new HashMap<String, Object>();
+//        tempMap.put(EventProperty.SN, sn);
+//        tempMap.put(EventProperty.DEVICE, device);
+//        tempMap.put(EventProperty.SIZE, size);
+//        tempMap.put(EventProperty.OS_VERSION, os_version);
+//        tempMap.put(EventProperty.SD_SIZE, sd_size);
+//        tempMap.put(EventProperty.SD_FREE_SIZE, sd_free_size);
+//        tempMap.put(EventProperty.USER_ID, userid);
+//        tempMap.put(EventProperty.PROVINCE, province);
+//        tempMap.put(EventProperty.CITY, city);
+//        tempMap.put(EventProperty.ISP, isp);
+//        tempMap.put(EventProperty.SOURCE, source);
+//        tempMap.put(EventProperty.MAC, Mac);
+//        String eventName = APP_START;
+//        addMessageList(eventName, tempMap);
+//    }
+//
+//    public void app_exit(long duration, int version) {
+//        HashMap<String, Object> tempMap = new HashMap<String, Object>();
+//        tempMap.put(EventProperty.DURATION, duration / 1000);
+//        tempMap.put(EventProperty.VERSION, version);
+//        String eventName = APP_EXIT;
+//        addMessageList(eventName, tempMap);
+//    }
+//
+//    public void boot_ad_play(String title, String mediaId, String mediaUrl, String duration) {
+//        HashMap<String, Object> tempMap = new HashMap<String, Object>();
+//        tempMap.put("title", title);
+//        tempMap.put("media_id", mediaId);
+//        tempMap.put("media_url", mediaUrl);
+//        tempMap.put("duration", duration);
+//        String eventName = BOOT_AD_PLAY;
+//        addMessageList(eventName, tempMap);
+//
+//    }
 
-    public void app_exit(long duration, int version) {
-        HashMap<String, Object> tempMap = new HashMap<String, Object>();
-        tempMap.put(EventProperty.DURATION, duration / 1000);
-        tempMap.put(EventProperty.VERSION, version);
-        String eventName = APP_EXIT;
-        addMessageList(eventName, tempMap);
-    }
-
-    public void boot_ad_play(String title, String mediaId, String mediaUrl, String duration) {
-        HashMap<String, Object> tempMap = new HashMap<String, Object>();
-        tempMap.put("title", title);
-        tempMap.put("media_id", mediaId);
-        tempMap.put("media_url", mediaUrl);
-        tempMap.put("duration", duration);
-        String eventName = BOOT_AD_PLAY;
-        addMessageList(eventName, tempMap);
-
-    }
-
-    /**
-     * 开屏广告下载
-     *
-     * @param title    广告物料id, 例如: 391004135
-     * @param mediaId  广告物料id, 例如: 391004135
-     * @param mediaUrl 广告物料地址, 例如: http://www.ismartv.cn/test.jpg
-     */
-    public void bootAdvDownload(String title, String mediaId, String mediaUrl) {
-        HashMap<String, Object> tempMap = new HashMap<String, Object>();
-        tempMap.put("title", title);
-        tempMap.put("media_id", mediaId);
-        tempMap.put("media_url", mediaUrl);
-        String eventName = BOOT_AD_DOWNLOAD;
-        addMessageList(eventName, tempMap);
-    }
-
-    /**
-     * 开屏广告异常
-     *
-     * @param code    异常码, 例如: 264
-     * @param content 异常内容, 例如: 264
-     */
-    public void bootAdvExcept(String code, String content) {
-        HashMap<String, Object> tempMap = new HashMap<String, Object>();
-        tempMap.put("code", code);
-        tempMap.put("content", content);
-        String eventName = BOOT_AD_EXCEPT;
-        addMessageList(eventName, tempMap);
-    }
+//    /**
+//     * 开屏广告下载
+//     *
+//     * @param title    广告物料id, 例如: 391004135
+//     * @param mediaId  广告物料id, 例如: 391004135
+//     * @param mediaUrl 广告物料地址, 例如: http://www.ismartv.cn/test.jpg
+//     */
+//    public void bootAdvDownload(String title, String mediaId, String mediaUrl) {
+//        HashMap<String, Object> tempMap = new HashMap<String, Object>();
+//        tempMap.put("title", title);
+//        tempMap.put("media_id", mediaId);
+//        tempMap.put("media_url", mediaUrl);
+//        String eventName = BOOT_AD_DOWNLOAD;
+//        addMessageList(eventName, tempMap);
+//    }
+//
+//    /**
+//     * 开屏广告异常
+//     *
+//     * @param code    异常码, 例如: 264
+//     * @param content 异常内容, 例如: 264
+//     */
+//    public void bootAdvExcept(String code, String content) {
+//        HashMap<String, Object> tempMap = new HashMap<String, Object>();
+//        tempMap.put("code", code);
+//        tempMap.put("content", content);
+//        String eventName = BOOT_AD_EXCEPT;
+//        addMessageList(eventName, tempMap);
+//    }
 
     private String switchQuality(Integer currQuality) {
         String quality = "";
