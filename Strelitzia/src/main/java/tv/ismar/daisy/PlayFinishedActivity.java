@@ -110,8 +110,10 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
         // TODO Auto-generated method stub
         super.onResume();
         if (isFavorite()) {
+            btnFavorites.setPadding(getResources().getDimensionPixelSize(R.dimen.play_finished_btn_fav_pl), 0, 0, 0);
             btnFavorites.setText(getResources().getString(R.string.favorited));
         } else {
+            btnFavorites.setPadding(getResources().getDimensionPixelSize(R.dimen.play_finished_btn_pl), 0, 0, 0);
             btnFavorites.setText(getResources().getString(R.string.favorite));
         }
     }

@@ -321,10 +321,6 @@
 <dimen name="drama_gridview_item_btn_marginbottom">1.33dip</dimen>
 <dimen name="drama_gridview_item_btn_marginright">1.33dip</dimen>
 
-<!-- playfinish_gridview_item -->
-<dimen name="playfinish_gridview_iv_label_W">47.33dip</dimen>
-<dimen name="playfinish_gridview_iv_label_H">47.33dip</dimen>
-
 <!-- alert_dialog -->
 <dimen name="dialog_layout_W">382.67dip</dimen>
 <dimen name="dialog_layout_H">250.00dip</dimen>

@@ -1,177 +1,195 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:id="@+id/large_layout"
-              android:baselineAligned="false"
-              android:orientation="horizontal"
-              xmlns:sakura="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:sakura="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/large_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical">
 
-    <!-- 左边整块 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/play_finished_head_h"
+        android:gravity="left|bottom"
+        android:paddingBottom="@dimen/play_finished_head_pb"
+        android:paddingLeft="@dimen/play_finished_head_pl"
+        android:text="@string/play_finished"
+        android:textColor="@color/color_base_white"
+        android:textSize="@dimen/text_size_48sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/play_finished_head_img_mlr"
+        android:layout_marginRight="@dimen/play_finished_head_img_mlr"
+        android:scaleType="fitXY"
+        android:src="@drawable/header_divider" />
 
     <LinearLayout
-        android:id="@+id/linear_left"
-        android:layout_width="@dimen/play_finished_leftlayout_W"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:orientation="vertical"
-        android:paddingRight="@dimen/play_finished_leftlayout_PR"
-        android:paddingLeft="@dimen/play_finished_leftlayout_PL">
+        android:orientation="horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/play_finished_tv_releted_textsize"
-            android:text="@string/play_finished"
-            android:layout_marginTop="@dimen/play_finished_tv_releted_margintop"
-            />
+        <!-- 左边整块 -->
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/play_finished_left_subcontainer_marginleft">
+        <LinearLayout
+            android:id="@+id/linear_left"
+            android:layout_width="@dimen/play_finished_left_w"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/play_finished_left_ml"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_vodie_name"
-                android:layout_width="@dimen/play_finished_tv_vodie_name_W"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/play_finished_tv_vodie_name_marginright"
-                android:textSize="@dimen/play_finished_tv_vodie_name_textsize"
-                android:maxLines="4"
-                android:ellipsize="end"
-                android:layout_marginTop="@dimen/play_finished_tv_vodie_name_marginTop"/>
-
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/linear_vodie_backgroud"
-                android:layout_width="@dimen/play_finished_linear_vodie_backgroud_W"
-                android:layout_height="@dimen/play_finished_linear_vodie_backgroud_H"
-                android:layout_below="@+id/tv_vodie_name"
-                android:background="@drawable/preview_img_bg"
-                android:layout_marginTop="@dimen/play_finished_image_vodie_backgroud_marginTop"
-                >
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/play_finished_img_h"
+                android:layout_marginTop="@dimen/play_finished_img_mt"
+                android:background="@drawable/preview_img_bg">
 
                 <tv.ismar.app.widget.AsyncImageView
                     android:id="@+id/image_vodie_backgroud"
-                    android:layout_width="@dimen/play_finished_image_vodie_backgroud_W"
-                    android:layout_height="@dimen/play_finished_image_vodie_backgroud_H"
-                    android:layout_marginLeft="@dimen/play_finished_image_vodie_backgroud_marginleft"
-                    android:layout_marginTop="@dimen/play_finished_image_vodie_backgroud_margintop"
-                    android:focusable="false"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/play_finished_img_h"
+                    android:focusable="false" />
+
+                <ImageView
+                    android:id="@+id/image_vod_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="@dimen/play_finished_img_corner_mr"
+                    android:layout_marginTop="@dimen/play_finished_img_corner_mr" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_vodie_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/play_finished_title_mt"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_36sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/play_finished_btn_mt">
+
+                <FrameLayout
+                    android:layout_width="@dimen/play_finished_btn_w"
+                    android:layout_height="@dimen/play_finished_btn_h">
+
+                    <Button
+                        android:id="@+id/btn_replay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/vod_detail_relatemore_button_selector"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/play_finished_btn_pl"
+                        android:text="@string/daram_restart"
+                        android:textColor="@color/color_base_white"
+                        android:textSize="@dimen/text_size_36sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/play_finished_re" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="@dimen/play_finished_btn_w"
+                    android:layout_height="@dimen/play_finished_btn_h"
+                    android:layout_marginLeft="@dimen/play_finished_fav_ml">
+
+                    <Button
+                        android:id="@+id/btn_favorites"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/vod_detail_relatemore_button_selector"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/play_finished_btn_pl"
+                        android:text="@string/daram_favorites"
+                        android:textColor="@color/color_base_white"
+                        android:textSize="@dimen/text_size_36sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/play_finished_fav" />
+
+                </FrameLayout>
+
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/image_vod_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/linear_vodie_backgroud"
-                android:layout_alignTop="@+id/linear_vodie_backgroud"
-                android:layout_marginRight="@dimen/play_finished_image_vod_label_marginright"
-                android:layout_marginTop="@dimen/play_finished_image_vod_label_margintop"/>
 
-            <Button
-                android:layout_marginTop="@dimen/play_finished_btn_reply_marginTop"
-                android:id="@+id/btn_replay"
-                android:layout_width="@dimen/play_finished_image_vodie_backgroud_W"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linear_vodie_backgroud"
-                android:nextFocusUp="@id/btn_replay"
-                android:background="@drawable/vod_detail_relatemore_button_selector"
-                android:text="@string/daram_restart"
-                android:textSize="@dimen/play_finished_btn_replay_textsize"
-                android:drawableLeft="@drawable/vod_detail_end_poster_replay_normal_icon"
-                android:textColor="#FFF8F8FF"
-                android:paddingLeft="@dimen/item_detail_btn_favorite_paddingleft"
-                android:paddingRight="@dimen/item_detail_btn_favorite_paddingright"
-                android:paddingTop="@dimen/item_detail_btn_favorite_paddingtop"
-                android:paddingBottom="@dimen/item_detail_btn_favorite_paddingtop"/>
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_favorites"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/btn_replay"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/play_finished_btn_favorites_margintop"
-                android:background="@drawable/vod_detail_relatemore_button_selector"
-                android:gravity="center_horizontal|center_vertical"
-                android:paddingLeft="@dimen/item_detail_btn_favorite_paddingleft"
-                android:paddingRight="@dimen/item_detail_btn_favorite_paddingright"
-                android:paddingTop="@dimen/item_detail_btn_favorite_paddingtop"
-                android:text="@string/daram_favorites"
-                android:textColor="#FFF8F8FF"
-                android:textSize="@dimen/play_finished_btn_favorites_textsize"
-                android:drawableLeft="@drawable/vod_detail_poster_favorite_icon_selector"/>
-        </RelativeLayout>
-    </LinearLayout>
+        <!-- 左边整块 -->
 
-    <!-- 左边整块 -->
-    <!-- 右边整块 -->
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/play_finished_view_mt"
+            android:layout_marginLeft="@dimen/play_finished_view_ml"
+            android:layout_marginTop="@dimen/play_finished_view_mt"
+            android:scaleType="fitXY"
+            android:src="@drawable/vertical_divider_line" />
 
-    <LinearLayout
-        android:id="@+id/linear_right"
-        android:layout_width="@dimen/play_finished_rightlayout_W"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:gravity="center"
-        android:orientation="vertical">
+        <!-- 右边整块 -->
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/linear_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/play_finished_right_ml"
+            android:layout_marginTop="@dimen/play_finished_right_mt"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_releted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/play_finished_tv_releted_margintop"
+                android:layout_marginLeft="@dimen/play_finished_right_tv_ml"
                 android:text="@string/vod_releted"
-                android:textSize="@dimen/play_finished_tv_releted_textsize"/>
+                android:textColor="@color/color_base_white"
+                android:textSize="@dimen/text_size_36sp" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_releted"
-                android:background="@drawable/related_dation"/>
-        </RelativeLayout>
+            <tv.ismar.app.ui.ZGridView
+                android:id="@+id/gridview_related"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/play_finished_right_zgrid_mb"
+                android:layout_marginTop="@dimen/play_finished_right_zgrid_mt"
+                android:nextFocusUp="@id/gridview_related"
+                sakura:columnWidth="@dimen/play_finished_right_zgrid_column_w"
+                sakura:horizontalSpace="@dimen/play_finished_right_zgrid_space_h"
+                sakura:listSelector="@drawable/vod_gv_selector"
+                sakura:numColumns="3"
+                sakura:selectorBottomPadding="@dimen/play_finished_right_zgrid_selectorBottomPadding"
+                sakura:selectorLeftPadding="@dimen/play_finished_right_zgrid_selectorLeftPadding"
+                sakura:selectorRightPadding="@dimen/play_finished_right_zgrid_selectorRightPadding"
+                sakura:selectorTopPadding="@dimen/play_finished_right_zgrid_selectorTopPadding"
+                sakura:stretchMode="columnWidth"
+                sakura:verticalSpace="@dimen/play_finished_right_zgrid_space_v" />
 
-        <!--         <GridView -->
-        <!--             android:id="@+id/gridview_related" -->
-        <!--             android:layout_width="match_parent" -->
-        <!--             android:layout_height="wrap_content" -->
-        <!--             android:layout_margin="@dimen/play_finished_gridview_related_margin" -->
-        <!--             android:listSelector="#00000000" -->
-        <!--              > -->
-        <!--         </GridView> -->
-
-        <tv.ismar.app.ui.ZGridView
-            android:id="@+id/gridview_related"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            sakura:columnWidth="@dimen/playfinish_gridview_item_linearimage_W"
-            sakura:horizontalSpace="@dimen/play_finished_gridview_related_horizontalSpace"
-            sakura:listSelector="@drawable/vod_gv_selector"
-            sakura:numColumns="3"
-            sakura:stretchMode="columnWidth"
-            sakura:verticalSpace="@dimen/play_finished_gridview_related_verticalSpace"
-            android:layout_margin="@dimen/play_finished_gridview_related_margin"
-            sakura:selectorLeftPadding="@dimen/ZGridView_played_selectorLeftPadding"
-            sakura:selectorTopPadding="@dimen/ZGridView_played_selectorTopPadding"
-            sakura:selectorRightPadding="@dimen/ZGridView_played_selectorRightPadding"
-            sakura:selectorBottomPadding="@dimen/ZGridView_played_selectorBottomPadding"
-            android:paddingLeft="@dimen/play_finished_gridview_Padding"
-            android:paddingTop="@dimen/play_finished_gridview_Padding"
-            android:nextFocusUp="@id/gridview_related"
-            >
-        </tv.ismar.app.ui.ZGridView>
-        <TextView
+            <TextView
                 android:id="@+id/tv_releted_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/play_finished_tv_releted_margintop"
                 android:text="无相关推荐"
-                android:textSize="@dimen/play_finished_tv_releted_textsize"/>
+                android:textSize="@dimen/text_size_36sp" />
+        </LinearLayout>
+        <!-- 右边整块 -->
+
     </LinearLayout>
-    <!-- 右边整块 -->
 
 </LinearLayout>
