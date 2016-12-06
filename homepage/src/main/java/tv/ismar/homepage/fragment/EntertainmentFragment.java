@@ -24,10 +24,12 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.entity.HomePagerEntity.Poster;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.homepage.widget.HomeItemContainer;
@@ -467,8 +469,13 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                     @Override
                     public void onNext(HomePagerEntity homePagerEntity) {
                         entity = homePagerEntity;
-                        if (mContext == null || entity == null)
+                        if (mContext == null || entity == null) {
+                            new CallaPlay().exception_except("launcher", "launcher", channelEntity.getChannel(),
+                                    "", 0, channelEntity.getHomepage_url(),
+                                    SimpleRestClient.appVersion, "data", ""
+                            );
                             return;
+                        }
                         ArrayList<Carousel> carousellist = entity.getCarousels();
                         ArrayList<Poster> postlist = entity.getPosters();
                         fillData(carousellist, postlist);

@@ -138,7 +138,7 @@
         <ImageButton
             android:id="@+id/child_more"
             android:layout_width="@dimen/child_more_w"
-            android:layout_height="@dimen/child_more_h"
+            android:layout_height="match_parent"
             android:background="@drawable/selector_child_more"
             android:focusable="true"
             android:focusableInTouchMode="true"

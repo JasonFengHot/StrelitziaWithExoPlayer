@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:labelimage="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
@@ -81,23 +81,23 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/vaiety_righttop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/vaiety_righttop1"
+            android:layout_width="@dimen/entertainment_top_right_item_linear_w"
+            android:layout_height="@dimen/entertainment_top_right_item_linear_h"
             android:layout_marginLeft="@dimen/entertainment_top_right_ml"
+            android:background="@drawable/entertainment_item_bg"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:padding="@dimen/entertainment_top_right_item_linear_p">
 
             <RelativeLayout
                 android:id="@+id/vaiety_card1"
                 android:layout_width="@dimen/entertainment_top_right_item_w"
-                android:layout_height="@dimen/entertainment_top_right_card_h"
-                android:background="@drawable/entertainment_item_bg"
+                android:layout_height="wrap_content"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="false"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/entertainment_top_right_image_mt">
+                android:orientation="vertical">
 
                 <tv.ismar.homepage.widget.LabelImageView3
                     android:id="@+id/vaiety_card1_image"
@@ -121,71 +121,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/entertainment_top_right_item_text_h"
                     android:layout_below="@id/vaiety_card1_image"
-                    android:layout_marginTop="@dimen/entertainment_top_right_item_text_mt"
                     android:gravity="center"
+                    android:text="电视剧"
                     android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_24sp" />
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/vaiety_card2_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/entertainment_top_right_ml"
-                android:layout_toRightOf="@id/vaiety_card1"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingTop="@dimen/entertainment_top_right_image_mt">
-
-                <RelativeLayout
-                    android:id="@+id/vaiety_card2"
-                    android:layout_width="@dimen/entertainment_top_right_item_w"
-                    android:layout_height="@dimen/entertainment_top_right_card_h"
-                    android:background="@drawable/entertainment_item_bg"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:focusable="false"
-                    android:orientation="vertical">
-
-                    <tv.ismar.homepage.widget.LabelImageView3
-                        android:id="@+id/vaiety_card2_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/entertainment_top_right_item_h"
-                        android:clickable="true"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/list_item_preview_bg"
-                        labelimage:label3_needZoom="true"
-                        labelimage:label3_textBackColor="@color/color_alpha_black"
-                        labelimage:label3_textPaddingBottom="@dimen/entertainment_top_label_pb"
-                        labelimage:label3_textPaddingTop="@dimen/entertainment_top_label_pt"
-                        labelimage:label3_textSize="@dimen/text_size_24sp" />
-
-                    <TextView
-                        android:id="@+id/vaiety_card2_subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/entertainment_top_right_item_text_h"
-                        android:layout_below="@id/vaiety_card2_image"
-                        android:layout_marginTop="@dimen/entertainment_top_right_item_text_mt"
-                        android:gravity="center"
-                        android:textColor="@color/color_base_white"
-                        android:textSize="@dimen/text_size_24sp" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
             <RelativeLayout
                 android:id="@+id/vaiety_card3"
                 android:layout_width="@dimen/entertainment_top_right_item_w"
-                android:layout_height="@dimen/entertainment_top_right_card_h"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/vaiety_card1"
-                android:layout_marginTop="@dimen/entertainment_top_right_item_text_mt"
-                android:background="@drawable/entertainment_item_bg"
+                android:layout_marginTop="@dimen/entertainment_top_right_item_mt"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="false"
@@ -213,61 +161,99 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/entertainment_top_right_item_text_h"
                     android:layout_below="@id/vaiety_card3_image"
-                    android:layout_marginTop="@dimen/entertainment_top_right_item_text_mt"
                     android:gravity="center"
+                    android:text="电视剧"
                     android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_24sp" />
             </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/vaiety_card2_container"
-                android:layout_marginLeft="@dimen/entertainment_top_right_ml"
-                android:layout_toRightOf="@id/vaiety_card3"
-                android:layout_alignTop="@id/vaiety_card3"
-                android:clipChildren="false"
-                android:clipToPadding="false">
+        </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/vaiety_card4"
-                    android:layout_width="@dimen/entertainment_top_right_item_w"
-                    android:layout_height="@dimen/entertainment_top_right_card_h"
-                    android:background="@drawable/entertainment_item_bg"
+        <RelativeLayout
+            android:id="@+id/vaiety_righttop2"
+            android:layout_width="@dimen/entertainment_top_right_item_linear_w"
+            android:layout_height="@dimen/entertainment_top_right_item_linear_h"
+            android:layout_marginLeft="@dimen/entertainment_top_right_ml"
+            android:background="@drawable/entertainment_item_bg"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="@dimen/entertainment_top_right_item_linear_p">
+
+            <RelativeLayout
+                android:id="@+id/vaiety_card2"
+                android:layout_width="@dimen/entertainment_top_right_item_w"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:focusable="false"
+                android:orientation="vertical">
+
+                <tv.ismar.homepage.widget.LabelImageView3
+                    android:id="@+id/vaiety_card2_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/entertainment_top_right_item_h"
+                    android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
-                    android:focusable="false"
-                    android:orientation="vertical">
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/list_item_preview_bg"
+                    labelimage:label3_needZoom="true"
+                    labelimage:label3_textBackColor="@color/color_alpha_black"
+                    labelimage:label3_textPaddingBottom="@dimen/entertainment_top_label_pb"
+                    labelimage:label3_textPaddingTop="@dimen/entertainment_top_label_pt"
+                    labelimage:label3_textSize="@dimen/text_size_24sp" />
 
-                    <tv.ismar.homepage.widget.LabelImageView3
-                        android:id="@+id/vaiety_card4_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/entertainment_top_right_item_h"
-                        android:clickable="true"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/list_item_preview_bg"
-                        labelimage:label3_needZoom="true"
-                        labelimage:label3_textBackColor="@color/color_alpha_black"
-                        labelimage:label3_textPaddingBottom="@dimen/entertainment_top_label_pb"
-                        labelimage:label3_textPaddingTop="@dimen/entertainment_top_label_pt"
-                        labelimage:label3_textSize="@dimen/text_size_24sp" />
+                <TextView
+                    android:id="@+id/vaiety_card2_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/entertainment_top_right_item_text_h"
+                    android:layout_below="@id/vaiety_card2_image"
+                    android:gravity="center"
+                    android:text="电视剧"
+                    android:textColor="@color/color_base_white"
+                    android:textSize="@dimen/text_size_24sp" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/vaiety_card4_subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/entertainment_top_right_item_text_h"
-                        android:layout_below="@id/vaiety_card4_image"
-                        android:layout_marginTop="@dimen/entertainment_top_right_item_text_mt"
-                        android:gravity="center"
-                        android:textColor="@color/color_base_white"
-                        android:textSize="@dimen/text_size_24sp" />
-                </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/vaiety_card4"
+                android:layout_width="@dimen/entertainment_top_right_item_w"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vaiety_card2"
+                android:layout_marginTop="@dimen/entertainment_top_right_item_mt"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:focusable="false"
+                android:orientation="vertical">
 
-            </LinearLayout>
+                <tv.ismar.homepage.widget.LabelImageView3
+                    android:id="@+id/vaiety_card4_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/entertainment_top_right_item_h"
+                    android:clickable="true"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/list_item_preview_bg"
+                    labelimage:label3_needZoom="true"
+                    labelimage:label3_textBackColor="@color/color_alpha_black"
+                    labelimage:label3_textPaddingBottom="@dimen/entertainment_top_label_pb"
+                    labelimage:label3_textPaddingTop="@dimen/entertainment_top_label_pt"
+                    labelimage:label3_textSize="@dimen/text_size_24sp" />
+
+                <TextView
+                    android:id="@+id/vaiety_card4_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/entertainment_top_right_item_text_h"
+                    android:layout_below="@id/vaiety_card4_image"
+                    android:gravity="center"
+                    android:text="电视剧"
+                    android:textColor="@color/color_base_white"
+                    android:textSize="@dimen/text_size_24sp" />
+            </RelativeLayout>
 
         </RelativeLayout>
     </LinearLayout>

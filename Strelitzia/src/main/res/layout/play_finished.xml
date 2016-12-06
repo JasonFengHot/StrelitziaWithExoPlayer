@@ -163,7 +163,7 @@
 
             <tv.ismar.app.ui.ZGridView
                 android:id="@+id/gridview_related"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/play_finished_gridview_w"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/play_finished_right_zgrid_mb"
                 android:layout_marginTop="@dimen/play_finished_right_zgrid_mt"

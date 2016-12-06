@@ -987,6 +987,7 @@ public class NetworkUtils {
 
     public static final String BOOT_AD_EXCEPT = "boot_ad_except";
     public static final String HOMEPAGE_VOD_TRAILER_PLAY = "homepage_vod_trailer_play";
+    public static final String EXCEPTION_EXIT = "epg_except";
     /**
      * 进入包详情
      */

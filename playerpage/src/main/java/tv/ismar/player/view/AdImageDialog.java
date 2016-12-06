@@ -60,10 +60,12 @@ public class AdImageDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams rootLp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         FrameLayout frameLayout = new FrameLayout(mContext);
-        frameLayout.setLayoutParams(layoutParams);
+        frameLayout.setLayoutParams(rootLp);
 
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER;
         imageView = new ImageView(mContext);
         imageView.setLayoutParams(layoutParams);
         frameLayout.addView(imageView);

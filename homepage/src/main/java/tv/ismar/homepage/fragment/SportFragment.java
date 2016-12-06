@@ -32,6 +32,7 @@ import tv.ismar.app.entity.HomePagerEntity.Poster;
 import tv.ismar.app.models.Game;
 import tv.ismar.app.models.Sport;
 import tv.ismar.app.models.SportGame;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.player.InitPlayerTool;
 import tv.ismar.app.util.PicassoUtils;
 import tv.ismar.app.util.Utils;
@@ -245,6 +246,13 @@ public class SportFragment extends ChannelBaseFragment {
 
                     @Override
                     public void onNext(HomePagerEntity homePagerEntity) {
+                        if (homePagerEntity == null) {
+                            new CallaPlay().exception_except("launcher", "launcher", channelEntity.getChannel(),
+                                    "", 0, channelEntity.getHomepage_url(),
+                                    SimpleRestClient.appVersion, "data", ""
+                            );
+                            return;
+                        }
                         ArrayList<Poster> postlist = homePagerEntity.getPosters();
                         ArrayList<Carousel> carousels = homePagerEntity.getCarousels();
                         if("sport".equals(channelEntity.getChannel())) {
@@ -273,6 +281,13 @@ public class SportFragment extends ChannelBaseFragment {
 
                     @Override
                     public void onNext(Sport sport) {
+                        if (sport == null) {
+                            new CallaPlay().exception_except("launcher", "launcher", channelEntity.getChannel(),
+                                    "", 0, "api/tv/living_video/sport/",
+                                    SimpleRestClient.appVersion, "data", ""
+                            );
+                            return;
+                        }
                         games.clear();
                         games.addAll(sport.getLiving());
                         fillLiveData();
@@ -296,6 +311,13 @@ public class SportFragment extends ChannelBaseFragment {
 
                     @Override
                     public void onNext(Game game) {
+                        if (game == null) {
+                            new CallaPlay().exception_except("launcher", "launcher", channelEntity.getChannel(),
+                                    "", 0, "api/tv/living_video/game/",
+                                    SimpleRestClient.appVersion, "data", ""
+                            );
+                            return;
+                        }
                         games.clear();
                         games.addAll(game.getHighlight());
                         games.addAll(game.getLiving());

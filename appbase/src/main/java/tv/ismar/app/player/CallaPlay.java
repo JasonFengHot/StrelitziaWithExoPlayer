@@ -660,6 +660,37 @@ public class CallaPlay {
         new NetworkUtils.DataCollectionTask().execute(eventName, properties);
     }
 
+    /**
+     * 首页异常退出
+     *
+     */
+    public  void exception_except(String referer,String page,String channel,
+                                  String tab,int item,String url,
+                                  int version,String code,String detail) {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+//        referer，string枚举类型，进入当前页面的入口，见下述列表，值的内容为列表中的英文部分
+//        page，string枚举类型，表示页面的类型，见下述列表，值的内容为列表中的英文部分
+//        channel，string枚举类型，页面所属频道，见下述列表，值的内容为列表中的英文部分。如果不属于任何一个频道，则该字段为空字符串。page字段和channel合起来共同确定一个页面。
+//        tab，string枚举类型，用于表示出错的具体标签页，例如频道的列表页中每个section为一个标签页。如果没有细分标签页，则值为空字符串。
+//        item，int类型，如果页面的异常发生在某个视频、产品包上，则item值为异常视频item或者产品包的ID，否则该值为空字符串
+//        url，string类型，该页面发生异常的区域对应的服务器数据接口的URL及参数，对于不需要请求服务器数据的异常，设置为空值。
+//        version，string类型，表示视云客户端的版本号。
+//        code，string枚举类型，表示异常产生的原因。可选的值为：server（表示服务端、网络、或CDN的各类错误或异常）、data（表示拿到的数据错误或不完整）、system（电视的系统级异常导致）、client（视云客户端产生的异常导致）、unknown（未知原因的异常）
+//        detail
+        hashMap.put("referer",referer);
+        hashMap.put("page",page);
+        hashMap.put("channel",channel);
+        hashMap.put("tab",tab);
+        hashMap.put("item",item);
+        hashMap.put("url",url);
+        hashMap.put("version",version);
+        hashMap.put("code",code);
+        hashMap.put("detail",detail);
+        eventName = NetworkUtils.EXCEPTION_EXIT;
+        properties = hashMap;
+        new NetworkUtils.DataCollectionTask().execute(eventName, properties);
+    }
+
 //    private String switchQuality(Integer currQuality) {
 //        String quality = "";
 //        switch (currQuality) {

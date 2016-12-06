@@ -26,6 +26,7 @@
 <dimen name="play_finished_right_ml">30.00dp</dimen>
 <dimen name="play_finished_right_mt">30.56dp</dimen>
 <dimen name="play_finished_right_tv_ml">36.67dp</dimen>
+<dimen name="play_finished_gridview_w">551.11dp</dimen>
 <dimen name="play_finished_right_zgrid_mt">28.89dp</dimen>
 <dimen name="play_finished_right_zgrid_mb">75.56dp</dimen>
 <dimen name="play_finished_right_zgrid_column_w">157.78dp</dimen>

@@ -46,6 +46,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.cache.CacheManager;
 import tv.ismar.app.core.cache.DownloadClient;
 import tv.ismar.app.entity.HomePagerEntity;
@@ -273,6 +274,13 @@ public class FilmFragment extends ChannelBaseFragment {
     private void fillLayout(HomePagerEntity homePagerEntity) {
         if (mContext == null || guideRecommmendList == null)
             return;
+        if(homePagerEntity == null){
+            new CallaPlay().exception_except("launcher","launcher",channelEntity.getChannel(),
+                    "",0,channelEntity.getHomepage_url(),
+                    SimpleRestClient.appVersion,"data",""
+            );
+            return;
+        }
         ArrayList<HomePagerEntity.Poster> posters = homePagerEntity.getPosters();
         ArrayList<HomePagerEntity.Carousel> carousels = homePagerEntity.getCarousels();
 
@@ -454,6 +462,10 @@ public class FilmFragment extends ChannelBaseFragment {
             allItem.add(film_carous_imageView4);
             allItem.add(film_carous_imageView5);
         } catch (Exception e) {
+            new CallaPlay().exception_except("launcher","launcher",channelEntity.getChannel(),
+                    "",0,"",
+                    SimpleRestClient.appVersion,"client",""
+            );
         }
 
         firstcarousel = film_carous_imageView1;
