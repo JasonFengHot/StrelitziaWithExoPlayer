@@ -339,6 +339,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         int i = 0;
         for (AdvertiseTable adTable : launchAds) {
             int duration = adTable.duration;
+            Log.d("LH/", "GetStartAd:" + adTable.location);
             countAdTime += duration;
 
             if ((i == launchAds.size() - 1) && !adTable.location.equals(AdvertiseManager.DEFAULT_ADV_PICTURE)) {

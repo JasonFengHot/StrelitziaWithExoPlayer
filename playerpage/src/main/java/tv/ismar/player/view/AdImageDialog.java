@@ -44,8 +44,8 @@ public class AdImageDialog extends Dialog {
     private ImageView imageView;
     private Button button;
 
-    public AdImageDialog(Context context, List<AdElementEntity> adElementEntityList) {
-        super(context);
+    public AdImageDialog(Context context, int theme, List<AdElementEntity> adElementEntityList) {
+        super(context, theme);
         mContext = context;
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         width = wm.getDefaultDisplay().getWidth();
@@ -53,39 +53,16 @@ public class AdImageDialog extends Dialog {
         mAdElementEntityList = adElementEntityList;
         mEventReporter = new EventReporter();
 
-        setWindowProperty();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        ViewGroup.LayoutParams rootLp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        FrameLayout frameLayout = new FrameLayout(mContext);
-        frameLayout.setLayoutParams(rootLp);
-
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.CENTER;
-        imageView = new ImageView(mContext);
-        imageView.setLayoutParams(layoutParams);
-        frameLayout.addView(imageView);
-
-        button = new Button(mContext);
-        int btn_wh = mContext.getResources().getDimensionPixelSize(R.dimen.pause_ad_btn_wh);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(btn_wh, btn_wh);
-        lp.gravity = Gravity.RIGHT | Gravity.TOP;
-        button.setLayoutParams(lp);
-        button.setBackgroundResource(R.drawable.ad_close_bt);
+        setContentView(R.layout.player_pause_ad);
+        imageView = (ImageView) findViewById(R.id.player_pause_image);
+        button = (Button) findViewById(R.id.player_pause_close);
         button.setVisibility(View.GONE);
-        frameLayout.addView(button);
-        setContentView(frameLayout);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
 
         mDuration = TrueTime.now().getTime();
 
@@ -94,6 +71,20 @@ public class AdImageDialog extends Dialog {
             myTimerTask = new MyTimerTask();
             sensorTimer.schedule(myTimerTask, 1000, 1000);
         }
+
+        Window dialogWindow = getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width = ((int) (width * 0.53));
+        lp.height = ((int) (height * 0.53));
+        lp.gravity = Gravity.CENTER;
+        button.requestFocus();
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
     }
 
@@ -175,17 +166,6 @@ public class AdImageDialog extends Dialog {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-
-    public Window setWindowProperty() {
-        Window window = getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = ((int) (width * 0.53));
-        lp.height = ((int) (height * 0.53));
-        lp.gravity = Gravity.CENTER;
-        window.setAttributes(lp);
-        window.setBackgroundDrawable(new ColorDrawable(0));
-        return window;
     }
 
 }

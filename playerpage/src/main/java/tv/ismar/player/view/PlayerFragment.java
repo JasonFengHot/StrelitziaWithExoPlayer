@@ -1143,7 +1143,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             return;
         }
         // 视频暂停广告
-        adImageDialog = new AdImageDialog(getActivity(), pauseAdList);
+        adImageDialog = new AdImageDialog(getActivity(), R.style.PauseAdDialog, pauseAdList);
         try {
             adImageDialog.show();
         } catch (android.view.WindowManager.BadTokenException e) {
