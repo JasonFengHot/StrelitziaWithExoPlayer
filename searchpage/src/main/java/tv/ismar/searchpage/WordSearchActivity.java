@@ -392,7 +392,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                     showPopupWindow(t9KeyboardAdapter, view, position);
                 } else {
                     TextView tv_num = (TextView) view.findViewById(R.id.tv_num);
-                    if (et_input.getText().toString().length() <= 26) {
+                    if (et_input.getText().toString().length() <= 25) {
                         et_input.append(tv_num.getText().toString());
                     } else {
                         mediaPlayer.start();
@@ -415,7 +415,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 TextView textView = (TextView) view.findViewById(R.id.btn_key);
                 String keyValue = textView.getText().toString();
 
-                if (et_input.getText().toString().length() <= 26) {
+                if (et_input.getText().toString().length() <= 25) {
                     et_input.append(keyValue);
                 } else {
                     mediaPlayer.start();
@@ -816,14 +816,14 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
             }
 
         } else if (i1 == R.id.tv_key_0) {
-            if (et_input.getText().toString().length() <= 26) {
+            if (et_input.getText().toString().length() <= 25) {
                 et_input.append("0");
             } else {
                 mediaPlayer.start();
             }
 
         } else if (i1 == R.id.t9_key_0) {
-            if (et_input.getText().toString().length() <= 26) {
+            if (et_input.getText().toString().length() <= 25) {
                 et_input.append("0");
             } else {
                 mediaPlayer.start();
@@ -920,7 +920,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 iv_left_arrow.setVisibility(View.VISIBLE);
             }
         } else {
-            if (et_input.getText().toString().length() <= 26) {
+            if (et_input.getText().toString().length() <= 25) {
                 et_input.append(((TextView) view).getText().toString());
             } else {
                 mediaPlayer.start();
