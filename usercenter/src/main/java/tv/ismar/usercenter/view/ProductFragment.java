@@ -70,6 +70,8 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         productBinding.setActionHandler(mPresenter);
 
         mRecyclerView = productBinding.recyclerview;
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.product_recycler_item_spacing)));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         mRecyclerView.setSelectedItemAtCentered(false);
         mRecyclerView.setOnItemClickListener(this);
         View root = productBinding.getRoot();
@@ -149,8 +151,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     public void loadProductItem(YouHuiDingGouEntity entity) {
         mYouHuiDingGouEntity = entity;
         ProductAdapter adapter = new ProductAdapter(getContext(), entity.getObjects());
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.product_recycler_item_spacing)));
+
         mRecyclerView.setAdapter(adapter);
     }
 

@@ -104,6 +104,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             onHide();
         } else if (viewInit && playerFragment != null) {
             // 多个详情页显示时，逐一返回时需要初始化播放器
+            playerFragment.subItemPk = 0;
             playerFragment.initPlayer();
         }
         viewInit = true;
@@ -196,6 +197,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             return;
         }
         playerFragment.onPlayerFragment = false;
+        playerFragment.subItemPk = 0;
         playerFragment.initPlayer();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.hide(playerFragment);

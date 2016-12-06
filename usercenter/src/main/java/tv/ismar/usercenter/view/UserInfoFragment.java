@@ -272,6 +272,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
                 if (!v.hasFocus()) {
+                    ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
                     v.requestFocus();
                     v.requestFocusFromTouch();
                 }
@@ -283,7 +284,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 }
                 break;
         }
-        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
+
         return true;
     }
 

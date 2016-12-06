@@ -20,7 +20,7 @@
 <dimen name="play_finished_btn_h">24.00dp</dimen>
 <dimen name="play_finished_fav_ml">22.67dp</dimen>
 <dimen name="play_finished_btn_pl">32.33dp</dimen>
-<dimen name="play_finished_btn_fav_pl">20.33dp</dimen>
+<dimen name="play_finished_btn_fav_pl">26.33dp</dimen>
 <dimen name="play_finished_view_ml">55.67dp</dimen>
 <dimen name="play_finished_view_mt">6.00dp</dimen>
 <dimen name="play_finished_right_ml">18.00dp</dimen>
