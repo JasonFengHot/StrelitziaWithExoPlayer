@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import tv.ismar.app.BaseFragment;
+import tv.ismar.app.core.PageIntent;
 import tv.ismar.usercenter.HelpContract;
 import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.databinding.FragmentHelpBinding;
@@ -25,6 +27,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
 
     private HelpContract.Presenter mPresenter;
     private HelpViewModel mViewModel;
+    private ImageView ismartv_icon;
 
     public static HelpFragment newInstance() {
         return new HelpFragment();
@@ -59,6 +62,14 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         helpBinding.setTasks(mViewModel);
         helpBinding.setActionHandler(mPresenter);
         View root = helpBinding.getRoot();
+        ismartv_icon = (ImageView) root.findViewById(R.id.ismartv_icon);
+        ismartv_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PageIntent pageIntent=new PageIntent();
+                pageIntent.toHelpPage(HelpFragment.this.getContext());
+            }
+        });
         return root;
     }
 

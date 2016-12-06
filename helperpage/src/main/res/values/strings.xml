@@ -1,3 +1,50 @@
 <resources>
     <string name="app_name">helperpage</string>
+
+    <!-- sakura -->
+
+    <string name="indicator_node">切换视频源</string>
+    <string name="indicator_feedback">问题反馈</string>
+    <string name="indicator_help">客服帮助</string>
+
+    <!-- fragment_node -->
+    <string name="prompt">推荐的视频源：如果自动监测结果有误，请手动选择您的省份与网络类型</string>
+    <string name="province">所在的省份：</string>
+    <string name="isp">网络类型：</string>
+    <string name="source_speed_test">测速</string>
+    <string name="video_source">视频源</string>
+    <string name="source_status">状态</string>
+    <string name="contact_phone_number">联系电话:</string>
+    <string name="add_description">补充描述:</string>
+    <string name="max_msg_length">输入信息最长不要超过70个字符!</string>
+    <string name="submit_text">提交</string>
+    <string name="tring">可以尝试</string>
+    <string name="can_select">建议选择</string>
+    <string name="current_node">当前视频源:</string>
+    <string name="switch_to_auto">切换为自动获取</string>
+    <string name="already_to_auto">已自动获取</string>
+    <string name="auto_fetch">自动获取</string>
+    <string name="test_complete_text">测速完成,请选择视频源</string>
+    <string name="speed_testing">正在测速...</string>
+    <string name="test_interupt">测速已终止</string>
+    <string name="confirm_test_complete">确定</string>
+
+
+    <!-- sakura_popup_select_node -->
+    <string name="are_you_sure_selecte">是否选择该视频源？</string>
+    <string name="confirm_this_node">确定</string>
+    <string name="cancel_this_node">取消</string>
+    <string name="node_bind_success">选择成功，请返回播放影片测试！</string>
+
+
+    <!-- sakura_feedback_fragment -->
+    <string name="ismartv">视云客服 ：</string>
+
+
+    <!-- sakura_help_fragment -->
+    <string name="device_code">设备识别码:</string>
+    <string name="weixin">微信公共平台：</string>
+    <string name="fill_contact_number">请填写联系电话!</string>
+    <string name="you_should_give_an_phone_number">请填写正确的手机号码</string>
+
 </resources>

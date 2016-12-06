@@ -166,4 +166,11 @@ public class PageIntent implements PageIntentInterface {
         intent.putExtra(EXTRA_SOURCE, source);
         context.startActivity(intent);
     }
+
+    @Override
+    public void toHelpPage(Context context) {
+        Intent intent = new Intent();
+        intent.setAction("cn.ismar.sakura.launcher");
+        context.startActivity(intent);
+    }
 }

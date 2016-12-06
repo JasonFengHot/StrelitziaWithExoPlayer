@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:focusable="true"
+              android:background="@drawable/sakura_bg_fragment"
+              android:layout_width="match_parent"
+              android:padding="@dimen/layout_border_padding"
+              android:layout_height="match_parent">
+    <LinearLayout android:layout_width="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_marginLeft="40dp"
+                  android:layout_height="0dp"
+                  android:layout_weight="1"
+            >
+        <TextView
+                android:text="test"
+                android:id="@+id/ismartv_title"
+                android:textSize="@dimen/sakura_h5_text_size"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:text="test"
+                android:id="@+id/ismartv_tel"
+                android:textSize="@dimen/sakura_h5_text_size"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_marginTop="@dimen/help_item__h_margin"
+            android:layout_marginLeft="40dp"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+        <TextView
+                android:text="test"
+                android:id="@+id/tv_title"
+                android:textSize="@dimen/sakura_h5_text_size"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:text="test"
+                android:id="@+id/tv_tel"
+                android:textSize="@dimen/sakura_h5_text_size"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="@dimen/help_item__h_margin"
+            android:layout_marginLeft="40dp"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+        <TextView
+                android:id="@+id/device_code_title"
+                android:layout_gravity="center"
+                android:textSize="@dimen/sakura_h5_text_size"
+                android:textColor="#FFFFFF"
+                android:text="@string/device_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/device_code"
+                android:layout_gravity="center"
+                android:textSize="@dimen/sakura_h5_text_size"
+                android:textColor="#FFFFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+    <TextView
+
+            android:layout_marginTop="@dimen/help_item__h_margin"
+            android:layout_marginLeft="40dp"
+            android:text="@string/weixin"
+            android:textSize="@dimen/sakura_h5_text_size"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+    <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/weixin_image"
+            android:src="@drawable/sakura_qr_code_img"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="12"
+            />
+
+
+</LinearLayout>
