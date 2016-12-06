@@ -352,12 +352,12 @@
 <dimen name="listportait_Hgride_verSpace">2.78dp</dimen>
 <dimen name="listportait_Hgride_filterverSpace">2.22dp</dimen>
 <dimen name="listview_hgride_horSpace">64.44dp</dimen>
-<dimen name="listview_hgride_rowHeight">150.00dp</dimen>
+<dimen name="listview_hgride_rowHeight">150.56dp</dimen>
 <dimen name="listportait_Hgride_mt">1.11dp</dimen>
 <dimen name="listportait_Hgride_pt">3.33dp</dimen>
-<dimen name="listportait_Hgride_ml">28.89dp</dimen>
-<dimen name="listview_Hgride_ml">29.44dp</dimen>
-<dimen name="listportait_Hgride_pl">5.56dp</dimen>
+<dimen name="listportait_Hgride_ml">23.89dp</dimen>
+<dimen name="listview_Hgride_ml">23.89dp</dimen>
+<dimen name="listportait_Hgride_pl">11.11dp</dimen>
 <dimen name="listportait_Hgride_mr">18.89dp</dimen>
 <dimen name="listportait_Hgride_mb">28.89dp</dimen>
 <dimen name="listportait_section_tab_H">48.89dp</dimen>
@@ -438,10 +438,10 @@
 
 <dimen name="tv_guide_top_section_padding">7.78dp</dimen>
 <!-- HGridView -->
-<dimen name="HGridView_related_selectionLeftPadding">13.06dip</dimen>
-<dimen name="HGridView_related_selectionTopPadding">13.06dip</dimen>
-<dimen name="HGridView_related_selectionRightPadding">13.06dip</dimen>
-<dimen name="HGridView_related_selectionBottomPadding">-33.39dip</dimen>
+<dimen name="HGridView_related_selectionLeftPadding">11.67dp</dimen>
+<dimen name="HGridView_related_selectionTopPadding">11.67dp</dimen>
+<dimen name="HGridView_related_selectionRightPadding">11.67dp</dimen>
+<dimen name="HGridView_related_selectionBottomPadding">-16.72dip</dimen>
 <dimen name="HGridView_related_PFilterLeftPadding">11.11dip</dimen>
 <dimen name="HGridView_related_PFilterTopPadding">11.67dip</dimen>
 <dimen name="HGridView_related_PFilterRightPadding">11.67dip</dimen>

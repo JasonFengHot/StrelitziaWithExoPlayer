@@ -1,6 +1,7 @@
 package tv.ismar.channel;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -273,12 +274,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 								}
 								mItemCollections.get(0).fillItems(0, item);
 								mHGridAdapter.setList(mItemCollections);
-								mNoVideoContainer.setVisibility(View.GONE);
-								mNoVideoContainer.setBackgroundResource(R.drawable.no_record);
-								gideview_layuot.setVisibility(View.VISIBLE);
-								mScrollableSectionList.setVisibility(View.VISIBLE);
-								mHGridView.setVisibility(View.VISIBLE);
-								collect_or_history_txt.setVisibility(View.GONE);
+								showData();
 							}
 						}else{
 							no_video();
@@ -356,12 +352,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
                 no_video();
                 return;
             }else{
-				mNoVideoContainer.setVisibility(View.GONE);
-				mNoVideoContainer.setBackgroundResource(R.drawable.no_record);
-				gideview_layuot.setVisibility(View.VISIBLE);
-				mScrollableSectionList.setVisibility(View.VISIBLE);
-				mHGridView.setVisibility(View.VISIBLE);
-				collect_or_history_txt.setVisibility(View.GONE);
+				showData();
 			}
 			mHGridView.setAdapter(mHGridAdapter);
 			mHGridView.setFocusable(true);
@@ -651,7 +642,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			}
 			break;
 //		case 3 : SakuraUtils.startSakura(getActivity());break;
-		case 4 : startPersoncenter();break;
+		case 4 : startPersoncenter(getActivity());break;
 		}
 	}
 	private void EmptyAllFavorite(){
@@ -763,8 +754,16 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 				});
 	}
 
-	   private void startPersoncenter(){
-//		   Intent intent = new Intent(getActivity(),UserCenterActivity.class);
-//		   startActivity(intent);
+	   private void startPersoncenter(Context context){
+		   PageIntent intent=new PageIntent();
+		   intent.toUserCenter(context);
 	   }
+	public void showData(){
+		mNoVideoContainer.setVisibility(View.GONE);
+		mNoVideoContainer.setBackgroundResource(R.drawable.no_record);
+		gideview_layuot.setVisibility(View.VISIBLE);
+		mScrollableSectionList.setVisibility(View.VISIBLE);
+		mHGridView.setVisibility(View.VISIBLE);
+		collect_or_history_txt.setVisibility(View.GONE);
+	}
 }

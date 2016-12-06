@@ -25,8 +25,8 @@
            android:layout_height="@dimen/listportait_imageview_h"
            android:background="@drawable/orderlistdivide"
            android:gravity="center_vertical"
-           android:paddingLeft="@dimen/divider_blowhead_ML"
-           android:paddingRight="@dimen/listportait_imageview_margin"/>
+           android:layout_marginLeft="@dimen/divider_blowhead_ML"
+           android:layout_marginRight="@dimen/listportait_shaw_left"/>
 
 <LinearLayout
             android:id="@+id/filter_fragment_container"

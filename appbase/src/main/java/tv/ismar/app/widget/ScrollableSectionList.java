@@ -294,7 +294,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
 //                Log.i("LH/", "sectionfocus:"+index+" "+mSelectPosition);
                 if (index == mSelectPosition) {
                     sectionWhenGoto = label;
-                 //   section_image.setImageResource(R.drawable.gotogridview);
+                  section_image.setImageResource(R.drawable.gotogridview);
                  //   v.startAnimation(scaleBigAnimation);
                     return;
                 }

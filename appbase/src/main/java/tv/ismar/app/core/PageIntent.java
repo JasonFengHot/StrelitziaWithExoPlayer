@@ -1,6 +1,7 @@
 package tv.ismar.app.core;
 
 import android.app.Activity;
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;

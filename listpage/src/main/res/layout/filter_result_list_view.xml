@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/gridview_channel_panel_height"
         android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/filter_portraitresult_top_layout_ml">
+        android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin">
     <TextView
         android:text="搜索结果 :"
         android:id="@+id/filter_result_txt"
@@ -82,13 +82,13 @@
                 sakura:rowHeight="@dimen/listview_hgride_rowHeight"
                 sakura:selectorDrawable="@drawable/vod_gv_selector"
                 sakura:verticalSpacing="0dip"
-                sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"
-                sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"
-                sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"
+                sakura:selectionLeftPadding="@dimen/filter_Hgride_select_padding"
+                sakura:selectionTopPadding="@dimen/filter_Hgride_select_padding"
+                sakura:selectionRightPadding="@dimen/filter_Hgride_select_padding"
                 sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
-                android:paddingTop="@dimen/filter_result_list_filter_grid_pr"
-                android:layout_marginTop="@dimen/filmitem_portrait_middle_btn_ml"
-                android:layout_marginLeft="@dimen/listportait_Hgride_ml"
+                android:paddingTop="@dimen/filter_Hgride_PT"
+                android:layout_marginTop="@dimen/filter_Hgride_MT"
+                android:layout_marginLeft="@dimen/listview_Hgride_ml"
                 android:layout_marginRight="@dimen/filmitem_portrait_middle_btn_ml"
                 android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
                 android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
@@ -189,17 +189,17 @@
                     sakura:rowHeight="@dimen/filter_noresult_Gride_rowHeight"
                     sakura:selectorDrawable="@drawable/vod_gv_selector"
                     sakura:verticalSpacing="0dp"
-                    sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"
-                    sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"
-                    sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"
-                    sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
-                   android:paddingTop="@dimen/filter_result_list_filter_grid_pt"
-                android:layout_marginTop="@dimen/filter_noresult_Gride_MT"
-                android:layout_marginLeft="@dimen/filter_noresult_Gride_ML"
+                    sakura:selectionLeftPadding="@dimen/filter_Hgride_select_padding"
+                    sakura:selectionTopPadding="@dimen/filter_Hgride_select_padding"
+                    sakura:selectionRightPadding="@dimen/filter_Hgride_select_padding"
+                    sakura:selectionBottomPadding="@dimen/filter_Hgride_select_paddingBttom"
+                   android:paddingTop="@dimen/filter_Hgride_noresult_PT"
+                android:layout_marginTop="@dimen/filter_Hgride_noresult_MT"
+                android:layout_marginLeft="@dimen/filter_Hgride_noresult_ML"
                 android:layout_marginRight="@dimen/filter_noresult_Gride_ML"
                 android:layout_marginBottom="@dimen/filter_noresult_Gride_MB"
                 android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
-                android:paddingLeft="@dimen/filter_result_list_filter_grid_pl">
+                android:paddingLeft="@dimen/filter_Hgride_noresult_PL">
             </tv.ismar.app.ui.HGridView>
         </RelativeLayout>
   </LinearLayout>

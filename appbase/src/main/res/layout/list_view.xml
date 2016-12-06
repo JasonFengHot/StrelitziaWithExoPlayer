@@ -132,9 +132,9 @@
             sakura:numRows="3"
             sakura:rowHeight="@dimen/listview_hgride_rowHeight"
             sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
-            sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"
-            sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"
-            sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"
+            sakura:selectionLeftPadding="@dimen/filter_Hgride_select_padding"
+            sakura:selectionRightPadding="@dimen/filter_Hgride_select_padding"
+            sakura:selectionTopPadding="@dimen/filter_Hgride_select_padding"
             sakura:selectorDrawable="@drawable/vod_gv_selector"
             sakura:verticalSpacing="0dip" >
         </tv.ismar.app.ui.HGridView>

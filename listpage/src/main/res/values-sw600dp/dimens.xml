@@ -261,6 +261,16 @@
 <dimen name="filter_groupView_H">70.00dp</dimen>
 <dimen name="filter_radio_H">26.67dp</dimen>
 <dimen name="filter_radio_W">40.00dp</dimen>
+<dimen name="filter_Hgride_select_padding">11.67dp</dimen>
+<dimen name="filter_Hgride_select_paddingBttom">-22.22dp</dimen>
+<dimen name="filter_Hgride_select_hasresult_PB">-33.33dp</dimen>
+<dimen name="filter_Hgride_noresult_ML">86.11dp</dimen>
+<dimen name="filter_Hgride_noresult_PL">8.89dp</dimen>
+<dimen name="filter_Hgride_PT">8.33dp</dimen>
+<dimen name="filter_Hgride_MT">3.89dp</dimen>
+<dimen name="filter_Hgride_noresult_PT">6.67dp</dimen>
+<dimen name="filter_Hgride_noresult_MT">22.22dp</dimen>
+
 <!-- channel_section_tabs -->
 <dimen name="channel_section_tabs_W">129.44dip</dimen>
 <dimen name="channel_section_tabs_H">47.22dip</dimen>
