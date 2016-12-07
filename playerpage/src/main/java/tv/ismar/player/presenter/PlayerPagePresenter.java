@@ -1,5 +1,7 @@
 package tv.ismar.player.presenter;
 
+import android.util.Log;
+
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -10,6 +12,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.util.Utils;
 import tv.ismar.player.PlayerPageContract;
 
 /**
@@ -77,6 +80,10 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
     public void fetchMediaUrl(String clipUrl, String sign, String code) {
         if (mApiMediaUrlSubsc != null && !mApiMediaUrlSubsc.isUnsubscribed()) {
             mApiMediaUrlSubsc.unsubscribe();
+        }
+        if(Utils.isEmptyText(clipUrl)){
+            Log.e(TAG, "clipUrl is null.");
+            return;
         }
         mApiMediaUrlSubsc = mSkyService.fetchMediaUrl(clipUrl, sign, code)
                 .subscribeOn(Schedulers.io())

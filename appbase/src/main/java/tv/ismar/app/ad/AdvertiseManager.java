@@ -43,15 +43,13 @@ public class AdvertiseManager {
     public static final String BOOT_ADV_PLAY_EXCEPTION_STRING = "展示广告失败";
 
     private DateFormat dateFormat;
-    private DateFormat timeFormat;
     private Context mContext;
     private OkHttpClient mOkHttpClient;
     private FileUtils fileUtils = new FileUtils();
 
     public AdvertiseManager(Context context) {
         mContext = context;
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        timeFormat = new SimpleDateFormat("HH:mm:ss");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (!fileUtils.isFileExist(context.getFilesDir() + "/" + AdvertiseManager.AD_DIR)) {
             try {
                 fileUtils.createDir(context.getFilesDir() + "/" + AdvertiseManager.AD_DIR);
@@ -64,19 +62,12 @@ public class AdvertiseManager {
     public List<AdvertiseTable> getAppLaunchAdvertisement() {
         Date todayDate = TrueTime.now();
         long todayDateTime = todayDate.getTime();
-        long todayHour = 0;
-        try {
-            todayHour = timeFormat.parse(timeFormat.format(todayDate)).getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         List<AdvertiseTable> advertisementTables = new Select().from(AdvertiseTable.class)
                 .where(AdvertiseTable.START_DATE + " < ?", todayDateTime)
                 .where(AdvertiseTable.END_DATE + " > ?", todayDateTime)
-                .where(AdvertiseTable.EVERYDAY_TIME_FROM + " < ?", todayHour)
-                .where(AdvertiseTable.EVERYDAY_TIME_TO + " > ?", todayHour)
                 .execute();
         if (advertisementTables == null || advertisementTables.isEmpty()) {
+            Log.i(TAG, "advertisementTables null");
             advertisementTables = new ArrayList<>();
             AdvertiseTable advTable = new AdvertiseTable();
             advTable.duration = 5;
@@ -125,13 +116,12 @@ public class AdvertiseManager {
         AdvertiseTable advertiseTable = new AdvertiseTable();
         advertiseTable.title = adElementEntity.getTitle();
         try {
-            advertiseTable.start_date = dateFormat.parse(adElementEntity.getStart_date()).getTime();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(dateFormat.parse(adElementEntity.getEnd_date()));
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            advertiseTable.end_date = calendar.getTime().getTime();
-            advertiseTable.everyday_time_from = timeFormat.parse(adElementEntity.getStart_time()).getTime();
-            advertiseTable.everyday_time_to = timeFormat.parse(adElementEntity.getEnd_time()).getTime();
+            String start_date = adElementEntity.getStart_date() + " " + adElementEntity.getStart_time();
+            String end_date = adElementEntity.getEnd_date() + " " + adElementEntity.getEnd_time();
+            advertiseTable.start_date = dateFormat.parse(start_date).getTime();
+            advertiseTable.end_date = dateFormat.parse(end_date).getTime();
+//            advertiseTable.everyday_time_from = timeFormat.parse().getTime();
+//            advertiseTable.everyday_time_to = timeFormat.parse().getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -144,6 +134,8 @@ public class AdvertiseManager {
         advertiseTable.type = LAUNCH_APP_ADVERTISEMENT;
         advertiseTable.media_id = String.valueOf(adElementEntity.getMedia_id());
         advertiseTable.save();
+
+        Log.i(TAG, "downloadStartAd success------>");
 
     }
 

@@ -57,8 +57,8 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
 
     @Override
     public void loadAppStartAd(List<AdElementEntity> adList) {
-        Log.d(TAG, "loadAppStartAd:" + adList);
         if (adList != null && !adList.isEmpty()) {
+            Log.d(TAG, "loadAppStartAd:" + adList.size());
             List<AdElementEntity> needDownloadAds = new ArrayList<>();
             List<AdvertiseTable> advertisementTables = new Select().from(AdvertiseTable.class).execute();
             if (advertisementTables == null || advertisementTables.isEmpty()) {
@@ -67,11 +67,12 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                 // 数据库中没有的数据需要下载,数据库中有服务器没有的需要删除,都有的不下载
                 Map<String, AdElementEntity> adMaps = new HashMap<>();
                 for (AdElementEntity adEntity : adList) {
+                    Log.i(TAG, "ServerAd:" + adEntity.getMedia_url());
                     adMaps.put(adEntity.getMedia_url(), adEntity);
                 }
                 for (AdvertiseTable adTables : advertisementTables) {
                     String mediaUrl = adTables.media_url;
-                    Log.i(TAG, "mediaUrl:" + mediaUrl);
+                    Log.i(TAG, "LocalAd:" + mediaUrl);
                     if (!adMaps.containsKey(mediaUrl)) {
                         // 接口返回数据没有,数据库有,需要删除
                         File file = new File(
@@ -84,12 +85,13 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                                     .execute();
                         }
 
-                    } else {
+                    } else if(adMaps.containsKey(mediaUrl)) {
                         // 接口返回数据和数据库都有,无需下载
                         adMaps.remove(mediaUrl);
                     }
                 }
                 for (Map.Entry<String, AdElementEntity> entry : adMaps.entrySet()) {
+                    Log.i(TAG, "needDownloadAds:" + entry.getValue());
                     needDownloadAds.add(entry.getValue());
                 }
             }

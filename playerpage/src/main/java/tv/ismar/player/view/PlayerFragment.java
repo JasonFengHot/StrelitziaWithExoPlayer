@@ -1564,7 +1564,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void exitPlayer() {
         if (isPlayInDetailPage) {
-            addHistory(mCurrentPosition, false);
+            addHistory(mCurrentPosition, true);
             onHidePlayerPageListener.onHide();
         } else {
             getActivity().finish();
