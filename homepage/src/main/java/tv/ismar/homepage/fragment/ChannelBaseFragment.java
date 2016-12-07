@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import tv.ismar.app.core.PageIntent;
@@ -120,6 +121,7 @@ public class ChannelBaseFragment extends Fragment {
                 mContext.startActivity(intent);
             } else {
                 pk = SimpleRestClient.getItemId(url, new boolean[1]);
+                Log.i("basefragment",url);
                 if ("item".equals(mode_name)) {
                     pk = SimpleRestClient.getItemId(url, new boolean[1]);
                     PageIntent pageIntent = new PageIntent();
@@ -132,6 +134,7 @@ public class ChannelBaseFragment extends Fragment {
                     intent.putExtra("title", title);
                     intent.putExtra("itemlistUrl", url);
                     intent.putExtra("lableString", title);
+                    intent.putExtra("pk",pk);
                     intent.setAction("tv.ismar.daisy.packagelist");
                     mContext.startActivity(intent);
                 } else if ("package".equals(mode_name)) {

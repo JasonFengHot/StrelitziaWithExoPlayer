@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.Utils.LogUtils;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
@@ -392,6 +393,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 
                         @Override
                         public void onError(Throwable e) {
+                            LogUtils.loadException("channel ","result ","","getItemList",0,"","","server",e.toString());
                             super.onError(e);
                         }
                     });
@@ -419,6 +421,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 
                         @Override
                         public void onError(Throwable e) {
+                            LogUtils.loadException("channel ","result ","","getItemList",0,"","","server",e.toString());
                             super.onError(e);
                         }
                     });
@@ -463,12 +466,15 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                                     showDialog();
                                 }
                             } catch (Exception e) {
+                                LogUtils.loadException("channel ","result ","","getItemList",0,"","","client",e.toString());
+
                                 e.printStackTrace();
                             }
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            LogUtils.loadException("channel ","result ","","getItemList",0,"","","server",e.toString());
                             super.onError(e);
                         }
                     });

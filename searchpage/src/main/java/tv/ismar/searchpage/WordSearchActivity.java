@@ -4,6 +4,7 @@ import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -114,6 +115,29 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 lay_focus.requestFocus();
                 errorDialog.show();
 
+            }else if(msg.what==2){
+                editable = et_input.getText();
+                int start = et_input.getSelectionStart();
+                if (editable != null && editable.length() > 0)
+                    editable.delete(start - 1, start);
+                handler.sendEmptyMessageDelayed(2,300);
+                if (et_input.getText().length() == 0) {
+                    handler.removeMessages(2);
+                    //��������գ���ʾ�����ȴʽ���
+                    tv_search_all.setVisibility(View.INVISIBLE);
+                    today_hotword.setVisibility(View.VISIBLE);
+                    /**
+                     * 刷新列表
+                     */
+                    if (hotWordsList != null) {
+                        ll_hotwords.setVisibility(View.VISIBLE);
+                        for (int i = 0; i < hotWordsList.size(); i++) {
+                            if (hotWordsList.size() > 0) {
+                                ((TextView) ll_hotwords.getChildAt(i).findViewById(R.id.tv_hotword)).setText(hotWordsList.get(i));
+                            }
+                        }
+                    }
+                }
             }
         }
     };
@@ -425,6 +449,22 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
             }
         });
         tv_back.setOnClickListener(this);
+        tv_back.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    handler.removeMessages(2);
+                }
+                return false;
+            }
+        });
+        tv_back.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                handler.sendEmptyMessage(2);
+                return false;
+            }
+        });
         tv_key_0.setOnClickListener(this);
         tv_t9.setOnClickListener(this);
         tv_back.setOnFocusChangeListener(this);

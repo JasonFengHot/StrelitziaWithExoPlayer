@@ -2,10 +2,7 @@ package tv.ismar.app.ad;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.File;
@@ -60,6 +57,7 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
 
     @Override
     public void loadAppStartAd(List<AdElementEntity> adList) {
+        Log.d(TAG, "loadAppStartAd:" + adList);
         if (adList != null && !adList.isEmpty()) {
             List<AdElementEntity> needDownloadAds = new ArrayList<>();
             List<AdvertiseTable> advertisementTables = new Select().from(AdvertiseTable.class).execute();
@@ -69,11 +67,12 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                 // 数据库中没有的数据需要下载,数据库中有服务器没有的需要删除,都有的不下载
                 Map<String, AdElementEntity> adMaps = new HashMap<>();
                 for (AdElementEntity adEntity : adList) {
-                    adMaps.put(adEntity.getMd5(), adEntity);
+                    adMaps.put(adEntity.getMedia_url(), adEntity);
                 }
                 for (AdvertiseTable adTables : advertisementTables) {
-                    String tableMd5 = adTables.md5;
-                    if (!adMaps.containsKey(tableMd5)) {
+                    String mediaUrl = adTables.media_url;
+                    Log.i(TAG, "mediaUrl:" + mediaUrl);
+                    if (!adMaps.containsKey(mediaUrl)) {
                         // 接口返回数据没有,数据库有,需要删除
                         File file = new File(
                                 getFilesDir() + "/" + AdvertiseManager.AD_DIR + "/" +
@@ -81,13 +80,13 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                         );
                         if (file.exists() && file.delete()) {
                             new Delete().from(AdvertiseTable.class)
-                                    .where(AdvertiseTable.MD5 + " = ", tableMd5)
+                                    .where(AdvertiseTable.MEDIA_URL + "=?", mediaUrl)
                                     .execute();
                         }
 
                     } else {
                         // 接口返回数据和数据库都有,无需下载
-                        adMaps.remove(tableMd5);
+                        adMaps.remove(mediaUrl);
                     }
                 }
                 for (Map.Entry<String, AdElementEntity> entry : adMaps.entrySet()) {
@@ -99,6 +98,9 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                 advertiseManager.updateAppLaunchAdvertisement(needDownloadAds);
             }
 
+        } else {
+            Log.d(TAG, "delete all ads");
+            new Delete().from(AdvertiseTable.class).execute();
         }
 
     }

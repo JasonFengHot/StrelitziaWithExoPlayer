@@ -17,7 +17,7 @@ public class AdElementEntity {
     private Map<String, String> coordinate;//打点标签在播放器中的坐标位置
     private String[] monitor;//广告监测地址，数据格式为数组格式，监测地址可有多个；
     private String report_url;//客户端广告曝光上报地址
-    private String md5;//只有图片有MD5值
+    private String md5;//
     private String media_type;//video,img,html  广告视频，图片，网页
     private int serial;//第几个展示，从0开始表示第一个
     private int start;//第几秒开始

@@ -33,6 +33,7 @@ import okhttp3.HttpUrl;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.Utils.LogUtils;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.adapter.RecommecdItemAdapter;
 import tv.ismar.app.BaseActivity;
@@ -256,6 +257,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					@Override
 					public void onNext(Item[] items) {
 						mLoadingDialog.dismiss();
+						try{
 						if(items!=null){
 							mItemCollections = new ArrayList<ItemCollection>();
 							int num_pages = (int) Math.ceil((float)items.length / (float)ItemCollection.NUM_PER_PAGE);
@@ -279,10 +281,14 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 						}else{
 							no_video();
 						}
+					}catch (Exception e){
+							LogUtils.loadException("favorite ","favorite ","","",0,"","","client",e.toString());
+						}
 					}
 
 					@Override
 					public void onError(Throwable e) {
+						LogUtils.loadException("favorite ","favorite ","","",0,"","","",e.toString());
 						super.onError(e);
 					}
 				});
@@ -322,17 +328,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
             int num_pages = (int) Math.ceil((float)FavoriteLists.size() / (float)ItemCollection.NUM_PER_PAGE);
             ItemCollection itemCollection = new ItemCollection(num_pages, FavoriteLists.size(), "1", "1");
             mItemCollections.add(itemCollection);
-           // mItemCollections.get(0).fillItems(0, FavoriteLists);
-//			for(Section section:mSectionList) {
-//				ItemCollection itemCollection= itemCollectionMap.get(section.slug);
-//				int count = itemCollection.objects.size();
-//				itemCollection.num_pages = (int)FloatMath.ceil((float)count / (float)ItemCollection.NUM_PER_PAGE);
-//				section.count = count;
-//				// we have already complete data collection.
-//				itemCollection.hasFilledValidItem = new boolean[itemCollection.num_pages];
-//				Arrays.fill(itemCollection.hasFilledValidItem, true);
-//				mItemCollections.add(itemCollection);
-//			}
 			return null;
 		}
 
@@ -343,8 +338,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			}
 
 			isInGetFavoriteTask = false;
-
-//			mScrollableSectionList.init(mSectionList, 1365,false);
 
 			mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections,false);
             mHGridAdapter.setList(mItemCollections);
@@ -416,25 +409,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		protected Integer doInBackground(Item... params) {
 			item = params[0];
 			mCurrentGetItemTask.put(item.url, this);
-			Item i;
-//			try {
-//			//	i = mRestClient.getItem(item.url);
-//                return ITEM_SUCCESS_GET;
-//			} catch (ItemOfflineException e) {
-//				e.printStackTrace();
-//				return ITEM_OFFLINE;
-//			} catch (JsonSyntaxException e) {
-//				e.printStackTrace();
-//				return NETWORK_EXCEPTION;
-//			} catch (NetworkException e) {
-//				e.printStackTrace();
-//				return NETWORK_EXCEPTION;
-//			}
-//			if(i==null) {
-//				return NETWORK_EXCEPTION;
-//			} else {
-//				return ITEM_SUCCESS_GET;
-//			}
             return ITEM_SUCCESS_GET;
 		}
 
@@ -523,7 +497,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		if(item.is_complex) {
 			pageIntent.toDetailPage(getActivity(),"favorite",id);
 		} else {
-			pageIntent.toPlayPage(getActivity(),item.pk,0,Source.FAVORITE);
+			pageIntent.toPlayPage(getActivity(),id,0,Source.FAVORITE);
 		}
 		if(mLoadingDialog!=null && mLoadingDialog.isShowing()) {
 			mLoadingDialog.dismiss();
@@ -641,7 +615,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 				}
 			}
 			break;
-//		case 3 : SakuraUtils.startSakura(getActivity());break;
+		case 3 : startSakura(getActivity());break;
 		case 4 : startPersoncenter(getActivity());break;
 		}
 	}
@@ -657,6 +631,12 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					@Override
 					public void onNext(ResponseBody responseBody) {
 						no_video();
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						LogUtils.loadException("favorite ","favorite ","","emptyall",0,"","","server",e.toString());
+						super.onError(e);
 					}
 				});
 	}
@@ -751,6 +731,12 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					public void onNext(VideoEntity videoEntity) {
 						setTvHome(videoEntity);
 					}
+
+					@Override
+					public void onError(Throwable e) {
+						LogUtils.loadException("favorite ","favorite ","","getTvhome",0,"","","server",e.toString());
+						super.onError(e);
+					}
 				});
 	}
 
@@ -758,6 +744,10 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		   PageIntent intent=new PageIntent();
 		   intent.toUserCenter(context);
 	   }
+	private void startSakura(Context context){
+		PageIntent intent=new PageIntent();
+		intent.toHelpPage(context);
+	}
 	public void showData(){
 		mNoVideoContainer.setVisibility(View.GONE);
 		mNoVideoContainer.setBackgroundResource(R.drawable.no_record);

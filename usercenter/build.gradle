@@ -33,5 +33,4 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(path: ':appbase')
     compile project(path: ':paypage')
-    compile project(path: ':helperpage')
 }
