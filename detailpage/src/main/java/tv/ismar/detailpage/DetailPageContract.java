@@ -22,6 +22,7 @@ public interface DetailPageContract {
 
         Context getContext();
 
+        void onError();
     }
 
 

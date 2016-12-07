@@ -84,6 +84,13 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                     }
 
                     @Override
+                    public void onError(Throwable e) {
+                        mDetailView.onError();
+                        super.onError(e);
+
+                    }
+
+                    @Override
                     public void onNext(ItemEntity itemEntity) {
                         mItemEntity = itemEntity;
                         mDetailView.loadItem(itemEntity);
@@ -206,6 +213,12 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                     @Override
                     public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mDetailView.onError();
+                        super.onError(e);
                     }
 
                     @Override

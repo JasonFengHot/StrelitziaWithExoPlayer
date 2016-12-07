@@ -278,6 +278,11 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     }
 
     @Override
+    public void onError() {
+        hideLoading();
+    }
+
+    @Override
     public void setPresenter(DetailPageContract.Presenter presenter) {
         mPresenter = presenter;
     }

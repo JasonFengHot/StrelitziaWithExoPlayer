@@ -101,7 +101,7 @@ public class PlayerBuilder {
                 ismartvPlayer = new DaisyPlayer();
                 break;
             case MODE_QIYI_PLAYER:
-                ismartvPlayer = new QiyiPlayer();
+                ismartvPlayer = new DaisyPlayer();
                 break;
         }
         if (ismartvPlayer == null) {
