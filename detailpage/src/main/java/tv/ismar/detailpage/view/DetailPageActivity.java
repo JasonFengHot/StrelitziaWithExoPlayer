@@ -196,13 +196,13 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             finish();
             return;
         }
-        playerFragment.onPlayerFragment = false;
-        playerFragment.subItemPk = 0;
-        playerFragment.initPlayer();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.hide(playerFragment);
         fragmentTransaction.show(detailPageFragment);
         fragmentTransaction.commit();
+        playerFragment.onPlayerFragment = false;
+        playerFragment.subItemPk = 0;
+        playerFragment.initPlayer();
 
     }
 

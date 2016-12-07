@@ -489,6 +489,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         player_logo_image.setVisibility(View.GONE);
         mIsPlayingAd = false;
         mIsInAdDetail = false;
+        isShowExit = false;
         ad_vip_btn.setVisibility(View.GONE);
         ad_count_text.setVisibility(View.GONE);
         hideMenu();
@@ -620,7 +621,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onCompleted() {
-        if (mIsmartvPlayer == null && !onPlayerFragment) {
+        if ((mIsmartvPlayer == null && !onPlayerFragment) || isShowExit) {
             return;
         }
         mCurrentPosition = 0;
@@ -1176,9 +1177,17 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             if(subItemPk == h_subPK){
                 mCurrentPosition = (int) mHistory.last_position;
             }
-            if(mCurrentQuality == null){
-                // 首次进入播放器分辨率为空的情况下才去查询历史记录，否则以当前播放器选择分辨率为主
-                mCurrentQuality = ClipEntity.Quality.getQuality(mHistory.last_quality);
+//            if(mCurrentQuality == null){
+//                // 首次进入播放器分辨率为空的情况下才去查询历史记录，否则以当前播放器选择分辨率为主
+//                mCurrentQuality = ClipEntity.Quality.getQuality(mHistory.last_quality);
+//            }
+        }
+
+        // 获取历史分辨率
+        if(mCurrentQuality == null){
+            DBQuality dbQuality = historyManager.getQuality();
+            if(dbQuality != null){
+                mCurrentQuality = ClipEntity.Quality.getQuality(dbQuality.quality);
             }
         }
 
@@ -1311,6 +1320,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mCurrentQuality = clickQuality;
             mModel.updateQuality();
             // 写入数据库
+            if (historyManager == null) {
+                historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+            }
             historyManager.addOrUpdateQuality(new DBQuality(0, "", mIsmartvPlayer.getCurrentQuality().getValue()));
             ret = true;
         } else if (id > MENU_TELEPLAY_ID_START) {
@@ -1381,7 +1393,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showBuffer(String msg) {
-        if (mIsOnPaused) {
+        if (mIsOnPaused || isShowExit) {
             return;
         }
         if (msg != null) {
@@ -1475,6 +1487,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
         timerStop();
+        hideBuffer();
+        hidePanel();
         if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
             mIsmartvPlayer.pause();
         }
