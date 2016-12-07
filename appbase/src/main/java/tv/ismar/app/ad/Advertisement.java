@@ -102,10 +102,6 @@ public class Advertisement {
 
                     @Override
                     public void onError(Throwable e) {
-                        if (mApiVideoStartSubsc != null && !mApiVideoStartSubsc.isUnsubscribed()) {
-                            mApiVideoStartSubsc.unsubscribe();
-                        }
-
                         if (mOnVideoPlayAdListener != null) {
                             if (adPid.equals(Advertisement.AD_MODE_ONPAUSE)) {
                                 mOnVideoPlayAdListener.loadPauseAd(null);
@@ -114,14 +110,14 @@ public class Advertisement {
                             }
                         }
 
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
                         if (mApiVideoStartSubsc != null && !mApiVideoStartSubsc.isUnsubscribed()) {
                             mApiVideoStartSubsc.unsubscribe();
                         }
 
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
                         String result = null;
                         try {
                             result = responseBody.string();
@@ -143,6 +139,10 @@ public class Advertisement {
                             mOnVideoPlayAdListener.loadPauseAd(adElementEntityList);
                         } else {
                             mOnVideoPlayAdListener.loadVideoStartAd(adElementEntityList);
+                        }
+
+                        if (mApiVideoStartSubsc != null && !mApiVideoStartSubsc.isUnsubscribed()) {
+                            mApiVideoStartSubsc.unsubscribe();
                         }
                     }
                 });
@@ -168,19 +168,12 @@ public class Advertisement {
                         if (mApiAppStartSubsc != null && !mApiAppStartSubsc.isUnsubscribed()) {
                             mApiAppStartSubsc.unsubscribe();
                         }
-
-                        if (mOnAppStartAdListener != null) {
-                            mOnAppStartAdListener.loadAppStartAd(null);
-                        }
+                        Log.e(TAG, "fetchAppStartAd:" + e.getMessage());
 
                     }
 
                     @Override
                     public void onNext(ResponseBody responseBody) {
-                        if (mApiAppStartSubsc != null && !mApiAppStartSubsc.isUnsubscribed()) {
-                            mApiAppStartSubsc.unsubscribe();
-                        }
-
                         String result = null;
                         try {
                             result = responseBody.string();
@@ -197,8 +190,11 @@ public class Advertisement {
                             return;
                         }
 
-                        List<AdElementEntity> adElementEntityList = parseAdResult(result, adPid);
-                        mOnAppStartAdListener.loadAppStartAd(adElementEntityList);
+                        mOnAppStartAdListener.loadAppStartAd(parseAdResult(result, adPid));
+
+                        if (mApiAppStartSubsc != null && !mApiAppStartSubsc.isUnsubscribed()) {
+                            mApiAppStartSubsc.unsubscribe();
+                        }
                     }
                 });
 
@@ -322,6 +318,8 @@ public class Advertisement {
     }
 
     private List<AdElementEntity> parseAdResult(String result, String adPid) {
+        result = "{\"retcode\":\"200\",\"retmsg\":\"\",\"ads\":{\"kaishi\":[{\"title\":\"power1\",\"media_id\":6,\"description\":\"\",\"media_url\":\"http://bootad.vdata.tvxio.com/topvideo/4953fb1c263fe7cf329a089c5530f72f.mp4?sn=sh_3xrdbg48\",\"tag\":\"\",\"coordinate\":{},\"monitor\":[],\"report_url\":\"\",\"md5\":\"\",\"media_type\":\"video\",\"media_size\":30,\"serial\":0,\"start\":0,\"end\":15,\"duration\":15,\"start_date\":\"2016-07-05\",\"end_date\":\"2016-12-11\",\"start_time\":\"00:00:00\",\"end_time\":\"23:00:00\",\"retcode\":\"200\",\"retmsg\":\"\"}]}}";
+//        result = "{\"retcode\":\"200\",\"retmsg\":\"\",\"ads\":{\"kaishi\":[{\"title\":\"\\u538b\\u529b\\u6d4b\\u8bd53\",\"media_id\":14,\"description\":\"\",\"media_url\":\"http://124.42.65.66:8082/media/clover_image/xiayouqiaomu2_1280_720.png\",\"tag\":\"\",\"coordinate\":{},\"monitor\":[],\"report_url\":\"\",\"md5\":\"8aa51d011dd170e833559f504c7ddc73\",\"media_type\":\"image\",\"media_size\":0,\"serial\":0,\"start\":0,\"end\":5,\"duration\":5,\"start_date\":\"2016-08-24\",\"end_date\":\"2016-12-31\",\"start_time\":\"12:00:00\",\"end_time\":\"23:00:00\",\"retcode\":\"200\",\"retmsg\":\"\"}]}}";
         List<AdElementEntity> adElementEntities = new ArrayList<>();
         try {
             Log.i(TAG, "adPid:" + adPid + " parseAdResult:" + result);
