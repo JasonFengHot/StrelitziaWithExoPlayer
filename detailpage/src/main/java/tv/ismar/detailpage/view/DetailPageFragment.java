@@ -241,13 +241,12 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 //            relTextViews[i].setEllipsize(TextUtils.TruncateAt.MARQUEE);
             relTextViews[i].setText(itemEntities[i].getTitle());
 
-            if (!mItemEntity.getContentModel().equals("movie")) {
-                relFocusTextViews[i].setText(itemEntities[i].getFocus());
-            } else {
+            if (mMovieBinding != null || mEntertainmentBinding != null) {
                 relRelImageViews[i].setLivLabelText(itemEntities[i].getFocus());
+
+            } else {
+                relFocusTextViews[i].setText(itemEntities[i].getFocus());
             }
-
-
         }
         relateIsLoad = true;
         hideLoading();
