@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -376,6 +377,7 @@ public class VodApplication extends Application {
     protected void attachBaseContext(Context base) {
         Log.i("LH/", "attachBaseContext:" + System.currentTimeMillis());
         super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initTrueTime(final Context context) {
