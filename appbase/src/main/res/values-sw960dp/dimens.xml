@@ -459,6 +459,16 @@
 <dimen name="HGridView_label_textleft">21.33dip</dimen>
 <dimen name="HGridView_label_texttop">49.78dip</dimen>
 
+<dimen name="filter_Hgride_select_padding">18.67dp</dimen>
+<dimen name="filter_Hgride_select_paddingBttom">-35.56dp</dimen>
+<dimen name="filter_Hgride_select_hasresult_PB">-53.33dp</dimen>
+<dimen name="filter_Hgride_noresult_ML">137.78dp</dimen>
+<dimen name="filter_Hgride_noresult_PL">14.22dp</dimen>
+<dimen name="filter_Hgride_PT">13.33dp</dimen>
+<dimen name="filter_Hgride_MT">6.22dp</dimen>
+<dimen name="filter_Hgride_noresult_PT">10.67dp</dimen>
+<dimen name="filter_Hgride_noresult_MT">35.56dp</dimen>
+
 <dimen name="ZGridView_related_selectorLeftPadding">21.16dip</dimen>
 <dimen name="ZGridView_related_selectorTopPadding">21.16dip</dimen>
 <dimen name="ZGridView_related_selectorRightPadding">21.16dip</dimen>
