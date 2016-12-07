@@ -66,7 +66,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         ismartv_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PageIntent pageIntent=new PageIntent();
+                PageIntent pageIntent = new PageIntent();
                 pageIntent.toHelpPage(HelpFragment.this.getContext());
             }
         });

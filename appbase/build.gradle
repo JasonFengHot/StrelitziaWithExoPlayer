@@ -27,7 +27,7 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(path: ':account')
+    compile project(':account')
     compile project(':ismartv_db')
     compile project(':ismartv_downloader')
     compile project(':ismartv_imagereflection')
