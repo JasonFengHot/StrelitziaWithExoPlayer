@@ -34,6 +34,7 @@ import tv.ismar.app.models.HotWords;
 import tv.ismar.app.models.Recommend;
 import tv.ismar.app.models.VodFacetEntity;
 import tv.ismar.app.models.VodSearchRequestEntity;
+import tv.ismar.app.network.SkyService;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.searchpage.adapter.KeyboardAdapter;
@@ -317,6 +318,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                     fileDescriptor.getLength());
             mediaPlayer.prepare();
         } catch (IOException e) {
+            JasmineUtil.loadException("search","","","",0,"",DeviceUtils.getVersionCode(this),"client",e.getMessage());
             e.printStackTrace();
         }
 
@@ -1068,6 +1070,10 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onNext(VodFacetEntity vodFacetEntity) {
+                        if(vodFacetEntity==null){
+                            JasmineUtil.loadException("search","filter","",type,0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/vodsearch/",DeviceUtils.getVersionCode(WordSearchActivity.this),"data","");
+                            return;
+                        }
                         if(type==null){
                             processData(vodFacetEntity,VODSEARCH_CLASS);
                         }else{
@@ -1091,6 +1097,10 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onNext(ArrayList<HotWords> hotWords) {
+                        if(hotWords==null){
+                            JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/hotwords/",DeviceUtils.getVersionCode(WordSearchActivity.this),"data","");
+                            return;
+                        }
                         Log.e("daisy1", hotWords.size()+"");
                         /**
                          * 填充hotwords列表
@@ -1127,6 +1137,10 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onNext(Recommend recommend) {
+                        if(recommend==null){
+                            JasmineUtil.loadException("search","filter_empty","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/homepage/sharphotwords/8/",DeviceUtils.getVersionCode(WordSearchActivity.this),"data","");
+                            return;
+                        }
                         Log.e("daisy2", recommend.count+"");
                         recommendAdapter = new RecommendAdapter(WordSearchActivity.this, recommend.objects);
                         poster_gridview.setAdapter(recommendAdapter);
@@ -1146,7 +1160,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 });
     }
 
-    private void fetchkeyWord(String args) {
+    private void fetchkeyWord(final String args) {
 
         mSkyService.apiSearchSuggest(args)
                 .subscribeOn(Schedulers.io())
@@ -1159,6 +1173,10 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onNext(List<String> resultWord) {
+                        if(resultWord==null){
+                            JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/suggest/"+args+"/?device_token==&access_token=/",DeviceUtils.getVersionCode(WordSearchActivity.this),"data","");
+                            return;
+                        }
                         Log.e("daisy3", resultWord.size()+"");
                         if ( resultWord.size() > 0) {
                             /**

@@ -20,27 +20,26 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-import java.util.HashMap;
 import java.util.List;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
-import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.models.ActorRelateRequestParams;
 import tv.ismar.app.models.AttributesEntity;
 import tv.ismar.app.models.Expense;
 import tv.ismar.app.models.PersonEntitiy;
 import tv.ismar.app.models.SemanticSearchResponseEntity;
 import tv.ismar.app.models.SemantichObjectEntity;
-import tv.ismar.app.network.entity.EventProperty;
+import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.searchpage.utils.JasmineUtil;
 import tv.ismar.searchpage.weight.MyDialog;
 import tv.ismar.searchpage.weight.ReflectionTransformationBuilder;
 import tv.ismar.searchpage.weight.RotateTextView;
-import tv.ismar.app.BaseActivity;
 
 /**
  * Created by huaijie on 2/22/16.
@@ -192,7 +191,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
     }
 
-    private void fetchPersonBG(String personId) {
+    private void fetchPersonBG(final String personId) {
         mSkyService.apiFetchPersonBG(personId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -204,6 +203,10 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
                     @Override
                     public void onNext(PersonEntitiy personEntitiy) {
+                        if(personEntitiy==null){
+                            JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/person/"+personId+"/", DeviceUtils.getVersionCode(FilmStarActivity.this),"data","");
+                            return;
+                        }
                         setPersonBG(personEntitiy.getImage());
                     }
 
@@ -235,6 +238,10 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
                     @Override
                     public void onNext(SemanticSearchResponseEntity semanticSearchResponseEntity) {
+                            if(semanticSearchResponseEntity==null){
+                               JasmineUtil.loadException("search","","","", (int) pk, IsmartvActivator.getInstance().getApiDomain()+"api/tv/actorrelate/", DeviceUtils.getVersionCode(FilmStarActivity.this),"data","");
+                               return;
+                            }
                             SemanticSearchResponseEntity entity = semanticSearchResponseEntity;
                             indicatorListLayout.removeAllViews();
                             horizontalScrollView.scrollTo(0, 0);
@@ -282,7 +289,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     }
 
 
-    private void fetchActorRelateByType(long pk, String type) {
+    private void fetchActorRelateByType(final long pk, final String type) {
         ActorRelateRequestParams params = new ActorRelateRequestParams();
         params.setActor_id(pk);
         params.setPage_no(1);
@@ -299,6 +306,10 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
                     @Override
                     public void onNext(SemanticSearchResponseEntity semanticSearchResponseEntity) {
+                        if(semanticSearchResponseEntity==null){
+                            JasmineUtil.loadException("search","","",type, (int) pk, IsmartvActivator.getInstance().getApiDomain()+"api/tv/actorrelate/", DeviceUtils.getVersionCode(FilmStarActivity.this),"data","");
+                            return;
+                        }
                             SemanticSearchResponseEntity entity = semanticSearchResponseEntity;
                             fillVodList(entity.getFacet().get(0).getObjects());
                     }
