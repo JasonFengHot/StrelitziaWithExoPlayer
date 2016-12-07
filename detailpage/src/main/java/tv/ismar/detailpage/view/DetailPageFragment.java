@@ -130,6 +130,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         Log.i(TAG, Constants.TEST);
         mPresenter.start();
 //        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
@@ -173,6 +174,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void loadItemRelate(ItemEntity[] itemEntities) {
         relateItems = itemEntities;
         for (int i = 0; i < itemEntities.length && i < relViews; i++) {
+            moreBtnView.setNextFocusLeftId(View.NO_ID);
             switch (mItemEntity.getContentModel()) {
                 case "movie":
                     relRelImageViews[i].setLivUrl(itemEntities[i].getList_url());
@@ -365,6 +367,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             exposideBtnView = mEntertainmentBinding.detailBtnDrama;
             favoriteBtnView = mEntertainmentBinding.detailBtnCollect;
             moreBtnView = mEntertainmentBinding.detailRelativeButton;
+            palyBtnView.setNextFocusDownId(R.id.detail_relative_button);
         } else if ("movie".equals(content_model)) {
             relViews = 6;
             mMovieBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_movie_sharp, container, false);

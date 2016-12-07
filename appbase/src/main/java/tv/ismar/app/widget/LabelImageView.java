@@ -166,9 +166,9 @@ public class LabelImageView extends FrameLayout {
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         Log.i(TAG, "onFocusChanged:" + gainFocus);
-        if (gainFocus) {
+        if (gainFocus && !TextUtils.isEmpty(livUrl)) {
             setBackgroundBorder(true);
-        } else {
+        } else if (!gainFocus && !TextUtils.isEmpty(livUrl)) {
             setBackgroundBorder(false);
         }
     }
