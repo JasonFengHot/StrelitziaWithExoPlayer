@@ -239,6 +239,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
+                        e.printStackTrace();
                     }
 
                     @Override

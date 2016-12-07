@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.ismartv.helperpage">
+          package="tv.ismar.helperpage">
 
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -8,7 +8,7 @@
         <activity
             android:name=".LauncherActivity"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
+        >
             <intent-filter>
                 <action android:name="cn.ismar.sakura.launcher"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -18,10 +18,9 @@
 
         <activity
             android:name=".ui.activity.HomeActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
+        >
         </activity>
     </application>
-
 
 
 </manifest>

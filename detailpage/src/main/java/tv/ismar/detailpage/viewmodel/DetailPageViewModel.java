@@ -17,8 +17,13 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
@@ -439,10 +444,10 @@ public class DetailPageViewModel extends BaseObservable {
             case "variety":
                 ItemEntity[] subItems = mItemEntity.getSubitems();
                 if (subItems == null || subItems.length == 0) {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 && !videoIsStart() ? mContext.getString(R.string.video_preview) :
                             mContext.getString(R.string.video_play);
                 } else {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ?
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 && !videoIsStart() ?
                             mContext.getString(R.string.video_preview)
 //                            + " " + subItems[subItems.length - 1].getSubtitle()
                             :
@@ -451,7 +456,7 @@ public class DetailPageViewModel extends BaseObservable {
                 }
 
             default:
-                return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
+                return mItemEntity.getExpense() != null && mRemandDay <= 0 && !videoIsStart() ? mContext.getString(R.string.video_preview) :
                         mContext.getString(R.string.video_play);
         }
 
@@ -553,5 +558,21 @@ public class DetailPageViewModel extends BaseObservable {
     @Bindable
     public int getCpLogoVisibility() {
         return getCpLogoUrl().equals("error") ? View.INVISIBLE : View.VISIBLE;
+    }
+
+    private boolean videoIsStart() {
+        if (mItemEntity.getStartTime() != null) {
+            Calendar currentCalendar = new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+            currentCalendar.setTime(TrueTime.now());
+            Calendar startCalendar = new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+            startCalendar.setTime(mItemEntity.getStartTime());
+            if (currentCalendar.after(startCalendar)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 }

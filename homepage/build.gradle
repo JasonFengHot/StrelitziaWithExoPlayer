@@ -28,6 +28,5 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':appbase')
-    compile project(':account')
     compile project(':listpage')
 }

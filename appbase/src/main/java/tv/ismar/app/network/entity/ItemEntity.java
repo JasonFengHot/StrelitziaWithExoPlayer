@@ -2,7 +2,7 @@ package tv.ismar.app.network.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ItemEntity {
@@ -64,6 +64,18 @@ public class ItemEntity {
     private Preview preview;
 
     private String subtitle;
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    @SerializedName("start_time")
+    private Date startTime;
+
 
     public String getSubtitle() {
         return subtitle;

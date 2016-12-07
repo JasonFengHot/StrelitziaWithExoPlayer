@@ -32,6 +32,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(path: ':appbase')
-    compile project(path: ':account')
     compile project(path: ':paypage')
+    compile project(path: ':helperpage')
 }

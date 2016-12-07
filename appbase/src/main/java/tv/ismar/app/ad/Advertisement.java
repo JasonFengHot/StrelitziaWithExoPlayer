@@ -1,6 +1,7 @@
 package tv.ismar.app.ad;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
@@ -191,6 +192,7 @@ public class Advertisement {
                             return;
                         }
                         if (Utils.isEmptyText(result)) {
+                            Log.d(TAG, "fetchAppStartAd result null.");
                             mOnAppStartAdListener.loadAppStartAd(null);
                             return;
                         }
@@ -322,15 +324,18 @@ public class Advertisement {
     private List<AdElementEntity> parseAdResult(String result, String adPid) {
         List<AdElementEntity> adElementEntities = new ArrayList<>();
         try {
+            Log.i(TAG, "adPid:" + adPid + " parseAdResult:" + result);
             JSONObject jsonObject = new JSONObject(result);
-            int retcode = jsonObject.getInt("retcode");
-            if (retcode == 200) {
+            String retcode = jsonObject.getString("retcode");
+//            int retcode = jsonObject.getInt("retcode");
+            if (!Utils.isEmptyText(retcode) && retcode.equals("200")) {
                 JSONObject body = jsonObject.getJSONObject("ads");
                 JSONArray arrays = body.getJSONArray(adPid);
                 for (int i = 0; i < arrays.length(); i++) {
                     JSONObject element = arrays.getJSONObject(i);
-                    int elementRetCode = element.getInt("retcode");
-                    if (elementRetCode == 200) {
+                    String elementRetCode = element.getString("retcode");
+//                    int elementRetCode = element.getInt("retcode");
+                    if (!Utils.isEmptyText(elementRetCode) && elementRetCode.equals("200")) {
                         AdElementEntity ad = new Gson().fromJson(element.toString(), AdElementEntity.class);
                         adElementEntities.add(ad);
                     }

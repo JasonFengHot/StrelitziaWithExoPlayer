@@ -1,5 +1,7 @@
 package tv.ismar.app.util;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -74,7 +76,7 @@ public class FileUtils {
         return d;
     }
 
-    public boolean deleteFile(String filename) throws IOException {
+    public static boolean deleteFile(String filename) throws IOException {
         File f = new File(filename);
         return f.delete();
     }
@@ -85,7 +87,7 @@ public class FileUtils {
      * @param sPath 被删除目录的文件路径
      * @return 目录删除成功返回true，否则返回false
      */
-    public boolean deleteDir(String sPath) throws IOException {
+    public static boolean deleteDir(String sPath) throws IOException {
         //如果sPath不以文件分隔符结尾，自动添加文件分隔符
         if (!sPath.endsWith(File.separator)) {
             sPath = sPath + File.separator;
@@ -98,6 +100,10 @@ public class FileUtils {
         boolean flag = true;
         //删除文件夹下的所有文件(包括子目录)
         File[] files = dirFile.listFiles();
+        if(files == null || files.length == 0){
+            Log.i("LH/", "deleteDir empty");
+            return false;
+        }
         for (int i = 0; i < files.length; i++) {
             //删除子文件
             if (files[i].isFile()) {

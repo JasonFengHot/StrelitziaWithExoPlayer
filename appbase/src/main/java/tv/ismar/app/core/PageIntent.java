@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import tv.ismar.app.network.entity.FeedBackEntity;
+
 /**
  * Created by huibin on 9/13/16.
  */

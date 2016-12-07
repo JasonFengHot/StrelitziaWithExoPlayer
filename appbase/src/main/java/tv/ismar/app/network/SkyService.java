@@ -2,9 +2,22 @@ package tv.ismar.app.network;
 
 import android.net.Uri;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -30,12 +43,10 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
-import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemList;
-import tv.ismar.app.entity.Section;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.models.ActorRelateRequestParams;
@@ -153,6 +164,7 @@ public interface SkyService {
     @GET("api/histories/")
     Observable<Item[]> getHistoryByNet(
     );
+
     @FormUrlEncoded
     @POST("api/histories/empty/")
     Observable<ResponseBody> emptyHistory(
@@ -161,6 +173,7 @@ public interface SkyService {
     @GET("api/bookmarks/")
     Observable<Item[]> getBookmarks(
     );
+
     @FormUrlEncoded
     @POST("api/bookmarks/empty/")
     Observable<ResponseBody> emptyBookmarks(
@@ -384,7 +397,7 @@ public interface SkyService {
 
     @POST("api/v2/upgrade/")
     Observable<VersionInfoV2Entity> appUpgrade(
-          @Body List<UpgradeRequestEntity> upgradeRequestEntities
+            @Body List<UpgradeRequestEntity> upgradeRequestEntities
     );
 
     @GET
@@ -393,7 +406,8 @@ public interface SkyService {
             @Url String url,
             @Header("RANGE") String range
     );
-//
+
+    //
 //    @GET("/api/package/relate/{pkg}/")
 //    Observable<Item[]> packageRelate(
 //            @Path("pkg")
@@ -402,19 +416,21 @@ public interface SkyService {
 //            String deviceToken,
 //            @Query("access_token")
 //            String accessToken);
-@GET("{geoId}.xml")
-Observable<ResponseBody> apifetchWeatherInfo(
-        @Path("geoId") String geoId
-);
+    @GET("{geoId}.xml")
+    Observable<ResponseBody> apifetchWeatherInfo(
+            @Path("geoId") String geoId
+    );
 
     @GET
     Observable<Item> apifetchItem(
             @Url String url
     );
+
     @GET
     Observable<ResponseBody> apiCheckItem(
             @Url String url
     );
+
     @GET
     Observable<HomePagerEntity> fetchHomePage(
             @Url String url
@@ -564,9 +580,13 @@ Observable<ResponseBody> apifetchWeatherInfo(
                 e.printStackTrace();
             }
 
+            Gson gson = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    .registerTypeAdapter(Date.class, new DateDeserializer())
+                    .create();
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(appendProtocol(domain[0]))
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
                     .build();
@@ -714,4 +734,21 @@ Observable<ResponseBody> apifetchWeatherInfo(
         }
     }
 
+
+    class DateDeserializer implements JsonDeserializer<Date> {
+        @Override
+        public Date deserialize(JsonElement element, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
+            String date = element.getAsString();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            formatter.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+
+            try {
+                return formatter.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
 }
