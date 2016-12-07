@@ -74,7 +74,6 @@ public class ItemEntity {
     }
 
     @SerializedName("start_time")
-
     private Date startTime;
 
 
