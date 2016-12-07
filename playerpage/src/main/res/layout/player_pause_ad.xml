@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/player_pause_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <Button
+        android:id="@+id/player_pause_close"
+        android:layout_width="@dimen/pause_ad_btn_wh"
+        android:layout_height="@dimen/pause_ad_btn_wh"
+        android:layout_alignRight="@id/player_pause_image"
+        android:layout_alignTop="@id/player_pause_image"
+        android:background="@drawable/ad_close_bt" />
+
+</RelativeLayout>

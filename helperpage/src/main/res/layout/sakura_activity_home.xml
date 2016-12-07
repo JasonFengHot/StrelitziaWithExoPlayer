@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="@drawable/sakura_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView
+            android:layout_marginTop="@dimen/home_logo_margin_top"
+            android:layout_marginLeft="@dimen/home_logo_margin_left"
+            android:layout_width="@dimen/sakura_ismartv_icon_width"
+            android:layout_height="@dimen/sakura_ismartv_icon_height"
+            android:src="@drawable/sakura_logo"
+            />
+
+    <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_marginTop="@dimen/home_viewPager_margin_top"
+            android:layout_height="@dimen/home_viewPager_height"
+            android:layout_width="@dimen/home_viewPager_width"
+            android:layout_centerHorizontal="true"
+            />
+
+    <tv.ismar.sakura.ui.widget.indicator.IconPagerIndicator
+            android:id="@+id/indicator"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/pager"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/home_indicator_margin_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_indicator_height"/>
+
+</RelativeLayout>

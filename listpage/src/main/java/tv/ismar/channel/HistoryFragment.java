@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -301,7 +302,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	}
 	private ArrayList<ItemCollection> mItemCollections;
 	private void getHistoryByNet(){
-		mLoadingDialog.show();
 		skyService.getHistoryByNet().subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(((BaseActivity) getActivity()).new BaseObserver<Item[]>() {
@@ -334,6 +334,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 								}
 								mItemCollections.get(0).fillItems(0, item);
 								mHGridAdapter.setList(mItemCollections);
+								showData();
 							}
 						}
 						else{
@@ -379,6 +380,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				final long todayStartPoint = getTodayStartPoint();
 				final long yesterdayStartPoint = getYesterdayStartPoint();
 				ArrayList<History> mHistories = DaisyUtils.getHistoryManager(getActivity()).getAllHistories("no");
+				Log.i(TAG,"mHistories.size:"+mHistories.size());
 				if(mHistories.size()>0) {
 					Collections.sort(mHistories);
 					mHistoryItemList.count=0;
@@ -434,27 +436,15 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 		@Override
 		protected void onPostExecute(Void result) {
+			Log.i(TAG,mHistoryItemList+"mHistoryItemList.count:"+mHistoryItemList.count);
 			if(mHistoryItemList!=null&&mHistoryItemList.count>0) {
 				//mScrollableSectionList.init(mSectionList, 1365,false);
 				ArrayList<ItemCollection> itemCollections = new ArrayList<ItemCollection>();
-//				if(mTodayItemList.count > 0) {
-//					itemCollections.add(mTodayItemList);
-//				}
-//				if(mYesterdayItemList.count > 0) {
-//					itemCollections.add(mYesterdayItemList);
-//				}
-//				if(mEarlyItemList.count > 0) {
-//					itemCollections.add(mEarlyItemList);
-//				}
 				itemCollections.add(mHistoryItemList);
 				mHGridAdapter = new HGridAdapterImpl(getActivity(), itemCollections,false);
 				mHGridView.setAdapter(mHGridAdapter);
 				mHGridView.setFocusable(true);
-				//mHGridView.setHorizontalFadingEdgeEnabled(true);
-				//mHGridView.setFadingEdgeLength(144);
-				//int rows = mHGridView.getRows();
-				//int totalColumnsOfSectionX = (int) FloatMath.ceil((float)mHGridAdapter.getSectionCount(mCurrentSectionPosition) / (float)rows);
-				//mScrollableSectionList.setPercentage(mCurrentSectionPosition, (int)(1f/(float)totalColumnsOfSectionX*100f));
+				showData();
 			} else {
 				no_video();
 			}
@@ -497,10 +487,23 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	public void onResume() {
 		if(IsmartvActivator.getInstance().isLogin()){
 			//登录，网络获取
-			getHistoryByNet();
+			mLoadingDialog.show();
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					getHistoryByNet();
+				}
+			},2000);
+
 		}else{
-			mGetHistoryTask = new GetHistoryTask();
-			mGetHistoryTask.execute(); //没有登录，取本地设备信息
+			mLoadingDialog.show();
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					mGetHistoryTask = new GetHistoryTask();
+					mGetHistoryTask.execute(); //没有登录，取本地设备信息
+				}
+			},2000);
 		}
 		((ChannelListActivity)getActivity()).registerOnMenuToggleListener(this);
 		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_HISTORY_IN);
@@ -693,11 +696,13 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	public void getClicItem(Item mItem) {
 		mLoadingDialog.showDialog();
 		int pk = 0;
-		if (SimpleRestClient.isLogin()) {
+		if (IsmartvActivator.getInstance().isLogin()) {
 			if (mItem.model_name.equals("subitem"))
 				pk = mItem.item_pk;
 			else
 				pk = mItem.pk;
+		}else{
+			pk=SimpleRestClient.getItemId(mItem.url,new boolean[1]);
 		}
 		skyService.getClickItem(pk).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 				.subscribe(((BaseActivity) getActivity()).new BaseObserver<Item>() {
@@ -706,81 +711,80 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					}
 					@Override
 					public void onNext(Item i) {
-						Log.i("toPlayPage","onNext:"+i.item_url);
 						item = i;
-//						PageIntent intent=new PageIntent();
-//						intent.toPlayPage(getActivity(),item.pk,item.item_pk,Source.HISTORY);
-						String url = SimpleRestClient.root_url + "/api/item/" + item.pk + "/";
-						mCurrentGetItemTask.remove(url);
-						History history = null;
-						if (SimpleRestClient.isLogin())
-							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "yes");
-						else {
-							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "no");
-						}
-						if (history == null) {
-							return;
-						}
-						// Use to data collection.
-						mDataCollectionProperties = new HashMap<String, Object>();
-						int id = SimpleRestClient.getItemId(url, new boolean[1]);
-						mDataCollectionProperties.put("to_item", id);
-						if (history.sub_url != null && item.subitems != null) {
-							int sub_id = SimpleRestClient.getItemId(history.sub_url, new boolean[1]);
-							mDataCollectionProperties.put("to_subitem", sub_id);
-							for (Item subitem : item.subitems) {
-								if (sub_id == subitem.pk) {
-									mDataCollectionProperties.put("to_clip", subitem.clip.pk);
-									break;
-								}
-							}
-						} else {
-							mDataCollectionProperties.put("to_subitem", item.clip.pk);
-						}
-						mDataCollectionProperties.put("to_title", item.title);
-						mDataCollectionProperties.put("position", history.last_position);
-						String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
-						mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
-						// start a new activity.
-
-						InitPlayerTool tool = new InitPlayerTool(getActivity());
-						tool.fromPage = "history";
-						tool.setonAsyncTaskListener(new InitPlayerTool.onAsyncTaskHandler() {
-
-							@Override
-							public void onPreExecute(Intent intent) {
-								// TODO Auto-generated method stub
-								if (mLoadingDialog != null)
-									mLoadingDialog.show();
-							}
-
-							@Override
-							public void onPostExecute() {
-								// TODO Auto-generated method stub
-								if (mLoadingDialog != null)
-									mLoadingDialog.dismiss();
-							}
-						});
-						if (history != null) {
-							if (item.subitems != null && item.subitems.length > 0) {
-								if (item.ispayed) {
-									tool.initClipInfo(history.sub_url, InitPlayerTool.FLAG_URL, history.price);
-								} else {
-									tool.initClipInfo(history.sub_url, InitPlayerTool.FLAG_URL, true, null);
-								}
-							} else {
-								tool.initClipInfo(url, InitPlayerTool.FLAG_URL, history.price);
-							}
-						} else {
-							if (SimpleRestClient.isLogin())
-								tool.initClipInfo(netItem.url, InitPlayerTool.FLAG_URL, history.price);
-						}
-						if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-							mLoadingDialog.dismiss();
-						}
-						isInGetItemTask = false;
-
-					}
+						PageIntent intent=new PageIntent();
+						intent.toPlayPage(getActivity(),item.pk,item.item_pk,Source.HISTORY);
+//						String url = SimpleRestClient.root_url + "/api/item/" + item.pk + "/";
+//						mCurrentGetItemTask.remove(url);
+//						History history = null;
+//						if (SimpleRestClient.isLogin())
+//							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "yes");
+//						else {
+//							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "no");
+//						}
+//						if (history == null) {
+//							return;
+//						}
+//						// Use to data collection.
+//						mDataCollectionProperties = new HashMap<String, Object>();
+//						int id = SimpleRestClient.getItemId(url, new boolean[1]);
+//						mDataCollectionProperties.put("to_item", id);
+//						if (history.sub_url != null && item.subitems != null) {
+//							int sub_id = SimpleRestClient.getItemId(history.sub_url, new boolean[1]);
+//							mDataCollectionProperties.put("to_subitem", sub_id);
+//							for (Item subitem : item.subitems) {
+//								if (sub_id == subitem.pk) {
+//									mDataCollectionProperties.put("to_clip", subitem.clip.pk);
+//									break;
+//								}
+//							}
+//						} else {
+//							mDataCollectionProperties.put("to_subitem", item.clip.pk);
+//						}
+//						mDataCollectionProperties.put("to_title", item.title);
+//						mDataCollectionProperties.put("position", history.last_position);
+//						String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
+//						mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
+//						// start a new activity.
+//
+//						InitPlayerTool tool = new InitPlayerTool(getActivity());
+//						tool.fromPage = "history";
+//						tool.setonAsyncTaskListener(new InitPlayerTool.onAsyncTaskHandler() {
+//
+//							@Override
+//							public void onPreExecute(Intent intent) {
+//								// TODO Auto-generated method stub
+//								if (mLoadingDialog != null)
+//									mLoadingDialog.show();
+//							}
+//
+//							@Override
+//							public void onPostExecute() {
+//								// TODO Auto-generated method stub
+//								if (mLoadingDialog != null)
+//									mLoadingDialog.dismiss();
+//							}
+//						});
+//						if (history != null) {
+//							if (item.subitems != null && item.subitems.length > 0) {
+//								if (item.ispayed) {
+//									tool.initClipInfo(history.sub_url, InitPlayerTool.FLAG_URL, history.price);
+//								} else {
+//									tool.initClipInfo(history.sub_url, InitPlayerTool.FLAG_URL, true, null);
+//								}
+//							} else {
+//								tool.initClipInfo(url, InitPlayerTool.FLAG_URL, history.price);
+//							}
+//						} else {
+//							if (SimpleRestClient.isLogin())
+//								tool.initClipInfo(netItem.url, InitPlayerTool.FLAG_URL, history.price);
+//						}
+//						if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+//							mLoadingDialog.dismiss();
+//						}
+//						isInGetItemTask = false;
+//
+				}
 
 					@Override
 					public void onError(Throwable e) {
@@ -797,6 +801,14 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		mHGridView.setVisibility(View.GONE);
 		collect_or_history_txt.setText(getResources().getString(R.string.no_history_record));
 		getTvHome();
+	}
+	public void showData(){
+		mNoVideoContainer.setVisibility(View.GONE);
+		mNoVideoContainer.setBackgroundResource(R.drawable.no_record);
+		gideview_layuot.setVisibility(View.VISIBLE);
+		mScrollableSectionList.setVisibility(View.VISIBLE);
+		mHGridView.setVisibility(View.VISIBLE);
+		collect_or_history_txt.setVisibility(View.GONE);
 	}
 
 	private void showDialog(final int dialogType, final AsyncTask task, final Object[] params) {

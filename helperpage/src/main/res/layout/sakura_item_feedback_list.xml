@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="#ffffff"
+              android:focusable="false"
+              android:clickable="false"
+              android:layout_width="match_parent"
+              android:gravity="center_vertical"
+              android:minHeight="100dp"
+              android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/feedback_time"
+            android:layout_marginRight="@dimen/feedback_item_h_margin"
+            android:layout_marginLeft="@dimen/feedback_item_h_margin"
+            android:layout_marginTop="13px"
+            android:textSize="18sp"
+            android:textColor="#8f8f8f"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"/>
+
+    <TextView
+            android:id="@+id/feedback_customer"
+            android:layout_marginRight="@dimen/feedback_item_h_margin"
+            android:layout_marginLeft="@dimen/feedback_item_h_margin"
+            android:layout_marginTop="12px"
+            android:textSize="20sp"
+            android:textColor="#8f8f8f"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"/>
+
+    <TextView
+            android:layout_marginRight="@dimen/feedback_item_h_margin"
+            android:layout_marginLeft="@dimen/feedback_item_h_margin"
+            android:layout_marginTop="16px"
+            android:id="@+id/feedback_ismartv"
+            android:textSize="20sp"
+            android:textColor="#ff8400"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"/>
+
+</LinearLayout>

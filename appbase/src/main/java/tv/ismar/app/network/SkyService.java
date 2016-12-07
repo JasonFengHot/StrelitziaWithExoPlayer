@@ -63,13 +63,18 @@ import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.network.entity.AccountsOrdersEntity;
 import tv.ismar.app.network.entity.ActiveEntity;
+import tv.ismar.app.network.entity.BindedCdnEntity;
+import tv.ismar.app.network.entity.ChatMsgEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.DpiEntity;
+import tv.ismar.app.network.entity.Empty;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PayLayerEntity;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
 import tv.ismar.app.network.entity.PayVerifyEntity;
+import tv.ismar.app.network.entity.ProblemEntity;
+import tv.ismar.app.network.entity.TeleEntity;
 import tv.ismar.app.network.entity.UpgradeRequestEntity;
 import tv.ismar.app.network.entity.VersionInfoV2Entity;
 import tv.ismar.app.network.entity.YouHuiDingGouEntity;
@@ -476,14 +481,74 @@ public interface SkyService {
             @Body ActorRelateRequestParams params
     );
 
+    @GET("customer/points/")
+    Observable<List<ProblemEntity>> Problems();
+
+
+    @GET("customer/getfeedback/")
+    Observable<ChatMsgEntity> Feedback(
+            @Query("sn") String sn,
+            @Query("topn") String topn
+    );
+
+
+    @GET("shipinkefu/getCdninfo?actiontype=getBindcdn")
+    Observable<BindedCdnEntity> GetBindCdn(
+                @Query("sn") String snCode
+        );
+
+    @GET("shipinkefu/getCdninfo?actiontype=bindecdn")
+    Observable<Empty> BindCdn(
+            @Query("sn") String snCode,
+            @Query("cdn") int cdnId
+        );
+
+    @GET("shipinkefu/getCdninfo?actiontype=unbindCdn")
+    Observable<Empty> UnbindNode(
+                @Query("sn") String sn
+
+        );
+
+    @GET("shipinkefu/getCdninfo")
+    Observable<List<TeleEntity>> FetchTel(
+                @Query("actiontype") String actiontype,
+                @Query("ModeName") String modeName,
+                @Query("sn") String sn
+        );
+
+
+    @GET("log")
+    Observable<Empty> DeviceLog(
+                @Query("data") String data,
+                @Query("sn") String sn,
+                @Query("modelname") String modelName
+        );
+
+    @FormUrlEncoded
+    @POST("shipinkefu/getCdninfo")
+    Observable<Empty> UploadResult(
+                @Field("actiontype") String actionType,
+                @Field("snCode") String snCode,
+                @Field("nodeId") String nodeId,
+                @Field("nodeSpeed") String nodeSpeed
+        );
+
     class ServiceManager {
         private volatile static ServiceManager serviceManager;
         private static final int DEFAULT_CONNECT_TIMEOUT = 6;
         private static final int DEFAULT_READ_TIMEOUT = 15;
+        public static final String API_HOST = "http://wx.api.tvxio.com/";
+        private static final String IRIS_TVXIO_HOST = "http://iris.tvxio.com/";
+        private static final String SPEED_CALLA_TVXIO_HOST = "http://speed.calla.tvxio.com/";
+        private static final String LILY_TVXIO_HOST = "http://lily.tvxio.com/";
         private SkyService mSkyService;
         private SkyService adSkyService;
         private SkyService upgradeService;
         private SkyService weatherService;
+        private SkyService wxApiService;
+        private SkyService irisService;
+        private SkyService speedCallaService;
+        private SkyService lilyHostService;
 
 
         private ServiceManager() {
@@ -553,6 +618,37 @@ public interface SkyService {
                     .build();
             weatherService = weatherRetrofit.create(SkyService.class);
 
+            Retrofit wxApiServiceRetrofit = new Retrofit.Builder()
+                    .baseUrl(API_HOST)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(mClient)
+                    .build();
+            wxApiService=wxApiServiceRetrofit.create(SkyService.class);
+
+            Retrofit irisServiceRetrofit = new Retrofit.Builder()
+                    .baseUrl(IRIS_TVXIO_HOST)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(mClient)
+                    .build();
+            irisService=irisServiceRetrofit.create(SkyService.class);
+
+            Retrofit speedCallaServiceRetrofit = new Retrofit.Builder()
+                    .baseUrl(SPEED_CALLA_TVXIO_HOST)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(mClient)
+                    .build();
+            speedCallaService=speedCallaServiceRetrofit.create(SkyService.class);
+
+            Retrofit lilyHostServiceRetrofit = new Retrofit.Builder()
+                    .baseUrl(LILY_TVXIO_HOST)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(mClient)
+                    .build();
+            lilyHostService=lilyHostServiceRetrofit.create(SkyService.class);
         }
 
 
@@ -603,6 +699,38 @@ public interface SkyService {
                 }
             }
             return serviceManager.weatherService;
+        }
+        public static SkyService getWxApiService() {
+            synchronized (ServiceManager.class) {
+                if (serviceManager == null) {
+                    serviceManager = new ServiceManager();
+                }
+            }
+            return serviceManager.wxApiService;
+        }
+        public static SkyService getIrisService() {
+            synchronized (ServiceManager.class) {
+                if (serviceManager == null) {
+                    serviceManager = new ServiceManager();
+                }
+            }
+            return serviceManager.irisService;
+        }
+        public static SkyService getSpeedCallaService() {
+            synchronized (ServiceManager.class) {
+                if (serviceManager == null) {
+                    serviceManager = new ServiceManager();
+                }
+            }
+            return serviceManager.speedCallaService;
+        }
+        public static SkyService getLilyHostService() {
+            synchronized (ServiceManager.class) {
+                if (serviceManager == null) {
+                    serviceManager = new ServiceManager();
+                }
+            }
+            return serviceManager.lilyHostService;
         }
     }
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- text size -->
+    <dimen name="textSize_normal">14.67sp</dimen>
+    <dimen name="textSize_testButton">20.00sp</dimen>
+
+    <!-- launcher activity -->
+    <dimen name="sakura_launcher_indicator_height">100.00dp</dimen>
+    <dimen name="sakura_launcher_indicator_width">100.00dp</dimen>
+
+    <!-- activity_home -->
+    <dimen name="home_logo_margin_top">53.33dp</dimen>
+    <dimen name="home_logo_margin_left">53.33dp</dimen>
+    <dimen name="home_logo_width">60.00dp</dimen>
+    <dimen name="home_logo_height">85.33dp</dimen>
+    <dimen name="home_viewPager_margin_top">53.33dp</dimen>
+    <dimen name="home_viewPager_width">800.00dp</dimen>
+    <dimen name="home_viewPager_height">533.33dp</dimen>
+    <dimen name="home_indicator_height">133.33dp</dimen>
+    <dimen name="home_indicator_margin_bottom">13.33dp</dimen>
+    <dimen name="home_indicator_icon_width">53.33dp</dimen>
+    <dimen name="home_indicator_icon_height">53.33dp</dimen>
+
+    <!-- fragment_node -->
+    <dimen name="layout_margin">6.67dp</dimen>
+    <dimen name="test_button_height">40.00dp</dimen>
+    <dimen name="layout_border_padding">13.33dp</dimen>
+    <dimen name="list_title_height">26.67dp</dimen>
+    <dimen name="list_select_prompt_textSize">17.33sp</dimen>
+    <dimen name="list_item_margin">20.00dp</dimen>
+    <dimen name="spinner_text">13.33sp</dimen>
+
+    <!-- sakura_item_node_list -->
+    <dimen name="count_layout_width">26.67dp</dimen>
+    <dimen name="count_layout_height">26.67dp</dimen>
+    <dimen name="count_number_textSize">13.33sp</dimen>
+    <dimen name="item_node_name_width">86.67dp</dimen>
+    <dimen name="item_node_minHeight">36.67dp</dimen>
+
+    <!-- feedback fragment -->
+    <dimen name="feedback_layout_h_margin">26.67dp</dimen>
+    <dimen name="feedback_layout_v_margin">6.67dp</dimen>
+    <dimen name="feedback_radio_button_textSize">12.00sp</dimen>
+    <dimen name="feedback_radiogroup_margin">13.33dp</dimen>
+    <dimen name="feedback_item_title_textSize">13.33sp</dimen>
+    <dimen name="feedback_item_time_textSize">18.67sp</dimen>
+    <dimen name="feedback_item_minHeight">26.67dp</dimen>
+    <dimen name="feedback_item_v_margin">3.33dp</dimen>
+    <dimen name="feedback_item_h_margin">6.67dp</dimen>
+
+    <!-- help fragment -->
+    <dimen name="help_item__h_margin">6.67dp</dimen>
+    <dimen name="test_height">200.00dip</dimen>
+    <dimen name="weather_guide_text_margin_lr">13.33dp</dimen>
+    <dimen name="weather_guide_text_margin_margin_top">36.67dp</dimen>
+    <dimen name="weather_guide_text_margin_margin_bottom">13.33dp</dimen>
+    <dimen name="weather_layout_margin_left">16.67dp</dimen>
+    <dimen name="weather_divider_width">33.33dp</dimen>
+    <dimen name="weather_divider_height">3.33dp</dimen>
+    <dimen name="weather_divider_margin_bottom">26.67dp</dimen>
+    <dimen name="location_fragment_current_position_height">136.00dp</dimen>
+    <dimen name="location_divider_margin_left">24.00dp</dimen>
+    <dimen name="location_divider_width">876.00dp</dimen>
+    <dimen name="location_grid_margin_top">38.00dp</dimen>
+    <dimen name="location_area_pop_width">946.67dp</dimen>
+    <dimen name="location_area_pop_height">450.00dp</dimen>
+
+    <dimen name="pop_spinner_layout_width">150dp</dimen>
+    <dimen name="pop_spinner_layout_height">500dp</dimen>
+
+    <!-- sakura -->
+    <dimen name="sakura_launch_icon_width">146.67dp</dimen>
+    <dimen name="sakura_launch_icon_height">146.67dp</dimen>
+    <dimen name="sakura_launch_icon_margin_left">33.33dp</dimen>
+    <dimen name="sakura_launch_icon_margin_right">33.33dp</dimen>
+    <dimen name="sakura_ismartv_icon_width">146.67dp</dimen>
+    <dimen name="sakura_ismartv_icon_height">146.67dp</dimen>
+    <dimen name="sakura_node_list_item_height">60.00dp</dimen>
+    <dimen name="sakura_h1_text_size">33.33sp</dimen>
+    <dimen name="sakura_h5_text_size">20.00sp</dimen>
+    <dimen name="sakura_h7_text_size">16.00sp</dimen>
+    <dimen name="sakura_h8_text_size">14.66sp</dimen>
+    <dimen name="sakura_node_item_margin_top">13.33dp</dimen>
+    <dimen name="sakura_node_testbutton_height">66.67dp</dimen>
+    <dimen name="sakura_node_nodename_width">133.33dp</dimen>
+
+</resources>

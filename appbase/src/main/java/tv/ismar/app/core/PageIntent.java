@@ -1,6 +1,7 @@
 package tv.ismar.app.core;
 
 import android.app.Activity;
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -164,6 +165,13 @@ public class PageIntent implements PageIntentInterface {
         intent.setAction("tv.ismar.daisy.episode");
         intent.putExtra(EXTRA_ITEM_JSON, itemJson);
         intent.putExtra(EXTRA_SOURCE, source);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void toHelpPage(Context context) {
+        Intent intent = new Intent();
+        intent.setAction("cn.ismar.sakura.launcher");
         context.startActivity(intent);
     }
 }

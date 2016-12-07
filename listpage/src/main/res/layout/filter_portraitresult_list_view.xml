@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/gridview_channel_panel_height"
         android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/filter_portraitresult_top_layout_ml">
+        android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin">
     <TextView
-        android:text="搜索结果 :"
+        android:text="筛选结果 :"
         android:id="@+id/filter_result_txt"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -86,10 +86,10 @@
                     sakura:rowHeight="@dimen/listportait_Hgride_rowHeight"
                     sakura:selectorDrawable="@drawable/vod_gv_selector"
                     sakura:verticalSpacing="@dimen/listportait_Hgride_filterverSpace"
-                    sakura:selectionLeftPadding="@dimen/HGridView_related_pselectionLeftPadding"
-                    sakura:selectionTopPadding="@dimen/HGridView_related_pselectionTopPadding"
-                    sakura:selectionRightPadding="@dimen/HGridView_related_pselectionRightPadding"
-                    sakura:selectionBottomPadding="@dimen/HGridView_selection_pb"
+                    sakura:selectionLeftPadding="22dp"
+                    sakura:selectionTopPadding="22dp"
+                    sakura:selectionRightPadding="22dp"
+                    sakura:selectionBottomPadding="-19dp"
                     android:layout_marginTop="@dimen/filter_portraitresult_filter_grid_mt"
                     android:paddingTop="@dimen/filter_portraitresult_filter_grid_pat"
                     android:layout_marginBottom="@dimen/filter_portraitresult_filter_grid_mb"

@@ -41,6 +41,10 @@ public class BaseActivity extends AppCompatActivity {
     private ModuleMessagePopWindow expireAccessTokenPop;
     public SkyService mSkyService;
     public SkyService mWeatherSkyService;
+    public SkyService mWxApiService;
+    public SkyService mIrisService;
+    public SkyService mSpeedCallaService;
+    public SkyService mLilyHostService;
     public long app_start_time;
 
     public static Stack<Bundle> updateInfo = new Stack<>();
@@ -50,6 +54,10 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mSkyService = SkyService.ServiceManager.getService();
         mWeatherSkyService = SkyService.ServiceManager.getWeatherService();
+        mWxApiService=SkyService.ServiceManager.getWxApiService();
+        mIrisService= SkyService.ServiceManager.getIrisService();
+        mSpeedCallaService=SkyService.ServiceManager.getSpeedCallaService();
+        mLilyHostService=SkyService.ServiceManager.getLilyHostService();
         app_start_time = System.currentTimeMillis();
     }
 

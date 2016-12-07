@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+
+    <tv.ismar.sakura.ui.widget.indicator.IconImageView
+            android:id="@+id/icon_node"
+            android:layout_width="@dimen/home_indicator_icon_width"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_height="@dimen/home_indicator_icon_height"/>
+
+
+    <tv.ismar.sakura.ui.widget.indicator.IconImageView
+            android:id="@+id/icon_feedback"
+            android:layout_toRightOf="@id/icon_node"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="@dimen/home_indicator_icon_width"
+            android:nextFocusDown="@id/icon_feedback"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_height="@dimen/home_indicator_icon_height"/>
+
+    <tv.ismar.sakura.ui.widget.indicator.IconImageView
+            android:id="@+id/icon_help"
+            android:layout_toRightOf="@id/icon_feedback"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="@dimen/home_indicator_icon_width"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_height="@dimen/home_indicator_icon_height"/>
+
+
+</RelativeLayout>

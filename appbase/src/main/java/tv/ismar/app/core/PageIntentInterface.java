@@ -58,6 +58,8 @@ public interface PageIntentInterface {
 
     void toEpisodePage(Context context, String source, String itemJson);
 
+    void toHelpPage(Context context);
+
     class PaymentInfo {
         private ProductCategory category;
         private int pk;

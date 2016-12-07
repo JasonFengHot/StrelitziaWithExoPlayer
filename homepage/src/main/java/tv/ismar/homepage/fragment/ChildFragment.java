@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.entity.HomePagerEntity;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.homepage.widget.ChildThumbImageView;
@@ -144,6 +146,13 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
                     public void onNext(HomePagerEntity homePagerEntity) {
                         if(mContext == null || leftLayout == null || rightLayout == null && bottomLayout ==null)
                             return;
+                        if (homePagerEntity == null) {
+                            new CallaPlay().exception_except("launcher", "launcher", channelEntity.getChannel(),
+                                    "", 0, channelEntity.getHomepage_url(),
+                                    SimpleRestClient.appVersion, "data", ""
+                            );
+                            return;
+                        }
                         ArrayList<HomePagerEntity.Poster> posters = homePagerEntity.getPosters();
                         ArrayList<HomePagerEntity.Carousel> carousels = homePagerEntity.getCarousels();
                         initPosters(posters);

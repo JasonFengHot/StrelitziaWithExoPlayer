@@ -352,12 +352,12 @@
     <dimen name="listportait_Hgride_verSpace">5dp</dimen>
     <dimen name="listportait_Hgride_filterverSpace">4dp</dimen>
     <dimen name="listview_hgride_horSpace">116dp</dimen>
-    <dimen name="listview_hgride_rowHeight">270dp</dimen>
+    <dimen name="listview_hgride_rowHeight">271dp</dimen>
     <dimen name="listportait_Hgride_mt">2dp</dimen>
     <dimen name="listportait_Hgride_pt">6dp</dimen>
-    <dimen name="listportait_Hgride_ml">52dp</dimen>
-    <dimen name="listview_Hgride_ml">53dp</dimen>
-    <dimen name="listportait_Hgride_pl">10dp</dimen>
+    <dimen name="listportait_Hgride_ml">43dp</dimen>
+    <dimen name="listview_Hgride_ml">43dp</dimen>
+    <dimen name="listportait_Hgride_pl">20dp</dimen>
     <dimen name="listportait_Hgride_mr">34dp</dimen>
     <dimen name="listportait_Hgride_mb">52dp</dimen>
     <dimen name="listportait_section_tab_H">88dp</dimen>
@@ -438,10 +438,10 @@
 
     <dimen name="tv_guide_top_section_padding">14dp</dimen>
     <!-- HGridView -->
-    <dimen name="HGridView_related_selectionLeftPadding">23.5dip</dimen>
-    <dimen name="HGridView_related_selectionTopPadding">23.5dip</dimen>
-    <dimen name="HGridView_related_selectionRightPadding">23.5dip</dimen>
-    <dimen name="HGridView_related_selectionBottomPadding">-60.1dip</dimen>
+    <dimen name="HGridView_related_selectionLeftPadding">21dp</dimen>
+    <dimen name="HGridView_related_selectionTopPadding">21dp</dimen>
+    <dimen name="HGridView_related_selectionRightPadding">21dp</dimen>
+    <dimen name="HGridView_related_selectionBottomPadding">-30.1dip</dimen>
     <dimen name="HGridView_related_PFilterLeftPadding">20dip</dimen>
     <dimen name="HGridView_related_PFilterTopPadding">21dip</dimen>
     <dimen name="HGridView_related_PFilterRightPadding">21dip</dimen>
@@ -458,6 +458,16 @@
     <dimen name="HGridView_label_lr_offset">19dip</dimen>
     <dimen name="HGridView_label_textleft">24dip</dimen>
     <dimen name="HGridView_label_texttop">56dip</dimen>
+
+    <dimen name="filter_Hgride_select_padding">21dp</dimen>
+    <dimen name="filter_Hgride_select_paddingBttom">-40dp</dimen>
+    <dimen name="filter_Hgride_select_hasresult_PB">-60dp</dimen>
+    <dimen name="filter_Hgride_noresult_ML">155dp</dimen>
+    <dimen name="filter_Hgride_noresult_PL">16dp</dimen>
+    <dimen name="filter_Hgride_PT">15dp</dimen>
+    <dimen name="filter_Hgride_MT">7dp</dimen>
+    <dimen name="filter_Hgride_noresult_PT">12dp</dimen>
+    <dimen name="filter_Hgride_noresult_MT">40dp</dimen>
 
     <dimen name="ZGridView_related_selectorLeftPadding">23.8dip</dimen>
     <dimen name="ZGridView_related_selectorTopPadding">23.8dip</dimen>

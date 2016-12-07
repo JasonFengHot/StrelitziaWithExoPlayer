@@ -34,6 +34,7 @@ import cn.ismartv.downloader.Md5;
 import cn.ismartv.injectdb.library.query.Select;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.cache.CacheManager;
 import tv.ismar.app.core.cache.DownloadClient;
 import tv.ismar.app.entity.HomePagerEntity;
@@ -218,6 +219,13 @@ public class GuideFragment extends ChannelBaseFragment {
     private void fillLayout(HomePagerEntity homePagerEntity) {
         if (mContext == null || guideRecommmendList == null)
             return;
+        if(homePagerEntity == null){
+            new CallaPlay().exception_except("launcher","launcher","homepage",
+                    "",0,"api/tv/homepage/top/",
+                    SimpleRestClient.appVersion,"data",""
+            );
+            return;
+        }
         ArrayList<HomePagerEntity.Carousel> carousels = homePagerEntity.getCarousels();
         ArrayList<HomePagerEntity.Poster> posters = homePagerEntity.getPosters();
 
@@ -355,6 +363,10 @@ public class GuideFragment extends ChannelBaseFragment {
             allVideoUrl.add(carousels.get(1).getVideo_url());
             allVideoUrl.add(carousels.get(2).getVideo_url());
         }catch (Exception e){
+            new CallaPlay().exception_except("launcher","launcher","homepage",
+                    "",0,"",
+                    SimpleRestClient.appVersion,"client",""
+            );
         }
 
         carouselMap = new HashMap<>();
@@ -412,7 +424,10 @@ public class GuideFragment extends ChannelBaseFragment {
             mHandler.removeMessages(START_PLAYBACK);
             mHandler.sendEmptyMessageDelayed(START_PLAYBACK, delay);
         }catch (Exception e){
-
+            new CallaPlay().exception_except("launcher","launcher","homepage",
+                    "",0,"",
+                    SimpleRestClient.appVersion,"client",""
+            );
         }
 
 
@@ -461,6 +476,10 @@ public class GuideFragment extends ChannelBaseFragment {
 
         } catch (Exception e) {
             e.printStackTrace();
+            new CallaPlay().exception_except("launcher","launcher","homepage",
+                    "",0,"",
+                    SimpleRestClient.appVersion,"client",""
+            );
         }
     }
 
