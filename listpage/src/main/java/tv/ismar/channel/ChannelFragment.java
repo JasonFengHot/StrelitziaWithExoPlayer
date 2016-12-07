@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.Utils.LogUtils;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
@@ -496,177 +497,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         mMenuFragment.setResId(R.string.filter);
         mMenuFragment.setOnMenuItemClickedListener(this);
     }
-
-//    class InitTask extends AsyncTask<String, Void, Integer> {
-//
-//        String url;
-//        String channel;
-//        int nextSection = 0;
-//
-//        private final static int RESULT_NETWORKEXCEPTION = -1;
-//        private final static int RESUTL_CANCELED = -2;
-//        private final static int RESULT_SUCCESS = 0;
-//
-//        @Override
-//        protected void onPreExecute() {
-//            if (mLoadingDialog != null && !mLoadingDialog.isShowing()) {
-//                mLoadingDialog.show();
-//            }
-//            isInitTaskLoading = true;
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected Integer doInBackground(String... params) {
-//            try {
-//                url = params[0];
-//                channel = params[1];
-//                Log.i("ischannel",isChannelUrl(url)+"");
-//                if (!isChannelUrl(url)) {
-//                 //   mSectionList = mRestClient.getSectionsByChannel(channel);
-//                    skyService.getSectionlist(channel).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(((BaseActivity) getActivity()).new BaseObserver<SectionList>() {
-//                        @Override
-//                        public void onCompleted() {
-//
-//                        }
-//
-//                        @Override
-//                        public void onNext(SectionList sections) {
-//                            Log.i("ischannel","onNext  "+sections.toString());
-//                            mSectionList=new SectionList();
-//                            mSectionList.addAll(sections);
-//                            Log.i("ischannel","mSectionList: "+mSectionList.toString());
-//                        }
-//                    });
-//
-//
-//                    for (int i = 0; i < mSectionList.size() && !isCancelled(); i++) {
-//                        if (NetworkUtils.urlEquals(url, mSectionList.get(i).url)) {
-//                            nextSection = i;
-//                            break;
-//                        }
-//                    }
-//                }
-//                if (mSectionList == null && !isCancelled()) {
-//                  //  mSectionList = mRestClient.getSections(url);
-//                    skyService.getSections(url).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(((BaseActivity) getActivity()).new BaseObserver<SectionList>() {
-//                        @Override
-//                        public void onCompleted() {
-//
-//                        }
-//
-//                        @Override
-//                        public void onNext(SectionList sections) {
-//                            Log.i("ischannel","onTureNext  "+sections.toString());
-//                            mSectionList=new SectionList();
-//                            mSectionList.addAll(sections);
-//                        }
-//                    });
-//
-////					try{
-////						HttpClient httpClient = new DefaultHttpClient();
-////						//仿地址链接直接跟参数，如：http://127.0.0.1:8080/test/test.php?name=;
-////						HttpGet httpGet = new HttpGet(url);
-////						HttpResponse httpResponse = httpClient.execute(httpGet);
-////						if(httpResponse.getStatusLine().getStatusCode()==200){
-////						String result = EntityUtils.toString(httpResponse.getEntity(),"UTF-8");
-////						Log.i("qqq", "result="+result);
-////						mSectionList = mRestClient.getsectionss(result);
-////						}
-////						}catch(Exception e){}
-//                }
-//                if (mSectionList != null) {
-//
-//                    SectionList tmp = new SectionList();
-//                    for (Section s : mSectionList) {
-//                        if (s.count != 0) {
-//                            tmp.add(s);
-//                        }
-//                    }
-//                    mSectionList = tmp;
-//                    mItemCollections = new ArrayList<ItemCollection>();
-//                    for (int i = 0; i < mSectionList.size(); i++) {
-//                        Section section = mSectionList.get(i);
-//                        int num_pages = (int) Math.ceil((float) section.count / (float) ItemCollection.NUM_PER_PAGE);
-//                        if (num_pages == 0) {
-//                            num_pages = num_pages + 1;
-//                        }
-//                        ItemCollection itemCollection = new ItemCollection(num_pages, section.count, section.slug, section.title);
-//                        mItemCollections.add(itemCollection);
-//                    }
-//                }
-//                if (isCancelled()) {
-//                    return RESUTL_CANCELED;
-//                } else {
-//                    return RESULT_SUCCESS;
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return RESULT_NETWORKEXCEPTION;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Integer result) {
-//            if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-//                mLoadingDialog.dismiss();
-//            }
-//            isInitTaskLoading = false;
-//            weatherFragment.setVisibility(View.VISIBLE);
-//
-//            // right_shadow.setVisibility(View.VISIBLE);
-//            //top_column_layout.setSecondChannelVisable();
-//            percentage.setVisibility(View.VISIBLE);
-//            if (result != RESULT_SUCCESS) {
-//                //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
-//                return;
-//            }
-//            try {
-//                if (mSectionList != null) {
-//                    if (mSectionList.size() > 5) {
-//                        arrow_right.setVisibility(View.VISIBLE);
-//                    }
-//
-//                        mScrollableSectionList.init(mSectionList, getResources().getDimensionPixelSize(R.dimen.gridview_channel_section_tabs_width), false);
-//                    //	btn_search.setNextFocusDownId(R.id.section_item_layout);
-//                    mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections);
-//                    if (isPortrait)
-//                        mHGridAdapter.setIsPortrait(true);
-//
-//                    mHGridAdapter.setList(mItemCollections);
-//                    if (mHGridAdapter.getCount() > 0) {
-//                        mHGridView.setAdapter(mHGridAdapter);
-//                        mHGridView.setFocusable(true);
-//                        mHGridView.requestFocus();
-////                        mHGridView.setSelection(6);
-//                        mScrollableSectionList.mGridView = mHGridView;
-////						mHGridView.setHorizontalFadingEdgeEnabled(true);
-////                        if(isPortrait){
-////                            mHGridView.setFadingEdgeLength(155);
-////                        }
-////                        else{
-////                            mHGridView.setFadingEdgeLength(200);
-////                        }
-//                       mHGridAdapter.hg = mHGridView;
-//                        int num_rows = mHGridView.getRows();
-//                        int totalColumnsOfSectionX = (int) Math.ceil((float) mItemCollections.get(nextSection).count / (float) num_rows);
-//                        mScrollableSectionList.setPercentage(nextSection + 1, (int) (1f / (float) totalColumnsOfSectionX * 100f));
-//                        checkSectionChanged(nextSection + 1);
-//                    }
-//
-//                } else {
-//                    //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-////			new GetItemListTask().execute();
-//            super.onPostExecute(result);
-//        }
-//
-//    }
     private  int nextSection=0;
-    public void getData(final String url,String channel){
+    public void getData(final String url, final String channel){
             if (mSectionList == null) {
                 skyService.getSections(url).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -678,67 +510,69 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                     }
                             @Override
                     public void onNext(SectionList sections) {
-                        if(!isChannelUrl(url)){
-                            for (int i = 0; i < sections.size(); i++) {
-                                if (NetworkUtils.urlEquals(url, sections.get(i).url)) {
-                                    nextSection = i;
-                                    break;
-                                }
-                            }
-                        }
-                        SectionList tmp = new SectionList();
-                        for (Section s : sections) {
-                            if (s.count != 0) {
-                                tmp.add(s);
-                            }
-                        }
-                        mSectionList = tmp;
-                        mItemCollections = new ArrayList<ItemCollection>();
-                        for (int i = 0; i < mSectionList.size(); i++) {
-                            Section section = mSectionList.get(i);
-                            int num_pages = (int) Math.ceil((float) section.count / (float) ItemCollection.NUM_PER_PAGE);
-                            if (num_pages == 0) {
-                                num_pages = num_pages + 1;
-                            }
-                            ItemCollection itemCollection = new ItemCollection(num_pages, section.count, section.slug, section.title);
-                            mItemCollections.add(itemCollection);
-                        }
-                        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-                            mLoadingDialog.dismiss();
-                        }
-                        weatherFragment.setVisibility(View.GONE);
-                        percentage.setVisibility(View.VISIBLE);
-                        try {
-                            if (mSectionList != null) {
-                                if (mSectionList.size() > 5) {
-                                    arrow_right.setVisibility(View.VISIBLE);
-                                }
+                                try {
+                                    if(!isChannelUrl(url)){
+                                        for (int i = 0; i < sections.size(); i++) {
+                                            if (NetworkUtils.urlEquals(url, sections.get(i).url)) {
+                                                nextSection = i;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    SectionList tmp = new SectionList();
+                                    for (Section s : sections) {
+                                        if (s.count != 0) {
+                                            tmp.add(s);
+                                        }
+                                    }
+                                    mSectionList = tmp;
+                                    mItemCollections = new ArrayList<ItemCollection>();
+                                    for (int i = 0; i < mSectionList.size(); i++) {
+                                        Section section = mSectionList.get(i);
+                                        int num_pages = (int) Math.ceil((float) section.count / (float) ItemCollection.NUM_PER_PAGE);
+                                        if (num_pages == 0) {
+                                            num_pages = num_pages + 1;
+                                        }
+                                        ItemCollection itemCollection = new ItemCollection(num_pages, section.count, section.slug, section.title);
+                                        mItemCollections.add(itemCollection);
+                                    }
+                                    if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                                        mLoadingDialog.dismiss();
+                                    }
+                                    weatherFragment.setVisibility(View.GONE);
+                                    percentage.setVisibility(View.VISIBLE);
 
-                                mScrollableSectionList.init(mSectionList,getResources().getDimensionPixelSize(R.dimen.list_section_width), false);
-                                mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections);
-                                if (isPortrait)
-                                    mHGridAdapter.setIsPortrait(true);
+                                        if (mSectionList != null) {
+                                            if (mSectionList.size() > 5) {
+                                                arrow_right.setVisibility(View.VISIBLE);
+                                            }
 
-                                mHGridAdapter.setList(mItemCollections);
-                                if (mHGridAdapter.getCount() > 0) {
-                                    mHGridView.setAdapter(mHGridAdapter);
-                                    mHGridView.setFocusable(true);
-                                    mHGridView.requestFocus();
-                                    mScrollableSectionList.mGridView = mHGridView;
-                                    mHGridAdapter.hg = mHGridView;
-                                    int num_rows = mHGridView.getRows();
-                                    int totalColumnsOfSectionX = (int) Math.ceil((float) mItemCollections.get(nextSection).count / (float) num_rows);
-                                    mScrollableSectionList.setPercentage(nextSection + 1, (int) (1f / (float) totalColumnsOfSectionX * 100f));
-                                    checkSectionChanged(nextSection + 1);
+                                            mScrollableSectionList.init(mSectionList,getResources().getDimensionPixelSize(R.dimen.list_section_width), false);
+                                            mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections);
+                                            if (isPortrait)
+                                                mHGridAdapter.setIsPortrait(true);
+
+                                            mHGridAdapter.setList(mItemCollections);
+                                            if (mHGridAdapter.getCount() > 0) {
+                                                mHGridView.setAdapter(mHGridAdapter);
+                                                mHGridView.setFocusable(true);
+                                                mHGridView.requestFocus();
+                                                mScrollableSectionList.mGridView = mHGridView;
+                                                mHGridAdapter.hg = mHGridView;
+                                                int num_rows = mHGridView.getRows();
+                                                int totalColumnsOfSectionX = (int) Math.ceil((float) mItemCollections.get(nextSection).count / (float) num_rows);
+                                                mScrollableSectionList.setPercentage(nextSection + 1, (int) (1f / (float) totalColumnsOfSectionX * 100f));
+                                                checkSectionChanged(nextSection + 1);
+                                            }
+
+                                        } else {
+                                            //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
+                                        }
+                                    } catch (Exception e) {
+                                    LogUtils.loadException("channel","list",mChannel,"",0,"","","",e.toString());
+                                    e.printStackTrace();
+                                    }
                                 }
-
-                            } else {
-                                //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, (mInitTask = new InitTask()), new String[]{url, channel});
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
 
                             @Override
                             public void onError(Throwable e) {
@@ -762,55 +596,12 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
         @Override
         protected ItemList doInBackground(Object... params) {
-//            try {
-//                index = (Integer) params[0];
-//
-//                mCurrentLoadingTask.put(index, this);
-//                int[] sectionAndPage = getSectionAndPageFromIndex(index);
-//                int sectionIndex = sectionAndPage[0];
-//                // page in api must start at 1.
-//                int page = sectionAndPage[1] + 1;
-//                Section section = mSectionList.get(sectionIndex);
-//                slug = section.slug;
-//                String url = section.url + page + "/";
-//             //  ItemList itemList = mRestClient.getItemList(url);
-//                if (isCancelled()) {
-//                    return null;
-//                } else {
-//                   return mItemList;
-//                }
-//            } catch (Exception e) {
-//                if (e instanceof ItemOfflineException) {
-//                    HashMap<String, Object> exceptionProperties = new HashMap<String, Object>();
-//                    exceptionProperties.put(EventProperty.CODE, "nocategory");
-//                    exceptionProperties.put(EventProperty.CONTENT, "get category error : " + ((ItemOfflineException) e).getUrl());
-//                    exceptionProperties.put(EventProperty.SECTION, slug);
-//                    NetworkUtils.SaveLogToLocal(NetworkUtils.CATEGORY_EXCEPT, exceptionProperties);
-//                } else if (e instanceof NetworkException) {
-//                    HashMap<String, Object> exceptionProperties = new HashMap<String, Object>();
-//                    exceptionProperties.put(EventProperty.CODE, "networkconnerror");
-//                    exceptionProperties.put(EventProperty.CONTENT, "network connect error : " + ((ItemOfflineException) e).getUrl());
-//                    exceptionProperties.put(EventProperty.SECTION, slug);
-//                    NetworkUtils.SaveLogToLocal(NetworkUtils.CATEGORY_EXCEPT, exceptionProperties);
-//                }
-//                e.printStackTrace();
                 return null;
  //           }
         }
 
         @Override
         protected void onPostExecute(ItemList itemList) {
-//            mCurrentLoadingTask.remove(index);
-//            if (itemList != null && itemList.objects != null) {
-//                int sectionIndex = getSectionAndPageFromIndex(index)[0];
-//                int page = getSectionAndPageFromIndex(index)[1];
-//                ItemCollection itemCollection = mItemCollections.get(sectionIndex);
-//                itemCollection.fillItems(page, itemList.objects);
-//                mHGridAdapter.setList(mItemCollections);
-//                mHGridAdapter.notifyDataSetChanged();
-//            } else {
-//                //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, new GetItemListTask(), new Object[]{index});
-//            }
         }
 
     }
@@ -833,15 +624,17 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             @Override
             public void onNext(ItemList itemList) {
                 mLoadingDialog.dismiss();
-              //  mCurrentLoadingTask.remove(index);
-                if (itemList != null && itemList.objects != null) {
-                    int sectionIndex = getSectionAndPageFromIndex(index)[0];
-                    int page = getSectionAndPageFromIndex(index)[1];
-                    ItemCollection itemCollection = mItemCollections.get(sectionIndex);
-                    itemCollection.fillItems(page, itemList.objects);
-                    mHGridAdapter.setList(mItemCollections);
-                } else {
-                    //showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, new GetItemListTask(), new Object[]{index});
+                try {
+                    if (itemList != null && itemList.objects != null) {
+                        int sectionIndex = getSectionAndPageFromIndex(index)[0];
+                        int page = getSectionAndPageFromIndex(index)[1];
+                        ItemCollection itemCollection = mItemCollections.get(sectionIndex);
+                        itemCollection.fillItems(page, itemList.objects);
+                        mHGridAdapter.setList(mItemCollections);
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtils.loadException("channel","list",mChannel,"",0,"","","",e.toString());
                 }
             }
 
@@ -934,7 +727,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         HashMap<String, Object> properties = new HashMap<String, Object>();
         properties.put(EventProperty.CATEGORY, mChannel);
         properties.put(EventProperty.TITLE, mTitle);
-     //   new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CHANNEL_OUT, properties);10/21注
+        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CHANNEL_OUT, properties);
 		mSectionProperties.remove(EventProperty.TO_ITEM);
 		mSectionProperties.remove(EventProperty.TO_TITLE);
 		mSectionProperties
@@ -943,40 +736,13 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 				mSectionList.get(mCurrentSectionIndex - 1).title);
 		mSectionProperties.put(EventProperty.SECTION,
 				mSectionList.get(mCurrentSectionIndex - 1).slug);
-//		new NetworkUtils.DataCollectionTask().execute(
-//				NetworkUtils.VIDEO_CATEGORY_OUT, mSectionProperties);10/21注
+		new NetworkUtils.DataCollectionTask().execute(
+				NetworkUtils.VIDEO_CATEGORY_OUT, mSectionProperties);
 
         //mInitTask = null;
         mSectionList = null;
         mScrollableSectionList = null;
     }
-
-//	public void showDialog(int dialogType, final AsyncTask task, final Object[] params ) {
-//		AlertDialogFragment newFragment = AlertDialogFragment.newInstance(dialogType);
-//		newFragment.setPositiveListener(new DialogInterface.OnClickListener() {
-//
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				// TODO Auto-generated method stub
-//				if(!isInitTaskLoading) {
-//					task.execute(params);
-//				}
-//				dialog.dismiss();
-//			}
-//		});
-//		newFragment.setNegativeListener(new DialogInterface.OnClickListener() {
-//
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//				getActivity().finish();
-//				dialog.dismiss();
-//			}
-//		});
-//		FragmentManager manager = getFragmentManager();
-//		if(manager!=null) {
-//			newFragment.show(manager, "dialog");
-//		}
-//	}
 
     private OnCancelListener mLoadingCancelListener = new OnCancelListener() {
 
@@ -1082,6 +848,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         Item item = mHGridAdapter.getItem(position);
         currentposition = position;
         if (item != null) {
+            try{
             if (item.model_name.equals("package")) {
                 PageIntent intent =new PageIntent();
                 intent.toPackageDetail(getActivity(),"list",item.pk);
@@ -1101,41 +868,25 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                     mSectionProperties.put(EventProperty.SECTION, s.slug);
                     final HashMap<String, Object> properties = new HashMap<String, Object>();
                     properties.putAll(mSectionProperties);
-                 //   new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_OUT, properties);
+                    new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_OUT, properties);
                     mSectionProperties.remove(EventProperty.TO_ITEM);
                     mSectionProperties.remove(EventProperty.TO_TITLE);
                     mSectionProperties.remove(EventProperty.POSITION);
                     mSectionProperties.remove(EventProperty.TITLE);
                     mSectionProperties.remove(EventProperty.SECTION);
-                    Intent intent = new Intent();
                     if (item.is_complex) {
                         boolean[] isSubItem = new boolean[1];
                         int pk = SimpleRestClient.getItemId(item.url, isSubItem);
                         PageIntent pageIntent=new PageIntent();
                         pageIntent.toDetailPage(getActivity(),"list",pk);
                     } else {
-//                        tool = new InitPlayerTool(getActivity());
-//                        tool.fromPage = "list";
-//                        tool.setonAsyncTaskListener(new InitPlayerTool.onAsyncTaskHandler() {
-//
-//                            @Override
-//                            public void onPreExecute(Intent intent) {
-//                                // TODO Auto-generated method stub
-//                                intent.putExtra(EventProperty.SECTION, s.slug);
-//                                mLoadingDialog.show();
-//                            }
-//
-//                            @Override
-//                            public void onPostExecute() {
-//                                // TODO Auto-generated method stub
-//                                mLoadingDialog.dismiss();
-//                            }
-//                        });
-//                        tool.initClipInfo(item.url, InitPlayerTool.FLAG_URL);
                         PageIntent playintent=new PageIntent();
                         playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST);
                     }
                 }
+            }
+             }catch (Exception e){
+                LogUtils.loadException("channel","list",mChannel,"",item.pk,"","","",e.toString());
             }
         }
     }
@@ -1159,11 +910,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         if (percentage == 100 && sectionIndex == mSectionList.size() - 1) {
              right_shadow.setVisibility(View.INVISIBLE);
         }
-//        if(mScrollableSectionList != null && mScrollableSectionList.sectionhovered != null){
-//        	mScrollableSectionList.sectionhovered.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
-//        	mScrollableSectionList.sectionhovered.setBackgroundResource(android.R.color.transparent);
-//        	mScrollableSectionList.sectionhovered = null;
-//        }
     }
 
     @Override

@@ -435,6 +435,14 @@ public interface SkyService {
     Observable<HomePagerEntity> fetchHomePage(
             @Url String url
     );
+    @GET
+    Observable<ItemList> getPackageList(
+            @Url String url
+    );
+    @GET
+    Observable<ItemList> getPackageListItem(
+            @Url String url
+    );
 
     @Headers("Cache-Control: public, max-age=5")
     @GET("api/tv/homepage/top/")

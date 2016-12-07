@@ -129,7 +129,10 @@ public class PageIntent implements PageIntentInterface {
 
     @Override
     public void toPackageList(Context context, String source, long pk) {
-
+        Intent intent=new Intent();
+        intent.setAction("tv.ismar.daisy.packagelist");
+        intent.putExtra("pk",pk);
+        context.startActivity(intent);
     }
 
     public void toHistory(Context context) {

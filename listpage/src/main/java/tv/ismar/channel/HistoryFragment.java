@@ -1,6 +1,7 @@
 package tv.ismar.channel;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,6 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.Utils.LogUtils;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.adapter.RecommecdItemAdapter;
 import tv.ismar.app.BaseActivity;
@@ -219,17 +221,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				}
 			}
 		});
-//		search_btn = (Button)fragmentView.findViewById(R.id.list_view_search);
-//		search_btn.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				Intent searchIntent = new Intent();
-////				searchIntent.setClass(getActivity(), SearchActivity.class);
-////				startActivity(searchIntent);
-//			}
-//		});
 		HashMap<String, Object> properties = new HashMap<String, Object>();
 		properties.put(EventProperty.TITLE, "history");
 		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_HISTORY_IN, properties);
@@ -344,6 +335,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 					@Override
 					public void onError(Throwable e) {
+						LogUtils.loadException("history ","history ","","",0,"","","server",e.toString());
 						super.onError(e);
 					}
 				});
@@ -387,46 +379,12 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					for(int i=0;i<mHistories.size();++i) {
 						History history = mHistories.get(i);
 						Item item = getItem(history);
-//						if(history.last_played_time < yesterdayStartPoint){
-//							mEarlyItemList.objects.put(mEarlyItemList.count++, item);
-//						} else if(history.last_played_time > yesterdayStartPoint && history.last_played_time < todayStartPoint) {
-//							mYesterdayItemList.objects.put(mYesterdayItemList.count++, item);
-//						} else {
-//							mTodayItemList.objects.put(mTodayItemList.count++, item);
-//						}
 						mHistoryItemList.objects.put(mHistoryItemList.count++, item);
 					}
-					//mTodayItemList.num_pages = (int) FloatMath.ceil((float)mTodayItemList.count / (float)ItemCollection.NUM_PER_PAGE);
-					//mYesterdayItemList.num_pages = (int) FloatMath.ceil((float)mYesterdayItemList.count /(float) ItemCollection.NUM_PER_PAGE);
-					//mEarlyItemList.num_pages = (int) FloatMath.ceil((float)mEarlyItemList.count / (float)ItemCollection.NUM_PER_PAGE);
 					mHistoryItemList.num_pages = (int) Math.ceil((float)mHistoryItemList.count / (float)ItemCollection.NUM_PER_PAGE);
 					if(mHistoryItemList.count>0){
 						Arrays.fill(mHistoryItemList.hasFilledValidItem, true);
 					}
-//					if(mTodayItemList.count > 0) {
-//						Section todaySection = new Section();
-//						todaySection.slug = mTodayItemList.slug;
-//						todaySection.title = mTodayItemList.title;
-//						todaySection.count = mTodayItemList.count;
-//						mSectionList.add(todaySection);
-//						Arrays.fill(mTodayItemList.hasFilledValidItem, true);
-//					}
-//					if(mYesterdayItemList.count > 0) {
-//						Section yesterdaySection = new Section();
-//						yesterdaySection.slug = mYesterdayItemList.slug;
-//						yesterdaySection.title = mYesterdayItemList.title;
-//						yesterdaySection.count = mYesterdayItemList.count;
-//						mSectionList.add(yesterdaySection);
-//						Arrays.fill(mYesterdayItemList.hasFilledValidItem, true);
-//					}
-//					if(mEarlyItemList.count > 0) {
-//						Section earlySection = new Section();
-//						earlySection.slug = mEarlyItemList.slug;
-//						earlySection.title = mEarlyItemList.title;
-//						earlySection.count = mEarlyItemList.count;
-//						mSectionList.add(earlySection);
-//						Arrays.fill(mEarlyItemList.hasFilledValidItem, true);
-//					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -714,75 +672,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 						item = i;
 						PageIntent intent=new PageIntent();
 						intent.toPlayPage(getActivity(),item.pk,item.item_pk,Source.HISTORY);
-//						String url = SimpleRestClient.root_url + "/api/item/" + item.pk + "/";
-//						mCurrentGetItemTask.remove(url);
-//						History history = null;
-//						if (SimpleRestClient.isLogin())
-//							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "yes");
-//						else {
-//							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "no");
-//						}
-//						if (history == null) {
-//							return;
-//						}
-//						// Use to data collection.
-//						mDataCollectionProperties = new HashMap<String, Object>();
-//						int id = SimpleRestClient.getItemId(url, new boolean[1]);
-//						mDataCollectionProperties.put("to_item", id);
-//						if (history.sub_url != null && item.subitems != null) {
-//							int sub_id = SimpleRestClient.getItemId(history.sub_url, new boolean[1]);
-//							mDataCollectionProperties.put("to_subitem", sub_id);
-//							for (Item subitem : item.subitems) {
-//								if (sub_id == subitem.pk) {
-//									mDataCollectionProperties.put("to_clip", subitem.clip.pk);
-//									break;
-//								}
-//							}
-//						} else {
-//							mDataCollectionProperties.put("to_subitem", item.clip.pk);
-//						}
-//						mDataCollectionProperties.put("to_title", item.title);
-//						mDataCollectionProperties.put("position", history.last_position);
-//						String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
-//						mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
-//						// start a new activity.
-//
-//						InitPlayerTool tool = new InitPlayerTool(getActivity());
-//						tool.fromPage = "history";
-//						tool.setonAsyncTaskListener(new InitPlayerTool.onAsyncTaskHandler() {
-//
-//							@Override
-//							public void onPreExecute(Intent intent) {
-//								// TODO Auto-generated method stub
-//								if (mLoadingDialog != null)
-//									mLoadingDialog.show();
-//							}
-//
-//							@Override
-//							public void onPostExecute() {
-//								// TODO Auto-generated method stub
-//								if (mLoadingDialog != null)
-//									mLoadingDialog.dismiss();
-//							}
-//						});
-//						if (history != null) {
-//							if (item.subitems != null && item.subitems.length > 0) {
-//								if (item.ispayed) {
-//									tool.initClipInfo(history.sub_url, InitPlayerTool.FLAG_URL, history.price);
-//								} else {
-//									tool.initClipInfo(history.sub_url, InitPlayerTool.FLAG_URL, true, null);
-//								}
-//							} else {
-//								tool.initClipInfo(url, InitPlayerTool.FLAG_URL, history.price);
-//							}
-//						} else {
-//							if (SimpleRestClient.isLogin())
-//								tool.initClipInfo(netItem.url, InitPlayerTool.FLAG_URL, history.price);
-//						}
-//						if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-//							mLoadingDialog.dismiss();
-//						}
-//						isInGetItemTask = false;
 //
 				}
 
@@ -891,8 +780,8 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					}
 				}
 				break;
-		//	case 3 : SakuraUtils.startSakura(getActivity());break;
-			case 4 : startPersoncenter();break;
+			case 3 : startSakura(getActivity());break;
+			case 4 : startPersoncenter(getActivity());break;
 		}
 
 	}
@@ -919,18 +808,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 							   long id) {
 		if("".equals(SimpleRestClient.access_token)){
 			mSelectedPosition = position;
-			// When selected column has changed, we need to update the ScrollableSectionList
-//			int sectionIndex = mHGridAdapter.getSectionIndex(position);
-//			int rows = mHGridView.getRows();
-//			int itemCount = 0;
-//			for(int i=0; i < sectionIndex; i++) {
-//				itemCount += mHGridAdapter.getSectionCount(i);
-//				
-//			}
-			//int columnOfX = (position - itemCount) / rows + 1;
-			//int totalColumnOfSectionX = (int)(FloatMath.ceil((float)mHGridAdapter.getSectionCount(sectionIndex) / (float) rows)); 
-			//int percentage = (int) ((float)columnOfX / (float)totalColumnOfSectionX * 100f);
-			//mScrollableSectionList.setPercentage(sectionIndex, percentage);
 		}
 	}
 
@@ -975,18 +852,25 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					public void onCompleted() {
 
 					}
-
 					@Override
 					public void onNext(VideoEntity videoEntity) {
 						setTvHome(videoEntity);
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						super.onError(e);
 					}
 				});
 	}
 
 
-	private void startPersoncenter(){
-		Intent intent = new Intent();
-		intent.setAction("tv.ismar.daisy.usercenter");
-		startActivity(intent);
+	private void startPersoncenter(Context context){
+		PageIntent intent=new PageIntent();
+		intent.toUserCenter(context);
+	}
+	private void startSakura(Context context){
+		PageIntent intent=new PageIntent();
+		intent.toHelpPage(context);
 	}
 }

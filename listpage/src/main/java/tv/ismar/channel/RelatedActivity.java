@@ -27,6 +27,7 @@ import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.Utils.LogUtils;
 import tv.ismar.adapter.RelatedAdapter;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
@@ -272,6 +273,7 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
 
                     @Override
                     public void onError(Throwable e) {
+                        LogUtils.loadException("channel ","related ","","getRelatedArray",0,"","","server",e.toString());
                         super.onError(e);
                         mLoadingDialog.dismiss();
                     }
@@ -379,25 +381,25 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
 
         @Override
         protected Void doInBackground(Section... params) {
-            try {
-                Section section = params[0];
-                String url = null;
-                if (section.slug.equals("default")) {
-                    url = "/api/tv/relate/" + mItem.pk + "/";
-                    Item[] itemArray = mSimpleRestClient.getRelatedItem(url);
-                    if (itemArray != null) {
-                        mRelatedItem = new ArrayList<Item>(Arrays.asList(itemArray));
-                    }
-                } else {
-                    url = mSimpleRestClient.root_url + "/api/tv/filtrate/$" + mItem.content_model + "/" + section.slug + "*" + section.template + "/";
-                    ItemList itemList = mSimpleRestClient.getItemList(url);
-                    if (itemList != null) {
-                        mRelatedItem = itemList.objects;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Section section = params[0];
+//                String url = null;
+//                if (section.slug.equals("default")) {
+//                    url = "/api/tv/relate/" + mItem.pk + "/";
+//                    Item[] itemArray = mSimpleRestClient.getRelatedItem(url);
+//                    if (itemArray != null) {
+//                        mRelatedItem = new ArrayList<Item>(Arrays.asList(itemArray));
+//                    }
+//                } else {
+//                    url = mSimpleRestClient.root_url + "/api/tv/filtrate/$" + mItem.content_model + "/" + section.slug + "*" + section.template + "/";
+//                    ItemList itemList = mSimpleRestClient.getItemList(url);
+//                    if (itemList != null) {
+//                        mRelatedItem = itemList.objects;
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             return null;
         }
 
@@ -426,6 +428,11 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
                                 mRelatedItem = new ArrayList<Item>(Arrays.asList(items));
                             }
                         }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                        }
                     });
         } else {
             skyService.getRelatedItemByInfo(mItem.content_model,section.slug,section.template ).subscribeOn(Schedulers.io())
@@ -439,6 +446,11 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
                     if (itemList != null) {
                         mRelatedItem = itemList.objects;
                     }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
                 }
             });
         }

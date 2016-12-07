@@ -26,16 +26,16 @@
         <!--android:layout_height="@dimen/gridview_main_gridview_line_H"-->
         <!--android:background="@drawable/listview_p_divider"-->
         <!--android:visibility="gone" />-->
-                  <!---->
-           <!--<Button-->
-           <!--android:visibility="visible"-->
-           <!--android:layout_width="wrap_content"-->
-           <!--android:layout_height="@dimen/list_view_search_H"-->
-           <!--android:layout_marginLeft="@dimen/list_view_search_ML"-->
-           <!--android:layout_gravity="center_vertical"-->
-           <!--android:focusable="true"-->
-           <!--android:id="@+id/list_view_search"-->
-           <!--android:background="@drawable/search_btn_bg_selector" />-->
+
+        <!--<Button-->
+            <!--android:visibility="visible"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="@dimen/list_view_search_H"-->
+            <!--android:layout_marginLeft="@dimen/list_view_search_ML"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:focusable="true"-->
+            <!--android:id="@+id/list_view_search"-->
+            <!--android:background="@drawable/search_btn_bg_selector" />-->
         <TextView
             android:id="@+id/clear_history"
             android:layout_width="wrap_content"

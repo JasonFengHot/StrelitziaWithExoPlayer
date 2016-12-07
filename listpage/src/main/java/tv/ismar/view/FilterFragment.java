@@ -35,6 +35,7 @@ import java.util.Iterator;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.Utils.LogUtils;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
@@ -245,9 +246,8 @@ public class FilterFragment extends BackHandledFragment {
                                 }
                                 filtermenulayout.addView(view,groupLp);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
+                        } catch (Exception e) {
+                            LogUtils.loadException("channel ","filter ","","dofilter",0,"","","server",e.toString());
                             e.printStackTrace();
                         }
                     }
