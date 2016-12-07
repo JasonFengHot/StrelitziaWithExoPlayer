@@ -3,11 +3,11 @@ package tv.ismar.helperpage.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
 
+import tv.ismar.app.BaseActivity;
 import tv.ismar.helperpage.R;
 import tv.ismar.helperpage.ui.adapter.IndicatorAdapter;
 import tv.ismar.helperpage.ui.fragment.FeedbackFragment;
@@ -20,7 +20,7 @@ import tv.ismar.helperpage.ui.widget.indicator.ViewPagerScroller;
 /**
  * Created by huaijie on 2015/4/7.
  */
-public class HomeActivity extends FragmentActivity {
+public class HomeActivity extends BaseActivity {
     private IndicatorAdapter indicatorAdapter;
     private ArrayList<Fragment> fragments;
 

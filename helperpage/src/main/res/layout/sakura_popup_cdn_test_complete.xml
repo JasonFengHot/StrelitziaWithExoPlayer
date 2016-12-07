@@ -16,7 +16,7 @@
             android:gravity="center"
             />
 
-    <tv.ismar.sakura.ui.widget.SakuraButton
+    <tv.ismar.helperpage.ui.widget.SakuraButton
             android:id="@+id/test_c_confirm_btn"
             android:text="@string/confirm_test_complete"
             android:textSize="22sp"

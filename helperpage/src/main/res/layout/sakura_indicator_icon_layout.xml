@@ -6,7 +6,7 @@
                 android:layout_height="200dp">
 
 
-    <tv.ismar.sakura.ui.widget.indicator.IconImageView
+    <tv.ismar.helperpage.ui.widget.indicator.IconImageView
             android:id="@+id/icon_node"
             android:layout_width="@dimen/home_indicator_icon_width"
             android:focusable="true"
@@ -16,7 +16,7 @@
             android:layout_height="@dimen/home_indicator_icon_height"/>
 
 
-    <tv.ismar.sakura.ui.widget.indicator.IconImageView
+    <tv.ismar.helperpage.ui.widget.indicator.IconImageView
             android:id="@+id/icon_feedback"
             android:layout_toRightOf="@id/icon_node"
             android:focusable="true"
@@ -27,7 +27,7 @@
             android:layout_marginRight="100dp"
             android:layout_height="@dimen/home_indicator_icon_height"/>
 
-    <tv.ismar.sakura.ui.widget.indicator.IconImageView
+    <tv.ismar.helperpage.ui.widget.indicator.IconImageView
             android:id="@+id/icon_help"
             android:layout_toRightOf="@id/icon_feedback"
             android:focusable="true"

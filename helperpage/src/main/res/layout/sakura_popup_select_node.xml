@@ -25,7 +25,7 @@
             >
 
 
-        <tv.ismar.sakura.ui.widget.SakuraButton
+        <tv.ismar.helperpage.ui.widget.SakuraButton
                 android:gravity="center"
                 android:textSize="22sp"
                 android:textColor="#ffffffff"
@@ -39,7 +39,7 @@
                 android:layout_width="120dp"
                 android:layout_height="60dp"/>
 
-        <tv.ismar.sakura.ui.widget.SakuraButton
+        <tv.ismar.helperpage.ui.widget.SakuraButton
                 android:layout_marginLeft="100dp"
                 android:id="@+id/cancle_btn"
                 android:clickable="true"

@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             />
 
-    <tv.ismar.sakura.ui.widget.indicator.IconPagerIndicator
+    <tv.ismar.helperpage.ui.widget.indicator.IconPagerIndicator
             android:id="@+id/indicator"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/pager"

@@ -30,10 +30,10 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import tv.ismar.helperpage.LauncherActivity;
 import tv.ismar.helperpage.R;
 import tv.ismar.helperpage.core.CdnCacheLoader;
 import tv.ismar.helperpage.core.HttpDownloadTask;
+import tv.ismar.helperpage.ui.activity.HomeActivity;
 import tv.ismar.helperpage.ui.adapter.IspSpinnerAdapter;
 import tv.ismar.helperpage.ui.adapter.NodeListAdapter;
 import tv.ismar.helperpage.ui.adapter.ProvinceSpinnerAdapter;
@@ -372,7 +372,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
 //     * @param snCode
 //     */
     private void fetchBindedCdn(final String snCode) {
-        ((LauncherActivity)getActivity()).mWxApiService.GetBindCdn(snCode)
+        ((HomeActivity)getActivity()).mWxApiService.GetBindCdn(snCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BindedCdnEntity>() {
@@ -400,7 +400,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     private void bindCdn(final String snCode, final int cdnId) {
-        ((LauncherActivity)getActivity()).mWxApiService.BindCdn(snCode,cdnId)
+        ((HomeActivity)getActivity()).mWxApiService.BindCdn(snCode,cdnId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Empty>() {
@@ -425,7 +425,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     private void unbindNode(final String snCode) {
-        ((LauncherActivity)getActivity()).mWxApiService.UnbindNode(snCode)
+        ((HomeActivity)getActivity()).mWxApiService.UnbindNode(snCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Empty>() {
@@ -643,7 +643,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
 
 
     private void uploadCdnTestLog(String data, String snCode, String model) {
-        ((LauncherActivity)getActivity()).mWxApiService.DeviceLog(data,snCode,model)
+        ((HomeActivity)getActivity()).mWxApiService.DeviceLog(data,snCode,model)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Empty>() {
@@ -668,7 +668,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
 
     public void uploadTestResult(String cdnId, String speed) {
         String ACTION_TYPE = "submitTestData";
-        ((LauncherActivity)getActivity()).mWxApiService.UploadResult(ACTION_TYPE,snCode,cdnId,speed)
+        ((HomeActivity)getActivity()).mWxApiService.UploadResult(ACTION_TYPE,snCode,cdnId,speed)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Empty>() {
