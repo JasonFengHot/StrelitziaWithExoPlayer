@@ -68,7 +68,6 @@ import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.MessageQueue;
-import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.player.CallaPlay;

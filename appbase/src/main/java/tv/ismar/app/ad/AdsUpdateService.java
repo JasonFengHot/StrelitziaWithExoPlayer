@@ -2,10 +2,7 @@ package tv.ismar.app.ad;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.File;
@@ -99,6 +96,9 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                 advertiseManager.updateAppLaunchAdvertisement(needDownloadAds);
             }
 
+        } else {
+            Log.d(TAG, "delete all ads");
+            new Delete().from(AdvertiseTable.class).execute();
         }
 
     }
