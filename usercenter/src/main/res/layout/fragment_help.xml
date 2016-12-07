@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_help_contact_margin_left"
                 android:layout_marginTop="@dimen/usercenter_fragment_help_ismartv_introduction_lineSpacingExtra"
-                android:text="@string/help_wx"
+                android:text="@{tasks.versionName}"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/text_size_27sp"/>
 
