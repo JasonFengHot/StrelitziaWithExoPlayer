@@ -102,7 +102,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         if (viewInit && playerFragment != null && playerFragment.goFinishPageOnResume) {
             // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
             onHide();
-        } else if (viewInit && playerFragment != null) {
+        } else if (viewInit && playerFragment != null && !playerFragment.sharpKeyDownNotResume) {
             // 多个详情页显示时，逐一返回时需要初始化播放器
             playerFragment.subItemPk = 0;
             playerFragment.initPlayer();
