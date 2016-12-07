@@ -179,7 +179,6 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
             view.setOnHoverListener(this);
             view.setOnFocusChangeListener(this);
             ProductViewHolder holder = new ProductViewHolder(view);
-            holder.itemView.setTag(i);
             holder.itemView.setOnClickListener(this);
             return holder;
         }
@@ -187,6 +186,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         @Override
         public void onBindViewHolder(ProductViewHolder holder, int position) {
             YouHuiDingGouEntity.Object item = mObjects.get(position);
+            holder.itemView.setTag(position);
             holder.mTextView.setText(item.getTitle());
             if (item.getPoster_url().trim().length() == 0) {
                 Picasso.with(mContext).load(R.drawable.list_item_preview_bg).into(holder.mImageView);
