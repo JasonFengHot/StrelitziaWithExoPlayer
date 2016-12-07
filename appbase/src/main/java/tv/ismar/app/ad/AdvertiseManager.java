@@ -30,7 +30,7 @@ import tv.ismar.app.reporter.EventReporter;
 import tv.ismar.app.util.FileUtils;
 
 public class AdvertiseManager {
-    private static final String TAG = "AdvertisementManager";
+    private static final String TAG = "LH/AdvertisementManager";
 
     public static final String DEFAULT_ADV_PICTURE = "file:///android_asset/poster.png";
     private static final String LAUNCH_APP_ADVERTISEMENT = "launch_app";
@@ -95,6 +95,7 @@ public class AdvertiseManager {
     public void updateAppLaunchAdvertisement(List<AdElementEntity> adElementEntityList) {
         for (AdElementEntity adElementEntity : adElementEntityList) {
             String downlaodUrl = adElementEntity.getMedia_url();
+            Log.i(TAG, "downlaodUrl:" + downlaodUrl);
             String filePath = mContext.getFilesDir() + "/" + AD_DIR + "/" + FileUtils.getFileByUrl(adElementEntity.getMedia_url());
             File localFile = new File(filePath);
             if (!localFile.exists()) {
@@ -107,6 +108,7 @@ public class AdvertiseManager {
             } else {
                 String md5Code = adElementEntity.getMd5();
                 if (!md5Code.equalsIgnoreCase(FileUtils.getMd5ByFile(localFile))) {
+                    localFile.delete();
                     new CallaPlay().bootAdvDownload(
                             adElementEntity.getTitle(),
                             String.valueOf(adElementEntity.getMedia_id()),
