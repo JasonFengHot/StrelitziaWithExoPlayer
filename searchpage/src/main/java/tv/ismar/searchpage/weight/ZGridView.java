@@ -2158,24 +2158,25 @@ public class ZGridView extends AdapterView<ListAdapter> {
 		mFirstPosition = rowStart;
 
 		final View referenceView = mReferenceView;
-
-		if (!mStackFromBottom) {
-			fillDown(rowStart + numColumns, referenceView.getBottom()
-					+ verticalSpacing);
-			pinToBottom(childrenBottom);
-			fillUp(rowStart - numColumns, referenceView.getTop()
-					- verticalSpacing);
-			adjustViewsUpOrDown();
-		} else {
-			final int bottomSelectionPixel = getBottomSelectionPixel(
-					childrenBottom, fadingEdgeLength, numColumns, rowStart);
-			final int offset = bottomSelectionPixel - referenceView.getBottom();
-			offsetChildrenTOpAndBottom(offset);
-			fillUp(rowStart - 1, referenceView.getTop() - verticalSpacing);
-			pinToTop(childrenTop);
-			fillDown(rowEnd + numColumns, referenceView.getBottom()
-					+ verticalSpacing);
-			adjustViewsUpOrDown();
+		if(referenceView!=null) {
+			if (!mStackFromBottom) {
+				fillDown(rowStart + numColumns, referenceView.getBottom()
+						+ verticalSpacing);
+				pinToBottom(childrenBottom);
+				fillUp(rowStart - numColumns, referenceView.getTop()
+						- verticalSpacing);
+				adjustViewsUpOrDown();
+			} else {
+				final int bottomSelectionPixel = getBottomSelectionPixel(
+						childrenBottom, fadingEdgeLength, numColumns, rowStart);
+				final int offset = bottomSelectionPixel - referenceView.getBottom();
+				offsetChildrenTOpAndBottom(offset);
+				fillUp(rowStart - 1, referenceView.getTop() - verticalSpacing);
+				pinToTop(childrenTop);
+				fillDown(rowEnd + numColumns, referenceView.getBottom()
+						+ verticalSpacing);
+				adjustViewsUpOrDown();
+			}
 		}
 
 		return sel;
