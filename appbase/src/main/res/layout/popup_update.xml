@@ -41,8 +41,9 @@
                 android:id="@+id/update_now_bt"
                 android:layout_width="@dimen/update_confirm_button_width"
                 android:layout_height="@dimen/update_confirm_button_height"
+                android:layout_alignParentLeft="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginRight="@dimen/app_update_btn_marginTop"
+                android:layout_marginLeft="@dimen/update_left_btn_ml"
                 android:background="@drawable/selector_daisy_exit_button"
                 android:clickable="true"
                 android:focusable="true"
@@ -50,6 +51,21 @@
                 android:text="@string/update_now"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/update_msg_textsize"/>
+            <Button
+                android:id="@+id/update_later_bt"
+                android:layout_width="@dimen/update_confirm_button_width"
+                android:layout_height="@dimen/update_confirm_button_height"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="@dimen/update_left_btn_ml"
+                android:background="@drawable/selector_daisy_exit_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text="@string/update_later"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/update_msg_textsize"/>
+
         </RelativeLayout>
 
         <TextView

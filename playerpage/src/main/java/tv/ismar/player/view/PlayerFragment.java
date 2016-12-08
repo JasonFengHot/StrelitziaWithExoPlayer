@@ -1131,6 +1131,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 Log.i(TAG, "player init success.");
                 mIsmartvPlayer.prepareAsync();
                 testPreparedTime = System.currentTimeMillis();
+                mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
             }
 
             @Override

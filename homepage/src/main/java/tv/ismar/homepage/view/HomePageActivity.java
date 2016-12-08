@@ -72,6 +72,7 @@ import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HeadFragment;
+import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.SPUtils;
@@ -317,6 +318,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (savedInstanceState != null)
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
+        checkUpgrade();
         Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
@@ -1442,4 +1444,17 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         intent.setClass(this, ActiveService.class);
         startService(intent);
     }
+
+    private void checkUpgrade() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), UpdateService.class);
+                intent.putExtra("install_type", 0);
+                startService(intent);
+            }
+        }, 1000 * 7);
+    }
+
 }

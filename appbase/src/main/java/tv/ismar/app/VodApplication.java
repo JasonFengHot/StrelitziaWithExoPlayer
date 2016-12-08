@@ -107,21 +107,9 @@ public class VodApplication extends Application {
             new Thread(new InitializeProcess(this)).start();
         }
 
-        checkUpgrade();
         Log.i("LH/", "applicationOnCreateEnd:" + System.currentTimeMillis());
     }
 
-    private void checkUpgrade() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent();
-                intent.setClass(VodApplication.this, UpdateService.class);
-                intent.putExtra("install_type", 0);
-                startService(intent);
-            }
-        }, 1000 * 7);
-    }
 
     public SharedPreferences getPreferences() {
         return mPreferences;
