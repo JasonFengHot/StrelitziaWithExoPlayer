@@ -444,10 +444,10 @@ public class DetailPageViewModel extends BaseObservable {
             case "variety":
                 ItemEntity[] subItems = mItemEntity.getSubitems();
                 if (subItems == null || subItems.length == 0) {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 && !videoIsStart() ? mContext.getString(R.string.video_preview) :
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 && videoIsStart() ? mContext.getString(R.string.video_preview) :
                             mContext.getString(R.string.video_play);
                 } else {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 && !videoIsStart() ?
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 && videoIsStart() ?
                             mContext.getString(R.string.video_preview)
 //                            + " " + subItems[subItems.length - 1].getSubtitle()
                             :
@@ -456,7 +456,7 @@ public class DetailPageViewModel extends BaseObservable {
                 }
 
             default:
-                return mItemEntity.getExpense() != null && mRemandDay <= 0 && !videoIsStart() ? mContext.getString(R.string.video_preview) :
+                return mItemEntity.getExpense() != null && mRemandDay <= 0 && videoIsStart() ? mContext.getString(R.string.video_preview) :
                         mContext.getString(R.string.video_play);
         }
 
