@@ -307,10 +307,9 @@ public class FilterFragment extends BackHandledFragment {
                          if(!"不限".equals(s))
                             realNames.add(s);
                      }
-
                  }
                  else{
-//                     compoundButton.setTextSize(36/rate);
+//                    compoundButton.setTextSize(36/rate);
                      scaleIn(compoundButton);
                      compoundButton.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
                      String str = ((FilterItem)compoundButton.getTag()).value;

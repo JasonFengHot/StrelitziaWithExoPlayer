@@ -12,12 +12,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.Subscription;
@@ -48,12 +53,14 @@ public class Advertisement {
     private Subscription mApiVideoStartSubsc;
     private Subscription mApiAppStartSubsc;
     private Context mContext;
+    private DateFormat dateFormat;
 
     private OnVideoPlayAdListener mOnVideoPlayAdListener;
     private OnAppStartAdListener mOnAppStartAdListener;
 
     public Advertisement(Context context) {
         mContext = context;
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     public void setOnVideoPlayListener(OnVideoPlayAdListener onVideoPlayAdListener) {
@@ -335,15 +342,33 @@ public class Advertisement {
 //                    int elementRetCode = element.getInt("retcode");
                     if (!Utils.isEmptyText(elementRetCode) && elementRetCode.equals("200")) {
                         AdElementEntity ad = new Gson().fromJson(element.toString(), AdElementEntity.class);
-                        adElementEntities.add(ad);
+                        // 已经过期的数据需要过滤掉
+                        try {
+                            String start_date = ad.getStart_date() + " " + ad.getStart_time();
+                            String end_date = ad.getEnd_date() + " " + ad.getEnd_time();
+                            long date_start = dateFormat.parse(start_date).getTime();
+                            long date_end = dateFormat.parse(end_date).getTime();
+                            Date todayDate = TrueTime.now();
+                            long todayDateTime = todayDate.getTime();
+                            if(todayDateTime > date_start && todayDateTime < date_end){
+                                adElementEntities.add(ad);
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, "Ad dateTime parse exception.");
+                            adElementEntities.add(ad);
+                        }
                     }
                 }
-                Collections.sort(adElementEntities, new Comparator<AdElementEntity>() {
-                    @Override
-                    public int compare(AdElementEntity lhs, AdElementEntity rhs) {
-                        return rhs.getSerial() > lhs.getSerial() ? 1 : -1;
-                    }
-                });
+
+                if (!adElementEntities.isEmpty()) {
+                    Collections.sort(adElementEntities, new Comparator<AdElementEntity>() {
+                        @Override
+                        public int compare(AdElementEntity lhs, AdElementEntity rhs) {
+                            return rhs.getSerial() > lhs.getSerial() ? 1 : -1;
+                        }
+                    });
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
