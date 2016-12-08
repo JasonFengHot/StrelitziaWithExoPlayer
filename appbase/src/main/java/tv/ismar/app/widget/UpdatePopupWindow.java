@@ -68,6 +68,7 @@ public class UpdatePopupWindow extends PopupWindow {
         setFocusable(true);
 
         Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
+        Button updateLater = (Button) contentView.findViewById(R.id.update_later_bt);
         updateNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +81,12 @@ public class UpdatePopupWindow extends PopupWindow {
                     e.printStackTrace();
                 }
                 AppUtils.installApp(context, path);
+            }
+        });
+        updateLater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
     }

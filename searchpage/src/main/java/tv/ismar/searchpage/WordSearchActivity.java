@@ -1121,6 +1121,12 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                         }
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        JasmineUtil.loadException("search","filter","",type,0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/vodsearch/",DeviceUtils.getVersionCode(WordSearchActivity.this),"server",e.getMessage());
+                        super.onError(e);
+                    }
                 });
 
     }
@@ -1162,6 +1168,12 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                             ll_hotwords.setVisibility(View.INVISIBLE);
                         }
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/hotwords/",DeviceUtils.getVersionCode(WordSearchActivity.this),"server",e.getMessage());
+                        super.onError(e);
+                    }
                 });
     }
 
@@ -1196,6 +1208,12 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                         } else {
                             top_tabs.getChildAt(selectedTab).requestFocus();
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        JasmineUtil.loadException("search","filter_empty","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/homepage/sharphotwords/8/",DeviceUtils.getVersionCode(WordSearchActivity.this),"server",e.getMessage());
+                        super.onError(e);
                     }
                 });
     }
@@ -1242,6 +1260,12 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                             junp_view.setVisibility(View.VISIBLE);
 
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/suggest/"+args+"/?device_token==&access_token=/",DeviceUtils.getVersionCode(WordSearchActivity.this),"server",e.getMessage());
+                        super.onError(e);
                     }
                 });
 

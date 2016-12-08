@@ -564,4 +564,5 @@
 <dimen name="filter_noresult_text_ML">75.33dp</dimen>
 <dimen name="episode_item_btn_width">59.33dp</dimen>
 <dimen name="episode_item_btn_height">46.67dp</dimen>
+<dimen name="update_left_btn_ml">100.00dp</dimen>
 </resources>

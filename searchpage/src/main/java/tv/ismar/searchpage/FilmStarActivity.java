@@ -210,6 +210,11 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                         setPersonBG(personEntitiy.getImage());
                     }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/person/"+personId+"/", DeviceUtils.getVersionCode(FilmStarActivity.this),"server",e.getMessage());
+                        super.onError(e);
+                    }
                 });
 
     }
@@ -281,6 +286,12 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
                             fetchActorRelateByType(pk, entity.getFacet().get(0).getContent_type());
                         }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        JasmineUtil.loadException("search","","","", (int) pk, IsmartvActivator.getInstance().getApiDomain()+"api/tv/actorrelate/", DeviceUtils.getVersionCode(FilmStarActivity.this),"server",e.getMessage());
+                        super.onError(e);
+                    }
                 });
     }
 
@@ -312,6 +323,12 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                         }
                             SemanticSearchResponseEntity entity = semanticSearchResponseEntity;
                             fillVodList(entity.getFacet().get(0).getObjects());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        JasmineUtil.loadException("search","","",type, (int) pk, IsmartvActivator.getInstance().getApiDomain()+"api/tv/actorrelate/", DeviceUtils.getVersionCode(FilmStarActivity.this),"server",e.getMessage());
+                        super.onError(e);
                     }
                 });
 
