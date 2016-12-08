@@ -16,20 +16,21 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/gridview_channel_panel_height"
         android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin">
+        android:layout_marginLeft="@dimen/list_progressBar_margin">
     <TextView
         android:text="筛选结果 :"
         android:id="@+id/filter_result_txt"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_marginTop="@dimen/filter_Hgride_protra_PT"
         android:textColor="@android:color/white"
         android:textSize="@dimen/h1_text_size" />
 
      <LinearLayout
         android:orientation="horizontal"
-         android:layout_marginLeft="18dp"
+         android:layout_marginLeft="@dimen/filter_port_Hgride_textMarg"
         android:id="@+id/filter_condition_layout"
+         android:layout_marginTop="@dimen/filter_text_MT"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
        >
@@ -39,14 +40,14 @@
 </LinearLayout>
     <ProgressBar
             android:id="@+id/filter_percentage"
-            android:layout_width="@dimen/filter_portraitresult_filter_percentage_w"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/filter_portraitresult_filter_percentage_h"
             android:progressDrawable="@drawable/progressbg"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:indeterminate="false"
             android:visibility="visible"
-            android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin"
-            android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"/>
+            android:layout_marginLeft="@dimen/list_progressBar_margin"
+            android:layout_marginRight="@dimen/list_progressBar_margin"/>
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -83,7 +84,7 @@
                     android:layout_height="match_parent"
                     sakura:horizontalSpacing="@dimen/listportait_Hgride_horSpace"
                     sakura:numRows="2"
-                    sakura:rowHeight="@dimen/listportait_Hgride_rowHeight"
+                    sakura:rowHeight="@dimen/filter_Hgride_rowH"
                     sakura:selectorDrawable="@drawable/vod_gv_selector"
                     sakura:verticalSpacing="@dimen/listportait_Hgride_filterverSpace"
                     sakura:selectionLeftPadding="@dimen/filter_Hgride_select_portraiter_padding"
@@ -144,14 +145,14 @@
         </LinearLayout>
         <ProgressBar
                 android:id="@+id/recommend_filter_percentage"
-                android:layout_width="@dimen/filter_portraitresult_filter_percentage_w"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/filter_portraitresult_filter_percentage_h"
                 android:progressDrawable="@drawable/progressbg"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:indeterminate="false"
                 android:visibility="visible"
-                android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin"
-                android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"/>
+                android:layout_marginLeft="@dimen/list_progressBar_margin"
+                android:layout_marginRight="@dimen/list_progressBar_margin"/>
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -193,17 +194,17 @@
                     sakura:rowHeight="@dimen/filter_portraitresult_filter_grid_rowHeight"
                     sakura:selectorDrawable="@drawable/vod_gv_selector"
                     sakura:verticalSpacing="0dip"
-                    sakura:selectionLeftPadding="@dimen/HGridView_related_pselectionLeftPadding"
-                    sakura:selectionTopPadding="@dimen/HGridView_related_pselectionTopPadding"
-                    sakura:selectionRightPadding="@dimen/HGridView_related_pselectionRightPadding"
-                    sakura:selectionBottomPadding="@dimen/HGridView_related_pselectionBottomPadding"
-                    android:layout_marginTop="42dp"
-                    android:paddingTop="@dimen/filter_portraitresult_filter_grid_pt"
+                    sakura:selectionLeftPadding="@dimen/filter_Hgride_select_portraiter_padding"
+                    sakura:selectionTopPadding="@dimen/filter_Hgride_select_portraiter_padding"
+                    sakura:selectionRightPadding="@dimen/filter_Hgride_select_portraiter_padding"
+                    sakura:selectionBottomPadding="@dimen/filter_Hgride_noresult_select_PB"
+                    android:layout_marginTop="@dimen/filter_Hgride_protra_MT"
+                    android:paddingTop="@dimen/filter_Hgride_protra_PT"
                     android:layout_marginBottom="@dimen/filter_portraitresult_filter_grid_mb"
-                    android:layout_marginLeft="53dp"
+                    android:layout_marginLeft="@dimen/filter_Hgride_protra_ML"
                     android:layout_marginRight="@dimen/filter_portraitresult_filter_grid_ml"
                     android:paddingRight="@dimen/filter_portraitresult_filter_grid_pr"
-                    android:paddingLeft="@dimen/filter_portraitresult_filter_grid_pl">
+                    android:paddingLeft="@dimen/filter_Hgride_protra_PT">
             </tv.ismar.app.ui.HGridView>
         </RelativeLayout>
     </LinearLayout>

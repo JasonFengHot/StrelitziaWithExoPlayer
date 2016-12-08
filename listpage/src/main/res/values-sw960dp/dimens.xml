@@ -263,18 +263,26 @@
 <dimen name="filter_groupView_H">112.00dp</dimen>
 <dimen name="filter_radio_H">42.67dp</dimen>
 <dimen name="filter_radio_W">64.00dp</dimen>
+<dimen name="filter_text_MT">6.22dp</dimen>
 <dimen name="filter_Hgride_select_padding">18.67dp</dimen>
 <dimen name="filter_Hgride_select_portraiter_padding">19.56dp</dimen>
 <dimen name="filter_Hgride_select_portraiter_paddingBttom">-16.89dp</dimen>
 <dimen name="filter_Hgride_select_paddingBttom">-35.56dp</dimen>
 <dimen name="filter_Hgride_select_hasresult_PB">-53.33dp</dimen>
+<dimen name="filter_Hgride_noresult_select_PB">-26.67dp</dimen>
+<dimen name="filter_Hgride_protra_PT">19.56dp</dimen>
+<dimen name="filter_Hgride_protra_MT">26.67dp</dimen>
+<dimen name="filter_Hgride_protra_ML">35.56dp</dimen>
 <dimen name="filter_Hgride_noresult_ML">137.78dp</dimen>
 <dimen name="filter_Hgride_noresult_PL">14.22dp</dimen>
 <dimen name="filter_Hgride_PT">13.33dp</dimen>
 <dimen name="filter_Hgride_MT">6.22dp</dimen>
 <dimen name="filter_Hgride_noresult_PT">10.67dp</dimen>
 <dimen name="filter_Hgride_noresult_MT">35.56dp</dimen>
-
+<dimen name="filter_port_Hgride_textMarg">16.00dp</dimen>
+<dimen name="filter_pro_hgride_text_W">106.67dp</dimen>
+<dimen name="filter_pro_hgride_text_H">40.89dp</dimen>
+<dimen name="filter_pro_hgride_text_MR">9.78dp</dimen>
 <!-- channel_section_tabs -->
 <dimen name="channel_section_tabs_W">207.11dip</dimen>
 <dimen name="channel_section_tabs_H">75.56dip</dimen>

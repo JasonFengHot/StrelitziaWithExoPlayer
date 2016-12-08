@@ -51,7 +51,6 @@
     <dimen name="filter_portraitresult_top_layout_ml">113dp</dimen>
     <dimen name="filter_portraitresult_filter_percentage_w">1690dip</dimen>
     <dimen name="filter_portraitresult_filter_percentage_h">4dip</dimen>
-    <dimen name="filter_portraitresult_filter_percentage_margin">113dip</dimen>
     <dimen name="filter_portraitresult_shadow_ml">31dip</dimen>
     <dimen name="filter_portraitresult_shadow_mt">356dip</dimen>
     <dimen name="filter_portraitresult_shadow_w">41dip</dimen>
