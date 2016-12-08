@@ -1,7 +1,7 @@
 <resources>
 
     <dimen name="detail_text_mt1">14.25dp</dimen>
-    <dimen name="detail_text_mt2">15.75dp</dimen>
+    <dimen name="detail_text_mt2">26dp</dimen>
     <dimen name="detail_text_mt3">17.25dp</dimen>
 
     <dimen name="movie_detail_preview_img_w">336.75dp</dimen>
@@ -28,7 +28,7 @@
     <dimen name="normal_detail_content_padding_t">63dp</dimen>
     <dimen name="normal_detail_content_w">1135dp</dimen>
     <dimen name="normal_detail_text_w">530dp</dimen>
-    <dimen name="normal_detail_text_h">513.5dp</dimen>
+    <dimen name="normal_detail_text_h">439dp</dimen>
     <dimen name="normal_detail_text_mt1">30.75dp</dimen>
     <dimen name="normal_detail_text_mt2">32.25dp</dimen>
     <dimen name="normal_detail_preview_img_w">480.75dp</dimen>
@@ -37,9 +37,9 @@
     <dimen name="normal_detail_button2_w">181dp</dimen>
     <dimen name="normal_detail_button3_w">241dp</dimen>
     <dimen name="normal_detail_button_h">64dp</dimen>
-    <dimen name="normal_detail_button_mt">24.25dp</dimen>
+    <dimen name="normal_detail_button_mt">110dp</dimen>
     <dimen name="normal_detail_button_space">51.75dp</dimen>
-    <dimen name="normal_detail_detail_mt">36.5dp</dimen>
+    <dimen name="normal_detail_detail_mt">46dp</dimen>
 
     <dimen name="normal_detail_relative_mt">16.75dp</dimen>
     <dimen name="normal_detail_relative_ml">156.5dp</dimen>
@@ -105,8 +105,8 @@
     <dimen name="toast_textsize">40sp</dimen>
     <dimen name="toast_padding">40dip</dimen>
     <dimen name="movie_relate_width">1020dp</dimen>
-    <dimen name="normal_linespacingextra">20dp</dimen>
-    <dimen name="detail_text_mt4">30dp</dimen>
+    <dimen name="normal_linespacingextra">23dp</dimen>
+    <dimen name="detail_text_mt4">26dp</dimen>
     <dimen name="detail_header_height">100dp</dimen>
 
 
@@ -206,7 +206,7 @@
 
     <dimen name="package_detail_list_item_margin_left">60dp</dimen>
     <dimen name="genre_layout_mt">30dp</dimen>
-    <dimen name="detail_normal_title_mt">50dp</dimen>
+    <dimen name="detail_normal_title_mt">63dp</dimen>
     <dimen name="entertainment_detail_des_ml">80dp</dimen>
 
     <dimen name="drama_main_image_daram_label_MR">-3dp</dimen>
