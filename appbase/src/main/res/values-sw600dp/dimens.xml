@@ -348,7 +348,7 @@
 <dimen name="listportait_button_width">22.78dp</dimen>
 <dimen name="listportait_button_H">46.11dp</dimen>
 <dimen name="listportait_Hgride_horSpace">18.89dp</dimen>
-<dimen name="listportait_Hgride_rowHeight">220.00dp</dimen>
+<dimen name="listportait_Hgride_rowHeight">220.56dp</dimen>
 <dimen name="listportait_Hgride_verSpace">2.78dp</dimen>
 <dimen name="listportait_Hgride_filterverSpace">2.22dp</dimen>
 <dimen name="listview_hgride_horSpace">64.44dp</dimen>

@@ -13,6 +13,7 @@ import java.util.List;
 
 import tv.ismar.helperpage.LauncherActivity;
 import tv.ismar.helperpage.R;
+import tv.ismar.helperpage.ui.activity.HomeActivity;
 import tv.ismar.helperpage.utils.DeviceUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -61,7 +62,7 @@ public class HelpFragment extends Fragment {
 
     private void fetchTel(String model, String snCode) {
          String ACTION = "getContact";
-         ((LauncherActivity)getActivity()).mWxApiService.FetchTel(ACTION,model,snCode)
+         ((HomeActivity)getActivity()).mWxApiService.FetchTel(ACTION,model,snCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<TeleEntity>>() {

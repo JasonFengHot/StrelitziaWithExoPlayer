@@ -26,7 +26,7 @@
            android:background="@drawable/orderlistdivide"
            android:gravity="center_vertical"
            android:layout_marginLeft="@dimen/divider_blowhead_ML"
-           android:layout_marginRight="@dimen/listportait_shaw_left"/>
+           android:layout_marginRight="@dimen/divider_blowhead_ML"/>
 
 <LinearLayout
             android:id="@+id/filter_fragment_container"

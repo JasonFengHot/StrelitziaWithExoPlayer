@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -156,6 +157,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private Advertisement mAdvertisement;
 
     private long testLoadItemTime, testLoadClipTime, testPlayCheckTime, testPreparedTime;
+
+    public boolean sharpKeyDownNotResume = false;
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -347,8 +350,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                             startActivity(intent);
                         } catch (ActivityNotFoundException e) {
                             Log.e(TAG, "Click kefu but 'cn.ismartv.speedtester.feedback' not found.");
-                            intent.setAction("cn.ismar.sakura.launcher");
-                            startActivity(intent);
+                           PageIntent page=new PageIntent();
+                            page.toHelpPage(getActivity());
                         }
                     }
                 }, 400);
@@ -490,6 +493,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsPlayingAd = false;
         mIsInAdDetail = false;
         isShowExit = false;
+        sharpKeyDownNotResume = false;
         ad_vip_btn.setVisibility(View.GONE);
         ad_count_text.setVisibility(View.GONE);
         hideMenu();
@@ -1599,7 +1603,33 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //        pageIntent.toPaymentForResult(getActivity(), source, paymentInfo);
     }
 
+    private String getModelName(){
+        if(Build.PRODUCT.length() > 20){
+            return Build.PRODUCT.replaceAll(" ", "_").toLowerCase().substring(0,19);
+        }else {
+            return Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
+        }
+    }
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if("lcd_s3a01".equals(getModelName())){
+            if(keyCode == 707 || keyCode == 774 || keyCode ==253){
+                sharpKeyDownNotResume = true;
+            }
+        }else if("lx565ab".equals(getModelName())){
+            if(keyCode == 82 || keyCode == 707 || keyCode ==253){
+                sharpKeyDownNotResume = true;
+            }
+        }else if("lcd_xxcae5a_b".equals(getModelName())){
+            if(keyCode == 497 || keyCode == 498 || keyCode ==490){
+                sharpKeyDownNotResume = true;
+            }
+        }else{
+            if(keyCode == 223 || keyCode == 499 || keyCode ==480){
+                sharpKeyDownNotResume = true;
+            }
+        }
+
         Log.i(TAG, "onKeyDown");
         if (mItemEntity == null || mIsmartvPlayer == null) {
             if (keyCode == KeyEvent.KEYCODE_BACK) {

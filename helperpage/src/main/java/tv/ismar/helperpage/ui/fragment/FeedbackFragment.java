@@ -2,6 +2,7 @@ package tv.ismar.helperpage.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -16,22 +17,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tv.ismar.helperpage.LauncherActivity;
-import tv.ismar.helperpage.R;
-import tv.ismar.helperpage.core.FeedbackProblem;
-import tv.ismar.helperpage.core.UploadFeedback;
-import tv.ismar.helperpage.ui.adapter.FeedbackListAdapter;
-import tv.ismar.helperpage.ui.widget.FeedBackListView;
-import tv.ismar.helperpage.ui.widget.MessageSubmitButton;
-import tv.ismar.helperpage.ui.widget.SakuraEditText;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -40,8 +31,15 @@ import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.network.entity.ChatMsgEntity;
 import tv.ismar.app.network.entity.FeedBackEntity;
 import tv.ismar.app.network.entity.ProblemEntity;
-import tv.ismar.app.network.entity.TeleEntity;
 import tv.ismar.app.ui.MessageDialogFragment;
+import tv.ismar.helperpage.R;
+import tv.ismar.helperpage.core.FeedbackProblem;
+import tv.ismar.helperpage.core.UploadFeedback;
+import tv.ismar.helperpage.ui.adapter.FeedbackListAdapter;
+import tv.ismar.helperpage.ui.widget.FeedBackListView;
+import tv.ismar.helperpage.ui.widget.MessageSubmitButton;
+import tv.ismar.helperpage.ui.widget.SakuraEditText;
+import tv.ismar.helperpage.ui.activity.HomeActivity;
 
 
 /**
@@ -134,7 +132,7 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
             radioButton.setTextSize(getResources().getDimension(R.dimen.sakura_h8_text_size));
             radioButton.setText(problemEntities.get(i).getPoint_name());
             radioButton.setId(problemEntities.get(i).getPoint_id());
-
+            radioButton.setTextColor(Color.WHITE);
             if (i == 0)
                 mRadioButton = radioButton;
             problemType.addView(radioButton);
@@ -151,7 +149,7 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
 
 
     private void fetchFeedback(String sn, String top) {
-        ((LauncherActivity)getActivity()).mIrisService.Feedback(sn,top)
+        ((HomeActivity)getActivity()).mIrisService.Feedback(sn,top)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ChatMsgEntity>() {
