@@ -58,6 +58,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
     private Button left_shadow;
     private Button right_shadow;
     private SkyService skyService;
+    private TextView clear_history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,8 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         } else {
             channel_label.setText("礼包内容");
         }
-
+        clear_history= (TextView) findViewById(R.id.clear_history);
+        clear_history.setVisibility(View.GONE);
         section_tabs = (ScrollableSectionList) findViewById(R.id.section_tabs);
         section_tabs.setVisibility(View.GONE);
         left_shadow = (Button) findViewById(R.id.left_shadow);
