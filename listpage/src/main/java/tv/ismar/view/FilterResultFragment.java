@@ -173,23 +173,36 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 		});
     }
     private void buildFilterListView(ViewGroup container,String str){
-            if(str.length()>0){
+            if(str.length()>0) {
                 String[] labels = str.split("!");
                 int count = labels.length;
-                for(int i=0;i<count;i++){
+                for (int i = 0; i < count; i++) {
                     TextView label = new TextView(getActivity());
 
                     label.setText(labels[i]);
                     label.setTextColor(0xffffffff);
                     label.setBackgroundResource(R.drawable.filter_btn_focused);
-                    label.setTextSize(30/rate);
+                    label.setTextSize(30 / rate);
                     label.setGravity(Gravity.CENTER);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int)(120/1), (int)(46/1));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (120 / 1), (int) (46 / 1));
                     params.gravity = Gravity.CENTER_VERTICAL;
-                    params.rightMargin = (int)(11/1);
-                   // params.topMargin = 11;
-                    container.addView(label,params);
+                    params.rightMargin = (int) (11 / 1);
+                    // params.topMargin = 11;
+                    container.addView(label, params);
                 }
+            }else{
+                TextView label = new TextView(getActivity());
+
+                label.setText("不限");
+                label.setTextColor(0xffffffff);
+                label.setBackgroundResource(R.drawable.filter_btn_focused);
+                label.setTextSize(30 / rate);
+                label.setGravity(Gravity.CENTER);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (120 / 1), (int) (46 / 1));
+                params.gravity = Gravity.CENTER_VERTICAL;
+                params.rightMargin = (int) (11 / 1);
+                // params.topMargin = 11;
+                container.addView(label, params);
             }
     }
     private DialogInterface.OnCancelListener mLoadingCancelListener = new DialogInterface.OnCancelListener() {

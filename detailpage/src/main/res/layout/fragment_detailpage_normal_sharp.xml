@@ -316,7 +316,7 @@
                         android:layout_width="@dimen/normal_detail_button1_w"
                         android:layout_height="@dimen/normal_detail_button_h"
                         android:layout_marginLeft="@dimen/normal_detail_button_space"
-                        android:background="@drawable/selector_normal_play"
+                        android:background="@drawable/selector_movie_buy"
                         android:gravity="center"
                         android:nextFocusDown="@id/detail_btn_buy"
                         android:nextFocusUp="@id/detail_btn_buy"
@@ -356,7 +356,7 @@
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@string/video_list"
                         android:textColor="@color/module_color_white"
-                        android:textSize="@dimen/h1_size"
+                        android:textSize="@dimen/text_size_32sp"
                         android:visibility="@{tasks.episodesVisibility}"/>
 
                 </LinearLayout>
@@ -411,6 +411,7 @@
                     android:clipToPadding="false"
                     android:descendantFocusability="blocksDescendants"
                     android:focusable="true"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView

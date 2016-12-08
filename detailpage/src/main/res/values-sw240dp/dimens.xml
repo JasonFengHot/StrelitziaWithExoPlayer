@@ -1,7 +1,7 @@
 <resources>
 
 <dimen name="detail_text_mt1">3.17dp</dimen>
-<dimen name="detail_text_mt2">3.50dp</dimen>
+<dimen name="detail_text_mt2">5.78dp</dimen>
 <dimen name="detail_text_mt3">3.83dp</dimen>
 
 <dimen name="movie_detail_preview_img_w">74.83dp</dimen>
@@ -28,7 +28,7 @@
 <dimen name="normal_detail_content_padding_t">14.00dp</dimen>
 <dimen name="normal_detail_content_w">252.22dp</dimen>
 <dimen name="normal_detail_text_w">117.78dp</dimen>
-<dimen name="normal_detail_text_h">114.11dp</dimen>
+<dimen name="normal_detail_text_h">97.56dp</dimen>
 <dimen name="normal_detail_text_mt1">6.83dp</dimen>
 <dimen name="normal_detail_text_mt2">7.17dp</dimen>
 <dimen name="normal_detail_preview_img_w">106.83dp</dimen>
@@ -37,9 +37,9 @@
 <dimen name="normal_detail_button2_w">40.22dp</dimen>
 <dimen name="normal_detail_button3_w">53.56dp</dimen>
 <dimen name="normal_detail_button_h">14.22dp</dimen>
-<dimen name="normal_detail_button_mt">5.39dp</dimen>
+<dimen name="normal_detail_button_mt">24.44dp</dimen>
 <dimen name="normal_detail_button_space">11.50dp</dimen>
-<dimen name="normal_detail_detail_mt">8.11dp</dimen>
+<dimen name="normal_detail_detail_mt">10.22dp</dimen>
 
 <dimen name="normal_detail_relative_mt">3.72dp</dimen>
 <dimen name="normal_detail_relative_ml">34.78dp</dimen>
@@ -105,8 +105,8 @@
 <dimen name="toast_textsize">8.89sp</dimen>
 <dimen name="toast_padding">8.89dip</dimen>
 <dimen name="movie_relate_width">226.67dp</dimen>
-<dimen name="normal_linespacingextra">4.44dp</dimen>
-<dimen name="detail_text_mt4">6.67dp</dimen>
+<dimen name="normal_linespacingextra">5.11dp</dimen>
+<dimen name="detail_text_mt4">5.78dp</dimen>
 <dimen name="detail_header_height">22.22dp</dimen>
 
 
@@ -206,7 +206,7 @@
 
 <dimen name="package_detail_list_item_margin_left">13.33dp</dimen>
 <dimen name="genre_layout_mt">6.67dp</dimen>
-<dimen name="detail_normal_title_mt">11.11dp</dimen>
+<dimen name="detail_normal_title_mt">14.00dp</dimen>
 <dimen name="entertainment_detail_des_ml">17.78dp</dimen>
 
 <dimen name="drama_main_image_daram_label_MR">-0.67dp</dimen>

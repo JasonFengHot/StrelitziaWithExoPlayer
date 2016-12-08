@@ -403,12 +403,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         CallaPlay callaPlay = new CallaPlay();
         app_start_time = TrueTime.now().getTime();
         callaPlay.app_start(SimpleRestClient.sn_token,
-                        VodUserAgent.getModelName(), "0",
-                        android.os.Build.VERSION.RELEASE,
-                        SimpleRestClient.appVersion,
-                        SystemFileUtil.getSdCardTotal(this),
-                        SystemFileUtil.getSdCardAvalible(this),
-                        SimpleRestClient.mobile_number, province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this));
+                VodUserAgent.getModelName(), "0",
+                android.os.Build.VERSION.RELEASE,
+                SimpleRestClient.appVersion,
+                SystemFileUtil.getSdCardTotal(this),
+                SystemFileUtil.getSdCardAvalible(this),
+                SimpleRestClient.mobile_number, province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this));
 
     }
 
@@ -1172,6 +1172,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (exitPopup != null && exitPopup.isShowing()) {
             exitPopup.dismiss();
         }
+        if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+            mHandler.removeMessages(MSG_AD_COUNTDOWN);
+        }
         super.onDestroy();
     }
 
@@ -1386,12 +1389,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     @Override
     protected void onStop() {
-        if (home_ad_video != null) {
-            home_ad_video.stopPlayback();
-        }
-        if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
-            mHandler.removeMessages(MSG_AD_COUNTDOWN);
-        }
+        Log.i(TAG, "onStop");
         super.onStop();
     }
 
@@ -1402,10 +1400,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         layout_homepage.setVisibility(View.VISIBLE);
         if(currentFragment != null){
             currentFragment.playCarouselVideo();
-        }
-        if (home_ad_video != null) {
-            home_ad_video.stopPlayback();
-            home_ad_video = null;
         }
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);

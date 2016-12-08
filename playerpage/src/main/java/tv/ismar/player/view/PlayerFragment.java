@@ -1,6 +1,7 @@
 package tv.ismar.player.view;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
@@ -331,12 +332,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
-        mIsmartvPlayer.release(true);
-        mIsmartvPlayer = null;
         switch (type) {
             case EVENT_CLICK_VIP_BUY:
                 isNeedOnResume = true;
-                toPayPage(mItemEntity.getPk(), 2, 2, null);
+                if(mIsmartvPlayer != null && mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER){
+                    toPayPage(mItemEntity.getPk(), 2, 3, null);
+                } else {
+                    toPayPage(mItemEntity.getPk(), 2, 2, null);
+                }
                 break;
             case EVENT_CLICK_KEFU:
                 // 此处需要等Menu动画结束之后再跳转Activity
@@ -366,6 +369,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 toPayPage(mItemEntity.getPk(), expense.getJump_to(), expense.getCpid(), mode);
                 break;
         }
+        mIsmartvPlayer.release(true);
+        mIsmartvPlayer = null;
     }
 
     @Override
@@ -1131,6 +1136,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 Log.i(TAG, "player init success.");
                 mIsmartvPlayer.prepareAsync();
                 testPreparedTime = System.currentTimeMillis();
+                mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
             }
 
             @Override
@@ -1412,6 +1418,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void hideBuffer() {
+        if(mIsmartvPlayer == null){
+            return;
+        }
         if (player_buffer_layout.getVisibility() == View.VISIBLE) {
             player_buffer_layout.setVisibility(View.GONE);
             player_buffer_text.setText(getString(R.string.loading_text));
@@ -1490,6 +1499,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
+        cancelTimer();
         timerStop();
         hideBuffer();
         hidePanel();
@@ -1813,7 +1823,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 @Override
                 public void run() {
                     cancelTimer();
-                    showExitPopup(POP_TYPE_BUFFERING_LONG);
+                    if(!getActivity().isFinishing()){
+                        showExitPopup(POP_TYPE_BUFFERING_LONG);
+                    }
                 }
             });
 
