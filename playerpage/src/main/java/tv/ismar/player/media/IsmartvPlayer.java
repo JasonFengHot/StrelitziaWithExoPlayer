@@ -552,12 +552,14 @@ public abstract class IsmartvPlayer implements IPlayer {
             if (initQuality != null) {
                 mQuality = initQuality;
             } else {
-                mQuality = mQualities.get(0);
+                mQuality = mQualities.get(mQualities.size() - 1);
             }
             defaultQualityUrl = getSmartQualityUrl(mQuality);
+            Log.i(TAG, "initDefaultQualityUrl:" + defaultQualityUrl);
             if (Utils.isEmptyText(defaultQualityUrl)) {
                 Log.i(TAG, "Get init quality error, use default quality.");
-                defaultQualityUrl = getSmartQualityUrl(mQualities.get(0));
+                defaultQualityUrl = getSmartQualityUrl(mQualities.get(mQualities.size() - 1));
+                mQuality = mQualities.get(mQualities.size() - 1);
             }
         }
         return defaultQualityUrl;
