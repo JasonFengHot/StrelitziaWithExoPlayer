@@ -350,8 +350,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                             startActivity(intent);
                         } catch (ActivityNotFoundException e) {
                             Log.e(TAG, "Click kefu but 'cn.ismartv.speedtester.feedback' not found.");
-                            intent.setAction("cn.ismar.sakura.launcher");
-                            startActivity(intent);
+                           PageIntent page=new PageIntent();
+                            page.toHelpPage(getActivity());
                         }
                     }
                 }, 400);

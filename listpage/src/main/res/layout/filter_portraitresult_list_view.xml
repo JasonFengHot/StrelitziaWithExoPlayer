@@ -86,17 +86,17 @@
                     sakura:rowHeight="@dimen/listportait_Hgride_rowHeight"
                     sakura:selectorDrawable="@drawable/vod_gv_selector"
                     sakura:verticalSpacing="@dimen/listportait_Hgride_filterverSpace"
-                    sakura:selectionLeftPadding="22dp"
-                    sakura:selectionTopPadding="22dp"
-                    sakura:selectionRightPadding="22dp"
-                    sakura:selectionBottomPadding="-19dp"
+                    sakura:selectionLeftPadding="@dimen/filter_Hgride_select_portraiter_padding"
+                    sakura:selectionTopPadding="@dimen/filter_Hgride_select_portraiter_padding"
+                    sakura:selectionRightPadding="@dimen/filter_Hgride_select_portraiter_padding"
+                    sakura:selectionBottomPadding="@dimen/filter_Hgride_select_portraiter_paddingBttom"
                     android:layout_marginTop="@dimen/filter_portraitresult_filter_grid_mt"
                     android:paddingTop="@dimen/filter_portraitresult_filter_grid_pat"
                     android:layout_marginBottom="@dimen/filter_portraitresult_filter_grid_mb"
-                    android:layout_marginLeft="@dimen/filter_portraitresult_filter_grid_mb"
+                    android:layout_marginLeft="@dimen/filter_portraitresult_filter_grid_ML"
                     android:layout_marginRight="@dimen/filter_portraitresult_filter_grid_ml"
                     android:paddingRight="@dimen/filter_portraitresult_filter_grid_pr"
-                    android:paddingLeft="@dimen/filter_portraitresult_filter_grid_pr">
+                    android:paddingLeft="@dimen/filter_portraitresult_filter_grid_PT">
             </tv.ismar.app.ui.HGridView>
         </RelativeLayout>
  </LinearLayout>
