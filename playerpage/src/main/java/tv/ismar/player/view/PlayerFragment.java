@@ -1,6 +1,7 @@
 package tv.ismar.player.view;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
@@ -1491,6 +1492,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
+        cancelTimer();
         timerStop();
         hideBuffer();
         hidePanel();
@@ -1814,7 +1816,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 @Override
                 public void run() {
                     cancelTimer();
-                    showExitPopup(POP_TYPE_BUFFERING_LONG);
+                    if(!getActivity().isFinishing()){
+                        showExitPopup(POP_TYPE_BUFFERING_LONG);
+                    }
                 }
             });
 
