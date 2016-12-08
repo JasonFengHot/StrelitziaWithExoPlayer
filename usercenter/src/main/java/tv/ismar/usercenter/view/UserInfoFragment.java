@@ -327,7 +327,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
             }
 
-            holder.mButton.setNextFocusLeftId(holder.mButton.getId());
+            holder.mButton.setNextFocusLeftId(R.id.usercenter_userinfo);
             holder.mButton.setNextFocusRightId(holder.mButton.getId());
             holder.mButton.setTag(playAuth);
             holder.mButton.setOnHoverListener(UserInfoFragment.this);
