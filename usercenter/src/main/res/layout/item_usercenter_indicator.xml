@@ -23,7 +23,7 @@
             android:visibility="invisible"
         />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
@@ -41,7 +41,7 @@
 
             <ImageView
                 android:id="@+id/text_select_bg"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/usercenter_indicator_width"
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:scaleType="fitXY"
@@ -61,8 +61,9 @@
     </FrameLayout>
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="@dimen/usercenter_indicator_divider_line"
+        android:layout_height="1px"
         android:scaleType="fitXY"
         android:src="@drawable/usercenter_indicator_deivider"/>
 
