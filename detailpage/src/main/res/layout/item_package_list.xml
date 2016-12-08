@@ -6,10 +6,14 @@
 >
 
     <ImageView
+        android:id="@+id/ItemdefaultImage"
         android:layout_width="@dimen/package_item_default_W"
         android:layout_height="@dimen/package_item_default_H"
         android:layout_centerHorizontal="true"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:background="@drawable/selector_related_item"/>
 
     <ImageView
         android:id="@+id/ItemImage"
@@ -17,7 +21,8 @@
         android:layout_height="@dimen/package_item_ItemImage_H"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/package_item_ItemImage_MT"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+       />
 
     <TextView
         android:id="@+id/ItemText"
