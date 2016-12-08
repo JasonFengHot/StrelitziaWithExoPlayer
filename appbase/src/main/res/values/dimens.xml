@@ -60,9 +60,7 @@
     <dimen name="filter_portraitresult_filter_grid_rowHeight">406dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_mt">2dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_pt">10dip</dimen>
-    <dimen name="filter_portraitresult_filter_grid_mb">52dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_ml">34dip</dimen>
-    <dimen name="filter_portraitresult_filter_grid_pr">10dip</dimen>
     <dimen name="filter_portraitresult_filter_grid_pl">9dip</dimen>
     <dimen name="filter_result_list_view_rowHeight">268dip</dimen>
     <dimen name="filter_result_list_filter_grid_pt">4dip</dimen>

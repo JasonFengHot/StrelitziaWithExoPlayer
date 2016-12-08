@@ -213,10 +213,12 @@
 <dimen name="filter_portraitresult_filter_grid_mt">0.89dip</dimen>
 <dimen name="filter_portraitresult_filter_grid_pt">4.44dip</dimen>
 <dimen name="filter_portraitresult_filter_grid_pat">2.67dp</dimen>
-<dimen name="filter_portraitresult_filter_grid_mb">23.11dip</dimen>
+<dimen name="filter_portraitresult_filter_grid_mb">22.22dip</dimen>
 <dimen name="filter_portraitresult_filter_grid_ml">15.11dip</dimen>
 <dimen name="filter_portraitresult_filter_grid_pr">4.44dip</dimen>
 <dimen name="filter_portraitresult_filter_grid_pl">4.00dip</dimen>
+<dimen name="filter_portraitresult_filter_grid_ML">17.78dp</dimen>
+<dimen name="filter_portraitresult_filter_grid_PT">9.78dp</dimen>
 <dimen name="filter_result_list_view_rowHeight">120.89dip</dimen>
 <dimen name="filter_result_list_filter_grid_pt">1.78dip</dimen>
 <dimen name="filter_result_list_filter_grid_mt">3.56dip</dimen>
@@ -262,6 +264,8 @@
 <dimen name="filter_radio_H">21.33dp</dimen>
 <dimen name="filter_radio_W">32.00dp</dimen>
 <dimen name="filter_Hgride_select_padding">9.33dp</dimen>
+<dimen name="filter_Hgride_select_portraiter_padding">9.78dp</dimen>
+<dimen name="filter_Hgride_select_portraiter_paddingBttom">-8.44dp</dimen>
 <dimen name="filter_Hgride_select_paddingBttom">-17.78dp</dimen>
 <dimen name="filter_Hgride_select_hasresult_PB">-26.67dp</dimen>
 <dimen name="filter_Hgride_noresult_ML">68.89dp</dimen>
