@@ -47,6 +47,7 @@
     <string name="update_notice">升级公告</string>
     <string name="update_method"></string>
     <string name="update_now">现在升级</string>
+    <string name="update_later">稍后升级</string>
     <string name="update_next_time">下次启动时升级</string>
     <string name="app_update_now_wait">软件正在升级,请耐心等待......</string>
     <string name="guide_play_history">播放记录</string>
