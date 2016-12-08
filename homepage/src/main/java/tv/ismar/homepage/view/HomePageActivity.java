@@ -318,7 +318,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (savedInstanceState != null)
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
-        checkUpgrade();
         Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
@@ -1405,6 +1404,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
         startAdsService();
+        checkUpgrade();
     }
 
     private int getAdCountDownTime() {
@@ -1448,7 +1448,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 intent.putExtra("install_type", 0);
                 startService(intent);
             }
-        }, 1000 * 7);
+        }, 1000 * 3);
     }
 
 }

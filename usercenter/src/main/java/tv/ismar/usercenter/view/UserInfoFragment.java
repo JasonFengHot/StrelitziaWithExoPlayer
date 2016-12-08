@@ -1,5 +1,6 @@
 package tv.ismar.usercenter.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -63,10 +64,17 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     private boolean framgentIsPause = false;
 
+    private UserCenterActivity mUserCenterActivity;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach");
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mUserCenterActivity = (UserCenterActivity) activity;
     }
 
     @Override
@@ -203,7 +211,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     @Override
     public void loadBalance(AccountBalanceEntity entity) {
+//        UserCenterActivity userCenterActivity = (UserCenterActivity) getActivity();
+        View userInfo = mUserCenterActivity.findViewById(R.id.usercenter_userinfo);
+
         if (entity.getBalance().add(entity.getSn_balance()).setScale(1).equals(new BigDecimal(0).setScale(1))) {
+            userInfo.setNextFocusRightId(R.id.exit_account);
             userinfoBinding.exitAccount.setNextFocusDownId(R.id.btn);
             userinfoBinding.exitAccount.setNextFocusLeftId(R.id.usercenter_userinfo);
             if (privilegeView != null) {
@@ -212,6 +224,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 }
             }
         } else {
+            userInfo.setNextFocusRightId(R.id.charge_money);
             userinfoBinding.exitAccount.setNextFocusDownId(R.id.charge_money);
             if (privilegeView != null) {
                 for (View v : privilegeView) {
@@ -220,6 +233,10 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             }
         }
         mViewModel.refresh();
+
+
+
+
     }
 
 
@@ -327,7 +344,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
             }
 
-            holder.mButton.setNextFocusLeftId(holder.mButton.getId());
+            holder.mButton.setNextFocusLeftId(R.id.usercenter_userinfo);
             holder.mButton.setNextFocusRightId(holder.mButton.getId());
             holder.mButton.setTag(playAuth);
             holder.mButton.setOnHoverListener(UserInfoFragment.this);

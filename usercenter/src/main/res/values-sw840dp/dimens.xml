@@ -118,4 +118,6 @@
 
 <dimen name="u_purchase_history_item_margin_top">-46.67dp</dimen>
 <dimen name="purchase_history_recycler_mt">3.89dp</dimen>
+<dimen name="usercenter_indicator_width">155.56dp</dimen>
+<dimen name="usercenter_indicator_divider_line">233.33dp</dimen>
 </resources>
