@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +104,12 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
         } else {
             Log.d(TAG, "delete all ads");
             new Delete().from(AdvertiseTable.class).execute();
+            try {
+                FileUtils.deleteDir(getFilesDir() + "/" + AdvertiseManager.AD_DIR);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e(TAG, "delete ads file exception");
+            }
         }
 
     }
