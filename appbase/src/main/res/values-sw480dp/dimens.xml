@@ -132,7 +132,6 @@
 <dimen name="drama_gridview_item_btn_marginbottom">0.89dip</dimen>
 <dimen name="drama_gridview_item_btn_marginright">0.89dip</dimen>
 <!-- grid listview page -->
-<dimen name="gridview_channel_panel_height">39.11dip</dimen>
 <dimen name="gridview_channel_panel_marginBottom">15.56dp</dimen>
 <dimen name="gridview_channel_label_width">166.67dip</dimen>
 <dimen name="gridview_channel_label_height">49.78dip</dimen>
@@ -330,7 +329,7 @@
 <dimen name="vip_pkg_des_marginRight">58.22dp</dimen>
 <dimen name="textsize_16sp">7.11sp</dimen>
 <dimen name="textsize_30sp">13.33sp</dimen>
-
+<dimen name="list_progressBar_margin">50.22dip</dimen>
 <!-- listportait item -->
 <!-- listportait -->
 <dimen name="listportait_top_column_layout_h">49.78dp</dimen>
@@ -348,19 +347,26 @@
 <dimen name="listportait_button_width">18.22dp</dimen>
 <dimen name="listportait_button_H">36.89dp</dimen>
 <dimen name="listportait_Hgride_horSpace">15.11dp</dimen>
-<dimen name="listportait_Hgride_rowHeight">176.44dp</dimen>
+<dimen name="listportait_Hgride_rowHeight">176.00dp</dimen>
 <dimen name="listportait_Hgride_verSpace">2.22dp</dimen>
 <dimen name="listportait_Hgride_filterverSpace">1.78dp</dimen>
+<dimen name="filter_Hgride_rowH">176.44dp</dimen>
 <dimen name="listview_hgride_horSpace">51.56dp</dimen>
 <dimen name="listview_hgride_rowHeight">120.44dp</dimen>
+<dimen name="listview_Hgride_MT">3.56dp</dimen>
+<dimen name="listview_Hgride_PT">6.22dp</dimen>
 <dimen name="listportait_Hgride_mt">0.89dp</dimen>
 <dimen name="listportait_Hgride_pt">2.67dp</dimen>
 <dimen name="listportait_Hgride_ml">19.11dp</dimen>
+<dimen name="listportait_Hgride_selsection_MB">-8.89dp</dimen>
+<dimen name="listportait_hgride_mt">0.44dp</dimen>
+<dimen name="listportait_hgride_ml">18.67dp</dimen>
 <dimen name="listview_Hgride_ml">19.11dp</dimen>
 <dimen name="listportait_Hgride_pl">8.89dp</dimen>
 <dimen name="listportait_Hgride_mr">15.11dp</dimen>
 <dimen name="listportait_Hgride_mb">23.11dp</dimen>
 <dimen name="listportait_section_tab_H">39.11dp</dimen>
+
 
 <!-- channel_section_tabs -->
 <dimen name="channel_section_tabs_W">88.89dip</dimen>
@@ -468,6 +474,7 @@
 <dimen name="filter_Hgride_MT">3.11dp</dimen>
 <dimen name="filter_Hgride_noresult_PT">5.33dp</dimen>
 <dimen name="filter_Hgride_noresult_MT">17.78dp</dimen>
+
 
 <dimen name="ZGridView_related_selectorLeftPadding">10.58dip</dimen>
 <dimen name="ZGridView_related_selectorTopPadding">10.58dip</dimen>
