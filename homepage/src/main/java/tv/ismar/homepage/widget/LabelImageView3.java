@@ -150,8 +150,8 @@ public class LabelImageView3 extends AsyncImageView {
                     bringToFront();
                 }
                 drawBorder = true;
-                getRootView().requestLayout();
-                getRootView().invalidate();
+//                getRootView().requestLayout();
+//                getRootView().invalidate();
             } else {
                 drawBorder = false;
             }
@@ -283,8 +283,8 @@ public class LabelImageView3 extends AsyncImageView {
 
         }
 
-        getRootView().requestLayout();
-        getRootView().invalidate();
+//        getRootView().requestLayout();
+//        getRootView().invalidate();
 
     }
 
