@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -125,8 +126,8 @@ public class PackageDetailFragment extends BaseFragment {
         vod_payment_duration = (TextView) rootView.findViewById(R.id.vod_payment_duration);
         vod_payment_buyButton = (Button) rootView.findViewById(R.id.vod_payment_buyButton);
         vod_payment_item_more = (Button) rootView.findViewById(R.id.vod_payment_item_more);
-//        vod_payment_buyButton.setOnHoverListener(onHoverListener);
-//        vod_payment_item_more.setOnHoverListener(onHoverListener);
+        vod_payment_buyButton.setOnHoverListener(onHoverListener);
+        vod_payment_item_more.setOnHoverListener(onHoverListener);
         vod_payment_buyButton.setFocusable(true);
         vod_payment_buyButton.requestFocus();
         vod_payment_buyButton.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +242,7 @@ public class PackageDetailFragment extends BaseFragment {
             relatedHolder.setTag(relatedItem);
             mRelatedVideoContainer.addView(relatedHolder);
             relatedHolder.setOnClickListener(mRelatedClickListener);
+            relatedHolder.setOnHoverListener(onHoverListener);
         }
     }
 
@@ -284,7 +286,11 @@ public class PackageDetailFragment extends BaseFragment {
         public PackageItemViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.ItemImage);
+            ImageView ItemdefaultImage = (ImageView) itemView.findViewById(R.id.ItemdefaultImage);
             mTextView = (TextView) itemView.findViewById(R.id.ItemText);
+            ItemdefaultImage.setTag(itemView.getTag());
+            ItemdefaultImage.setOnHoverListener(onHoverListener);
+            ItemdefaultImage.setOnClickListener(mRelatedClickListener);
         }
     }
 
@@ -397,4 +403,21 @@ public class PackageDetailFragment extends BaseFragment {
             }
         }
     }
+    private View.OnHoverListener onHoverListener = new View.OnHoverListener() {
+        @Override
+        public boolean onHover(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                case MotionEvent.ACTION_HOVER_MOVE:
+                    v.setFocusable(true);
+                    v.setFocusableInTouchMode(true);
+                    v.requestFocus();
+                    v.requestFocusFromTouch();
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    break;
+            }
+            return false;
+        }
+    };
 }
