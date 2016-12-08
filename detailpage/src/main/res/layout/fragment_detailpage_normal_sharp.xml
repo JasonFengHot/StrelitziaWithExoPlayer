@@ -411,6 +411,7 @@
                     android:clipToPadding="false"
                     android:descendantFocusability="blocksDescendants"
                     android:focusable="true"
+                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView

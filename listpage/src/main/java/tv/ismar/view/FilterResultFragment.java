@@ -184,9 +184,9 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                     label.setBackgroundResource(R.drawable.filter_btn_focused);
                     label.setTextSize(30 / rate);
                     label.setGravity(Gravity.CENTER);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (120 / 1), (int) (46 / 1));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (getResources().getDimensionPixelSize(R.dimen.filter_pro_hgride_text_W) / 1), (int) (getResources().getDimensionPixelSize(R.dimen.filter_pro_hgride_text_H) / 1));
                     params.gravity = Gravity.CENTER_VERTICAL;
-                    params.rightMargin = (int) (11 / 1);
+                    params.rightMargin = (int) (getResources().getDimensionPixelSize(R.dimen.filter_pro_hgride_text_MR) / 1);
                     // params.topMargin = 11;
                     container.addView(label, params);
                 }
@@ -198,9 +198,9 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                 label.setBackgroundResource(R.drawable.filter_btn_focused);
                 label.setTextSize(30 / rate);
                 label.setGravity(Gravity.CENTER);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (120 / 1), (int) (46 / 1));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams((int) (getResources().getDimensionPixelSize(R.dimen.filter_pro_hgride_text_W) / 1), (int) (getResources().getDimensionPixelSize(R.dimen.filter_pro_hgride_text_H) / 1));
                 params.gravity = Gravity.CENTER_VERTICAL;
-                params.rightMargin = (int) (11 / 1);
+                params.rightMargin = (int) (getResources().getDimensionPixelSize(R.dimen.filter_pro_hgride_text_MR) / 1);
                 // params.topMargin = 11;
                 container.addView(label, params);
             }

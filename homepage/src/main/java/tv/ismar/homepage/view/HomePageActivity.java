@@ -403,12 +403,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         CallaPlay callaPlay = new CallaPlay();
         app_start_time = TrueTime.now().getTime();
         callaPlay.app_start(SimpleRestClient.sn_token,
-                        VodUserAgent.getModelName(), "0",
-                        android.os.Build.VERSION.RELEASE,
-                        SimpleRestClient.appVersion,
-                        SystemFileUtil.getSdCardTotal(this),
-                        SystemFileUtil.getSdCardAvalible(this),
-                        SimpleRestClient.mobile_number, province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this));
+                VodUserAgent.getModelName(), "0",
+                android.os.Build.VERSION.RELEASE,
+                SimpleRestClient.appVersion,
+                SystemFileUtil.getSdCardTotal(this),
+                SystemFileUtil.getSdCardAvalible(this),
+                SimpleRestClient.mobile_number, province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this));
 
     }
 
