@@ -1208,7 +1208,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void addHistory(int last_position, boolean sendToServer) {
-        if (mItemEntity == null || mIsmartvPlayer == null || !mIsmartvPlayer.isVideoStarted() || mIsPlayingAd) {
+        if (mItemEntity == null || mIsmartvPlayer == null || mIsPlayingAd) {
             return;
         }
         if (historyManager == null) {
@@ -1823,7 +1823,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 @Override
                 public void run() {
                     cancelTimer();
-                    if(!getActivity().isFinishing()){
+                    if(getActivity() != null && !getActivity().isFinishing()){
                         showExitPopup(POP_TYPE_BUFFERING_LONG);
                     }
                 }
