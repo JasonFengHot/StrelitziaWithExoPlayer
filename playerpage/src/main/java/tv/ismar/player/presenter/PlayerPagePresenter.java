@@ -50,9 +50,6 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         if (mApiMediaUrlSubsc != null && !mApiMediaUrlSubsc.isUnsubscribed()) {
             mApiMediaUrlSubsc.unsubscribe();
         }
-        if (mApiHistorySubsc != null && !mApiHistorySubsc.isUnsubscribed()) {
-            mApiHistorySubsc.unsubscribe();
-        }
 
     }
 
@@ -124,6 +121,10 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
                             Log.i(TAG, "SendHistory:" + result);
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }
+
+                        if (mApiHistorySubsc != null && !mApiHistorySubsc.isUnsubscribed()) {
+                            mApiHistorySubsc.unsubscribe();
                         }
                     }
                 });
