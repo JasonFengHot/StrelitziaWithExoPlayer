@@ -1407,6 +1407,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showBuffer(String msg) {
+        Log.d(TAG, "showBuffer:" + msg);
         if (mIsOnPaused || isShowExit) {
             return;
         }
