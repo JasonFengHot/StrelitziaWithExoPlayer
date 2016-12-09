@@ -290,7 +290,14 @@ public class PackageDetailFragment extends BaseFragment {
             mTextView = (TextView) itemView.findViewById(R.id.ItemText);
             ItemdefaultImage.setTag(itemView.getTag());
             ItemdefaultImage.setOnHoverListener(onHoverListener);
-            ItemdefaultImage.setOnClickListener(mRelatedClickListener);
+            ItemdefaultImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ItemEntity itemEntity = (ItemEntity) v.getTag();
+                    PageIntent pageIntent = new PageIntent();
+                    pageIntent.toDetailPage(getContext(), "package", itemEntity.getPk());
+                }
+            });
         }
     }
 
