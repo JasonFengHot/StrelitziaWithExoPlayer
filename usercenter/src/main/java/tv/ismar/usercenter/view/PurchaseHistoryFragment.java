@@ -99,6 +99,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         purchasehistoryBinding.mainupView.setNextFocusLeftId(R.id.usercenter_purchase_history);
+        mPresenter.start();
 
     }
 
@@ -120,7 +121,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         super.onResume();
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
-        mPresenter.start();
+
 
     }
 
