@@ -38,9 +38,11 @@
 
 
             <ImageView
+                android:layout_marginTop="@dimen/usercenter_vertical_divider_line_mt"
                 android:layout_width="@dimen/usercenter_vertical_divider_line2_width"
                 android:layout_height="match_parent"
                 android:focusable="false"
+                android:scaleType="fitXY"
                 android:src="@drawable/vertical_divider_line"/>
 
 
