@@ -99,6 +99,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         purchasehistoryBinding.mainupView.setNextFocusLeftId(R.id.usercenter_purchase_history);
+        mPresenter.start();
 
     }
 
@@ -120,7 +121,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         super.onResume();
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
-        mPresenter.start();
+
 
     }
 
@@ -223,6 +224,13 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
         @Override
         public void onBindViewHolder(HistoryViewHolder holder, int position) {
+            if (position == 0 ) {
+                holder.itemView.setNextFocusUpId(holder.itemView.getId());
+            }
+
+            if (position == mOrderEntities.size() - 1){
+                holder.itemView.setNextFocusDownId(holder.itemView.getId());
+            }
 
             AccountsOrdersEntity.OrderEntity item = mOrderEntities.get(position);
 
@@ -374,8 +382,6 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
             mergeTxt = (TextView) itemView.findViewById(R.id.orderlistitem_merge);
         }
     }
-
-
 
 
     private class SpacesItemDecoration extends RecyclerView.ItemDecoration {

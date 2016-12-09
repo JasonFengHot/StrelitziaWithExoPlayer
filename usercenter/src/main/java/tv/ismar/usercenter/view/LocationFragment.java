@@ -329,6 +329,9 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         @Override
         public void onBindViewHolder(LocationViewHolder holder, int position) {
+            if (position == mCityTableList.size() -1){
+                holder.itemView.setNextFocusDownId(R.id.confirm_btn);
+            }
             CityTable cityTable = mCityTableList.get(position);
             StringBuffer stringBuffer = new StringBuffer(cityTable.city);
             if (stringBuffer.length() == 2) {
