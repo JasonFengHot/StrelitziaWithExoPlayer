@@ -48,6 +48,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:nextFocusDown="@id/update_now_bt"
+                android:nextFocusUp="@id/update_now_bt"
                 android:text="@string/update_now"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/update_msg_textsize"/>
@@ -62,6 +64,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:nextFocusDown="@id/update_later_bt"
+                android:nextFocusUp="@id/update_later_bt"
                 android:text="@string/update_later"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/update_msg_textsize"/>
@@ -79,4 +83,11 @@
             android:text="@string/update_method"
             android:textSize="@dimen/update_title_textsize"/>
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/tmp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+    />
 </LinearLayout>

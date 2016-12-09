@@ -3,6 +3,7 @@ package tv.ismar.app.widget;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,7 +23,9 @@ import tv.ismar.app.R;
  * Created by huibin on 11/17/16.
  */
 
-public class UpdatePopupWindow extends PopupWindow {
+public class UpdatePopupWindow extends PopupWindow implements View.OnHoverListener {
+
+    private View tmp;
 
     public UpdatePopupWindow(final Context context, Bundle bundle) {
         super(context);
@@ -37,6 +40,8 @@ public class UpdatePopupWindow extends PopupWindow {
         setHeight(screenHeight);
 
         View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
+
+        tmp = contentView.findViewById(R.id.tmp);
 
 
         LinearLayout updateMsgLayout = (LinearLayout) contentView.findViewById(R.id.update_msg_layout);
@@ -75,7 +80,7 @@ public class UpdatePopupWindow extends PopupWindow {
                 dismiss();
 
                 try {
-                    String[] args2 = { "chmod", "604",  path};
+                    String[] args2 = {"chmod", "604", path};
                     Runtime.getRuntime().exec(args2);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -89,5 +94,20 @@ public class UpdatePopupWindow extends PopupWindow {
                 dismiss();
             }
         });
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                tmp.requestFocus();
+                break;
+        }
+        return true;
     }
 }
