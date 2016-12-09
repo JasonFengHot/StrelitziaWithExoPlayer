@@ -82,7 +82,6 @@ public class VodApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i("LH/", "applicationOnCreate:" + System.currentTimeMillis());
-        initTrueTime(this);
         SPUtils.init(this);
         appInstance = this;
         ActiveAndroid.initialize(this);
@@ -366,62 +365,5 @@ public class VodApplication extends Application {
         Log.i("LH/", "attachBaseContext:" + System.currentTimeMillis());
         super.attachBaseContext(base);
         MultiDex.install(this);
-    }
-
-    private void initTrueTime(final Context context) {
-        final List<String> ntpHosts = Arrays.asList("http://sky.tvxio.com/api/currenttime/");
-        Observable.interval(0, 1, TimeUnit.HOURS)
-                .observeOn(Schedulers.io())
-                .map(new Func1<Long, Object>() {
-                    @Override
-                    public Object call(Long aLong) {
-                        TrueTimeRx.clearCachedInfo(context);
-                        TrueTimeRx.build()
-                                .withConnectionTimeout(31_428)
-//                                .withRetryCount(100)
-                                .withSharedPreferences(context)
-                                .withLoggingEnabled(true)
-                                .initialize(ntpHosts)
-                                .subscribe(new Observer<Date>() {
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable throwable) {
-                                        throwable.printStackTrace();
-                                    }
-
-                                    @Override
-                                    public void onNext(Date date) {
-
-                                    }
-                                });
-                        return null;
-                    }
-                })
-                .takeUntil(new Func1<Object, Boolean>() {
-                    @Override
-                    public Boolean call(Object o) {
-                        return false;
-                    }
-                })
-                .subscribe(new Observer<Object>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Object o) {
-
-                    }
-                });
     }
 }

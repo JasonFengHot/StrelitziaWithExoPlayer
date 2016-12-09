@@ -16,6 +16,7 @@
         <service android:name=".update.UpdateService"/>
 
         <service android:name=".ad.AdsUpdateService"/>
+        <service android:name=".service.TrueTimeService"/>
 
         <receiver android:name=".receiver.BootUpdateReceiver">
             <intent-filter>
