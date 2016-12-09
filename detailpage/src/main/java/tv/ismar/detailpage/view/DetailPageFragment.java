@@ -165,7 +165,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
         mModel.replaceItem(itemEntity);
         itemIsLoad = true;
-//        hideLoading();
+        hideLoading();
 
         mItemEntity = itemEntity;
     }

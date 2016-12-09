@@ -392,6 +392,7 @@
                 android:clipToPadding="false"
                 android:orientation="vertical">
 
+
                 <TextView
                     android:layout_width="@dimen/normal_detail_label_image_w"
                     android:layout_height="wrap_content"
@@ -399,6 +400,10 @@
                     android:text="@string/recommend_str"
                     android:textColor="@color/module_color_white"
                     android:textSize="@dimen/text_size_36sp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/related__layout_h"
+                    android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/related_item_layout_1"
@@ -443,7 +448,7 @@
 
                         <TextView
                             android:id="@+id/rel_1_text"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/related__layout_item_title_w"
                             android:layout_height="wrap_content"
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
@@ -453,7 +458,7 @@
 
                         <TextView
                             android:id="@+id/rel_1_focus_text"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/related__layout_item_title_w"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
@@ -507,7 +512,7 @@
 
                         <TextView
                             android:id="@+id/rel_2_text"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/related__layout_item_title_w"
                             android:layout_height="wrap_content"
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
@@ -517,7 +522,7 @@
 
                         <TextView
                             android:id="@+id/rel_2_focus_text"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/related__layout_item_title_w"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
@@ -571,7 +576,7 @@
 
                         <TextView
                             android:id="@+id/rel_3_text"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/related__layout_item_title_w"
                             android:layout_height="wrap_content"
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
@@ -581,7 +586,7 @@
 
                         <TextView
                             android:id="@+id/rel_3_focus_text"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/related__layout_item_title_w"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
@@ -635,7 +640,7 @@
 
                         <TextView
                             android:id="@+id/rel_4_text"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/related__layout_item_title_w"
                             android:layout_height="wrap_content"
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
@@ -645,7 +650,7 @@
 
                         <TextView
                             android:id="@+id/rel_4_focus_text"
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/related__layout_item_title_w"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
@@ -656,7 +661,7 @@
 
 
                 </LinearLayout>
-
+                </LinearLayout>
                 <Button
                     android:id="@+id/detail_relative_button"
                     android:layout_width="@dimen/normal_detail_relative_button_w"

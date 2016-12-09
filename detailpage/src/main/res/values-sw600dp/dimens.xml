@@ -210,32 +210,34 @@
 <dimen name="entertainment_detail_des_ml">44.44dp</dimen>
 
 <dimen name="drama_main_image_daram_label_MR">-1.67dp</dimen>
-<dimen name="drama_main_tv_daram_textsize">20.00sp</dimen>
+<dimen name="drama_main_tv_daram_textsize">16.67sp</dimen>
 <dimen name="drama_main_image_daram_back_marginleft">0.56dp</dimen>
 <dimen name="drama_main_image_daram_label_MT">-1.67dp</dimen>
-<dimen name="drama_main_layout_PR">144.44dp</dimen>
+<dimen name="drama_main_layout_PR">168.89dp</dimen>
 <dimen name="drama_main_image_daram_back_W">265.56dp</dimen>
 <dimen name="drama_main_tv_drama_name_textsize">30.56sp</dimen>
 <dimen name="drama_main_tv_daram_marginleft">11.11dp</dimen>
 <dimen name="drama_main_image_daram_back_H">149.44dp</dimen>
-<dimen name="drama_main_sub_content_layout_MT">11.11dp</dimen>
-<dimen name="drama_main_layout_PL">144.44dp</dimen>
+<dimen name="drama_main_sub_content_layout_MT">27.78dp</dimen>
+<dimen name="drama_main_layout_PL">168.89dp</dimen>
 <dimen name="drama_main_image_daram_back_margintop">0.56dp</dimen>
 <dimen name="drama_main_img_layout_marginleft">5.56dp</dimen>
 <dimen name="drama_main_layout_PB">55.56dp</dimen>
-<dimen name="drama_main_img_layout_W">266.67dp</dimen>
-<dimen name="drama_main_content_layout_ML">55.56dp</dimen>
+<dimen name="drama_main_img_layout_W">265.56dp</dimen>
+<dimen name="drama_main_content_layout_ML">38.89dp</dimen>
 <dimen name="pay_shiyuncard_submit_textsize">19.44sp</dimen>
 <dimen name="drama_main_layout_PT">55.56dp</dimen>
 
-<dimen name="episode_item_horizontal_space">13.33dp</dimen>
-<dimen name="episode_item_vertical_space">10.56dp</dimen>
-<dimen name="epsisode_recycler_height">291.67dp</dimen>
-<dimen name="episode_header_height">155.56dp</dimen>
+<dimen name="episode_item_horizontal_space">13.06dp</dimen>
+<dimen name="episode_item_vertical_space">10.28dp</dimen>
+<dimen name="epsisode_recycler_height">227.50dp</dimen>
+<dimen name="episode_header_height">149.44dp</dimen>
 <dimen name="episode_layout_mb">11.11dp</dimen>
 <dimen name="usercenter_horizontal_divider_line_height">0.56dp</dimen>
 <dimen name="horizontal_divider_ml">14.44dp</dimen>
 <dimen name="horizontal_divider_mr">14.44dp</dimen>
-<dimen name="episode_post_mt">16.67dp</dimen>
+<dimen name="episode_post_mt">17.78dp</dimen>
 <dimen name="related_item_layout_width">288.89dp</dimen>
+<dimen name="related__layout_h">351.67dp</dimen>
+<dimen name="related__layout_item_title_w">162.22dp</dimen>
 </resources>
