@@ -231,6 +231,9 @@
 <dimen name="episode_item_horizontal_space">5.22dp</dimen>
 <dimen name="episode_item_vertical_space">4.11dp</dimen>
 <dimen name="epsisode_recycler_height">91.00dp</dimen>
+<dimen name="epsisode_recycler_mt">-1.67dp</dimen>
+<dimen name="epsisode_recycler_ml">61.67dp</dimen>
+<dimen name="epsisode_recycler_mr">66.89dp</dimen>
 <dimen name="episode_header_height">59.78dp</dimen>
 <dimen name="episode_layout_mb">4.44dp</dimen>
 <dimen name="usercenter_horizontal_divider_line_height">0.22dp</dimen>
@@ -240,4 +243,11 @@
 <dimen name="related_item_layout_width">115.56dp</dimen>
 <dimen name="related__layout_h">140.67dp</dimen>
 <dimen name="related__layout_item_title_w">64.89dp</dimen>
+<dimen name="episode_arrow_up_w">30.00dp</dimen>
+<dimen name="episode_arrow_up_h">24.89dp</dimen>
+<dimen name="episode_arrow_up_mt">3.78dp</dimen>
+<dimen name="episode_arrow_down_mt">4.00dp</dimen>
+<dimen name="episode_arrow_down_mb">3.78dp</dimen>
+<dimen name="episode_arrow_down_ml">198.22dp</dimen>
+<dimen name="episode_tv_drama_name_mt">3.56dp</dimen>
 </resources>
