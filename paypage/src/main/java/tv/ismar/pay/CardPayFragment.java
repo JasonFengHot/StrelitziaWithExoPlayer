@@ -35,6 +35,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener {
     private SkyService skyService;
     private Button submitBtn;
     private EditText cardNumberEdt;
+    private PaymentActivity mPaymentActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        mPaymentActivity = (PaymentActivity) activity;
         skyService = ((PaymentActivity) activity).mSkyService;
     }
 
@@ -61,6 +63,8 @@ public class CardPayFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        View indicatorView = mPaymentActivity.findViewById(R.id.videocard);
+        indicatorView.setNextFocusRightId(R.id.shiyuncard_input);
     }
 
     private void cardRecharge(String cardNumber) {
