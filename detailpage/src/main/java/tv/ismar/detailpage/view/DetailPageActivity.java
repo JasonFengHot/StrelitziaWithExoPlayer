@@ -97,8 +97,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
 
     @Override
-    protected void
-    onResume() {
+    protected void onResume() {
         super.onResume();
         if (viewInit && playerFragment != null && playerFragment.goFinishPageOnResume) {
             // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
@@ -114,9 +113,8 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
     public void goPlayer() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.hide(detailPageFragment);
-//        fragmentTransaction.show(playerFragment);
-        fragmentTransaction.replace(R.id.activity_detail_container,playerFragment);
+        fragmentTransaction.hide(detailPageFragment);
+        fragmentTransaction.show(playerFragment);
         fragmentTransaction.commit();
         playerFragment.onPlayerFragment = true;
         playerFragment.detailPageClickPlay();
@@ -199,9 +197,8 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             return;
         }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.hide(playerFragment);
-//        fragmentTransaction.show(detailPageFragment);
-        fragmentTransaction.replace(R.id.activity_detail_container,detailPageFragment);
+        fragmentTransaction.hide(playerFragment);
+        fragmentTransaction.show(detailPageFragment);
         fragmentTransaction.commit();
         playerFragment.onPlayerFragment = false;
         playerFragment.subItemPk = 0;
@@ -262,7 +259,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
                 playerFragment.setOnHidePlayerPageListener(this);
                 playerFragment.onPlayerFragment = false;
                 detailPageFragment = DetailPageFragment.newInstance(source, itemJson);
-//                fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
+                fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
                 fragmentTransaction.add(R.id.activity_detail_container, detailPageFragment);
                 fragmentTransaction.commit();
                 break;
