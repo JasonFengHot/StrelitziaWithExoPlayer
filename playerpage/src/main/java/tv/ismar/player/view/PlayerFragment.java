@@ -503,6 +503,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsInAdDetail = false;
         isShowExit = false;
         sharpKeyDownNotResume = false;
+        mIsPreview = false;
         ad_vip_btn.setVisibility(View.GONE);
         ad_count_text.setVisibility(View.GONE);
         hideMenu();
@@ -637,7 +638,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if ((mIsmartvPlayer == null && !onPlayerFragment) || isShowExit) {
             return;
         }
-        mCurrentPosition = 0;
         hideMenu();
         hidePanel();
         timerStop();
@@ -653,6 +653,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 goOtherPage(EVENT_COMPLETE_BUY);
             }
         } else {
+            mCurrentPosition = 0;
             ItemEntity[] subItems = mItemEntity.getSubitems();
             if (subItems != null) {
                 for (int i = 0; i < subItems.length; i++) {
