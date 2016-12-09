@@ -82,6 +82,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
+        mPresenter.start();
     }
 
     @Override
@@ -101,7 +102,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         super.onResume();
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
-        mPresenter.start();
+
 
     }
 

@@ -137,14 +137,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         mSkyService.accountsBalance()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AccountBalanceEntity>() {
+                .subscribe(new BaseObserver<AccountBalanceEntity>(){
                     @Override
                     public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
 
                     }
 
@@ -337,14 +332,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         mSkyService.apiOptItem(String.valueOf(pk), opt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ItemEntity>() {
+                .subscribe(new BaseObserver<ItemEntity>() {
                     @Override
                     public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
 
                     }
 

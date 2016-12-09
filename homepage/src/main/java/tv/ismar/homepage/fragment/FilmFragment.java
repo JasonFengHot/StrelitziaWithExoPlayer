@@ -776,9 +776,20 @@ public class FilmFragment extends ChannelBaseFragment {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Boolean>() {
+                .subscribe(new Observer<Boolean>() {
                     @Override
-                    public void call(Boolean aBoolean) {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                        externalStorageIsEnable = false;
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
                         externalStorageIsEnable = aBoolean;
                     }
                 });
