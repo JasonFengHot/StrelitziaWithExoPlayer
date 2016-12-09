@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,24 +16,16 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
-import cn.ismartv.truetime.TrueTimeRx;
-import rx.Observable;
-import rx.Observer;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import tv.ismar.account.ActiveService;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;
@@ -50,7 +41,6 @@ import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
 import tv.ismar.app.network.HttpTrafficInterceptor;
-import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -82,6 +72,7 @@ public class VodApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i("LH/", "applicationOnCreate:" + System.currentTimeMillis());
+        startIntervalActive();
         SPUtils.init(this);
         appInstance = this;
         ActiveAndroid.initialize(this);
@@ -365,5 +356,11 @@ public class VodApplication extends Application {
         Log.i("LH/", "attachBaseContext:" + System.currentTimeMillis());
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    private void startIntervalActive() {
+        Intent intent = new Intent();
+        intent.setClass(this, ActiveService.class);
+        startService(intent);
     }
 }
