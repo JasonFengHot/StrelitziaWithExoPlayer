@@ -345,7 +345,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             if (hasFocus) {
                 if (!isFromRightToLeft) {
                     v.callOnClick();
-                    v.callOnClick();
                 } else {
                     Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
                     View itemView = null;
