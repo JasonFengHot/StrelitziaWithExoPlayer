@@ -1,5 +1,6 @@
 package tv.ismar.usercenter.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -57,10 +58,19 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
     private boolean fragmentIsPause = false;
 
+
+    private UserCenterActivity mUserCenterActivity;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach");
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mUserCenterActivity = (UserCenterActivity) activity;
     }
 
     @Override
@@ -89,12 +99,14 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         purchasehistoryBinding.mainupView.setNextFocusLeftId(R.id.usercenter_purchase_history);
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated");
+
     }
 
     @Override
@@ -176,15 +188,18 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 arrayList.add(entity);
             }
         }
+        View purchaseHistoryIndicator = mUserCenterActivity.findViewById(R.id.usercenter_purchase_history);
+
+        if (arrayList.isEmpty()) {
+            purchaseHistoryIndicator.setNextFocusRightId(purchaseHistoryIndicator.getId());
+        } else {
+            purchaseHistoryIndicator.setNextFocusRightId(View.NO_ID);
+        }
 
         HistoryAdapter adapter = new HistoryAdapter(getContext(), arrayList);
         mRecyclerView.setSelectedItemAtCentered(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(adapter);
-        if (mPurchaseLoadCallback != null) {
-            mPurchaseLoadCallback.onPurchaseLoadFinish();
-        }
-
     }
 
     private class HistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryFragment.HistoryViewHolder> implements View.OnHoverListener, View.OnClickListener {
@@ -360,15 +375,8 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         }
     }
 
-    public interface PurchaseLoadCallback {
-        void onPurchaseLoadFinish();
-    }
 
-    PurchaseLoadCallback mPurchaseLoadCallback;
 
-    public void setPurchaseLoadCallback(PurchaseLoadCallback purchaseLoadCallback) {
-        mPurchaseLoadCallback = purchaseLoadCallback;
-    }
 
     private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;

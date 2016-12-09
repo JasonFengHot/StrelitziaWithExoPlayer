@@ -215,7 +215,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         View userInfo = mUserCenterActivity.findViewById(R.id.usercenter_userinfo);
 
         if (entity.getBalance().add(entity.getSn_balance()).setScale(1).equals(new BigDecimal(0).setScale(1))) {
-            userInfo.setNextFocusRightId(R.id.exit_account);
+            if (IsmartvActivator.getInstance().isLogin()) {
+                userInfo.setNextFocusRightId(R.id.exit_account);
+            }else {
+                userInfo.setNextFocusRightId(userInfo.getId());
+            }
             userinfoBinding.exitAccount.setNextFocusDownId(R.id.btn);
             userinfoBinding.exitAccount.setNextFocusLeftId(R.id.usercenter_userinfo);
             if (privilegeView != null) {

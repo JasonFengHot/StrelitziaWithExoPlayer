@@ -35,7 +35,7 @@ import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
  * Created by huaijie on 7/3/15.
  */
 public class UserCenterActivity extends BaseActivity implements LoginFragment.LoginCallback,
-        IsmartvActivator.AccountChangeCallback, PurchaseHistoryFragment.PurchaseLoadCallback {
+        IsmartvActivator.AccountChangeCallback {
     private static final String TAG = UserCenterActivity.class.getSimpleName();
     private static final int MSG_INDICATOR_CHANGE = 0x9b;
 
@@ -267,7 +267,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         mPurchaseHistoryFragment = PurchaseHistoryFragment.newInstance();
         // Create the presenter
         mPurchaseHistoryPresenter = new PurchaseHistoryPresenter(mPurchaseHistoryFragment);
-        mPurchaseHistoryFragment.setPurchaseLoadCallback(this);
 
         PurchaseHistoryViewModel purchaseHistoryViewModel =
                 new PurchaseHistoryViewModel(getApplicationContext(), mPurchaseHistoryPresenter);
@@ -458,11 +457,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     protected void onDestroy() {
         IsmartvActivator.getInstance().removeAccountChangeListener(this);
         super.onDestroy();
-    }
-
-    @Override
-    public void onPurchaseLoadFinish() {
-        purchaseItem.setNextFocusRightId(View.NO_ID);
     }
 
     private enum ViewState {
