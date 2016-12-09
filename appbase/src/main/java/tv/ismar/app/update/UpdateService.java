@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
@@ -29,6 +30,7 @@ import cn.ismartv.injectdb.library.query.Select;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.UpgradeRequestEntity;
@@ -88,11 +90,11 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
 
     private void fetchAppUpgrade() {
-        String sn = "le_1y39rh8c";
-        String manu = "BYD";
+        String sn = IsmartvActivator.getInstance().getSnToken();
+        String manu = "sharp";
         String app = "sky";
-        String modelName = "YT-X703F";
-        String location = "SH";
+        String modelName = Build.PRODUCT.replace(" ", "_");
+        String location = IsmartvActivator.getInstance().getProvince().get("province_py");
 //        int versionCode = 222;
 
         int versionCode = fetchInstallVersionCode();
