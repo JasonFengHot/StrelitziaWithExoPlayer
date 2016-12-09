@@ -60,6 +60,8 @@ public class EpisodeActivity extends BaseActivity {
     private View tmp;
 
     private EpisodePageStatistics mPageStatistics;
+    private Button episode_arrow_up;
+    private Button episode_arrow_down;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +104,24 @@ public class EpisodeActivity extends BaseActivity {
         mEpisodeRecyclerView.addItemDecoration(new SpacesItemDecoration(horizontal, vertical));
         mEpisodeRecyclerView.setLayoutManager(new GridLayoutManager(this, 10));
         mEpisodeRecyclerView.setAdapter(new EpisodeAdapter(this, mItemEntity.getSubitems()));
-
+        if(mItemEntity.getSubitems().length>40){
+            episode_arrow_down.setVisibility(View.VISIBLE);
+        }
+        mEpisodeRecyclerView.setOnChildViewHolderSelectedListener(new RecyclerViewTV.OnChildViewHolderSelectedListener() {
+            @Override
+            public void onChildViewHolderSelected(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int i) {
+                if(mEpisodeRecyclerView.getFirstVisiblePosition()>0){
+                    episode_arrow_up.setVisibility(View.VISIBLE);
+                }else{
+                    episode_arrow_up.setVisibility(View.INVISIBLE);
+                }
+                if(mEpisodeRecyclerView.getLastVisiblePosition()<mItemEntity.getSubitems().length-1){
+                    episode_arrow_down.setVisibility(View.VISIBLE);
+                }else{
+                    episode_arrow_down.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
     }
 
@@ -124,6 +143,20 @@ public class EpisodeActivity extends BaseActivity {
         mTvDramaAll = (TextView) findViewById(R.id.tv_daram_all);
         mTvDramaType = (TextView) findViewById(R.id.tv_daram_type);
         one_drama_order_info = (TextView) findViewById(R.id.one_drama_order_info);
+        episode_arrow_up = (Button) findViewById(R.id.episode_arrow_up);
+        episode_arrow_down = (Button) findViewById(R.id.episode_arrow_down);
+        episode_arrow_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        episode_arrow_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 
