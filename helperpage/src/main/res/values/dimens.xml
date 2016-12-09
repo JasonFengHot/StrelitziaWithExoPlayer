@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- text size -->
-    <dimen name="textSize_normal">14.67sp</dimen>
+    <dimen name="textSize_normal">22sp</dimen>
     <dimen name="textSize_testButton">20.00sp</dimen>
 
     <!-- launcher activity -->
