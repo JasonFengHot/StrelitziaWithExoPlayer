@@ -15,7 +15,7 @@
         android:id="@+id/channel_label"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/list_head_paddingL"
+        android:layout_marginLeft="74dp"
         android:layout_marginTop="@dimen/history_top_textBl"
         android:textColor="#FFFFFF"
         android:textSize="@dimen/filmitem_portrait_detail_title_size" />
@@ -128,7 +128,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_marginLeft="@dimen/listportait_button_ml"
-            android:layout_marginTop="@dimen/listportait_button_mt"
+            android:layout_marginTop="@dimen/history_arrow_MT"
             />
     <Button
             android:visibility="invisible"
@@ -139,7 +139,7 @@
             android:background="@drawable/channel_arrow_right"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:layout_marginTop="@dimen/listportait_button_mt"
+            android:layout_marginTop="@dimen/history_arrow_MT"
             android:layout_marginRight="@dimen/listportait_button_ml"/>
         <tv.ismar.app.ui.HGridView
             android:id="@+id/h_grid_view"
@@ -148,19 +148,19 @@
             android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
             android:layout_marginLeft="@dimen/listview_Hgride_ml"
             android:layout_marginRight="@dimen/filter_result_list_filter_grid_ml"
-            android:layout_marginTop="@dimen/history_Hgrider_MT"
+            android:layout_marginTop="@dimen/history_Hgride_MT"
             android:layout_toLeftOf="@id/right_shadow"
             android:layout_toRightOf="@id/left_shadow"
             android:paddingLeft="@dimen/listportait_Hgride_pl"
             android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
-            android:paddingTop="@dimen/filter_result_list_filter_grid_pr"
+            android:paddingTop="@dimen/history_Hgride_PT"
             sakura:horizontalSpacing="@dimen/listview_hgride_horSpace"
             sakura:numRows="3"
             sakura:rowHeight="@dimen/listview_hgride_rowHeight"
             sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
-            sakura:selectionLeftPadding="@dimen/HGridView_related_selectionLeftPadding"
-            sakura:selectionRightPadding="@dimen/HGridView_related_selectionRightPadding"
-            sakura:selectionTopPadding="@dimen/HGridView_related_selectionTopPadding"
+            sakura:selectionLeftPadding="@dimen/history_Hgride_Margin"
+            sakura:selectionRightPadding="@dimen/history_Hgride_Margin"
+            sakura:selectionTopPadding="@dimen/history_Hgride_Margin"
             sakura:selectorDrawable="@drawable/vod_gv_selector"
             sakura:verticalSpacing="0dip" >
     </tv.ismar.app.ui.HGridView>

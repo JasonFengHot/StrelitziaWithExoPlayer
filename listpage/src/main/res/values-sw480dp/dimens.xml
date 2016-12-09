@@ -311,6 +311,10 @@
 <dimen name="history_top_textBl">14.67dp</dimen>
 <dimen name="clear_history_Ml">658.67dp</dimen>
 <dimen name="divider_1dp">0.44dp</dimen>
-<dimen name="history_Hgrider_MT">38.22dp</dimen>
 <dimen name="filter_noresult_arrow_Mb">138.67dp</dimen>
+<dimen name="history_Hgride_PT">6.67dp</dimen>
+<dimen name="history_Hgride_MT">33.33dp</dimen>
+<dimen name="history_arrow_MT">184.00dp</dimen>
+<dimen name="history_Hgride_Margin">8.89dp</dimen>
+
 </resources>
