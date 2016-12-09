@@ -297,6 +297,16 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (IsmartvActivator.getInstance().isLogin()){
+            changeViewState(indicatorView.get(2), ViewState.Disable);
+        }else {
+            changeViewState(indicatorView.get(2), ViewState.Enable);
+        }
+    }
+
     private void selectLocation() {
         // Create the fragment
         if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LocationFragment) {
