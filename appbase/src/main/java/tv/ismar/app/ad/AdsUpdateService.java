@@ -47,6 +47,12 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        cancelTimer();
+        if (mTimer == null) {
+            mTimer = new Timer();
+            myTimerTask = new MyTimerTask();
+            mTimer.schedule(myTimerTask, 3000, 15 * 60 * 1000);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
