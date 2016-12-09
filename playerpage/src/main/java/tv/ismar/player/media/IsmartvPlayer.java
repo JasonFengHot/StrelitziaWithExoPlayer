@@ -278,11 +278,6 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mCurrentState != STATE_PREPARING;
     }
 
-    public boolean isVideoStarted() {
-        return mCurrentState != STATE_IDLE &&
-                mCurrentState != STATE_PREPARING;
-    }
-
     public boolean isVideoPrepared() {
         return mCurrentState == STATE_PREPARED;
     }

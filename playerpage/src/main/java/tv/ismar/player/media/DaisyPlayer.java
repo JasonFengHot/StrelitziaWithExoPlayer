@@ -318,9 +318,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             surfaceView.getHolder().removeCallback(this);
         }
         isSurfaceInit = false;
-        if (isInPlaybackState() && mPlayer != null && mPlayer.isPlaying()) {
-            release(true);
-        }
+//        if (isInPlaybackState() && mPlayer != null && mPlayer.isPlaying()) {
+//            release(true);
+//        }
     }
 
     @Override
