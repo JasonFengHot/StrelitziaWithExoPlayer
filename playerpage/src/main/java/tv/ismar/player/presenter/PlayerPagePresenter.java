@@ -2,6 +2,7 @@ package tv.ismar.player.presenter;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -118,6 +119,12 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
                     @Override
                     public void onNext(ResponseBody responseBody) {
+                        try {
+                            String result = responseBody.string();
+                            Log.i(TAG, "SendHistory:" + result);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }

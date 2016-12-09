@@ -71,6 +71,7 @@ import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.player.CallaPlay;
+import tv.ismar.app.service.TrueTimeService;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.BitmapDecoder;
@@ -319,6 +320,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
         Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
+        startTrueTimeService();
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
         fragmentSwitch = new FragmentSwitchHandler(this);
@@ -642,7 +644,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     }
 
     private void tempInitStaticVariable() {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 DisplayMetrics metric = new DisplayMetrics();
@@ -809,7 +811,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                                         hasset_log);
                         DaisyUtils.getVodApplication(getApplicationContext())
                                 .save();
-                        System.exit(0);
+                        finish();
                     }
                 },
                 new ModuleMessagePopWindow.CancelListener() {
@@ -1397,7 +1399,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         home_layout_advertisement.setVisibility(View.GONE);
         large_layout.removeView(home_layout_advertisement);
         layout_homepage.setVisibility(View.VISIBLE);
-        if(currentFragment != null){
+        if (currentFragment != null) {
             currentFragment.playCarouselVideo();
         }
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
@@ -1451,4 +1453,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }, 1000 * 3);
     }
 
+    private void startTrueTimeService() {
+        Intent intent = new Intent();
+        intent.setClass(this, TrueTimeService.class);
+        startService(intent);
+    }
 }

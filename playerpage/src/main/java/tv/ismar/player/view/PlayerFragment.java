@@ -234,6 +234,15 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mBinding.setActionHandler(mPresenter);
 
         View contentView = mBinding.getRoot();
+        initView(contentView);
+
+        if (!isNeedOnResume && !isClickKeFu) {
+            fetchItemData();
+        }
+        return contentView;
+    }
+
+    private void initView(View contentView){
         player_container = (FrameLayout) contentView.findViewById(R.id.player_container);
         panel_layout = (LinearLayout) contentView.findViewById(R.id.panel_layout);
         player_seekBar = (SeekBar) contentView.findViewById(R.id.player_seekBar);
@@ -258,13 +267,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 forwardClick(v);
             }
         });
-        return contentView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.i(TAG, "onViewCreated");
         player_buffer_img.setBackgroundResource(R.drawable.module_loading);
         animationDrawable = (AnimationDrawable) player_buffer_img.getBackground();
         ad_vip_btn.setOnHoverListener(new View.OnHoverListener() {
@@ -285,10 +287,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         player_container.setOnHoverListener(onHoverListener);
         player_container.setOnClickListener(onClickListener);
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
-
-        if (!isNeedOnResume && !isClickKeFu) {
-            fetchItemData();
-        }
 
     }
 
@@ -429,6 +427,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onBufferStart() {
         Log.i(TAG, "onBufferStart");
+        if (!onPlayerFragment) {
+            return;
+        }
         if (!isSeeking) {
             timerStop();
             showBuffer(null);
@@ -445,6 +446,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onBufferEnd() {
         Log.i(TAG, "onBufferEnd");
+        if (!onPlayerFragment) {
+            return;
+        }
         cancelTimer();
         if (!isSeeking || mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
             timerStart(500);
@@ -709,7 +713,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (mItemEntity == null || mItemEntity.getLiveVideo() || mModel == null || !onPlayerFragment) {
+            if (mItemEntity == null || mItemEntity.getLiveVideo() || mModel == null || !onPlayerFragment || mIsmartvPlayer == null) {
                 return;
             }
             mModel.updateTimer(progress, mIsmartvPlayer.getDuration());
@@ -1208,7 +1212,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void addHistory(int last_position, boolean sendToServer) {
-        if (mItemEntity == null || mIsmartvPlayer == null || !mIsmartvPlayer.isVideoStarted() || mIsPlayingAd) {
+        if (mItemEntity == null || mIsmartvPlayer == null || mIsPlayingAd) {
             return;
         }
         if (historyManager == null) {
@@ -1823,7 +1827,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 @Override
                 public void run() {
                     cancelTimer();
-                    if(!getActivity().isFinishing()){
+                    if(getActivity() != null && !getActivity().isFinishing()){
                         showExitPopup(POP_TYPE_BUFFERING_LONG);
                     }
                 }

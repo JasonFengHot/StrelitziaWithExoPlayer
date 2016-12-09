@@ -329,7 +329,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         Item item = mHGridAdapter.getItem(position);
         if (item != null) {
                 PageIntent intent=new PageIntent();
-                intent.toPackageDetail(this,"package",item.pk);
+                intent.toDetailPage(this,"package",item.pk);
         }
     }
 
