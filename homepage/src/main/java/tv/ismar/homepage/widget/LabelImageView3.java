@@ -104,7 +104,7 @@ public class LabelImageView3 extends AsyncImageView {
         paint = new Paint();
         if (drawable == null) {
             mNinePatchDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.vod_img_selector);
-            drawablePadding = dp2px(21);
+            drawablePadding = dp2px(15);
         } else {
             mDrawable = drawable;
         }
