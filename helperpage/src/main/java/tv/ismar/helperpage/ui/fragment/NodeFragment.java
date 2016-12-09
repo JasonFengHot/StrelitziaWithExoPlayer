@@ -489,6 +489,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
         if (cdnCacheTable != null) {
             currentNodeTextView.setText(getText(R.string.current_node) + cdnCacheTable.cdn_nick);
             unbindButton.setText(R.string.switch_to_auto);
+            unbindButton.setTextColor(getResources().getColor(R.color._ffffff));
             unbindButton.setEnabled(true);
             unbindButton.setFocusable(true);
             unbindButton.setFocusableInTouchMode(true);
