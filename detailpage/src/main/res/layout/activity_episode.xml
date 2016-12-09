@@ -30,12 +30,12 @@
         android:layout_marginTop="@dimen/episode_post_mt"
         android:paddingLeft="@dimen/drama_main_layout_PL"
         android:paddingRight="@dimen/drama_main_layout_PR"
+        android:orientation="horizontal"
     >
 
         <RelativeLayout
             android:layout_width="@dimen/drama_main_img_layout_W"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/drama_main_img_layout_marginleft"
         >
 
             <ImageView
@@ -66,7 +66,8 @@
                 android:id="@+id/tv_drama_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_36sp"/>
+                android:textSize="@dimen/text_size_36sp"
+                android:layout_marginTop="16dp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -103,18 +104,38 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/episode_layout_mb"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/drama_main_layout_PL"
-        android:paddingRight="@dimen/drama_main_layout_PR"
     >
+        <Button
+            android:id="@+id/episode_arrow_up"
+            android:layout_width="135dp"
+            android:layout_height="112dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/episode_arrow_up"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginLeft="892dp"
+            />
         <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
             android:id="@+id/episode_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/epsisode_recycler_height"
+            android:layout_marginTop="-7.5dp"
+            android:layout_marginLeft="301dp"
+            android:layout_marginRight="301dp"
         />
-
+        <Button
+            android:id="@+id/episode_arrow_down"
+            android:layout_width="135dp"
+            android:layout_height="112dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/episode_arrow_down"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginLeft="892dp"
+            />
     </LinearLayout>
 
 </LinearLayout>

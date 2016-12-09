@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -46,7 +47,7 @@ import tv.ismar.helperpage.ui.activity.HomeActivity;
  * Created by huaijie on 2015/4/8.
  */
 public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedChangeListener,
-        View.OnClickListener {
+        View.OnClickListener, View.OnHoverListener{
     private static final String TAG = "FeedbackFragment";
 
     private Context mContext;
@@ -76,6 +77,19 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sakura_fragment_feedback, null);
+        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (problemType.getChildAt(0) != null) {
+                        problemType.getChildAt(0).requestFocusFromTouch();
+                        problemType.getChildAt(0).requestFocus();
+                    }
+                } else {
+
+                }
+            }
+        });
         return view;
     }
 
@@ -125,16 +139,20 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
         RadioButton mRadioButton = null;
         for (int i = 0; i < problemEntities.size(); i++) {
             RadioButton radioButton = new RadioButton(getActivity());
-            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
-                    RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 0, (int) getResources().getDimension(R.dimen.feedback_radiogroup_margin), 0);
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, (int) (getResources().getDimension(R.dimen.feedback_radiogroup_margin)), 0);
             radioButton.setLayoutParams(params);
             radioButton.setTextSize(getResources().getDimension(R.dimen.sakura_h8_text_size));
             radioButton.setText(problemEntities.get(i).getPoint_name());
             radioButton.setId(problemEntities.get(i).getPoint_id());
-            radioButton.setTextColor(Color.WHITE);
-            if (i == 0)
+            radioButton.setFocusable(true);
+            radioButton.setOnHoverListener(this);
+            radioButton.setNextFocusUpId(radioButton.getId());
+            if (i == 0) {
                 mRadioButton = radioButton;
+                radioButton.setNextFocusLeftId(radioButton.getId());
+            }
+
             problemType.addView(radioButton);
         }
 
@@ -284,5 +302,23 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
             }
         });
 
+    }
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
+                v.requestFocusFromTouch();
+                v.requestFocus();
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                int i = v.getId();
+                if (i == R.id.phone_number_edit || i == R.id.description_edit) {
+                } else {
+                //    tmpImageView.requestFocus();
+
+                }
+                break;
+        }
+        return true;
     }
 }

@@ -31,7 +31,8 @@
 <dimen name="header_fragment_mine_space">30.22dp</dimen>
 <dimen name="header_fragment_mine_indicator_h">3.56dp</dimen>
 <dimen name="header_fragment_mine_indicator_w">83.56dp</dimen>
-<dimen name="header_title_bottom">14.22dp</dimen>
+<dimen name="header_title_bottom">10.67dp</dimen>
+<dimen name="header_weather_bottom">14.22dp</dimen>
 
 <dimen name="label_image_padding">14.67dp</dimen>
 <dimen name="loading_size">58.67dp</dimen>
@@ -366,7 +367,22 @@
 <dimen name="listportait_Hgride_mr">30.22dp</dimen>
 <dimen name="listportait_Hgride_mb">46.22dp</dimen>
 <dimen name="listportait_section_tab_H">78.22dp</dimen>
-
+<dimen name="relate_title_ML">64.89dp</dimen>
+<dimen name="relate_title_MT">29.33dp</dimen>
+<dimen name="relate_Zgride_ML">83.56dp</dimen>
+<dimen name="relate_Zgride_MR">87.11dp</dimen>
+<dimen name="relate_Zgride_MT">6.22dp</dimen>
+<dimen name="relate_Zgride_Verspace">-0.89dp</dimen>
+<dimen name="relate_Zgride_PT">13.33dp</dimen>
+<dimen name="relate_Zgride_PL">17.78dp</dimen>
+<dimen name="relate_Zgride_select_PB">-54.22dp</dimen>
+<dimen name="relate_p_Zgride_ML">78.22dp</dimen>
+<dimen name="relate_p_Zgride_MR">93.33dp</dimen>
+<dimen name="relate_p_Zgride_Horspce">30.22dp</dimen>
+<dimen name="relate_p_Zgride_Vspce">-4.44dp</dimen>
+<dimen name="relate_p_Zgride_PL">22.22dp</dimen>
+<dimen name="relate_p_Zgride_PT">10.67dp</dimen>
+<dimen name="relate_p_Zgride_select_PB">-26.67dp</dimen>
 
 <!-- channel_section_tabs -->
 <dimen name="channel_section_tabs_W">177.78dip</dimen>

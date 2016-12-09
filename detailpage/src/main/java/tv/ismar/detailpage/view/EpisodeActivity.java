@@ -96,8 +96,8 @@ public class EpisodeActivity extends BaseActivity {
 
         initLayout();
 
-        int horizontal = getResources().getDimensionPixelSize(R.dimen.episode_item_horizontal_space);
-        int vertical = getResources().getDimensionPixelSize(R.dimen.episode_item_vertical_space);
+        int horizontal = getResources().getDimensionPixelOffset(R.dimen.episode_item_horizontal_space);
+        int vertical = getResources().getDimensionPixelOffset(R.dimen.episode_item_vertical_space);
         mEpisodeRecyclerView.setSelectedItemAtCentered(false);
         mEpisodeRecyclerView.addItemDecoration(new SpacesItemDecoration(horizontal, vertical));
         mEpisodeRecyclerView.setLayoutManager(new GridLayoutManager(this, 10));
