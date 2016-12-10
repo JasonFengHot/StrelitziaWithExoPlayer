@@ -166,7 +166,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mModel.replaceItem(itemEntity);
         itemIsLoad = true;
         hideLoading();
-
         mItemEntity = itemEntity;
     }
 
@@ -252,6 +251,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         relateIsLoad = true;
         hideLoading();
+        mMovieBinding.detailBtnLinear.setVisibility(View.VISIBLE);
     }
 
 
@@ -426,8 +426,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         bundle.putString("channel_name", mHeadTitle);
         headFragment = new HeadFragment();
         headFragment.setArguments(bundle);
-        getChildFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();
-        return contentView;
+        getChildFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();return contentView;
     }
 
     @Override

@@ -154,6 +154,7 @@
                 android:nextFocusUp="@id/vod_payment_buyButton"
                 android:text="购买"
                 android:textColor="#FFF8F8FF"
+                android:visibility="invisible"
                 android:textSize="@dimen/item_detail_btn_right_textsize"/>
 
             <TextView

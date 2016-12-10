@@ -375,6 +375,7 @@ public class PackageDetailFragment extends BaseFragment {
             vod_payment_duration.setBackgroundResource(R.drawable.vod_detail_unpayment_duration);
             vod_payment_price.setBackgroundResource(R.drawable.vod_detail_unpayment_price);
         }
+        vod_payment_buyButton.setVisibility(View.VISIBLE);
     }
 
 
