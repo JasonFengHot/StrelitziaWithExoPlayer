@@ -52,7 +52,7 @@ public interface PageIntentInterface {
     void toUserCenterLocation(Context context);
 
 
-    void toPackageList(Context context, String source, long pk);
+    void toPackageList(Context context, String source, int pk);
 
     void toFilmStar(Context context, String title, long pk);
 

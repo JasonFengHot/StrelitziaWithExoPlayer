@@ -138,7 +138,13 @@ public class PackageDetailFragment extends BaseFragment {
                 pageIntent.toPayment(getContext(), "package", paymentInfo);
             }
         });
-
+        vod_payment_item_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PageIntent pageIntent = new PageIntent();
+                pageIntent.toPackageList(getContext(),"package",mItemEntity.getPk());
+            }
+        });
 
         loadView();
     }
