@@ -168,6 +168,7 @@ public interface SkyService {
     @FormUrlEncoded
     @POST("api/histories/empty/")
     Observable<ResponseBody> emptyHistory(
+            @Field("token") String token
     );
 
     @GET("api/bookmarks/")
@@ -177,6 +178,7 @@ public interface SkyService {
     @FormUrlEncoded
     @POST("api/bookmarks/empty/")
     Observable<ResponseBody> emptyBookmarks(
+            @Field("token") String token
     );
 
     @GET("api/tv/relate/{pk}/")
