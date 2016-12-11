@@ -68,6 +68,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     private View[] cityOldView;
     private TextView[] citySelectedView;
 
+    private int provinceSelectedPosition = -1;
+
 
     @Override
     public void onAttach(Context context) {
@@ -256,6 +258,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             showPromptLayout(View.VISIBLE, i);
 
         } else if (recyclerViewTV.getAdapter() instanceof ProvinceAdapter) {
+            provinceSelectedPosition = i;
             ProvinceAdapter provinceAdapter = (ProvinceAdapter) recyclerViewTV.getAdapter();
             ProvinceTable provinceTable = provinceAdapter.getProvinceTableList().get(i);
             mProvinceTable = provinceTable;
@@ -300,8 +303,13 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 mViewModel.setSelectedCity("");
                 mViewModel.loadselectedCity();
                 setNextFocusDown(true);
-//                proviceGridView.setDelayDefaultSelect();
-//                citySelectedPosition
+
+                View focusView = proviceGridView.getChildAt(0);
+                focusView.requestFocus();
+                mRecyclerViewBridge.setFocusView(focusView, 1.2f);
+                ((TextView) focusView.findViewById(R.id.province_text)).setTextColor(getResources().getColor(R.color.location_text_focus));
+                cityOldView[0] = focusView;
+//
             }
         });
 
@@ -370,6 +378,11 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 holder.itemView.setNextFocusDownId(holder.itemView.getId());
             }
 
+            if (position == provinceSelectedPosition){
+                holder.itemView.requestFocus();
+                mRecyclerViewBridge.setFocusView(holder.itemView, 1.2f);
+                holder.mTextView.setTextColor(getResources().getColor(R.color.location_text_focus));
+            }
         }
 
         @Override
