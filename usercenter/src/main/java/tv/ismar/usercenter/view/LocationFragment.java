@@ -378,7 +378,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 holder.itemView.setNextFocusDownId(holder.itemView.getId());
             }
 
-            if (position == provinceSelectedPosition){
+            if (position == provinceSelectedPosition) {
                 holder.itemView.requestFocus();
                 mRecyclerViewBridge.setFocusView(holder.itemView, 1.2f);
                 holder.mTextView.setTextColor(getResources().getColor(R.color.location_text_focus));
@@ -465,6 +465,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 holder.mTextView.setTextColor(getResources().getColor(R.color.location_text_focus));
                 cityOldView[0] = holder.itemView;
             }
+
         }
 
         @Override
@@ -552,6 +553,18 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                     proviceGridView.getChildAt(position).setNextFocusDownId(View.NO_ID);
                 }
             }
+        }
+    }
+
+    protected boolean onBackPressed() {
+        if (proviceGridView.getAdapter() instanceof CityAdapter) {
+            mViewModel.setSelectedCity("");
+            mViewModel.loadselectedCity();
+            locationBinding.promptLayout.setVisibility(View.INVISIBLE);
+            proviceGridView.setAdapter(provinceAdapter);
+            return true;
+        } else {
+            return false;
         }
     }
 }
