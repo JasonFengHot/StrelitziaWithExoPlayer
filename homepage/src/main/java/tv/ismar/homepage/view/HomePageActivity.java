@@ -702,7 +702,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      * fetch channel
      */
     private void fetchChannels() {
-        mSkyService.fetchDpi();
         mSkyService.apiTvChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
