@@ -121,4 +121,6 @@
 <dimen name="usercenter_indicator_width">177.78dp</dimen>
 <dimen name="usercenter_indicator_divider_line">266.67dp</dimen>
 <dimen name="usercenter_vertical_divider_line_mt">13.33dp</dimen>
+<dimen name="prompt_layout_mb">133.33dp</dimen>
+<dimen name="prompt_layout_mt">377.78dp</dimen>
 </resources>

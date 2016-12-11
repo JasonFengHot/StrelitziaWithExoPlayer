@@ -4,20 +4,18 @@ import android.content.Context;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.open.androidtvwidget.bridge.RecyclerViewBridge;
+import com.open.androidtvwidget.leanback.recycle.GridLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.open.androidtvwidget.view.MainUpView;
 
@@ -39,7 +37,8 @@ import tv.ismar.usercenter.viewmodel.LocationViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class LocationFragment extends BaseFragment implements LocationContract.View, RecyclerViewTV.OnItemListener, RecyclerViewTV.OnItemClickListener {
+public class LocationFragment extends BaseFragment implements LocationContract.View,
+        RecyclerViewTV.OnItemListener, RecyclerViewTV.OnItemClickListener, OnHoverListener {
     private static final String TAG = LocationFragment.class.getSimpleName();
     private LocationViewModel mViewModel;
     private LocationContract.Presenter mPresenter;
@@ -63,6 +62,11 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     private View cityTmpView;
 
     private boolean fragmentIsPause = false;
+
+    private ProvinceAdapter provinceAdapter;
+    private int[] citySelectedPosition = {-1};
+    private View[] cityOldView;
+    private TextView[] citySelectedView;
 
 
     @Override
@@ -188,8 +192,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     private void createLocationView() {
         List<ProvinceTable> provinceTables = new Select().from(ProvinceTable.class).execute();
         if (provinceTables != null && !provinceTables.isEmpty()) {
-            ProvinceAdapter provinceAdapter = new ProvinceAdapter(getContext(), provinceTables);
-            proviceGridView.setLayoutManager(new GridLayoutManager(getActivity(), 6));
+            provinceAdapter = new ProvinceAdapter(getContext(), provinceTables);
+            proviceGridView.setLayoutManager(new GridLayoutManagerTV(getActivity(), 6));
             proviceGridView.setAdapter(provinceAdapter);
 
         }
@@ -197,35 +201,126 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
     @Override
     public void onItemPreSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-        mRecyclerViewBridge.setUnFocusView(oldView);
-        TextView textView = (TextView) itemView.findViewById(R.id.province_text);
-        textView.setTextColor(getResources().getColor(R.color.color_base_white));
+        if (recyclerViewTV.getAdapter() instanceof ProvinceAdapter) {
+            mRecyclerViewBridge.setUnFocusView(oldView);
+            TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+            textView.setTextColor(getResources().getColor(R.color.color_base_white));
+        } else if (recyclerViewTV.getAdapter() instanceof CityAdapter) {
+            mRecyclerViewBridge.setUnFocusView(cityOldView[0]);
+            TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+            if (citySelectedPosition[0] == i) {
+                textView.setTextColor(getResources().getColor(R.color.blue));
+            } else {
+                textView.setTextColor(getResources().getColor(R.color.color_base_white));
+            }
+        }
 
     }
 
     @Override
     public void onItemSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-        TextView textView = (TextView) itemView.findViewById(R.id.province_text);
-        textView.setTextColor(getResources().getColor(R.color.location_text_focus));
-        mRecyclerViewBridge.setFocusView(itemView, 1.2f);
-        oldView = itemView;
+        if (recyclerViewTV.getAdapter() instanceof ProvinceAdapter) {
+            TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+            textView.setTextColor(getResources().getColor(R.color.location_text_focus));
+            mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+            oldView = itemView;
+        } else if (recyclerViewTV.getAdapter() instanceof CityAdapter) {
+            TextView textView = (TextView) itemView.findViewById(R.id.province_text);
+            if (citySelectedPosition[0] == i) {
+                textView.setTextColor(getResources().getColor(R.color.blue));
+            } else {
+                textView.setTextColor(getResources().getColor(R.color.location_text_focus));
+            }
+            mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+            cityOldView[0] = itemView;
+        }
     }
 
     @Override
     public void onReviseFocusFollow(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-        mRecyclerViewBridge.setFocusView(itemView, 1.2f);
-        oldView = itemView;
+        if (recyclerViewTV.getAdapter() instanceof ProvinceAdapter) {
+            mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+            oldView = itemView;
+        } else if (recyclerViewTV.getAdapter() instanceof CityAdapter) {
+            mRecyclerViewBridge.setFocusView(itemView, 1.2f);
+            cityOldView[0] = itemView;
+        }
     }
 
     @Override
     public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
         Log.d(TAG, "onItemClick: position: " + i);
-        ProvinceAdapter provinceAdapter = (ProvinceAdapter) recyclerViewTV.getAdapter();
-        ProvinceTable provinceTable = provinceAdapter.getProvinceTableList().get(i);
-        mProvinceTable = provinceTable;
-        showAreaPopup(getContext(), provinceTable);
+        if (recyclerViewTV.getAdapter() instanceof CityAdapter) {
+
+
+            showPromptLayout(View.VISIBLE, i);
+
+        } else if (recyclerViewTV.getAdapter() instanceof ProvinceAdapter) {
+            ProvinceAdapter provinceAdapter = (ProvinceAdapter) recyclerViewTV.getAdapter();
+            ProvinceTable provinceTable = provinceAdapter.getProvinceTableList().get(i);
+            mProvinceTable = provinceTable;
+            showAreaPopup(provinceTable);
+        }
     }
 
+    private void showAreaPopup(ProvinceTable provinceTable) {
+        cityOldView = new View[1];
+        citySelectedPosition[0] = -1;
+        citySelectedView = new TextView[1];
+        String provinceId = provinceTable.province_id;
+        final List<CityTable> locationTableList = new Select().from(CityTable.class).where(CityTable.PROVINCE_ID + " = ?", provinceId).execute();
+//
+        CityAdapter cityAdapter = new CityAdapter(getContext(), locationTableList);
+        proviceGridView.setAdapter(cityAdapter);
+
+        locationBinding.confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IsmartvActivator activator = IsmartvActivator.getInstance();
+                activator.setProvince(mProvinceTable.province_name, mProvinceTable.pinyin);
+                activator.setCity(mCityTable.city, String.valueOf(mCityTable.geo_id));
+                mPresenter.fetchWeather(String.valueOf(mCityTable.geo_id));
+                locationBinding.promptLayout.setVisibility(View.INVISIBLE);
+                mViewModel.setSelectedCity("");
+                mViewModel.loadselectedCity();
+
+                proviceGridView.setAdapter(provinceAdapter);
+            }
+        });
+
+        locationBinding.cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                citySelectedPosition[0] = -1;
+                if (citySelectedView[0] != null) {
+                    citySelectedView[0].setTextColor(getResources().getColor(R.color.color_base_white));
+                    citySelectedView[0] = null;
+                }
+                locationBinding.promptLayout.setVisibility(View.INVISIBLE);
+                mViewModel.setSelectedCity("");
+                mViewModel.loadselectedCity();
+                setNextFocusDown(true);
+//                proviceGridView.setDelayDefaultSelect();
+//                citySelectedPosition
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                locationBinding.tmp.requestFocus();
+                break;
+        }
+        return true;
+    }
 
     private class ProvinceAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener {
         private Context mContext;
@@ -319,7 +414,6 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         }
 
         @Override
-
         public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_province, viewGroup, false);
             view.setOnHoverListener(this);
@@ -329,9 +423,6 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
         @Override
         public void onBindViewHolder(LocationViewHolder holder, int position) {
-            if (position == mCityTableList.size() -1){
-                holder.itemView.setNextFocusDownId(R.id.confirm_btn);
-            }
             CityTable cityTable = mCityTableList.get(position);
             StringBuffer stringBuffer = new StringBuffer(cityTable.city);
             if (stringBuffer.length() == 2) {
@@ -339,7 +430,28 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             }
             holder.mTextView.setText(stringBuffer);
 
+            holder.itemView.setId(View.generateViewId());
+            if (position == 0 || position == 1 || position == 2 || position == 3 || position == 4) {
+                holder.itemView.setNextFocusUpId(holder.itemView.getId());
+            }
 
+            if ((position + 1) % 6 == 0) {
+                holder.itemView.setNextFocusRightId(holder.itemView.getId());
+            }
+            if (position == 5) {
+                holder.itemView.setNextFocusUpId(holder.itemView.getId());
+            }
+
+            if (position <= mCityTableList.size() - 1 - 1 && position >= mCityTableList.size() - 1 - 3) {
+                holder.itemView.setNextFocusDownId(holder.itemView.getId());
+            }
+
+            if (position == 0) {
+                holder.itemView.requestFocus();
+                mRecyclerViewBridge.setFocusView(holder.itemView, 1.2f);
+                holder.mTextView.setTextColor(getResources().getColor(R.color.location_text_focus));
+                cityOldView[0] = holder.itemView;
+            }
         }
 
         @Override
@@ -381,158 +493,52 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         }
     }
 
-    private void showAreaPopup(final Context mContext, final ProvinceTable provinceTable) {
-        final View[] cityOldView = new View[1];
-        final int[] citySelectedPosition = {-1};
-        final TextView[] citySelectedView = new TextView[1];
-
-        String provinceId = provinceTable.province_id;
-        final View popupLayout = LayoutInflater.from(mContext).inflate(R.layout.popup_area, null);
-        cityTmpView = popupLayout.findViewById(R.id.tmp);
-        final View promptLayout = popupLayout.findViewById(R.id.prompt_layout);
-
-        RecyclerViewTV cityGridView = (RecyclerViewTV) popupLayout.findViewById(R.id.area_grid);
-        cityGridView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.usercenter_province_recycler_item_spacing)));
-        cityGridView.setNextFocusDownId(R.id.cancel_btn);
-
-        final Button confirmBtn = (Button) popupLayout.findViewById(R.id.confirm_btn);
-        final Button cancelBtn = (Button) popupLayout.findViewById(R.id.cancel_btn);
-        cancelBtn.setNextFocusDownId(R.id.cancel_btn);
-        confirmBtn.setNextFocusDownId(R.id.confirm_btn);
-        confirmBtn.setOnHoverListener(new OnHoverListener() {
-
-            @Override
-            public boolean onHover(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER
-                        || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-                    v.requestFocus();
-                }
-                return false;
-            }
-        });
-        cancelBtn.setOnHoverListener(new OnHoverListener() {
-
-            @Override
-            public boolean onHover(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER
-                        || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-                    v.requestFocus();
-                }
-                return false;
-            }
-        });
-
-
-        final TextView selectPrompt = (TextView) popupLayout.findViewById(R.id.area_select_prompt);
-        int width = (int) mContext.getResources().getDimension(R.dimen.location_area_pop_width);
-        int height = (int) mContext.getResources().getDimension(R.dimen.location_area_pop_height);
-        areaPopup = new PopupWindow(popupLayout, width, height);
-        areaPopup.setFocusable(true);
-        areaPopup.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.transparent));
-        int xOffset = (int) mContext.getResources().getDimensionPixelSize(R.dimen.locationFragment_areaPop_xOffset);
-        int yOffset = (int) mContext.getResources().getDimensionPixelSize(R.dimen.locationFragment_areaPop_yOffset);
-        areaPopup.showAtLocation(getView(), Gravity.CENTER, xOffset, yOffset);
-        final List<CityTable> locationTableList = new Select().from(CityTable.class).where(CityTable.PROVINCE_ID + " = ?", provinceId).execute();
-
-        CityAdapter cityAdapter = new CityAdapter(mContext, locationTableList);
-
-        cityGridView.setLayoutManager(new GridLayoutManager(mContext, 6));
-
-        cityGridView.setAdapter(cityAdapter);
-        cityGridView.setOnItemClickListener(new RecyclerViewTV.OnItemClickListener() {
-            @Override
-            public void onItemClick(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-                if (citySelectedPosition[0] >= 0) {
-                    View lastSelectedView = recyclerViewTV.getChildAt(citySelectedPosition[0]);
-                    TextView lastTextView = (TextView) lastSelectedView.findViewById(R.id.province_text);
-                    lastTextView.setTextColor(getResources().getColor(R.color.color_base_white));
-                }
-                citySelectedPosition[0] = i;
-
-                TextView textView = (TextView) itemView.findViewById(R.id.province_text);
-                textView.setTextColor(getResources().getColor(R.color.blue));
-                citySelectedView[0] = textView;
-
-                mCityTable = ((CityAdapter) recyclerViewTV.getAdapter()).getCityTableList().get(i);
-                mViewModel.setSelectedCity(mCityTable.city);
-                mViewModel.loadselectedCity();
-                promptLayout.setVisibility(View.VISIBLE);
-                confirmBtn.requestFocus();
-
-            }
-        });
-
-        cityGridView.setOnItemListener(new RecyclerViewTV.OnItemListener() {
-            @Override
-            public void onItemPreSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-                Log.d(TAG, "onItemPreSelected");
-                mRecyclerViewBridge.setUnFocusView(cityOldView[0]);
-                TextView textView = (TextView) itemView.findViewById(R.id.province_text);
-                if (citySelectedPosition[0] == i) {
-                    textView.setTextColor(getResources().getColor(R.color.blue));
-                } else {
-                    textView.setTextColor(getResources().getColor(R.color.color_base_white));
-                }
-            }
-
-            @Override
-            public void onItemSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-                Log.d(TAG, "onItemSelected");
-                TextView textView = (TextView) itemView.findViewById(R.id.province_text);
-                if (citySelectedPosition[0] == i) {
-                    textView.setTextColor(getResources().getColor(R.color.blue));
-                } else {
-                    textView.setTextColor(getResources().getColor(R.color.location_text_focus));
-                }
-                mRecyclerViewBridge.setFocusView(itemView, 1.2f);
-                cityOldView[0] = itemView;
-            }
-
-            @Override
-            public void onReviseFocusFollow(RecyclerViewTV recyclerViewTV, View itemView, int i) {
-                Log.d(TAG, "onReviseFocusFollow");
-                mRecyclerViewBridge.setFocusView(itemView, 1.2f);
-                cityOldView[0] = itemView;
-            }
-
-        });
-        cancelBtn.setOnHoverListener(cityAdapter);
-        confirmBtn.setOnHoverListener(cityAdapter);
-        confirmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IsmartvActivator activator = IsmartvActivator.getInstance();
-                activator.setProvince(mProvinceTable.province_name, mProvinceTable.pinyin);
-                activator.setCity(mCityTable.city, String.valueOf(mCityTable.geo_id));
-                mPresenter.fetchWeather(String.valueOf(mCityTable.geo_id));
-                promptLayout.setVisibility(View.INVISIBLE);
-
-                mViewModel.setSelectedCity("");
-                mViewModel.loadselectedCity();
-                areaPopup.dismiss();
-            }
-        });
-
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                citySelectedPosition[0] = -1;
-                if (citySelectedView[0] != null) {
-                    citySelectedView[0].setTextColor(getResources().getColor(R.color.color_base_white));
-                    citySelectedView[0] = null;
-                }
-                promptLayout.setVisibility(View.INVISIBLE);
-                mViewModel.setSelectedCity("");
-                mViewModel.loadselectedCity();
-            }
-        });
-
-    }
 
     public void clearStatus() {
         if (areaPopup != null) {
             areaPopup.dismiss();
             areaPopup = null;
+        }
+    }
+
+    private void showPromptLayout(int visibility, int position) {
+        if (citySelectedPosition[0] >= 0) {
+            View lastSelectedView = proviceGridView.getChildAt(citySelectedPosition[0]);
+            TextView lastTextView = (TextView) lastSelectedView.findViewById(R.id.province_text);
+            lastTextView.setTextColor(getResources().getColor(R.color.color_base_white));
+        }
+        citySelectedPosition[0] = position;
+
+        TextView textView = (TextView) proviceGridView.getChildAt(position).findViewById(R.id.province_text);
+        textView.setTextColor(getResources().getColor(R.color.blue));
+        citySelectedView[0] = textView;
+
+        mCityTable = ((CityAdapter) proviceGridView.getAdapter()).getCityTableList().get(position);
+        mViewModel.setSelectedCity(mCityTable.city);
+        mViewModel.loadselectedCity();
+        locationBinding.promptLayout.setVisibility(visibility);
+        locationBinding.confirmBtn.requestFocus();
+
+        locationBinding.confirmBtn.setNextFocusUpId(proviceGridView.getChildAt(proviceGridView.getChildCount() - 1).getId());
+        locationBinding.cancelBtn.setNextFocusUpId(proviceGridView.getChildAt(proviceGridView.getChildCount() - 1).getId());
+        setNextFocusDown(false);
+    }
+
+    private void setNextFocusDown(boolean self) {
+        if (self) {
+            for (int position = 0; position < proviceGridView.getChildCount(); position++) {
+
+                if (position <= proviceGridView.getChildCount() - 1 - 1 && position >= proviceGridView.getChildCount() - 1 - 3) {
+                    proviceGridView.getChildAt(position).setNextFocusDownId(proviceGridView.getChildAt(position).getId());
+                }
+            }
+        } else {
+            for (int position = 0; position < proviceGridView.getChildCount(); position++) {
+
+                if (position <= proviceGridView.getChildCount() - 1 - 1 && position >= proviceGridView.getChildCount() - 1 - 3) {
+                    proviceGridView.getChildAt(position).setNextFocusDownId(View.NO_ID);
+                }
+            }
         }
     }
 }
