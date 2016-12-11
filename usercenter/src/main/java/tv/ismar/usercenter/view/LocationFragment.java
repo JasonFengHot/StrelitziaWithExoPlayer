@@ -313,6 +313,9 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             }
         });
 
+        locationBinding.confirmBtn.setOnHoverListener(this);
+        locationBinding.cancelBtn.setOnHoverListener(this);
+
     }
 
     @Override
