@@ -394,7 +394,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             layout_homepage.setVisibility(View.VISIBLE);
             fetchChannels();
             startAdsService();
-            checkUpgrade();
         }
         startIntervalActive();
 
@@ -1188,7 +1187,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (StringUtils.isEmpty(homepage_template)
                 || StringUtils.isEmpty(homepage_url)) {
 //            fetchChannels();
-            checkUpgrade();
         } else {
             fetchChannels();
         }
@@ -1411,7 +1409,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
         startAdsService();
-        checkUpgrade();
     }
 
     private int getAdCountDownTime() {
