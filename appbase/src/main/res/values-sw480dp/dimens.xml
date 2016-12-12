@@ -32,7 +32,7 @@
 <dimen name="header_fragment_mine_indicator_h">1.78dp</dimen>
 <dimen name="header_fragment_mine_indicator_w">41.78dp</dimen>
 <dimen name="header_title_bottom">5.33dp</dimen>
-<dimen name="header_weather_bottom">7.11dp</dimen>
+<dimen name="header_weather_bottom">8.00dp</dimen>
 
 <dimen name="label_image_padding">7.33dp</dimen>
 <dimen name="loading_size">29.33dp</dimen>

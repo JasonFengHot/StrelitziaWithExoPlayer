@@ -16,13 +16,12 @@
         android:textColor="@color/color_base_white"
         android:textSize="@dimen/text_size_48sp" />
 
-    <ImageView
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/play_finished_head_img_mlr"
         android:layout_marginRight="@dimen/play_finished_head_img_mlr"
-        android:scaleType="fitXY"
-        android:src="@drawable/header_divider" />
+        android:background="#33FFFFFF" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,8 +75,8 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/play_finished_btn_mt">
+                android:layout_height="@dimen/play_finished_btn_h"
+                android:layout_marginTop="@dimen/play_finished_button_mt">
 
                 <FrameLayout
                     android:layout_width="@dimen/play_finished_btn_w"
@@ -131,14 +130,13 @@
 
         <!-- 左边整块 -->
 
-        <ImageView
+        <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/play_finished_view_mt"
             android:layout_marginLeft="@dimen/play_finished_view_ml"
             android:layout_marginTop="@dimen/play_finished_view_mt"
-            android:scaleType="fitXY"
-            android:src="@drawable/vertical_divider_line" />
+            android:background="#33FFFFFF" />
 
         <!-- 右边整块 -->
 
@@ -147,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/play_finished_right_ml"
-            android:layout_marginTop="@dimen/play_finished_right_mt"
+            android:layout_marginTop="@dimen/play_finished_right_layout_mt"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">
