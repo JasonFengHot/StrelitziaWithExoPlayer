@@ -15,10 +15,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.blankj.utilcode.utils.StringUtils;
+
 import java.util.ArrayList;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
@@ -176,6 +179,9 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         }
     };
     private void getPackageList(){
+        if (StringUtils.isEmpty(itemlistUrl)) {
+            itemlistUrl= "http://"+IsmartvActivator.getInstance().getApiDomain()+ "/api/package/list/" + pk + "/";
+        }
         skyService.getPackageList(itemlistUrl).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<ItemList>() {

@@ -272,7 +272,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/detail_text_mt3"
+                            android:layout_marginTop="@dimen/detail_text_mt2"
                             android:orientation="horizontal">
 
                             <TextView
@@ -280,7 +280,7 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:includeFontPadding="false"
-                                android:lineSpacingExtra="@dimen/detail_text_mt3"
+                                android:lineSpacingExtra="@dimen/detail_text_mt2"
                                 android:maxLines="3"
                                 android:text="@{tasks.description}"
                                 android:textColor="@color/module_color_white"
@@ -300,7 +300,9 @@
                             android:id="@+id/detail_btn_linear"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="invisible"
+                            >
 
                             <Button
                                 android:id="@+id/detail_btn_play"
@@ -408,7 +410,8 @@
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:paddingLeft="@dimen/movie_detail_relative_img_ml"
-                    android:paddingRight="@dimen/movie_detail_relative_img_mr">
+                    android:paddingRight="@dimen/movie_detail_relative_img_mr"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"

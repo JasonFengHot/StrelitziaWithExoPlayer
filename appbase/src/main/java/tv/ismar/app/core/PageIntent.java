@@ -128,7 +128,7 @@ public class PageIntent implements PageIntentInterface {
     }
 
     @Override
-    public void toPackageList(Context context, String source, long pk) {
+    public void toPackageList(Context context, String source, int pk) {
         Intent intent=new Intent();
         intent.setAction("tv.ismar.daisy.packagelist");
         intent.putExtra("pk",pk);

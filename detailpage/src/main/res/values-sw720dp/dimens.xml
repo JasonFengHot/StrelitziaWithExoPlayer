@@ -1,7 +1,7 @@
 <resources>
 
 <dimen name="detail_text_mt1">9.50dp</dimen>
-<dimen name="detail_text_mt2">17.33dp</dimen>
+<dimen name="detail_text_mt2">12.00dp</dimen>
 <dimen name="detail_text_mt3">11.50dp</dimen>
 
 <dimen name="movie_detail_preview_img_w">224.50dp</dimen>

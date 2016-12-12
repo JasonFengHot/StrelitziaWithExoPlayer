@@ -393,6 +393,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             layout_homepage.setVisibility(View.VISIBLE);
             fetchChannels();
             startAdsService();
+            checkUpgrade();
         }
         startIntervalActive();
 
@@ -702,7 +703,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      * fetch channel
      */
     private void fetchChannels() {
-        mSkyService.fetchDpi();
         mSkyService.apiTvChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -1187,6 +1187,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (StringUtils.isEmpty(homepage_template)
                 || StringUtils.isEmpty(homepage_url)) {
 //            fetchChannels();
+            checkUpgrade();
         } else {
             fetchChannels();
         }
@@ -1441,17 +1442,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         startService(intent);
     }
 
-    private void checkUpgrade() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent();
-                intent.setClass(getApplicationContext(), UpdateService.class);
-                intent.putExtra("install_type", 0);
-                startService(intent);
-            }
-        }, 1000 * 3);
-    }
+
 
     private void startTrueTimeService() {
         Intent intent = new Intent();

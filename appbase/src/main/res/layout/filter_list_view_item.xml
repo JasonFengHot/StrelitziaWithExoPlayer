@@ -18,7 +18,7 @@
             labelimage:focustextsize="@dimen/item_detail_detail_price_textsize"
             labelimage:maxfocustitle="10"
             labelimage:focustextpaddingtop="0.97"
-            labelimage:focusbackground="#b3303030"
+            labelimage:focusbackground="#D9000000"
             android:scaleType="fitXY"/>
     <TextView
         android:paddingTop="@dimen/filter_list_item_title_mt"
