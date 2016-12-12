@@ -13,9 +13,9 @@
     <dimen name="play_finished_left_w">480dp</dimen>
     <dimen name="play_finished_img_h">270dp</dimen>
     <dimen name="play_finished_img_mt">207dp</dimen>
-    <dimen name="play_finished_title_mt">30dp</dimen>
+    <dimen name="play_finished_title_mt">26dp</dimen>
     <dimen name="play_finished_img_corner_mr">-3dp</dimen>
-    <dimen name="play_finished_btn_mt">36dp</dimen>
+    <dimen name="play_finished_button_mt">34dp</dimen>
     <dimen name="play_finished_btn_w">206dp</dimen>
     <dimen name="play_finished_btn_h">72dp</dimen>
     <dimen name="play_finished_fav_ml">68dp</dimen>
@@ -23,15 +23,15 @@
     <dimen name="play_finished_btn_fav_pl">79dp</dimen>
     <dimen name="play_finished_view_ml">167dp</dimen>
     <dimen name="play_finished_view_mt">18dp</dimen>
-    <dimen name="play_finished_right_ml">54dp</dimen>
-    <dimen name="play_finished_right_mt">55dp</dimen>
+    <dimen name="play_finished_right_ml">53dp</dimen>
+    <dimen name="play_finished_right_layout_mt">52dp</dimen>
     <dimen name="play_finished_right_tv_ml">66dp</dimen>
     <dimen name="play_finished_gridview_w">992dp</dimen>
-    <dimen name="play_finished_right_zgrid_mt">52dp</dimen>
+    <dimen name="play_finished_right_zgrid_mt">49dp</dimen>
     <dimen name="play_finished_right_zgrid_mb">136dp</dimen>
     <dimen name="play_finished_right_zgrid_column_w">284dp</dimen>
     <dimen name="play_finished_right_zgrid_space_h">70dp</dimen>
-    <dimen name="play_finished_right_zgrid_space_v">26dp</dimen>
+    <dimen name="play_finished_right_zgrid_space_v">22dp</dimen>
     <dimen name="play_finished_right_zgrid_selectorLeftPadding">23dip</dimen>
     <dimen name="play_finished_right_zgrid_selectorTopPadding">22dip</dimen>
     <dimen name="play_finished_right_zgrid_selectorRightPadding">22dip</dimen>
@@ -43,7 +43,7 @@
     <!-- playfinish_gridview_item -->
     <dimen name="playfinish_gridview_item_linearimage_W">284dip</dimen>
     <dimen name="playfinish_gridview_item_linearimage_H">160dip</dimen>
-    <dimen name="playfinish_gridview_item_text_margintop">26dip</dimen>
+    <dimen name="playfinish_gridview_item_text_margintop">24dip</dimen>
     <dimen name="playfinish_gridview_iv_label_W">71dip</dimen>
     <dimen name="playfinish_gridview_iv_label_H">71dip</dimen>
 

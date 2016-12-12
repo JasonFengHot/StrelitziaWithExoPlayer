@@ -63,6 +63,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected boolean mIsPlayingAdvertisement;
     protected FrameLayout mContainer;
     protected int mStartPosition;
+    protected boolean mIsPreview;
 
     // 奇艺播放器播放电视剧时,无需再次初始化
     private boolean isQiyiSdkInit = false;
@@ -101,6 +102,10 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     public void setStartPosition(int startPosition) {
         mStartPosition = startPosition;
+    }
+
+    public void setIsPreview(boolean isPreview) {
+        this.mIsPreview = isPreview;
     }
 
     @Override

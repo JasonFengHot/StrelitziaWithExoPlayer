@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.open.androidtvwidget.leanback.recycle.LinearLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.squareup.picasso.Picasso;
 
@@ -199,7 +200,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
         HistoryAdapter adapter = new HistoryAdapter(getContext(), arrayList);
         mRecyclerView.setSelectedItemAtCentered(false);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManagerTV(getContext()));
         mRecyclerView.setAdapter(adapter);
     }
 

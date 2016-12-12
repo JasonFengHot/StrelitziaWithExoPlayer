@@ -1129,6 +1129,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 .setItemEntity(mItemEntity)
                 .setContainer(player_container)
                 .setStartPosition(mCurrentPosition)
+                .setIsPreview(mIsPreview)
                 .build();
         mIsmartvPlayer.setOnBufferChangedListener(this);
         mIsmartvPlayer.setOnStateChangedListener(this);

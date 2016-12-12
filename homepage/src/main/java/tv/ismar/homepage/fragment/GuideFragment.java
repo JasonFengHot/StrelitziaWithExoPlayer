@@ -198,9 +198,8 @@ public class GuideFragment extends ChannelBaseFragment {
     }
 
 
-
     public void fetchHomePage() {
-        ((HomePageActivity)getActivity()).mSkyService.TvHomepageTop().subscribeOn(Schedulers.io())
+        ((HomePageActivity) getActivity()).mSkyService.TvHomepageTop().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(((HomePageActivity) getActivity()).new BaseObserver<HomePagerEntity>() {
                     @Override
@@ -219,10 +218,10 @@ public class GuideFragment extends ChannelBaseFragment {
     private void fillLayout(HomePagerEntity homePagerEntity) {
         if (mContext == null || guideRecommmendList == null)
             return;
-        if(homePagerEntity == null){
-            new CallaPlay().exception_except("launcher","launcher","homepage",
-                    "",0,"api/tv/homepage/top/",
-                    SimpleRestClient.appVersion,"data",""
+        if (homePagerEntity == null) {
+            new CallaPlay().exception_except("launcher", "launcher", "homepage",
+                    "", 0, "api/tv/homepage/top/",
+                    SimpleRestClient.appVersion, "data", ""
             );
             return;
         }
@@ -332,52 +331,65 @@ public class GuideFragment extends ChannelBaseFragment {
     }
 
     private void initCarousel(ArrayList<HomePagerEntity.Carousel> carousels) {
-        carousels = new ArrayList<>(carousels.subList(0,3));
+        carousels = new ArrayList<>(carousels);
         mCarousels = carousels;
         allItem = new ArrayList<>();
         allVideoUrl = new ArrayList<>();
 
         try {
+
             Picasso.with(mContext).load(carousels.get(0).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView1);
             toppage_carous_imageView1.setTag(0);
             toppage_carous_imageView1.setTag(R.drawable.launcher_selector, carousels.get(0));
             toppage_carous_imageView1.setOnClickListener(ItemClickListener);
             toppage_carous_imageView1.setOnFocusChangeListener(itemFocusChangeListener);
             carousels.get(0).setPosition(0);
-            Picasso.with(mContext).load(carousels.get(1).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView2);
-            toppage_carous_imageView2.setTag(1);
-            toppage_carous_imageView2.setTag(R.drawable.launcher_selector, carousels.get(1));
-            toppage_carous_imageView2.setOnClickListener(ItemClickListener);
-            toppage_carous_imageView2.setOnFocusChangeListener(itemFocusChangeListener);
-            carousels.get(1).setPosition(1);
-            Picasso.with(mContext).load(carousels.get(2).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView3);
-            toppage_carous_imageView3.setTag(2);
-            toppage_carous_imageView3.setTag(R.drawable.launcher_selector, carousels.get(2));
-            toppage_carous_imageView3.setOnClickListener(ItemClickListener);
-            toppage_carous_imageView3.setOnFocusChangeListener(itemFocusChangeListener);
-            carousels.get(2).setPosition(2);
+            if (carousels.size() > 1) {
+                Picasso.with(mContext).load(carousels.get(1).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView2);
+                toppage_carous_imageView2.setTag(1);
+                toppage_carous_imageView2.setTag(R.drawable.launcher_selector, carousels.get(1));
+                toppage_carous_imageView2.setOnClickListener(ItemClickListener);
+                toppage_carous_imageView2.setOnFocusChangeListener(itemFocusChangeListener);
+                carousels.get(1).setPosition(1);
+            }
+            if (carousels.size() > 2) {
+                Picasso.with(mContext).load(carousels.get(2).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView3);
+                toppage_carous_imageView3.setTag(2);
+                toppage_carous_imageView3.setTag(R.drawable.launcher_selector, carousels.get(2));
+                toppage_carous_imageView3.setOnClickListener(ItemClickListener);
+                toppage_carous_imageView3.setOnFocusChangeListener(itemFocusChangeListener);
+                carousels.get(2).setPosition(2);
+            }
             allItem.add(toppage_carous_imageView1);
             allItem.add(toppage_carous_imageView2);
             allItem.add(toppage_carous_imageView3);
             allVideoUrl.add(carousels.get(0).getVideo_url());
-            allVideoUrl.add(carousels.get(1).getVideo_url());
-            allVideoUrl.add(carousels.get(2).getVideo_url());
-        }catch (Exception e){
-            new CallaPlay().exception_except("launcher","launcher","homepage",
-                    "",0,"",
-                    SimpleRestClient.appVersion,"client",""
+            if (carousels.size() > 1) {
+                allVideoUrl.add(carousels.get(1).getVideo_url());
+            }
+            if (carousels.size() > 2) {
+                allVideoUrl.add(carousels.get(2).getVideo_url());
+            }
+        } catch (Exception e) {
+            new CallaPlay().exception_except("launcher", "launcher", "homepage",
+                    "", 0, "",
+                    SimpleRestClient.appVersion, "client", ""
             );
         }
 
         carouselMap = new HashMap<>();
         carouselMap.put(0, toppage_carous_imageView1.getId());
-        carouselMap.put(1, toppage_carous_imageView2.getId());
-        carouselMap.put(2, toppage_carous_imageView3.getId());
+        if (carousels.size() > 1) {
+            carouselMap.put(1, toppage_carous_imageView2.getId());
+        }
+        if (carousels.size() > 2) {
+            carouselMap.put(2, toppage_carous_imageView3.getId());
+        }
 
         playCarousel(0);
-        boolean isPlayAd = ((HomePageActivity)getActivity()).isPlayingStartAd;
+        boolean isPlayAd = ((HomePageActivity) getActivity()).isPlayingStartAd;
         // 播放首页广告时，导视不播放
-        if(isPlayAd){
+        if (isPlayAd) {
             mHandler.removeMessages(START_PLAYBACK);
         }
 
@@ -387,7 +399,7 @@ public class GuideFragment extends ChannelBaseFragment {
     public void playCarouselVideo() {
         super.playCarouselVideo();
         Log.i("LH/", "playCarouselVideo");
-        if(carouselMap != null){
+        if (carouselMap != null) {
             mHandler.sendEmptyMessageDelayed(START_PLAYBACK, 0);
         }
 
@@ -423,10 +435,10 @@ public class GuideFragment extends ChannelBaseFragment {
             film_post_layout.setTag(R.drawable.launcher_selector, mCarousels.get(mCurrentCarouselIndex));
             mHandler.removeMessages(START_PLAYBACK);
             mHandler.sendEmptyMessageDelayed(START_PLAYBACK, delay);
-        }catch (Exception e){
-            new CallaPlay().exception_except("launcher","launcher","homepage",
-                    "",0,"",
-                    SimpleRestClient.appVersion,"client",""
+        } catch (Exception e) {
+            new CallaPlay().exception_except("launcher", "launcher", "homepage",
+                    "", 0, "",
+                    SimpleRestClient.appVersion, "client", ""
             );
         }
 
@@ -464,7 +476,7 @@ public class GuideFragment extends ChannelBaseFragment {
             Log.d(TAG, "current video path ====> " + videoPath);
             CallaPlay play = new CallaPlay();
             play.homepage_vod_trailer_play(videoPath);
-            if (mSurfaceView.isPlaying() &&mSurfaceView.getDataSource().equals(videoPath)) {
+            if (mSurfaceView.isPlaying() && mSurfaceView.getDataSource().equals(videoPath)) {
                 return;
             }
             linkedVideoLoadingImage.setVisibility(View.VISIBLE);
@@ -476,9 +488,9 @@ public class GuideFragment extends ChannelBaseFragment {
 
         } catch (Exception e) {
             e.printStackTrace();
-            new CallaPlay().exception_except("launcher","launcher","homepage",
-                    "",0,"",
-                    SimpleRestClient.appVersion,"client",""
+            new CallaPlay().exception_except("launcher", "launcher", "homepage",
+                    "", 0, "",
+                    SimpleRestClient.appVersion, "client", ""
             );
         }
     }

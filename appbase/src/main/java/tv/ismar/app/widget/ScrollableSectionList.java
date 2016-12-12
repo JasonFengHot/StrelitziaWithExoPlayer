@@ -135,7 +135,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
         mContainer.setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
         this.isChangeBarStyle = isChangeBarStyle;
         mContainer.setLayoutParams(new LayoutParams(totalWidth, getResources().
-                getDimensionPixelSize(R.dimen.channel_section_tabs_H)));
+                getDimensionPixelSize(R.dimen.channel_sectiom_tabs_text_H)));
         SectionList sectionList = new SectionList();
         Section filter = new Section();
         filter.count = 0;

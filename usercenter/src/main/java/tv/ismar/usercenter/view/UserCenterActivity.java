@@ -300,9 +300,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     protected void onResume() {
         super.onResume();
-        if (IsmartvActivator.getInstance().isLogin()){
+        if (IsmartvActivator.getInstance().isLogin()) {
             changeViewState(indicatorView.get(2), ViewState.Disable);
-        }else {
+        } else {
             changeViewState(indicatorView.get(2), ViewState.Enable);
         }
     }
@@ -493,5 +493,16 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             lastTextSelectImage.setVisibility(View.INVISIBLE);
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LocationFragment) {
+            if (!mLocationFragment.onBackPressed()) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
     }
 }

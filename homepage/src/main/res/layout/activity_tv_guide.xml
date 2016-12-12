@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <VideoView
+        <tv.ismar.homepage.widget.DaisyVideoView
             android:id="@+id/home_ad_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

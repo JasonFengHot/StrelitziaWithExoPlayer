@@ -116,9 +116,11 @@
 <dimen name="usercenter_purchase_history_ml">43.33dp</dimen>
 
 
-<dimen name="u_purchase_history_item_margin_top">-40.00dp</dimen>
+<dimen name="u_purchase_history_item_margin_top">-30.00dp</dimen>
 <dimen name="purchase_history_recycler_mt">3.33dp</dimen>
 <dimen name="usercenter_indicator_width">133.33dp</dimen>
 <dimen name="usercenter_indicator_divider_line">200.00dp</dimen>
 <dimen name="usercenter_vertical_divider_line_mt">10.00dp</dimen>
+<dimen name="prompt_layout_mb">100.00dp</dimen>
+<dimen name="prompt_layout_mt">283.33dp</dimen>
 </resources>
