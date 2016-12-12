@@ -374,11 +374,14 @@ public class PackageDetailFragment extends BaseFragment {
                 vod_payment_buyButton.setText("已购买");
             }
         } else {
+            vod_payment_buyButton.setVisibility(View.VISIBLE);
             vod_payment_buyButton.setText("购买");
             vod_payment_duration.setText("有效期" + mItemEntity.getExpense().getDuration() + "天");
             vod_payment_price.setText("￥" + mItemEntity.getExpense().getPrice() + "元");
             vod_payment_duration.setBackgroundResource(R.drawable.vod_detail_unpayment_duration);
             vod_payment_price.setBackgroundResource(R.drawable.vod_detail_unpayment_price);
+            vod_payment_buyButton.requestFocus();
+            vod_payment_buyButton.requestFocusFromTouch();
         }
         vod_payment_buyButton.setVisibility(View.VISIBLE);
         vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
