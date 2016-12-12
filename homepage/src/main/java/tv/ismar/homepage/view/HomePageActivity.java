@@ -91,6 +91,7 @@ import tv.ismar.homepage.fragment.FilmFragment;
 import tv.ismar.homepage.fragment.GuideFragment;
 import tv.ismar.homepage.fragment.MessageDialogFragment;
 import tv.ismar.homepage.fragment.SportFragment;
+import tv.ismar.homepage.widget.DaisyVideoView;
 import tv.ismar.homepage.widget.Position;
 
 /**
@@ -114,7 +115,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      * advertisement start
      */
     private static final int MSG_AD_COUNTDOWN = 0x01;
-    private VideoView home_ad_video;
+    private DaisyVideoView home_ad_video;
     private ImageView home_ad_pic;
     private Button home_ad_timer;
     private AdvertiseManager advertiseManager;
@@ -332,7 +333,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
          */
         home_layout_advertisement = (RelativeLayout) findViewById(R.id.home_layout_advertisement);
         layout_homepage = (FrameLayout) findViewById(R.id.layout_homepage);
-        home_ad_video = (VideoView) findViewById(R.id.home_ad_video);
+        home_ad_video = (DaisyVideoView) findViewById(R.id.home_ad_video);
         home_ad_pic = (ImageView) findViewById(R.id.home_ad_pic);
         home_ad_timer = (Button) findViewById(R.id.home_ad_timer);
 
@@ -1226,6 +1227,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 home_tab_list.setHovered(false);
+                break;
+            case KeyEvent.KEYCODE_HOME:
+                finish();
                 break;
         }
         return super.onKeyDown(keyCode, event);
