@@ -234,7 +234,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             userinfoBinding.exitAccount.setNextFocusDownId(R.id.charge_money);
             if (privilegeView != null) {
                 for (View v : privilegeView) {
-                    v.setNextFocusLeftId(v.getId());
+                    v.setNextFocusLeftId(R.id.usercenter_userinfo);
                 }
             }
         }
