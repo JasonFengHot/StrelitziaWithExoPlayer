@@ -38,9 +38,8 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/normal_detail_content_padding_lr"
-            android:paddingRight="@dimen/normal_detail_content_padding_lr"
-            android:paddingTop="@dimen/item_title_padding_top"
+            android:paddingLeft="@dimen/normal_detail_content_padding_pl"
+            android:paddingRight="@dimen/normal_detail_content_padding_pr"
         >
 
             <RelativeLayout
@@ -369,7 +368,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/normal_detail_detail_w"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:lineSpacingExtra="@dimen/normal_linespacingextra"
@@ -386,8 +385,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/normal_detail_relative_ml"
                 android:layout_marginTop="@dimen/normal_detail_relative_mt"
+                android:layout_marginLeft="@dimen/normal_detail_relative_ml"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical">
@@ -399,17 +398,19 @@
                     android:gravity="center"
                     android:text="@string/recommend_str"
                     android:textColor="@color/module_color_white"
+                    android:layout_marginLeft="@dimen/normal_detail_label_image_ml"
                     android:textSize="@dimen/text_size_36sp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/related__layout_h"
-                    android:orientation="vertical">
+                    android:layout_marginTop="2dp"
+                    android:orientation="vertical"
+                    >
 
                 <LinearLayout
                     android:id="@+id/related_item_layout_1"
                     android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/normal_detail_img_mt1"
                     android:background="@drawable/selector_related_item"
                     android:clickable="true"
                     android:clipChildren="false"
@@ -426,7 +427,6 @@
                         android:clickable="false"
                         android:nextFocusRight="@id/rel_1_img"
                         android:visibility="invisible"
-                        app:livContentPadding="21dp"
                         app:livErrorDrawable="@mipmap/img_error_vertical"
                         app:livLabelBackColor="@color/color_label_image_text_back"
                         app:livLabelColor="@color/module_color_white"
@@ -442,7 +442,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/normal_detail_relative_text_ml"
                         android:orientation="vertical">
 
@@ -454,7 +454,8 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_30sp"
+                            android:layout_marginTop="@dimen/related__layout_item_title_mt"/>
 
                         <TextView
                             android:id="@+id/rel_1_focus_text"
@@ -474,8 +475,8 @@
                     android:id="@+id/related_item_layout_2"
                     android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/normal_detail_img_mt2"
                     android:background="@drawable/selector_related_item"
+                    android:layout_marginTop="@dimen/normal_detail_img_mt2"
                     android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
@@ -490,7 +491,6 @@
                         android:clickable="false"
                         android:nextFocusRight="@id/rel_2_img"
                         android:visibility="invisible"
-                        app:livContentPadding="21dp"
                         app:livErrorDrawable="@mipmap/img_error_vertical"
                         app:livLabelBackColor="@color/color_label_image_text_back"
                         app:livLabelColor="@color/module_color_white"
@@ -506,7 +506,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/normal_detail_relative_text_ml"
                         android:orientation="vertical">
 
@@ -518,7 +518,8 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_30sp"
+                            android:layout_marginTop="@dimen/related__layout_item_title_mt"/>
 
                         <TextView
                             android:id="@+id/rel_2_focus_text"
@@ -538,8 +539,8 @@
                     android:id="@+id/related_item_layout_3"
                     android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/normal_detail_img_mt2"
                     android:background="@drawable/selector_related_item"
+                    android:layout_marginTop="@dimen/normal_detail_img_mt2"
                     android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
@@ -554,7 +555,6 @@
                         android:clickable="false"
                         android:nextFocusRight="@id/rel_3_img"
                         android:visibility="invisible"
-                        app:livContentPadding="21dp"
                         app:livErrorDrawable="@mipmap/img_error_vertical"
                         app:livLabelBackColor="@color/color_label_image_text_back"
                         app:livLabelColor="@color/module_color_white"
@@ -570,7 +570,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/normal_detail_relative_text_ml"
                         android:orientation="vertical">
 
@@ -582,7 +582,8 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_30sp"
+                            android:layout_marginTop="@dimen/related__layout_item_title_mt"/>
 
                         <TextView
                             android:id="@+id/rel_3_focus_text"
@@ -602,8 +603,8 @@
                     android:id="@+id/related_item_layout_4"
                     android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/normal_detail_img_mt2"
                     android:background="@drawable/selector_related_item"
+                    android:layout_marginTop="@dimen/normal_detail_img_mt2"
                     android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
@@ -618,7 +619,6 @@
                         android:clickable="false"
                         android:nextFocusRight="@id/rel_4_img"
                         android:visibility="invisible"
-                        app:livContentPadding="21dp"
                         app:livErrorDrawable="@mipmap/img_error_vertical"
                         app:livLabelBackColor="@color/color_label_image_text_back"
                         app:livLabelColor="@color/module_color_white"
@@ -634,7 +634,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/normal_detail_relative_text_ml"
                         android:orientation="vertical">
 
@@ -646,7 +646,8 @@
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_30sp"/>
+                            android:textSize="@dimen/text_size_30sp"
+                            android:layout_marginTop="@dimen/related__layout_item_title_mt"/>
 
                         <TextView
                             android:id="@+id/rel_4_focus_text"
@@ -666,8 +667,8 @@
                     android:id="@+id/detail_relative_button"
                     android:layout_width="@dimen/normal_detail_relative_button_w"
                     android:layout_height="@dimen/normal_detail_relative_button_h"
-                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/normal_detail_relative_button_mt"
+                    android:layout_marginLeft="@dimen/normal_detail_relative_button_ml"
                     android:background="@drawable/s_button_color"
                     android:gravity="center"
                     android:nextFocusDown="@id/detail_relative_button"
