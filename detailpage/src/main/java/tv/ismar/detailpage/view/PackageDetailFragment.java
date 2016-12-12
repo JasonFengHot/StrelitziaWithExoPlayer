@@ -138,7 +138,13 @@ public class PackageDetailFragment extends BaseFragment {
                 pageIntent.toPayment(getContext(), "package", paymentInfo);
             }
         });
-
+        vod_payment_item_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PageIntent pageIntent = new PageIntent();
+                pageIntent.toPackageList(getContext(),"package",mItemEntity.getPk());
+            }
+        });
 
         loadView();
     }
@@ -369,6 +375,7 @@ public class PackageDetailFragment extends BaseFragment {
             vod_payment_duration.setBackgroundResource(R.drawable.vod_detail_unpayment_duration);
             vod_payment_price.setBackgroundResource(R.drawable.vod_detail_unpayment_price);
         }
+        vod_payment_buyButton.setVisibility(View.VISIBLE);
     }
 
 

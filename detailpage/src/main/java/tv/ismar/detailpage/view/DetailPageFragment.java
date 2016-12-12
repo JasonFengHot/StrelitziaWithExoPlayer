@@ -166,13 +166,17 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mModel.replaceItem(itemEntity);
         itemIsLoad = true;
         hideLoading();
-
         mItemEntity = itemEntity;
     }
 
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
         relateItems = itemEntities;
+        if(itemEntities.length<relViews){
+            for (int i = itemEntities.length-1; i <relViews ; i++) {
+                ((View)relRelImageViews[i].getParent()).setVisibility(View.INVISIBLE);
+            }
+        }
         for (int i = 0; i < itemEntities.length && i < relViews; i++) {
             moreBtnView.setNextFocusLeftId(View.NO_ID);
             switch (mItemEntity.getContentModel()) {
@@ -252,6 +256,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         relateIsLoad = true;
         hideLoading();
+        mMovieBinding.detailBtnLinear.setVisibility(View.VISIBLE);
     }
 
 
@@ -426,8 +431,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         bundle.putString("channel_name", mHeadTitle);
         headFragment = new HeadFragment();
         headFragment.setArguments(bundle);
-        getChildFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();
-        return contentView;
+        getChildFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();return contentView;
     }
 
     @Override

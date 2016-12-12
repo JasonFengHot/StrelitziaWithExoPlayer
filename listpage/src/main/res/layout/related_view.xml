@@ -59,6 +59,7 @@
             android:id="@+id/related_section_tabs"
             android:layout_width="@dimen/gridview_channel_section_tabs_width"
             android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:scrollbars="none" >

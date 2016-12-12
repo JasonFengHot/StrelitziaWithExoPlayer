@@ -265,6 +265,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 							mItemCollections.add(itemCollection);
 							mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections,false);
 							mHGridAdapter.setList(mItemCollections);
+							Log.i("novideo","noempty: "+mItemCollections.size());
 							if(mHGridAdapter.getCount()>0){
 								mHGridView.setAdapter(mHGridAdapter);
 								mHGridView.setFocusable(true);
@@ -279,6 +280,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 								showData();
 							}
 						}else{
+							Log.i("novideo","coming in");
 							no_video();
 						}
 					}catch (Exception e){
@@ -620,7 +622,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		}
 	}
 	private void EmptyAllFavorite(){
-		skyService.emptyBookmarks().subscribeOn(Schedulers.io())
+		skyService.emptyBookmarks(IsmartvActivator.getInstance().getDeviceToken()).subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(((BaseActivity) getActivity()).new BaseObserver<ResponseBody>() {
 					@Override

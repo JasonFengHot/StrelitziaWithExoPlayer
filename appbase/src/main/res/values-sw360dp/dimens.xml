@@ -32,7 +32,7 @@
 <dimen name="header_fragment_mine_indicator_h">1.33dp</dimen>
 <dimen name="header_fragment_mine_indicator_w">31.33dp</dimen>
 <dimen name="header_title_bottom">4.00dp</dimen>
-<dimen name="header_weather_bottom">6.00dp</dimen>
+<dimen name="header_weather_bottom">6.33dp</dimen>
 
 <dimen name="label_image_padding">5.50dp</dimen>
 <dimen name="loading_size">22.00dp</dimen>
@@ -387,6 +387,7 @@
 <!-- channel_section_tabs -->
 <dimen name="channel_section_tabs_W">66.67dip</dimen>
 <dimen name="channel_section_tabs_H">29.33dp</dimen>
+<dimen name="channel_sectiom_tabs_text_H">30.00dp</dimen>
 <dimen name="channel_section_tabs_label_marginL">2.33dip</dimen>
 <dimen name="channel_section_tabs_label_marginR">2.33dip</dimen>
 <dimen name="channel_section_tabs_label_marginB">1.33dip</dimen>

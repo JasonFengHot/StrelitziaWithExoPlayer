@@ -115,7 +115,7 @@
                 >
             <TextView
                     android:layout_marginTop="@dimen/listpage_portrait_detail_title_mt"
-                    android:text="抱歉,您的筛选条件太多了,没有找到匹配的内容"
+                    android:text="抱歉,没有找到匹配的内容"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

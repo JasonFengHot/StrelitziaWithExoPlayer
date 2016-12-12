@@ -341,7 +341,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				});
 	}
 	private void EmptyAllHistory(){
-		skyService.emptyHistory().subscribeOn(Schedulers.io())
+		skyService.emptyHistory(IsmartvActivator.getInstance().getDeviceToken()).subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(((BaseActivity) getActivity()).new BaseObserver<ResponseBody>() {
 					@Override
