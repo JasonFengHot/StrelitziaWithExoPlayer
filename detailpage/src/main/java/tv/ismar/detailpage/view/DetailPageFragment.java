@@ -256,6 +256,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         relateIsLoad = true;
         hideLoading();
+        if(mMovieBinding!=null&&mMovieBinding.detailBtnLinear!=null)
         mMovieBinding.detailBtnLinear.setVisibility(View.VISIBLE);
     }
 
