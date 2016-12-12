@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ismartv.injectdb.library.util.Log;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
@@ -148,14 +149,17 @@ public class EpisodeActivity extends BaseActivity {
         episode_arrow_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.e("pos",mEpisodeRecyclerView.getSelectPostion()+"");
+                int pos=mEpisodeRecyclerView.getSelectPostion()-10<0?0:mEpisodeRecyclerView.getSelectPostion()-10;
+                mEpisodeRecyclerView.scrollToPosition(pos);
             }
         });
         episode_arrow_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
+                Log.e("pos",mEpisodeRecyclerView.getSelectPostion()+"");
+                int pos=mEpisodeRecyclerView.getSelectPostion()+10>=mItemEntity.getSubitems().length?mItemEntity.getSubitems().length-1:mEpisodeRecyclerView.getSelectPostion()+10;
+                mEpisodeRecyclerView.scrollToPosition(pos);            }
         });
     }
 
