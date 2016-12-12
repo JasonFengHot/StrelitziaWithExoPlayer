@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -11,7 +12,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.utils.FileUtils;
@@ -90,7 +93,11 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
 
     private void fetchAppUpgrade() {
-        String sn = IsmartvActivator.getInstance().getSnToken();
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String sn = mSharedPreferences.getString("sn_token", "");
+        if (TextUtils.isEmpty(sn)) {
+            return;
+        }
         String manu = "sharp";
         String app = "sky";
         String modelName = Build.PRODUCT.replace(" ", "_");

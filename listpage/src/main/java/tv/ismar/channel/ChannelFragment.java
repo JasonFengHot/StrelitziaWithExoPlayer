@@ -7,6 +7,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -623,6 +624,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
             @Override
             public void onNext(ItemList itemList) {
+                Log.i("getItemList","onNext");
                 mLoadingDialog.dismiss();
                 try {
                     if (itemList != null && itemList.objects != null) {
@@ -648,6 +650,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
         @Override
         public void onSectionSelectChanged(int index) {
+            Log.i("tabSelcet","onSectionSelectChanged:"+index);
+            getItemlistHandler.removeCallbacks(getItemlistRunnable);
             checkSectionChanged(index);
             mHGridView.jumpToSection(index);
         }
@@ -761,6 +765,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     @Override
     public void onScrollStateChanged(HGridView view, int scrollState) {
+        Log.i("tabSelcet","onScrollStateChanged"+scrollState);
         if (scrollState == HGridView.OnScrollListener.SCROLL_STATE_FOCUS_MOVING) {
             mIsBusy = true;
             Log.d(TAG, "Scroll State Changed! current is SCROLL_STATE_FOCUS_MOVING");
@@ -771,10 +776,18 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
 
     }
-
+    private int nextIndex=0;
+    private Handler getItemlistHandler=new Handler();
+    private Runnable getItemlistRunnable=new Runnable() {
+        @Override
+        public void run() {
+            getItemList(nextIndex);
+        }
+    };
     @Override
     public void onScroll(HGridView view, int firstVisibleItem,
                          int visibleItemCount, int totalItemCount) {
+        Log.i("tabSelcet","onScroll: "+mIsBusy);
         if (!mIsBusy) {
             // We put the composed index which need to loading to this list. and check with
             // mCurrentLoadingTask soon after
@@ -828,10 +841,11 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             }
 
             for (int i = 0; i < needToLoadComposedIndex.size(); i++) {
-                int composedIndex = needToLoadComposedIndex.get(i);
+                final int composedIndex = needToLoadComposedIndex.get(i);
                 if (!currentLoadingTask.containsKey(composedIndex)) {
                  //   new GetItemListTask().execute(composedIndex);
-                    getItemList(composedIndex);
+                    nextIndex=composedIndex;
+                    getItemlistHandler.postDelayed(getItemlistRunnable,2000);
                 }
             }
             Log.d(TAG, currentLoadingTask.size() + " tasks in currentLoadingTask: ");

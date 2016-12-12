@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/header_fragment_subtitle_ml"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_36sp"/>
 

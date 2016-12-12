@@ -72,7 +72,6 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
         //解析来至launcher的参数
         if (!TextUtils.isEmpty(url)) {
-            checkUpgrade();
             String[] arrayTmp = url.split("/");
             itemPK = Integer.parseInt(arrayTmp[arrayTmp.length - 1]);
             switch (arrayTmp[arrayTmp.length - 2]) {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -41,6 +42,7 @@ import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
 import tv.ismar.app.network.HttpTrafficInterceptor;
+import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -96,7 +98,7 @@ public class VodApplication extends Application {
         if (NetworkUtils.isConnected(this)) {
             new Thread(new InitializeProcess(this)).start();
         }
-
+        checkUpgrade();
         Log.i("LH/", "applicationOnCreateEnd:" + System.currentTimeMillis());
     }
 
@@ -362,5 +364,17 @@ public class VodApplication extends Application {
         Intent intent = new Intent();
         intent.setClass(this, ActiveService.class);
         startService(intent);
+    }
+
+    private void checkUpgrade() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), UpdateService.class);
+                intent.putExtra("install_type", 0);
+                startService(intent);
+            }
+        }, 1000 * 60);
     }
 }

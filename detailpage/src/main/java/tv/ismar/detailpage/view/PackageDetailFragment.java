@@ -75,6 +75,8 @@ public class PackageDetailFragment extends BaseFragment {
 
     private DetailPageStatistics mPageStatistics;
 
+    private  List<ItemEntity> itemEntities;
+
     public static PackageDetailFragment newInstance(String fromPage, String itemJson) {
         PackageDetailFragment fragment = new PackageDetailFragment();
         Bundle args = new Bundle();
@@ -153,6 +155,7 @@ public class PackageDetailFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         requestPlayCheck(String.valueOf(mItemEntity.getPk()));
+
     }
 
     private void loadView() {
@@ -169,14 +172,13 @@ public class PackageDetailFragment extends BaseFragment {
                 vod_payment_item_more.setFocusable(true);
 
                 vod_payment_item_of_package_container.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                List<ItemEntity> itemEntities;
                 if (mItemEntity.getItems().size() > 3) {
                     itemEntities = mItemEntity.getItems().subList(0, 3);
                 } else {
                     itemEntities = mItemEntity.getItems();
                 }
                 vod_payment_item_of_package_container.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.package_detail_list_item_margin_left)));
-                vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
+
                 vod_payment_item_of_package_container.setOnItemClickListener(PackageItemClickListener);
             }
 
@@ -360,22 +362,29 @@ public class PackageDetailFragment extends BaseFragment {
             vod_payment_duration.setBackgroundResource(R.drawable.vod_detail_already_payment_duration);
             vod_payment_price.setBackgroundResource(R.drawable.vod_detail_already_payment_price);
             if (mItemEntity.isRepeat_buy()) {
+                vod_payment_buyButton.setVisibility(View.VISIBLE);
                 vod_payment_buyButton.setEnabled(true);
                 vod_payment_buyButton.setFocusable(true);
                 vod_payment_buyButton.setText("再次购买");
+                vod_payment_buyButton.requestFocus();
+                vod_payment_buyButton.requestFocusFromTouch();
             } else {
                 vod_payment_buyButton.setEnabled(false);
                 vod_payment_buyButton.setFocusable(false);
                 vod_payment_buyButton.setText("已购买");
             }
         } else {
+            vod_payment_buyButton.setVisibility(View.VISIBLE);
             vod_payment_buyButton.setText("购买");
             vod_payment_duration.setText("有效期" + mItemEntity.getExpense().getDuration() + "天");
             vod_payment_price.setText("￥" + mItemEntity.getExpense().getPrice() + "元");
             vod_payment_duration.setBackgroundResource(R.drawable.vod_detail_unpayment_duration);
             vod_payment_price.setBackgroundResource(R.drawable.vod_detail_unpayment_price);
+            vod_payment_buyButton.requestFocus();
+            vod_payment_buyButton.requestFocusFromTouch();
         }
         vod_payment_buyButton.setVisibility(View.VISIBLE);
+        vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
     }
 
 

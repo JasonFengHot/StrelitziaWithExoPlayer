@@ -55,7 +55,6 @@ public class ChannelListActivity extends BaseActivity {
 				
 				channel = bundle.getString("channel");
 				portraitflag = bundle.getInt("portraitflag");
-				checkUpgrade();
 			}
 		}
 		if(url==null) {
@@ -135,7 +134,6 @@ public class ChannelListActivity extends BaseActivity {
 					
 					channel = bundle.getString("channel");
 					portraitflag = bundle.getInt("portraitflag");
-					checkUpgrade();
 				}
 			}
 			if(url==null) {
