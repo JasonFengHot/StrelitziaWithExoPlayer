@@ -244,7 +244,7 @@
 <dimen name="horizontal_divider_ml">5.78dp</dimen>
 <dimen name="horizontal_divider_mr">5.78dp</dimen>
 <dimen name="episode_post_mt">7.11dp</dimen>
-<dimen name="related_item_layout_width">112.00dp</dimen>
+<dimen name="related_item_layout_width">114.22dp</dimen>
 <dimen name="related__layout_h">133.33dp</dimen>
 <dimen name="related__layout_mt">7.78dp</dimen>
 <dimen name="related__layout_item_title_w">64.89dp</dimen>
