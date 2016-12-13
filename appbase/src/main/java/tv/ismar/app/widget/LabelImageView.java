@@ -145,8 +145,9 @@ public class LabelImageView extends FrameLayout {
         super.onDraw(canvas);
         super.getDrawingRect(mRect);
         Log.v(TAG,"on draw");
+        int padding=getResources().getDimensionPixelOffset(R.dimen.focus_padding);
         if (drawBorder && livSelectorDrawable != null) {
-            mBound.set(-dp2px(21) + mRect.left, -dp2px(21) + mRect.top, dp2px(21) + mRect.right, dp2px(21) + mRect.bottom);
+            mBound.set(-padding+ mRect.left, -padding + mRect.top, padding + mRect.right, padding + mRect.bottom);
             livSelectorDrawable.setBounds(mBound);
             canvas.save();
             livSelectorDrawable.draw(canvas);

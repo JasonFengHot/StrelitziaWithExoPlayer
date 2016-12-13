@@ -9,6 +9,7 @@
 <dimen name="text_size_32sp">17.78dp</dimen>
 <dimen name="text_size_40sp">22.22dp</dimen>
 <dimen name="text_size_18sp">10.00dp</dimen>
+<dimen name="focus_padding">11.67dp</dimen>
 
 <dimen name="h0_size">26.67dp</dimen>
 <dimen name="h1_size">20.00dp</dimen>
