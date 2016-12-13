@@ -693,6 +693,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     public void onBackPressed() {
         if (countAdTime > 0) {
+            if(mHandler.hasMessages(MSG_AD_COUNTDOWN)){
+                mHandler.removeMessages(MSG_AD_COUNTDOWN);
+            }
             super.onBackPressed();
         } else {
             showExitPopup(getRootView());
@@ -1328,7 +1331,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
-            // TODO
             home_ad_video.start();
             if (playIndex == 0) {
                 mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
@@ -1339,6 +1341,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
+            if(isFinishing()){
+                return;
+            }
             if (playIndex == launchAds.size() - 1) {
                 mHandler.removeMessages(MSG_AD_COUNTDOWN);
                 goNextPage();
@@ -1398,6 +1403,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     }
 
     private void goNextPage() {
+        Log.i(TAG, "goNextPage");
         isPlayingStartAd = false;
         home_layout_advertisement.setVisibility(View.GONE);
         large_layout.removeView(home_layout_advertisement);

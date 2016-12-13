@@ -519,6 +519,9 @@ public class GuideFragment extends ChannelBaseFragment {
                 if (hasFocus) {
 //                    mHelper.onStop();
                     int position = (Integer) v.getTag();
+                    if(mCurrentCarouselIndex == position){
+                        return;
+                    }
                     mCarouselRepeatType = CarouselRepeatType.Once;
                     mCurrentCarouselIndex = position;
                     playCarousel(100);
