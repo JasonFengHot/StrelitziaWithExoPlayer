@@ -28,7 +28,7 @@
 <dimen name="normal_detail_content_padding_pr">129.11dp</dimen>
 <dimen name="normal_detail_content_padding_t">49.00dp</dimen>
 <dimen name="normal_detail_content_w">976.89dp</dimen>
-<dimen name="normal_detail_text_w">412.22dp</dimen>
+<dimen name="normal_detail_text_w">452.67dp</dimen>
 <dimen name="normal_detail_text_h">341.44dp</dimen>
 <dimen name="normal_detail_text_mt1">23.92dp</dimen>
 <dimen name="normal_detail_text_mt2">25.08dp</dimen>
@@ -52,7 +52,7 @@
 <dimen name="normal_detail_img_mt2">4.67dp</dimen>
 <dimen name="normal_detail_relative_text_ml">10.11dp</dimen>
 <dimen name="normal_detail_relative_text_mt">11.67dp</dimen>
-<dimen name="normal_detail_relative_button_mt">38.89dp</dimen>
+<dimen name="normal_detail_relative_button_mt">42.00dp</dimen>
 <dimen name="normal_detail_relative_button_ml">134.56dp</dimen>
 <dimen name="normal_detail_relative_button_w">192.11dp</dimen>
 <dimen name="normal_detail_relative_button_h">71.56dp</dimen>
