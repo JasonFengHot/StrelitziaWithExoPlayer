@@ -703,7 +703,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             return true;
         }
         showExitPopup(POP_TYPE_PLAYER_ERROR);
-        return false;
+        return true;
     }
 
     @Override
@@ -763,7 +763,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         } else {
             mTimerHandler.post(timerRunnable);
         }
-        if(isSeeking){
+        if (isSeeking) {
             tempSeekPosition = mIsmartvPlayer.getCurrentPosition();
         }
     }
@@ -797,7 +797,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 // 播放过程中断网判断End
 
-                if(isSeeking && tempSeekPosition == mediaPosition){
+                if (isSeeking && tempSeekPosition == mediaPosition) {
                     mTimerHandler.postDelayed(timerRunnable, 500);
                     return;
                 }
@@ -1335,6 +1335,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         boolean ret = false;
         if (id > MENU_QUALITY_ID_START && id <= MENU_QUALITY_ID_END) {
+            if (!NetworkUtils.isConnected(getActivity())) {
+                showExitPopup(POP_TYPE_PLAYER_ERROR);
+                Log.e(TAG, "Network error switch quality.");
+                return true;
+            }
             // id值为quality值+1
             int qualityValue = id - 1;
             ClipEntity.Quality clickQuality = ClipEntity.Quality.getQuality(qualityValue);
@@ -1510,6 +1515,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showExitPopup(final byte popType) {
+        if (popDialog != null && popDialog.isShowing()) {
+            popDialog.dismiss();
+            popDialog = null;
+        }
         isShowExit = true;
         if (mIsPlayingAd) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
