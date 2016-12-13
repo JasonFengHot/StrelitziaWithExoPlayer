@@ -144,7 +144,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private String lastviewTag;
     private int lastchannelindex = -1;
     private boolean rightscroll;
-    public boolean isneedpause;
+    public boolean isneedpause = true;
     private FragmentSwitchHandler fragmentSwitch;
     private BitmapDecoder bitmapDecoder;
     private String brandName;
@@ -1131,6 +1131,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onResume() {
         super.onResume();
+        if(!isneedpause){
+            return;
+        }
         neterrorshow = false;
         if (!TextUtils.isEmpty(brandName) && brandName.equalsIgnoreCase("konka")) {
             try {
@@ -1156,6 +1159,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onPause() {
         super.onPause();
+        if(!isneedpause){
+            return;
+        }
         if (fragmentSwitch.hasMessages(SWITCH_PAGE))
             fragmentSwitch.removeMessages(SWITCH_PAGE);
         if (fragmentSwitch.hasMessages(SWITCH_PAGE_FROMLAUNCH))
@@ -1185,6 +1191,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if(!isneedpause){
+            return;
+        }
         homepage_template = intent.getStringExtra("homepage_template");
         homepage_url = intent.getStringExtra("homepage_url");
         if (StringUtils.isEmpty(homepage_template)
@@ -1218,6 +1227,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             }
         } else if ("lx565ab".equals(VodUserAgent.getModelName())) {
             if (keyCode == 82 || keyCode == 707 || keyCode == 253) {
+                isneedpause = false;
+            }
+        } else if ("lcd_xxcae5a_b".equals(VodUserAgent.getModelName())) {
+            if (keyCode == 497 || keyCode == 498 || keyCode == 490) {
                 isneedpause = false;
             }
         } else {
@@ -1416,6 +1429,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
+        isneedpause = true;
         startAdsService();
         checkUpgrade();
     }
