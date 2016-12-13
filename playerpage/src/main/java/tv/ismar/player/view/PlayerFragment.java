@@ -1486,7 +1486,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         public void onClick(View v) {
             if (mIsmartvPlayer == null || isPopWindowShow() ||
                     mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState()
-                    || isBufferShow() || isMenuShow()) {
+                    || isBufferShow()) {
+                return;
+            }
+            if (isMenuShow()) {
+                hideMenu();
                 return;
             }
             if (mIsmartvPlayer.isPlaying()) {
