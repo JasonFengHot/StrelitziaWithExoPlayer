@@ -288,6 +288,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
                 verticalParams.width = itemWidth;
                 verticalParams.height = itemHeight;
                 if(i == 5){
+                    item_img_focus.setNextFocusRightId(R.id.home_scroll_right);
                 	righttop = item_img_focus;
                 }
                 if (i == 6) {

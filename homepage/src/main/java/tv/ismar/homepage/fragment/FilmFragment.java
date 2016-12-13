@@ -716,6 +716,9 @@ public class FilmFragment extends ChannelBaseFragment {
             } else {
                 if (hasFocus) {
                     int position = (Integer) v.getTag();
+                    if(mCurrentCarouselIndex == position){
+                        return;
+                    }
                     mCarouselRepeatType = CarouselRepeatType.Once;
                     mCurrentCarouselIndex = position;
                     playCarousel(100);

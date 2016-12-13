@@ -307,6 +307,7 @@
                         android:onClick="@{() -> actionHandler.handlePlay()}"
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@{tasks.playText}"
+                        android:enabled="@{tasks.Enabled}"
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_32sp"
                     />
@@ -403,7 +404,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/related__layout_h"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/related__layout_view_mt"
                     android:orientation="vertical"
                     >
 
@@ -417,7 +418,6 @@
                     android:clipToPadding="false"
                     android:descendantFocusability="blocksDescendants"
                     android:focusable="true"
-                    android:visibility="gone"
                     android:orientation="horizontal">
 
                     <tv.ismar.app.widget.LabelImageView

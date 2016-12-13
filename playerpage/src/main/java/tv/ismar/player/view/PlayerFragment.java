@@ -242,7 +242,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         return contentView;
     }
 
-    private void initView(View contentView){
+    private void initView(View contentView) {
         player_container = (FrameLayout) contentView.findViewById(R.id.player_container);
         panel_layout = (LinearLayout) contentView.findViewById(R.id.panel_layout);
         player_seekBar = (SeekBar) contentView.findViewById(R.id.player_seekBar);
@@ -311,7 +311,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         testLoadItemTime = System.currentTimeMillis();
         // 详情页多页面，剧集列表，需要更新subItem,每次初始化都重新获取数据
 //        if (mItemEntity == null) {
-            mPresenter.fetchPlayerItem(String.valueOf(itemPK));
+        mPresenter.fetchPlayerItem(String.valueOf(itemPK));
 //        } else {
 //            loadPlayerItem(mItemEntity);
 //        }
@@ -333,7 +333,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         switch (type) {
             case EVENT_CLICK_VIP_BUY:
                 isNeedOnResume = true;
-                if(mIsmartvPlayer != null && mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER){
+                if (mIsmartvPlayer != null && mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                     toPayPage(mItemEntity.getPk(), 2, 3, null);
                 } else {
                     toPayPage(mItemEntity.getPk(), 2, 2, null);
@@ -351,7 +351,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                             startActivity(intent);
                         } catch (ActivityNotFoundException e) {
                             Log.e(TAG, "Click kefu but 'cn.ismartv.speedtester.feedback' not found.");
-                           PageIntent page=new PageIntent();
+                            PageIntent page = new PageIntent();
                             page.toHelpPage(getActivity());
                         }
                     }
@@ -610,7 +610,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.i(TAG, "onPaused");
         timerStop();
         mModel.updatePlayerPause();
-        if(onPlayerFragment){
+        if (onPlayerFragment) {
             showPannelDelayOut();
         }
 
@@ -620,12 +620,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public void onSeekComplete() {
         Log.i(TAG, "onSeekComplete");
         if (isSeeking && onPlayerFragment) {
-            timerStart(500);
-            showPannelDelayOut();
             if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.start();
             }
-        } else if(!onPlayerFragment) {
+            timerStart(500);
+            showPannelDelayOut();
+        } else if (!onPlayerFragment) {
             if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
                 mIsmartvPlayer.pause();
                 player_seekBar.setProgress(mCurrentPosition);
@@ -703,7 +703,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             return true;
         }
         showExitPopup(POP_TYPE_PLAYER_ERROR);
-        return false;
+        return true;
     }
 
     @Override
@@ -757,10 +757,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsPlayingAd) {
             return;
         }
+        mTimerHandler.removeCallbacks(timerRunnable);
         if (delay > 0) {
             mTimerHandler.postDelayed(timerRunnable, delay);
         } else {
             mTimerHandler.post(timerRunnable);
+        }
+        if (isSeeking) {
+            tempSeekPosition = mIsmartvPlayer.getCurrentPosition();
         }
     }
 
@@ -769,6 +773,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private Handler mTimerHandler = new Handler();
+
+    private int tempSeekPosition;
 
     private Runnable timerRunnable = new Runnable() {
         public void run() {
@@ -779,30 +785,41 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             if (mItemEntity.getLiveVideo() || !mIsmartvPlayer.isPlaying()) {
                 return;
             }
-            if (isSeeking) {
-                isSeeking = false;
-                mTimerHandler.postDelayed(timerRunnable, 500);
-                return;
-            }
-            int mediaPosition = mIsmartvPlayer.getCurrentPosition();
-            if (mCurrentPosition == mediaPosition) {
-                if (!NetworkUtils.isConnected(getActivity())) {
-                    ((BaseActivity) getActivity()).showNetWorkErrorDialog(null);
-                    Log.e(TAG, "Network error.");
-                    return;
-                }
-            }
-            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+            if (mIsmartvPlayer.isPlaying()) {
+                int mediaPosition = mIsmartvPlayer.getCurrentPosition();
+                // 播放过程中断网判断Start
                 if (mCurrentPosition == mediaPosition) {
+                    if (!NetworkUtils.isConnected(getActivity())) {
+                        ((BaseActivity) getActivity()).showNetWorkErrorDialog(null);
+                        Log.e(TAG, "Network error.");
+                        return;
+                    }
+                }
+                // 播放过程中断网判断End
+
+                if (isSeeking && tempSeekPosition == mediaPosition) {
                     mTimerHandler.postDelayed(timerRunnable, 500);
                     return;
+                }
+//                if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+//                    // Seek操作之后，getCurrentPosition在seek之前位置附近
+//                    // Seek操作之后，视云播放器已经播放了，画面还未动，解码延迟
+//                    if (mCurrentPosition == mediaPosition) {
+//                        mTimerHandler.postDelayed(timerRunnable, 500);
+//                        return;
+//                    }
+//
+//                }
+                if (isSeeking) {
+                    isSeeking = false;
+                    tempSeekPosition = -1;
                 }
                 if (isBufferShow()) {
                     hideBuffer();
                 }
+                mCurrentPosition = mediaPosition;
+                player_seekBar.setProgress(mCurrentPosition);
             }
-            mCurrentPosition = mediaPosition;
-            player_seekBar.setProgress(mCurrentPosition);
             mTimerHandler.postDelayed(timerRunnable, 500);
         }
     };
@@ -1092,7 +1109,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         isInit = false;
         mIsOnPaused = false;
         // 每次进入创建播放器前先获取历史记录，历史播放位置，历史分辨率，手动切换剧集例外
-        if(!isSwitchTelevision){
+        if (!isSwitchTelevision) {
             initHistory();
         }
         if (mCurrentPosition > 0) {
@@ -1190,7 +1207,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
         if (mHistory != null) {
             int h_subPK = Utils.getItemPk(mHistory.sub_url);
-            if(subItemPk == h_subPK){
+            if (subItemPk == h_subPK) {
                 mCurrentPosition = (int) mHistory.last_position;
             }
 //            if(mCurrentQuality == null){
@@ -1200,9 +1217,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
 
         // 获取历史分辨率
-        if(mCurrentQuality == null){
+        if (mCurrentQuality == null) {
             DBQuality dbQuality = historyManager.getQuality();
-            if(dbQuality != null){
+            if (dbQuality != null) {
                 mCurrentQuality = ClipEntity.Quality.getQuality(dbQuality.quality);
             }
         }
@@ -1266,7 +1283,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private boolean createMenu() {
-        if(playerMenu == null){
+        if (playerMenu == null) {
             playerMenu = new PlayerMenu(getActivity(), player_menu);
             playerMenu.setOnCreateMenuListener(this);
             // 添加电视剧子集
@@ -1280,7 +1297,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         isSelected = true;
                     }
                     String subItemTitle = subItem.getTitle();
-                    if(subItemTitle.contains("第")){
+                    if (subItemTitle.contains("第")) {
                         int ind = subItemTitle.indexOf("第");
                         subItemTitle = subItemTitle.substring(ind);
                     }
@@ -1318,6 +1335,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         boolean ret = false;
         if (id > MENU_QUALITY_ID_START && id <= MENU_QUALITY_ID_END) {
+            if (!NetworkUtils.isConnected(getActivity())) {
+                showExitPopup(POP_TYPE_PLAYER_ERROR);
+                Log.e(TAG, "Network error switch quality.");
+                return true;
+            }
             // id值为quality值+1
             int qualityValue = id - 1;
             ClipEntity.Quality clickQuality = ClipEntity.Quality.getQuality(qualityValue);
@@ -1425,7 +1447,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void hideBuffer() {
-        if(mIsmartvPlayer == null){
+        if (mIsmartvPlayer == null) {
             return;
         }
         if (player_buffer_layout.getVisibility() == View.VISIBLE) {
@@ -1464,7 +1486,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         public void onClick(View v) {
             if (mIsmartvPlayer == null || isPopWindowShow() ||
                     mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState()
-                    || isBufferShow() || isMenuShow()) {
+                    || isBufferShow()) {
+                return;
+            }
+            if (isMenuShow()) {
+                hideMenu();
                 return;
             }
             if (mIsmartvPlayer.isPlaying()) {
@@ -1493,6 +1519,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showExitPopup(final byte popType) {
+        if (popDialog != null && popDialog.isShowing()) {
+            popDialog.dismiss();
+            popDialog = null;
+        }
         isShowExit = true;
         if (mIsPlayingAd) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
@@ -1585,6 +1615,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void exitPlayer() {
         if (isPlayInDetailPage) {
+            Log.i(TAG, "");
             addHistory(mCurrentPosition, true);
             onHidePlayerPageListener.onHide();
         } else {
@@ -1620,29 +1651,29 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //        pageIntent.toPaymentForResult(getActivity(), source, paymentInfo);
     }
 
-    private String getModelName(){
-        if(Build.PRODUCT.length() > 20){
-            return Build.PRODUCT.replaceAll(" ", "_").toLowerCase().substring(0,19);
-        }else {
+    private String getModelName() {
+        if (Build.PRODUCT.length() > 20) {
+            return Build.PRODUCT.replaceAll(" ", "_").toLowerCase().substring(0, 19);
+        } else {
             return Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
         }
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if("lcd_s3a01".equals(getModelName())){
-            if(keyCode == 707 || keyCode == 774 || keyCode ==253){
+        if ("lcd_s3a01".equals(getModelName())) {
+            if (keyCode == 707 || keyCode == 774 || keyCode == 253) {
                 sharpKeyDownNotResume = true;
             }
-        }else if("lx565ab".equals(getModelName())){
-            if(keyCode == 82 || keyCode == 707 || keyCode ==253){
+        } else if ("lx565ab".equals(getModelName())) {
+            if (keyCode == 82 || keyCode == 707 || keyCode == 253) {
                 sharpKeyDownNotResume = true;
             }
-        }else if("lcd_xxcae5a_b".equals(getModelName())){
-            if(keyCode == 497 || keyCode == 498 || keyCode ==490){
+        } else if ("lcd_xxcae5a_b".equals(getModelName())) {
+            if (keyCode == 497 || keyCode == 498 || keyCode == 490) {
                 sharpKeyDownNotResume = true;
             }
-        }else{
-            if(keyCode == 223 || keyCode == 499 || keyCode ==480){
+        } else {
+            if (keyCode == 223 || keyCode == 499 || keyCode == 480) {
                 sharpKeyDownNotResume = true;
             }
         }
@@ -1830,7 +1861,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 @Override
                 public void run() {
                     cancelTimer();
-                    if(getActivity() != null && !getActivity().isFinishing()){
+                    if (getActivity() != null && !getActivity().isFinishing()) {
                         showExitPopup(POP_TYPE_BUFFERING_LONG);
                     }
                 }
