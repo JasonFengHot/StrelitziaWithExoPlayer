@@ -105,7 +105,7 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         } else if (viewInit && playerFragment != null && !playerFragment.sharpKeyDownNotResume) {
             // 多个详情页显示时，逐一返回时需要初始化播放器
             playerFragment.subItemPk = 0;
-               playerFragment.initPlayer();
+            playerFragment.initPlayer();
         }
         viewInit = true;
 
@@ -286,4 +286,11 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
     }
 
 
+    @Override
+    protected void onStop() {
+        if (apiItemSubsc != null && apiItemSubsc.isUnsubscribed()) {
+            apiItemSubsc.unsubscribe();
+        }
+        super.onStop();
+    }
 }
