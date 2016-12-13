@@ -3,8 +3,11 @@ package tv.ismar.app.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.Signature;
 import android.os.Handler;
 import android.util.Log;
+
+import com.blankj.utilcode.utils.AppUtils;
 
 import tv.ismar.app.update.UpdateService;
 
@@ -20,6 +23,9 @@ public class BootUpdateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         Log.d(TAG, "onReceive Update App");
+        Log.d(TAG, "AppUtils appInfo: " + AppUtils.isSystemApp(context));
+        Log.d(TAG, "AppUtils getAppVersionCode: " + AppUtils.getAppVersionCode(context));
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -28,7 +34,7 @@ public class BootUpdateReceiver extends BroadcastReceiver {
                 updateIntent.putExtra("install_type", INSTALL_SILENT);
                 context.startService(updateIntent);
             }
-        }, 1000 * 60);
+        }, 1000 * 30);
 
     }
 }

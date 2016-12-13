@@ -1409,6 +1409,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
         startAdsService();
+        checkUpgrade();
     }
 
     private int getAdCountDownTime() {
@@ -1449,5 +1450,17 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         Intent intent = new Intent();
         intent.setClass(this, TrueTimeService.class);
         startService(intent);
+    }
+
+    private void checkUpgrade() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), UpdateService.class);
+                intent.putExtra("install_type", 0);
+                startService(intent);
+            }
+        }, 1000 * 30);
     }
 }

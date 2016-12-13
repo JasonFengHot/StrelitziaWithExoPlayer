@@ -74,21 +74,20 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
         Log.d(TAG, "onCreate");
         upgradeFile = Environment.getExternalStorageDirectory();
         mSkyService = SkyService.ServiceManager.getUpgradeService();
-
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        int installType = intent.getIntExtra("install_type", 0);
-//        Log.d(TAG, "onStartCommand: " + installType);
-//        if (INSTALL_SILENT == installType) {
+        int installType = 0;
+        if (intent != null) {
+            installType = intent.getIntExtra("install_type", 0);
+        }
+        Log.d(TAG, "onStartCommand: " + installType);
+        if (INSTALL_SILENT == installType) {
+            isInstallSilent = true;
+        }
         fetchAppUpgrade();
-//        } else {
-//            fetchAppUpgrade(false);
-//        }
         return super.onStartCommand(intent, flags, startId);
-
     }
 
 

@@ -27,6 +27,9 @@
 <dimen name="header_fragment_title_divider_h">1.67dp</dimen>
 <dimen name="header_fragment_subtitle_ml">1.33dp</dimen>
 <dimen name="header_fragment_weather_ml">140.00dp</dimen>
+<dimen name="usercenter_header_fragment_weather_ml">63.33dp</dimen>
+<dimen name="usercenter_header_fragment_weather_mb">11.67dp</dimen>
+<dimen name="usercenter_header_fragment_subtitle_mb">3.33dp</dimen>
 <dimen name="header_fragment_divider_mlr">11.33dp</dimen>
 <dimen name="header_fragment_btn_width">40.00dp</dimen>
 <dimen name="header_fragment_mine_space">11.33dp</dimen>

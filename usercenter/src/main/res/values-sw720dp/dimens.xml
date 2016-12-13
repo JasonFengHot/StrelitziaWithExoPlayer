@@ -48,8 +48,8 @@
 <dimen name="help_title_icon_h">34.67dp</dimen>
 <dimen name="ismartv_icon_w">110.00dp</dimen>
 
-<dimen name="usercenter_storefragment_packagelist_item_image_width">224.00dp</dimen>
-<dimen name="usercenter_storefragment_packagelist_item_image_height">126.00dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_image_width">230.67dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_image_height">133.33dp</dimen>
 <dimen name="h2_text_size">24.00sp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_layout_marginRight">4.67dp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_text_height">41.33dp</dimen>
@@ -82,7 +82,7 @@
 <dimen name="usercenter_header_height">66.67dp</dimen>
 <dimen name="product_recycler_mt">16.00dp</dimen>
 <dimen name="product_recycler_item_spacing">-2.67dp</dimen>
-<dimen name="product_item_mt">-5.33dp</dimen>
+<dimen name="product_item_mt">-12.00dp</dimen>
 <dimen name="userinfo_layout_pb">40.00dp</dimen>
 <dimen name="user_info_other_item_vertical_spacing">30.00dp</dimen>
 <dimen name="user_center_logout_width">182.67dp</dimen>
