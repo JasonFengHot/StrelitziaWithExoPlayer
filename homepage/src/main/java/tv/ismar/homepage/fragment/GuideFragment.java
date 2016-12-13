@@ -32,6 +32,7 @@ import cn.ismartv.downloader.DownloadEntity;
 import cn.ismartv.downloader.DownloadStatus;
 import cn.ismartv.downloader.Md5;
 import cn.ismartv.injectdb.library.query.Select;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.core.SimpleRestClient;
@@ -77,6 +78,7 @@ public class GuideFragment extends ChannelBaseFragment {
 
     private ImageView linkedVideoLoadingImage;
     private HashMap<Integer, Integer> carouselMap;
+    private Subscription homePageSub;
 
 
     @Override
@@ -184,6 +186,9 @@ public class GuideFragment extends ChannelBaseFragment {
 
     @Override
     public void onStop() {
+        if (homePageSub != null && homePageSub.isUnsubscribed()) {
+            homePageSub.unsubscribe();
+        }
         stopPlayback();
         super.onStop();
     }
@@ -199,7 +204,7 @@ public class GuideFragment extends ChannelBaseFragment {
 
 
     public void fetchHomePage() {
-        ((HomePageActivity) getActivity()).mSkyService.TvHomepageTop().subscribeOn(Schedulers.io())
+        homePageSub = ((HomePageActivity) getActivity()).mSkyService.TvHomepageTop().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(((HomePageActivity) getActivity()).new BaseObserver<HomePagerEntity>() {
                     @Override
