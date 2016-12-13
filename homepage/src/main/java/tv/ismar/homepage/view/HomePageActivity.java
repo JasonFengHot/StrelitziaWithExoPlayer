@@ -1341,6 +1341,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
+            Log.i(TAG, "OnCompletionListener");
             if(isFinishing()){
                 return;
             }
@@ -1358,6 +1359,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_AD_COUNTDOWN:
+                    Log.i(TAG, "ad handler");
                     if (home_ad_timer == null) {
                         return;
                     }
