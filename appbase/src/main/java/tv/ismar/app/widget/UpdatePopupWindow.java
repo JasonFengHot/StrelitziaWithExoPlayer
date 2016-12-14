@@ -94,6 +94,9 @@ public class UpdatePopupWindow extends PopupWindow implements View.OnHoverListen
                 dismiss();
             }
         });
+
+        updateNow.setOnHoverListener(this);
+        updateLater.setOnHoverListener(this);
     }
 
     @Override
