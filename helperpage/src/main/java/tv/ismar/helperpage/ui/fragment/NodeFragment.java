@@ -384,6 +384,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "fetchBindedCdn error!!!");
+                        ((HomeActivity) getActivity()).showPop(e);
                     }
 
 
@@ -412,6 +413,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "bindCdn error");
+                        ((HomeActivity) getActivity()).showPop(e);
                     }
 
 
@@ -437,6 +439,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "unbindNode");
+                        ((HomeActivity) getActivity()).showPop(e);
                     }
 
 
@@ -656,6 +659,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "uploadCdnTestLog");
+                        ((HomeActivity) getActivity()).showPop(e);
                     }
 
 
@@ -681,6 +685,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "uploadTestResult");
+                        ((HomeActivity) getActivity()).showPop(e);
                     }
 
 

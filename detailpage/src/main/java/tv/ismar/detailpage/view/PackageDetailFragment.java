@@ -75,7 +75,7 @@ public class PackageDetailFragment extends BaseFragment {
 
     private DetailPageStatistics mPageStatistics;
 
-    private  List<ItemEntity> itemEntities;
+    private List<ItemEntity> itemEntities;
 
     public static PackageDetailFragment newInstance(String fromPage, String itemJson) {
         PackageDetailFragment fragment = new PackageDetailFragment();
@@ -144,7 +144,7 @@ public class PackageDetailFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 PageIntent pageIntent = new PageIntent();
-                pageIntent.toPackageList(getContext(),"package",mItemEntity.getPk());
+                pageIntent.toPackageList(getContext(), "package", mItemEntity.getPk());
             }
         });
 
@@ -384,7 +384,9 @@ public class PackageDetailFragment extends BaseFragment {
             vod_payment_buyButton.requestFocusFromTouch();
         }
         vod_payment_buyButton.setVisibility(View.VISIBLE);
-        vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
+        if (itemEntities != null && !itemEntities.isEmpty()) {
+            vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
+        }
     }
 
 
@@ -426,6 +428,7 @@ public class PackageDetailFragment extends BaseFragment {
             }
         }
     }
+
     private View.OnHoverListener onHoverListener = new View.OnHoverListener() {
         @Override
         public boolean onHover(View v, MotionEvent event) {

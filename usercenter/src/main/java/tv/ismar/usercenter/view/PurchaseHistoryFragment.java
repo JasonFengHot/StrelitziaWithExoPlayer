@@ -72,6 +72,8 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mUserCenterActivity = (UserCenterActivity) activity;
+        View purchaseHistoryIndicator = mUserCenterActivity.findViewById(R.id.usercenter_purchase_history);
+        purchaseHistoryIndicator.setNextFocusRightId(purchaseHistoryIndicator.getId());
     }
 
     @Override

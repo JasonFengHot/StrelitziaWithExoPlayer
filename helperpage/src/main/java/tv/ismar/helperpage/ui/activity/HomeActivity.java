@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
 
+import retrofit2.adapter.rxjava.HttpException;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.helperpage.R;
 import tv.ismar.helperpage.ui.adapter.IndicatorAdapter;
@@ -56,5 +57,18 @@ public class HomeActivity extends BaseActivity {
         pagerIndicator.setViewPager(viewPager);
 
         pagerIndicator.setCurrentItem(position);
+
+    }
+    public void showPop(Throwable e){
+        if (e instanceof HttpException) {
+            HttpException httpException = (HttpException) e;
+            if (httpException.code() == 401) {
+                showExpireAccessTokenPop();
+            } else {
+                showNetWorkErrorDialog(e);
+            }
+        } else {
+            showNetWorkErrorDialog(e);
+        }
     }
 }

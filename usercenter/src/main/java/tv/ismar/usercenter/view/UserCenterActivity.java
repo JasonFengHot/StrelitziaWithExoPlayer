@@ -138,8 +138,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
         createIndicatorView();
 
-        purchaseItem = userCenterIndicatorLayout.getChildAt(3);
-        purchaseItem.setNextFocusRightId(purchaseItem.getId());
+//        purchaseItem = userCenterIndicatorLayout.getChildAt(3);
+//        purchaseItem.setNextFocusRightId(purchaseItem.getId());
 
     }
 
@@ -386,6 +386,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 case MotionEvent.ACTION_HOVER_MOVE:
                     v.setHovered(true);
                     v.requestFocus();
+                    v.requestFocusFromTouch();
                     if (lastHoveredView != null) {
                         ImageView lastTextSelectImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
                         lastTextSelectImage.setVisibility(View.INVISIBLE);

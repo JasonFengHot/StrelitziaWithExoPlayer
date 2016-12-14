@@ -74,6 +74,7 @@ public class HelpFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "FetchTel error!!!");
+                        ((HomeActivity) getActivity()).showPop(e);
                     }
 
 
