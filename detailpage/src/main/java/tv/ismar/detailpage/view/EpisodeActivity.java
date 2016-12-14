@@ -60,7 +60,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
     private String source;
 
-    private RecyclerViewTV mEpisodeRecyclerView;
 
     private View tmp;
 
@@ -103,35 +102,9 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         getSupportFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();
 
         initLayout();
-
-//        int horizontal = getResources().getDimensionPixelOffset(R.dimen.episode_item_horizontal_space);
-//        int vertical = getResources().getDimensionPixelOffset(R.dimen.episode_item_vertical_space);
-//        mEpisodeRecyclerView.setSelectedItemAtCentered(false);
-//        mEpisodeRecyclerView.addItemDecoration(new SpacesItemDecoration(horizontal, vertical));
-//        mEpisodeRecyclerView.setLayoutManager(new GridLayoutManager(this, 10));
-//        mEpisodeRecyclerView.setAdapter(new EpisodeAdapter(this, mItemEntity.getSubitems()));
         episode_zgridview.setAdapter(new EpisodeAdapter(this,mItemEntity.getSubitems()));
         episode_zgridview.setUpView(episode_arrow_up);
         episode_zgridview.setDownView(episode_arrow_down);
-//        if(mItemEntity.getSubitems().length>40){
-//            episode_arrow_down.setVisibility(View.VISIBLE);
-//        }
-//        mEpisodeRecyclerView.setOnChildViewHolderSelectedListener(new RecyclerViewTV.OnChildViewHolderSelectedListener() {
-//            @Override
-//            public void onChildViewHolderSelected(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int i) {
-//                if(mEpisodeRecyclerView.getFirstVisiblePosition()>0){
-//                    episode_arrow_up.setVisibility(View.VISIBLE);
-//                }else{
-//                    episode_arrow_up.setVisibility(View.INVISIBLE);
-//                }
-//                if(mEpisodeRecyclerView.getLastVisiblePosition()<mItemEntity.getSubitems().length-1){
-//                    episode_arrow_down.setVisibility(View.VISIBLE);
-//                }else{
-//                    episode_arrow_down.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//        });
-
     }
 
     @Override
@@ -145,7 +118,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
     private void initViews() {
         tmp = findViewById(R.id.tmp);
-//        mEpisodeRecyclerView = findView(R.id.episode_recycler_view);
         episode_zgridview = (ZGridView) findViewById(R.id.episode_zgridview);
         mImageBackground = (ImageView) findViewById(R.id.image_daram_back);
         mDramaImageLabel = (ImageView) findViewById(R.id.image_daram_label);
@@ -246,80 +218,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
     }
 
 
-//    private class EpisodeAdapter extends RecyclerView.Adapter<EpisodeViewHolder> implements
-//            View.OnHoverListener, View.OnFocusChangeListener, View.OnClickListener {
-//        private Context mContext;
-//        private ItemEntity[] mItemEntities;
-//
-//        public EpisodeAdapter(Context context, ItemEntity[] itemEntities) {
-//            mContext = context;
-//            mItemEntities = itemEntities;
-//        }
-//
-//        @Override
-//        public EpisodeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            View itemView = LayoutInflater.from(mContext).inflate(R.layout.episode_recycler_item, parent, false);
-//            EpisodeViewHolder viewHolder = new EpisodeViewHolder(itemView);
-//            viewHolder.episodeBtn.setOnClickListener(this);
-//            viewHolder.episodeBtn.setOnHoverListener(this);
-//            return viewHolder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(EpisodeViewHolder holder, int position) {
-//            ItemEntity itemEntity = mItemEntities[position];
-//            Button episodeBtn = holder.episodeBtn;
-//            episodeBtn.setTag(itemEntity);
-//            episodeBtn.setText(String.valueOf(position + 1));
-//
-//
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return mItemEntities.length;
-//
-//        }
-//
-//        @Override
-//        public boolean onHover(View v, MotionEvent event) {
-//            switch (event.getAction()) {
-//                case MotionEvent.ACTION_HOVER_ENTER:
-//                case MotionEvent.ACTION_HOVER_MOVE:
-//                    v.requestFocus();
-//                    v.requestFocusFromTouch();
-//                    break;
-//                case MotionEvent.ACTION_HOVER_EXIT:
-//                    tmp.requestFocus();
-//                    tmp.requestFocusFromTouch();
-//                    break;
-//            }
-//            return true;
-//        }
-//
-//        @Override
-//        public void onFocusChange(View v, boolean hasFocus) {
-//
-//        }
-//
-//        @Override
-//        public void onClick(View v) {
-//            ItemEntity subItemEntity = (ItemEntity) v.getTag();
-//            PageIntent pageIntent = new PageIntent();
-//            pageIntent.toPlayPage(mContext, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST);
-//        }
-//    }
-
-    private class EpisodeViewHolder extends RecyclerView.ViewHolder {
-        private View mItemView;
-        private Button episodeBtn;
-
-        public EpisodeViewHolder(View itemView) {
-            super(itemView);
-            mItemView = itemView;
-            episodeBtn = (Button) itemView.findViewById(R.id.btn_count);
-        }
-    }
 
     private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int horizontal;
