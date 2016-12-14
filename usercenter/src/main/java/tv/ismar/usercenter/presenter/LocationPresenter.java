@@ -13,6 +13,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import okhttp3.ResponseBody;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.core.weather.WeatherInfoHandler;
@@ -30,6 +31,7 @@ public class LocationPresenter implements LocationContract.Presenter {
     private LocationFragment mFragment;
     private UserCenterActivity mActivity;
     private SkyService mSkyService;
+    private Subscription weatherSub;
 
 
     public LocationPresenter(LocationFragment locationFragment) {
@@ -46,12 +48,14 @@ public class LocationPresenter implements LocationContract.Presenter {
 
     @Override
     public void stop() {
-
+        if (weatherSub != null && weatherSub.isUnsubscribed()) {
+            weatherSub.unsubscribe();
+        }
     }
 
     @Override
     public void fetchWeather(String geoId) {
-        mSkyService.apifetchWeatherInfo(geoId)
+        weatherSub = mSkyService.apifetchWeatherInfo(geoId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {

@@ -1,6 +1,8 @@
 package tv.ismar.usercenter.view;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -173,30 +175,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         userCenterIndicatorLayout.getChildAt(0).callOnClick();
     }
 
-    private View.OnClickListener indicatorViewOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mLocationFragment != null) {
-                mLocationFragment.clearStatus();
-            }
-
-            int i = v.getId();
-            if (i == R.id.usercenter_store) {
-                selectProduct();
-            } else if (i == R.id.usercenter_userinfo) {
-                selectUserInfo();
-            } else if (i == R.id.usercenter_login_register) {
-                selectLogin();
-            } else if (i == R.id.usercenter_purchase_history) {
-                selectPurchaseHistory();
-            } else if (i == R.id.usercenter_help) {
-                selectHelp();
-            } else if (i == R.id.usercenter_location) {
-                selectLocation();
-            }
-            changeViewState(v, ViewState.Select);
-        }
-    };
 
     private void selectProduct() {
 
@@ -343,8 +321,11 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 return;
             }
             if (hasFocus) {
+                changeViewState(v, ViewState.Select);
                 if (!isFromRightToLeft) {
-                    v.callOnClick();
+                    messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
+                    Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
+                    messageHandler.sendMessageDelayed(message, 300);
                 } else {
                     Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
                     View itemView = null;
@@ -362,7 +343,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                         itemView = userCenterIndicatorLayout.getChildAt(5);
                     }
                     if (itemView != null && itemView.hasFocus()) {
-                        itemView.callOnClick();
+                        messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
+                        Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
+                        messageHandler.sendMessageDelayed(message, 300);
                     } else if (itemView != null) {
                         itemView.requestFocus();
                     }
@@ -372,6 +355,32 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             }
         }
     };
+
+    private View.OnClickListener indicatorViewOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mLocationFragment != null) {
+                mLocationFragment.clearStatus();
+            }
+
+            int i = v.getId();
+            if (i == R.id.usercenter_store) {
+                selectProduct();
+            } else if (i == R.id.usercenter_userinfo) {
+                selectUserInfo();
+            } else if (i == R.id.usercenter_login_register) {
+                selectLogin();
+            } else if (i == R.id.usercenter_purchase_history) {
+                selectPurchaseHistory();
+            } else if (i == R.id.usercenter_help) {
+                selectHelp();
+            } else if (i == R.id.usercenter_location) {
+                selectLocation();
+            }
+
+        }
+    };
+
 
 
     private View.OnHoverListener indicatorOnHoverListener = new View.OnHoverListener() {
@@ -402,6 +411,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             return true;
         }
     };
+
 
     private void changeViewState(View parentView, ViewState viewState) {
         TextView textView = (TextView) parentView.findViewById(R.id.indicator_text);
@@ -506,4 +516,17 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             super.onBackPressed();
         }
     }
+
+    private static Handler messageHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_INDICATOR_CHANGE:
+                    View view = (View) msg.obj;
+                    view.callOnClick();
+                    break;
+            }
+        }
+    };
+
 }

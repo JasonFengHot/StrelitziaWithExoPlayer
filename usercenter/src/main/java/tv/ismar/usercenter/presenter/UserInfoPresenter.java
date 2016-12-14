@@ -3,6 +3,7 @@ package tv.ismar.usercenter.presenter;
 import java.math.BigDecimal;
 
 import cn.ismartv.truetime.TrueTime;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
@@ -26,6 +27,8 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
     private BigDecimal balance = new BigDecimal(0);
 
     private AccountPlayAuthEntity mAccountPlayAuthEntity;
+    private Subscription balanceSub;
+    private Subscription privilegeSub;
 
 
     public AccountPlayAuthEntity getAccountPlayAuthEntity() {
@@ -52,13 +55,19 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
 
     @Override
     public void stop() {
+        if (balanceSub != null && balanceSub.isUnsubscribed()) {
+            balanceSub.unsubscribe();
+        }
 
+        if (privilegeSub != null && privilegeSub.isUnsubscribed()) {
+            privilegeSub.unsubscribe();
+        }
     }
 
 
     @Override
     public void fetchBalance() {
-        mSkyService.accountsBalance()
+        balanceSub = mSkyService.accountsBalance()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mActivity.new BaseObserver<AccountBalanceEntity>() {
@@ -81,7 +90,7 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
         IsmartvActivator activator = IsmartvActivator.getInstance();
         String sign = activator.encryptWithPublic("sn=" + activator.getSnToken() + "&timestamp=" + timestamp);
 
-        mSkyService.accountsPlayauths(timestamp, sign)
+        privilegeSub = mSkyService.accountsPlayauths(timestamp, sign)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mActivity.new BaseObserver<AccountPlayAuthEntity>() {

@@ -48,14 +48,17 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
 
     private BaseActivity activity;
 
-    private Subscription countDownSubscription;
-
     private LoginCallback mLoginCallback;
 
     private String source = "";
-    private ImageView tmp;
 
+    private ImageView tmp;
     private boolean fragmentIsPause = false;
+
+    private Subscription countDownSubscription;
+    private Subscription accountsCombineSub;
+    private Subscription verificationCodeSub;
+    private Subscription accountsLoginSub;
 
 
     public static LoginFragment newInstance() {
@@ -175,7 +178,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
         String timestamp = "";
         String sign = "";
 
-        mSkyService.accountsCombine(sharpBestv, timestamp, sign)
+        accountsCombineSub = mSkyService.accountsCombine(sharpBestv, timestamp, sign)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -246,7 +249,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
             return;
         }
 
-        mSkyService.accountsAuth(username)
+        verificationCodeSub = mSkyService.accountsAuth(username)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -293,7 +296,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
             setcount_tipText("不是手机号码");
             return;
         }
-        mSkyService.accountsLogin(username, authNumber)
+        accountsLoginSub = mSkyService.accountsLogin(username, authNumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AccountsLoginEntity>() {
@@ -388,5 +391,19 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
 
     public void setLoginCallback(LoginCallback loginCallback) {
         mLoginCallback = loginCallback;
+    }
+
+    @Override
+    public void onStop() {
+        if (accountsCombineSub != null && accountsCombineSub.isUnsubscribed()) {
+            accountsCombineSub.unsubscribe();
+        }
+        if (verificationCodeSub != null && verificationCodeSub.isUnsubscribed()) {
+            verificationCodeSub.unsubscribe();
+        }
+        if (accountsLoginSub != null && accountsLoginSub.isUnsubscribed()) {
+            accountsLoginSub.unsubscribe();
+        }
+        super.onStop();
     }
 }

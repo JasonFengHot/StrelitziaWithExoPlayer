@@ -1,6 +1,7 @@
 package tv.ismar.usercenter.presenter;
 
 import cn.ismartv.truetime.TrueTime;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
@@ -19,6 +20,7 @@ public class PurchaseHistoryPresenter implements PurchaseHistoryContract.Present
 
     private UserCenterActivity mActivity;
     private SkyService mSkyService;
+    private Subscription accountsOrdersSub;
 
     public PurchaseHistoryPresenter(PurchaseHistoryFragment purchaseHistoryFragment) {
         purchaseHistoryFragment.setPresenter(this);
@@ -35,17 +37,18 @@ public class PurchaseHistoryPresenter implements PurchaseHistoryContract.Present
 
     @Override
     public void stop() {
-
+        if (accountsOrdersSub != null && accountsOrdersSub.isUnsubscribed()) {
+            accountsOrdersSub.unsubscribe();
+        }
     }
 
     @Override
     public void fetchAccountsOrders() {
-
         String timestamp = String.valueOf(TrueTime.now().getTime());
         IsmartvActivator activator = IsmartvActivator.getInstance();
         String sign = activator.encryptWithPublic("sn=" + activator.getSnToken() + "&timestamp=" + timestamp);
 
-        mSkyService.accountsOrders(timestamp, sign)
+        accountsOrdersSub = mSkyService.accountsOrders(timestamp, sign)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mActivity.new BaseObserver<AccountsOrdersEntity>() {
