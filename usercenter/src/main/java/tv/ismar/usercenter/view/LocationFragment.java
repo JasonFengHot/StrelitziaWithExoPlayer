@@ -117,6 +117,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         locationBinding.tmp.setNextFocusLeftId(R.id.usercenter_help);
+        locationBinding.getRoot().setNextFocusLeftId(R.id.usercenter_help);
     }
 
     @Override
