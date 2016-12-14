@@ -141,10 +141,10 @@ public class VodApplication extends Application {
             mEditor = mPreferences.edit();
             Set<String> cached_log = mPreferences.getStringSet(CACHED_LOG, null);
             mEditor.remove(CACHED_LOG).commit();
-            if (!isFinish) {
+//            if (!isFinish) {
                 new Thread(mUpLoadLogRunnable).start();
                 isFinish = true;
-            }
+//            }
             if (cached_log != null) {
                 Iterator<String> it = cached_log.iterator();
                 while (it.hasNext()) {
@@ -299,10 +299,11 @@ public class VodApplication extends Application {
 
         @Override
         public void run() {
+
             // TODO Auto-generated method stub
             while (isFinish) {
                 try {
-                    Thread.sleep(1 * 60 * 1000);
+                    Thread.sleep(1 * 30 * 1000);
 //                    synchronized (MessageQueue.async) {
                     // Thread.sleep(900000);
 
@@ -325,7 +326,7 @@ public class VodApplication extends Application {
                         }
                         if (i == list.size()) {
                             MessageQueue.remove();
-//                            NetworkUtils.LogSender(s.toString());
+                            tv.ismar.app.core.client.NetworkUtils.LogSender(s.toString());
                             Log.i("qazwsx", "json array==" + s.toString());
                             Log.i("qazwsx", "remove");
                         }

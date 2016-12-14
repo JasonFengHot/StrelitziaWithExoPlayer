@@ -134,7 +134,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         Log.i(TAG, Constants.TEST);
         mPresenter.start();
 //        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
-        loadItem(mItemEntity);
+//        loadItem(mItemEntity);
         mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
     }
 
@@ -142,7 +142,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void onResume() {
         super.onResume();
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
-        mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
+        loadItem(mItemEntity);
         mModel.notifyBookmark(true);
     }
 
@@ -173,7 +173,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void loadItemRelate(ItemEntity[] itemEntities) {
         relateItems = itemEntities;
         if (itemEntities.length < relViews) {
-            for (int i = itemEntities.length - 1; i < relViews; i++) {
+            for (int i = itemEntities.length==0?0:itemEntities.length - 1; i < relViews; i++) {
                 ((View) relRelImageViews[i].getParent()).setVisibility(View.INVISIBLE);
             }
         }

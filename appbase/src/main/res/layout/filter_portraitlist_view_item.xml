@@ -15,11 +15,11 @@
             android:paddingBottom="@dimen/gridview_item_image_PaddingB"
             android:paddingLeft="@dimen/gridview_item_image_PaddingL"
             android:paddingRight="@dimen/gridview_item_image_PaddingR"
-            labelimage:focuspaddingtop="0.9"
-            labelimage:focustextpaddingtop="0.97"
+            labelimage:focuspaddingtop="0.896"
+            labelimage:focustextpaddingtop="0.975"
             labelimage:maxfocustitle="10"
-            labelimage:focustextsize="@dimen/item_detail_detail_price_textsize"
-            labelimage:focusbackground="#b3303030"
+            labelimage:focustextsize="@dimen/text_size_30sp"
+            labelimage:focusbackground="#D9000000"
             />
     <TextView
         android:paddingTop="@dimen/search_line_height"
