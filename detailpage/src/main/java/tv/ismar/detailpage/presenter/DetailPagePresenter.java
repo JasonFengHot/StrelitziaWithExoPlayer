@@ -191,7 +191,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                 playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
                 int remainDay;
                 try {
-                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date()) + 1;
+                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date()) ;
                 } catch (ParseException e) {
                     remainDay = 0;
                 }
