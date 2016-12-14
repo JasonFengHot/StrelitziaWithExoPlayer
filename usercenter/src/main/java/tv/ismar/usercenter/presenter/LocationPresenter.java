@@ -66,7 +66,7 @@ public class LocationPresenter implements LocationContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
