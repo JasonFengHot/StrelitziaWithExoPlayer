@@ -283,6 +283,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 holder.itemView.setNextFocusDownId(R.id.purchase_last_item_id);
             }
 
+            holder.itemView.setNextFocusLeftId(R.id.usercenter_purchase_history);
         }
 
         @Override

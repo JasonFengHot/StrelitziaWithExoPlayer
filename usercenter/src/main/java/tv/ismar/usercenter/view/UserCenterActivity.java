@@ -3,8 +3,8 @@ package tv.ismar.usercenter.view;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,6 +57,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private ArrayList<View> indicatorView;
     private boolean isFromRightToLeft = false;
 
+
+    private boolean isOnKeyDown = false;
 
     private static final int[] INDICATOR_TEXT_RES_ARRAY = {
             R.string.usercenter_store,
@@ -115,34 +117,30 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
         fragmentContainer = findViewById(R.id.user_center_container);
 
-        fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                Log.d(TAG, "new focus view: " + newFocus);
-                if (lastHoveredView != null) {
-                    lastHoveredView.setHovered(false);
-                }
-                clearTheLastHoveredVewState();
-                if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
-                    Log.d(TAG, "onGlobalFocusChanged same side");
-                    isFromRightToLeft = false;
-                } else {
-                    if (newFocus != null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
-                        Log.d(TAG, "onGlobalFocusChanged from right to left");
-                        isFromRightToLeft = true;
-                    } else {
-                        isFromRightToLeft = false;
-                    }
-
-                }
-            }
-        });
+//        fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+//            @Override
+//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+//                Log.d(TAG, "new focus view: " + newFocus);
+//                if (lastHoveredView != null) {
+//                    lastHoveredView.setHovered(false);
+//                }
+//                clearTheLastHoveredVewState();
+//                if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
+//                    Log.d(TAG, "onGlobalFocusChanged same side");
+//                    isFromRightToLeft = false;
+//                } else {
+//                    if (newFocus != null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
+//                        Log.d(TAG, "onGlobalFocusChanged from right to left");
+//                        isFromRightToLeft = true;
+//                    } else {
+//                        isFromRightToLeft = false;
+//                    }
+//
+//                }
+//            }
+//        });
 
         createIndicatorView();
-
-//        purchaseItem = userCenterIndicatorLayout.getChildAt(3);
-//        purchaseItem.setNextFocusRightId(purchaseItem.getId());
-
     }
 
 
@@ -321,34 +319,11 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 return;
             }
             if (hasFocus) {
-                changeViewState(v, ViewState.Select);
-                if (!isFromRightToLeft) {
+                if (isOnKeyDown) {
+                    changeViewState(v, ViewState.Select);
                     messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
                     Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
                     messageHandler.sendMessageDelayed(message, 300);
-                } else {
-                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.user_center_container);
-                    View itemView = null;
-                    if (fragment instanceof ProductFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(0);
-                    } else if (fragment instanceof UserInfoFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(1);
-                    } else if (fragment instanceof LoginFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(2);
-                    } else if (fragment instanceof PurchaseHistoryFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(3);
-                    } else if (fragment instanceof HelpFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(4);
-                    } else if (fragment instanceof LocationFragment) {
-                        itemView = userCenterIndicatorLayout.getChildAt(5);
-                    }
-                    if (itemView != null && itemView.hasFocus()) {
-                        messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
-                        Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
-                        messageHandler.sendMessageDelayed(message, 300);
-                    } else if (itemView != null) {
-                        itemView.requestFocus();
-                    }
                 }
             } else {
                 changeViewState(v, ViewState.Unfocus);
@@ -377,25 +352,25 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             } else if (i == R.id.usercenter_location) {
                 selectLocation();
             }
+            changeViewState(v, ViewState.Select);
 
         }
     };
 
 
-
     private View.OnHoverListener indicatorOnHoverListener = new View.OnHoverListener() {
         @Override
-        public boolean onHover(View v, MotionEvent event) {
-            if (mIndicatorItemHoverCallback != null) {
-                mIndicatorItemHoverCallback.onIndicatorItemHover();
-            }
+        public boolean onHover(final View v, MotionEvent event) {
+            isOnKeyDown = false;
             ImageView textHoverImage = (ImageView) v.findViewById(R.id.text_select_bg);
             switch (event.getAction()) {
                 case MotionEvent.ACTION_HOVER_ENTER:
                 case MotionEvent.ACTION_HOVER_MOVE:
                     v.setHovered(true);
-                    v.requestFocus();
-                    v.requestFocusFromTouch();
+                    if (!v.hasFocus()) {
+                        v.requestFocus();
+                    }
+
                     if (lastHoveredView != null) {
                         ImageView lastTextSelectImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
                         lastTextSelectImage.setVisibility(View.INVISIBLE);
@@ -408,9 +383,15 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                     v.setHovered(false);
                     break;
             }
-            return true;
+            return false;
         }
     };
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        isOnKeyDown = true;
+        return super.onKeyDown(keyCode, event);
+    }
 
 
     private void changeViewState(View parentView, ViewState viewState) {
@@ -488,16 +469,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         None
     }
 
-    public interface IndicatorItemHoverCallback {
-        void onIndicatorItemHover();
-    }
-
-    private IndicatorItemHoverCallback mIndicatorItemHoverCallback;
-
-    public void setIndicatorItemHoverCallback(IndicatorItemHoverCallback indicatorItemHoverCallback) {
-        mIndicatorItemHoverCallback = indicatorItemHoverCallback;
-    }
-
     public void clearTheLastHoveredVewState() {
         if (lastHoveredView != null) {
             ImageView lastTextSelectImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
@@ -528,5 +499,4 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             }
         }
     };
-
 }

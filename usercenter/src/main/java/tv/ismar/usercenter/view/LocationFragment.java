@@ -253,11 +253,10 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
         Log.d(TAG, "onItemClick: position: " + i);
         if (recyclerViewTV.getAdapter() instanceof CityAdapter) {
-
-
             showPromptLayout(View.VISIBLE, i);
 
         } else if (recyclerViewTV.getAdapter() instanceof ProvinceAdapter) {
+            locationBinding.tmp.requestFocus();
             provinceSelectedPosition = i;
             ProvinceAdapter provinceAdapter = (ProvinceAdapter) recyclerViewTV.getAdapter();
             ProvinceTable provinceTable = provinceAdapter.getProvinceTableList().get(i);
@@ -386,6 +385,10 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 mRecyclerViewBridge.setFocusView(holder.itemView, 1.2f);
                 holder.mTextView.setTextColor(getResources().getColor(R.color.location_text_focus));
             }
+
+            if ((position + 1) % 6 == 1) {
+                holder.itemView.setNextFocusLeftId(R.id.usercenter_location);
+            }
         }
 
         @Override
@@ -469,6 +472,9 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 cityOldView[0] = holder.itemView;
             }
 
+            if ((position + 1) % 6 == 1) {
+                holder.itemView.setNextFocusLeftId(R.id.usercenter_location);
+            }
         }
 
         @Override

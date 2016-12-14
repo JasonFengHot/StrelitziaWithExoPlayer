@@ -133,6 +133,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
         userinfoBinding.tmp.setNextFocusLeftId(R.id.usercenter_userinfo);
         mPresenter.start();
+
     }
 
     @Override
@@ -239,10 +240,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             }
         }
         mViewModel.refresh();
-
-
-
-
+        userinfoBinding.chargeMoney.setNextFocusLeftId(R.id.usercenter_userinfo);
     }
 
 

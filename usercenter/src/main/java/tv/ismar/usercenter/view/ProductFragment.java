@@ -3,7 +3,6 @@ package tv.ismar.usercenter.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.open.androidtvwidget.leanback.recycle.GridLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.squareup.picasso.Picasso;
 
@@ -71,7 +71,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
         mRecyclerView = productBinding.recyclerview;
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.product_recycler_item_spacing)));
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        mRecyclerView.setLayoutManager(new GridLayoutManagerTV(getContext(), 4));
         mRecyclerView.setSelectedItemAtCentered(false);
         mRecyclerView.setOnItemClickListener(this);
         View root = productBinding.getRoot();
@@ -209,6 +209,10 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                     holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
                 }
 
+            }
+
+            if ((position + 1) % 4 == 1) {
+                holder.itemView.setNextFocusLeftId(R.id.usercenter_store);
             }
         }
 
