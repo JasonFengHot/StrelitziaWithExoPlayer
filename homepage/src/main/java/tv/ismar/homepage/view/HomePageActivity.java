@@ -664,7 +664,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 }
                 String apiDomain = IsmartvActivator.getInstance().getApiDomain();
                 String ad_domain = IsmartvActivator.getInstance().getAdDomain();
-                String log_domain = IsmartvActivator.getInstance().getAdDomain();
+                String log_domain = IsmartvActivator.getInstance().getLogDomain();
                 String upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
                 if (apiDomain != null && !apiDomain.contains("http")) {
                     apiDomain = "http://" + apiDomain;
