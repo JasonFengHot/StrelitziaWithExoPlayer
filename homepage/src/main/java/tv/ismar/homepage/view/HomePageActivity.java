@@ -53,6 +53,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.ismartv.truetime.TrueTime;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.ActiveService;
@@ -148,6 +149,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private FragmentSwitchHandler fragmentSwitch;
     private BitmapDecoder bitmapDecoder;
     private String brandName;
+    private Subscription channelsSub;
 
     @Override
     public void onUserCenterClick() {
@@ -706,7 +708,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      * fetch channel
      */
     private void fetchChannels() {
-        mSkyService.apiTvChannels()
+        channelsSub = mSkyService.apiTvChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<ChannelEntity[]>() {
@@ -1414,6 +1416,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onStop() {
         Log.i(TAG, "onStop");
+        if (channelsSub != null && channelsSub.isUnsubscribed()) {
+            channelsSub.unsubscribe();
+        }
         super.onStop();
     }
 
@@ -1465,7 +1470,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         intent.setClass(this, ActiveService.class);
         startService(intent);
     }
-
 
 
     private void startTrueTimeService() {

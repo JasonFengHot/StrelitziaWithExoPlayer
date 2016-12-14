@@ -172,9 +172,9 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
         relateItems = itemEntities;
-        if(itemEntities.length<relViews){
-            for (int i = itemEntities.length-1; i <relViews ; i++) {
-                ((View)relRelImageViews[i].getParent()).setVisibility(View.INVISIBLE);
+        if (itemEntities.length < relViews) {
+            for (int i = itemEntities.length - 1; i < relViews; i++) {
+                ((View) relRelImageViews[i].getParent()).setVisibility(View.INVISIBLE);
             }
         }
         for (int i = 0; i < itemEntities.length && i < relViews; i++) {
@@ -256,8 +256,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         relateIsLoad = true;
         hideLoading();
-        if(mMovieBinding!=null&&mMovieBinding.detailBtnLinear!=null)
-        mMovieBinding.detailBtnLinear.setVisibility(View.VISIBLE);
+        if (mMovieBinding != null && mMovieBinding.detailBtnLinear != null)
+            mMovieBinding.detailBtnLinear.setVisibility(View.VISIBLE);
     }
 
 
@@ -287,7 +287,9 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void onError() {
-        hideLoading();
+        if (((DetailPageActivity) getActivity()).mLoadingDialog != null && ((DetailPageActivity) getActivity()).mLoadingDialog.isShowing()) {
+            ((DetailPageActivity) getActivity()).mLoadingDialog.dismiss();
+        }
     }
 
     @Override
@@ -360,7 +362,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         View contentView;
         String content_model = itemEntity.getContentModel();
         mHeadTitle = getModelType(content_model);
-        if ((("variety".equals(content_model) && mItemEntity.getExpense() == null)) || "entertainment".equals(content_model)) {
+        if ((("variety".equals(content_model) && mItemEntity.getExpense() == null)) || ("entertainment".equals(content_model) && mItemEntity.getExpense() == null)) {
             relViews = 4;
             mEntertainmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detailpage_entertainment_sharp, container, false);
             mEntertainmentBinding.setTasks(mModel);
@@ -422,7 +424,9 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             relRelImageViews[i] = (LabelImageView) contentView.findViewById(mRelImageViewIds[i]);
             relRelImageViews[i].setVisibility(View.VISIBLE);
             relTextViews[i] = (TextView) contentView.findViewById(mRelTextViewIds[i]);
-            if (!content_model.equals("variety") && !content_model.equals("entertainment") && !content_model.equals("movie")) {
+            if (!(content_model.equals("variety") && itemEntity.getExpense() == null) &&
+                    !(content_model.equals("entertainment") && itemEntity.getExpense() == null)
+                    && !content_model.equals("movie")) {
                 relFocusTextViews[i] = (TextView) contentView.findViewById(mRelTextViewFocusIds[i]);
             }
         }
@@ -432,7 +436,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         bundle.putString("channel_name", mHeadTitle);
         headFragment = new HeadFragment();
         headFragment.setArguments(bundle);
-        getChildFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();return contentView;
+        getChildFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();
+        return contentView;
     }
 
     @Override

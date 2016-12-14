@@ -138,8 +138,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
         createIndicatorView();
 
-        purchaseItem = userCenterIndicatorLayout.getChildAt(3);
-        purchaseItem.setNextFocusRightId(purchaseItem.getId());
+//        purchaseItem = userCenterIndicatorLayout.getChildAt(3);
+//        purchaseItem.setNextFocusRightId(purchaseItem.getId());
 
     }
 
