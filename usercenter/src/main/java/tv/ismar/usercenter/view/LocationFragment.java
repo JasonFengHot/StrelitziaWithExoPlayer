@@ -278,6 +278,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         locationBinding.confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                locationBinding.tmp.requestFocus();
                 IsmartvActivator activator = IsmartvActivator.getInstance();
                 activator.setProvince(mProvinceTable.province_name, mProvinceTable.pinyin);
                 activator.setCity(mCityTable.city, String.valueOf(mCityTable.geo_id));
