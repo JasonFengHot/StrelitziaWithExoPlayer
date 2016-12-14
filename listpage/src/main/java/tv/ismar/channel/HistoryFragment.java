@@ -445,7 +445,8 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	public void onResume() {
 		if(IsmartvActivator.getInstance().isLogin()){
 			//登录，网络获取
-			mLoadingDialog.show();
+			Log.i("onResum","onreusm");
+			mLoadingDialog.showDialog();
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -454,7 +455,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			},2000);
 
 		}else{
-			mLoadingDialog.show();
+			mLoadingDialog.showDialog();
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {

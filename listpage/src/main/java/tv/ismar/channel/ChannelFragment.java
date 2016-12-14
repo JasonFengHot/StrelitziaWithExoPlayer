@@ -624,7 +624,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
             @Override
             public void onNext(ItemList itemList) {
-                Log.i("getItemList","onNext");
                 mLoadingDialog.dismiss();
                 try {
                     if (itemList != null && itemList.objects != null) {
@@ -650,7 +649,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
         @Override
         public void onSectionSelectChanged(int index) {
-            Log.i("tabSelcet","onSectionSelectChanged:"+index);
             getItemlistHandler.removeCallbacks(getItemlistRunnable);
             checkSectionChanged(index);
             mHGridView.jumpToSection(index);
@@ -765,7 +763,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     @Override
     public void onScrollStateChanged(HGridView view, int scrollState) {
-        Log.i("tabSelcet","onScrollStateChanged"+scrollState);
         if (scrollState == HGridView.OnScrollListener.SCROLL_STATE_FOCUS_MOVING) {
             mIsBusy = true;
             Log.d(TAG, "Scroll State Changed! current is SCROLL_STATE_FOCUS_MOVING");
@@ -787,7 +784,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     @Override
     public void onScroll(HGridView view, int firstVisibleItem,
                          int visibleItemCount, int totalItemCount) {
-        Log.i("tabSelcet","onScroll: "+mIsBusy);
         if (!mIsBusy) {
             // We put the composed index which need to loading to this list. and check with
             // mCurrentLoadingTask soon after

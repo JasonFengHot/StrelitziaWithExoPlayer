@@ -24,9 +24,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.network.entity.ChatMsgEntity;
@@ -177,10 +179,10 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                        ((HomeActivity) getActivity()).showPop(throwable);
                     }
-
 
                     @Override
                     public void onNext(ChatMsgEntity chatMsgEntity) {
