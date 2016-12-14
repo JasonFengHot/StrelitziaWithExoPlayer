@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 
@@ -388,7 +389,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                         pageIntent.toDetailPage(mContext, "privilege", Integer.parseInt(pk));
                         break;
                     default:
-                        throw new IllegalArgumentException(playAuth.getUrl() + " type not support!!!");
+                        Toast.makeText(mContext, "因版权限制，此产品无法在当前设备查看", Toast.LENGTH_SHORT).show();
                 }
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
                 switch (type) {
@@ -399,7 +400,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                         pageIntent.toDetailPage(mContext, "privilege", Integer.parseInt(pk));
                         break;
                     default:
-                        throw new IllegalArgumentException(playAuth.getUrl() + " type not support!!!");
+                        Toast.makeText(mContext, "因版权限制，此产品无法在当前设备查看", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 //other type
