@@ -240,6 +240,8 @@
 <dimen name="epsisode_recycler_mt">8.56dp</dimen>
 <dimen name="epsisode_recycler_ml">236.44dp</dimen>
 <dimen name="epsisode_recycler_mr">235.67dp</dimen>
+<dimen name="epsisode_recycler_hs">36.56dp</dimen>
+<dimen name="epsisode_recycler_vs">28.78dp</dimen>
 <dimen name="episode_header_height">209.22dp</dimen>
 <dimen name="episode_layout_mb">15.56dp</dimen>
 <dimen name="usercenter_horizontal_divider_line_height">0.78dp</dimen>

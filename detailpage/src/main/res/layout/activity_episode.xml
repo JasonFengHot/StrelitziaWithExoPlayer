@@ -125,8 +125,8 @@
             android:layout_marginTop="@dimen/epsisode_recycler_mt"
             android:layout_marginLeft="@dimen/epsisode_recycler_ml"
             android:layout_marginRight="@dimen/epsisode_recycler_mr"
-            jasmine:horizontalSpace="47dp"
-            jasmine:verticalSpace="37dp"
+            jasmine:horizontalSpace="@dimen/epsisode_recycler_hs"
+            jasmine:verticalSpace="@dimen/epsisode_recycler_vs"
             jasmine:numColumns="10"
             android:focusable="true"
         />
