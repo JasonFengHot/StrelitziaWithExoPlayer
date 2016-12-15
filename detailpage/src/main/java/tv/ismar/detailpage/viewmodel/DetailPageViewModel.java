@@ -466,12 +466,20 @@ public class DetailPageViewModel extends BaseObservable {
 
                 if(mItemEntity.getLiveVideo()){
                     if(videoIsStart()){
-                        return true;
+                        if(getPlayText().equals(mContext.getString(R.string.video_preview))&&mItemEntity.getPreview()==null){
+                            return false;
+                        }else{
+                            return true;
+                        }
                     }else{
                         return false;
                     }
                 }else{
-                    return true;
+                    if(getPlayText().equals(mContext.getString(R.string.video_preview))&&mItemEntity.getPreview()==null){
+                        return false;
+                    }else{
+                        return true;
+                    }
                 }
         }
 
