@@ -28,4 +28,7 @@
 
 <dimen name="pause_ad_btn_wh">13.33dp</dimen>
 
+<dimen name="player_toast_w">138.22dp</dimen>
+<dimen name="player_toast_h">16.22dp</dimen>
+
 </resources>

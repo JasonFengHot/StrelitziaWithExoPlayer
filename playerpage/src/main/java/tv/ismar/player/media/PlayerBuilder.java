@@ -2,7 +2,6 @@ package tv.ismar.player.media;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
 import tv.ismar.app.network.entity.ItemEntity;
@@ -23,6 +22,11 @@ public class PlayerBuilder {
      * 奇艺片源,使用奇艺播放器
      */
     public static final byte MODE_QIYI_PLAYER = 0x02;
+
+    /**
+     * 视云片源,使用SmartPlayer,实现了预加载
+     */
+    public static final byte MODE_PRELOAD_PLAYER = 0x03;
 
     private byte mPlayerMode = -1;
     private Activity mContext;
@@ -104,10 +108,13 @@ public class PlayerBuilder {
         IsmartvPlayer ismartvPlayer = null;
         switch (mPlayerMode) {
             case MODE_SMART_PLAYER:
-                ismartvPlayer = new DaisyPlayer();
+                ismartvPlayer = new DaisyPlayer(MODE_SMART_PLAYER);
                 break;
             case MODE_QIYI_PLAYER:
                 ismartvPlayer = new QiyiPlayer();
+                break;
+            case MODE_PRELOAD_PLAYER:
+                ismartvPlayer = new DaisyPlayer(MODE_PRELOAD_PLAYER);
                 break;
         }
         if (ismartvPlayer == null) {

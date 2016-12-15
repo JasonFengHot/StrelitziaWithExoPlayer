@@ -26,6 +26,7 @@ import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.NetErrorPopWindow;
 import tv.ismar.app.widget.UpdatePopupWindow;
+import tv.ismar.player.SmartPlayer;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
@@ -46,6 +47,8 @@ public class BaseActivity extends AppCompatActivity {
     public SkyService mSpeedCallaService;
     public SkyService mLilyHostService;
     public long app_start_time;
+
+    public static SmartPlayer mSmartPlayer;// 由于目前需要在详情页实现预加载功能，故写此变量
 
     public static Stack<Bundle> updateInfo = new Stack<>();
 

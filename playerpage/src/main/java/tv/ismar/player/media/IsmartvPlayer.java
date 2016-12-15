@@ -29,6 +29,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.AccessProxy;
+import tv.ismar.player.SmartPlayer;
 
 /**
  * Created by longhai on 16-9-12.
@@ -108,6 +109,9 @@ public abstract class IsmartvPlayer implements IPlayer {
         this.mIsPreview = isPreview;
     }
 
+    public void setSmartPlayer(SmartPlayer smartPlayer, String[] paths) {
+    }
+
     @Override
     public void setDataSource(ClipEntity clipEntity, ClipEntity.Quality initQuality,
                               List<AdElementEntity> adList, // 视云影片需要添加是否有广告
@@ -115,14 +119,15 @@ public abstract class IsmartvPlayer implements IPlayer {
         if (clipEntity == null || mPlayerMode == 0) {
             throw new IllegalArgumentException("IsmartvPlayer setDataSource invalidate.");
         }
+        mOnDataSourceSetListener = onDataSourceSetListener;
         mMedia = new IsmartvMedia(mItemEntity.getItemPk(), mItemEntity.getPk());
         mPlayerOpenTime = TrueTime.now().getTime();
-        mClipEntity = new ClipEntity();
-        mOnDataSourceSetListener = onDataSourceSetListener;
+
         switch (mPlayerMode) {
             case PlayerBuilder.MODE_SMART_PLAYER:
                 // 片源为视云
                 mPlayerFlag = PLAYER_FLAG_SMART;
+                mClipEntity = new ClipEntity();
 
                 String adaptive = clipEntity.getAdaptive();
                 String normal = clipEntity.getNormal();
@@ -182,9 +187,16 @@ public abstract class IsmartvPlayer implements IPlayer {
                     }
                 }
                 break;
+            case PlayerBuilder.MODE_PRELOAD_PLAYER:
+                mPlayerFlag = PLAYER_FLAG_SMART;
+                mClipEntity = clipEntity;
+                initSmartQuality(initQuality);
+                setMedia(new String[1]);
+                break;
             case PlayerBuilder.MODE_QIYI_PLAYER:
                 // 片源为爱奇艺
                 mPlayerFlag = PLAYER_FLAG_QIYI;
+                mClipEntity = new ClipEntity();
 
                 mClipEntity.setIqiyi_4_0(clipEntity.getIqiyi_4_0());
                 Log.d(TAG, "setIqiyi_4_0: " + mClipEntity.getIqiyi_4_0());
@@ -249,6 +261,10 @@ public abstract class IsmartvPlayer implements IPlayer {
                         });
                 break;
         }
+    }
+
+    @Override
+    public void prepareAsync() {
     }
 
     @Override
