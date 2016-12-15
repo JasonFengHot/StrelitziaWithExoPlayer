@@ -258,14 +258,13 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					public void onNext(Item[] items) {
 						mLoadingDialog.dismiss();
 						try{
-						if(items!=null){
+						if(items!=null&&items.length>0){
 							mItemCollections = new ArrayList<ItemCollection>();
 							int num_pages = (int) Math.ceil((float)items.length / (float)ItemCollection.NUM_PER_PAGE);
 							ItemCollection itemCollection = new ItemCollection(num_pages, items.length, "1", "1");
 							mItemCollections.add(itemCollection);
 							mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections,false);
 							mHGridAdapter.setList(mItemCollections);
-							Log.i("novideo","noempty: "+mItemCollections.size());
 							if(mHGridAdapter.getCount()>0){
 								mHGridView.setAdapter(mHGridAdapter);
 								mHGridView.setFocusable(true);
@@ -280,7 +279,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 								showData();
 							}
 						}else{
-							Log.i("novideo","coming in");
 							no_video();
 						}
 					}catch (Exception e){

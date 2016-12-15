@@ -960,7 +960,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 sectionProperties.put(EventProperty.SECTION, oldSection.slug);
                 sectionProperties.put(EventProperty.TITLE, oldSection.title);
                 sectionProperties.put(EventProperty.POSITION, mSectionList.indexOf(oldSection));
-             //   new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_OUT, sectionProperties);10/21注
+               new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_OUT, sectionProperties);
             }
             mCurrentSectionIndex = newSectionIndex;
         }
