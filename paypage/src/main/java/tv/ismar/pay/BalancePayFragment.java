@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
@@ -39,6 +40,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
     private TextView balanceTv;
     private TextView priceTv;
     private TextView durationTv;
+    private ItemEntity itemEntity;
 
 
     @Override
@@ -58,7 +60,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         contentView = inflater.inflate(R.layout.fragmet_balancepay, null);
         submitBtn = (Button) contentView.findViewById(R.id.card_balance_submit);
         submitBtn.setOnClickListener(this);
-        cancleBtn=(Button) contentView.findViewById(R.id.card_balance_cancel);
+        cancleBtn = (Button) contentView.findViewById(R.id.card_balance_cancel);
         cancleBtn.setOnClickListener(this);
 
         balanceTv = (TextView) contentView.findViewById(R.id.card_balance_title_label);
@@ -72,7 +74,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
         fetchAccountBalance();
 
-        ItemEntity itemEntity = activity.getmItemEntity();
+        itemEntity = activity.getmItemEntity();
         priceTv.setText(String.format(getString(R.string.pay_package_price),
                 itemEntity.getExpense().getPrice(), itemEntity.getExpense().getDuration()));
     }
@@ -153,6 +155,13 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onNext(AccountBalanceEntity entity) {
+                        if (entity.getBalance().compareTo(new BigDecimal(itemEntity.getExpense().getPrice())) >= 0) {
+                            submitBtn.setEnabled(true);
+                        } else {
+                            submitBtn.setEnabled(false);
+                            submitBtn.setFocusable(false);
+                            submitBtn.setFocusableInTouchMode(false);
+                        }
                         balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), entity.getBalance()));
                     }
                 });
