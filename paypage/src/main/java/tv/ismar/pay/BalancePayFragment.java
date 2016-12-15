@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,7 +31,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 /**
  * Created by huibin on 2016/9/14.
  */
-public class BalancePayFragment extends Fragment implements View.OnClickListener {
+public class BalancePayFragment extends Fragment implements View.OnClickListener,OnHoverListener {
 
     private View contentView;
     private Button submitBtn;
@@ -72,6 +74,8 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        submitBtn.setOnHoverListener(this);
+        cancleBtn.setOnHoverListener(this);
         fetchAccountBalance();
 
         itemEntity = activity.getmItemEntity();
@@ -167,4 +171,17 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                 });
     }
 
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+            case  MotionEvent.ACTION_HOVER_EXIT:
+                break;
+        }
+        return false;
+    }
 }

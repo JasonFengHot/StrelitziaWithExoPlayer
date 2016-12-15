@@ -97,6 +97,7 @@
 
             <Button
                 android:id="@+id/balance_pay"
+                android:nextFocusDown="@id/balance_pay"
                 android:layout_width="@dimen/payment_type_btn_width"
                 android:layout_height="@dimen/pay_channel_weixin_height"
                 android:layout_marginTop="@dimen/pay_channel_weixin_margintop"
@@ -126,4 +127,10 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/tmp"
+        android:focusable="true"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
 </LinearLayout>

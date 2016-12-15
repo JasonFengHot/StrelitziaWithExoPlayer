@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +31,7 @@ import static android.widget.Toast.LENGTH_LONG;
 /**
  * Created by huibin on 2016/9/14.
  */
-public class CardPayFragment extends Fragment implements View.OnClickListener {
+public class CardPayFragment extends Fragment implements View.OnClickListener,OnHoverListener {
 
     private View contentView;
     private SkyService skyService;
@@ -65,6 +67,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         View indicatorView = mPaymentActivity.findViewById(R.id.videocard);
         indicatorView.setNextFocusRightId(R.id.shiyuncard_input);
+        submitBtn.setOnHoverListener(this);
     }
 
     private void cardRecharge(String cardNumber) {
@@ -149,5 +152,19 @@ public class CardPayFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "错误的观影卡密码", LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+            case  MotionEvent.ACTION_HOVER_EXIT:
+                break;
+        }
+        return false;
     }
 }
