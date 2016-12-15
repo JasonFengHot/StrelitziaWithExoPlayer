@@ -221,6 +221,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
     @Override
     public void onItemSelected(RecyclerViewTV recyclerViewTV, View itemView, int i) {
+        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
         if (recyclerViewTV.getAdapter() instanceof ProvinceAdapter) {
             TextView textView = (TextView) itemView.findViewById(R.id.province_text);
             textView.setTextColor(getResources().getColor(R.color.location_text_focus));
@@ -333,7 +334,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         return true;
     }
 
-    private class ProvinceAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener {
+    private class ProvinceAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener{
         private Context mContext;
 
         private List<ProvinceTable> mProvinceTableList;
@@ -416,9 +417,10 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             }
             return true;
         }
+
     }
 
-    private class CityAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener {
+    private class CityAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener{
         private Context mContext;
 
         private List<CityTable> mCityTableList;
