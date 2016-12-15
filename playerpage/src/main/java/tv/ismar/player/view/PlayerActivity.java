@@ -7,18 +7,21 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.player.R;
+import tv.ismar.player.SmartPlayer;
 
 public class PlayerActivity extends BaseActivity {
 
     private final String TAG = "LH/PlayerActivity";
+    public static final String DETAIL_PAGE_ITEM = "detail_page_item";
+    public static final String DETAIL_PAGE_CLIP = "detail_page_clip";
+    public static final String HISTORY_POSITION = "detail_history_position";
+    public static final String HISTORY_QUALITY = "detail_history_quality";
+    public static final String DETAIL_PAGE_PATHS = "detail_page_paths"; // SmartPlayer没有提供获取所有(包含广告)url的接口
 
-    private int itemPK = 0;// 当前影片pk值,通过/api/item/{pk}可获取详细信息
-    private int subItemPk = 0;// 当前多集片pk值,通过/api/subitem/{pk}可获取详细信息
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
 
@@ -27,9 +30,23 @@ public class PlayerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         Intent intent = getIntent();
-        itemPK = intent.getIntExtra(PageIntentInterface.EXTRA_PK, 0);
-        subItemPk = intent.getIntExtra(PageIntentInterface.EXTRA_SUBITEM_PK, 0);
+        int itemPK = intent.getIntExtra(PageIntentInterface.EXTRA_PK, 0);// 当前影片pk值,通过/api/item/{pk}可获取详细信息
+        int subItemPk = intent.getIntExtra(PageIntentInterface.EXTRA_SUBITEM_PK, 0);// 当前多集片pk值,通过/api/subitem/{pk}可获取详细信息
         String source = intent.getStringExtra(PageIntentInterface.EXTRA_SOURCE);
+
+        String itemJson = null;
+        String clipJson = null;
+        int historyPosition = 0;
+        int historyQuality = -1;
+        String[] paths = null;
+        if (mSmartPlayer != null) {
+            // 以下两个值不为空，表明预加载成功，无需重复流程
+            itemJson = intent.getStringExtra(DETAIL_PAGE_ITEM);
+            clipJson = intent.getStringExtra(DETAIL_PAGE_CLIP);
+            historyPosition = intent.getIntExtra(HISTORY_QUALITY, 0);
+            historyQuality = intent.getIntExtra(HISTORY_QUALITY, -1);
+            paths = intent.getStringArrayExtra(DETAIL_PAGE_PATHS);
+        }
 
         if (itemPK <= 0) {
             finish();
@@ -37,7 +54,8 @@ public class PlayerActivity extends BaseActivity {
             return;
         }
 
-        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, null, source);
+        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, source, itemJson, clipJson,
+                historyPosition, historyQuality, paths);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity_player_container, playerFragment)
@@ -45,12 +63,6 @@ public class PlayerActivity extends BaseActivity {
 
         mGestureDetector = new GestureDetector(this, onGestureListener);
 
-    }
-
-    @Override
-    protected void onStop() {
-
-        super.onStop();
     }
 
     public void onBuyVip(View view) {

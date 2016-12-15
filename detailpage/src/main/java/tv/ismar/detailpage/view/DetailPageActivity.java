@@ -7,23 +7,34 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.VodApplication;
+import tv.ismar.app.ad.Advertisement;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.db.HistoryManager;
+import tv.ismar.app.entity.DBQuality;
+import tv.ismar.app.entity.History;
+import tv.ismar.app.network.entity.AdElementEntity;
+import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
-import tv.ismar.player.view.PlayerFragment;
+import tv.ismar.player.AccessProxy;
+import tv.ismar.player.SmartPlayer;
+import tv.ismar.player.view.PlayerActivity;
 
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_ITEM;
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_PKG;
@@ -35,8 +46,10 @@ import static tv.ismar.app.core.PageIntentInterface.EXTRA_TYPE;
 /**
  * Created by huibin on 8/18/16.
  */
-public class DetailPageActivity extends BaseActivity implements PlayerFragment.OnHidePlayerPageListener {
+public class DetailPageActivity extends BaseActivity implements Advertisement.OnVideoPlayAdListener {
     private static final String TAG = "DetailPageActivity";
+
+    public static DetailPageActivity instance = null;
 
     private Subscription apiItemSubsc;
     private String source;
@@ -44,17 +57,14 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
 
     private DetailPageFragment detailPageFragment;
     private PackageDetailFragment mPackageDetailFragment;
-    private PlayerFragment playerFragment;
-    private GestureDetector mGestureDetector;
-    private boolean viewInit;
     public LoadingDialog mLoadingDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFormat(PixelFormat.TRANSLUCENT);
+//        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.activity_detailpage);
+        instance = this;
         Intent intent = getIntent();
 
         int itemPK = intent.getIntExtra(EXTRA_PK, -1);
@@ -91,127 +101,31 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
             fetchItem(String.valueOf(itemPK), type);
         }
 
-        mGestureDetector = new GestureDetector(this, onGestureListener);
-
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (viewInit && playerFragment != null && playerFragment.goFinishPageOnResume) {
-            // 不能在播放器onComplete接口调用是因为会导致进入播放完成页前会先闪现详情页
-            onHide();
-        } else if (viewInit && playerFragment != null && !playerFragment.sharpKeyDownNotResume) {
-            // 多个详情页显示时，逐一返回时需要初始化播放器
-            playerFragment.subItemPk = 0;
-            playerFragment.initPlayer();
-        }
-        viewInit = true;
-
     }
 
     public void goPlayer() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.hide(detailPageFragment);
-        fragmentTransaction.show(playerFragment);
-        fragmentTransaction.commit();
-        playerFragment.onPlayerFragment = true;
-        playerFragment.detailPageClickPlay();
+        // TODO 进入播放器界面
+        isClickPlay = true;
+        Intent intent = new Intent();
+        intent.setAction("tv.ismar.daisy.Player");
+        intent.putExtra(PageIntentInterface.EXTRA_PK, mItemEntity.getPk());
+        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, mSubItemPk);
+        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
 
-    }
-
-    public void onBuyVip(View view) {
-        if (playerFragment != null) {
-            playerFragment.buyVipOnShowAd();
-        }
-    }
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (playerFragment != null && playerFragment.onPlayerFragment && playerFragment.onKeyDown(keyCode, event)) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (playerFragment != null && playerFragment.onPlayerFragment && playerFragment.onKeyUp(keyCode, event)) {
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (playerFragment != null && playerFragment.onPlayerFragment && playerFragment.isBufferShow()) {
-            return true;
-        }
-        return mGestureDetector.onTouchEvent(event);
-    }
-
-    GestureDetector.OnGestureListener onGestureListener = new GestureDetector.OnGestureListener() {
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            if (playerFragment != null) {
-                if (playerFragment.isMenuShow()) {
-                    return true;
-                }
-                playerFragment.showPannelDelayOut();
+        // 只有在预加载成功的情况下进入播放器无需重新getItem, playCheck等
+        if (mHasPreLoad && mItemEntity != null && mClipEntity != null) {
+            String itemJson = new Gson().toJson(mItemEntity);
+            String clipJson = new Gson().toJson(mClipEntity);
+            intent.putExtra(PlayerActivity.DETAIL_PAGE_ITEM, itemJson);
+            intent.putExtra(PlayerActivity.DETAIL_PAGE_CLIP, clipJson);
+            intent.putExtra(PlayerActivity.HISTORY_POSITION, historyPosition);
+            if (historyQuality != null) {
+                intent.putExtra(PlayerActivity.HISTORY_QUALITY, historyQuality.getValue());
             }
-            return false;
+            intent.putExtra(PlayerActivity.DETAIL_PAGE_PATHS, mPaths);
         }
+        startActivity(intent);
 
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            return false;
-        }
-    };
-
-    @Override
-    public void onHide() {
-        if (playerFragment == null || detailPageFragment == null) {
-            finish();
-            return;
-        }
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.hide(playerFragment);
-        fragmentTransaction.show(detailPageFragment);
-        fragmentTransaction.commit();
-        playerFragment.onPlayerFragment = false;
-        playerFragment.subItemPk = 0;
-        playerFragment.initPlayer();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        playerFragment = null;
-        detailPageFragment = null;
-        viewInit = false;
-        super.onDestroy();
     }
 
     public void fetchItem(String pk, final int type) {
@@ -255,18 +169,14 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         switch (type) {
             case PageIntent.DETAIL_TYPE_ITEM:
                 String itemJson = new Gson().toJson(mItemEntity);
-                playerFragment = PlayerFragment.newInstance(mItemEntity.getPk(), 0, itemJson, source);
-                playerFragment.setOnHidePlayerPageListener(this);
-                playerFragment.onPlayerFragment = false;
                 detailPageFragment = DetailPageFragment.newInstance(source, itemJson);
-                fragmentTransaction.add(R.id.activity_detail_container, playerFragment);
-                fragmentTransaction.add(R.id.activity_detail_container, detailPageFragment);
+                fragmentTransaction.replace(R.id.activity_detail_container, detailPageFragment);
                 fragmentTransaction.commit();
                 break;
             case PageIntent.DETAIL_TYPE_PKG:
                 String packJson = new Gson().toJson(mItemEntity);
                 mPackageDetailFragment = PackageDetailFragment.newInstance(source, packJson);
-                fragmentTransaction.add(R.id.activity_detail_container, mPackageDetailFragment);
+                fragmentTransaction.replace(R.id.activity_detail_container, mPackageDetailFragment);
                 fragmentTransaction.commit();
                 break;
         }
@@ -285,12 +195,300 @@ public class DetailPageActivity extends BaseActivity implements PlayerFragment.O
         mLoadingDialog.showDialog();
     }
 
+    @Override
+    protected void onResume() {
+        isClickPlay = false;
+        isActivityStoped = false;
+        mHasPreLoad = false;
+        super.onResume();
+
+    }
 
     @Override
     protected void onStop() {
         if (apiItemSubsc != null && apiItemSubsc.isUnsubscribed()) {
             apiItemSubsc.unsubscribe();
         }
+        if (apiClipSubsc != null && !apiClipSubsc.isUnsubscribed()) {
+            apiClipSubsc.unsubscribe();
+        }
+        if (!isClickPlay && mSmartPlayer != null) {
+            mSmartPlayer.release();
+            mSmartPlayer = null;
+        }
+        isActivityStoped = true;
         super.onStop();
     }
+
+    /**
+     * 以下为详情页预加载功能实现
+     */
+
+    private Subscription apiClipSubsc;
+    private ClipEntity mClipEntity;
+    private HistoryManager historyManager;
+    private History mHistory;
+    private Advertisement mAdvertisement;
+    private boolean isClickPlay;// 点击播放按钮，不释放SmartPlayer,其余情况必须先释放
+    private boolean isActivityStoped;
+    private int historyPosition;
+    private String[] mPaths;// SmartPlayer提供get方法后可去掉
+    private ClipEntity.Quality historyQuality;
+    private int mSubItemPk;
+    private boolean mHasPreLoad;
+
+    private boolean canPreLoading() {
+        return !isClickPlay && !isActivityStoped;
+    }
+
+    // 试看不需要预加载功能
+    public void playCheckResult(boolean permission) {
+        Log.i(TAG, "playCheckResult:" + permission);
+        if (permission || mItemEntity.getExpense() == null) {
+            fetchClip();
+        }
+
+    }
+
+    @Override
+    public void loadPauseAd(List<AdElementEntity> adList) {
+        // do nothing
+    }
+
+    @Override
+    public void loadVideoStartAd(List<AdElementEntity> adList) {
+        if (!canPreLoading()) {
+            return;
+        }
+        initSmartPlayer(adList);
+    }
+
+    private void fetchClip() {
+        if (!canPreLoading()) {
+            return;
+        }
+        if (apiClipSubsc != null && !apiClipSubsc.isUnsubscribed()) {
+            apiClipSubsc.unsubscribe();
+        }
+        mAdvertisement = new Advertisement(this);
+        mAdvertisement.setOnVideoPlayListener(this);
+        if (historyManager == null) {
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+        }
+        String historyUrl = Utils.getItemUrl(mItemEntity.getItemPk());
+        String isLogin = "no";
+        if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
+            isLogin = "yes";
+        }
+        mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
+
+        String sign = "";
+        String code = "1";
+        ItemEntity.Clip clip = mItemEntity.getClip();
+        // Get history clip
+        ItemEntity[] subItems = mItemEntity.getSubitems();
+        if (subItems != null && subItems.length > 0) {
+            // 传入的subItemPk值大于0表示指定播放某一集
+            // 点击播放按钮时，如果有历史记录，应该播放历史记录的subItemPk,默认播放第一集
+            mSubItemPk = subItems[0].getPk();
+            if (mHistory != null) {
+                int sub_item_pk = Utils.getItemPk(mHistory.sub_url);
+                Log.i(TAG, "CheckHistory_sub_item_pk:" + sub_item_pk);
+                if (sub_item_pk > 0) {
+                    mSubItemPk = sub_item_pk;
+                }
+            }
+            // 获取当前要播放的电视剧Clip
+            for (int i = 0; i < subItems.length; i++) {
+                int _subItemPk = subItems[i].getPk();
+                if (mSubItemPk == _subItemPk) {
+                    clip = subItems[i].getClip();
+                    break;
+                }
+            }
+        }
+        if (clip != null && clip.getUrl() != null) {
+            if (mHistory != null) {
+                historyPosition = (int) mHistory.last_position;
+            }
+            DBQuality dbQuality = historyManager.getQuality();
+            if (dbQuality != null) {
+                historyQuality = ClipEntity.Quality.getQuality(dbQuality.quality);
+            }
+            apiClipSubsc = mSkyService.fetchMediaUrl(clip.getUrl(), sign, code)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ClipEntity>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            Log.e(TAG, "fetchClip onError");
+                        }
+
+                        @Override
+                        public void onNext(ClipEntity clipEntity) {
+                            mClipEntity = clipEntity;
+                            String iqiyi = mClipEntity.getIqiyi_4_0();
+                            if (!Utils.isEmptyText(iqiyi)) {
+                                // 片源为爱奇艺
+                                return;
+                            }
+                            // 获取前贴片广告
+                            if (!canPreLoading()) {
+                                return;
+                            }
+                            mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONSTART, source);
+                        }
+                    });
+        }
+
+    }
+
+    private void initSmartPlayer(List<AdElementEntity> adList) {
+        Log.i(TAG, "initSmartPlayer:" + mSmartPlayer);
+        if (mClipEntity == null || mSmartPlayer != null) {
+            return;
+        }
+        String adaptive = mClipEntity.getAdaptive();
+        String normal = mClipEntity.getNormal();
+        String medium = mClipEntity.getMedium();
+        String high = mClipEntity.getHigh();
+        String ultra = mClipEntity.getUltra();
+        String blueray = mClipEntity.getBlueray();
+        String _4k = mClipEntity.get_4k();
+        if (!Utils.isEmptyText(adaptive)) {
+            mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive, IsmartvActivator.getInstance().getDeviceToken()));
+        }
+        if (!Utils.isEmptyText(normal)) {
+            mClipEntity.setNormal(AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken()));
+        }
+        if (!Utils.isEmptyText(medium)) {
+            mClipEntity.setMedium(AccessProxy.AESDecrypt(medium, IsmartvActivator.getInstance().getDeviceToken()));
+        }
+        if (!Utils.isEmptyText(high)) {
+            mClipEntity.setHigh(AccessProxy.AESDecrypt(high, IsmartvActivator.getInstance().getDeviceToken()));
+        }
+        if (!Utils.isEmptyText(ultra)) {
+            mClipEntity.setUltra(AccessProxy.AESDecrypt(ultra, IsmartvActivator.getInstance().getDeviceToken()));
+        }
+        if (!Utils.isEmptyText(blueray)) {
+            mClipEntity.setBlueray(AccessProxy.AESDecrypt(blueray, IsmartvActivator.getInstance().getDeviceToken()));
+        }
+        if (!Utils.isEmptyText(_4k)) {
+            mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken()));
+        }
+        Log.d(TAG, mClipEntity.toString());
+        String mediaUrl = initSmartQuality(historyQuality);
+        if (!Utils.isEmptyText(mediaUrl)) {
+            String[] paths;
+            if (adList != null && !adList.isEmpty()) {
+                paths = new String[adList.size() + 1];
+                int i = 0;
+                for (AdElementEntity element : adList) {
+                    if ("video".equals(element.getMedia_type())) {
+                        paths[i] = element.getMedia_url();
+                        i++;
+                    }
+                }
+                paths[paths.length - 1] = mediaUrl;
+            } else {
+                paths = new String[]{mediaUrl};
+            }
+            mSmartPlayer = new SmartPlayer();
+            mSmartPlayer.setDataSource(paths);
+            if(historyPosition > 0) {
+                mSmartPlayer.seekTo(historyPosition);
+            }
+            mSmartPlayer.prepareAsync();
+            mPaths = paths;
+            mHasPreLoad = true;
+        }
+
+    }
+
+    private String initSmartQuality(ClipEntity.Quality initQuality) {
+        if (mClipEntity == null) {
+            return null;
+        }
+        String defaultQualityUrl = null;
+        List<ClipEntity.Quality> qualityList = new ArrayList<>();
+        String low = mClipEntity.getLow();
+        if (!Utils.isEmptyText(low)) {
+            qualityList.add(ClipEntity.Quality.QUALITY_LOW);
+        }
+        String adaptive = mClipEntity.getAdaptive();
+        if (!Utils.isEmptyText(adaptive)) {
+            qualityList.add(ClipEntity.Quality.QUALITY_ADAPTIVE);
+        }
+        String normal = mClipEntity.getNormal();
+        if (!Utils.isEmptyText(normal)) {
+            qualityList.add(ClipEntity.Quality.QUALITY_NORMAL);
+        }
+        String medium = mClipEntity.getMedium();
+        if (!Utils.isEmptyText(medium)) {
+            qualityList.add(ClipEntity.Quality.QUALITY_MEDIUM);
+        }
+        String high = mClipEntity.getHigh();
+        if (!Utils.isEmptyText(high)) {
+            qualityList.add(ClipEntity.Quality.QUALITY_HIGH);
+        }
+        String ultra = mClipEntity.getUltra();
+        if (!Utils.isEmptyText(ultra)) {
+            qualityList.add(ClipEntity.Quality.QUALITY_ULTRA);
+        }
+        String blueray = mClipEntity.getBlueray();
+        if (!Utils.isEmptyText(blueray)) {
+            qualityList.add(ClipEntity.Quality.QUALITY_BLUERAY);
+        }
+        String _4k = mClipEntity.get_4k();
+        if (!Utils.isEmptyText(_4k)) {
+            qualityList.add(ClipEntity.Quality.QUALITY_4K);
+        }
+
+        if (!qualityList.isEmpty()) {
+            ClipEntity.Quality quality;
+            if (initQuality != null) {
+                quality = initQuality;
+            } else {
+                quality = qualityList.get(qualityList.size() - 1);
+            }
+            defaultQualityUrl = getSmartQualityUrl(quality);
+            if (Utils.isEmptyText(defaultQualityUrl)) {// 不同影片，分辨率差异，找不到取最后一个
+                defaultQualityUrl = getSmartQualityUrl(qualityList.get(qualityList.size() - 1));
+            }
+        }
+        return defaultQualityUrl;
+    }
+
+    protected String getSmartQualityUrl(ClipEntity.Quality quality) {
+        if (quality == null) {
+            return "";
+        }
+        String qualityUrl = null;
+        switch (quality) {
+            case QUALITY_LOW:
+                return mClipEntity.getLow();
+            case QUALITY_ADAPTIVE:
+                return mClipEntity.getAdaptive();
+            case QUALITY_NORMAL:
+                return mClipEntity.getNormal();
+            case QUALITY_MEDIUM:
+                return mClipEntity.getMedium();
+            case QUALITY_HIGH:
+                return mClipEntity.getHigh();
+            case QUALITY_ULTRA:
+                return mClipEntity.getUltra();
+            case QUALITY_BLUERAY:
+                return mClipEntity.getBlueray();
+            case QUALITY_4K:
+                return mClipEntity.get_4k();
+        }
+        return qualityUrl;
+    }
+
+
 }

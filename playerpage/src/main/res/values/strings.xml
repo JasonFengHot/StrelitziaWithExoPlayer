@@ -4,7 +4,6 @@
     <string name="player_menu_quality">画面质量</string>
     <string name="player_menu_kefu">客服中心</string>
     <string name="player_menu_restart">从头播放</string>
-    <string name="player_exit">你是否确定退出播放器</string>
     <string name="player_buffering_long">当前网速过慢，建议您切换为流畅画质</string>
     <string name="player_error">视频加载失败，请退出后重试</string>
 

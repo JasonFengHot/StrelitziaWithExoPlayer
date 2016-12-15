@@ -397,7 +397,7 @@ public class PackageDetailFragment extends BaseFragment {
                 playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
                 int remainDay;
                 try {
-                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date()) ;
+                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date())+1 ;
                 } catch (ParseException e) {
                     remainDay = 0;
                 }

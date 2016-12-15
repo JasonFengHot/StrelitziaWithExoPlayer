@@ -265,6 +265,14 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void notifyPlayCheck(PlayCheckEntity playCheckEntity) {
         mModel.notifyPlayCheck(playCheckEntity);
         mRemandDay = playCheckEntity.getRemainDay();
+
+        boolean isBuy;
+        if (playCheckEntity.getRemainDay() == 0) {
+            isBuy = false;// 过期了。认为没购买
+        } else {
+            isBuy = true;// 购买了，剩余天数大于0
+        }
+        ((DetailPageActivity)getActivity()).playCheckResult(isBuy);
     }
 
     @Override
