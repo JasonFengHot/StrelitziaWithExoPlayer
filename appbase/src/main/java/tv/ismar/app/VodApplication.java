@@ -9,6 +9,7 @@ import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.squareup.picasso.Cache;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -82,7 +83,8 @@ public class VodApplication extends Application {
         CacheManager.initialize(this);// 首页导视相关
         load(this);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
+
+        Picasso picasso = new Picasso.Builder(this).executor(executorService).memoryCache(Cache.NONE).build();
         Picasso.setSingletonInstance(picasso);
         IsmartvActivator.initialize(this);
         mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
