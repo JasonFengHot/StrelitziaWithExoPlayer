@@ -59,7 +59,6 @@ import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.player.PlayerPageContract;
 import tv.ismar.player.R;
-import tv.ismar.player.SmartPlayer;
 import tv.ismar.player.databinding.FragmentPlayerBinding;
 import tv.ismar.player.media.IPlayer;
 import tv.ismar.player.media.IsmartvPlayer;
@@ -76,7 +75,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public static final int PAYMENT_REQUEST_CODE = 0xd6;
     public static final int PAYMENT_SUCCESS_CODE = 0x5c;
 
-    private static final byte POP_TYPE_KEY_BACK = 0;// 播放过程中按返回键弹出框
     private static final byte POP_TYPE_BUFFERING_LONG = 1;// 播放过程中,缓冲时间过长
     private static final byte POP_TYPE_PLAYER_ERROR = 3;// 底层onError回调
 
@@ -142,7 +140,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean isFastFBClick = false;// 控制栏左右步进按钮
     private boolean isNeedOnResume = false;// 当前页面未销毁,不在栈的顶层
     private boolean isClickKeFu = false;// 跳转至客服界面再返回后,不再做广告请求
-    private boolean isShowExit;
     private String mUser;// playerCheck 返回user类型
     private boolean mHasPreLoad;// 已经在详情页实现了预加载
     private String[] tempPaths;// 预加载时用到
@@ -396,7 +393,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 mIsmartvPlayer.release(true);
                 mIsmartvPlayer = null;
             }
-            if(BaseActivity.mSmartPlayer != null){
+            if (BaseActivity.mSmartPlayer != null) {
                 BaseActivity.mSmartPlayer = null;
             }
         }
@@ -492,7 +489,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         player_logo_image.setVisibility(View.GONE);
         mIsPlayingAd = false;
         mIsInAdDetail = false;
-        isShowExit = false;
         sharpKeyDownNotResume = false;
         mIsPreview = false;
         ad_vip_btn.setVisibility(View.GONE);
@@ -500,11 +496,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         hideMenu();
         hidePanel();
         fetchItemData();
-    }
-
-    private void preparedToStart() {
-
-
     }
 
     @Override
@@ -608,7 +599,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onCompleted() {
-        if ((mIsmartvPlayer == null) || isShowExit) {
+        if ((mIsmartvPlayer == null) || isPopWindowShow()) {
             return;
         }
         hideMenu();
@@ -664,7 +655,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsmartvPlayer == null || isDetached()) {
             return true;
         }
-        showExitPopup(POP_TYPE_PLAYER_ERROR);
+//        showExitPopup(POP_TYPE_PLAYER_ERROR);
         return true;
     }
 
@@ -879,7 +870,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     public void showPannelDelayOut() {
         if (panel_layout == null || mIsmartvPlayer == null || isPopWindowShow() || isMenuShow()
-                || mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState() || isShowExit) {
+                || mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState() || isPopWindowShow()) {
             return;
         }
         if (panel_layout.getVisibility() != View.VISIBLE) {
@@ -1380,7 +1371,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void showBuffer(String msg) {
         Log.d(TAG, "showBuffer:" + msg);
-        if (mIsOnPaused || isShowExit) {
+        if (mIsOnPaused || isPopWindowShow()) {
             return;
         }
         if (msg != null) {
@@ -1460,6 +1451,17 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         return String.format("%1$02d:%2$02d:%3$02d", hour, min, sec);
     }
 
+    private void exitPlayerWhilePlaying() {
+        if (mHandler.hasMessages(MSG_SEK_ACTION)) {
+            mHandler.removeMessages(MSG_SEK_ACTION);
+        }
+        cancelTimer();
+        timerStop();
+        hideBuffer();
+        hidePanel();
+        getActivity().finish();
+    }
+
     private ModuleMessagePopWindow popDialog;
 
     private boolean isPopWindowShow() {
@@ -1470,15 +1472,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (popDialog != null && popDialog.isShowing()) {
             popDialog.dismiss();
             popDialog = null;
-        }
-        isShowExit = true;
-        if (mIsPlayingAd) {
-            mHandler.removeMessages(MSG_AD_COUNTDOWN);
-            getActivity().finish();
-            return;
-        }
-        if (mHandler.hasMessages(MSG_SEK_ACTION)) {
-            mHandler.removeMessages(MSG_SEK_ACTION);
         }
         cancelTimer();
         timerStop();
@@ -1491,9 +1484,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         String cancelText = getString(R.string.player_pop_cancel);
         boolean hideCancel = false;
         switch (popType) {
-            case POP_TYPE_KEY_BACK:
-                message = getString(R.string.player_exit);
-                break;
             case POP_TYPE_BUFFERING_LONG:
                 message = getString(R.string.player_buffering_long);
                 cancelText = getString(R.string.player_pop_switch_quality);
@@ -1524,23 +1514,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         popDialog.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                isShowExit = false;
                 switch (popType) {
-                    case POP_TYPE_KEY_BACK:
-                        if (popDialog.isConfirmClick) {
-                            exitPlayer();
-                        } else {
-                            timerStart(0);
-                            mIsmartvPlayer.start();
-                        }
-                        break;
                     case POP_TYPE_PLAYER_ERROR:
                         // 播放器异常情况,判断播放进度临界值,剩余时长8分钟为界,小于8分钟下次从头播放
                         int value = 8 * 1000 * 60;
                         if (mIsmartvPlayer != null && (mIsmartvPlayer.getDuration() - mCurrentPosition <= value)) {
                             mCurrentPosition = 0;
                         }
-                        exitPlayer();
+                        getActivity().finish();
                         break;
                     case POP_TYPE_BUFFERING_LONG:
                         if (popDialog.isConfirmClick) {
@@ -1555,10 +1536,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
             }
         });
-    }
-
-    private void exitPlayer() {
-        getActivity().finish();
     }
 
     private void toPayPage(int pk, int jumpTo, int cpid, PageIntentInterface.ProductCategory model) {
@@ -1594,6 +1571,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             return Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
         }
     }
+
+    private static boolean isQuit = false;
+    private Timer quitTimer = new Timer();
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ("lcd_s3a01".equals(getModelName())) {
@@ -1653,7 +1633,20 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 return true;
             case KeyEvent.KEYCODE_BACK:
                 if (!isPopWindowShow() && mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState() && !mIsPlayingAd) {
-                    showExitPopup(POP_TYPE_KEY_BACK);
+                    if (!isQuit) {
+                        isQuit = true;
+                        ExitToast.createToastConfig().show(getActivity().getApplicationContext(), 5000);
+                        TimerTask task = new TimerTask() {
+                            @Override
+                            public void run() {
+                                isQuit = false;
+                            }
+                        };
+                        quitTimer.schedule(task, 5000);
+                    } else {
+                        ExitToast.createToastConfig().dismiss();
+                        exitPlayerWhilePlaying();
+                    }
                     return true;
                 }
                 Log.d(TAG, "BACK:" + adController);
