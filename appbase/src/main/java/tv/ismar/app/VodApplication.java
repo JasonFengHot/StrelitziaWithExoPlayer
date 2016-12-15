@@ -42,6 +42,7 @@ import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
+import tv.ismar.app.exception.CrashHandler;
 import tv.ismar.app.network.HttpTrafficInterceptor;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
@@ -74,6 +75,8 @@ public class VodApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
         Log.i("LH/", "applicationOnCreate:" + System.currentTimeMillis());
         startIntervalActive();
         SPUtils.init(this);
