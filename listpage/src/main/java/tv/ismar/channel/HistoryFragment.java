@@ -672,8 +672,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					public void onNext(Item i) {
 						item = i;
 						PageIntent intent=new PageIntent();
-						intent.toPlayPage(getActivity(),item.pk,item.item_pk,Source.HISTORY);
-//
+							intent.toPlayPage(getActivity(),item.pk,0,Source.HISTORY);
 				}
 
 					@Override

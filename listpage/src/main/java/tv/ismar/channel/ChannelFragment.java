@@ -841,7 +841,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 if (!currentLoadingTask.containsKey(composedIndex)) {
                  //   new GetItemListTask().execute(composedIndex);
                     nextIndex=composedIndex;
-                    getItemlistHandler.postDelayed(getItemlistRunnable,2000);
+                    getItemlistHandler.postDelayed(getItemlistRunnable,1000);
                 }
             }
             Log.d(TAG, currentLoadingTask.size() + " tasks in currentLoadingTask: ");
@@ -948,8 +948,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 newSection = mSectionList.get(newSectionIndex);
             mSectionProperties.put(EventProperty.SECTION, newSection.slug);
             mSectionProperties.put(EventProperty.TITLE, newSection.title);
-            //mSectionProperties.put("sid", newSectionIndex);
-          //  new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_IN, mSectionProperties);10/21注
+           mSectionProperties.put("sid", newSectionIndex);
+           new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_IN, mSectionProperties);
             if (mCurrentSectionIndex >= 0) {
                 Section oldSection;
                 if (mCurrentSectionIndex > 0)

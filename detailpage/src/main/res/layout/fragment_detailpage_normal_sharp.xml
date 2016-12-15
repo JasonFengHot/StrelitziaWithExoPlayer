@@ -308,6 +308,7 @@
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@{tasks.playText}"
                         android:enabled="@{tasks.Enabled}"
+                        android:focusable="@{tasks.Enabled}"
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_32sp"
                     />

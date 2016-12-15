@@ -449,10 +449,9 @@ public class DetailPageViewModel extends BaseObservable {
                 } else {
                     return mItemEntity.getExpense() != null && mRemandDay <= 0 ?
                             mContext.getString(R.string.video_preview)
-//                            + " " + subItems[subItems.length - 1].getSubtitle()
+                            + " " + subItems[subItems.length - 1].getSubtitle()
                             :
-                            mContext.getString(R.string.video_play);
-//                                    + " " + subItems[subItems.length - 1].getSubtitle();
+                            mContext.getString(R.string.video_play) + " " + subItems[subItems.length - 1].getSubtitle();
                 }
 
             default:
@@ -467,12 +466,20 @@ public class DetailPageViewModel extends BaseObservable {
 
                 if(mItemEntity.getLiveVideo()){
                     if(videoIsStart()){
-                        return true;
+                        if(getPlayText().equals(mContext.getString(R.string.video_preview))&&mItemEntity.getPreview()==null){
+                            return false;
+                        }else{
+                            return true;
+                        }
                     }else{
                         return false;
                     }
                 }else{
-                    return true;
+                    if(getPlayText().equals(mContext.getString(R.string.video_preview))&&mItemEntity.getPreview()==null){
+                        return false;
+                    }else{
+                        return true;
+                    }
                 }
         }
 
