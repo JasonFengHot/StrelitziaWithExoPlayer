@@ -59,7 +59,6 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     private ProvinceTable mProvinceTable;
     private CityTable mCityTable;
     private FragmentLocationBinding locationBinding;
-    private View cityTmpView;
 
     private boolean fragmentIsPause = false;
 
@@ -497,8 +496,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                     break;
                 case MotionEvent.ACTION_HOVER_EXIT:
                     if (!fragmentIsPause) {
-                        cityTmpView.requestFocus();
-                        cityTmpView.requestFocusFromTouch();
+                        locationBinding.tmp.requestFocus();
+                        locationBinding.tmp.requestFocusFromTouch();
                     }
                     break;
             }
