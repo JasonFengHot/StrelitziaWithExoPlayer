@@ -529,4 +529,11 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             selectProduct();
         }
     }
+
+    @Override
+    protected void onPause() {
+        if (messageHandler.hasMessages(MSG_INDICATOR_CHANGE))
+            messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
+        super.onPause();
+    }
 }
