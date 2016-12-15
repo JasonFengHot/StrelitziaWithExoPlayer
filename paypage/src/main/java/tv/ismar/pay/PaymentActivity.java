@@ -146,10 +146,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(AccountBalanceEntity entity) {
                         if (entity.getBalance().floatValue() == 0) {
+                            payTypeLayout.getChildAt(0).requestFocus();
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, weixinFragment)
                                     .commit();
                         } else {
+                            payTypeLayout.getChildAt(3).requestFocus();
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, balanceFragment)
                                     .commit();
@@ -372,7 +374,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 button.setFocusable(true);
 
             }
-            payTypeLayout.getChildAt(3).requestFocus();
+
 
         } else {
             loginTip.setVisibility(View.VISIBLE);
