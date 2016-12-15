@@ -396,6 +396,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         isOnKeyDown = true;
+        if (lastHoveredView!=null){
+            lastHoveredView.setHovered(false);
+        }
         return super.onKeyDown(keyCode, event);
     }
 
