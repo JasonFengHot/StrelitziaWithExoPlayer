@@ -140,7 +140,7 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
     private void createProblemsRadio(List<ProblemEntity> problemEntities) {
         RadioButton mRadioButton = null;
         for (int i = 0; i < problemEntities.size(); i++) {
-            RadioButton radioButton = new RadioButton(getActivity());
+            final RadioButton radioButton = new RadioButton(getActivity());
             RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, 0, (int) (getResources().getDimension(R.dimen.feedback_radiogroup_margin)), 0);
             radioButton.setLayoutParams(params);
@@ -148,8 +148,16 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
             radioButton.setText(problemEntities.get(i).getPoint_name());
             radioButton.setId(problemEntities.get(i).getPoint_id());
             radioButton.setFocusable(true);
+            radioButton.setButtonDrawable(getResources().getDrawable(R.drawable.feedback_radio_selector));
             radioButton.setOnHoverListener(this);
             radioButton.setNextFocusUpId(radioButton.getId());
+            radioButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus)
+                        radioButton.setChecked(true);
+                }
+            });
             if (i == 0) {
                 mRadioButton = radioButton;
                 radioButton.setNextFocusLeftId(radioButton.getId());
