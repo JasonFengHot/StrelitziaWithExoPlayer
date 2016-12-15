@@ -105,7 +105,6 @@ public class UpdatePopupWindow extends PopupWindow implements View.OnHoverListen
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
                 v.requestFocus();
-                v.requestFocusFromTouch();
                 break;
             case MotionEvent.ACTION_HOVER_EXIT:
                 tmp.requestFocus();
