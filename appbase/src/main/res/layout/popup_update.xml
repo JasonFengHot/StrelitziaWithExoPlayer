@@ -63,6 +63,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:nextFocusDown="@id/update_later_bt"
+                android:nextFocusRight="@id/update_later_bt"
                 android:nextFocusUp="@id/update_later_bt"
                 android:text="@string/update_later"
                 android:textColor="@android:color/white"
