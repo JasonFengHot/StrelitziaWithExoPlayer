@@ -326,6 +326,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
             if (hasFocus) {
                 if (isOnKeyDown) {
+                    for (View myView : indicatorView){
+                        myView.setHovered(false);
+                    }
+
                     changeViewState(v, ViewState.Select);
                     messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
                     Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
