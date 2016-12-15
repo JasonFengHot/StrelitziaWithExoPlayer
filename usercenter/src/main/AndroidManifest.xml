@@ -18,6 +18,11 @@
             <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+
+        <provider
+            android:name=".provider.LocationProvider"
+            android:authorities="cn.ismartv.daisy.provider.location"
+            android:exported="true"/>
     </application>
 
 </manifest>
