@@ -21,7 +21,7 @@ import tv.ismar.usercenter.viewmodel.HelpViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class HelpFragment extends BaseFragment implements HelpContract.View, View.OnHoverListener{
+public class HelpFragment extends BaseFragment implements HelpContract.View, View.OnHoverListener,View.OnFocusChangeListener{
     private static final String TAG = HelpFragment.class.getSimpleName();
 
 
@@ -86,6 +86,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
             }
         });
         helpBinding.ismartvIcon.setNextFocusLeftId(R.id.usercenter_help);
+        helpBinding.ismartvIcon.setOnFocusChangeListener(this);
 
     }
 
@@ -170,5 +171,10 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         }
 
         return true;
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
     }
 }

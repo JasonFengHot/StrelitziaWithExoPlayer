@@ -195,7 +195,8 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                 Picasso.with(mContext).load(item.getPoster_url()).into(holder.mImageView);
             }
             if (position == 0 || position == 1 || position == 2 || position == 3) {
-                holder.mImageView.setNextFocusUpId(holder.mImageView.getId());
+                holder.itemView.setId(View.generateViewId());
+                holder.itemView.setNextFocusUpId(holder.itemView.getId());
             }
 
 //            if (position == mObjects.size() - 1 || position == mObjects.size() - 2 || position == mObjects.size() - 3 || position == mObjects.size() - 4) {
@@ -206,7 +207,8 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
 
             if (theLastLineCount != 0) {
                 if (position >= mObjects.size() - 1 - theLastLineCount) {
-                    holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
+                    holder.itemView.setId(View.generateViewId());
+                    holder.itemView.setNextFocusDownId(holder.itemView.getId());
                 }
 
             }
