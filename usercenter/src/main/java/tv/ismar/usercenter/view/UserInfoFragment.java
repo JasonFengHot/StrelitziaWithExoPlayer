@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ import static tv.ismar.app.network.entity.AccountPlayAuthEntity.PlayAuth;
  * Created by huibin on 10/27/16.
  */
 
-public class UserInfoFragment extends BaseFragment implements UserInfoContract.View, IsmartvActivator.AccountChangeCallback, View.OnHoverListener {
+public class UserInfoFragment extends BaseFragment implements UserInfoContract.View, IsmartvActivator.AccountChangeCallback, View.OnHoverListener,OnFocusChangeListener {
     private static final String TAG = UserInfoFragment.class.getSimpleName();
     private UserInfoViewModel mViewModel;
     private UserInfoContract.Presenter mPresenter;
@@ -134,6 +135,8 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
         userinfoBinding.tmp.setNextFocusLeftId(R.id.usercenter_userinfo);
         mPresenter.start();
+        userinfoBinding.exitAccount.setOnFocusChangeListener(this);
+        userinfoBinding.chargeMoney.setOnFocusChangeListener(this);
 
     }
 
@@ -308,6 +311,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         }
 
         return true;
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
     }
 
 
