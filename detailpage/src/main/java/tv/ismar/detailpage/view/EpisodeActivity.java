@@ -237,7 +237,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         }
 
     }
-    private class EpisodeAdapter extends BaseAdapter implements  View.OnClickListener {
+    private class EpisodeAdapter extends BaseAdapter implements  View.OnClickListener, View.OnHoverListener {
 
         private Context mContext;
         private ItemEntity[] mItemEntities;
@@ -274,6 +274,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
                 viewHolder= (ViewHolder) convertView.getTag();
             }
             viewHolder.episodeBtn.setOnClickListener(this);
+            viewHolder.episodeBtn.setOnHoverListener(this);
             viewHolder.episodeBtn.setText(String.valueOf(position + 1));
             return convertView;
         }
@@ -284,6 +285,22 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
             ItemEntity subItemEntity = mItemEntities[(int) v.getTag()];
             PageIntent pageIntent = new PageIntent();
             pageIntent.toPlayPage(EpisodeActivity.this, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST);
+        }
+
+        @Override
+        public boolean onHover(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_HOVER_ENTER:
+                case MotionEvent.ACTION_HOVER_MOVE:
+                    v.requestFocus();
+                    v.requestFocusFromTouch();
+                    break;
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    tmp.requestFocus();
+                    tmp.requestFocusFromTouch();
+                    break;
+            }
+            return true;
         }
 
         public class ViewHolder{
