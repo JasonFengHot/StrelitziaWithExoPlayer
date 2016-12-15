@@ -1067,8 +1067,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     } else {
                         ItemEntity.Preview preview = mItemEntity.getPreview();
                         mItemEntity.setTitle(previewTitle);
-                        mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
-                        mIsPreview = true;
+                        if(preview!=null) {
+                            mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
+                            mIsPreview = true;
+                        }
+
+
                     }
 
                 }
