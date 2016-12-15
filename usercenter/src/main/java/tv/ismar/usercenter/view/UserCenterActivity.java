@@ -320,10 +320,11 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private View.OnFocusChangeListener indicatorOnFocusListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
+            if (v.isHovered()) {
+                return;
+            }
+
             if (hasFocus) {
-                if (v.isHovered()) {
-                    return;
-                }
                 if (isOnKeyDown) {
                     changeViewState(v, ViewState.Select);
                     messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
