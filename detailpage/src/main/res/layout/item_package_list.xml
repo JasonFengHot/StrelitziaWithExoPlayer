@@ -11,8 +11,7 @@
         android:layout_height="@dimen/package_item_default_H"
         android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
+
         android:background="@drawable/selector_related_item"/>
 
     <ImageView
@@ -38,6 +37,8 @@
         android:shadowDy="2.0"
         android:shadowRadius="2.0"
         android:singleLine="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         android:textColor="#FFF8F8FF"
         android:textSize="@dimen/vod_payment_packageDescribe_textsize"/>
 

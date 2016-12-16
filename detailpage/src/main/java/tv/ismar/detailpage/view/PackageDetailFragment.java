@@ -1,6 +1,7 @@
 package tv.ismar.detailpage.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -298,10 +299,52 @@ public class PackageDetailFragment extends BaseFragment {
         public PackageItemViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.ItemImage);
-            ImageView ItemdefaultImage = (ImageView) itemView.findViewById(R.id.ItemdefaultImage);
+            final ImageView ItemdefaultImage = (ImageView) itemView.findViewById(R.id.ItemdefaultImage);
             mTextView = (TextView) itemView.findViewById(R.id.ItemText);
             ItemdefaultImage.setTag(itemView.getTag());
-            ItemdefaultImage.setOnHoverListener(onHoverListener);
+//            ItemdefaultImage.setOnHoverListener(onHoverListener);
+//            ItemdefaultImage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                @Override
+//                public void onFocusChange(View v, boolean hasFocus) {
+//                    if(hasFocus){
+//                        mTextView.requestFocus();
+//                        mTextView.requestFocusFromTouch();
+//                        ItemdefaultImage.setBackgroundResource(R.drawable.vod_img_selector);
+//                    }else{
+//                        ItemdefaultImage.setBackgroundColor(Color.TRANSPARENT);
+//                    }
+//                }
+//            });
+            ItemdefaultImage.setOnHoverListener(new View.OnHoverListener() {
+                @Override
+                public boolean onHover(View view, MotionEvent event) {
+                    View v=mTextView;
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_HOVER_ENTER:
+                        case MotionEvent.ACTION_HOVER_MOVE:
+                            v.setFocusable(true);
+                            v.setFocusableInTouchMode(true);
+                            v.requestFocus();
+                            v.requestFocusFromTouch();
+                            view.setBackgroundResource(R.drawable.vod_img_selector);
+                            break;
+                        case MotionEvent.ACTION_HOVER_EXIT:
+                            view.setBackgroundColor(Color.TRANSPARENT);
+                            break;
+                    }
+                    return false;
+                }
+            });
+            mTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus){
+                        ItemdefaultImage.setBackgroundResource(R.drawable.vod_img_selector);
+                    }else{
+                        ItemdefaultImage.setBackgroundColor(Color.TRANSPARENT);
+                    }
+                }
+            });
         }
     }
 
