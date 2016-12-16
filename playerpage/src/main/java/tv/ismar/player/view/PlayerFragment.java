@@ -659,6 +659,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsmartvPlayer == null || isDetached()) {
             return true;
         }
+        Toast.makeText(getActivity(), "Temp player onError.", Toast.LENGTH_SHORT).show();
         // TODO 播放器起播seekTo需要底层修改
 //        showExitPopup(POP_TYPE_PLAYER_ERROR);
         return true;
