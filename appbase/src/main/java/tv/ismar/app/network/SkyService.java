@@ -569,6 +569,7 @@ public interface SkyService {
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(VodApplication.getHttpParamsInterceptor())
                     .addNetworkInterceptor(VodApplication.getHttpTrafficInterceptor())
+                    .retryOnConnectionFailure(true)
                     .addInterceptor(interceptor)
                     .build();
 
