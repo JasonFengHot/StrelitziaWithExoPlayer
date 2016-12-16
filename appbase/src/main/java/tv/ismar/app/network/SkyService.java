@@ -457,7 +457,6 @@ public interface SkyService {
     @GET("api/tv/living_video/game/")
     Observable<Game> apiGame();
 
-    @Headers("Cache-Control: public, max-age=5")
     @GET("api/tv/channels/")
     Observable<ChannelEntity[]> apiTvChannels();
 
