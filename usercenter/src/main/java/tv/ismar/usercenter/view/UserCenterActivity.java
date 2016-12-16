@@ -58,6 +58,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
 
     private boolean isOnKeyDown = false;
+    private boolean fargmentIsActive = false;
 
     private static final int[] INDICATOR_TEXT_RES_ARRAY = {
             R.string.usercenter_store,
@@ -281,6 +282,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     protected void onResume() {
         super.onResume();
+        fargmentIsActive = true;
         if (IsmartvActivator.getInstance().isLogin()) {
             changeViewState(indicatorView.get(2), ViewState.Disable);
         } else {
@@ -326,7 +328,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
             if (hasFocus) {
                 if (isOnKeyDown) {
-                    for (View myView : indicatorView){
+                    for (View myView : indicatorView) {
                         myView.setHovered(false);
                     }
 
@@ -400,7 +402,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         isOnKeyDown = true;
-        if (lastHoveredView!=null){
+        if (lastHoveredView != null) {
             lastHoveredView.setHovered(false);
         }
         return super.onKeyDown(keyCode, event);
@@ -501,13 +503,15 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         }
     }
 
-    private static Handler messageHandler = new Handler() {
+    private Handler messageHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_INDICATOR_CHANGE:
-                    View view = (View) msg.obj;
-                    view.callOnClick();
+                    if (fargmentIsActive) {
+                        View view = (View) msg.obj;
+                        view.callOnClick();
+                    }
                     break;
             }
         }
@@ -532,8 +536,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     @Override
     protected void onPause() {
-        if (messageHandler.hasMessages(MSG_INDICATOR_CHANGE))
+        fargmentIsActive = false;
+        if (messageHandler.hasMessages(MSG_INDICATOR_CHANGE)) {
             messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
+        }
         super.onPause();
     }
 }
