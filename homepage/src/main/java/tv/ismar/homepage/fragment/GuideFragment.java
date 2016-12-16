@@ -415,7 +415,6 @@ public class GuideFragment extends ChannelBaseFragment {
         try {
             switch (mCarouselRepeatType) {
                 case Once:
-
                     break;
                 case All:
                     if (mCurrentCarouselIndex == mCarousels.size() - 1) {
@@ -524,9 +523,6 @@ public class GuideFragment extends ChannelBaseFragment {
                 if (hasFocus) {
 //                    mHelper.onStop();
                     int position = (Integer) v.getTag();
-                    if(mCurrentCarouselIndex == position){
-                        return;
-                    }
                     mCarouselRepeatType = CarouselRepeatType.Once;
                     mCurrentCarouselIndex = position;
                     playCarousel(100);

@@ -623,6 +623,8 @@ public class FilmFragment extends ChannelBaseFragment {
         }
     }
 
+    private String tempCarouselUrl;
+
     private void playImage() {
         if (mSurfaceView.getVisibility() == View.VISIBLE) {
             mSurfaceView.setVisibility(View.GONE);
@@ -633,7 +635,7 @@ public class FilmFragment extends ChannelBaseFragment {
         }
 
 
-        String url = mCarousels.get(mCurrentCarouselIndex).getVideo_image();
+        final String url = mCarousels.get(mCurrentCarouselIndex).getVideo_image();
         String intro = mCarousels.get(mCurrentCarouselIndex).getIntroduction();
         if (!StringUtils.isEmpty(intro)) {
             film_linked_title.setVisibility(View.VISIBLE);
@@ -641,11 +643,16 @@ public class FilmFragment extends ChannelBaseFragment {
         } else {
             film_linked_title.setVisibility(View.GONE);
         }
+        final int pauseTime = Integer.parseInt(mCarousels.get(mCurrentCarouselIndex).getPause_time());
+        if(!TextUtils.isEmpty(tempCarouselUrl) && tempCarouselUrl.equals(url)){
+            mHandler.sendEmptyMessageDelayed(CAROUSEL_NEXT, pauseTime * 1000);
+            return;
+        }
         Picasso.with(mContext).load(url).memoryPolicy(MemoryPolicy.NO_STORE).into(linkedVideoImage, new Callback() {
-            int pauseTime = Integer.parseInt(mCarousels.get(mCurrentCarouselIndex).getPause_time());
 
             @Override
             public void onSuccess() {
+                tempCarouselUrl = url;
                 mHandler.sendEmptyMessageDelayed(CAROUSEL_NEXT, pauseTime * 1000);
             }
 
@@ -716,9 +723,6 @@ public class FilmFragment extends ChannelBaseFragment {
             } else {
                 if (hasFocus) {
                     int position = (Integer) v.getTag();
-                    if(mCurrentCarouselIndex == position){
-                        return;
-                    }
                     mCarouselRepeatType = CarouselRepeatType.Once;
                     mCurrentCarouselIndex = position;
                     playCarousel(100);
