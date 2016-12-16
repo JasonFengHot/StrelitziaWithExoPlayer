@@ -36,7 +36,7 @@ public class ActivityUtils {
                                               @NonNull Fragment fragment, int frameId) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(frameId, fragment);
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
     }
 
 }
