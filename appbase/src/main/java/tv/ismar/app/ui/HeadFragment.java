@@ -137,7 +137,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     filterlayoutParams.addRule(ALIGN_PARENT_BOTTOM);
                     titleTextView.setLayoutParams(filterlayoutParams);
                     RelativeLayout.LayoutParams filterweatherParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    filterweatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
+                    filterweatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.header_weather_bottom));
                     filterweatherParams.addRule(ALIGN_PARENT_BOTTOM);
                     weatherInfoTextView.setLayoutParams(filterweatherParams);
                     hideIndicatorTable();

@@ -692,7 +692,7 @@ public class EventReporter implements Runnable {
         isRunning = run;
     }
 
-    public void sendLogger() {
+    private void sendLogger() {
         if (eventSubscription != null && !eventSubscription.isUnsubscribed()) {
             eventSubscription.unsubscribe();
         }
