@@ -448,7 +448,6 @@ public interface SkyService {
             @Url String url
     );
 
-    @Headers("Cache-Control: public, max-age=5")
     @GET("api/tv/homepage/top/")
     Observable<HomePagerEntity> TvHomepageTop();
 

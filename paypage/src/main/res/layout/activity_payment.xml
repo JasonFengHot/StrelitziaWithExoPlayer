@@ -44,7 +44,8 @@
         android:layout_height="@dimen/payment_h_divider"
         android:layout_marginLeft="@dimen/payment_divider_margin"
         android:layout_marginRight="@dimen/payment_divider_margin"
-        android:background="@drawable/divider_person"/>
+        android:background="@drawable/divider_person"
+        android:focusable="true"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -56,8 +57,8 @@
             android:layout_width="@dimen/paytype_width"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:visibility="invisible"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <Button
                 android:id="@+id/weixin"
@@ -67,6 +68,7 @@
                 android:background="@drawable/paychannel_btn_selector"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
+                android:nextFocusUp="@id/weixin"
                 android:text="@string/weixinpay_button_title"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/pay_channel_weixin_textsize"/>
@@ -97,13 +99,13 @@
 
             <Button
                 android:id="@+id/balance_pay"
-                android:nextFocusDown="@id/balance_pay"
                 android:layout_width="@dimen/payment_type_btn_width"
                 android:layout_height="@dimen/pay_channel_weixin_height"
                 android:layout_marginTop="@dimen/pay_channel_weixin_margintop"
                 android:background="@drawable/paychannel_btn_selector"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
+                android:nextFocusDown="@id/balance_pay"
                 android:text="@string/yu_e_pay_button_title"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/pay_channel_weixin_textsize"/>
@@ -129,8 +131,8 @@
 
     <ImageView
         android:id="@+id/tmp"
-        android:focusable="true"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:focusable="true"/>
 </LinearLayout>

@@ -50,20 +50,20 @@
 
         <Button
             android:id="@+id/card_balance_submit"
-            android:nextFocusDown="@id/card_balance_submit"
             android:layout_width="@dimen/tv_guide_channel_item_width"
             android:layout_height="@dimen/pay_channel_weixin_height"
             android:background="@drawable/paychannel_btn_selector"
             android:focusable="true"
             android:focusableInTouchMode="false"
+            android:nextFocusDown="@id/card_balance_submit"
             android:nextFocusLeft="@+id/balance_pay"
+            android:nextFocusUp="@id/card_balance_submit"
             android:text="@string/card_balance_submit"
             android:textColor="#FFF8F8FF"
             android:textSize="@dimen/pay_guanyingcard_card_balance_submit_textsize"/>
 
         <Button
             android:id="@+id/card_balance_cancel"
-            android:nextFocusDown="@id/card_balance_cancel"
             android:layout_width="@dimen/tv_guide_channel_item_width"
             android:layout_height="@dimen/pay_channel_weixin_height"
             android:layout_marginLeft="@dimen/pay_guanyingcard_card_balance_cancel_marginleft"
@@ -71,6 +71,8 @@
             android:background="@drawable/paychannel_btn_selector"
             android:focusable="true"
             android:focusableInTouchMode="false"
+            android:nextFocusDown="@id/card_balance_cancel"
+            android:nextFocusUp="@id/card_balance_cancel"
             android:text="@string/card_balance_cancel"
             android:textColor="#FFF8F8FF"
             android:textSize="@dimen/pay_guanyingcard_card_balance_cancel_textsize"/>
