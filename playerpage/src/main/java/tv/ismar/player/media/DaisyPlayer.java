@@ -410,7 +410,6 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         if (!Utils.isEmptyText(mediaUrl)) {
             if (mPlayer != null) {
                 mPlayer.stop();
-                mPlayer.reset();
                 mPlayer.release();
                 mPlayer = null;
             }
