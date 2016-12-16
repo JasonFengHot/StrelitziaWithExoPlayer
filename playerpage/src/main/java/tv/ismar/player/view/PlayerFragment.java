@@ -349,7 +349,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onResume() {
         super.onResume();
-        if(sharpKeyDownNotResume){
+        if (sharpKeyDownNotResume) {
             sharpKeyDownNotResume = false;
             return;
         }
@@ -1121,10 +1121,15 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             @Override
             public void onSuccess() {
                 Log.i(TAG, "player init success.");
-                if (mHasPreLoad) {
-                    mHasPreLoad = false;
-                } else {
+                if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
+                    mIsmartvPlayer.prepareAsync();
                     mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
+                } else {
+                    if (mHasPreLoad) {
+                        mHasPreLoad = false;
+                    } else {
+                        mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
+                    }
                 }
             }
 
