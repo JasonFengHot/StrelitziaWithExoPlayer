@@ -1258,7 +1258,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             // 添加分辨率
             subMenu = playerMenu.addSubMenu(MENU_QUALITY_ID_START, getResources().getString(R.string.player_menu_quality));
             List<ClipEntity.Quality> qualities = mIsmartvPlayer.getQulities();
-            if (!qualities.isEmpty()) {
+            if (qualities != null && !qualities.isEmpty()) {
                 for (int i = 0; i < qualities.size(); i++) {
                     ClipEntity.Quality quality = qualities.get(i);
                     String qualityName = ClipEntity.Quality.getString(quality);
@@ -1619,7 +1619,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
             case KeyEvent.KEYCODE_DPAD_UP:
-                if (mIsPlayingAd) {
+                if (mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState() || !isInit) {// !isInit, 视频正在加载时，不断重复按键，知道视频出现，此时若有广告会有问题
                     return true;
                 }
                 hidePanel();

@@ -79,6 +79,8 @@ public abstract class IsmartvPlayer implements IPlayer {
     public IsmartvPlayer(byte mode) {
         mPlayerMode = mode;
         mEventReport = new EventReporter();
+        mEventReport.setIsRunning(true);
+        new Thread(mEventReport).start();
     }
 
     public void setUser(String user) {
@@ -280,6 +282,10 @@ public abstract class IsmartvPlayer implements IPlayer {
         mOnStateChangedListener = null;
         mOnInfoListener = null;
         isQiyiSdkInit = false;
+
+        if(flag){
+            mEventReport.setIsRunning(false);
+        }
     }
 
     @Override

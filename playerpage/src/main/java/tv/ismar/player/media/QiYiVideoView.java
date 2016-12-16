@@ -177,6 +177,9 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     }
 
     public IAdController getAdController() {
+        if(mPlayer == null){
+            return null;
+        }
         return mPlayer.getAdController();
     }
 
