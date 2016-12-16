@@ -349,6 +349,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onResume() {
         super.onResume();
+        if(sharpKeyDownNotResume){
+            sharpKeyDownNotResume = false;
+            return;
+        }
         // 从客服中心，购买页面返回
         if (isNeedOnResume || isClickKeFu) {
             isNeedOnResume = false;
