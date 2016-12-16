@@ -151,6 +151,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private String brandName;
     private Subscription channelsSub;
 
+    private boolean isCheckoutUpdate = true;
+
     @Override
     public void onUserCenterClick() {
         PageIntent pageIntent = new PageIntent();
@@ -799,6 +801,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         exitPopup.showAtLocation(view, Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
+                        isCheckoutUpdate = true;
                         exitPopup.dismiss();
                         CallaPlay callaPlay = new CallaPlay();
 //                        callaPlay.app_exit(TrueTime.now().getTime() - app_start_time, SimpleRestClient.appVersion);
@@ -1436,7 +1439,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
         isneedpause = true;
         startAdsService();
-        checkUpgrade();
+
+        //checkout update
+        if (isCheckoutUpdate){
+            checkUpgrade();
+            isCheckoutUpdate = false;
+        }
     }
 
     private int getAdCountDownTime() {

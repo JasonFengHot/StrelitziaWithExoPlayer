@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/exit_text"
+        android:layout_width="@dimen/player_toast_w"
+        android:layout_height="@dimen/player_toast_h"
+        android:background="@drawable/player_exit_toast"
+        android:gravity="center"
+        android:textColor="@color/color_base_white"
+        android:textSize="@dimen/text_size_36sp" />
+
+</LinearLayout>

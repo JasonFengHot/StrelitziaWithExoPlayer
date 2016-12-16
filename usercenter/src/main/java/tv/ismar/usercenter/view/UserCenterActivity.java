@@ -1,14 +1,14 @@
 package tv.ismar.usercenter.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,7 +55,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     private UserInfoPresenter mUserInfoPresenter;
 
     private ArrayList<View> indicatorView;
-    private boolean isFromRightToLeft = false;
 
 
     private boolean isOnKeyDown = false;
@@ -86,14 +85,17 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     private View purchaseItem;
 
+    public static final String LOCATION_FRAGMENT = "location";
+    public static final String LOGIN_FRAGMENT = "login";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usercenter);
         IsmartvActivator.getInstance().addAccountChangeListener(this);
-        initViews();
         addHeader();
+        initViews();
 //        selectProduct();
 
         // Load previously saved state, if available.
@@ -102,6 +104,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 //                    (TasksFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
 //            mTasksPresenter.setFiltering(currentFiltering);
         }
+
+        selectIndicator(getIntent());
     }
 
     private void addHeader() {
@@ -170,7 +174,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             changeViewState(indicatorView.get(2), ViewState.Disable);
         }
 
-        userCenterIndicatorLayout.getChildAt(0).callOnClick();
+//        userCenterIndicatorLayout.getChildAt(0).callOnClick();
+
     }
 
 
@@ -318,8 +323,13 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             if (v.isHovered()) {
                 return;
             }
+
             if (hasFocus) {
                 if (isOnKeyDown) {
+                    for (View myView : indicatorView){
+                        myView.setHovered(false);
+                    }
+
                     changeViewState(v, ViewState.Select);
                     messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
                     Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
@@ -390,6 +400,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         isOnKeyDown = true;
+        if (lastHoveredView!=null){
+            lastHoveredView.setHovered(false);
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -499,4 +512,28 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             }
         }
     };
+
+    private void selectIndicator(Intent intent) {
+        String flag = intent.getStringExtra("flag");
+        if (!TextUtils.isEmpty(flag)) {
+            if (flag.equals(LOCATION_FRAGMENT)) {
+                indicatorView.get(5).callOnClick();
+                indicatorView.get(5).requestFocus();
+                changeViewState(indicatorView.get(5), ViewState.Select);
+                selectLocation();
+            }
+        } else {
+            indicatorView.get(0).callOnClick();
+            indicatorView.get(0).requestFocus();
+            changeViewState(indicatorView.get(0), ViewState.Select);
+            selectProduct();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (messageHandler.hasMessages(MSG_INDICATOR_CHANGE))
+            messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
+        super.onPause();
+    }
 }

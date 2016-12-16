@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,7 +39,7 @@ import tv.ismar.pay.LoginFragment.LoginCallback;
 /**
  * Created by huibin on 9/13/16.
  */
-public class PaymentActivity extends BaseActivity implements View.OnClickListener, LoginCallback {
+public class PaymentActivity extends BaseActivity implements View.OnClickListener, LoginCallback,OnHoverListener {
     private static final String TAG = "PaymentActivity";
     private LoginFragment loginFragment;
     private Fragment weixinFragment;
@@ -77,6 +79,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         aliPayBtn = (Button) findViewById(R.id.alipay);
         cardPayBtn = (Button) findViewById(R.id.videocard);
         balancePayBtn = (Button) findViewById(R.id.balance_pay);
+        weixinPayBtn.setOnHoverListener(this);
+        aliPayBtn.setOnHoverListener(this);
+        cardPayBtn.setOnHoverListener(this);
+        balancePayBtn.setOnHoverListener(this);
         title = (TextView) findViewById(R.id.payment_title);
         payTypeLayout = (ViewGroup) findViewById(R.id.pay_type_layout);
         loginTip = (TextView) findViewById(R.id.login_tip);
@@ -146,10 +152,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(AccountBalanceEntity entity) {
                         if (entity.getBalance().floatValue() == 0) {
+                            payTypeLayout.getChildAt(0).requestFocus();
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, weixinFragment)
                                     .commit();
                         } else {
+                            payTypeLayout.getChildAt(3).requestFocus();
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             transaction.replace(R.id.fragment_page, balanceFragment)
                                     .commit();
@@ -184,6 +192,21 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         fetchAccountBalance();
         changeLoginStatus(true);
         purchaseCheck(PaymentActivity.CheckType.PlayCheck, true);
+    }
+
+
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+            case  MotionEvent.ACTION_HOVER_EXIT:
+                break;
+        }
+        return false;
     }
 
     public enum CheckType {
@@ -372,7 +395,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 button.setFocusable(true);
 
             }
-            payTypeLayout.getChildAt(3).requestFocus();
+
 
         } else {
             loginTip.setVisibility(View.VISIBLE);

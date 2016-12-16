@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
@@ -28,7 +31,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 /**
  * Created by huibin on 2016/9/14.
  */
-public class BalancePayFragment extends Fragment implements View.OnClickListener {
+public class BalancePayFragment extends Fragment implements View.OnClickListener,OnHoverListener {
 
     private View contentView;
     private Button submitBtn;
@@ -39,6 +42,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
     private TextView balanceTv;
     private TextView priceTv;
     private TextView durationTv;
+    private ItemEntity itemEntity;
 
 
     @Override
@@ -58,7 +62,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         contentView = inflater.inflate(R.layout.fragmet_balancepay, null);
         submitBtn = (Button) contentView.findViewById(R.id.card_balance_submit);
         submitBtn.setOnClickListener(this);
-        cancleBtn=(Button) contentView.findViewById(R.id.card_balance_cancel);
+        cancleBtn = (Button) contentView.findViewById(R.id.card_balance_cancel);
         cancleBtn.setOnClickListener(this);
 
         balanceTv = (TextView) contentView.findViewById(R.id.card_balance_title_label);
@@ -70,9 +74,11 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        submitBtn.setOnHoverListener(this);
+        cancleBtn.setOnHoverListener(this);
         fetchAccountBalance();
 
-        ItemEntity itemEntity = activity.getmItemEntity();
+        itemEntity = activity.getmItemEntity();
         priceTv.setText(String.format(getString(R.string.pay_package_price),
                 itemEntity.getExpense().getPrice(), itemEntity.getExpense().getDuration()));
     }
@@ -153,9 +159,29 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onNext(AccountBalanceEntity entity) {
+                        if (entity.getBalance().compareTo(new BigDecimal(itemEntity.getExpense().getPrice())) >= 0) {
+                            submitBtn.setEnabled(true);
+                        } else {
+                            submitBtn.setEnabled(false);
+                            submitBtn.setFocusable(false);
+                            submitBtn.setFocusableInTouchMode(false);
+                        }
                         balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), entity.getBalance()));
                     }
                 });
     }
 
+    @Override
+    public boolean onHover(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                v.requestFocus();
+                v.requestFocusFromTouch();
+                break;
+            case  MotionEvent.ACTION_HOVER_EXIT:
+                break;
+        }
+        return false;
+    }
 }

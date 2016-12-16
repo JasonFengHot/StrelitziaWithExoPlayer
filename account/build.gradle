@@ -46,6 +46,7 @@ dependencies {
     compile project(':ismartv_truetime')
     compile dependencies.appCompat
     compile dependencies.support_v4
+    compile project(':utilcode-1.3.0')
 }
 
 tasks.withType(JavaCompile) {

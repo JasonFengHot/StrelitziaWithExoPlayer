@@ -154,6 +154,10 @@ public class PackageDetailFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(vod_payment_buyButton.isFocusable()) {
+            vod_payment_buyButton.requestFocus();
+            vod_payment_buyButton.requestFocusFromTouch();
+        }
         requestPlayCheck(String.valueOf(mItemEntity.getPk()));
 
     }
@@ -298,14 +302,6 @@ public class PackageDetailFragment extends BaseFragment {
             mTextView = (TextView) itemView.findViewById(R.id.ItemText);
             ItemdefaultImage.setTag(itemView.getTag());
             ItemdefaultImage.setOnHoverListener(onHoverListener);
-            ItemdefaultImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ItemEntity itemEntity = (ItemEntity) v.getTag();
-                    PageIntent pageIntent = new PageIntent();
-                    pageIntent.toDetailPage(getContext(), "package", itemEntity.getPk());
-                }
-            });
         }
     }
 
@@ -324,7 +320,7 @@ public class PackageDetailFragment extends BaseFragment {
     private RecyclerViewTV.OnItemClickListener PackageItemClickListener = new RecyclerViewTV.OnItemClickListener() {
         @Override
         public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
-            ItemEntity itemEntity = (ItemEntity) view.getTag();
+            ItemEntity itemEntity = itemEntities.get(i);
             PageIntent pageIntent = new PageIntent();
             pageIntent.toDetailPage(getContext(), "package", itemEntity.getPk());
         }
@@ -401,7 +397,7 @@ public class PackageDetailFragment extends BaseFragment {
                 playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
                 int remainDay;
                 try {
-                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date()) ;
+                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date())+1 ;
                 } catch (ParseException e) {
                     remainDay = 0;
                 }

@@ -133,7 +133,7 @@ public class IsmartvActivator {
         return deviceId;
     }
 
-    public ResultEntity execute() {
+    public synchronized ResultEntity execute() {
         ResultEntity resultEntity;
         if (isSignFileExists()) {
             resultEntity = active();
@@ -184,6 +184,7 @@ public class IsmartvActivator {
 
 
     private ResultEntity getLicence() {
+        Log.d(TAG, "getLicence");
         try {
             Response<ResponseBody> response = SKY_Retrofit.create(HttpService.class).trustGetlicence(fingerprint, sn, manufacture, "1")
                     .execute();
@@ -201,6 +202,7 @@ public class IsmartvActivator {
     }
 
     public ResultEntity active() {
+        Log.d(TAG, "active");
         String sign = "ismartv=201415&kind=" + kind + "&sn=" + sn;
         String rsaEncryptResult = encryptWithPublic(sign);
         try {

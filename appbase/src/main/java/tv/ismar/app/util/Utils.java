@@ -33,14 +33,14 @@ public class Utils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
         cal.setTime(sdf.parse(startdate));
-        long time1 = cal.getTimeInMillis();
+        long time1 = cal.getTimeInMillis()+2000;
         cal.setTime(sdf.parse(enddate));
         long time2 = cal.getTimeInMillis();
         long remain = time2 - time1;
         if (remain <= 0) {
             return -1;
         } else {
-            long between_days = (long) Math.ceil((time2 - time1) / (1000 * 3600 * 24));
+            long between_days = (long) Math.floor((time2 - time1) / (1000 * 3600 * 24));
             return Integer.parseInt(String.valueOf(between_days));
         }
 
