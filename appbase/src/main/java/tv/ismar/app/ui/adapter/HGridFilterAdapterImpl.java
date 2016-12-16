@@ -11,10 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import cn.ismartv.imagereflection.ReflectionTransformationBuilder;
 import tv.ismar.app.R;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.entity.Item;
@@ -35,7 +37,9 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
     private HashSet<AsyncImageView> mOnLoadingImageQueue = new HashSet<AsyncImageView>();
     private HashSet<RelativeLayout> mOnLoadinglayoutQueue = new HashSet<RelativeLayout>();
     private boolean isPortrait = false;
-
+    private Transformation mTransformation = new ReflectionTransformationBuilder()
+            .setIsHorizontal(true)
+            .build();
     public void setIsPortrait(boolean isPortrait) {
         this.isPortrait = isPortrait;
     }
@@ -133,9 +137,28 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
                 final Item item = mList.get(sectionIndex).objects.get(indexOfCurrentSection);
                 if (item != null) {
                     if (this.isPortrait) {
-                        holder.previewImage.setUrl(item.list_url);
+                        if(item.list_url.equals("http://res.tvxio.bestv.com.cn/media/upload/20160321/36c8886fd5b4163ae48534a72ec3a555.png")){
+                            Picasso.with(mContext)
+                                    .load(item.adlet_url)
+                                    .error(R.drawable.list_item_ppreview_bg)
+                                    .placeholder(R.drawable.list_item_ppreview_bg)
+                                    .transform(mTransformation)
+                                    .into(holder.previewImage);
+
+                        }else {
+                            holder.previewImage.setUrl(item.list_url);
+                        }
                     } else {
-                        holder.previewImage.setUrl(item.adlet_url);
+                        if(item.adlet_url.equals("http://res.tvxio.bestv.com.cn/media/upload/20160504/5eae6db53f065ff0269dfc71fb28a4ec.png")){
+                            Picasso.with(mContext)
+                                    .load(item.list_url)
+                                    .error(R.drawable.list_item_ppreview_bg)
+                                    .placeholder(R.drawable.list_item_ppreview_bg)
+                                    .transform(mTransformation)
+                                    .into(holder.previewImage);
+                        }else {
+                            holder.previewImage.setUrl(item.adlet_url);
+                        }
                     }
                     holder.title.setText(item.title);
                     if (item.bean_score > 0) {

@@ -320,15 +320,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent();
-                        try {
-                            intent.setAction("cn.ismartv.speedtester.feedback");
-                            startActivity(intent);
-                        } catch (ActivityNotFoundException e) {
-                            Log.e(TAG, "Click kefu but 'cn.ismartv.speedtester.feedback' not found.");
-                            PageIntent page = new PageIntent();
-                            page.toHelpPage(getActivity());
-                        }
+                        PageIntent page = new PageIntent();
+                        page.toHelpPage(getActivity());
                     }
                 }, 400);
                 break;
