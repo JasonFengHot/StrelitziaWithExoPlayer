@@ -426,7 +426,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     }
 
     private void openVideo() {
-        Log.i(TAG, "OpenVideo>mIsPreLoad:" + mIsPreLoad);
+        Log.i(TAG, "OpenVideo>mIsPreLoad:" + mIsPreLoad + " " + mStartPosition);
         if (mIsPreLoad) {
             try {
                 mPlayer.setPlayingUrlIndex(0, mHolder);

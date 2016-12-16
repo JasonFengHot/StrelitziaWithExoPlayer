@@ -470,16 +470,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.i(TAG, "onPrepared:" + mCurrentPosition + " playingAd:" + mIsPlayingAd);
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
         hideBuffer();
-        if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
-            if (!mIsmartvPlayer.isPlaying()) {
-                mIsmartvPlayer.start();
-            }
-        } else {
-            if (mCurrentPosition <= 0) {
-                if (!mIsmartvPlayer.isPlaying()) {
-                    mIsmartvPlayer.start();
-                }
-            }
+        if (!mIsmartvPlayer.isPlaying()) {
+            mIsmartvPlayer.start();
         }
 
     }
@@ -1120,7 +1112,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsmartvPlayer.setDataSource(mClipEntity, mCurrentQuality, adList, new IPlayer.OnDataSourceSetListener() {
             @Override
             public void onSuccess() {
-                Log.i(TAG, "player init success.");
+                Log.i(TAG, "player init success." + mIsmartvPlayer);
+                if(mIsmartvPlayer == null){
+                    return;
+                }
                 if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
                     mIsmartvPlayer.prepareAsync();
                     mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
@@ -1535,7 +1530,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         getActivity().finish();
                         break;
                     case POP_TYPE_BUFFERING_LONG:
-                        if (popDialog.isConfirmClick) {
+                        if (!popDialog.isConfirmClick) {
                             if (!isMenuShow()) {
                                 showMenu();
                             }
