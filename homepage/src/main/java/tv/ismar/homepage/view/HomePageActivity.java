@@ -398,6 +398,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             layout_homepage.setVisibility(View.VISIBLE);
             fetchChannels();
             startAdsService();
+            if (isCheckoutUpdate){
+                checkUpgrade();
+                isCheckoutUpdate = false;
+            }
         }
         startIntervalActive();
 
@@ -1495,6 +1499,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 intent.putExtra("install_type", 0);
                 startService(intent);
             }
-        }, 1000 * 30);
+        }, 1000 * 5);
     }
 }
