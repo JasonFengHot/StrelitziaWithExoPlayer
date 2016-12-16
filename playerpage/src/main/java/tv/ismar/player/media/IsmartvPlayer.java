@@ -129,16 +129,16 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mPlayerFlag = PLAYER_FLAG_SMART;
                 mClipEntity = new ClipEntity();
 
-                String adaptive = clipEntity.getAdaptive();
+//                String adaptive = clipEntity.getAdaptive();
                 String normal = clipEntity.getNormal();
                 String medium = clipEntity.getMedium();
                 String high = clipEntity.getHigh();
                 String ultra = clipEntity.getUltra();
                 String blueray = clipEntity.getBlueray();
                 String _4k = clipEntity.get_4k();
-                if (!Utils.isEmptyText(adaptive)) {
-                    mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive, IsmartvActivator.getInstance().getDeviceToken()));
-                }
+//                if (!Utils.isEmptyText(adaptive)) {
+//                    mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive, IsmartvActivator.getInstance().getDeviceToken()));
+//                }
                 if (!Utils.isEmptyText(normal)) {
                     mClipEntity.setNormal(AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken()));
                 }

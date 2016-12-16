@@ -353,16 +353,16 @@ public class DetailPageActivity extends BaseActivity implements Advertisement.On
         if (mClipEntity == null || mSmartPlayer != null) {
             return;
         }
-        String adaptive = mClipEntity.getAdaptive();
+//        String adaptive = mClipEntity.getAdaptive();
         String normal = mClipEntity.getNormal();
         String medium = mClipEntity.getMedium();
         String high = mClipEntity.getHigh();
         String ultra = mClipEntity.getUltra();
         String blueray = mClipEntity.getBlueray();
         String _4k = mClipEntity.get_4k();
-        if (!Utils.isEmptyText(adaptive)) {
-            mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive, IsmartvActivator.getInstance().getDeviceToken()));
-        }
+//        if (!Utils.isEmptyText(adaptive)) {
+//            mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive, IsmartvActivator.getInstance().getDeviceToken()));
+//        }
         if (!Utils.isEmptyText(normal)) {
             mClipEntity.setNormal(AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken()));
         }

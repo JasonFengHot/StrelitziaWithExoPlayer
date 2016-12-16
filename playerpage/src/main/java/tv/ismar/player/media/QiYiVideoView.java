@@ -317,7 +317,10 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             bitStreamList = list;
             for (BitStream bitStream : list) {
                 Log.i(mIsmartvPlayer.TAG, "bitStream:" + bitStream.getValue());
-                mIsmartvPlayer.mQualities.add(bitStreamConvertToQuality(bitStream));
+                // 去除对应视云“自适应”码率
+                if(bitStream.getValue() > 1){
+                    mIsmartvPlayer.mQualities.add(bitStreamConvertToQuality(bitStream));
+                }
             }
         }
 
@@ -429,6 +432,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         switch (quality) {
             case QUALITY_LOW:
             case QUALITY_ADAPTIVE:
+                return BitStream.BITSTREAM_STANDARD;
             case QUALITY_NORMAL:// 流畅
                 return BitStream.BITSTREAM_HIGH;
             case QUALITY_MEDIUM:// 高清
@@ -487,7 +491,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 //        }
         // 更改为以上显示方式
         if (bitStream == BitStream.BITSTREAM_STANDARD) {
-            return ClipEntity.Quality.QUALITY_NORMAL;
+            return ClipEntity.Quality.QUALITY_ADAPTIVE;
         } else if (bitStream == BitStream.BITSTREAM_HIGH) {
             return ClipEntity.Quality.QUALITY_NORMAL;
         } else if (bitStream == BitStream.BITSTREAM_UNKNOWN) {
