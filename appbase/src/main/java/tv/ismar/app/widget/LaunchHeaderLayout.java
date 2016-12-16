@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,31 +15,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.StringUtils;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
-import java.io.IOException;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import cn.ismartv.injectdb.library.query.Select;
-import okhttp3.ResponseBody;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.R;
-import tv.ismar.app.core.WeatherInfoHandler;
 import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.db.location.CityTable;
 import tv.ismar.app.network.entity.WeatherEntity;
@@ -159,7 +143,7 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
                 view.setNextFocusLeftId(view.getId());
             }
             if (i == INDICATOR_RES_LIST.length - 1) {
-             //   view.setRight(-20);
+                //   view.setRight(-20);
                 view.setNextFocusRightId(view.getId());
             }
             guideLayout.addView(view);
@@ -187,53 +171,31 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
     }
 
     private void fetchWeatherInfo(String geoId) {
-//       Log.i(TAG, "fetchWeatherInfo: " + getContext().toString());
-        String weather = PreferenceManager.getDefaultSharedPreferences(context).getString(AccountSharedPrefs.WEATHER_INFO, null);
-        if (!StringUtils.isEmpty(weather)) {
-            parseXml(weather);
-        }
         ((BaseActivity) context).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(((BaseActivity) context).new BaseObserver<ResponseBody>() {
+                .subscribe(new Observer<WeatherEntity>() {
                     @Override
                     public void onCompleted() {
 
                     }
 
                     @Override
-                    public void onNext(ResponseBody responseBody) {
+                    public void onError(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
 
-                        String result = null;
-                        try {
-                            result = responseBody.string();
-                            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(AccountSharedPrefs.WEATHER_INFO, result);
-                            parseXml(result);
-                        } catch (IOException e) {
-                            Log.e(TAG, "解析天气数据失败");
-                            e.printStackTrace();
-                        }
-
-
+                    @Override
+                    public void onNext(WeatherEntity weatherEntity) {
+                        parseXml(weatherEntity);
                     }
                 });
     }
 
 
-    private void parseXml(String xml) {
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        try {
-            SAXParser saxParser = saxParserFactory.newSAXParser();
-            XMLReader xmlReader = saxParser.getXMLReader();
-            WeatherInfoHandler weatherInfoHandler = new WeatherInfoHandler();
-            xmlReader.setContentHandler(weatherInfoHandler);
-            InputSource inputSource = new InputSource(new StringReader(xml));
-            xmlReader.parse(inputSource);
-
-            WeatherEntity weatherEntity = weatherInfoHandler.getWeatherEntity();
-
-            Date now = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");//可以方便地修改日期格式
-            String todayTime = dateFormat.format(now);
+    private void parseXml(WeatherEntity weatherEntity) {
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");//可以方便地修改日期格式
+        String todayTime = dateFormat.format(now);
 
 //            weatherInfoTextView.setText("");
 //                    weatherInfoTextView.append("   " + calendar.get(Calendar.YEAR) + context.getText(R.string.year).toString() +
@@ -241,20 +203,11 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
 //                            calendar.get(Calendar.DATE) + context.getText(R.string.day).toString() + "   ");
 //            weatherInfoTextView.append("   " + todayTime + "   ");
 
-            weatherInfoTextView.append(weatherEntity.getToday().getCondition() + "   ");
-            if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
-                weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + context.getText(R.string.degree));
-            } else {
-                weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + " ~ " + weatherEntity.getToday().getTemphigh() + context.getText(R.string.degree));
-            }
-
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        weatherInfoTextView.append(weatherEntity.getToday().getCondition() + "   ");
+        if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
+            weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + context.getText(R.string.degree));
+        } else {
+            weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + " ~ " + weatherEntity.getToday().getTemphigh() + context.getText(R.string.degree));
         }
     }
 

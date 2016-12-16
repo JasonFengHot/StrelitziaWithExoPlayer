@@ -75,8 +75,8 @@ public class VodApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(getApplicationContext());
         Log.i("LH/", "applicationOnCreate:" + System.currentTimeMillis());
         startIntervalActive();
         SPUtils.init(this);

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,36 +15,23 @@ import android.widget.TextView;
 
 import com.open.androidtvwidget.view.LinearMainLayout;
 
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
-import java.io.IOException;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import cn.ismartv.truetime.TrueTime;
-import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.R;
-import tv.ismar.app.core.WeatherInfoHandler;
 import tv.ismar.app.network.entity.WeatherEntity;
 
 import static android.util.TypedValue.COMPLEX_UNIT_PX;
 import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
-import static android.widget.RelativeLayout.CENTER_VERTICAL;
 
 public class HeadFragment extends Fragment implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
     public static final String HEADER_USERCENTER = "usercenter";
@@ -238,7 +224,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     private void fetchWeatherInfo(String geoId) {
         ((BaseActivity) getActivity()).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((new Observer<ResponseBody>() {
+                .subscribe(new Observer<WeatherEntity>() {
                     @Override
                     public void onCompleted() {
 
@@ -250,50 +236,25 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     }
 
                     @Override
-                    public void onNext(ResponseBody responseBody) {
-                        String result = null;
-                        try {
-                            result = responseBody.string();
-                            parseXml(result);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    public void onNext(WeatherEntity weatherEntity) {
+                        parseXml(weatherEntity);
                     }
-                }));
+                });
     }
 
 
-    private void parseXml(String xml) {
-        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-        try {
-            SAXParser saxParser = saxParserFactory.newSAXParser();
-            XMLReader xmlReader = saxParser.getXMLReader();
-            WeatherInfoHandler weatherInfoHandler = new WeatherInfoHandler();
-            xmlReader.setContentHandler(weatherInfoHandler);
-            InputSource inputSource = new InputSource(new StringReader(xml));
-            xmlReader.parse(inputSource);
+    private void parseXml(WeatherEntity weatherEntity) {
+        Date now = TrueTime.now();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        String todayTime = dateFormat.format(now);
 
-            WeatherEntity weatherEntity = weatherInfoHandler.getWeatherEntity();
-
-            Date now = TrueTime.now();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-            String todayTime = dateFormat.format(now);
-
-            weatherInfoTextView.setText("");
-            weatherInfoTextView.append(todayTime + "   ");
-            weatherInfoTextView.append(weatherEntity.getToday().getCondition() + "   ");
-            if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
-                weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + getText(R.string.degree));
-            } else {
-                weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + " ~ " + weatherEntity.getToday().getTemphigh() + getText(R.string.degree));
-            }
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        weatherInfoTextView.setText("");
+        weatherInfoTextView.append(todayTime + "   ");
+        weatherInfoTextView.append(weatherEntity.getToday().getCondition() + "   ");
+        if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
+            weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + getText(R.string.degree));
+        } else {
+            weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + " ~ " + weatherEntity.getToday().getTemphigh() + getText(R.string.degree));
         }
     }
 

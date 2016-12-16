@@ -28,6 +28,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -77,6 +78,7 @@ import tv.ismar.app.network.entity.ProblemEntity;
 import tv.ismar.app.network.entity.TeleEntity;
 import tv.ismar.app.network.entity.UpgradeRequestEntity;
 import tv.ismar.app.network.entity.VersionInfoV2Entity;
+import tv.ismar.app.network.entity.WeatherEntity;
 import tv.ismar.app.network.entity.YouHuiDingGouEntity;
 
 /**
@@ -419,7 +421,7 @@ public interface SkyService {
 //            @Query("access_token")
 //            String accessToken);
     @GET("{geoId}.xml")
-    Observable<ResponseBody> apifetchWeatherInfo(
+    Observable<WeatherEntity> apifetchWeatherInfo(
             @Path("geoId") String geoId
     );
 
@@ -622,7 +624,7 @@ public interface SkyService {
 
             Retrofit weatherRetrofit = new Retrofit.Builder()
                     .baseUrl(appendProtocol("http://media.lily.tvxio.com/"))
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(SimpleXmlConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
                     .build();

@@ -1,8 +1,13 @@
 package tv.ismar.app.network.entity;
 
+import org.simpleframework.xml.Default;
+import org.simpleframework.xml.DefaultType;
+
 /**
  * Created by <huaijiefeng@gmail.com> on 9/15/14.
  */
+
+@Default(DefaultType.PROPERTY)
 public class WeatherEntity {
     private String updated;
     private String region;
