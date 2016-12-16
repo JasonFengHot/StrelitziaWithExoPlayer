@@ -26,7 +26,6 @@
 
     <EditText
         android:id="@+id/shiyuncard_input"
-        android:nextFocusRight="@id/shiyuncard_input"
         android:layout_width="@dimen/shiyuncard_input_widht"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pay_shiyuncard_input_margintop"
@@ -35,14 +34,14 @@
         android:focusableInTouchMode="true"
         android:nextFocusDown="@+id/shiyuncard_submit"
         android:nextFocusLeft="@id/videocard"
+        android:nextFocusRight="@id/shiyuncard_input"
+        android:nextFocusUp="@id/shiyuncard_input"
         android:singleLine="true"
         android:textColor="@android:color/black"
         android:textSize="@dimen/textsize_30sp"/>
 
     <Button
         android:id="@+id/shiyuncard_submit"
-        android:nextFocusDown="@id/shiyuncard_submit"
-        android:nextFocusLeft="@id/videocard"
         android:layout_width="@dimen/pay_channel_weixin_width"
         android:layout_height="@dimen/pay_channel_weixin_height"
         android:layout_gravity="center_horizontal"
@@ -50,6 +49,8 @@
         android:background="@drawable/paychannel_btn_selector"
         android:focusable="true"
         android:focusableInTouchMode="false"
+        android:nextFocusDown="@id/shiyuncard_submit"
+        android:nextFocusLeft="@id/videocard"
         android:text="@string/pay_shiyuncard_submit_label"
         android:textColor="#FFF8F8FF"
         android:textSize="@dimen/pay_shiyuncard_submit_textsize"/>
