@@ -295,6 +295,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         locationBinding.cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                locationBinding.tmp.requestFocus();
                 citySelectedPosition[0] = -1;
                 if (citySelectedView[0] != null) {
                     citySelectedView[0].setTextColor(getResources().getColor(R.color.color_base_white));

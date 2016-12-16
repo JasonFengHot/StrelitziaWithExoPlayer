@@ -26,6 +26,7 @@
 
     <EditText
         android:id="@+id/shiyuncard_input"
+        android:nextFocusRight="@id/shiyuncard_input"
         android:layout_width="@dimen/shiyuncard_input_widht"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pay_shiyuncard_input_margintop"
@@ -40,6 +41,8 @@
 
     <Button
         android:id="@+id/shiyuncard_submit"
+        android:nextFocusDown="@id/shiyuncard_submit"
+        android:nextFocusLeft="@id/videocard"
         android:layout_width="@dimen/pay_channel_weixin_width"
         android:layout_height="@dimen/pay_channel_weixin_height"
         android:layout_gravity="center_horizontal"

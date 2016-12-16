@@ -2,6 +2,8 @@ package tv.ismar.account.core;
 
 import android.util.Log;
 
+import com.blankj.utilcode.utils.EncryptUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigInteger;
@@ -12,17 +14,7 @@ import java.security.MessageDigest;
  */
 public class Md5 {
     public static String md5(String string) {
-        String value = "";
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.update(string.getBytes());
-            value = new BigInteger(1, messageDigest.digest()).toString(16);
-        } catch (Exception e) {
-            value = "error";
-            e.printStackTrace();
-
-        }
-        return value;
+        return EncryptUtils.encryptMD5ToString(string).toLowerCase();
     }
 
     public static String md5File(File file) {
