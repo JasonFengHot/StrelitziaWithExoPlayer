@@ -21,10 +21,12 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.widget.ExpireAccessTokenPop;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.NetErrorPopWindow;
+import tv.ismar.app.widget.NoNetConnectWindow;
 import tv.ismar.app.widget.UpdatePopupWindow;
 import tv.ismar.player.SmartPlayer;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -40,6 +42,7 @@ public class BaseActivity extends AppCompatActivity {
     private LoadingDialog mLoadingDialog;
     private ModuleMessagePopWindow netErrorPopWindow;
     private ModuleMessagePopWindow expireAccessTokenPop;
+    private ModuleMessagePopWindow noNetConnectWindow;
     public SkyService mSkyService;
     public SkyService mWeatherSkyService;
     public SkyService mWxApiService;
@@ -47,7 +50,7 @@ public class BaseActivity extends AppCompatActivity {
     public SkyService mSpeedCallaService;
     public SkyService mLilyHostService;
     public long app_start_time;
-
+    public static final String NO_NET_CONNECT_ACTION="cn.ismartv.vod.action.nonet";
     public static SmartPlayer mSmartPlayer;// 由于目前需要在详情页实现预加载功能，故写此变量
 
     public static Stack<Bundle> updateInfo = new Stack<>();
@@ -71,6 +74,7 @@ public class BaseActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         registerUpdateReceiver();
+        registerNoNetReceiver();
     }
 
     @Override
@@ -85,6 +89,7 @@ public class BaseActivity extends AppCompatActivity {
             expireAccessTokenPop = null;
         }
         unregisterReceiver(mUpdateReceiver);
+        unregisterReceiver(onNetConnectReceiver);
         super.onPause();
     }
 
@@ -146,6 +151,29 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 });
     }
+    public void showNoNetConnectDialog(){
+        noNetConnectWindow= NoNetConnectWindow.getInstance(this);
+        noNetConnectWindow.setFirstMessage(getString(R.string.no_connectNet));
+        noNetConnectWindow.setConfirmBtn(getString(R.string.setting_network));
+        noNetConnectWindow.setCancelBtn(getString(R.string.exit_app));
+        noNetConnectWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        noNetConnectWindow.dismiss();
+                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+
+                    }
+                },
+                new ModuleMessagePopWindow.CancelListener() {
+                    @Override
+                    public void cancelClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setAction(NO_NET_CONNECT_ACTION);
+                        sendBroadcast(intent);
+                    }
+                });
+    }
 
     public boolean isshowNetWorkErrorDialog() {
         return netErrorPopWindow != null && netErrorPopWindow.isShowing();
@@ -155,7 +183,11 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onError(Throwable e) {
             e.printStackTrace();
-            if (e instanceof HttpException) {
+            Log.i("onNoNet","onerror"+NetworkUtils.isConnected(BaseActivity.this));
+            if(!NetworkUtils.isConnected(BaseActivity.this)){
+                Log.i("onNoNet",""+NetworkUtils.isConnected(BaseActivity.this));
+                showNoNetConnectDialog();
+            }else if (e instanceof HttpException) {
                 HttpException httpException = (HttpException) e;
                 if (httpException.code() == 401) {
                     showExpireAccessTokenPop();
@@ -170,7 +202,6 @@ public class BaseActivity extends AppCompatActivity {
 
 
     public void showExpireAccessTokenPop() {
-
         expireAccessTokenPop = ExpireAccessTokenPop.getInstance(this);
         expireAccessTokenPop.setFirstMessage(getString(R.string.access_token_expire));
         expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
@@ -212,6 +243,17 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
     };
+    private BroadcastReceiver onNetConnectReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    };
+    private void registerNoNetReceiver(){
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(NO_NET_CONNECT_ACTION);
+        registerReceiver(onNetConnectReceiver, intentFilter);
+    }
 
 
     private void registerUpdateReceiver() {
@@ -240,4 +282,5 @@ public class BaseActivity extends AppCompatActivity {
 
         super.onDestroy();
     }
+
 }
