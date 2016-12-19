@@ -324,6 +324,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (savedInstanceState != null)
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
+        isCheckoutUpdate = true;
         Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
         startTrueTimeService();
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
