@@ -1,11 +1,12 @@
 package tv.ismar.app.network.entity;
 
-import java.util.Map;
+import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Created by longhai on 16-9-12.
  */
-public class AdElementEntity {
+public class AdElementEntity implements Serializable {
 
     private int retcode;
     private String retmsg;
@@ -14,7 +15,7 @@ public class AdElementEntity {
     private String description;//广告描述信息
     private String media_url;//视频或图片资源地址
     private String tag;//对于非打点标签类广告，tag值为空, 对于打点标签类广告，tag不为空，"00:05:28"  为打点广告在clip中弹出的时间点；
-    private Map<String, String> coordinate;//打点标签在播放器中的坐标位置
+    private HashMap<String, String> coordinate;//打点标签在播放器中的坐标位置
     private String report_url;//客户端广告曝光上报地址
     private String md5;//
     private String media_type;//video,img,html  广告视频，图片，网页

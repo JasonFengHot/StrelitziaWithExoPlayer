@@ -312,6 +312,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			if(getActivity() == null)
 				return null;
 			ArrayList<Favorite> favorites = DaisyUtils.getFavoriteManager(getActivity()).getAllFavorites("no");
+			Log.i("FAVORITE","favorites size: "+favorites.size());
 			mSectionList = new SectionList();
             FavoriteLists = new ArrayList<Item>();
 

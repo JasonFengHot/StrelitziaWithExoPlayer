@@ -213,9 +213,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         mViewModel.refresh();
         ArrayList<AccountPlayAuthEntity.PlayAuth> playAuths = new ArrayList<>();
         playAuths.addAll(entity.getSn_playauth_list());
-        for (int i = 0; i < 10;i++) {
-            playAuths.addAll(entity.getPlayauth_list());
-        }
         LinearLayoutManagerTV linearLayoutManagerTV = new LinearLayoutManagerTV(getContext());
         linearLayoutManagerTV.setFocusSearchFailedListener(this);
         privilegeRecyclerView.setLayoutManager(linearLayoutManagerTV);
@@ -370,10 +367,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             } else {
                 holder.mButton.setVisibility(View.INVISIBLE);
 
-            }
-
-            if (position == 8){
-                holder.mButton.setVisibility(View.INVISIBLE);
             }
 
             holder.mButton.setNextFocusLeftId(R.id.usercenter_userinfo);

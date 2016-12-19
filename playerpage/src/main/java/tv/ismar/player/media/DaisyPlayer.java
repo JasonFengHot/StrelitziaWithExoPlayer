@@ -8,9 +8,11 @@ import android.view.View;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import cn.ismartv.truetime.TrueTime;
+import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.SmartPlayer;
@@ -40,11 +42,22 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     }
 
     @Override
-    public void setSmartPlayer(SmartPlayer smartPlayer, String[] paths) {
+    public void setSmartPlayer(SmartPlayer smartPlayer, String[] paths, List<AdElementEntity> adElementEntityList) {
         mPlayer = smartPlayer;
         mPaths = paths;
         if (mPaths.length > 1) {
             mIsPlayingAdvertisement = true;
+            mAdvertisementTime = new int[paths.length];
+            int i = 0;
+            for (AdElementEntity element : adElementEntityList) {
+                if ("video".equals(element.getMedia_type())) {
+                    mAdvertisementTime[i] = element.getDuration();
+                    mAdIdMap.put(paths[i], element.getMedia_id());
+                    i++;
+                }
+            }
+        } else {
+            mIsPlayingAdvertisement = false;
         }
     }
 
@@ -111,7 +124,7 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
     private SmartPlayer.OnCompletionListenerUrl smartCompletionListenerUrl = new SmartPlayer.OnCompletionListenerUrl() {
         @Override
         public void onCompletion(SmartPlayer smartPlayer, String s) {
-            Log.i(TAG, "onCompletion:" + s);
+            Log.i(TAG, "onCompletion:" + s + " isPlayingAd:" + mIsPlayingAdvertisement);
             if (mHolder == null || mPlayer == null || !mHolder.getSurface().isValid()) {
                 return;
             }
@@ -131,11 +144,15 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
                     mIsPlayingAdvertisement = false;
                 }
                 int currentIndex = smartPlayer.getPlayingUrlIndex();
+                Log.i(TAG, "onCompleted:currentIndex:" + currentIndex);
                 try {
                     if (currentIndex >= 0 && currentIndex < mPaths.length - 1) { // 如果当前播放的为第一个影片的话，则准备播放第二个影片。
                         currentIndex++;
                         // 准备播放第二个影片，传入参数为1，第二个影片在数组中的下标。会再一次调用onPrepared
                         mPlayer.setPlayingUrlIndex(currentIndex, mHolder);
+                        if (currentIndex == mPaths.length - 1 && mStartPosition > 0) {
+                            mPlayer.seekTo(mStartPosition);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -429,7 +446,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
         if (mIsPreLoad) {
             try {
                 mPlayer.setPlayingUrlIndex(0, mHolder);
-                mPlayer.seekTo(mStartPosition);
+                if (mPaths.length == 1 && mStartPosition > 0) {
+                    mPlayer.seekTo(mStartPosition);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -443,7 +462,9 @@ public class DaisyPlayer extends IsmartvPlayer implements SurfaceHolder.Callback
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mPlayer.seekTo(mStartPosition);
+            if (mPaths.length == 1 && mStartPosition > 0) {
+                mPlayer.seekTo(mStartPosition);
+            }
         }
         mPlayer.setOnPreparedListenerUrl(smartPreparedListenerUrl);
         mPlayer.setOnVideoSizeChangedListener(smartVideoSizeChangedListener);
