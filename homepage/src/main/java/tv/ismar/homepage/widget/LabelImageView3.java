@@ -283,8 +283,8 @@ public class LabelImageView3 extends AsyncImageView {
 
         }
 
-//        getRootView().requestLayout();
-//        getRootView().invalidate();
+        getRootView().requestLayout();
+        getRootView().invalidate();
 
     }
 
