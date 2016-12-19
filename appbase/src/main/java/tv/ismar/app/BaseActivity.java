@@ -27,6 +27,7 @@ import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.NetErrorPopWindow;
 import tv.ismar.app.widget.NoNetConnectWindow;
+import tv.ismar.app.widget.NoNetModuleMessagePop;
 import tv.ismar.app.widget.UpdatePopupWindow;
 import tv.ismar.player.SmartPlayer;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -42,7 +43,7 @@ public class BaseActivity extends AppCompatActivity {
     private LoadingDialog mLoadingDialog;
     private ModuleMessagePopWindow netErrorPopWindow;
     private ModuleMessagePopWindow expireAccessTokenPop;
-    private ModuleMessagePopWindow noNetConnectWindow;
+    private NoNetModuleMessagePop noNetConnectWindow;
     public SkyService mSkyService;
     public SkyService mWeatherSkyService;
     public SkyService mWxApiService;
@@ -89,7 +90,6 @@ public class BaseActivity extends AppCompatActivity {
             expireAccessTokenPop = null;
         }
         unregisterReceiver(mUpdateReceiver);
-        unregisterReceiver(onNetConnectReceiver);
         super.onPause();
     }
 
@@ -168,13 +168,13 @@ public class BaseActivity extends AppCompatActivity {
                 new ModuleMessagePopWindow.CancelListener() {
                     @Override
                     public void cancelClick(View view) {
+                        noNetConnectWindow.dismiss();
                         Intent intent = new Intent();
                         intent.setAction(NO_NET_CONNECT_ACTION);
                         sendBroadcast(intent);
                     }
                 });
     }
-
     public boolean isshowNetWorkErrorDialog() {
         return netErrorPopWindow != null && netErrorPopWindow.isShowing();
     }
@@ -246,6 +246,7 @@ public class BaseActivity extends AppCompatActivity {
     private BroadcastReceiver onNetConnectReceiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.i("noNetConnect","onReceive");
             finish();
         }
     };
@@ -275,12 +276,8 @@ public class BaseActivity extends AppCompatActivity {
             });
         }
     }
-
-
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
     }
-
 }
