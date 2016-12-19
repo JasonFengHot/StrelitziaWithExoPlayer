@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import rx.Observer;
@@ -123,6 +124,11 @@ public class DetailPageActivity extends BaseActivity implements Advertisement.On
                 intent.putExtra(PlayerActivity.HISTORY_QUALITY, historyQuality.getValue());
             }
             intent.putExtra(PlayerActivity.DETAIL_PAGE_PATHS, mPaths);
+            if (mAdList != null && !mAdList.isEmpty()) {
+                String adLists = new Gson().toJson(mAdList);
+                Log.i("LH/", "adLists:" + adLists);
+                intent.putExtra(PlayerActivity.DETAIL_PAGE_AD_LISTS, adLists);
+            }
         }
         startActivity(intent);
 
@@ -233,6 +239,7 @@ public class DetailPageActivity extends BaseActivity implements Advertisement.On
     private boolean isActivityStoped;
     private int historyPosition;
     private String[] mPaths;// SmartPlayer提供get方法后可去掉
+    private List<AdElementEntity> mAdList;
     private ClipEntity.Quality historyQuality;
     private int mSubItemPk;
     private boolean mHasPreLoad;
@@ -260,6 +267,7 @@ public class DetailPageActivity extends BaseActivity implements Advertisement.On
         if (!canPreLoading()) {
             return;
         }
+        mAdList = adList;
         initSmartPlayer(adList);
     }
 
@@ -398,9 +406,10 @@ public class DetailPageActivity extends BaseActivity implements Advertisement.On
             } else {
                 paths = new String[]{mediaUrl};
             }
+            Log.i("LH/", "paths:" + Arrays.toString(paths));
             mSmartPlayer = new SmartPlayer();
             mSmartPlayer.setDataSource(paths);
-            if(historyPosition > 0) {
+            if (historyPosition > 0 && paths.length > 1) {// 大于1表示有广告
                 mSmartPlayer.seekTo(historyPosition);
             }
             mSmartPlayer.prepareAsync();

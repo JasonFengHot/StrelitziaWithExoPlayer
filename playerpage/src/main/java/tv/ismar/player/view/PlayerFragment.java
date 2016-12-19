@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -35,6 +36,7 @@ import com.qiyi.sdk.player.IMediaPlayer;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -86,6 +88,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private static final String ARG_DETAIL_PAGE_POSITION = "ARG_DETAIL_PAGE_POSITION";
     private static final String ARG_DETAIL_PAGE_QUALITY = "ARG_DETAIL_PAGE_QUALITY";
     private static final String ARG_DETAIL_PAGE_PATHS = "ARG_DETAIL_PAGE_PATHS";
+    private static final String ARG_DETAIL_PAGE_ADS = "ARG_DETAIL_PAGE_ADS";
     private static final String HISTORYCONTINUE = "上次放映：";
     private static final String PlAYSTART = "即将放映：";
     private static final int MSG_SEK_ACTION = 103;
@@ -143,6 +146,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private String mUser;// playerCheck 返回user类型
     private boolean mHasPreLoad;// 已经在详情页实现了预加载
     private String[] tempPaths;// 预加载时用到
+    private List<AdElementEntity> tempAds;// 预加载时用到
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -161,7 +165,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     public static PlayerFragment newInstance(int pk, int subPk, String source, String itemJson, String clipJson,
-                                             int historyPosition, int historyQuality, String[] paths) {
+                                             int historyPosition, int historyQuality, String[] paths, String adLists) {
         PlayerFragment fragment = new PlayerFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PK, pk);
@@ -172,6 +176,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         args.putInt(ARG_DETAIL_PAGE_POSITION, historyPosition);
         args.putInt(ARG_DETAIL_PAGE_QUALITY, historyQuality);
         args.putStringArray(ARG_DETAIL_PAGE_PATHS, paths);
+        args.putString(ARG_DETAIL_PAGE_ADS, adLists);
         fragment.setArguments(args);
         return fragment;
     }
@@ -202,6 +207,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mCurrentPosition = bundle.getInt(ARG_DETAIL_PAGE_POSITION);
             mCurrentQuality = ClipEntity.Quality.getQuality(bundle.getInt(ARG_DETAIL_PAGE_QUALITY));
             tempPaths = bundle.getStringArray(ARG_DETAIL_PAGE_PATHS);
+            String adString = bundle.getString(ARG_DETAIL_PAGE_ADS);
+            if (!TextUtils.isEmpty(adString)) {
+                AdElementEntity[] adElementEntities = new Gson().fromJson(adString, AdElementEntity[].class);
+                tempAds = new ArrayList<>();
+                for (AdElementEntity adElement : adElementEntities) {
+                    tempAds.add(adElement);
+                }
+            }
         }
         mPlayerPagePresenter = new PlayerPagePresenter((BaseActivity) getActivity(), this);
         mModel = new PlayerPageViewModel(getActivity(), mPlayerPagePresenter);
@@ -1100,13 +1113,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsmartvPlayer.setOnInfoListener(this);
         mIsmartvPlayer.setUser(mUser);
         if (mHasPreLoad) {
-            mIsmartvPlayer.setSmartPlayer(BaseActivity.mSmartPlayer, tempPaths);
+            mIsmartvPlayer.setSmartPlayer(BaseActivity.mSmartPlayer, tempPaths, tempAds);
         }
         mIsmartvPlayer.setDataSource(mClipEntity, mCurrentQuality, adList, new IPlayer.OnDataSourceSetListener() {
             @Override
             public void onSuccess() {
                 Log.i(TAG, "player init success." + mIsmartvPlayer);
-                if(mIsmartvPlayer == null){
+                if (mIsmartvPlayer == null) {
                     return;
                 }
                 if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {

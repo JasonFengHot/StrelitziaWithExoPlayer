@@ -111,7 +111,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         this.mIsPreview = isPreview;
     }
 
-    public void setSmartPlayer(SmartPlayer smartPlayer, String[] paths) {
+    public void setSmartPlayer(SmartPlayer smartPlayer, String[] paths, List<AdElementEntity> adElementEntityList) {
     }
 
     @Override

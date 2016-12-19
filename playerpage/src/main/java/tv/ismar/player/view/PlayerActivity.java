@@ -8,8 +8,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.List;
+
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.player.R;
 import tv.ismar.player.SmartPlayer;
 
@@ -21,6 +24,7 @@ public class PlayerActivity extends BaseActivity {
     public static final String HISTORY_POSITION = "detail_history_position";
     public static final String HISTORY_QUALITY = "detail_history_quality";
     public static final String DETAIL_PAGE_PATHS = "detail_page_paths"; // SmartPlayer没有提供获取所有(包含广告)url的接口
+    public static final String DETAIL_PAGE_AD_LISTS = "detail_page_ad_lists"; // 广告列表
 
     private PlayerFragment playerFragment;
     private GestureDetector mGestureDetector;
@@ -39,6 +43,7 @@ public class PlayerActivity extends BaseActivity {
         int historyPosition = 0;
         int historyQuality = -1;
         String[] paths = null;
+        String adList = null;
         if (mSmartPlayer != null) {
             // 以下两个值不为空，表明预加载成功，无需重复流程
             itemJson = intent.getStringExtra(DETAIL_PAGE_ITEM);
@@ -46,6 +51,7 @@ public class PlayerActivity extends BaseActivity {
             historyPosition = intent.getIntExtra(HISTORY_QUALITY, 0);
             historyQuality = intent.getIntExtra(HISTORY_QUALITY, -1);
             paths = intent.getStringArrayExtra(DETAIL_PAGE_PATHS);
+            adList = intent.getStringExtra(DETAIL_PAGE_AD_LISTS);
         }
 
         if (itemPK <= 0) {
@@ -55,7 +61,7 @@ public class PlayerActivity extends BaseActivity {
         }
 
         playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, source, itemJson, clipJson,
-                historyPosition, historyQuality, paths);
+                historyPosition, historyQuality, paths, adList);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity_player_container, playerFragment)
