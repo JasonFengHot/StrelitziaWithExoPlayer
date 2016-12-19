@@ -1505,6 +1505,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 intent.putExtra("install_type", 0);
                 startService(intent);
             }
-        }, 1000 * 5);
+        }, 1000 * 3);
     }
 }

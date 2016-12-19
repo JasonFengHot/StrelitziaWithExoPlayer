@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="horizontal">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="horizontal">
 
 
     <ImageView
@@ -10,7 +10,8 @@
         android:layout_width="@dimen/qrcode_width"
         android:layout_height="@dimen/qrcode_height"
         android:layout_marginLeft="@dimen/qrcode_ml"
-        android:background="#FFFFFFFF" />
+        android:background="#FFFFFFFF"
+        android:visibility="invisible"/>
 
     <RelativeLayout
         android:id="@+id/payinfo_panel"
@@ -22,14 +23,14 @@
             android:id="@+id/payinfo_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/pay_qrcode_pay_payinfo_price_textsize" />
+            android:textSize="@dimen/pay_qrcode_pay_payinfo_price_textsize"/>
 
         <TextView
             android:id="@+id/payinfo_exprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/payinfo_price"
-            android:textSize="@dimen/pay_qrcode_pay_payinfo_exprice_textsize" />
+            android:textSize="@dimen/pay_qrcode_pay_payinfo_exprice_textsize"/>
 
         <TextView
             android:id="@+id/payinfo_introduce"
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/payinfo_exprice"
             android:text="@string/pay_payinfo_introduce_label"
-            android:textSize="@dimen/pay_qrcode_pay_payinfo_introduce_textsize" />
+            android:textSize="@dimen/pay_qrcode_pay_payinfo_introduce_textsize"/>
     </RelativeLayout>
 </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class SportGame {
 	private String start_time;
@@ -75,6 +76,7 @@ public class SportGame {
 		if (!TextUtils.isEmpty(start_time)
 				&& !TextUtils.isEmpty(expiry_date)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 			try {
 				Date starttime = sdf.parse(start_time);
 				Date expirytime = sdf.parse(expiry_date);

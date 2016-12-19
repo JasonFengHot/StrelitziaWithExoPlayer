@@ -61,11 +61,14 @@ public class AlipayFragment extends Fragment implements PaymentActivity.QrcodeCa
     @Override
     public void onResume() {
         super.onResume();
+        qrcodeview.setVisibility(View.INVISIBLE);
         paymentActivity.purchaseCheck(PaymentActivity.CheckType.OrderPurchase);
+
     }
 
     @Override
     public void onBitmap(Bitmap bitmap) {
         qrcodeview.setImageBitmap(bitmap);
+        qrcodeview.setVisibility(View.VISIBLE);
     }
 }

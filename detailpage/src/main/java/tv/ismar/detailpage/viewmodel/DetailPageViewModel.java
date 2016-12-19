@@ -519,6 +519,7 @@ public class DetailPageViewModel extends BaseObservable {
     public String getExpireDate() {
         if (!TextUtils.isEmpty(expireDate)) {
             SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            sourceFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
             Date sourceDate = null;
             try {
                 sourceDate = sourceFormat.parse(expireDate);
@@ -527,6 +528,7 @@ public class DetailPageViewModel extends BaseObservable {
             }
 
             SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy年MM月dd日");
+            targetFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
             String targetDate = targetFormat.format(sourceDate);
             return "有效期至" + targetDate;
         } else {

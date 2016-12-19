@@ -10,6 +10,7 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import cn.ismartv.truetime.TrueTime;
 import rx.android.schedulers.AndroidSchedulers;
@@ -166,6 +167,7 @@ public class InitPlayerTool {
 					String startTime = item.start_time;
 					if(!TextUtils.isEmpty(startTime) && !startTime.equalsIgnoreCase("null")){
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 						try {
 							Date date = sdf.parse(startTime);
 							long startMillisecond = date.getTime();
