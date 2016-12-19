@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseFragment;
@@ -256,6 +257,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 String account = item.getInfo().split("@")[0];
                 String mergedate = item.getInfo().split("@")[1];
                 SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd");
+                time.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
                 String mergeTime = time.format(Timestamp.valueOf(mergedate));
 
                 if (item.type.equals("order_list")) {

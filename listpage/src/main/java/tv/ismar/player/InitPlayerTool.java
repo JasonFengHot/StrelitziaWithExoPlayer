@@ -13,6 +13,7 @@ import com.ismartv.api.AccessProxy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VodUserAgent;
@@ -149,6 +150,7 @@ public class InitPlayerTool {
 					String startTime = item.start_time;
 					if(!TextUtils.isEmpty(startTime) && !startTime.equalsIgnoreCase("null")){
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 						try {
 							Date date = sdf.parse(startTime);
 							long startMillisecond = date.getTime();

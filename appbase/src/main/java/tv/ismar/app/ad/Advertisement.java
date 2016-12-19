@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
@@ -61,6 +62,7 @@ public class Advertisement {
     public Advertisement(Context context) {
         mContext = context;
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
     }
 
     public void setOnVideoPlayListener(OnVideoPlayAdListener onVideoPlayAdListener) {

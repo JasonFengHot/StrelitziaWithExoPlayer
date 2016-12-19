@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class Util {
@@ -535,6 +536,7 @@ public class Util {
 
 	public static String getYearMonthDay(){
 		Calendar c = Calendar.getInstance();
+		c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH)+1;
         int d = c.get(Calendar.DAY_OF_MONTH);
@@ -560,12 +562,14 @@ public class Util {
 
 	public static int getHour() {
 		Calendar c = Calendar.getInstance();
+		c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         int hour = c.get(Calendar.HOUR_OF_DAY);
         return hour;
 	}
 	
 	public static int getMinute(){
 		Calendar c = Calendar.getInstance();
+		c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         int min = c.get(Calendar.MINUTE);
         return min;
 	}
@@ -573,6 +577,7 @@ public class Util {
 	public static String getTime(){
 		
 		Calendar c = Calendar.getInstance();
+		c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH)+1;
         int d = c.get(Calendar.DAY_OF_MONTH);
@@ -655,7 +660,9 @@ public class Util {
 	}
 	public static int daysBetween(String startdate,String enddate) throws ParseException{
     	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar cal = Calendar.getInstance();  
+		sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         cal.setTime(sdf.parse(startdate));  
         long time1 = cal.getTimeInMillis();               
         cal.setTime(sdf.parse(enddate));  

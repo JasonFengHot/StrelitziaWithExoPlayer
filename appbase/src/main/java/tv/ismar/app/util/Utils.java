@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +32,9 @@ public class Utils {
 
     public static int daysBetween(String startdate, String enddate) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         cal.setTime(sdf.parse(startdate));
         long time1 = cal.getTimeInMillis()+2000;
         cal.setTime(sdf.parse(enddate));
@@ -49,6 +52,7 @@ public class Utils {
     public static String getTime() {
 
         Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH) + 1;
         int d = c.get(Calendar.DAY_OF_MONTH);

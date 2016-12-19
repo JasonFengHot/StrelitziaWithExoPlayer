@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import cn.ismartv.injectdb.library.query.Select;
@@ -50,6 +51,7 @@ public class AdvertiseManager {
     public AdvertiseManager(Context context) {
         mContext = context;
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         if (!fileUtils.isFileExist(context.getFilesDir() + "/" + AdvertiseManager.AD_DIR)) {
             try {
                 fileUtils.createDir(context.getFilesDir() + "/" + AdvertiseManager.AD_DIR);

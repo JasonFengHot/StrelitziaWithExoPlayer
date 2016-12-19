@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
@@ -118,6 +119,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	private long getTodayStartPoint() {
 		long currentTime = System.currentTimeMillis();
 		GregorianCalendar currentCalendar = new GregorianCalendar();
+		currentCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		currentCalendar.setTimeInMillis(currentTime);
 		currentCalendar.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		currentCalendar.set(GregorianCalendar.MINUTE, 0);

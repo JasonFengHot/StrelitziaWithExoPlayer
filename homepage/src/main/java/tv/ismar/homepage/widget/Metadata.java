@@ -474,6 +474,7 @@ public class Metadata
         } else {
             TimeZone tz = TimeZone.getTimeZone(timeZone);
             Calendar cal = Calendar.getInstance(tz);
+            cal.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 
             cal.setTimeInMillis(timeSinceEpoch);
             return cal.getTime();

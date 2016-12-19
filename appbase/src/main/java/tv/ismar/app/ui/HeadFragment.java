@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import cn.ismartv.truetime.TrueTime;
 import rx.Observer;
@@ -246,6 +247,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     private void parseXml(WeatherEntity weatherEntity) {
         Date now = TrueTime.now();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String todayTime = dateFormat.format(now);
 
         weatherInfoTextView.setText("");
