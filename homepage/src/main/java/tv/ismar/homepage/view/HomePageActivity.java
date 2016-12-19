@@ -701,14 +701,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             if(mHandler.hasMessages(MSG_AD_COUNTDOWN)){
                 mHandler.removeMessages(MSG_AD_COUNTDOWN);
             }
-            if(home_ad_video != null && home_ad_video.getVisibility() == View.VISIBLE){
-                home_layout_advertisement.setBackgroundColor(Color.BLACK);
-                home_ad_video.setVisibility(View.GONE);
-                if(home_ad_timer != null && home_ad_timer.getVisibility() == View.VISIBLE){
-                    home_ad_timer.setVisibility(View.GONE);
-                }
-            }
-            super.onBackPressed();
+            finish();
         } else {
             showExitPopup(getRootView());
         }
