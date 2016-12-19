@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.open.androidtvwidget.leanback.recycle.LinearLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 
 import java.math.BigDecimal;
@@ -47,7 +47,9 @@ import static tv.ismar.app.network.entity.AccountPlayAuthEntity.PlayAuth;
  * Created by huibin on 10/27/16.
  */
 
-public class UserInfoFragment extends BaseFragment implements UserInfoContract.View, IsmartvActivator.AccountChangeCallback, View.OnHoverListener,OnFocusChangeListener {
+public class UserInfoFragment extends BaseFragment implements UserInfoContract.View,
+        IsmartvActivator.AccountChangeCallback, View.OnHoverListener,
+        OnFocusChangeListener, LinearLayoutManagerTV.FocusSearchFailedListener {
     private static final String TAG = UserInfoFragment.class.getSimpleName();
     private UserInfoViewModel mViewModel;
     private UserInfoContract.Presenter mPresenter;
@@ -67,6 +69,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     private boolean framgentIsPause = false;
 
     private UserCenterActivity mUserCenterActivity;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -210,8 +213,12 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         mViewModel.refresh();
         ArrayList<AccountPlayAuthEntity.PlayAuth> playAuths = new ArrayList<>();
         playAuths.addAll(entity.getSn_playauth_list());
-        playAuths.addAll(entity.getPlayauth_list());
-        privilegeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        for (int i = 0; i < 10;i++) {
+            playAuths.addAll(entity.getPlayauth_list());
+        }
+        LinearLayoutManagerTV linearLayoutManagerTV = new LinearLayoutManagerTV(getContext());
+        linearLayoutManagerTV.setFocusSearchFailedListener(this);
+        privilegeRecyclerView.setLayoutManager(linearLayoutManagerTV);
         PrivilegeAdapter privilegeAdapter = new PrivilegeAdapter(getContext(), playAuths);
         privilegeRecyclerView.setAdapter(privilegeAdapter);
     }
@@ -224,7 +231,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         if (entity.getBalance().add(entity.getSn_balance()).setScale(1).equals(new BigDecimal(0).setScale(1))) {
             if (IsmartvActivator.getInstance().isLogin()) {
                 userInfo.setNextFocusRightId(R.id.exit_account);
-            }else {
+            } else {
                 userInfo.setNextFocusRightId(userInfo.getId());
             }
             userinfoBinding.exitAccount.setNextFocusDownId(R.id.btn);
@@ -318,6 +325,14 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
     }
 
+    @Override
+    public View onFocusSearchFailed(View view, int focusDirection, RecyclerView.Recycler recycler, RecyclerView.State state) {
+        if (focusDirection ==  View.FOCUS_DOWN){
+            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_min_h));
+        }
+        return null;
+    }
+
 
     private class PrivilegeAdapter extends RecyclerView.Adapter<PrivilegeViewHolder> implements View.OnClickListener {
         private Context mContext;
@@ -355,6 +370,10 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             } else {
                 holder.mButton.setVisibility(View.INVISIBLE);
 
+            }
+
+            if (position == 8){
+                holder.mButton.setVisibility(View.INVISIBLE);
             }
 
             holder.mButton.setNextFocusLeftId(R.id.usercenter_userinfo);
