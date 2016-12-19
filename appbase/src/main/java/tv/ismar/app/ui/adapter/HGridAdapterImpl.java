@@ -3,6 +3,7 @@ package tv.ismar.app.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -189,6 +190,8 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection> implements As
 						if(item.expense.cptitle!=null){
 							holder.price.setVisibility(View.VISIBLE);
 							String imageUrl =  VipMark.getInstance().getImage((Activity) mContext, item.expense.pay_type,item.expense.cpid);
+							Log.i("pacage",item.expense.cptitle+" imageURl:"+imageUrl);
+
 							Picasso.with(mContext).load(imageUrl).into(holder.price);
 						}  else{
 							holder.price.setVisibility(View.GONE);

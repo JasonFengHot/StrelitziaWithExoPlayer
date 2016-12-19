@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 import retrofit2.adapter.rxjava.HttpException;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.helperpage.R;
 import tv.ismar.helperpage.ui.adapter.IndicatorAdapter;
 import tv.ismar.helperpage.ui.fragment.FeedbackFragment;
@@ -60,7 +62,9 @@ public class HomeActivity extends BaseActivity {
 
     }
     public void showPop(Throwable e){
-        if (e instanceof HttpException) {
+        if(!NetworkUtils.isConnected(this)){
+            showNoNetConnectDialog();
+        }else if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
             if (httpException.code() == 401) {
                 showExpireAccessTokenPop();

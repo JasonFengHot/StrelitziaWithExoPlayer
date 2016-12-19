@@ -184,7 +184,7 @@ public class BaseActivity extends AppCompatActivity {
         public void onError(Throwable e) {
             e.printStackTrace();
             Log.i("onNoNet","onerror"+NetworkUtils.isConnected(BaseActivity.this));
-            if(!NetworkUtils.isConnected(BaseActivity.this)){
+            if(!NetworkUtils.isConnected(BaseActivity.this)&&!NetworkUtils.isWifi(BaseActivity.this)){
                 Log.i("onNoNet",""+NetworkUtils.isConnected(BaseActivity.this));
                 showNoNetConnectDialog();
             }else if (e instanceof HttpException) {
@@ -246,7 +246,6 @@ public class BaseActivity extends AppCompatActivity {
     private BroadcastReceiver onNetConnectReceiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("noNetConnect","onReceive");
             finish();
         }
     };
@@ -265,7 +264,6 @@ public class BaseActivity extends AppCompatActivity {
 
     private void showUpdatePopup(final View view, final Stack<Bundle> stack) {
         if (!stack.isEmpty()) {
-            Log.d(TAG, "showUpdatePopup");
             updatePopupWindow = new UpdatePopupWindow(this, stack.pop());
             updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
             updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -278,6 +276,7 @@ public class BaseActivity extends AppCompatActivity {
     }
     @Override
     protected void onDestroy() {
+        unregisterReceiver(onNetConnectReceiver);
         super.onDestroy();
     }
 }

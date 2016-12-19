@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.VipMark;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
@@ -103,7 +104,6 @@ public class ChannelListActivity extends BaseActivity {
 			}
 			fragmentTransaction.commit();
 		}
-
 		//DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
 	}
 	public void addHead(String title){

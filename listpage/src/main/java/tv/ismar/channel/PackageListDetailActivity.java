@@ -27,6 +27,7 @@ import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Source;
+import tv.ismar.app.core.VipMark;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
 import tv.ismar.app.entity.ItemList;
@@ -167,6 +168,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
     private void getData() {
         pk = getIntent().getIntExtra("pk", -1);
         mLoadingDialog.showDialog();
+        VipMark.getInstance();
         getPackageList();
     }
 
