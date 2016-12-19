@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import rx.Observer;
@@ -16,6 +17,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.db.FavoriteManager;
 import tv.ismar.app.entity.Favorite;
@@ -332,7 +334,11 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             } else {
                 favorite.isnet = "no";
             }
+            ArrayList<Favorite> favorites = DaisyUtils.getFavoriteManager(mDetailView.getContext()).getAllFavorites("no");
+            if(favorites.size()>49){
+                favoriteManager.deleteFavoriteByUrl(favorites.get(favorites.size()-1).url, "no");
 
+            }
             favoriteManager.addFavorite(favorite, favorite.isnet);
             mDetailView.notifyBookmark(true, true);
         }
