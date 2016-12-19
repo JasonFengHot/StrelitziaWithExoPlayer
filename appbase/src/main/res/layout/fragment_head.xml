@@ -73,14 +73,13 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/header_fragment_divider_mlr"
         android:layout_marginRight="@dimen/header_fragment_divider_mlr"
-        android:scaleType="fitXY"
-        android:src="@drawable/header_divider"/>
+        android:background="#33FFFFFF"/>
 
 
 </LinearLayout>
