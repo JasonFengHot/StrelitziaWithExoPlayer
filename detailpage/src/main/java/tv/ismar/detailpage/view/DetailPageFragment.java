@@ -132,17 +132,18 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         super.onViewCreated(view, savedInstanceState);
 
         Log.i(TAG, Constants.TEST);
-        mPresenter.start();
 //        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
 //        loadItem(mItemEntity);
-        mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPageStatistics.videoDetailIn(mItemEntity, fromPage);
+        mPresenter.start();
+        mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
         loadItem(mItemEntity);
+        mPageStatistics.videoDetailIn(mItemEntity, fromPage);
         mModel.notifyBookmark(true);
     }
 

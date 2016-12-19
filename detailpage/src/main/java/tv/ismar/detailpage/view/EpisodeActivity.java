@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.IntegerRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -105,6 +106,9 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         episode_zgridview.setAdapter(new EpisodeAdapter(this,mItemEntity.getSubitems()));
         episode_zgridview.setUpView(episode_arrow_up);
         episode_zgridview.setDownView(episode_arrow_down);
+        if(mItemEntity.getSubitems().length>40){
+            episode_arrow_down.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -139,14 +143,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
             @Override
             public void onClick(View v) {
                 episode_zgridview.arrowScroll(View.FOCUS_DOWN);            }
-        });
-        episode_zgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ItemEntity subItemEntity = mItemEntity.getSubitems()[position];
-                PageIntent pageIntent = new PageIntent();
-                pageIntent.toPlayPage(EpisodeActivity.this, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST);
-            }
         });
     }
 
@@ -237,7 +233,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         }
 
     }
-    private class EpisodeAdapter extends BaseAdapter implements  View.OnClickListener, View.OnHoverListener {
+    private class EpisodeAdapter extends BaseAdapter implements View.OnClickListener{
 
         private Context mContext;
         private ItemEntity[] mItemEntities;
@@ -262,7 +258,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder=null;
             if(convertView==null){
                 convertView=View.inflate(mContext,R.layout.episode_recycler_item,null);
@@ -274,7 +270,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
                 viewHolder= (ViewHolder) convertView.getTag();
             }
             viewHolder.episodeBtn.setOnClickListener(this);
-            viewHolder.episodeBtn.setOnHoverListener(this);
             viewHolder.episodeBtn.setText(String.valueOf(position + 1));
             return convertView;
         }
@@ -287,21 +282,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
             pageIntent.toPlayPage(EpisodeActivity.this, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST);
         }
 
-        @Override
-        public boolean onHover(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_HOVER_ENTER:
-                case MotionEvent.ACTION_HOVER_MOVE:
-                    v.requestFocus();
-                    v.requestFocusFromTouch();
-                    break;
-                case MotionEvent.ACTION_HOVER_EXIT:
-                    tmp.requestFocus();
-                    tmp.requestFocusFromTouch();
-                    break;
-            }
-            return true;
-        }
 
         public class ViewHolder{
 
