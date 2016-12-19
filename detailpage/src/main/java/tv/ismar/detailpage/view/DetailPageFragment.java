@@ -174,7 +174,10 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void loadItemRelate(ItemEntity[] itemEntities) {
         relateItems = itemEntities;
         if (itemEntities.length < relViews) {
-            for (int i = itemEntities.length==0?0:itemEntities.length - 1; i < relViews; i++) {
+            for (int i = relViews-1; i >=itemEntities.length ; i--) {
+
+            }
+            for (int i = itemEntities.length==0?0:itemEntities.length; i < relViews; i++) {
                 ((View) relRelImageViews[i].getParent()).setVisibility(View.INVISIBLE);
             }
         }
