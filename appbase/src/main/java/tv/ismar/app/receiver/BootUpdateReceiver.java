@@ -34,7 +34,7 @@ public class BootUpdateReceiver extends BroadcastReceiver {
                 updateIntent.putExtra("install_type", INSTALL_SILENT);
                 context.startService(updateIntent);
             }
-        }, 1000 * 30);
+        }, 1000 * 3);
 
     }
 }
