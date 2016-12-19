@@ -322,6 +322,7 @@
                             android:onClick="@{() -> actionHandler.handlePlay()}"
                             android:paddingLeft="@dimen/entertainment_detail_button_padding_left"
                             android:text="@{tasks.playText}"
+                            android:singleLine="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/h1_size"/>
 
