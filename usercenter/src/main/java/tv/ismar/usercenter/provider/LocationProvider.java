@@ -22,7 +22,7 @@ public class LocationProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return IsmartvActivator.getInstance().getCity().get("city");
+        return IsmartvActivator.getInstance().getCity().get("geo_id");
     }
 
     @Override
