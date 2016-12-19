@@ -193,17 +193,28 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
                 itemView.setTag(i);
                 itemView.setOnClickListener(relateItemOnClickListener);
                 itemView.setOnHoverListener(this);
-                relRelImageViews[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                final int finalI = i;
+                itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
-                        int position = (int) v.getTag();
                         if (hasFocus) {
-                            relTextViews[position].setSelected(true);
+                            relTextViews[finalI].setSelected(true);
                         } else {
-                            relTextViews[position].setSelected(false);
+                            relTextViews[finalI].setSelected(false);
                         }
                     }
                 });
+//                relRelImageViews[i].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                    @Override
+//                    public void onFocusChange(View v, boolean hasFocus) {
+//                        int position = (int) v.getTag();
+//                        if (hasFocus) {
+//                            relTextViews[position].setSelected(true);
+//                        } else {
+//                            relTextViews[position].setSelected(false);
+//                        }
+//                    }
+//                });
 
             } else {
                 relRelImageViews[i].setTag(i);

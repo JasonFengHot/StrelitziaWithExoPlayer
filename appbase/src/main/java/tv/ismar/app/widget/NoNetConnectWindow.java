@@ -6,7 +6,7 @@ import android.content.Context;
  * Created by liucan on 2016/12/16.
  */
 
-public class NoNetConnectWindow extends ModuleMessagePopWindow {
+public class NoNetConnectWindow extends NoNetModuleMessagePop {
     private static NoNetConnectWindow ourInstance;
     public static NoNetConnectWindow getInstance(Context context){
         if (ourInstance == null) {
@@ -17,4 +17,5 @@ public class NoNetConnectWindow extends ModuleMessagePopWindow {
     public NoNetConnectWindow(Context context){
         super(context);
     }
+
 }

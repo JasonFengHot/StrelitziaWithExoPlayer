@@ -377,9 +377,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 large_layout.setBackground(bitmapDrawable);
                 bitmapDecoder = null;
                 if (TextUtils.isEmpty(homepage_url)) {
-                    home_ad_timer.setVisibility(View.VISIBLE);
-                    home_ad_timer.setTextColor(Color.WHITE);
-                    home_ad_timer.setText(countAdTime + "s");
                     playLaunchAd(0);
 
                     new Handler().postDelayed(new Runnable() {
@@ -704,7 +701,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             if(mHandler.hasMessages(MSG_AD_COUNTDOWN)){
                 mHandler.removeMessages(MSG_AD_COUNTDOWN);
             }
-            super.onBackPressed();
+            finish();
         } else {
             showExitPopup(getRootView());
         }
@@ -1372,7 +1369,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 goNextPage();
                 return;
             }
-            playLaunchAd(playIndex++);
+            playIndex += 1;
+            playLaunchAd(playIndex);
         }
     };
 
@@ -1403,7 +1401,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                             isStartImageCountDown = true;
                         } else {
                             if (currentImageAdCountDown == 0) {
-                                playLaunchAd(playIndex++);
+                                playIndex += 1;
+                                playLaunchAd(playIndex);
                                 isStartImageCountDown = false;
                             } else {
                                 currentImageAdCountDown--;
