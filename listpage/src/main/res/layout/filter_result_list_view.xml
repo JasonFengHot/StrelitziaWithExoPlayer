@@ -144,14 +144,14 @@
         </LinearLayout>
         <ProgressBar
                 android:id="@+id/recommend_filter_percentage"
-                android:layout_width="@dimen/filter_portraitresult_filter_percentage_w"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/filter_portraitresult_filter_percentage_h"
                 android:progressDrawable="@drawable/progressbg"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:indeterminate="false"
                 android:visibility="visible"
-                android:layout_marginLeft="@dimen/filter_portraitresult_filter_percentage_margin"
-                android:layout_marginRight="@dimen/filter_portraitresult_filter_percentage_margin"/>
+                android:layout_marginLeft="@dimen/list_progressBar_margin"
+                android:layout_marginRight="@dimen/list_progressBar_margin"/>
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

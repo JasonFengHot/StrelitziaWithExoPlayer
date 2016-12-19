@@ -582,7 +582,7 @@
 <dimen name="menu_list_PaddingTB">33.33dip</dimen>
 <dimen name="menu_item_PaddingTB">20.00dip</dimen>
 <dimen name="menu_item_text_size">32.00sp</dimen>
-<dimen name="filter_norestult_buton_mt">49.33dp</dimen>
+<dimen name="filter_norestult_buton_mt">48.67dp</dimen>
 <dimen name="filter_noresult_text_mt">38.67dp</dimen>
 <dimen name="pop_btn_margin_lr">82.00dp</dimen>
 <dimen name="usercenter_subtitle_ml">48.67dp</dimen>
