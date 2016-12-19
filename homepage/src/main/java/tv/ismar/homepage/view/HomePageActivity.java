@@ -377,9 +377,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 large_layout.setBackground(bitmapDrawable);
                 bitmapDecoder = null;
                 if (TextUtils.isEmpty(homepage_url)) {
-                    home_ad_timer.setVisibility(View.VISIBLE);
-                    home_ad_timer.setTextColor(Color.WHITE);
-                    home_ad_timer.setText(countAdTime + "s");
                     playLaunchAd(0);
 
                     new Handler().postDelayed(new Runnable() {
@@ -703,6 +700,13 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (countAdTime > 0) {
             if(mHandler.hasMessages(MSG_AD_COUNTDOWN)){
                 mHandler.removeMessages(MSG_AD_COUNTDOWN);
+            }
+            if(home_ad_video != null && home_ad_video.getVisibility() == View.VISIBLE){
+                home_layout_advertisement.setBackgroundColor(Color.BLACK);
+                home_ad_video.setVisibility(View.GONE);
+                if(home_ad_timer != null && home_ad_timer.getVisibility() == View.VISIBLE){
+                    home_ad_timer.setVisibility(View.GONE);
+                }
             }
             super.onBackPressed();
         } else {
@@ -1372,7 +1376,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 goNextPage();
                 return;
             }
-            playLaunchAd(playIndex++);
+            playIndex += 1;
+            playLaunchAd(playIndex);
         }
     };
 
@@ -1403,7 +1408,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                             isStartImageCountDown = true;
                         } else {
                             if (currentImageAdCountDown == 0) {
-                                playLaunchAd(playIndex++);
+                                playIndex += 1;
+                                playLaunchAd(playIndex);
                                 isStartImageCountDown = false;
                             } else {
                                 currentImageAdCountDown--;
