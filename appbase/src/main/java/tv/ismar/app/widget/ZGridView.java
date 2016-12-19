@@ -3862,6 +3862,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
 					setFocusableInTouchMode(true);
 					setSelection(position1);
 					requestFocusFromTouch();
+					requestFocus();
 				}else{
 					hover = false;
 					focus=false;
@@ -3882,7 +3883,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
 				requestLayout();
 				break;
 		}
-		return false;
+		return true;
 	}
 
 

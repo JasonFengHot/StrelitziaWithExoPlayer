@@ -466,23 +466,31 @@ public class DetailPageViewModel extends BaseObservable {
 
                 if(mItemEntity.getLiveVideo()){
                     if(videoIsStart()){
-                        if(getPlayText().equals(mContext.getString(R.string.video_preview))&&mItemEntity.getPreview()==null){
-                            return false;
-                        }else{
-                            return true;
-                        }
+
+                         return true;
                     }else{
                         return false;
                     }
                 }else{
-                    if(getPlayText().equals(mContext.getString(R.string.video_preview))&&mItemEntity.getPreview()==null){
-                        return false;
-                    }else{
                         return true;
-                    }
                 }
         }
 
+    @Bindable
+    public int getVisibility() {
+
+                if(getPlayText().equals(mContext.getString(R.string.video_preview))){
+                    if(mItemEntity.getPreview()==null){
+                        return View.GONE;
+                    }else{
+                        return View.VISIBLE;
+                    }
+
+                }else{
+                    return View.VISIBLE;
+                }
+
+    }
     @BindingAdapter("android:layout_width")
     public static void setLayoutWidth(View view, float width) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
