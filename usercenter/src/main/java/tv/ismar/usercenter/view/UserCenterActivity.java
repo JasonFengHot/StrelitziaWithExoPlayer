@@ -314,9 +314,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     public void onSuccess() {
         changeViewState(indicatorView.get(2), ViewState.Disable);
+        indicatorView.get(1).callOnClick();
+        indicatorView.get(1).requestFocus();
         changeViewState(indicatorView.get(1), ViewState.Select);
-        selectUserInfo();
-
     }
 
     private View.OnFocusChangeListener indicatorOnFocusListener = new View.OnFocusChangeListener() {
