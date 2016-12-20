@@ -174,13 +174,15 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void loadItemRelate(ItemEntity[] itemEntities) {
         relateItems = itemEntities;
         if (itemEntities.length < relViews) {
-            for (int i = relViews-1; i >=itemEntities.length ; i--) {
-
+            for (int i = itemEntities.length; i < relViews; i++) {
+                ((View) relRelImageViews[i].getParent()).setVisibility(View.GONE);
             }
-            for (int i = itemEntities.length==0?0:itemEntities.length; i < relViews; i++) {
-                ((View) relRelImageViews[i].getParent()).setVisibility(View.INVISIBLE);
+            if(itemEntities.length>0) {
+                mNormalBinding.getRoot().findViewById(mRelItemViews[itemEntities.length-1]).setNextFocusDownId(R.id.detail_relative_button);
+                moreBtnView.setNextFocusUpId(mRelItemViews[itemEntities.length - 1]);
             }
         }
+
         for (int i = 0; i < itemEntities.length && i < relViews; i++) {
             moreBtnView.setNextFocusLeftId(View.NO_ID);
             switch (mItemEntity.getContentModel()) {
