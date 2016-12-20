@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="@dimen/payment_min_width"
-              android:layout_height="@dimen/payment_min_height"
-              android:minHeight="@dimen/payment_min_height"
-              android:minWidth="@dimen/payment_min_width"
-              android:orientation="vertical">
+    android:layout_width="@dimen/payment_min_width"
+    android:layout_height="@dimen/payment_min_height"
+    android:minHeight="@dimen/payment_min_height"
+    android:minWidth="@dimen/payment_min_width"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:id="@+id/payment_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/textsize_48sp"/>
+            android:textSize="@dimen/textsize_48sp" />
 
         <TextView
             android:id="@+id/login_tip"
@@ -27,7 +27,7 @@
             android:text="@string/pay_warntitle"
             android:textColor="#fe8109"
             android:textSize="@dimen/text_size_30sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/username"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_marginRight="@dimen/username_mr"
-            android:textSize="@dimen/text_size_24sp"/>
+            android:textSize="@dimen/text_size_24sp" />
 
     </LinearLayout>
 
@@ -45,7 +45,7 @@
         android:layout_marginLeft="@dimen/payment_divider_margin"
         android:layout_marginRight="@dimen/payment_divider_margin"
         android:background="@drawable/divider_person"
-        android:focusable="true"/>
+        android:focusable="true" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -68,10 +68,11 @@
                 android:background="@drawable/paychannel_btn_selector"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
+                android:nextFocusLeft="@id/weixin"
                 android:nextFocusUp="@id/weixin"
                 android:text="@string/weixinpay_button_title"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/pay_channel_weixin_textsize"/>
+                android:textSize="@dimen/pay_channel_weixin_textsize" />
 
             <Button
                 android:id="@+id/alipay"
@@ -81,9 +82,10 @@
                 android:background="@drawable/paychannel_btn_selector"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
+                android:nextFocusLeft="@id/alipay"
                 android:text="@string/zhifubao_pay_button_title"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/pay_channel_weixin_textsize"/>
+                android:textSize="@dimen/pay_channel_weixin_textsize" />
 
             <Button
                 android:id="@+id/videocard"
@@ -93,9 +95,10 @@
                 android:background="@drawable/paychannel_btn_selector"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
+                android:nextFocusLeft="@id/videocard"
                 android:text="@string/guanyingcard_pay_button_title"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/pay_channel_weixin_textsize"/>
+                android:textSize="@dimen/pay_channel_weixin_textsize" />
 
             <Button
                 android:id="@+id/balance_pay"
@@ -106,9 +109,10 @@
                 android:focusable="true"
                 android:focusableInTouchMode="false"
                 android:nextFocusDown="@id/balance_pay"
+                android:nextFocusLeft="@id/balance_pay"
                 android:text="@string/yu_e_pay_button_title"
                 android:textColor="#FFFFFF"
-                android:textSize="@dimen/pay_channel_weixin_textsize"/>
+                android:textSize="@dimen/pay_channel_weixin_textsize" />
 
 
         </LinearLayout>
@@ -118,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/payment_divider_margin"
             android:layout_marginTop="@dimen/payment_divider_margin"
-            android:background="@drawable/portrait_divider_person"/>
+            android:background="@drawable/portrait_divider_person" />
 
         <FrameLayout
             android:id="@+id/fragment_page"
@@ -133,6 +137,5 @@
         android:id="@+id/tmp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:focusable="true"/>
+        android:focusable="true" />
 </LinearLayout>
