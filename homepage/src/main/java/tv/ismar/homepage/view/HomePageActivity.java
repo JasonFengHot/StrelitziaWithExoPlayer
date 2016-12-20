@@ -725,6 +725,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                     public void onNext(ChannelEntity[] channelEntities) {
                         fillChannelLayout(channelEntities);
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
                 });
     }
 
@@ -1159,7 +1164,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         super.onWindowFocusChanged(hasFocus);
         if (!DaisyUtils.isNetworkAvailable(this)) {
             Log.e(TAG, "onresume Isnetwork");
-            showNetErrorPopup();
+          //  showNetErrorPopup();
         }
     }
 
