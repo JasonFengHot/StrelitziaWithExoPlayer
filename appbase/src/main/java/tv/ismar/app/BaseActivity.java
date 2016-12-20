@@ -21,6 +21,7 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.widget.ExpireAccessTokenPop;
 import tv.ismar.app.widget.LoadingDialog;
@@ -58,9 +59,14 @@ public class BaseActivity extends AppCompatActivity {
 
     private boolean activityIsAlive = false;
 
+    public static boolean isCheckoutUpdate = true;
+
+    public int totalAdsMills;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isCheckoutUpdate = true;
         mSkyService = SkyService.ServiceManager.getService();
         mWeatherSkyService = SkyService.ServiceManager.getWeatherService();
         mWxApiService = SkyService.ServiceManager.getWxApiService();
@@ -79,6 +85,12 @@ public class BaseActivity extends AppCompatActivity {
         registerUpdateReceiver();
         registerNoNetReceiver();
         activityIsAlive = true;
+
+        //checkout update
+        if (isCheckoutUpdate){
+            checkUpgrade();
+            isCheckoutUpdate = false;
+        }
     }
 
     @Override
@@ -292,5 +304,17 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         unregisterReceiver(onNetConnectReceiver);
         super.onDestroy();
+    }
+
+    private void checkUpgrade() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), UpdateService.class);
+                intent.putExtra("install_type", 0);
+                startService(intent);
+            }
+        }, (1000 * 3) + totalAdsMills);
     }
 }
