@@ -51,20 +51,22 @@ public class BaseActivity extends AppCompatActivity {
     public SkyService mSpeedCallaService;
     public SkyService mLilyHostService;
     public long app_start_time;
-    public static final String NO_NET_CONNECT_ACTION="cn.ismartv.vod.action.nonet";
+    public static final String NO_NET_CONNECT_ACTION = "cn.ismartv.vod.action.nonet";
     public static SmartPlayer mSmartPlayer;// 由于目前需要在详情页实现预加载功能，故写此变量
 
     public static Stack<Bundle> updateInfo = new Stack<>();
+
+    private boolean activityIsAlive = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSkyService = SkyService.ServiceManager.getService();
         mWeatherSkyService = SkyService.ServiceManager.getWeatherService();
-        mWxApiService=SkyService.ServiceManager.getWxApiService();
-        mIrisService= SkyService.ServiceManager.getIrisService();
-        mSpeedCallaService=SkyService.ServiceManager.getSpeedCallaService();
-        mLilyHostService=SkyService.ServiceManager.getLilyHostService();
+        mWxApiService = SkyService.ServiceManager.getWxApiService();
+        mIrisService = SkyService.ServiceManager.getIrisService();
+        mSpeedCallaService = SkyService.ServiceManager.getSpeedCallaService();
+        mLilyHostService = SkyService.ServiceManager.getLilyHostService();
         app_start_time = System.currentTimeMillis();
     }
 
@@ -76,12 +78,12 @@ public class BaseActivity extends AppCompatActivity {
         }
         registerUpdateReceiver();
         registerNoNetReceiver();
+        activityIsAlive = true;
     }
 
     @Override
     protected void onPause() {
-
-
+        activityIsAlive = false;
         if (expireAccessTokenPop != null) {
             expireAccessTokenPop.dismiss();
             expireAccessTokenPop = null;
@@ -157,8 +159,9 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 });
     }
-    public void showNoNetConnectDialog(){
-        noNetConnectWindow= NoNetConnectWindow.getInstance(this);
+
+    public void showNoNetConnectDialog() {
+        noNetConnectWindow = NoNetConnectWindow.getInstance(this);
         noNetConnectWindow.setFirstMessage(getString(R.string.no_connectNet));
         noNetConnectWindow.setConfirmBtn(getString(R.string.setting_network));
         noNetConnectWindow.setCancelBtn(getString(R.string.exit_app));
@@ -181,6 +184,7 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 });
     }
+
     public boolean isshowNetWorkErrorDialog() {
         return netErrorPopWindow != null && netErrorPopWindow.isShowing();
     }
@@ -189,11 +193,11 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onError(Throwable e) {
             e.printStackTrace();
-            Log.i("onNoNet","onerror"+NetworkUtils.isConnected(BaseActivity.this));
-            if(!NetworkUtils.isConnected(BaseActivity.this)&&!NetworkUtils.isWifi(BaseActivity.this)){
-                Log.i("onNoNet",""+NetworkUtils.isConnected(BaseActivity.this));
+            Log.i("onNoNet", "onerror" + NetworkUtils.isConnected(BaseActivity.this));
+            if (!NetworkUtils.isConnected(BaseActivity.this) && !NetworkUtils.isWifi(BaseActivity.this)) {
+                Log.i("onNoNet", "" + NetworkUtils.isConnected(BaseActivity.this));
                 showNoNetConnectDialog();
-            }else if (e instanceof HttpException) {
+            } else if (e instanceof HttpException) {
                 HttpException httpException = (HttpException) e;
                 if (httpException.code() == 401) {
                     showExpireAccessTokenPop();
@@ -242,20 +246,23 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
-                            showUpdatePopup(getRootView(), updateInfo);
+                            if (activityIsAlive) {
+                                showUpdatePopup(getRootView(), updateInfo);
+                            }
                         }
                     }
                 }, 2000);
             }
         }
     };
-    private BroadcastReceiver onNetConnectReceiver=new BroadcastReceiver() {
+    private BroadcastReceiver onNetConnectReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             finish();
         }
     };
-    private void registerNoNetReceiver(){
+
+    private void registerNoNetReceiver() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NO_NET_CONNECT_ACTION);
         registerReceiver(onNetConnectReceiver, intentFilter);
@@ -280,6 +287,7 @@ public class BaseActivity extends AppCompatActivity {
             });
         }
     }
+
     @Override
     protected void onDestroy() {
         unregisterReceiver(onNetConnectReceiver);
