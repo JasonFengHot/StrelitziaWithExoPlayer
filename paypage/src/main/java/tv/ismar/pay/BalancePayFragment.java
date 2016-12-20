@@ -31,7 +31,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 /**
  * Created by huibin on 2016/9/14.
  */
-public class BalancePayFragment extends Fragment implements View.OnClickListener,OnHoverListener {
+public class BalancePayFragment extends Fragment implements View.OnClickListener, OnHoverListener {
 
     private View contentView;
     private Button submitBtn;
@@ -159,8 +159,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onNext(AccountBalanceEntity entity) {
-//                        if (entity.getBalance().compareTo(new BigDecimal(itemEntity.getExpense().getPrice())) >= 0) {
-                        if (false){
+                        if (entity.getBalance().compareTo(new BigDecimal(itemEntity.getExpense().getPrice())) >= 0) {
                             submitBtn.setEnabled(true);
                         } else {
                             submitBtn.setEnabled(false);
@@ -174,13 +173,13 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
 
     @Override
     public boolean onHover(View v, MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
                 v.requestFocus();
                 v.requestFocusFromTouch();
                 break;
-            case  MotionEvent.ACTION_HOVER_EXIT:
+            case MotionEvent.ACTION_HOVER_EXIT:
                 break;
         }
         return false;
