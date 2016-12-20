@@ -24,9 +24,14 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import cn.ismartv.truetime.TrueTime;
+import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.VipMark;
+import tv.ismar.app.db.HistoryManager;
+import tv.ismar.app.entity.History;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
+import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.BR;
 import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
@@ -42,6 +47,8 @@ public class DetailPageViewModel extends BaseObservable {
     private int mRemandDay = 0;
     private String expireDate;
     private boolean itemIsload = false;
+    private HistoryManager historyManager;
+    private History mHistory;
 
     public DetailPageViewModel(Context context, DetailPagePresenter presenter) {
         mContext = context;
@@ -96,7 +103,15 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.bookmarkText);
         notifyPropertyChanged(BR.visibility);
         notifyPropertyChanged(BR.enabled);
-
+        if (historyManager == null) {
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+        }
+        String historyUrl = Utils.getItemUrl(mItemEntity.getPk());
+        String isLogin = "no";
+        if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
+            isLogin = "yes";
+        }
+        mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
 
     }
 
@@ -445,15 +460,29 @@ public class DetailPageViewModel extends BaseObservable {
             case "entertainment":
             case "variety":
                 ItemEntity[] subItems = mItemEntity.getSubitems();
+                String subitem_title="";
+                if(mHistory!=null&&mHistory.sub_url!=null){
+                    for (int i = 0; i <subItems.length ; i++) {
+                        if(subItems[i].getSubtitle()==null||subItems[i].getSubtitle().equals("")) {
+                            subitem_title="";
+                            break;
+                        }
+                        if(mHistory.sub_url.contains(subItems[i].getPk()+"")){
+                            subitem_title=subItems[i].getSubtitle();
+                        }
+                    }
+                }
                 if (subItems == null || subItems.length == 0) {
                     return mItemEntity.getExpense() != null && mRemandDay <= 0  ? mContext.getString(R.string.video_preview) :
                             mContext.getString(R.string.video_play);
                 } else {
                     return mItemEntity.getExpense() != null && mRemandDay <= 0 ?
                             mContext.getString(R.string.video_preview)
-                            + " " + subItems[subItems.length - 1].getSubtitle()
+                            + " " + subitem_title
+//                                    subItems[subItems.length - 1].getSubtitle()
                             :
-                            mContext.getString(R.string.video_play) + " " + subItems[subItems.length - 1].getSubtitle();
+                            mContext.getString(R.string.video_play) + " " +subitem_title;
+//                                    subItems[subItems.length - 1].getSubtitle();
                 }
 
             default:
