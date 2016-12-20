@@ -145,7 +145,9 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         loadItem(mItemEntity);
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
         mModel.notifyBookmark(true);
+        if(mNormalBinding!=null)
         mNormalBinding.detailBtnPlay.setTextColor(getResources().getColor(R.color._ffffff));
+
         if(mModel.getEnabled()){
             palyBtnView.requestFocus();
             palyBtnView.requestFocusFromTouch();
