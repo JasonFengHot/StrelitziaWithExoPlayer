@@ -159,7 +159,8 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onNext(AccountBalanceEntity entity) {
-                        if (entity.getBalance().compareTo(new BigDecimal(itemEntity.getExpense().getPrice())) >= 0) {
+//                        if (entity.getBalance().compareTo(new BigDecimal(itemEntity.getExpense().getPrice())) >= 0) {
+                        if (false){
                             submitBtn.setEnabled(true);
                         } else {
                             submitBtn.setEnabled(false);
