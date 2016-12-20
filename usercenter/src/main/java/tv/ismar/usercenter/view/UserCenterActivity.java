@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
@@ -89,6 +90,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     public static final String LOCATION_FRAGMENT = "location";
     public static final String LOGIN_FRAGMENT = "login";
 
+    private HeadFragment headFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +113,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     }
 
     private void addHeader() {
-        HeadFragment headFragment = new HeadFragment();
+        headFragment = new HeadFragment();
         Bundle bundle = new Bundle();
         bundle.putString("type", "usercenter");
         headFragment.setArguments(bundle);
@@ -544,5 +547,13 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
         }
         super.onPause();
+    }
+
+    public void refreshWeather() {
+        if (headFragment != null) {
+            HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
+            String geoId = hashMap.get("geo_id");
+            headFragment.fetchWeatherInfo(geoId);
+        }
     }
 }

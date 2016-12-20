@@ -289,6 +289,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 mViewModel.loadselectedCity();
 
                 proviceGridView.setAdapter(provinceAdapter);
+                ((UserCenterActivity)getActivity()).refreshWeather();
             }
         });
 

@@ -153,6 +153,10 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("cn.ismartv.truetime.sync");
         getContext().registerReceiver(mTimeSyncReceiver, intentFilter);
+
+        HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
+        String geoId = hashMap.get("geo_id");
+        fetchWeatherInfo(geoId);
     }
 
 
@@ -237,7 +241,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     }
 
 
-    private void fetchWeatherInfo(String geoId) {
+    public void fetchWeatherInfo(String geoId) {
         ((BaseActivity) getActivity()).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<WeatherEntity>() {
@@ -346,9 +350,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
-        String geoId = hashMap.get("geo_id");
-        fetchWeatherInfo(geoId);
+
     }
 
     private BroadcastReceiver mTimeSyncReceiver = new BroadcastReceiver() {
