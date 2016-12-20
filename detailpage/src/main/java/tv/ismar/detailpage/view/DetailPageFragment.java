@@ -440,9 +440,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         relRelImageViews = new LabelImageView[relViews];
         relTextViews = new TextView[relViews];
 
-        palyBtnView.requestFocus();
-        palyBtnView.requestFocusFromTouch();
-
         for (int i = 0; i < relViews; i++) {
             relRelImageViews[i] = (LabelImageView) contentView.findViewById(mRelImageViewIds[i]);
             relRelImageViews[i].setVisibility(View.VISIBLE);

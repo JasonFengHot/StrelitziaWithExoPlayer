@@ -312,7 +312,6 @@
                         android:visibility="@{tasks.visibility}"
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_32sp"
-                        android:layout_marginRight="@dimen/normal_detail_button_space"
 
                     />
                     <Button
@@ -327,6 +326,7 @@
                         android:paddingLeft="@dimen/normal_detail_button_padding_left"
                         android:text="@string/video_buy"
                         android:textColor="@color/module_color_white"
+                        android:layout_marginLeft="@dimen/normal_detail_button_space"
                         android:textSize="@dimen/text_size_32sp"
                         android:visibility="@{tasks.purchaseVisibility}"/>
 
