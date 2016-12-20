@@ -134,7 +134,7 @@ public class BaseActivity extends AppCompatActivity {
         netErrorPopWindow = NetErrorPopWindow.getInstance(this);
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
-        netErrorPopWindow.setCancelBtn(getString(R.string.i_know));
+        netErrorPopWindow.setCancelBtn(getString(R.string.back));
         netErrorPopWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {

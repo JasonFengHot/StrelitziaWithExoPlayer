@@ -467,6 +467,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     @Override
     public void onLogout() {
         changeViewState(indicatorView.get(2), ViewState.Enable);
+        indicatorView.get(1).callOnClick();
+        indicatorView.get(1).requestFocus();
+        changeViewState(indicatorView.get(1), ViewState.Select);
     }
 
     @Override

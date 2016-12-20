@@ -94,6 +94,7 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.subitemsVisibility);
 
         notifyPropertyChanged(BR.bookmarkText);
+        notifyPropertyChanged(BR.visibility);
 
 
     }
@@ -521,6 +522,7 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.permissionVisibility);
         notifyPropertyChanged(BR.episodesVisibility);
         notifyPropertyChanged(BR.subitemsVisibility);
+        notifyPropertyChanged(BR.visibility);
     }
 
     @Bindable
