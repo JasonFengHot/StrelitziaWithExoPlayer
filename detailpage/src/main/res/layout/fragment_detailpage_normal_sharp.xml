@@ -312,6 +312,7 @@
                         android:visibility="@{tasks.visibility}"
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_32sp"
+                        android:layout_marginRight="@dimen/normal_detail_button_space"
 
                     />
                     <Button
