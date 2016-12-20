@@ -78,6 +78,8 @@ public class PackageDetailFragment extends BaseFragment {
 
     private List<ItemEntity> itemEntities;
 
+    private boolean firstIn=false;
+
     public static PackageDetailFragment newInstance(String fromPage, String itemJson) {
         PackageDetailFragment fragment = new PackageDetailFragment();
         Bundle args = new Bundle();
@@ -113,6 +115,7 @@ public class PackageDetailFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        firstIn=true;
         initView();
     }
 
@@ -133,6 +136,7 @@ public class PackageDetailFragment extends BaseFragment {
         vod_payment_item_more.setOnHoverListener(onHoverListener);
         vod_payment_buyButton.setFocusable(true);
         vod_payment_buyButton.requestFocus();
+        vod_payment_buyButton.requestFocusFromTouch();
         vod_payment_buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,10 +159,6 @@ public class PackageDetailFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(vod_payment_buyButton.isFocusable()) {
-            vod_payment_buyButton.requestFocus();
-            vod_payment_buyButton.requestFocusFromTouch();
-        }
         requestPlayCheck(String.valueOf(mItemEntity.getPk()));
 
     }
@@ -192,6 +192,9 @@ public class PackageDetailFragment extends BaseFragment {
                     .into(vod_payment_poster);
 
             fetchRelated(mItemEntity.getPk());
+            if (itemEntities != null && !itemEntities.isEmpty()) {
+                vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
+            }
         }
     }
 
@@ -398,8 +401,10 @@ public class PackageDetailFragment extends BaseFragment {
                 vod_payment_buyButton.setEnabled(true);
                 vod_payment_buyButton.setFocusable(true);
                 vod_payment_buyButton.setText("再次购买");
+                if(firstIn) {
                 vod_payment_buyButton.requestFocus();
                 vod_payment_buyButton.requestFocusFromTouch();
+                }
             } else {
                 vod_payment_buyButton.setEnabled(false);
                 vod_payment_buyButton.setFocusable(false);
@@ -412,13 +417,12 @@ public class PackageDetailFragment extends BaseFragment {
             vod_payment_price.setText("￥" + mItemEntity.getExpense().getPrice() + "元");
             vod_payment_duration.setBackgroundResource(R.drawable.vod_detail_unpayment_duration);
             vod_payment_price.setBackgroundResource(R.drawable.vod_detail_unpayment_price);
+            if(firstIn) {
             vod_payment_buyButton.requestFocus();
             vod_payment_buyButton.requestFocusFromTouch();
+            }
         }
         vod_payment_buyButton.setVisibility(View.VISIBLE);
-        if (itemEntities != null && !itemEntities.isEmpty()) {
-            vod_payment_item_of_package_container.setAdapter(new PackageItemAdapter(getContext(), itemEntities));
-        }
     }
 
 
@@ -459,6 +463,12 @@ public class PackageDetailFragment extends BaseFragment {
                 outRect.left = space;
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        firstIn=false;
+        super.onPause();
     }
 
     private View.OnHoverListener onHoverListener = new View.OnHoverListener() {
