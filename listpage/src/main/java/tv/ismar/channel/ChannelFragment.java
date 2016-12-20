@@ -726,22 +726,29 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 		if (mSectionList == null || mCurrentSectionIndex < 0)
 			return;
         // Add data collection.
-        HashMap<String, Object> properties = new HashMap<String, Object>();
-        properties.put(EventProperty.CATEGORY, mChannel);
-        properties.put(EventProperty.TITLE, mTitle);
-        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CHANNEL_OUT, properties);
-		mSectionProperties.remove(EventProperty.TO_ITEM);
-		mSectionProperties.remove(EventProperty.TO_TITLE);
-		mSectionProperties
-				.put(EventProperty.POSITION, mCurrentSectionIndex - 1);
-		mSectionProperties.put(EventProperty.TITLE,
-				mSectionList.get(mCurrentSectionIndex - 1).title);
-		mSectionProperties.put(EventProperty.SECTION,
-				mSectionList.get(mCurrentSectionIndex - 1).slug);
-		new NetworkUtils.DataCollectionTask().execute(
-				NetworkUtils.VIDEO_CATEGORY_OUT, mSectionProperties);
+        if(getItemlistHandler!=null){
+            getItemlistHandler.removeCallbacks(getItemlistRunnable);
+        }
+        try {
+            HashMap<String, Object> properties = new HashMap<String, Object>();
+            properties.put(EventProperty.CATEGORY, mChannel);
+            properties.put(EventProperty.TITLE, mTitle);
+            new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CHANNEL_OUT, properties);
+            mSectionProperties.remove(EventProperty.TO_ITEM);
+            mSectionProperties.remove(EventProperty.TO_TITLE);
+            mSectionProperties
+                    .put(EventProperty.POSITION, mCurrentSectionIndex - 1);
+            mSectionProperties.put(EventProperty.TITLE,
+                    mSectionList.get(mCurrentSectionIndex - 1).title);
+            mSectionProperties.put(EventProperty.SECTION,
+                    mSectionList.get(mCurrentSectionIndex - 1).slug);
+            new NetworkUtils.DataCollectionTask().execute(
+                    NetworkUtils.VIDEO_CATEGORY_OUT, mSectionProperties);
 
-        //mInitTask = null;
+            //mInitTask = null;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         mSectionList = null;
         mScrollableSectionList = null;
     }

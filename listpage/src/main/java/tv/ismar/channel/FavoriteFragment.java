@@ -289,6 +289,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					@Override
 					public void onError(Throwable e) {
 						LogUtils.loadException("favorite ","favorite ","","",0,"","","",e.toString());
+						mLoadingDialog.dismiss();
 						super.onError(e);
 					}
 				});
@@ -636,6 +637,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					@Override
 					public void onError(Throwable e) {
 						LogUtils.loadException("favorite ","favorite ","","emptyall",0,"","","server",e.toString());
+						mLoadingDialog.dismiss();
 						super.onError(e);
 					}
 				});
@@ -735,6 +737,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					@Override
 					public void onError(Throwable e) {
 						LogUtils.loadException("favorite ","favorite ","","getTvhome",0,"","","server",e.toString());
+						mLoadingDialog.dismiss();
 						super.onError(e);
 					}
 				});
