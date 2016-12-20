@@ -173,7 +173,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
-        mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
+        mPresenter.requestPlayCheck(String.valueOf(itemEntity.getPk()));
         mModel.replaceItem(itemEntity);
         itemIsLoad = true;
         hideLoading();
