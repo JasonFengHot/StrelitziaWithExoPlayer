@@ -1,9 +1,15 @@
 package tv.ismar.app.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -144,7 +150,16 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     hideIndicatorTable();
             }
         }
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("cn.ismartv.truetime.sync");
+        getContext().registerReceiver(mTimeSyncReceiver, intentFilter);
+    }
 
+
+    @Override
+    public void onPause() {
+        getContext().unregisterReceiver(mTimeSyncReceiver);
+        super.onPause();
     }
 
     public void setHeadTitle(String title) {
@@ -335,4 +350,13 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         String geoId = hashMap.get("geo_id");
         fetchWeatherInfo(geoId);
     }
+
+    private BroadcastReceiver mTimeSyncReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, Intent intent) {
+            HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
+            String geoId = hashMap.get("geo_id");
+            fetchWeatherInfo(geoId);
+        }
+    };
 }

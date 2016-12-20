@@ -3,6 +3,7 @@ package tv.ismar.usercenter.view;
 import android.content.Context;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -68,7 +69,6 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     private TextView[] citySelectedView;
 
     private int provinceSelectedPosition = -1;
-
 
     @Override
     public void onAttach(Context context) {
@@ -306,11 +306,18 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 mViewModel.loadselectedCity();
                 setNextFocusDown(true);
 
-                View focusView = proviceGridView.getChildAt(0);
-                focusView.requestFocus();
-                mRecyclerViewBridge.setFocusView(focusView, 1.2f);
-                ((TextView) focusView.findViewById(R.id.province_text)).setTextColor(getResources().getColor(R.color.location_text_focus));
-                cityOldView[0] = focusView;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        View focusView = proviceGridView.getChildAt(0);
+                        focusView.requestFocusFromTouch();
+                        focusView.requestFocus();
+                        mRecyclerViewBridge.setFocusView(focusView, 1.2f);
+                        ((TextView) focusView.findViewById(R.id.province_text)).setTextColor(getResources().getColor(R.color.location_text_focus));
+                        cityOldView[0] = focusView;
+                    }
+                },100);
+
 //
             }
         });

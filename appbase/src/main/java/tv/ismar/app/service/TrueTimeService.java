@@ -64,7 +64,9 @@ public class TrueTimeService extends Service {
                                 .subscribe(new Observer<Date>() {
                                     @Override
                                     public void onCompleted() {
-
+                                        Intent intent = new Intent();
+                                        intent.setAction("cn.ismartv.truetime.sync");
+                                        sendBroadcast(intent);
                                     }
 
                                     @Override
