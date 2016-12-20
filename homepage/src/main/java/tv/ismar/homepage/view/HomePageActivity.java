@@ -148,7 +148,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     public boolean isneedpause = true;
     private FragmentSwitchHandler fragmentSwitch;
     private BitmapDecoder bitmapDecoder;
-    private String brandName;
     private Subscription channelsSub;
 
 

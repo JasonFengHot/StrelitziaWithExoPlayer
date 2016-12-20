@@ -23,10 +23,10 @@ public class PlayerBuilder {
      */
     public static final byte MODE_QIYI_PLAYER = 0x02;
 
-    /**
-     * 视云片源,使用SmartPlayer,实现了预加载
-     */
-    public static final byte MODE_PRELOAD_PLAYER = 0x03;
+//    /**
+//     * 视云片源,使用SmartPlayer,实现了预加载
+//     */
+//    public static final byte MODE_PRELOAD_PLAYER = 0x03;
 
     private byte mPlayerMode = -1;
     private Activity mContext;
@@ -34,6 +34,7 @@ public class PlayerBuilder {
     private FrameLayout mContainer;
     private int mStartPosition = 0;
     private boolean mIsPreview;
+    private DaisyVideoView mDaisyVideoView;
 
     // Removes the default public constructor
     private PlayerBuilder() {
@@ -88,6 +89,11 @@ public class PlayerBuilder {
         return this;
     }
 
+    public PlayerBuilder setDaisyVideoview(DaisyVideoView daisyVideoview) {
+        mDaisyVideoView = daisyVideoview;
+        return this;
+    }
+
     public IsmartvPlayer build() {
         if (mPlayerMode <= 0) {
             Log.e(TAG, "Must call setPlayerMode first.");
@@ -113,9 +119,9 @@ public class PlayerBuilder {
             case MODE_QIYI_PLAYER:
                 ismartvPlayer = new QiyiPlayer();
                 break;
-            case MODE_PRELOAD_PLAYER:
-                ismartvPlayer = new DaisyPlayer(MODE_PRELOAD_PLAYER);
-                break;
+//            case MODE_PRELOAD_PLAYER:
+//                ismartvPlayer = new DaisyPlayer(MODE_PRELOAD_PLAYER);
+//                break;
         }
         if (ismartvPlayer == null) {
             Log.e(TAG, "Not support player mode.");
@@ -125,6 +131,7 @@ public class PlayerBuilder {
         ismartvPlayer.setContext(mContext);
         ismartvPlayer.setItemEntity(mItemEntity);
         ismartvPlayer.setContainer(mContainer);
+        ismartvPlayer.setDaisyVideoView(mDaisyVideoView);
         ismartvPlayer.setStartPosition(mStartPosition);
         ismartvPlayer.setIsPreview(mIsPreview);
         return ismartvPlayer;

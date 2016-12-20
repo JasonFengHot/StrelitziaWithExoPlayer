@@ -1,6 +1,5 @@
 package tv.ismar.player.view;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
@@ -10,7 +9,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -36,7 +34,6 @@ import com.qiyi.sdk.player.IMediaPlayer;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -62,6 +59,7 @@ import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.player.PlayerPageContract;
 import tv.ismar.player.R;
 import tv.ismar.player.databinding.FragmentPlayerBinding;
+import tv.ismar.player.media.DaisyVideoView;
 import tv.ismar.player.media.IPlayer;
 import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.media.PlayerBuilder;
@@ -83,12 +81,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private static final String ARG_PK = "ARG_PK";
     private static final String ARG_SUB_PK = "ARG_SUB_PK";
     private static final String ARG_SOURCE = "ARG_SOURCE";
-    private static final String ARG_DETAIL_PAGE_ITEM = "ARG_DETAIL_PAGE_ITEM";
-    private static final String ARG_DETAIL_PAGE_CLIP = "ARG_DETAIL_PAGE_CLIP";
-    private static final String ARG_DETAIL_PAGE_POSITION = "ARG_DETAIL_PAGE_POSITION";
-    private static final String ARG_DETAIL_PAGE_QUALITY = "ARG_DETAIL_PAGE_QUALITY";
-    private static final String ARG_DETAIL_PAGE_PATHS = "ARG_DETAIL_PAGE_PATHS";
-    private static final String ARG_DETAIL_PAGE_ADS = "ARG_DETAIL_PAGE_ADS";
+    //    private static final String ARG_DETAIL_PAGE_ITEM = "ARG_DETAIL_PAGE_ITEM";
+//    private static final String ARG_DETAIL_PAGE_CLIP = "ARG_DETAIL_PAGE_CLIP";
+//    private static final String ARG_DETAIL_PAGE_POSITION = "ARG_DETAIL_PAGE_POSITION";
+//    private static final String ARG_DETAIL_PAGE_QUALITY = "ARG_DETAIL_PAGE_QUALITY";
+//    private static final String ARG_DETAIL_PAGE_PATHS = "ARG_DETAIL_PAGE_PATHS";
+//    private static final String ARG_DETAIL_PAGE_ADS = "ARG_DETAIL_PAGE_ADS";
     private static final String HISTORYCONTINUE = "上次放映：";
     private static final String PlAYSTART = "即将放映：";
     private static final int MSG_SEK_ACTION = 103;
@@ -119,6 +117,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     // 播放器UI
     private FrameLayout player_container;
+    private DaisyVideoView player_surface;// 夏普585某些ROM退出黑屏一下
     private LinearLayout panel_layout;
     private SeekBar player_seekBar;
     private PlayerMenu playerMenu;
@@ -144,9 +143,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean isNeedOnResume = false;// 当前页面未销毁,不在栈的顶层
     private boolean isClickKeFu = false;// 跳转至客服界面再返回后,不再做广告请求
     private String mUser;// playerCheck 返回user类型
-    private boolean mHasPreLoad;// 已经在详情页实现了预加载
-    private String[] tempPaths;// 预加载时用到
-    private List<AdElementEntity> tempAds;// 预加载时用到
+//    private boolean mHasPreLoad;// 已经在详情页实现了预加载
+//    private String[] tempPaths;// 预加载时用到
+//    private List<AdElementEntity> tempAds;// 预加载时用到
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -164,19 +163,18 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         // Required empty public constructor
     }
 
-    public static PlayerFragment newInstance(int pk, int subPk, String source, String itemJson, String clipJson,
-                                             int historyPosition, int historyQuality, String[] paths, String adLists) {
+    public static PlayerFragment newInstance(int pk, int subPk, String source) {
         PlayerFragment fragment = new PlayerFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PK, pk);
         args.putInt(ARG_SUB_PK, subPk);
         args.putString(ARG_SOURCE, source);
-        args.putString(ARG_DETAIL_PAGE_ITEM, itemJson);
-        args.putString(ARG_DETAIL_PAGE_CLIP, clipJson);
-        args.putInt(ARG_DETAIL_PAGE_POSITION, historyPosition);
-        args.putInt(ARG_DETAIL_PAGE_QUALITY, historyQuality);
-        args.putStringArray(ARG_DETAIL_PAGE_PATHS, paths);
-        args.putString(ARG_DETAIL_PAGE_ADS, adLists);
+//        args.putString(ARG_DETAIL_PAGE_ITEM, itemJson);
+//        args.putString(ARG_DETAIL_PAGE_CLIP, clipJson);
+//        args.putInt(ARG_DETAIL_PAGE_POSITION, historyPosition);
+//        args.putInt(ARG_DETAIL_PAGE_QUALITY, historyQuality);
+//        args.putStringArray(ARG_DETAIL_PAGE_PATHS, paths);
+//        args.putString(ARG_DETAIL_PAGE_ADS, adLists);
         fragment.setArguments(args);
         return fragment;
     }
@@ -198,24 +196,24 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         itemPK = bundle.getInt(ARG_PK);
         subItemPk = bundle.getInt(ARG_SUB_PK);
         source = bundle.getString(ARG_SOURCE);
-        String itemJson = bundle.getString(ARG_DETAIL_PAGE_ITEM);
-        String clipJson = bundle.getString(ARG_DETAIL_PAGE_CLIP);// 注意clipJson地址已解密
-        if (itemJson != null && clipJson != null) {
-            mHasPreLoad = true;
-            mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
-            mClipEntity = new Gson().fromJson(clipJson, ClipEntity.class);
-            mCurrentPosition = bundle.getInt(ARG_DETAIL_PAGE_POSITION);
-            mCurrentQuality = ClipEntity.Quality.getQuality(bundle.getInt(ARG_DETAIL_PAGE_QUALITY));
-            tempPaths = bundle.getStringArray(ARG_DETAIL_PAGE_PATHS);
-            String adString = bundle.getString(ARG_DETAIL_PAGE_ADS);
-            if (!TextUtils.isEmpty(adString)) {
-                AdElementEntity[] adElementEntities = new Gson().fromJson(adString, AdElementEntity[].class);
-                tempAds = new ArrayList<>();
-                for (AdElementEntity adElement : adElementEntities) {
-                    tempAds.add(adElement);
-                }
-            }
-        }
+//        String itemJson = bundle.getString(ARG_DETAIL_PAGE_ITEM);
+//        String clipJson = bundle.getString(ARG_DETAIL_PAGE_CLIP);// 注意clipJson地址已解密
+//        if (itemJson != null && clipJson != null) {
+//            mHasPreLoad = true;
+//            mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+//            mClipEntity = new Gson().fromJson(clipJson, ClipEntity.class);
+//            mCurrentPosition = bundle.getInt(ARG_DETAIL_PAGE_POSITION);
+//            mCurrentQuality = ClipEntity.Quality.getQuality(bundle.getInt(ARG_DETAIL_PAGE_QUALITY));
+//            tempPaths = bundle.getStringArray(ARG_DETAIL_PAGE_PATHS);
+//            String adString = bundle.getString(ARG_DETAIL_PAGE_ADS);
+//            if (!TextUtils.isEmpty(adString)) {
+//                AdElementEntity[] adElementEntities = new Gson().fromJson(adString, AdElementEntity[].class);
+//                tempAds = new ArrayList<>();
+//                for (AdElementEntity adElement : adElementEntities) {
+//                    tempAds.add(adElement);
+//                }
+//            }
+//        }
         mPlayerPagePresenter = new PlayerPagePresenter((BaseActivity) getActivity(), this);
         mModel = new PlayerPageViewModel(getActivity(), mPlayerPagePresenter);
         panelShowAnimation = AnimationUtils.loadAnimation(getActivity(),
@@ -242,6 +240,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void initView(View contentView) {
         player_container = (FrameLayout) contentView.findViewById(R.id.player_container);
+        player_surface = (DaisyVideoView) contentView.findViewById(R.id.player_surface);
         panel_layout = (LinearLayout) contentView.findViewById(R.id.panel_layout);
         player_seekBar = (SeekBar) contentView.findViewById(R.id.player_seekBar);
         player_logo_image = (ImageView) contentView.findViewById(R.id.player_logo_image);
@@ -284,6 +283,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
         player_container.setOnHoverListener(onHoverListener);
         player_container.setOnClickListener(onClickListener);
+        player_surface.setOnHoverListener(onHoverListener);
+        player_surface.setOnClickListener(onClickListener);
         player_seekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
     }
@@ -314,13 +315,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void goOtherPage(int type) {
         hideMenu();
         hidePanel();
-        timerStop();
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
+        isNeedOnResume = true;
         switch (type) {
             case EVENT_CLICK_VIP_BUY:
-                isNeedOnResume = true;
                 if (mIsmartvPlayer != null && mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                     toPayPage(mItemEntity.getPk(), 2, 3, null);
                 } else {
@@ -328,7 +328,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 break;
             case EVENT_CLICK_KEFU:
-                // 此处需要等Menu动画结束之后再跳转Activity
                 isClickKeFu = true;
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -339,7 +338,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }, 400);
                 break;
             case EVENT_COMPLETE_BUY:
-                isNeedOnResume = true;
                 ItemEntity.Expense expense = mItemEntity.getExpense();
                 PageIntentInterface.ProductCategory mode = null;
                 if (1 == mItemEntity.getExpense().getJump_to()) {
@@ -348,7 +346,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 toPayPage(mItemEntity.getPk(), expense.getJump_to(), expense.getCpid(), mode);
                 break;
         }
-        mIsmartvPlayer.release(true);
+        mIsmartvPlayer.stopPlayBack();
         mIsmartvPlayer = null;
     }
 
@@ -360,23 +358,24 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             return;
         }
         // 从客服中心，购买页面返回
-        if (isNeedOnResume || isClickKeFu) {
+        if (isNeedOnResume) {
             isNeedOnResume = false;
             initPlayer();
         } else {
             // 首次进入
-            Log.i(TAG, "onResume:" + mHasPreLoad);
-            if (mHasPreLoad && BaseActivity.mSmartPlayer != null) {
-                createPlayer(null);
-            } else {
-                fetchItemData();
-            }
+            Log.i(TAG, "onResume:");
+            fetchItemData();
         }
 
     }
 
     @Override
     public void onStop() {
+        if (sharpKeyDownNotResume) {
+            sharpKeyDownNotResume = false;
+            return;
+        }
+        cancelTimer();
         hidePanel();
         timerStop();
         hideMenu();
@@ -400,12 +399,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (!isNeedOnResume && !isClickKeFu) {
             mPresenter.stop();
             if (mIsmartvPlayer != null) {
-                mIsmartvPlayer.release(true);
+                mIsmartvPlayer.stopPlayBack();
                 mIsmartvPlayer = null;
             }
-            if (BaseActivity.mSmartPlayer != null) {
-                BaseActivity.mSmartPlayer = null;
-            }
+//            if (BaseActivity.mSmartPlayer != null) {
+//                BaseActivity.mSmartPlayer = null;
+//            }
         }
         super.onStop();
     }
@@ -431,7 +430,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public void onBufferStart() {
         Log.i(TAG, "onBufferStart");
         if (!isSeeking) {
-            timerStop();
             showBuffer(null);
         }
         if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
@@ -448,7 +446,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.i(TAG, "onBufferEnd");
         cancelTimer();
         if (!isSeeking || mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
-            timerStart(500);
             hideBuffer();
         }
     }
@@ -479,15 +476,26 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (!mIsmartvPlayer.isPlaying()) {
             mIsmartvPlayer.start();
         }
+//        if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
+//
+//        } else {
+//            if (mCurrentPosition > 0) {
+//                isSeeking = true;
+//                mIsmartvPlayer.seekTo(mCurrentPosition);
+//                mIsmartvPlayer.start();
+//            } else {
+//                mIsmartvPlayer.start();
+//            }
+//        }
 
     }
 
     private void initPlayer() {
         if (mIsmartvPlayer != null) {
-            mIsmartvPlayer.release(true);
+            Log.i(TAG, "mIsmartvPlayer not null when init.");
+            mIsmartvPlayer.stopPlayBack();
             mIsmartvPlayer = null;
         }
-        player_container.setVisibility(View.GONE);
         player_logo_image.setVisibility(View.GONE);
         mIsPlayingAd = false;
         mIsInAdDetail = false;
@@ -623,7 +631,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         ItemEntity nextItem = subItems[i + 1];
                         if (nextItem != null && nextItem.getClip() != null) {
                             if (mIsmartvPlayer != null) {
-                                mIsmartvPlayer.release(true);
+                                mIsmartvPlayer.stopPlayBack();
                                 mIsmartvPlayer = null;
                             }
                             mItemEntity.setTitle(nextItem.getTitle());
@@ -707,11 +715,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     };
 
     private void timerStart(int delay) {
-        if (mIsmartvPlayer == null || mItemEntity == null) {
+        if (mIsmartvPlayer == null || mItemEntity == null || mIsPlayingAd) {
             Log.e(TAG, "checkTaskStart: mIsmartvPlayer is null.");
-            return;
-        }
-        if (mIsPlayingAd) {
             return;
         }
         mTimerHandler.removeCallbacks(timerRunnable);
@@ -720,9 +725,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         } else {
             mTimerHandler.post(timerRunnable);
         }
-        if (isSeeking) {
-            tempSeekPosition = mIsmartvPlayer.getCurrentPosition();
-        }
+
     }
 
     private void timerStop() {
@@ -730,8 +733,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private Handler mTimerHandler = new Handler();
-
-    private int tempSeekPosition;
 
     private Runnable timerRunnable = new Runnable() {
         public void run() {
@@ -754,22 +755,20 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 // 播放过程中断网判断End
 
-                if (isSeeking && tempSeekPosition == mediaPosition) {
-                    mTimerHandler.postDelayed(timerRunnable, 500);
-                    return;
-                }
-//                if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
-//                    // Seek操作之后，getCurrentPosition在seek之前位置附近
-//                    // Seek操作之后，视云播放器已经播放了，画面还未动，解码延迟
-//                    if (mCurrentPosition == mediaPosition) {
-//                        mTimerHandler.postDelayed(timerRunnable, 500);
-//                        return;
-//                    }
-//
-//                }
-                if (isSeeking) {
-                    isSeeking = false;
-                    tempSeekPosition = -1;
+                if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                    // Seek操作之后，getCurrentPosition在seek之前位置附近
+                    // Seek操作之后，视云播放器已经播放了，画面还未动，解码延迟
+                    if (mCurrentPosition == mediaPosition) {
+                        mTimerHandler.postDelayed(timerRunnable, 500);
+                        return;
+                    }
+
+                    if (isSeeking) {
+                        mTimerHandler.postDelayed(timerRunnable, 500);
+                        isSeeking = false;
+                        return;
+                    }
+
                 }
                 if (isBufferShow()) {
                     hideBuffer();
@@ -979,19 +978,24 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         ItemEntity.Clip clip = itemEntity.getClip();
         ItemEntity[] subItems = itemEntity.getSubitems();
         if (subItems != null && subItems.length > 0) {
-            Log.i(TAG, "loadPlayerItem_sub_item_pk:" + subItemPk);
+            int history_sub_pk = 0;
+            if (mHistory != null) {
+                history_sub_pk = Utils.getItemPk(mHistory.sub_url);
+            }
+            Log.i(TAG, "loadItem-ExtraSubItemPk:" + subItemPk + " historySubPk:" + history_sub_pk);
             if (subItemPk <= 0) {
-                // 传入的subItemPk值大于0表示指定播放某一集
                 // 点击播放按钮时，如果有历史记录，应该播放历史记录的subItemPk,默认播放第一集
-                subItemPk = subItems[0].getPk();
+                if (history_sub_pk > 0) {
+                    subItemPk = history_sub_pk;
+                    mCurrentPosition = (int) mHistory.last_position;
+                } else {
+                    subItemPk = subItems[0].getPk();
+                    mCurrentPosition = 0;
+                }
 
-                if (mHistory != null) {
-                    int sub_item_pk = Utils.getItemPk(mHistory.sub_url);
-                    Log.i(TAG, "CheckHistory_sub_item_pk:" + sub_item_pk);
-                    if (sub_item_pk > 0) {
-                        subItemPk = sub_item_pk;
-                        mCurrentPosition = (int) mHistory.last_position;
-                    }
+            } else {
+                if (subItemPk != history_sub_pk) {
+                    mCurrentPosition = 0;
                 }
             }
             // 获取当前要播放的电视剧Clip
@@ -1084,25 +1088,26 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void createPlayer(List<AdElementEntity> adList) {
         byte playerMode;
-        if (mHasPreLoad) {
-            // 视云预加载
-            playerMode = PlayerBuilder.MODE_PRELOAD_PLAYER;
+//        if (mHasPreLoad) {
+//            // 视云预加载
+//            playerMode = PlayerBuilder.MODE_PRELOAD_PLAYER;
+//        } else {
+        String iqiyi = mClipEntity.getIqiyi_4_0();
+        if (Utils.isEmptyText(iqiyi)) {
+            // 片源为视云
+            playerMode = PlayerBuilder.MODE_SMART_PLAYER;
         } else {
-            String iqiyi = mClipEntity.getIqiyi_4_0();
-            if (Utils.isEmptyText(iqiyi)) {
-                // 片源为视云
-                playerMode = PlayerBuilder.MODE_SMART_PLAYER;
-            } else {
-                // 片源为爱奇艺
-                playerMode = PlayerBuilder.MODE_QIYI_PLAYER;
-            }
+            // 片源为爱奇艺
+            playerMode = PlayerBuilder.MODE_QIYI_PLAYER;
         }
+//        }
 
         Log.i(TAG, "mCurrentPosition:" + mCurrentPosition);
         mIsmartvPlayer = PlayerBuilder.getInstance()
                 .setActivity(getActivity())
                 .setPlayerMode(playerMode)
                 .setItemEntity(mItemEntity)
+                .setDaisyVideoview(player_surface)
                 .setContainer(player_container)
                 .setStartPosition(mCurrentPosition)
                 .setIsPreview(mIsPreview)
@@ -1112,9 +1117,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsmartvPlayer.setOnVideoSizeChangedListener(this);
         mIsmartvPlayer.setOnInfoListener(this);
         mIsmartvPlayer.setUser(mUser);
-        if (mHasPreLoad) {
-            mIsmartvPlayer.setSmartPlayer(BaseActivity.mSmartPlayer, tempPaths, tempAds);
-        }
+//        if (mHasPreLoad) {
+//            mIsmartvPlayer.setSmartPlayer(BaseActivity.mSmartPlayer, tempPaths, tempAds);
+//        }
         mIsmartvPlayer.setDataSource(mClipEntity, mCurrentQuality, adList, new IPlayer.OnDataSourceSetListener() {
             @Override
             public void onSuccess() {
@@ -1122,16 +1127,16 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 if (mIsmartvPlayer == null) {
                     return;
                 }
-                if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
-                    mIsmartvPlayer.prepareAsync();
-                    mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
-                } else {
-                    if (mHasPreLoad) {
-                        mHasPreLoad = false;
-                    } else {
-                        mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
-                    }
-                }
+//                if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
+                mIsmartvPlayer.prepareAsync();
+                mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
+//                } else {
+//                    if (mHasPreLoad) {
+//                        mHasPreLoad = false;
+//                    } else {
+//                        mCurrentQuality = mIsmartvPlayer.getCurrentQuality();
+//                    }
+//                }
             }
 
             @Override
@@ -1324,7 +1329,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 if (subItem.getPk() == id) {
                     mCurrentPosition = 0;
                     timerStop();
-                    mIsmartvPlayer.release(false);
+                    mIsmartvPlayer.stopPlayBack();
                     mIsmartvPlayer = null;
                     ItemEntity.Clip clip = subItem.getClip();
                     String sign = "";
@@ -1332,6 +1337,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     mItemEntity.setTitle(subItem.getTitle());
                     mItemEntity.setClip(clip);
                     subItemPk = subItem.getPk();
+                    isSwitchTelevision = true;
 
                     showBuffer(PlAYSTART + mItemEntity.getTitle());
                     if (clip != null) {
@@ -1342,6 +1348,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
             }
         } else if (id == MENU_KEFU_ID) {
+            mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
+            addHistory(mCurrentPosition, false);
             goOtherPage(EVENT_CLICK_KEFU);
             ret = true;
         } else if (id == MENU_RESTART) {
@@ -1468,7 +1476,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
         cancelTimer();
-        timerStop();
         hideBuffer();
         hidePanel();
         getActivity().finish();

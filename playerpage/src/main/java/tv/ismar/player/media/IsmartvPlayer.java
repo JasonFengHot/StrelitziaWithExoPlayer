@@ -3,9 +3,7 @@ package tv.ismar.player.media;
 import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.qiyi.sdk.player.IAdController;
 import com.qiyi.sdk.player.IMedia;
@@ -21,15 +19,14 @@ import java.util.List;
 import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
-import tv.ismar.app.reporter.EventReporter;
-import tv.ismar.app.reporter.IsmartvMedia;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.reporter.EventReporter;
+import tv.ismar.app.reporter.IsmartvMedia;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.AccessProxy;
-import tv.ismar.player.SmartPlayer;
 
 /**
  * Created by longhai on 16-9-12.
@@ -37,16 +34,6 @@ import tv.ismar.player.SmartPlayer;
 public abstract class IsmartvPlayer implements IPlayer {
 
     protected static final String TAG = "LH/IsmartvPlayer";
-
-    public static final int STATE_ERROR = -1;
-    public static final int STATE_IDLE = 0;
-    public static final int STATE_PREPARING = 1;
-    public static final int STATE_PREPARED = 2;
-    public static final int STATE_PLAYING = 3;
-    public static final int STATE_PAUSED = 4;
-    public static final int STATE_COMPLETED = 5;
-    public static final int STATE_BUFFERING = 6;
-    protected int mCurrentState = STATE_IDLE;
     protected byte mPlayerMode;
     private int mDrmType;
 
@@ -54,6 +41,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected ItemEntity mItemEntity;
     protected ClipEntity mClipEntity;
     protected EventReporter mEventReport;
+    public String mCurrentMediaUrl;
 
     // 视云
     protected HashMap<String, Integer> mAdIdMap = new HashMap<>();
@@ -63,6 +51,7 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected List<ClipEntity.Quality> mQualities;
     protected boolean mIsPlayingAdvertisement;
     protected FrameLayout mContainer;
+    protected DaisyVideoView mDaisyVideoView;
     protected int mStartPosition;
     protected boolean mIsPreview;
 
@@ -103,15 +92,16 @@ public abstract class IsmartvPlayer implements IPlayer {
         mContainer = container;
     }
 
+    public void setDaisyVideoView(DaisyVideoView daisyVideoView){
+        mDaisyVideoView = daisyVideoView;
+    }
+
     public void setStartPosition(int startPosition) {
         mStartPosition = startPosition;
     }
 
     public void setIsPreview(boolean isPreview) {
         this.mIsPreview = isPreview;
-    }
-
-    public void setSmartPlayer(SmartPlayer smartPlayer, String[] paths, List<AdElementEntity> adElementEntityList) {
     }
 
     @Override
@@ -189,12 +179,12 @@ public abstract class IsmartvPlayer implements IPlayer {
                     }
                 }
                 break;
-            case PlayerBuilder.MODE_PRELOAD_PLAYER:
-                mPlayerFlag = PLAYER_FLAG_SMART;
-                mClipEntity = clipEntity;
-                initSmartQuality(initQuality);
-                setMedia(new String[1]);
-                break;
+//            case PlayerBuilder.MODE_PRELOAD_PLAYER:
+//                mPlayerFlag = PLAYER_FLAG_SMART;
+//                mClipEntity = clipEntity;
+//                initSmartQuality(initQuality);
+//                setMedia(new String[1]);
+//                break;
             case PlayerBuilder.MODE_QIYI_PLAYER:
                 // 片源为爱奇艺
                 mPlayerFlag = PLAYER_FLAG_QIYI;
@@ -269,10 +259,8 @@ public abstract class IsmartvPlayer implements IPlayer {
     public void prepareAsync() {
     }
 
-    @Override
-    public void release(boolean flag) {
+    public void stopPlayBack() {
         isQiyiSdkInit = false;
-        mCurrentState = STATE_IDLE;
         mContext = null;
         mItemEntity = null;
         mClipEntity = null;
@@ -283,9 +271,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         mOnInfoListener = null;
         isQiyiSdkInit = false;
 
-        if(flag){
-            mEventReport.setIsRunning(false);
-        }
+        mEventReport.setIsRunning(false);
     }
 
     @Override
@@ -296,17 +282,6 @@ public abstract class IsmartvPlayer implements IPlayer {
     @Override
     public List<ClipEntity.Quality> getQulities() {
         return mQualities;
-    }
-
-    @Override
-    public boolean isInPlaybackState() {
-        return mCurrentState != STATE_ERROR &&
-                mCurrentState != STATE_IDLE &&
-                mCurrentState != STATE_PREPARING;
-    }
-
-    public boolean isVideoPrepared() {
-        return mCurrentState == STATE_PREPARED;
     }
 
     @Override
@@ -331,12 +306,10 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     // 调用视云播放器
     protected void setMedia(String[] urls) {
-        mCurrentState = STATE_IDLE;
     }
 
     // 调用奇艺播放器
     protected void setMedia(IMedia media) {
-        mCurrentState = STATE_IDLE;
     }
 
     protected String getSmartQualityUrl(ClipEntity.Quality quality) {
@@ -589,37 +562,6 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     public boolean isPlayingAd() {
         return mIsPlayingAdvertisement;
-    }
-
-    protected int[] computeVideoSize(int videoWidth, int videoHeight) {
-        if (mContext == null) {
-            return null;
-        }
-        int[] size = new int[2];
-        int screenWidth = DeviceUtils.getDisplayPixelWidth(mContext);
-        int screenHeight = DeviceUtils.getDisplayPixelHeight(mContext);
-        double dw = screenWidth;
-        double dh = screenHeight;
-        if (videoWidth == videoHeight) {
-            if (dw > dh) {
-                dw = screenHeight;
-            } else {
-                dh = screenWidth;
-            }
-        } else {
-            double dar = dw / dh;
-            double ar = videoWidth / videoHeight;
-            if (dar < ar) {
-                double widthScale = videoWidth / dw;
-                dh = videoHeight / widthScale;
-            } else {
-                double heightScale = videoHeight / dh;
-                dw = videoWidth / heightScale;
-            }
-        }
-        size[0] = (int) Math.ceil(dw);
-        size[1] = (int) Math.ceil(dh);
-        return size;
     }
 
 }

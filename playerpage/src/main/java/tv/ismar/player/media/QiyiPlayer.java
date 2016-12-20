@@ -26,8 +26,8 @@ public class QiyiPlayer extends IsmartvPlayer {
 
     @Override
     protected void setMedia(IMedia media) {
+        mDaisyVideoView.setVisibility(View.GONE);
         mContainer.setVisibility(View.VISIBLE);
-
         //创建IVideoOverlay对象, 不支持实现IVideoOverlay接口，必须调用PlaySdk.getInstance().createVideoOverlay创建
         //创建IVideoOverlay对象, 不需创建SurfaceView, 直接传入父容器即可
         videoSurfaceView = new QiYiVideoView(mContext);
@@ -43,13 +43,20 @@ public class QiyiPlayer extends IsmartvPlayer {
     }
 
     @Override
+    public boolean isInPlaybackState() {
+        if (videoSurfaceView == null) {
+            return false;
+        }
+        return videoSurfaceView.isInPlaybackState();
+    }
+
+    @Override
     public void prepareAsync() {
         //调用prepareAsync, 播放器开始准备, 必须调用
         if (videoSurfaceView == null) {
             return;
         }
         videoSurfaceView.prepareAsync();
-        mCurrentState = STATE_PREPARING;
     }
 
 
@@ -70,12 +77,12 @@ public class QiyiPlayer extends IsmartvPlayer {
     }
 
     @Override
-    public void release(boolean flag) {
-        super.release(flag);
+    public void stopPlayBack() {
+        super.stopPlayBack();
         if (videoSurfaceView == null) {
             return;
         }
-        videoSurfaceView.release(flag);
+        videoSurfaceView.release(false);
     }
 
     @Override
