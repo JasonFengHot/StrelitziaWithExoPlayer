@@ -95,6 +95,7 @@ public class UploadFeedback implements Runnable {
             }
             connection.disconnect();
         } catch (MalformedURLException e) {
+
             Log.e(TAG, e.getMessage());
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());

@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
@@ -271,6 +273,10 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
                     favorite.isnet = isnet;
                     if (isnet.equals("yes")) {
                         createFavoriteByNet();
+                    }
+                    ArrayList<Favorite> favorites = DaisyUtils.getFavoriteManager(getApplicationContext()).getAllFavorites("no");
+                    if(favorites.size()>49){
+                        mFavoriteManager.deleteFavoriteByUrl(favorites.get(favorites.size()-1).url, "no");
                     }
                     mFavoriteManager.addFavorite(favorite, isnet);
                     // mFavoriteManager.addFavorite(item.title, url, mItem.content_model);

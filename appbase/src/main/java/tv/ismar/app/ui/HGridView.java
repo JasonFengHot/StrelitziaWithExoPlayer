@@ -518,7 +518,8 @@ public class HGridView extends AdapterView<HGridAdapter> {
 			itemCount += mAdapter.getSectionCount(i);
 		}
 		int sectionFirstPosition = itemCount;
-        if(leftbtn!=null&&rightbtn!=null){
+		Log.i("HGrideview","sectionIndex:　"+sectionIndex);
+		if(leftbtn!=null&&rightbtn!=null){
             if(sectionIndex!=0){
                 leftbtn.setVisibility(View.VISIBLE);
             }
@@ -2649,7 +2650,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 			setNextSelectedPositionInt(nextPage);
 			mLayoutMode = LAYOUT_SPECIFIC;
 			layoutChildren();
-			if(nextPage == 0 || currentCol == 0){
+			if(nextPage == 0 || currentCol == -1){
 				leftbtn.setVisibility(View.INVISIBLE);
 				rightbtn.setVisibility(View.VISIBLE);
 				rightbtn.setFocusable(false);
