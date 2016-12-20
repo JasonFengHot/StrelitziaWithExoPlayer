@@ -80,10 +80,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        if (updatePopupWindow != null) {
-            updatePopupWindow.dismiss();
-            updatePopupWindow = null;
-        }
+
 
         if (expireAccessTokenPop != null) {
             expireAccessTokenPop.dismiss();
@@ -91,6 +88,15 @@ public class BaseActivity extends AppCompatActivity {
         }
         unregisterReceiver(mUpdateReceiver);
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        if (updatePopupWindow != null) {
+            updatePopupWindow.dismiss();
+            updatePopupWindow = null;
+        }
+        super.onStop();
     }
 
     protected <T extends View> T findView(int resId) {
