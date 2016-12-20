@@ -778,6 +778,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     private Runnable getItemlistRunnable=new Runnable() {
         @Override
         public void run() {
+            Log.i(TAG,"getItemlistRunnable: "+nextIndex);
             getItemList(nextIndex);
         }
     };
@@ -841,7 +842,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 if (!currentLoadingTask.containsKey(composedIndex)) {
                  //   new GetItemListTask().execute(composedIndex);
                     nextIndex=composedIndex;
-               //     getItemlistHandler.removeCallbacks(getItemlistRunnable);
+                    getItemlistHandler.removeCallbacks(getItemlistRunnable);
                     getItemlistHandler.postDelayed(getItemlistRunnable,1000);
                 }
             }
