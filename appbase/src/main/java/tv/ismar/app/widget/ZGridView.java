@@ -3845,43 +3845,44 @@ public class ZGridView extends AdapterView<ListAdapter> {
 	@Override
 	protected boolean dispatchHoverEvent(MotionEvent event) {
 		// TODO Auto-generated method stub
-		if(onhoverlistener != null){
-			onhoverlistener.onHover(this, event);
-		}
-		switch (event.getAction()) {
-			case MotionEvent.ACTION_HOVER_ENTER:
-//			hover = true;
-//			break;
-			case MotionEvent.ACTION_HOVER_MOVE:
-				int position1 = pointToPosition((int) event.getX(),
-						(int) event.getY());
-				if (position1 >= 0) {
-					hover = true;
-					focus=true;
-					setFocusable(true);
-					setFocusableInTouchMode(true);
-					setSelection(position1);
-					requestFocusFromTouch();
-				}else{
-					hover = false;
-					focus=false;
-					mSelectorRect.setEmpty();
-					invalidate();
-					if(xxxsele!=null){
-						xxxsele.setScaleX(1.0f);
-						xxxsele.setScaleY(1.0f);
-					}
-
-				}
-				break;
-			case MotionEvent.ACTION_HOVER_EXIT:
-//			clearFocus();
-				hover = false;
-				focus=false;
-				mSelectorRect.setEmpty();
-				requestLayout();
-				break;
-		}
+//		if(onhoverlistener != null){
+//			onhoverlistener.onHover(this, event);
+//		}
+//		switch (event.getAction()) {
+//			case MotionEvent.ACTION_HOVER_ENTER:
+////			hover = true;
+////			break;
+//			case MotionEvent.ACTION_HOVER_MOVE:
+//				int position1 = pointToPosition((int) event.getX(),
+//						(int) event.getY());
+//				if (position1 >= 0) {
+//					hover = true;
+//					focus=true;
+//					setFocusable(true);
+//					setFocusableInTouchMode(true);
+//					setSelection(position1);
+//					requestFocusFromTouch();
+//					requestFocus();
+//				}else{
+//					hover = false;
+//					focus=false;
+//					mSelectorRect.setEmpty();
+//					invalidate();
+//					if(xxxsele!=null){
+//						xxxsele.setScaleX(1.0f);
+//						xxxsele.setScaleY(1.0f);
+//					}
+//
+//				}
+//				break;
+//			case MotionEvent.ACTION_HOVER_EXIT:
+////			clearFocus();
+//				hover = false;
+//				focus=false;
+//				mSelectorRect.setEmpty();
+//				requestLayout();
+//				break;
+//		}
 		return false;
 	}
 

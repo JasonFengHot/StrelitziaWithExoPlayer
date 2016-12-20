@@ -309,14 +309,15 @@
                         android:text="@{tasks.playText}"
                         android:enabled="@{tasks.Enabled}"
                         android:focusable="@{tasks.Enabled}"
+                        android:visibility="@{tasks.visibility}"
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_32sp"
+
                     />
                     <Button
                         android:id="@+id/detail_btn_buy"
                         android:layout_width="@dimen/normal_detail_button1_w"
                         android:layout_height="@dimen/normal_detail_button_h"
-                        android:layout_marginLeft="@dimen/normal_detail_button_space"
                         android:background="@drawable/selector_movie_buy"
                         android:gravity="center"
                         android:nextFocusDown="@id/detail_btn_buy"
