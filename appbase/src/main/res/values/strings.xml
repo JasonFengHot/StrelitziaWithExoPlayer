@@ -13,7 +13,7 @@
     <string name="loading_text">正在加载…</string>
 
     <string name="vod_get_data_error">无法从服务器获取数据，请稍后重试。</string>
-    <string name="vod_i_know">我知道了</string>
+    <string name="vod_i_know">返回</string>
     <string name="vod_retry">重试</string>
     <string name="vod_ok">确定</string>
     <string name="vod_cancel">取消</string>

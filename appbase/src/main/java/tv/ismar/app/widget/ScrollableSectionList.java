@@ -271,6 +271,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                     return;
                 } else {
                     if (currentState == STATE_LEAVE_GRIDVIEW) {
+
                         currentState = STATE_SECTION;
                         mContainer.getChildAt(mSelectPosition).requestFocus();
                     } else if (currentState == STATE_SECTION) {
