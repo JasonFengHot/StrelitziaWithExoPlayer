@@ -40,11 +40,16 @@ public class UpdatePopupWindow extends PopupWindow implements View.OnHoverListen
         setHeight(screenHeight);
 
         View contentView = LayoutInflater.from(context).inflate(R.layout.popup_update, null);
+        Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
+        Button updateLater = (Button) contentView.findViewById(R.id.update_later_bt);
+        updateNow.setOnHoverListener(this);
+        updateLater.setOnHoverListener(this);
 
         tmp = contentView.findViewById(R.id.tmp);
 
 
         LinearLayout updateMsgLayout = (LinearLayout) contentView.findViewById(R.id.update_msg_layout);
+
 
         final String path = bundle.getString("path");
 
@@ -72,8 +77,6 @@ public class UpdatePopupWindow extends PopupWindow implements View.OnHoverListen
         setBackgroundDrawable(contentView.getResources().getDrawable(R.drawable.pop_bg_drawable));
         setFocusable(true);
 
-        Button updateNow = (Button) contentView.findViewById(R.id.update_now_bt);
-        Button updateLater = (Button) contentView.findViewById(R.id.update_later_bt);
         updateNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,8 +98,7 @@ public class UpdatePopupWindow extends PopupWindow implements View.OnHoverListen
             }
         });
 
-        updateNow.setOnHoverListener(this);
-        updateLater.setOnHoverListener(this);
+
     }
 
     @Override
