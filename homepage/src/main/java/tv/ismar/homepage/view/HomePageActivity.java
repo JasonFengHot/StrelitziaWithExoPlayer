@@ -151,7 +151,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private String brandName;
     private Subscription channelsSub;
 
-    private boolean isCheckoutUpdate = true;
+
+
 
     @Override
     public void onUserCenterClick() {
@@ -324,7 +325,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (savedInstanceState != null)
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
-        isCheckoutUpdate = true;
+
         Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
         startTrueTimeService();
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
@@ -344,6 +345,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
         advertiseManager = new AdvertiseManager(getApplicationContext());
         launchAds = advertiseManager.getAppLaunchAdvertisement();
+        for (AdvertiseTable tab: launchAds){
+            totalAdsMills = totalAdsMills + tab.duration * 1000;
+        }
         int i = 0;
         for (AdvertiseTable adTable : launchAds) {
             int duration = adTable.duration;
@@ -396,10 +400,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             layout_homepage.setVisibility(View.VISIBLE);
             fetchChannels();
             startAdsService();
-            if (isCheckoutUpdate){
-                checkUpgrade();
-                isCheckoutUpdate = false;
-            }
         }
         startIntervalActive();
 
@@ -1448,12 +1448,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
         isneedpause = true;
         startAdsService();
-
-        //checkout update
-        if (isCheckoutUpdate){
-            checkUpgrade();
-            isCheckoutUpdate = false;
-        }
     }
 
     private int getAdCountDownTime() {
@@ -1495,15 +1489,5 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         startService(intent);
     }
 
-    private void checkUpgrade() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent();
-                intent.setClass(getApplicationContext(), UpdateService.class);
-                intent.putExtra("install_type", 0);
-                startService(intent);
-            }
-        }, 1000 * 3);
-    }
+
 }
