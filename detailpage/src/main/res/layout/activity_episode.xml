@@ -42,8 +42,6 @@
                 android:id="@+id/image_daram_back"
                 android:layout_width="@dimen/drama_main_image_daram_back_W"
                 android:layout_height="@dimen/drama_main_image_daram_back_H"
-                android:layout_marginLeft="@dimen/drama_main_image_daram_back_marginleft"
-                android:layout_marginTop="@dimen/drama_main_image_daram_back_margintop"
                 android:focusable="false"/>
 
             <ImageView
