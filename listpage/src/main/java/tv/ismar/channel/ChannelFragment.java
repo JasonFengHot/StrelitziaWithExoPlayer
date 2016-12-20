@@ -841,6 +841,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 if (!currentLoadingTask.containsKey(composedIndex)) {
                  //   new GetItemListTask().execute(composedIndex);
                     nextIndex=composedIndex;
+               //     getItemlistHandler.removeCallbacks(getItemlistRunnable);
                     getItemlistHandler.postDelayed(getItemlistRunnable,1000);
                 }
             }

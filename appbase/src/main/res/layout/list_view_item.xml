@@ -14,7 +14,7 @@
         android:id="@+id/list_item_preview_img"
         android:background="@drawable/list_item_preview_bg"
         android:layout_alignParentTop="true"
-        labelimage:focuspaddingtop="0.5"
+        labelimage:focuspaddingtop="0.7"
         labelimage:focustextsize="@dimen/h3_text_size"
         labelimage:maxfocustitle="10"
         labelimage:focusbackground="#D9000000"

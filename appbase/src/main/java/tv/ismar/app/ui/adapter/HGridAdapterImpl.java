@@ -190,8 +190,6 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection> implements As
 						if(item.expense.cptitle!=null){
 							holder.price.setVisibility(View.VISIBLE);
 							String imageUrl =  VipMark.getInstance().getImage((Activity) mContext, item.expense.pay_type,item.expense.cpid);
-							Log.i("pacage",item.expense.cptitle+" imageURl:"+imageUrl);
-
 							Picasso.with(mContext).load(imageUrl).into(holder.price);
 						}  else{
 							holder.price.setVisibility(View.GONE);

@@ -267,7 +267,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 if (index == mSelectPosition) {
                     label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
                     section_image.setImageResource(R.drawable.sectionfocus);
-                    v.startAnimation(scaleBigAnimation);
+                     v.startAnimation(scaleBigAnimation);
                     return;
                 } else {
                     if (currentState == STATE_LEAVE_GRIDVIEW) {
@@ -290,7 +290,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                     v.setHovered(false);
                 }
                 v.startAnimation(scaleSmallAnimation);
-                v.clearAnimation();
+               v.clearAnimation();
 //                Log.i("LH/", "sectionfocus:"+index+" "+mSelectPosition);
                 if (index == mSelectPosition) {
                     sectionWhenGoto = label;
@@ -356,11 +356,11 @@ public class ScrollableSectionList extends HorizontalScrollView {
         ((LayoutParams) section_image.getLayoutParams()).width = currentView.getWidth();
         if (currentState == STATE_SECTION) {
             section_image.setImageResource(R.drawable.sectionfocus);
-            currentView.startAnimation(scaleBigAnimation);
+           currentView.startAnimation(scaleBigAnimation);
         } else {
             section_image.setImageResource(R.drawable.gotogridview);
             currentView.startAnimation(scaleSmallAnimation);
-            lastSelectedView.clearAnimation();
+             lastSelectedView.clearAnimation();
         }
         lastSelectedView.startAnimation(scaleSmallAnimation);
         lastSelectedView.clearAnimation();
