@@ -601,7 +601,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onCompleted() {
-        if ((mIsmartvPlayer == null) || isPopWindowShow()) {
+        if ((mIsmartvPlayer == null) || isPopWindowShow() || isQuit) {// isQuit 奇艺试看视频结束后没有onCompleted,而是onStop.而部分机型返回键退出时也是调用onStop
             return;
         }
         hideMenu();

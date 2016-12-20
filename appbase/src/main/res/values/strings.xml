@@ -19,6 +19,7 @@
     <string name="vod_cancel">取消</string>
     <string name="setting_network">设置网络</string>
     <string name="i_know">我知道了</string>
+    <string name="back">返回</string>
     <string name="exit_app">退出应用</string>
     <string name="fetch_net_data_error">网络连接失败，请重试!</string>
     <string name="no_connectNet">当前无网络连接，请检查您的网络设置</string>
