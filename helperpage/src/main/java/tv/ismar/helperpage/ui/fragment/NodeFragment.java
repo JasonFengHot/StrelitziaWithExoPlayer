@@ -565,7 +565,9 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
                  */
                 httpDownloadTask = new HttpDownloadTask(mContext);
                 httpDownloadTask.setCompleteListener(NodeFragment.this);
-                httpDownloadTask.execute(cdnCollections);
+                if(cdnCollections!=null){
+                    httpDownloadTask.execute(cdnCollections);
+                }
             }
         });
         cdnTestDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {

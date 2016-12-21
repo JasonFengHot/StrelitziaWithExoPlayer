@@ -254,6 +254,7 @@ public class FilterFragment extends BackHandledFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        mLoadingDialog.dismiss();
                         super.onError(e);
                     }
                 });

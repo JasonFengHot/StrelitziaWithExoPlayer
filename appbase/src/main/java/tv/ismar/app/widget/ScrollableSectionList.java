@@ -268,6 +268,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                     label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
                     section_image.setImageResource(R.drawable.sectionfocus);
                      v.startAnimation(scaleBigAnimation);
+                    Log.i("Scrollsection","focus scaleBig");
                     return;
                 } else {
                     if (currentState == STATE_LEAVE_GRIDVIEW) {
@@ -290,6 +291,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 if(v.isHovered()){
                     v.setHovered(false);
                 }
+                Log.i("Scrollsection","nofocus scaleSmall");
                 v.startAnimation(scaleSmallAnimation);
                v.clearAnimation();
 //                Log.i("LH/", "sectionfocus:"+index+" "+mSelectPosition);
@@ -355,10 +357,12 @@ public class ScrollableSectionList extends HorizontalScrollView {
        // label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
         ImageView section_image = (ImageView) currentView.findViewById(R.id.section_image);
         ((LayoutParams) section_image.getLayoutParams()).width = currentView.getWidth();
-        if (currentState == STATE_SECTION) {
+        if (currentState == STATE_SECTION||currentState==STATE_LEAVE_GRIDVIEW) {
+            Log.i("Scrollsection","scaleBig : "+currentState);
             section_image.setImageResource(R.drawable.sectionfocus);
            currentView.startAnimation(scaleBigAnimation);
         } else {
+            Log.i("Scrollsection","scaleSmall : "+currentState);
             section_image.setImageResource(R.drawable.gotogridview);
             currentView.startAnimation(scaleSmallAnimation);
              lastSelectedView.clearAnimation();
@@ -444,7 +448,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                     int currentWidth = v.getWidth();
                     if (currentPos[0] + currentWidth > tabRightX || currentPos[0] + 1 < tabMargin) {
                         if (index == 0 || index == mContainer.getChildCount() - 1) {
-//                            Log.i("LH/","currentPos:"+currentPos[0]+" tabMargin:"+tabMargin);
+                           Log.i("LH/","currentPos:"+currentPos[0]+" tabMargin:"+tabMargin);
                             // TODO
                             new Handler().postDelayed(new Runnable() {
                                 @Override
