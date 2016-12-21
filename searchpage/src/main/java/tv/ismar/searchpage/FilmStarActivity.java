@@ -367,11 +367,11 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                         expense_txt.setText(expense.cptitle);
                         expense_txt.setVisibility(View.VISIBLE);
                         if(expense.pay_type==1){
-                            expense_txt.setBackgroundResource(R.drawable.list_single_buy);
+                            expense_txt.setBackgroundResource(R.drawable.list_single_buy_selector);
                         }else if((expense.cpname).startsWith("ismar")){
-                            expense_txt.setBackgroundResource(R.drawable.list_ismar);
+                            expense_txt.setBackgroundResource(R.drawable.list_ismar_selector);
                         }else if("iqiyi".equals(expense.cpname)){
-                            expense_txt.setBackgroundResource(R.drawable.list_lizhi);
+                            expense_txt.setBackgroundResource(R.drawable.list_lizhi_selector);
                         }
                     } else {
                         expense_txt.setVisibility(View.GONE);

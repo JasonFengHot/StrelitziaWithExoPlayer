@@ -25,7 +25,7 @@
                 android:layout_marginRight="@dimen/list_vip_score_mr"
                 android:layout_marginTop="@dimen/list_vip_score_horizon_mt"
                 android:gravity="center"
-                android:textColor="#ff9000"
+                android:textColor="@color/beanscore_color"
                 android:textSize="@dimen/score_tag_txt_size"
                 android:textStyle="bold"
                 android:visibility="gone"/>
@@ -37,7 +37,7 @@
                 android:layout_height="@dimen/VIP_tag_h"
                 android:textStyle="bold"
                 android:textSize="@dimen/tag_txt_size"
-                android:textColor="#ffffff"
+                android:textColor="@color/expense_text_color"
                 android:gravity="center"
                 android:background="@drawable/list_ismar"
                 android:visibility="gone">

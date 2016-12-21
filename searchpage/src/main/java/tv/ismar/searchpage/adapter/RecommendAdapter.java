@@ -71,7 +71,6 @@ public class RecommendAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         final Recommend.ObjectsEntity objectsEntity = mData.get(position);
         if (objectsEntity.adlet_url!= null && !objectsEntity.adlet_url.equals("")) {
             if ("movie".equals(objectsEntity.content_model)) {
@@ -84,11 +83,11 @@ public class RecommendAdapter extends BaseAdapter {
                         viewHolder.expense_txt.setText(objectsEntity.expense.cptitle);
                         viewHolder.expense_txt.setVisibility(View.VISIBLE);
                         if(objectsEntity.expense.pay_type== Expense.SEPARATE_CHARGE){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy_selector);
                         }else if((objectsEntity.expense.cpid == Expense.ISMARTV_CPID)){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar_selector);
                         }else if((objectsEntity.expense.cpid == Expense.IQIYI_CPID)){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi_selector);
                         }
                     } else {
                         viewHolder.expense_txt.setVisibility(View.GONE);
@@ -113,11 +112,11 @@ public class RecommendAdapter extends BaseAdapter {
                         viewHolder.expense_txt.setText(objectsEntity.expense.cptitle);
                         viewHolder.expense_txt.setVisibility(View.VISIBLE);
                         if(objectsEntity.expense.pay_type==1){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy_selector);
                         }else if((objectsEntity.expense.cpname).startsWith("ismar")){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar_selector);
                         }else if("iqiyi".equals(objectsEntity.expense.cpname)){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi_selector);
                         }
                     } else {
                         viewHolder.expense_txt.setVisibility(View.GONE);
