@@ -268,6 +268,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
                 convertView.setTag(viewHolder);
             }else{
                 viewHolder= (ViewHolder) convertView.getTag();
+                viewHolder.episodeBtn.setTag(position);
             }
             viewHolder.episodeBtn.setOnClickListener(this);
             viewHolder.episodeBtn.setText(String.valueOf(position + 1));
