@@ -197,7 +197,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/detail_text_mt4"
                         android:orientation="horizontal"
@@ -224,7 +224,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/normal_detail_text_w"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/detail_text_mt4"
                         android:orientation="horizontal"
@@ -383,7 +383,14 @@
                     />
 
                 </LinearLayout>
-
+            <ImageView
+                android:id="@+id/source"
+                android:layout_width="@dimen/source_tag_w"
+                android:layout_height="@dimen/source_tag_h"
+                android:layout_marginLeft="@dimen/source_tag_normal_detail_ml"
+                android:layout_marginTop="@dimen/source_tag_normal_detail_mt"
+                android:visibility="@{tasks.cpLogoVisibility}"
+                app:imageUrl="@{tasks.cpLogoUrl}"/>
             </RelativeLayout>
 
             <LinearLayout
