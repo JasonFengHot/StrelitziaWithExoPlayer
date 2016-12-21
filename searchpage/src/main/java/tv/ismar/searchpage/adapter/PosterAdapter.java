@@ -84,11 +84,11 @@ public class PosterAdapter extends BaseAdapter {
                             viewHolder.expense_txt.setText(objectsEntity.getExpense().cptitle);
                             viewHolder.expense_txt.setVisibility(View.VISIBLE);
                             if(objectsEntity.getExpense().pay_type== Expense.SEPARATE_CHARGE){
-                                viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy);
+                                viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy_selector);
                             }else if((objectsEntity.getExpense().cpid == Expense.ISMARTV_CPID)){
-                                viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar);
+                                viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar_selector);
                             }else if((objectsEntity.getExpense().cpid == Expense.IQIYI_CPID)){
-                                viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi);
+                                viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi_selector);
                             }
                         } else {
                             viewHolder.expense_txt.setVisibility(View.GONE);
@@ -113,11 +113,11 @@ public class PosterAdapter extends BaseAdapter {
                         viewHolder.expense_txt.setText(objectsEntity.getExpense().cptitle);
                         viewHolder.expense_txt.setVisibility(View.VISIBLE);
                         if(objectsEntity.getExpense().pay_type==1){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy_selector);
                         }else if((objectsEntity.getExpense().cpname).startsWith("ismar")){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar_selector);
                         }else if("iqiyi".equals(objectsEntity.getExpense().cpname)){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi);
+                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi_selector);
                         }
                     } else {
                         viewHolder.expense_txt.setVisibility(View.GONE);

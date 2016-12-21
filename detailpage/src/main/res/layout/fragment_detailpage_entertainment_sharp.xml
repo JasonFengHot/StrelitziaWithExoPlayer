@@ -361,8 +361,8 @@
                         android:id="@+id/source"
                         android:layout_width="@dimen/source_tag_w"
                         android:layout_height="@dimen/source_tag_h"
-                        android:layout_marginTop="@dimen/source_tag_entertain_detail_mt"
-                        android:layout_marginLeft="@dimen/source_tag_entertain_detail_ml"
+                        android:layout_marginTop="@dimen/source_tag_entertain_detail_ml"
+                        android:layout_marginLeft="@dimen/source_tag_entertain_detail_mt"
                         android:visibility="@{tasks.cpLogoVisibility}"
                         app:imageUrl="@{tasks.cpLogoUrl}"
                         />
