@@ -620,6 +620,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             if (mItemEntity.getLiveVideo() && "sport".equals(mItemEntity.getContentModel())) {
                 getActivity().finish();
             } else {
+                addHistory(mCurrentPosition, false);
                 goOtherPage(EVENT_COMPLETE_BUY);
             }
         } else {
@@ -736,11 +737,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private Runnable timerRunnable = new Runnable() {
         public void run() {
-            if (mItemEntity == null || mIsmartvPlayer == null) {
+            if (mItemEntity == null || mIsmartvPlayer == null || mItemEntity.getLiveVideo()) {
                 mTimerHandler.removeCallbacks(timerRunnable);
-                return;
-            }
-            if (mItemEntity.getLiveVideo() || !mIsmartvPlayer.isPlaying()) {
                 return;
             }
             if (mIsmartvPlayer.isPlaying()) {
@@ -1063,6 +1061,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsPlayingAd = false;
         isInit = false;
         mIsOnPaused = false;
+        isSeeking = false;
         // 每次进入创建播放器前先获取历史记录，历史播放位置，历史分辨率，手动切换剧集例外
         if (!isSwitchTelevision) {
             initHistory();
@@ -1153,6 +1152,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Log.i(TAG, "Get pause ad null.");
             return;
         }
+        Log.i(TAG, "Show pause ad.");
         // 视频暂停广告
         adImageDialog = new AdImageDialog(getActivity(), R.style.PauseAdDialog, pauseAdList);
         try {
@@ -1181,7 +1181,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
         }
 
-        if (mIsPreview) {
+        if (mIsPreview && !isClickKeFu) {
             mCurrentPosition = 0;
         }
 
@@ -1307,7 +1307,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
             mIsmartvPlayer.setStartPosition(mCurrentPosition);
             mIsmartvPlayer.switchQuality(clickQuality);
-            isSeeking = true;
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                 timerStop();
                 showBuffer(null);
@@ -1452,12 +1451,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 hideMenu();
                 return;
             }
-            if (mIsmartvPlayer.isPlaying()) {
-                mIsmartvPlayer.pause();
-                mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
-            } else {
-                mIsmartvPlayer.start();
-            }
+            playPauseVideo();
         }
     };
 
@@ -1591,6 +1585,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
     }
 
+    private void playPauseVideo(){
+        if (mIsmartvPlayer.isPlaying()) {
+            mIsOnPaused = true;
+            mIsmartvPlayer.pause();
+            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+            }
+        } else {
+            mIsOnPaused = false;
+            mIsmartvPlayer.start();
+        }
+    }
+
     private static boolean isQuit = false;
     private Timer quitTimer = new Timer();
 
@@ -1688,22 +1695,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
                     return true;
                 }
-                if (mIsmartvPlayer.isPlaying()) {
-                    mIsOnPaused = true;
-                    mIsmartvPlayer.pause();
-                    if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
-                        mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
-                    }
-                } else {
-                    mIsOnPaused = false;
-                    mIsmartvPlayer.start();
-                }
+                playPauseVideo();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY:
                 if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
                     return true;
                 }
                 if (!mIsmartvPlayer.isPlaying()) {
+                    mIsOnPaused = false;
                     mIsmartvPlayer.start();
                     hidePanel();
                 }
@@ -1714,8 +1713,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     return true;
                 }
                 if (mIsmartvPlayer.isPlaying()) {
+                    mIsOnPaused = true;
                     mIsmartvPlayer.pause();
-                    mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+                    if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                        mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+                    }
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:

@@ -69,7 +69,7 @@ public class AdImageDialog extends Dialog {
         if (sensorTimer == null) {
             sensorTimer = new Timer();
             myTimerTask = new MyTimerTask();
-            sensorTimer.schedule(myTimerTask, 1000, 1000);
+            sensorTimer.schedule(myTimerTask, 1000, 5000);
         }
 
         Window dialogWindow = getWindow();
@@ -115,7 +115,10 @@ public class AdImageDialog extends Dialog {
                                     public void onError() {
                                     }
                                 });
-
+                        if(mAdElementEntityList.size() == 1){
+                            // 只有一条广告时
+                            cancelTimer();
+                        }
                         if (mCurrentAdIndex == mAdElementEntityList.size() - 1) {
                             mCurrentAdIndex = 0;
                         } else {
