@@ -666,9 +666,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsmartvPlayer == null || isDetached()) {
             return true;
         }
-        Toast.makeText(getActivity(), "Temp player onError.", Toast.LENGTH_SHORT).show();
-        // TODO 播放器起播seekTo需要底层修改
-//        showExitPopup(POP_TYPE_PLAYER_ERROR);
+        showExitPopup(POP_TYPE_PLAYER_ERROR);
         return true;
     }
 
@@ -746,7 +744,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 // 播放过程中断网判断Start
                 if (mCurrentPosition == mediaPosition) {
                     if (!NetworkUtils.isConnected(getActivity())) {
-                        ((BaseActivity) getActivity()).showNetWorkErrorDialog(null);
+                        ((BaseActivity) getActivity()).showNoNetConnectDialog();
                         Log.e(TAG, "Network error.");
                         return;
                     }
@@ -1586,6 +1584,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void playPauseVideo(){
+        if(mItemEntity == null || mIsmartvPlayer == null || mItemEntity.getLiveVideo()){
+            return;
+        }
         if (mIsmartvPlayer.isPlaying()) {
             mIsOnPaused = true;
             mIsmartvPlayer.pause();
@@ -1681,6 +1682,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     Log.d(TAG, "From ad detail to player.");
                     mIsInAdDetail = false;
                     adController.hideAd(AdItem.AdType.CLICKTHROUGH);
+                    ad_vip_btn.setVisibility(View.VISIBLE);
+                    ad_count_text.setVisibility(View.VISIBLE);
                     return true;
                 }
                 if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
@@ -1692,13 +1695,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 playPauseVideo();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 if (!mIsmartvPlayer.isPlaying()) {
@@ -1709,7 +1712,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 return true;
             case KeyEvent.KEYCODE_MEDIA_STOP:
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 if (mIsmartvPlayer.isPlaying()) {
@@ -1722,7 +1725,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
             case KeyEvent.KEYCODE_MEDIA_REWIND:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 previousClick(null);
@@ -1738,12 +1741,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         if (adController != null && adController.isEnableClickThroughAd()) {
                             Log.d(TAG, "Jump to ad detail.");
                             mIsInAdDetail = true;
+                            ad_vip_btn.setVisibility(View.GONE);
+                            ad_count_text.setVisibility(View.GONE);
                             adController.showAd(AdItem.AdType.CLICKTHROUGH);
                         }
                     }
                     return true;
                 }
-                if (isMenuShow() || isPopWindowShow()) {
+                if (isMenuShow() || isPopWindowShow() || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 forwardClick(null);

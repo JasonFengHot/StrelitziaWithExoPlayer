@@ -29,6 +29,7 @@ import tv.ismar.app.db.location.IspTable;
 import tv.ismar.app.db.location.ProvinceTable;
 import tv.ismar.app.network.entity.CdnListEntity;
 import tv.ismar.app.network.entity.IpLookUpEntity;
+import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.Utils;
 
 public class InitializeProcess implements Runnable {
@@ -194,6 +195,9 @@ public class InitializeProcess implements Runnable {
     }
 
     private void fetchCdnList() {
+        if(!NetworkUtils.isConnected(mContext)){// 断开网络做如下请求时出错
+            return;
+        }
         String resultString = null;
         Request request = new Request.Builder()
                 .url("http://wx.api.tvxio.com/shipinkefu/getCdninfo?actiontype=getcdnlist")
@@ -238,6 +242,9 @@ public class InitializeProcess implements Runnable {
     }
 
     private void fetchLocationByIP() {
+        if(!NetworkUtils.isConnected(mContext)){// 断开网络做如下请求时出错
+            return;
+        }
         String resultString = null;
         Request request = new Request.Builder()
                 .url("http://lily.tvxio.com/iplookup/")
