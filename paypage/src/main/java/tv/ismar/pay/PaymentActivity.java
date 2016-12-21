@@ -68,6 +68,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public static final int PAYMENT_FAILURE_CODE = 0xd2;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

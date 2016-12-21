@@ -44,6 +44,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
     private TextView durationTv;
     private ItemEntity itemEntity;
 
+    private TextView payErrorTip;
 
     @Override
     public void onAttach(Activity activity) {
@@ -68,6 +69,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         balanceTv = (TextView) contentView.findViewById(R.id.card_balance_title_label);
         priceTv = (TextView) contentView.findViewById(R.id.package_price);
         durationTv = (TextView) contentView.findViewById(R.id.package_exprice_label);
+        payErrorTip = (TextView)contentView.findViewById(R.id.pay_error_tip);
         return contentView;
     }
 
@@ -134,6 +136,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                             e.printStackTrace();
                         }
                         float result = new JsonParser().parse(json).getAsJsonObject().get("balance").getAsFloat();
+                        payErrorTip.setVisibility(View.VISIBLE);
                         balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), result));
                         activity.setResult(PaymentActivity.PAYMENT_SUCCESS_CODE);
                         activity.finish();
