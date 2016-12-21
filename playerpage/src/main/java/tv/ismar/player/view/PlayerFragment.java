@@ -1467,6 +1467,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
+        timerStop();
         cancelTimer();
         hideBuffer();
         hidePanel();
