@@ -26,9 +26,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:orientation="horizontal">
 
         <!-- 左边整块 -->
 
@@ -78,50 +78,28 @@
                 android:layout_height="@dimen/play_finished_btn_h"
                 android:layout_marginTop="@dimen/play_finished_button_mt">
 
-                <FrameLayout
-                    android:layout_width="@dimen/play_finished_btn_w"
-                    android:layout_height="@dimen/play_finished_btn_h">
-
-                    <Button
-                        android:id="@+id/btn_replay"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/selector_button"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/play_finished_btn_pl"
-                        android:text="@string/daram_restart"
-                        android:textColor="@color/color_base_white"
-                        android:textSize="@dimen/text_size_36sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/play_finished_re" />
-
-                </FrameLayout>
-
-                <FrameLayout
+                <Button
+                    android:id="@+id/btn_replay"
                     android:layout_width="@dimen/play_finished_btn_w"
                     android:layout_height="@dimen/play_finished_btn_h"
-                    android:layout_marginLeft="@dimen/play_finished_fav_ml">
+                    android:background="@drawable/selector_play_finished_re"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/play_finished_btn_pl"
+                    android:text="@string/daram_restart"
+                    android:textColor="@color/color_base_white"
+                    android:textSize="@dimen/text_size_36sp" />
 
-                    <Button
-                        android:id="@+id/btn_favorites"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/selector_button"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/play_finished_btn_pl"
-                        android:text="@string/daram_favorites"
-                        android:textColor="@color/color_base_white"
-                        android:textSize="@dimen/text_size_36sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/play_finished_fav" />
-
-                </FrameLayout>
+                <Button
+                    android:id="@+id/btn_favorites"
+                    android:layout_width="@dimen/play_finished_btn_w"
+                    android:layout_height="@dimen/play_finished_btn_h"
+                    android:layout_marginLeft="@dimen/play_finished_fav_ml"
+                    android:background="@drawable/selector_play_finished_fav"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/play_finished_btn_pl"
+                    android:text="@string/daram_favorites"
+                    android:textColor="@color/color_base_white"
+                    android:textSize="@dimen/text_size_36sp" />
 
             </LinearLayout>
 
