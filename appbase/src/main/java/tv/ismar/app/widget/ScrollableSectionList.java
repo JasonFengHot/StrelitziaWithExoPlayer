@@ -255,6 +255,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
                     isFromArrow = false;
                 } else {
                     if (v.isHovered()) {
+                        Log.i("Scrollsection","isHover:"+v.isHovered());
                         return;
                     }
                 }
@@ -544,9 +545,9 @@ public class ScrollableSectionList extends HorizontalScrollView {
 
         @Override
         public void onClick(final View v) {
-
             int index = (Integer) v.getTag();
 //			Log.i("LH/ScroSectionList","index:"+index);
+            Log.i("Scrollsection","index: "+index+"  mSelection: "+mSelectPosition);
             if (index == 0) {
 
                 setsectionview(v);

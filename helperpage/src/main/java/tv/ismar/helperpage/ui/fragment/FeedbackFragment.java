@@ -258,6 +258,7 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
                     public void onError(Throwable e) {
                         Toast.makeText(mContext, "提交失败!", Toast.LENGTH_LONG).show();
                         submitButton.setEnabled(true);
+                        super.onError(e);
                     }
                 });
         }
