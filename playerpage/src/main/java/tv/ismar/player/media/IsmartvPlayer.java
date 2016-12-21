@@ -67,9 +67,6 @@ public abstract class IsmartvPlayer implements IPlayer {
 
     public IsmartvPlayer(byte mode) {
         mPlayerMode = mode;
-        mEventReport = new EventReporter();
-        mEventReport.setIsRunning(true);
-        new Thread(mEventReport).start();
     }
 
     public void setUser(String user) {
@@ -114,6 +111,9 @@ public abstract class IsmartvPlayer implements IPlayer {
         mOnDataSourceSetListener = onDataSourceSetListener;
         mMedia = new IsmartvMedia(mItemEntity.getItemPk(), mItemEntity.getPk());
         mPlayerOpenTime = TrueTime.now().getTime();
+        mEventReport = new EventReporter();
+        mEventReport.setIsRunning(true);
+        new Thread(mEventReport).start();
 
         switch (mPlayerMode) {
             case PlayerBuilder.MODE_SMART_PLAYER:
