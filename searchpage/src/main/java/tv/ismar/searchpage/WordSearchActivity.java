@@ -1371,6 +1371,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                         if (top_tabs.getChildAt(j).getVisibility() == View.VISIBLE) {
                             final int finalJ = j;
                             firstTab = j;
+                            type_now=tags[firstTab];
                             if (selectedTab != -1) {
                                 ((TextView) ((ViewGroup) top_tabs.getChildAt(selectedTab)).getChildAt(0)).setTextColor(getResources().getColor(R.color.word_nomal));
                             }
