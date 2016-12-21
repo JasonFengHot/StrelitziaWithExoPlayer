@@ -17,12 +17,13 @@
 
     <TextView
         android:id="@+id/recharge_error_msg"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColor="#fe8109"
+        android:text="充值成功"
         android:textSize="@dimen/pay_shiyuncard_account_label_textsize"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <EditText
         android:id="@+id/shiyuncard_input"

@@ -12,6 +12,7 @@ import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
@@ -40,6 +41,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
     private PaymentActivity mPaymentActivity;
 
     private String flag;
+    private TextView rechargeMsgTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
         submitBtn = (Button) contentView.findViewById(R.id.shiyuncard_submit);
         cardNumberEdt = (EditText) contentView.findViewById(R.id.shiyuncard_input);
         submitBtn.setOnClickListener(this);
+        rechargeMsgTextView = (TextView)contentView.findViewById(R.id.recharge_error_msg);
         return contentView;
     }
 
@@ -108,7 +111,8 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
 
                     @Override
                     public void onError(Throwable e) {
-
+                        rechargeMsgTextView.setText("充值失败");
+                        rechargeMsgTextView.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -116,11 +120,13 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
                         switch (entity.getStatus()) {
                             //充值成功,系统将自动为您购买,6s后返回
                             case "S":
-                                Toast.makeText(getActivity(), "充值成功,系统将自动为您购买,6s后返回", LENGTH_LONG).show();
+                                rechargeMsgTextView.setText("充值成功");
+                                rechargeMsgTextView.setVisibility(View.VISIBLE);
                                 break;
                             //充值成功,系统将在第二天8点为您购买,10s后返回
                             case "T":
-                                Toast.makeText(getActivity(), "充值成功,系统将在第二天8点为您购买,10s后返回", LENGTH_LONG).show();
+                                rechargeMsgTextView.setText("充值成功");
+                                rechargeMsgTextView.setVisibility(View.VISIBLE);
                                 break;
                         }
                     }
@@ -158,7 +164,8 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
             if (cardNumber.length() == 16 && TextUtils.isDigitsOnly(cardNumber)) {
                 cardRecharge(cardNumber);
             } else {
-                Toast.makeText(getActivity(), "错误的观影卡密码", LENGTH_LONG).show();
+                rechargeMsgTextView.setText("错误的观影卡密码");
+                rechargeMsgTextView.setVisibility(View.VISIBLE);
             }
         }
     }
