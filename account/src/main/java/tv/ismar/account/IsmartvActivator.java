@@ -284,6 +284,7 @@ public class IsmartvActivator {
         String publicKey = result.split("\\$\\$\\$")[1];
         try {
             String input = Md5.md5(string);
+            Log.d(TAG, "md5: " + input);
             byte[] rsaResult = RSACoder.encryptByPublicKey(input.getBytes(), publicKey);
             return Base64.encodeToString(rsaResult, Base64.DEFAULT);
         } catch (Exception e) {

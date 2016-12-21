@@ -69,7 +69,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isCheckoutUpdate = true;
         mSkyService = SkyService.ServiceManager.getService();
         mWeatherSkyService = SkyService.ServiceManager.getWeatherService();
         mWxApiService = SkyService.ServiceManager.getWxApiService();
