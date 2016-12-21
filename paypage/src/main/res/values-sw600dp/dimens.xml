@@ -141,5 +141,6 @@
 <dimen name="login_tip_mt">16.67dp</dimen>
 <dimen name="username_mr">22.22dp</dimen>
 <dimen name="shiyuncard_input_widht">500.00dp</dimen>
+<dimen name="pay_error_tip_mt">11.11dp</dimen>
 
 </resources>
