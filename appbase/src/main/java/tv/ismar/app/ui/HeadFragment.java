@@ -36,6 +36,7 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.R;
 import tv.ismar.app.network.entity.WeatherEntity;
+import tv.ismar.app.util.NetworkUtils;
 
 import static android.util.TypedValue.COMPLEX_UNIT_PX;
 import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
@@ -242,6 +243,9 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
 
 
     public void fetchWeatherInfo(String geoId) {
+        if(!NetworkUtils.isConnected(getActivity())){// 断开网络做如下请求时出错
+            return;
+        }
         ((BaseActivity) getActivity()).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<WeatherEntity>() {
