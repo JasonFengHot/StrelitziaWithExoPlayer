@@ -18,6 +18,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 
 /**
@@ -52,6 +53,7 @@ public class Utils {
     public static String getTime() {
 
         Calendar c = Calendar.getInstance();
+        c.setTime(TrueTime.now());
         c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH) + 1;

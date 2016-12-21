@@ -1,4 +1,5 @@
 package tv.ismar.searchpage;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
@@ -289,7 +290,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                 @Override
                 public void onClick(final View view) {
-                    long time = System.currentTimeMillis();
+                    long time = TrueTime.now().getTime();
                     if (lastClicktime == 0) {
                         lastClicktime = time;
                     } else {

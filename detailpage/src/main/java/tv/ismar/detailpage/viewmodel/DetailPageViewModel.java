@@ -1,4 +1,5 @@
 package tv.ismar.detailpage.viewmodel;
+import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.content.Context;

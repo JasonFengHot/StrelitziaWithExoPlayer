@@ -1,4 +1,5 @@
 package tv.ismar.app.exception;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -165,8 +166,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         String result = writer.toString();
         sb.append(result);
         try {
-            long timestamp = System.currentTimeMillis();
-            String time = formatter.format(new Date());
+            long timestamp = TrueTime.now().getTime();
+            String time = formatter.format(TrueTime.now());
             String fileName = "crash-" + time + "-" + timestamp + ".log";
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 String path = "/sdcard/crash/";

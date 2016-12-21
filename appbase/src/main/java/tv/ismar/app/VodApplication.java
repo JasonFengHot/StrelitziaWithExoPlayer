@@ -1,4 +1,5 @@
 package tv.ismar.app;
+import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.content.Context;
@@ -75,7 +76,7 @@ public class VodApplication extends Application {
         super.onCreate();
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
-        Log.i("LH/", "applicationOnCreate:" + System.currentTimeMillis());
+        Log.i("LH/", "applicationOnCreate:" + TrueTime.now().getTime());
         startIntervalActive();
         SPUtils.init(this);
         appInstance = this;
@@ -101,7 +102,7 @@ public class VodApplication extends Application {
         if (NetworkUtils.isConnected(this)) {
             new Thread(new InitializeProcess(this)).start();
         }
-        Log.i("LH/", "applicationOnCreateEnd:" + System.currentTimeMillis());
+        Log.i("LH/", "applicationOnCreateEnd:" + TrueTime.now().getTime());
     }
 
 
@@ -358,7 +359,7 @@ public class VodApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        Log.i("LH/", "attachBaseContext:" + System.currentTimeMillis());
+        Log.i("LH/", "attachBaseContext:" + TrueTime.now().getTime());
         super.attachBaseContext(base);
         MultiDex.install(this);
     }

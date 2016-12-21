@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import cn.ismartv.truetime.TrueTime;
+
 public class Util {
 	
 	private static final int STRINGMAXLENGTH = 4;
@@ -536,6 +538,7 @@ public class Util {
 
 	public static String getYearMonthDay(){
 		Calendar c = Calendar.getInstance();
+		c.setTime(TrueTime.now());
 		c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH)+1;
@@ -562,6 +565,7 @@ public class Util {
 
 	public static int getHour() {
 		Calendar c = Calendar.getInstance();
+		c.setTime(TrueTime.now());
 		c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         int hour = c.get(Calendar.HOUR_OF_DAY);
         return hour;
@@ -569,6 +573,7 @@ public class Util {
 	
 	public static int getMinute(){
 		Calendar c = Calendar.getInstance();
+		c.setTime(TrueTime.now());
 		c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         int min = c.get(Calendar.MINUTE);
         return min;
@@ -577,6 +582,7 @@ public class Util {
 	public static String getTime(){
 		
 		Calendar c = Calendar.getInstance();
+		c.setTime(TrueTime.now());
 		c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH)+1;

@@ -1,4 +1,5 @@
 package tv.ismar.homepage.view;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -333,7 +334,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             savedInstanceState = null;
         super.onCreate(savedInstanceState);
 
-        Log.i("LH/", "homepageOnCreate:" + System.currentTimeMillis());
+        Log.i("LH/", "homepageOnCreate:" + TrueTime.now().getTime());
         startTrueTimeService();
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
@@ -819,7 +820,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         exitPopup.dismiss();
                         CallaPlay callaPlay = new CallaPlay();
 //                        callaPlay.app_exit(TrueTime.now().getTime() - app_start_time, SimpleRestClient.appVersion);
-                        callaPlay.app_exit(System.currentTimeMillis() - app_start_time, SimpleRestClient.appVersion);
+                        callaPlay.app_exit(TrueTime.now().getTime() - app_start_time, SimpleRestClient.appVersion);
                         HomePageActivity.this.finish();
                         ArrayList<String> cache_log = MessageQueue.getQueueList();
                         HashSet<String> hasset_log = new HashSet<String>();

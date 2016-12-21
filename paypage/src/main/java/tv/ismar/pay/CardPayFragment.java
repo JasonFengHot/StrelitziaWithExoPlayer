@@ -1,4 +1,5 @@
 package tv.ismar.pay;
+import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.os.Bundle;
