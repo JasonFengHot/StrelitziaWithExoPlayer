@@ -31,7 +31,7 @@ import static android.widget.Toast.LENGTH_LONG;
 /**
  * Created by huibin on 2016/9/14.
  */
-public class CardPayFragment extends Fragment implements View.OnClickListener,OnHoverListener {
+public class CardPayFragment extends Fragment implements View.OnClickListener, OnHoverListener {
 
     private View contentView;
     private SkyService skyService;
@@ -39,9 +39,15 @@ public class CardPayFragment extends Fragment implements View.OnClickListener,On
     private EditText cardNumberEdt;
     private PaymentActivity mPaymentActivity;
 
+    private String flag;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            flag = bundle.getString("flag");
+        }
     }
 
     @Override
@@ -68,6 +74,9 @@ public class CardPayFragment extends Fragment implements View.OnClickListener,On
         View indicatorView = mPaymentActivity.findViewById(R.id.videocard);
         indicatorView.setNextFocusRightId(R.id.shiyuncard_input);
         submitBtn.setOnHoverListener(this);
+        if (!TextUtils.isEmpty(flag)&& "usercenter_charge".equals(flag)){
+            cardNumberEdt.requestFocus();
+        }
     }
 
     private void cardRecharge(String cardNumber) {
@@ -156,13 +165,13 @@ public class CardPayFragment extends Fragment implements View.OnClickListener,On
 
     @Override
     public boolean onHover(View v, MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
                 v.requestFocus();
                 v.requestFocusFromTouch();
                 break;
-            case  MotionEvent.ACTION_HOVER_EXIT:
+            case MotionEvent.ACTION_HOVER_EXIT:
                 break;
         }
         return false;

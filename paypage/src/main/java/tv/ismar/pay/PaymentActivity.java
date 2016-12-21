@@ -425,6 +425,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         if (payTypeLayout.getVisibility() == View.INVISIBLE)
             payTypeLayout.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("flag", "usercenter_charge");
+        cardpayFragment.setArguments(bundle);
         transaction.replace(R.id.fragment_page, cardpayFragment)
                 .commit();
     }
