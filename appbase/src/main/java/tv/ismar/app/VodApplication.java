@@ -43,7 +43,6 @@ import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
 import tv.ismar.app.exception.CrashHandler;
-import tv.ismar.app.network.HttpTrafficInterceptor;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
@@ -53,7 +52,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Created by beaver on 16-8-19.
  */
 public class VodApplication extends Application {
-    private static HttpTrafficInterceptor mHttpTrafficInterceptor;
     private static HttpParamsInterceptor mHttpParamsInterceptor;
     public static final boolean DEBUG = true;
     private ArrayList<WeakReference<OnLowMemoryListener>> mLowMemoryListeners;
@@ -90,8 +88,8 @@ public class VodApplication extends Application {
         Picasso picasso = new Picasso.Builder(this).executor(executorService).memoryCache(Cache.NONE).build();
         Picasso.setSingletonInstance(picasso);
         IsmartvActivator.initialize(this);
-        mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
-        mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
+//        mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
+//        mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
         mHttpParamsInterceptor = new HttpParamsInterceptor.Builder()
                 .build();
 
@@ -128,9 +126,9 @@ public class VodApplication extends Application {
         return (VodApplication) context.getApplicationContext();
     }
 
-    public static HttpTrafficInterceptor getHttpTrafficInterceptor() {
-        return mHttpTrafficInterceptor;
-    }
+//    public static HttpTrafficInterceptor getHttpTrafficInterceptor() {
+//        return mHttpTrafficInterceptor;
+//    }
 
     public static HttpParamsInterceptor getHttpParamsInterceptor() {
         return mHttpParamsInterceptor;

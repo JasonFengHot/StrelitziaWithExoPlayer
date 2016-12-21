@@ -115,12 +115,12 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 lay_focus.requestFocus();
                 errorDialog.show();
 
-            }else if(msg.what==2){
+            } else if (msg.what == 2) {
                 editable = et_input.getText();
                 int start = et_input.getSelectionStart();
                 if (editable != null && editable.length() > 0)
                     editable.delete(start - 1, start);
-                handler.sendEmptyMessageDelayed(2,300);
+                handler.sendEmptyMessageDelayed(2, 300);
                 if (et_input.getText().length() == 0) {
                     handler.removeMessages(2);
                     //��������գ���ʾ�����ȴʽ���
@@ -167,24 +167,33 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         /**
          * 上传app启动日志
          */
-        String sn=IsmartvActivator.getInstance().getSnToken();
-        String province = IsmartvActivator.getInstance().getProvince().get("province");
-        String city = IsmartvActivator.getInstance().getCity().get("city");
-        String isp = IsmartvActivator.getInstance().getIsp();
-        String userId= IsmartvActivator.getInstance().getUsername();
-        String modelname=VodUserAgent.getModelName();
-        String macAddress=DeviceUtils.getLocalMacAddress(this);
-        String version=DeviceUtils.getVersionCode(this)+"";
-        JasmineUtil.app_start(sn,modelname,"0", android.os.Build.VERSION.RELEASE,
-                SystemFileUtil.getSdCardTotal(this),
-                SystemFileUtil.getSdCardAvalible(this),
-                userId, province, city, isp, "search", macAddress,"text","tv.ismar.searchpage",version);
+        appstart();
+    }
+
+    public void appstart() {
+        new Thread() {
+            @Override
+            public void run() {
+                String sn = IsmartvActivator.getInstance().getSnToken();
+                String province = IsmartvActivator.getInstance().getProvince().get("province");
+                String city = IsmartvActivator.getInstance().getCity().get("city");
+                String isp = IsmartvActivator.getInstance().getIsp();
+                String userId = IsmartvActivator.getInstance().getUsername();
+                String modelname = VodUserAgent.getModelName();
+                String macAddress = DeviceUtils.getLocalMacAddress(WordSearchActivity.this);
+                String version = DeviceUtils.getVersionCode(WordSearchActivity.this) + "";
+                JasmineUtil.app_start(sn, modelname, "0", android.os.Build.VERSION.RELEASE,
+                        SystemFileUtil.getSdCardTotal(WordSearchActivity.this),
+                        SystemFileUtil.getSdCardAvalible(WordSearchActivity.this),
+                        userId, province, city, isp, "search", macAddress, "text", "tv.ismar.searchpage", version);
+            }
+        }.start();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(firstin) {
+        if (firstin) {
             lay_focus.requestFocus();
             firstin = false;
             isT9 = SharedPreferencesUtils.getBoolean(this, "T9", false);
@@ -325,9 +334,9 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                         handler.removeMessages(1);
                     }
                     handler.sendEmptyMessageDelayed(1, 15000);
-                            String title = ((TextView) view.findViewById(R.id.tv_hotword)).getText().toString().trim();
-                            keyWord_now = title.contains("...")?title.substring(0,8):title;
-                            fetchSearchResult(title, null, page);
+                    String title = ((TextView) view.findViewById(R.id.tv_hotword)).getText().toString().trim();
+                    keyWord_now = title.contains("...") ? title.substring(0, 8) : title;
+                    fetchSearchResult(title, null, page);
                     view.requestFocus();
                     ((TextView) view.findViewById(R.id.tv_hotword)).setTextColor(getResources().getColor(R.color.word_focus));
                 }
@@ -342,7 +351,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                     fileDescriptor.getLength());
             mediaPlayer.prepare();
         } catch (IOException e) {
-            JasmineUtil.loadException("search","","","",0,"",DeviceUtils.getVersionCode(this),"client",e.getMessage());
+            JasmineUtil.loadException("search", "", "", "", 0, "", DeviceUtils.getVersionCode(this), "client", e.getMessage());
             e.printStackTrace();
         }
 
@@ -452,7 +461,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         tv_back.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction()==MotionEvent.ACTION_UP){
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     handler.removeMessages(2);
                 }
                 return false;
@@ -605,8 +614,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                    handler.removeMessages(1);
                                                }
                                                handler.sendEmptyMessageDelayed(1, 15000);
-                                                       type_now = tags[selectedTab];
-                                                       fetchSearchResult(keyWord_now, tags[selectedTab], page);
+                                               type_now = tags[selectedTab];
+                                               fetchSearchResult(keyWord_now, tags[selectedTab], page);
 
                                            }
                                        }
@@ -648,10 +657,10 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                                      dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_7);
                                                                      break;
                                                                  case 8:
-                                                                     dimension =getResources().getDimensionPixelOffset(R.dimen.dimention_8);
+                                                                     dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_8);
                                                                      break;
                                                                  case 9:
-                                                                     dimension =getResources().getDimensionPixelOffset(R.dimen.dimention_9);
+                                                                     dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_9);
                                                                      break;
                                                                  case 10:
                                                                      dimension = getResources().getDimensionPixelOffset(R.dimen.dimention_10);
@@ -699,28 +708,29 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                    @Override
                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                        if (poster_gridview.getAdapter() instanceof PosterAdapter) {
-                                                           gotoSpecialPage( posterAdapter.getItem(position).getPk(),  posterAdapter.getItem(position).getTitle(), posterAdapter.getItem(position).getContent_model(), posterAdapter.getItem(position).getExpense() != null);
-                                                           JasmineUtil.video_search_arrive(keyWord_now,type_now,((int)posterAdapter.getItem(position).getPk()),0,posterAdapter.getItem(position).getTitle());
+                                                           gotoSpecialPage(posterAdapter.getItem(position).getPk(), posterAdapter.getItem(position).getTitle(), posterAdapter.getItem(position).getContent_model(), posterAdapter.getItem(position).getExpense() != null);
+                                                           JasmineUtil.video_search_arrive(keyWord_now, type_now, ((int) posterAdapter.getItem(position).getPk()), 0, posterAdapter.getItem(position).getTitle());
                                                        } else {
-                                                           gotoSpecialPage( recommendAdapter.getItem(position).pk, null,recommendAdapter.getItem(position).content_model, recommendAdapter.getItem(position).expense != null);
-                                                           JasmineUtil.video_search_arrive(keyWord_now,type_now,recommendAdapter.getItem(position).pk,recommendAdapter.getItem(position).item_pk,recommendAdapter.getItem(position).title);
+                                                           gotoSpecialPage(recommendAdapter.getItem(position).pk, null, recommendAdapter.getItem(position).content_model, recommendAdapter.getItem(position).expense != null);
+                                                           JasmineUtil.video_search_arrive(keyWord_now, type_now, recommendAdapter.getItem(position).pk, recommendAdapter.getItem(position).item_pk, recommendAdapter.getItem(position).title);
                                                        }
                                                    }
                                                }
 
         );
     }
+
     /**
      * 跳转到详情页
      */
-    public  void gotoSpecialPage(long pk, String title, String contentMode, boolean isexpensive) {
-        PageIntent pageIntent=new PageIntent();
-        if(contentMode.equals("music")||(contentMode.equals("sport")&&!isexpensive)||contentMode.equals("game")){
-            pageIntent.toPlayPage(this, (int) pk,0,Source.SEARCH);
-        }else if(contentMode.equals("person")){
-            pageIntent.toFilmStar(this,title,pk);
-        }else{
-            pageIntent.toDetailPage(this,Source.SEARCH.getValue(), (int) pk);
+    public void gotoSpecialPage(long pk, String title, String contentMode, boolean isexpensive) {
+        PageIntent pageIntent = new PageIntent();
+        if (contentMode.equals("music") || (contentMode.equals("sport") && !isexpensive) || contentMode.equals("game")) {
+            pageIntent.toPlayPage(this, (int) pk, 0, Source.SEARCH);
+        } else if (contentMode.equals("person")) {
+            pageIntent.toFilmStar(this, title, pk);
+        } else {
+            pageIntent.toDetailPage(this, Source.SEARCH.getValue(), (int) pk);
         }
     }
 
@@ -735,11 +745,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
             if (keyCode == 4) {
                 loading.setVisibility(View.INVISIBLE);
                 rl_search_subject.setVisibility(View.VISIBLE);
-                if(clickposition==TOPTABS) {
+                if (clickposition == TOPTABS) {
                     top_tabs.getChildAt(selectedTab).requestFocus();
-                }else if(clickposition==SEARCH_WORDS){
+                } else if (clickposition == SEARCH_WORDS) {
                     ll_hotwords.getChildAt(selectdHotWord).requestFocus();
-                }else{
+                } else {
                     tv_search_all.requestFocus();
                 }
             }
@@ -918,8 +928,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                     }
                 }, 500);
             }
-                    keyWord_now = et_input.getText().toString().trim();
-                    fetchSearchResult(keyWord_now, null, page);
+            keyWord_now = et_input.getText().toString().trim();
+            fetchSearchResult(keyWord_now, null, page);
 
         } else if (i1 == R.id.iv_toggle) {
             iv_toggle.setVisibility(View.GONE);
@@ -1025,7 +1035,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                         v.requestFocus();
                         scrowview.scrollTo(scroll, 0);
                     }
-                }else{
+                } else {
 
                 }
                 break;
@@ -1089,7 +1099,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
     public void fetchSearchResult(String keywords, final String type, int page) {
 
-        JasmineUtil.video_search(type,keywords);
+        JasmineUtil.video_search(type, keywords);
         VodSearchRequestEntity requestEntity = new VodSearchRequestEntity();
         requestEntity.setKeyword(keywords);
         if (type != null) {
@@ -1110,21 +1120,21 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onNext(VodFacetEntity vodFacetEntity) {
-                        if(vodFacetEntity==null){
-                            JasmineUtil.loadException("search","filter","",type,0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/vodsearch/",DeviceUtils.getVersionCode(WordSearchActivity.this),"data","");
+                        if (vodFacetEntity == null) {
+                            JasmineUtil.loadException("search", "filter", "", type, 0, IsmartvActivator.getInstance().getApiDomain() + "api/tv/vodsearch/", DeviceUtils.getVersionCode(WordSearchActivity.this), "data", "");
                             return;
                         }
-                        if(type==null){
-                            processData(vodFacetEntity,VODSEARCH_CLASS);
-                        }else{
-                            processData(vodFacetEntity,VODSEARCH);
+                        if (type == null) {
+                            processData(vodFacetEntity, VODSEARCH_CLASS);
+                        } else {
+                            processData(vodFacetEntity, VODSEARCH);
 
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        JasmineUtil.loadException("search","filter","",type,0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/vodsearch/",DeviceUtils.getVersionCode(WordSearchActivity.this),"server",e.getMessage());
+                        JasmineUtil.loadException("search", "filter", "", type, 0, IsmartvActivator.getInstance().getApiDomain() + "api/tv/vodsearch/", DeviceUtils.getVersionCode(WordSearchActivity.this), "server", e.getMessage());
                         super.onError(e);
                     }
                 });
@@ -1143,11 +1153,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onNext(ArrayList<HotWords> hotWords) {
-                        if(hotWords==null){
-                            JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/hotwords/",DeviceUtils.getVersionCode(WordSearchActivity.this),"data","");
+                        if (hotWords == null) {
+                            JasmineUtil.loadException("search", "", "", "", 0, IsmartvActivator.getInstance().getApiDomain() + "api/tv/hotwords/", DeviceUtils.getVersionCode(WordSearchActivity.this), "data", "");
                             return;
                         }
-                        Log.e("daisy1", hotWords.size()+"");
+                        Log.e("daisy1", hotWords.size() + "");
                         /**
                          * 填充hotwords列表
                          */
@@ -1155,11 +1165,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                             index = -1;
                         }
                         if (hotWords.size() > 0) {
-                            for (int i = 0; i < hotWords.size() ; i++) {
+                            for (int i = 0; i < hotWords.size(); i++) {
                                 ((TextView) ll_hotwords.getChildAt(i).findViewById(R.id.tv_hotword)).setText(hotWords.get(i).title);
                             }
-                            if(hotWords.size()<10){
-                                for (int i =hotWords.size(); i <10 ; i++) {
+                            if (hotWords.size() < 10) {
+                                for (int i = hotWords.size(); i < 10; i++) {
                                     ll_hotwords.getChildAt(i).setVisibility(View.INVISIBLE);
                                 }
                             }
@@ -1171,7 +1181,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onError(Throwable e) {
-                        JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/hotwords/",DeviceUtils.getVersionCode(WordSearchActivity.this),"server",e.getMessage());
+                        JasmineUtil.loadException("search", "", "", "", 0, IsmartvActivator.getInstance().getApiDomain() + "api/tv/hotwords/", DeviceUtils.getVersionCode(WordSearchActivity.this), "server", e.getMessage());
                         super.onError(e);
                     }
                 });
@@ -1189,11 +1199,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onNext(Recommend recommend) {
-                        if(recommend==null){
-                            JasmineUtil.loadException("search","filter_empty","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/homepage/sharphotwords/8/",DeviceUtils.getVersionCode(WordSearchActivity.this),"data","");
+                        if (recommend == null) {
+                            JasmineUtil.loadException("search", "filter_empty", "", "", 0, IsmartvActivator.getInstance().getApiDomain() + "api/tv/homepage/sharphotwords/8/", DeviceUtils.getVersionCode(WordSearchActivity.this), "data", "");
                             return;
                         }
-                        Log.e("daisy2", recommend.count+"");
+                        Log.e("daisy2", recommend.count + "");
                         recommendAdapter = new RecommendAdapter(WordSearchActivity.this, recommend.objects);
                         poster_gridview.setAdapter(recommendAdapter);
                         noResult = true;
@@ -1212,7 +1222,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onError(Throwable e) {
-                        JasmineUtil.loadException("search","filter_empty","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/homepage/sharphotwords/8/",DeviceUtils.getVersionCode(WordSearchActivity.this),"server",e.getMessage());
+                        JasmineUtil.loadException("search", "filter_empty", "", "", 0, IsmartvActivator.getInstance().getApiDomain() + "api/tv/homepage/sharphotwords/8/", DeviceUtils.getVersionCode(WordSearchActivity.this), "server", e.getMessage());
                         super.onError(e);
                     }
                 });
@@ -1231,24 +1241,24 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onNext(List<String> resultWord) {
-                        if(resultWord==null){
-                            JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/suggest/"+args+"/?device_token==&access_token=/",DeviceUtils.getVersionCode(WordSearchActivity.this),"data","");
+                        if (resultWord == null) {
+                            JasmineUtil.loadException("search", "", "", "", 0, IsmartvActivator.getInstance().getApiDomain() + "api/tv/suggest/" + args + "/?device_token==&access_token=/", DeviceUtils.getVersionCode(WordSearchActivity.this), "data", "");
                             return;
                         }
-                        Log.e("daisy3", resultWord.size()+"");
-                        if ( resultWord.size() > 0) {
+                        Log.e("daisy3", resultWord.size() + "");
+                        if (resultWord.size() > 0) {
                             /**
                              * 刷新数据为推荐热词
                              *
                              * */
                             ll_hotwords.setVisibility(View.VISIBLE);
                             junp_view.setVisibility(View.GONE);
-                            for (int i = 0; i < ( resultWord.size() > 10 ? 10 :  resultWord.size()); i++) {
+                            for (int i = 0; i < (resultWord.size() > 10 ? 10 : resultWord.size()); i++) {
                                 ll_hotwords.getChildAt(i).setVisibility(View.VISIBLE);
-                                ((TextView) ll_hotwords.getChildAt(i).findViewById(R.id.tv_hotword)).setText( resultWord.get(i));
+                                ((TextView) ll_hotwords.getChildAt(i).findViewById(R.id.tv_hotword)).setText(resultWord.get(i));
                             }
-                            if( resultWord.size()<10){
-                                for (int i =  resultWord.size(); i <10 ; i++) {
+                            if (resultWord.size() < 10) {
+                                for (int i = resultWord.size(); i < 10; i++) {
                                     ll_hotwords.getChildAt(i).setVisibility(View.INVISIBLE);
                                 }
                             }
@@ -1264,7 +1274,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onError(Throwable e) {
-                        JasmineUtil.loadException("search","","","",0, IsmartvActivator.getInstance().getApiDomain()+"api/tv/suggest/"+args+"/?device_token==&access_token=/",DeviceUtils.getVersionCode(WordSearchActivity.this),"server",e.getMessage());
+                        JasmineUtil.loadException("search", "", "", "", 0, IsmartvActivator.getInstance().getApiDomain() + "api/tv/suggest/" + args + "/?device_token==&access_token=/", DeviceUtils.getVersionCode(WordSearchActivity.this), "server", e.getMessage());
                         super.onError(e);
                     }
                 });
@@ -1281,7 +1291,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
             scrowview.setVisibility(View.VISIBLE);
             tv_recommend.setVisibility(View.GONE);
             view_line.setVisibility(View.GONE);
-            if(vodFacetEntity!=null) {
+            if (vodFacetEntity != null) {
                 posterAdapter = new PosterAdapter(this, vodFacetEntity.facet.get(0).objects);
                 poster_gridview.setAdapter(posterAdapter);
                 noResult = false;
@@ -1298,11 +1308,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 }
             }
 
-        }else if (VODSEARCH_CLASS == flag) {
+        } else if (VODSEARCH_CLASS == flag) {
             if (vodFacetEntity != null) {
                 if (vodFacetEntity.facet.size() > 0) {
                     //显示有分类的toptab
-                    for (int i = 0; i <top_tabs.getChildCount(); i++) {
+                    for (int i = 0; i < top_tabs.getChildCount(); i++) {
                         top_tabs.getChildAt(i).setVisibility(View.GONE);
                     }
                     for (int i = 0; i < vodFacetEntity.facet.size(); i++) {
@@ -1385,7 +1395,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                             break;
                         }
                     }
-                    for (int i = top_tabs.getChildCount()-1; i >= 0; i--) {
+                    for (int i = top_tabs.getChildCount() - 1; i >= 0; i--) {
                         if (top_tabs.getChildAt(i).getVisibility() == View.VISIBLE) {
                             lastTab = i;
                             break;
