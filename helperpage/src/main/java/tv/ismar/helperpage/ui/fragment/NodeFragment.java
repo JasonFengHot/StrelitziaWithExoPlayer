@@ -383,8 +383,8 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "fetchBindedCdn error!!!");
                         ((HomeActivity) getActivity()).showPop(e);
+                        e.printStackTrace();
                     }
 
 
@@ -629,8 +629,8 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
         String base64Data = Base64.encodeToString(data.getBytes(), Base64.DEFAULT);
 
 
-        uploadTestResult(cndId, speed);
-        uploadCdnTestLog(base64Data, snCode, VodUserAgent.getModelName());
+      //  uploadTestResult(cndId, speed);
+     //   uploadCdnTestLog(base64Data, snCode, VodUserAgent.getModelName());
     }
 
     @Override
@@ -660,8 +660,6 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "uploadCdnTestLog");
-                        ((HomeActivity) getActivity()).showPop(e);
                     }
 
 

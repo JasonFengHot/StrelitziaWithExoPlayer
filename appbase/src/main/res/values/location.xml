@@ -23,10 +23,10 @@
     <string-array name="china_north">
         <item>北京,BJ</item>
         <item>天津,TJ</item>
-        <item>河北,HEB</item>
+        <item>河北,HE</item>
         <item>山西,SX</item>
         <item>山东,SD</item>
-        <item>内蒙古,NMG</item>
+        <item>内蒙古,NM</item>
     </string-array>
 
     <string-array name="china_east">
@@ -38,16 +38,16 @@
     <string-array name="china_south">
         <item>广东,GD</item>
         <item>福建,FJ</item>
-        <item>海南,HN</item>
+        <item>海南,HI</item>
         <item>香港,HK</item>
-        <item>澳门,MC</item>
+        <item>澳门,AM</item>
         <item>台湾,TW</item>
     </string-array>
 
     <string-array name="china_center">
-        <item>河南,HEN</item>
+        <item>河南,HA</item>
         <item>湖北,HB</item>
-        <item>湖南,HUN</item>
+        <item>湖南,HN</item>
         <item>安徽,AH</item>
         <item>江西,JX</item>
     </string-array>
@@ -63,7 +63,7 @@
     <string-array name="china_northwest">
         <item>新疆,XJ</item>
         <item>甘肃,GS</item>
-        <item>陕西,SHX</item>
+        <item>陕西,SN</item>
         <item>青海,QH</item>
         <item>西藏,XZ</item>
         <item>宁夏,NX</item>
@@ -71,7 +71,7 @@
 
     <string-array name="china_northeast">
         <item>辽宁,LN</item>
-        <item>黑龙江,HLJ</item>
+        <item>黑龙江,HL</item>
         <item>吉林,JL</item>
     </string-array>
 </resources>

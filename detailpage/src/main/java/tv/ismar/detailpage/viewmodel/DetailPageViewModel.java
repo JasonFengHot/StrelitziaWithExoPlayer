@@ -464,7 +464,9 @@ public class DetailPageViewModel extends BaseObservable {
                 String subitem_title="";
                 if(mHistory!=null&&mHistory.sub_url!=null){
                     for (int i = 0; i <subItems.length ; i++) {
-
+                        if(mItemEntity.getExpense() != null){
+                            break;
+                        }
                         if(mHistory.sub_url.contains(subItems[i].getPk()+"")){
                             subitem_title=subItems[i].getSubtitle();
                         }

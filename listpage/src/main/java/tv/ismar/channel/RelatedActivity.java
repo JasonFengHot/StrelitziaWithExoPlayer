@@ -174,6 +174,7 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
                 this.finish();
             }
             HashMap<String, Object> properties = new HashMap<String, Object>();
+            properties.put(EventProperty.ITEM, mItem.pk);
             properties.put(EventProperty.TITLE, "relate");
             new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_RELATE_IN, properties);
         }
@@ -284,11 +285,11 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
         // Data collection.
         mDataCollectionProperties.put(EventProperty.ITEM, mItem.pk);
         mDataCollectionProperties.put(EventProperty.TITLE, mItem.title);
-        if (mItem.clip != null) {
-            mDataCollectionProperties.put(EventProperty.CLIP, mItem.clip.pk);
-        } else {
-            mDataCollectionProperties.put(EventProperty.CLIP, "");
-        }
+//        if (mItem.clip != null) {
+//            mDataCollectionProperties.put(EventProperty.CLIP, mItem.clip.pk);
+//        } else {
+//            mDataCollectionProperties.put(EventProperty.CLIP, "");
+//        }
         new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_RELATE_IN, mDataCollectionProperties);
 
         initSectionTabs();
@@ -463,11 +464,11 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
         Item item = mAdapter.getItem(position);
         mDataCollectionProperties.put(EventProperty.TO_ITEM, item.pk);
         mDataCollectionProperties.put(EventProperty.TO_TITLE, item.title);
-        if (item.clip != null) {
-            mDataCollectionProperties.put(EventProperty.CLIP, item.clip);
-        } else {
-            mDataCollectionProperties.put(EventProperty.CLIP, "");
-        }
+//        if (item.clip != null) {
+//            mDataCollectionProperties.put(EventProperty.CLIP, item.clip);
+//        } else {
+//            mDataCollectionProperties.put(EventProperty.CLIP, "");
+//        }
 //		Intent intent = new Intent("tv.ismar.daisy.Item");
 //		intent.putExtra("url", item.item_url);
 //        intent.putExtra(EventProperty.SECTION, mSection);
