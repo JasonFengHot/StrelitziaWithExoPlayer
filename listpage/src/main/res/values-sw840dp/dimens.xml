@@ -321,6 +321,6 @@
 <dimen name="history_Hgride_PT">11.67dp</dimen>
 <dimen name="history_Hgride_MT">58.33dp</dimen>
 <dimen name="history_arrow_MT">322.00dp</dimen>
-<dimen name="history_Hgride_Margin">15.56dp</dimen>
+<dimen name="history_Hgride_Margin">17.11dp</dimen>
 
 </resources>

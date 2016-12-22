@@ -322,7 +322,6 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
     private void initPopWindow() {
         submitButton.clearFocus();
 
-
         final MessageDialogFragment messageDialogFragment = new MessageDialogFragment(mContext, "是否提交反馈信息?", null);
         messageDialogFragment.showAtLocation(getView(), Gravity.CENTER, new MessageDialogFragment.ConfirmListener() {
             @Override

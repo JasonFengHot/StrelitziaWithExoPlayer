@@ -407,7 +407,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				mHGridAdapter = new HGridAdapterImpl(getActivity(), itemCollections,false);
 				mHGridView.setAdapter(mHGridAdapter);
 				mHGridView.setFocusable(true);
-				mHGridView.requestFocus();
 				showData();
 			} else {
 				no_video();
