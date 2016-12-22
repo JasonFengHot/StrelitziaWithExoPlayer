@@ -103,16 +103,12 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         mSkyService.apiPaylayerPackage(packageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PayLayerPackageEntity>() {
+                .subscribe(new BaseObserver<PayLayerPackageEntity>() {
                     @Override
                     public void onCompleted() {
 
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
 
                     @Override
                     public void onNext(PayLayerPackageEntity payLayerPackageEntity) {

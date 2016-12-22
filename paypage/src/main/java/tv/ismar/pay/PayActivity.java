@@ -76,16 +76,12 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
         mSkyService.apiPaylayer(itemId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PayLayerEntity>() {
+                .subscribe(new BaseObserver<PayLayerEntity>() {
                     @Override
                     public void onCompleted() {
 
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
 
                     @Override
                     public void onNext(PayLayerEntity payLayerEntity) {
