@@ -1099,7 +1099,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
      */
 
     public void fetchSearchResult(String keywords, final String type, int page) {
-
+        if(type!=null)
         JasmineUtil.video_search(type, keywords);
         VodSearchRequestEntity requestEntity = new VodSearchRequestEntity();
         requestEntity.setKeyword(keywords);
