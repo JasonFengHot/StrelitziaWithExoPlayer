@@ -15,6 +15,7 @@ import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -103,7 +104,11 @@ public class HttpParamsInterceptor implements Interceptor {
         try {
             response = chain.proceed(request);
         } catch (Exception var27) {
-            throw var27;
+            Log.e(TAG, "error: " + var27.getMessage());
+            response = new Response.Builder().code(404)
+                    .request(request)
+                    .protocol(Protocol.HTTP_1_1)
+                    .build();
         }
         return response;
     }
