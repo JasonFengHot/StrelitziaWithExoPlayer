@@ -176,7 +176,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNoNetConnectDialog() {
-        noNetConnectWindow = NoNetConnectWindow.getInstance(this);
+        Log.i("onNoNet","showNet!!!");
+        noNetConnectWindow =new NoNetConnectWindow(this);
         noNetConnectWindow.setFirstMessage(getString(R.string.no_connectNet));
         noNetConnectWindow.setConfirmBtn(getString(R.string.setting_network));
         noNetConnectWindow.setCancelBtn(getString(R.string.exit_app));
