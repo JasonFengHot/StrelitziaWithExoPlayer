@@ -22,7 +22,7 @@ import tv.ismar.account.core.Md5;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
-import tv.ismar.app.reporter.EventReporter;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.reporter.IsmartvMedia;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.Utils;
@@ -40,8 +40,13 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected Activity mContext;
     protected ItemEntity mItemEntity;
     protected ClipEntity mClipEntity;
-    protected EventReporter mEventReport;
+    protected CallaPlay mCallPlay = new CallaPlay();
     public String mCurrentMediaUrl;
+
+    // 日志上报相关
+    public int mSpeed = 0;
+    public String mMediaIp = "";
+    public int mMediaId = 0;
 
     // 视云
     protected HashMap<String, Integer> mAdIdMap = new HashMap<>();
@@ -89,7 +94,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         mContainer = container;
     }
 
-    public void setDaisyVideoView(DaisyVideoView daisyVideoView){
+    public void setDaisyVideoView(DaisyVideoView daisyVideoView) {
         mDaisyVideoView = daisyVideoView;
     }
 
@@ -111,9 +116,6 @@ public abstract class IsmartvPlayer implements IPlayer {
         mOnDataSourceSetListener = onDataSourceSetListener;
         mMedia = new IsmartvMedia(mItemEntity.getItemPk(), mItemEntity.getPk());
         mPlayerOpenTime = TrueTime.now().getTime();
-        mEventReport = new EventReporter();
-        mEventReport.setIsRunning(true);
-        new Thread(mEventReport).start();
 
         switch (mPlayerMode) {
             case PlayerBuilder.MODE_SMART_PLAYER:
@@ -271,7 +273,6 @@ public abstract class IsmartvPlayer implements IPlayer {
         mOnInfoListener = null;
         isQiyiSdkInit = false;
 
-        mEventReport.setIsRunning(false);
     }
 
     @Override
@@ -377,110 +378,110 @@ public abstract class IsmartvPlayer implements IPlayer {
     protected long mBufferStartTime;
     protected boolean mFirstOpen = true; // 进入播放器缓冲结束
 
-    protected void logAdStart(String mediaIp, int mediaId) {
+    protected void logAdStart() {
         // 播放广告
-        mEventReport.ad_play_load(
+        mCallPlay.ad_play_load(
                 mMedia,
                 (TrueTime.now().getTime() - mPlayerOpenTime),
-                mediaIp,
-                mediaId,
+                mMediaIp,
+                mMediaId,
                 mPlayerFlag);
     }
 
-    protected void logAdBlockend(String mediaIp, int mediaId) {
-        mEventReport.ad_play_blockend(
+    protected void logAdBlockend() {
+        mCallPlay.ad_play_blockend(
                 mMedia,
                 (TrueTime.now().getTime() - mBufferStartTime),
-                mediaIp,
-                mediaId,
+                mMediaIp,
+                mMediaId,
                 mPlayerFlag);
     }
 
-    protected void logAdExit(String mediaIp, int mediaId) {
-        mEventReport.ad_play_exit(
+    protected void logAdExit() {
+        mCallPlay.ad_play_exit(
                 mMedia,
                 (TrueTime.now().getTime() - mPlayerOpenTime),
-                mediaIp,
-                mediaId,
+                mMediaIp,
+                mMediaId,
                 mPlayerFlag);
     }
 
-    protected void logVideoStart(int speed) {
+    protected void logVideoStart() {
         int quality = -1;
         if (mPlayerFlag.equals(PLAYER_FLAG_SMART)) {
             quality = getQualityIndex(getCurrentQuality());
         }
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoStart(mMedia, quality, sn, speed, sid, mPlayerFlag);
+        mCallPlay.videoStart(mMedia, quality, sn, mSpeed, sid, mPlayerFlag);
     }
 
-    protected void logVideoPlayLoading(int speed, String mediaIp, String mediaUrl) {
+    protected void logVideoPlayLoading(String mediaUrl) {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
         int quality = -1;
         if (mPlayerFlag.equals(PLAYER_FLAG_SMART)) {
             quality = getQualityIndex(getCurrentQuality());
         }
-        mEventReport.videoPlayLoad(
+        mCallPlay.videoPlayLoad(
                 mMedia,
                 quality,
                 (TrueTime.now().getTime() - mPlayerOpenTime),
-                speed, mediaIp, sid, mediaUrl, mPlayerFlag);
+                mSpeed, mMediaIp, sid, mediaUrl, mPlayerFlag);
     }
 
-    protected void logVideoPlayStart(int speed, String mediaIp) {
-        mEventReport.videoPlayStart(mMedia, getQualityIndex(getCurrentQuality()), speed, mediaIp, mPlayerFlag);
+    protected void logVideoPlayStart() {
+        mCallPlay.videoPlayStart(mMedia, getQualityIndex(getCurrentQuality()), mSpeed, mMediaIp, mPlayerFlag);
     }
 
-    protected void logVideoPause(int speed) {
+    protected void logVideoPause() {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoPlayPause(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
+        mCallPlay.videoPlayPause(mMedia, getQualityIndex(getCurrentQuality()), mSpeed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
-    protected void logVideoContinue(int speed) {
+    protected void logVideoContinue() {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoPlayContinue(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
+        mCallPlay.videoPlayContinue(mMedia, getQualityIndex(getCurrentQuality()), mSpeed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
-    protected void logVideoSeek(int speed) {
+    protected void logVideoSeek() {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoPlaySeek(mMedia, getQualityIndex(getCurrentQuality()), speed, getCurrentPosition(), sid, mPlayerFlag);
+        mCallPlay.videoPlaySeek(mMedia, getQualityIndex(getCurrentQuality()), mSpeed, getCurrentPosition(), sid, mPlayerFlag);
     }
 
-    protected void logVideoSeekComplete(int speed, String mediaIp) {
+    protected void logVideoSeekComplete() {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoPlaySeekBlockend(
+        mCallPlay.videoPlaySeekBlockend(
                 mMedia,
                 getQualityIndex(getCurrentQuality()),
-                speed,
+                mSpeed,
                 getCurrentPosition(),
                 (TrueTime.now().getTime() - mBufferStartTime),
-                mediaIp, sid, mPlayerFlag);
+                mMediaIp, sid, mPlayerFlag);
     }
 
-    protected void logVideoBufferEnd(int speed, String mediaIp) {
+    protected void logVideoBufferEnd() {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoPlayBlockend(
+        mCallPlay.videoPlayBlockend(
                 mMedia,
                 getQualityIndex(getCurrentQuality()),
-                speed,
+                mSpeed,
                 getCurrentPosition(),
-                mediaIp, sid, mPlayerFlag);
+                mMediaIp, sid, mPlayerFlag);
     }
 
-    protected void logVideoExit(int speed) {
+    public void logVideoExit() {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoExit(
+        mCallPlay.videoExit(
                 mMedia,
                 getQualityIndex(getCurrentQuality()),
-                speed,
+                mSpeed,
                 "detail",
                 getCurrentPosition(),
                 (TrueTime.now().getTime() - mPlayerOpenTime),
@@ -488,21 +489,21 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mPlayerFlag);
     }
 
-    protected void logVideoException(String code, int speed) {
+    protected void logVideoException(String code) {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoExcept(
+        mCallPlay.videoExcept(
                 "mediaexception", code,
-                mMedia, speed, sid,
+                mMedia, mSpeed, sid,
                 getQualityIndex(getCurrentQuality()), getCurrentPosition(),
                 mPlayerFlag);
     }
 
-    protected void logVideoSwitchQuality(String mediaIp) {
+    protected void logVideoSwitchQuality() {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
-        mEventReport.videoSwitchStream(mMedia, getQualityIndex(getCurrentQuality()), "manual",
-                null, sn, mediaIp, sid, mPlayerFlag);
+        mCallPlay.videoSwitchStream(mMedia, getQualityIndex(getCurrentQuality()), "manual",
+                null, sn, mMediaIp, sid, mPlayerFlag);
     }
 
     private String initSmartQuality(ClipEntity.Quality initQuality) {

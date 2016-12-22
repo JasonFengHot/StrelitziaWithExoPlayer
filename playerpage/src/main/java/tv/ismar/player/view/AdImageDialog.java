@@ -2,18 +2,15 @@ package tv.ismar.player.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -23,8 +20,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.ismartv.truetime.TrueTime;
-import tv.ismar.app.reporter.EventReporter;
 import tv.ismar.app.network.entity.AdElementEntity;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.player.R;
 
 /**
@@ -38,11 +35,11 @@ public class AdImageDialog extends Dialog {
     private int width;
     private int height;
     private long mDuration;
-    private EventReporter mEventReporter;
     private List<AdElementEntity> mAdElementEntityList;
     private int mCurrentAdIndex = 0;
     private ImageView imageView;
     private Button button;
+    private CallaPlay callaPlay = new CallaPlay();
 
     public AdImageDialog(Context context, int theme, List<AdElementEntity> adElementEntityList) {
         super(context, theme);
@@ -51,7 +48,6 @@ public class AdImageDialog extends Dialog {
         width = wm.getDefaultDisplay().getWidth();
         height = wm.getDefaultDisplay().getHeight();
         mAdElementEntityList = adElementEntityList;
-        mEventReporter = new EventReporter();
 
     }
 
@@ -101,7 +97,7 @@ public class AdImageDialog extends Dialog {
                 public void run() {
                     if (imageView != null && button != null) {
                         AdElementEntity element = mAdElementEntityList.get(mCurrentAdIndex);
-                        mEventReporter.pause_ad_download(element.getTitle(), element.getMedia_id(), element.getMedia_url(), "bestv");
+                        callaPlay.pause_ad_download(element.getTitle(), element.getMedia_id(), element.getMedia_url(), "bestv");
 
                         Picasso.with(mContext).load(element.getMedia_url())
                                 .into(imageView, new com.squareup.picasso.Callback() {
@@ -113,9 +109,10 @@ public class AdImageDialog extends Dialog {
 
                                     @Override
                                     public void onError() {
+                                        callaPlay.pause_ad_except(0, "Load error");
                                     }
                                 });
-                        if(mAdElementEntityList.size() == 1){
+                        if (mAdElementEntityList.size() == 1) {
                             // 只有一条广告时
                             cancelTimer();
                         }
@@ -159,7 +156,7 @@ public class AdImageDialog extends Dialog {
         cancelTimer();
         super.dismiss();
         mDuration = TrueTime.now().getTime() - mDuration;
-        mEventReporter.pause_ad_play(
+        callaPlay.pause_ad_play(
                 mAdElementEntityList.get(mCurrentAdIndex).getTitle(),
                 mAdElementEntityList.get(mCurrentAdIndex).getMedia_id(),
                 mAdElementEntityList.get(mCurrentAdIndex).getMedia_url(),

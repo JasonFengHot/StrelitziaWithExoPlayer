@@ -1467,6 +1467,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
+        if (mIsmartvPlayer != null) {
+            mIsmartvPlayer.logVideoExit();
+        }
         timerStop();
         cancelTimer();
         hideBuffer();
@@ -1584,8 +1587,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
     }
 
-    private void playPauseVideo(){
-        if(mItemEntity == null || mIsmartvPlayer == null || mItemEntity.getLiveVideo()){
+    private void playPauseVideo() {
+        if (mItemEntity == null || mIsmartvPlayer == null || mItemEntity.getLiveVideo()) {
             return;
         }
         if (mIsmartvPlayer.isPlaying()) {
@@ -1702,7 +1705,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 playPauseVideo();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_PLAY:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 if (!mIsmartvPlayer.isPlaying()) {
@@ -1713,7 +1716,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 return true;
             case KeyEvent.KEYCODE_MEDIA_STOP:
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 if (mIsmartvPlayer.isPlaying()) {
@@ -1726,7 +1729,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
             case KeyEvent.KEYCODE_MEDIA_REWIND:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 previousClick(null);

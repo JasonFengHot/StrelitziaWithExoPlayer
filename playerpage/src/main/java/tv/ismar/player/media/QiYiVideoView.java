@@ -145,7 +145,6 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     public void release(boolean flag) {
         mCurrentState = STATE_IDLE;
         if (mPlayer != null) {
-            mIsmartvPlayer.logVideoExit(0);
             mPlayer.stop();
             if (flag) {
                 mPlayer.release();
@@ -158,7 +157,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     public void seekTo(int position) {
         mPlayer.seekTo(position);
         if (mIsmartvPlayer.isInPlaybackState()) {
-            mIsmartvPlayer.logVideoSeek(0);
+            mIsmartvPlayer.logVideoSeek();
         }
     }
 
@@ -220,7 +219,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onAdStart();
             }
-            mIsmartvPlayer.logAdStart("", 0);
+            mIsmartvPlayer.logAdStart();
         }
 
         @Override
@@ -232,7 +231,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onAdEnd();
             }
-            mIsmartvPlayer.logAdExit("", 0);
+            mIsmartvPlayer.logAdExit();
         }
 
         @Override
@@ -245,7 +244,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onMiddleAdStart();
             }
-            mIsmartvPlayer.logAdStart("", 0);
+            mIsmartvPlayer.logAdStart();
 
         }
 
@@ -259,7 +258,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onMiddleAdEnd();
             }
-            mIsmartvPlayer.logAdExit("", 0);
+            mIsmartvPlayer.logAdExit();
 
         }
 
@@ -268,11 +267,12 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mPlayer == null) {
                 return;
             }
-            mCurrentState = STATE_PLAYING;
-            mIsmartvPlayer.logVideoPlayStart(0, "");
             if (mCurrentState == STATE_PAUSED) {
-                mIsmartvPlayer.logVideoContinue(0);
+                mIsmartvPlayer.logVideoContinue();
+            } else {
+                mIsmartvPlayer.logVideoPlayStart();
             }
+            mCurrentState = STATE_PLAYING;
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onStarted();
             }
@@ -283,7 +283,10 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mPlayer == null) {
                 return;
             }
-            mIsmartvPlayer.logVideoPause(0);
+            if (mCurrentState == STATE_PLAYING) {
+                mIsmartvPlayer.logVideoPause();
+            }
+            mCurrentState = STATE_PAUSED;
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onPaused();
             }
@@ -318,7 +321,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             }
             mCurrentState = STATE_ERROR;
             Log.e(TAG, "QiYiPlayer onError:" + iSdkError.getCode() + " " + iSdkError.getMsgFromError());
-            mIsmartvPlayer.logVideoException(iSdkError.getCode(), 0);
+            mIsmartvPlayer.logVideoException(iSdkError.getCode());
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onError(iSdkError.getMsgFromError());
             }
@@ -393,7 +396,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
                 return;
             }
             if (mIsmartvPlayer.isInPlaybackState()) {
-                mIsmartvPlayer.logVideoSeekComplete(0, "");
+                mIsmartvPlayer.logVideoSeekComplete();
             }
             if (mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onSeekComplete();
@@ -423,12 +426,12 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             }
             if (mIsmartvPlayer.mFirstOpen) {
                 mIsmartvPlayer.mFirstOpen = false;
-                mIsmartvPlayer.logVideoPlayLoading(0, "", "");
+                mIsmartvPlayer.logVideoPlayLoading("");
             } else {
-                mIsmartvPlayer.logVideoBufferEnd(0, "");
+                mIsmartvPlayer.logVideoBufferEnd();
             }
             if (mIsmartvPlayer.mIsPlayingAdvertisement) {
-                mIsmartvPlayer.logAdBlockend("", 0);
+                mIsmartvPlayer.logAdBlockend();
             }
         }
     };

@@ -37,7 +37,7 @@ public class QiyiPlayer extends IsmartvPlayer {
         //mSurfaceView = new MyVideoSurfaceView(getApplicationContext());
         //mVideoOverlay = PlaySdk.getInstance().createVideoOverlay(mWindowedParent, mSurfaceView);
         //IMediaPlayer对象通过QiyiPlayerSdk.getInstance().createVideoPlayer()创建
-        logVideoStart(0);
+        logVideoStart();
         super.setMedia(media);
 
     }
@@ -131,6 +131,7 @@ public class QiyiPlayer extends IsmartvPlayer {
             return;
         }
         videoSurfaceView.switchQuality(quality);
+        logVideoSwitchQuality();
     }
 
     @Override

@@ -13,7 +13,7 @@ import tv.ismar.app.VodApplication;
 import tv.ismar.app.db.DBHelper.DBFields;
 import tv.ismar.app.entity.DBQuality;
 import tv.ismar.app.entity.History;
-import tv.ismar.app.reporter.EventReporter;
+import tv.ismar.app.player.CallaPlay;
 
 public class LocalHistoryManager implements HistoryManager {
 
@@ -188,8 +188,8 @@ public class LocalHistoryManager implements HistoryManager {
         @Override
         protected Void doInBackground(History... params) {
             if (params != null && params.length > 0) {
-                EventReporter eventReporter = new EventReporter();
-                eventReporter.addHistory(params[0]);
+                CallaPlay callaPlay = new CallaPlay();
+                callaPlay.addHistory(params[0]);
             }
             return null;
         }

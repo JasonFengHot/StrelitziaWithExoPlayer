@@ -28,7 +28,7 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
         mDaisyVideoView.setSnToken(IsmartvActivator.getInstance().getSnToken());
         mDaisyVideoView.setAdErrorListener(this);
         mDaisyVideoView.setVideoPaths(mPaths, this);
-        logVideoStart(0);
+        logVideoStart();
         super.setMedia(urls);
 
     }
@@ -134,6 +134,8 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
 
             mDaisyVideoView.release(true);
             mDaisyVideoView.setVideoPaths(mPaths, this);
+
+            logVideoSwitchQuality();
         }
     }
 

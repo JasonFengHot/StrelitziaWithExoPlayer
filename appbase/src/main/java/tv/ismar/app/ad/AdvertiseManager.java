@@ -11,7 +11,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -28,7 +27,6 @@ import okhttp3.Response;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.player.CallaPlay;
-import tv.ismar.app.reporter.EventReporter;
 import tv.ismar.app.util.FileUtils;
 
 public class AdvertiseManager {
