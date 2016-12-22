@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import cn.ismartv.injectdb.library.query.Delete;
 import cn.ismartv.injectdb.library.query.Select;
 import cn.ismartv.truetime.TrueTime;
 import okhttp3.Call;
@@ -79,6 +80,18 @@ public class AdvertiseManager {
         } else {
             for (AdvertiseTable advTable : advertisementTables) {
                 String location = advTable.location;
+                // 判断/data/data/tv.ismar.daisy/ad 目录下的文件是否被测试人员删除
+                File file = new File(mContext.getFilesDir() + "/" + AD_DIR + "/" + location);
+                if(!file.exists()){
+                    new Delete().from(AdvertiseTable.class).execute();
+                    advertisementTables.clear();
+                    AdvertiseTable tepAdvTable = new AdvertiseTable();
+                    tepAdvTable.duration = 5;
+                    tepAdvTable.media_type = TYPE_IMAGE;
+                    tepAdvTable.location = DEFAULT_ADV_PICTURE;
+                    advertisementTables.add(tepAdvTable);
+                    break;
+                }
                 advTable.location = "file://" + mContext.getFilesDir() + "/" + AD_DIR + "/" + location;
             }
         }

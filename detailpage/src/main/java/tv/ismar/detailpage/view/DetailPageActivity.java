@@ -151,7 +151,7 @@ public class DetailPageActivity extends BaseActivity{
         apiItemSubsc = mSkyService.apiOptItem(pk, opt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ItemEntity>() {
+                .subscribe(new BaseObserver<ItemEntity>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -160,6 +160,7 @@ public class DetailPageActivity extends BaseActivity{
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
                         e.printStackTrace();
+                        super.onError(e);
                     }
 
                     @Override

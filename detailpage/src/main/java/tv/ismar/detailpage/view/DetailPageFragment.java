@@ -132,21 +132,19 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         super.onViewCreated(view, savedInstanceState);
 
         Log.i(TAG, Constants.TEST);
+        mPresenter.start();
 //        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
 //        loadItem(mItemEntity);
+        mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
-        mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
         loadItem(mItemEntity);
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
         mModel.notifyBookmark(true);
-        if(mNormalBinding!=null)
-        mNormalBinding.detailBtnPlay.setTextColor(getResources().getColor(R.color._ffffff));
 
         if(mModel.getEnabled()){
             palyBtnView.requestFocus();
@@ -173,7 +171,11 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
-        mPresenter.requestPlayCheck(String.valueOf(itemEntity.getPk()));
+        if(itemEntity.getContentModel().equals("sport")) {
+            mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
+        }else{
+            mPresenter.requestPlayCheck(String.valueOf(itemEntity.getPk()));
+        }
         mModel.replaceItem(itemEntity);
         itemIsLoad = true;
         hideLoading();

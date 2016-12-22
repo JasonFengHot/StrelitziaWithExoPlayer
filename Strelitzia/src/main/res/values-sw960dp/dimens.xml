@@ -28,14 +28,14 @@
 <dimen name="play_finished_right_tv_ml">58.67dp</dimen>
 <dimen name="play_finished_gridview_w">881.78dp</dimen>
 <dimen name="play_finished_right_zgrid_mt">43.56dp</dimen>
-<dimen name="play_finished_right_zgrid_mb">120.89dp</dimen>
+<dimen name="play_finished_right_zgrid_mb">115.56dp</dimen>
 <dimen name="play_finished_right_zgrid_column_w">252.44dp</dimen>
 <dimen name="play_finished_right_zgrid_space_h">62.22dp</dimen>
 <dimen name="play_finished_right_zgrid_space_v">19.56dp</dimen>
 <dimen name="play_finished_right_zgrid_selectorLeftPadding">20.44dip</dimen>
 <dimen name="play_finished_right_zgrid_selectorTopPadding">19.56dip</dimen>
 <dimen name="play_finished_right_zgrid_selectorRightPadding">19.56dip</dimen>
-<dimen name="play_finished_right_zgrid_selectorBottomPadding">-35.56dip</dimen>
+<dimen name="play_finished_right_zgrid_selectorBottomPadding">-33.78dip</dimen>
 <dimen name="play_finished_tv_releted_margintop">88.89dip</dimen>
 <dimen name="play_finished_image_vodie_backgroud_W">252.44dip</dimen>
 <dimen name="play_finished_image_vodie_backgroud_H">142.22dip</dimen>

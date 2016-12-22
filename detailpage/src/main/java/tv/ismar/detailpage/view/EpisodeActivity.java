@@ -136,13 +136,13 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         episode_arrow_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                episode_zgridview.arrowScroll(View.FOCUS_UP);
+                episode_zgridview.pageScroll(View.FOCUS_UP);
             }
         });
         episode_arrow_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                episode_zgridview.arrowScroll(View.FOCUS_DOWN);            }
+                episode_zgridview.pageScroll(View.FOCUS_DOWN);            }
         });
     }
 
@@ -268,6 +268,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
                 convertView.setTag(viewHolder);
             }else{
                 viewHolder= (ViewHolder) convertView.getTag();
+                viewHolder.episodeBtn.setTag(position);
             }
             viewHolder.episodeBtn.setOnClickListener(this);
             viewHolder.episodeBtn.setText(String.valueOf(position + 1));

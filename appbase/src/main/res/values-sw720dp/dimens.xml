@@ -309,8 +309,14 @@
 <dimen name="item_duration_txt_mt">201.33dip</dimen>
 <dimen name="enter_duration_txt_ml">46.00dip</dimen>
 <dimen name="enter_duration_txt_mt">223.33dip</dimen>
-<dimen name="source_tag_w">169.33dip</dimen>
-<dimen name="source_tag_h">38.00dip</dimen>
+<dimen name="source_tag_w">158.00dip</dimen>
+<dimen name="source_tag_h">26.00dip</dimen>
+<dimen name="source_tag_normal_detail_ml">568.00dip</dimen>
+<dimen name="source_tag_normal_detail_mt">235.33dip</dimen>
+<dimen name="source_tag_entertain_detail_ml">192.33dip</dimen>
+<dimen name="source_tag_entertain_detail_mt">377.67dip</dimen>
+<dimen name="source_tag_movie_detail_mr">-3.33dip</dimen>
+<dimen name="source_tag_movie_detail_mt">61.33dip</dimen>
 <dimen name="film_source_tag_mt">88.67dip</dimen>
 <dimen name="film_source_tag_mr">48.00dip</dimen>
 <dimen name="item_source_tag_mt">224.00dip</dimen>

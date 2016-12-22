@@ -26,9 +26,11 @@ public class ChannelListActivity extends BaseActivity {
     private ChannelFragment channelFragment;
     private View filter;
     private HGridView mHgridView;
+
     private BitmapDecoder bitmapDecoder;
 	private HeadFragment headFragment;
 	private FrameLayout head;
+	private VipMark dip;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class ChannelListActivity extends BaseActivity {
             }
         });
 		head= (FrameLayout) findViewById(R.id.head_layout);
+		dip=VipMark.getInstance();
 		Intent intent = getIntent();
 		String title = null;
 		String url = null;

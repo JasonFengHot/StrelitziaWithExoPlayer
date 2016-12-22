@@ -620,6 +620,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             if (mItemEntity.getLiveVideo() && "sport".equals(mItemEntity.getContentModel())) {
                 getActivity().finish();
             } else {
+                addHistory(mCurrentPosition, false);
                 goOtherPage(EVENT_COMPLETE_BUY);
             }
         } else {
@@ -665,9 +666,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsmartvPlayer == null || isDetached()) {
             return true;
         }
-        Toast.makeText(getActivity(), "Temp player onError.", Toast.LENGTH_SHORT).show();
-        // TODO 播放器起播seekTo需要底层修改
-//        showExitPopup(POP_TYPE_PLAYER_ERROR);
+        showExitPopup(POP_TYPE_PLAYER_ERROR);
         return true;
     }
 
@@ -736,11 +735,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private Runnable timerRunnable = new Runnable() {
         public void run() {
-            if (mItemEntity == null || mIsmartvPlayer == null) {
+            if (mItemEntity == null || mIsmartvPlayer == null || mItemEntity.getLiveVideo()) {
                 mTimerHandler.removeCallbacks(timerRunnable);
-                return;
-            }
-            if (mItemEntity.getLiveVideo() || !mIsmartvPlayer.isPlaying()) {
                 return;
             }
             if (mIsmartvPlayer.isPlaying()) {
@@ -748,7 +744,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 // 播放过程中断网判断Start
                 if (mCurrentPosition == mediaPosition) {
                     if (!NetworkUtils.isConnected(getActivity())) {
-                        ((BaseActivity) getActivity()).showNetWorkErrorDialog(null);
+                        ((BaseActivity) getActivity()).showNoNetConnectDialog();
                         Log.e(TAG, "Network error.");
                         return;
                     }
@@ -1063,6 +1059,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsPlayingAd = false;
         isInit = false;
         mIsOnPaused = false;
+        isSeeking = false;
         // 每次进入创建播放器前先获取历史记录，历史播放位置，历史分辨率，手动切换剧集例外
         if (!isSwitchTelevision) {
             initHistory();
@@ -1153,6 +1150,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Log.i(TAG, "Get pause ad null.");
             return;
         }
+        Log.i(TAG, "Show pause ad.");
         // 视频暂停广告
         adImageDialog = new AdImageDialog(getActivity(), R.style.PauseAdDialog, pauseAdList);
         try {
@@ -1181,7 +1179,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
         }
 
-        if (mIsPreview) {
+        if (mIsPreview && !isClickKeFu) {
             mCurrentPosition = 0;
         }
 
@@ -1307,7 +1305,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
             mIsmartvPlayer.setStartPosition(mCurrentPosition);
             mIsmartvPlayer.switchQuality(clickQuality);
-            isSeeking = true;
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                 timerStop();
                 showBuffer(null);
@@ -1452,12 +1449,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 hideMenu();
                 return;
             }
-            if (mIsmartvPlayer.isPlaying()) {
-                mIsmartvPlayer.pause();
-                mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
-            } else {
-                mIsmartvPlayer.start();
-            }
+            playPauseVideo();
         }
     };
 
@@ -1475,6 +1467,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
+        timerStop();
         cancelTimer();
         hideBuffer();
         hidePanel();
@@ -1591,6 +1584,22 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
     }
 
+    private void playPauseVideo(){
+        if(mItemEntity == null || mIsmartvPlayer == null || mItemEntity.getLiveVideo()){
+            return;
+        }
+        if (mIsmartvPlayer.isPlaying()) {
+            mIsOnPaused = true;
+            mIsmartvPlayer.pause();
+            if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
+            }
+        } else {
+            mIsOnPaused = false;
+            mIsmartvPlayer.start();
+        }
+    }
+
     private static boolean isQuit = false;
     private Timer quitTimer = new Timer();
 
@@ -1674,6 +1683,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     Log.d(TAG, "From ad detail to player.");
                     mIsInAdDetail = false;
                     adController.hideAd(AdItem.AdType.CLICKTHROUGH);
+                    ad_vip_btn.setVisibility(View.VISIBLE);
+                    ad_count_text.setVisibility(View.VISIBLE);
                     return true;
                 }
                 if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
@@ -1685,7 +1696,24 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd || mItemEntity.getLiveVideo()) {
+                    return true;
+                }
+                playPauseVideo();
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
+                    return true;
+                }
+                if (!mIsmartvPlayer.isPlaying()) {
+                    mIsOnPaused = false;
+                    mIsmartvPlayer.start();
+                    hidePanel();
+                }
+                return true;
+            case KeyEvent.KEYCODE_MEDIA_STOP:
+            case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 if (mIsmartvPlayer.isPlaying()) {
@@ -1694,33 +1722,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                         mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
                     }
-                } else {
-                    mIsOnPaused = false;
-                    mIsmartvPlayer.start();
-                }
-                return true;
-            case KeyEvent.KEYCODE_MEDIA_PLAY:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
-                    return true;
-                }
-                if (!mIsmartvPlayer.isPlaying()) {
-                    mIsmartvPlayer.start();
-                    hidePanel();
-                }
-                return true;
-            case KeyEvent.KEYCODE_MEDIA_STOP:
-            case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
-                    return true;
-                }
-                if (mIsmartvPlayer.isPlaying()) {
-                    mIsmartvPlayer.pause();
-                    mAdvertisement.fetchVideoStartAd(mItemEntity, Advertisement.AD_MODE_ONPAUSE, source);
                 }
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
             case KeyEvent.KEYCODE_MEDIA_REWIND:
-                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd) {
+                if (isMenuShow() || isPopWindowShow() || mIsPlayingAd  || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 previousClick(null);
@@ -1736,12 +1742,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         if (adController != null && adController.isEnableClickThroughAd()) {
                             Log.d(TAG, "Jump to ad detail.");
                             mIsInAdDetail = true;
+                            ad_vip_btn.setVisibility(View.GONE);
+                            ad_count_text.setVisibility(View.GONE);
                             adController.showAd(AdItem.AdType.CLICKTHROUGH);
                         }
                     }
                     return true;
                 }
-                if (isMenuShow() || isPopWindowShow()) {
+                if (isMenuShow() || isPopWindowShow() || mItemEntity.getLiveVideo()) {
                     return true;
                 }
                 forwardClick(null);

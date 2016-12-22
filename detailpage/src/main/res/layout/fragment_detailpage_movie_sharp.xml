@@ -347,15 +347,18 @@
                             />
 
                         </LinearLayout>
-                        <ImageView
-                            android:id="@+id/source"
-                            android:layout_width="@dimen/source_tag_w"
-                            android:layout_height="@dimen/source_tag_h"
-                            android:layout_gravity="right"
-                            android:visibility="@{tasks.cpLogoVisibility}"
-                            app:imageUrl="@{tasks.cpLogoUrl}"
-                        />
+
                     </LinearLayout>
+                    <ImageView
+                        android:id="@+id/source"
+                        android:layout_width="@dimen/source_tag_w"
+                        android:layout_height="@dimen/source_tag_h"
+                        android:layout_marginTop="@dimen/source_tag_movie_detail_mt"
+                        android:layout_marginRight="@dimen/source_tag_movie_detail_mr"
+                        android:layout_alignParentRight="true"
+                        android:visibility="@{tasks.cpLogoVisibility}"
+                        app:imageUrl="@{tasks.cpLogoUrl}"
+                        />
 
                 </RelativeLayout>
 

@@ -342,7 +342,12 @@ public interface SkyService {
             @Field("timestamp") String timestamp,
             @Field("sign") String sign
     );
-
+    @FormUrlEncoded
+    @POST("customer/pointlogs/")
+    Observable<ResponseBody> UploadFeedback(
+            @Header("User-Agent") String userAgent,
+            @Field("q") String q
+    );
 
     @FormUrlEncoded
     @POST("api/play/check/")

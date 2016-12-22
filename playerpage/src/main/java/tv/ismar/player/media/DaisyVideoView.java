@@ -601,7 +601,7 @@ public class DaisyVideoView extends SurfaceView {
         public void surfaceDestroyed(SurfaceHolder holder) {
             // after we return from this we can't use the surface any more
             mSurfaceHolder = null;
-            release(true);
+//            release(true);
         }
     };
 
