@@ -33,7 +33,7 @@
 <dimen name="usercenter_header_fragment_subtitle_mb">8.89dp</dimen>
 <dimen name="header_fragment_divider_mlr">30.22dp</dimen>
 <dimen name="header_fragment_btn_width">106.67dp</dimen>
-<dimen name="header_fragment_mine_space">30.22dp</dimen>
+<dimen name="header_fragment_mine_space">28.44dp</dimen>
 <dimen name="header_fragment_mine_indicator_h">3.56dp</dimen>
 <dimen name="header_fragment_mine_indicator_w">83.56dp</dimen>
 <dimen name="header_title_bottom">10.67dp</dimen>

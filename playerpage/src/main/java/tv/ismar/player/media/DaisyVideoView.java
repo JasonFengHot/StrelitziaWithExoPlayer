@@ -363,6 +363,9 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public void onPrepared(SmartPlayer smartPlayer, String s) {
             Log.i(TAG, "onPrepared state url ==" + s + " " + mIsmartvPlayer.mIsPlayingAdvertisement);
+            if(mSurfaceHolder == null){
+                return;
+            }
             mCurrentState = STATE_PREPARED;
             player = smartPlayer;
             mCurrentMediaUrl = s;
@@ -377,6 +380,9 @@ public class DaisyVideoView extends SurfaceView {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    if(mIsmartvPlayer == null || mSurfaceHolder == null){
+                        return;
+                    }
                     if (mIsmartvPlayer.mOnStateChangedListener != null) {
                         mIsmartvPlayer.mOnStateChangedListener.onPrepared();
                     }

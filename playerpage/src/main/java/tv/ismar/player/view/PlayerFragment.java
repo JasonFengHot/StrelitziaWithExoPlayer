@@ -390,9 +390,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
-        if (!mIsPlayingAd) {
-            addHistory(mCurrentPosition, true);
-        }
         if (popDialog != null && popDialog.isShowing()) {
             // 底层报错导致Activity 被销毁，如果再次显示弹出框，会报错
             popDialog.dismiss();
@@ -469,7 +466,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onPrepared() {
-        if (mIsmartvPlayer == null) {
+        if (mIsmartvPlayer == null || isExit) {
             return;
         }
         Log.i(TAG, "onPrepared:" + mCurrentPosition + " playingAd:" + mIsPlayingAd);
@@ -1189,6 +1186,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mItemEntity == null || mIsmartvPlayer == null || mIsPlayingAd) {
             return;
         }
+        Log.i(TAG, "addHistory");
         if (historyManager == null) {
             historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
         }
@@ -1468,6 +1466,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void finishActivity(){
         isExit = true;
+        if (!mIsPlayingAd) {
+            addHistory(mCurrentPosition, true);
+        }
         if (mIsmartvPlayer != null) {
             mIsmartvPlayer.stopPlayBack();
             mIsmartvPlayer = null;
