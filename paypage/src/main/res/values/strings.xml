@@ -1,5 +1,5 @@
 <resources>
-    <string name="account_connect_error">网络连接错误</string>
+    <string name="account_connect_error">网络连接失败，请重试</string>
 
 
     <!-- pay panel -->

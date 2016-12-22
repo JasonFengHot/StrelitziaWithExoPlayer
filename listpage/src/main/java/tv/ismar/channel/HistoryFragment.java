@@ -191,6 +191,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		mChannelLabel = (TextView) fragmentView.findViewById(R.id.channel_label);
 		mChannelLabel.setText(getResources().getString(R.string.vod_movielist_title_history));
 		clerHistory.setText(getResources().getString(R.string.claer_histories));
+		clerHistory.setVisibility(View.GONE);
 		mNoVideoContainer = (RelativeLayout) fragmentView.findViewById(R.id.no_video_container);
 		collect_or_history_txt = (TextView)fragmentView.findViewById(R.id.collect_or_history_txt);
 		recommend_gridview = (ZGridView)fragmentView.findViewById(R.id.recommend_gridview);
@@ -319,6 +320,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 							if(mHGridAdapter.getCount()>0){
 								mHGridView.setAdapter(mHGridAdapter);
 								mHGridView.setFocusable(true);
+								mHGridView.getChildAt(0).requestFocus();
 								//mHGridView.setHorizontalFadingEdgeEnabled(true);
 								//mHGridView.setFadingEdgeLength(144);
 								ArrayList<Item> item  = new ArrayList<Item>();
@@ -405,6 +407,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				mHGridAdapter = new HGridAdapterImpl(getActivity(), itemCollections,false);
 				mHGridView.setAdapter(mHGridAdapter);
 				mHGridView.setFocusable(true);
+				mHGridView.requestFocus();
 				showData();
 			} else {
 				no_video();
@@ -692,6 +695,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		mScrollableSectionList.setVisibility(View.GONE);
 		mHGridView.setVisibility(View.GONE);
 		collect_or_history_txt.setText(getResources().getString(R.string.no_history_record));
+		clerHistory.setVisibility(View.GONE);
 		getTvHome();
 	}
 	public void showData(){
@@ -701,6 +705,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		mScrollableSectionList.setVisibility(View.VISIBLE);
 		mHGridView.setVisibility(View.VISIBLE);
 		collect_or_history_txt.setVisibility(View.GONE);
+		clerHistory.setVisibility(View.VISIBLE);
 	}
 
 	private void showDialog(final int dialogType, final AsyncTask task, final Object[] params) {
