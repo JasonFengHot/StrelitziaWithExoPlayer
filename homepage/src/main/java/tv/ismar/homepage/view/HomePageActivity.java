@@ -183,8 +183,16 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             if (channelEntityList.isEmpty()) {
                 return;
             }
+            if (position == 0) {
+                home_scroll_left.setVisibility(View.GONE);
+                large_layout.requestFocus();
+            } else {
+                home_scroll_left.setVisibility(View.VISIBLE);
+            }
+
             if (position == channelEntityList.size() - 1) {
                 home_scroll_right.setVisibility(View.GONE);
+                large_layout.requestFocus();
             } else {
                 home_scroll_right.setVisibility(View.VISIBLE);
             }
@@ -884,17 +892,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 scrollType = ScrollType.left;
             }
         }
-        if (position == 0) {
-            home_scroll_left.setVisibility(View.GONE);
-        } else {
-            home_scroll_left.setVisibility(View.VISIBLE);
-        }
 
-        if (position == channelEntityList.size() - 1) {
-            home_scroll_right.setVisibility(View.GONE);
-        } else {
-            home_scroll_right.setVisibility(View.VISIBLE);
-        }
         ChannelEntity channelEntity = channelEntityList.get(position);
         headFragment.setSubTitle(channelEntity.getName());
         currentFragment = null;
