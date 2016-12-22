@@ -82,14 +82,9 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         mSkyService.apiPaylayerVip(cpid, itemId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PayLayerVipEntity>() {
+                .subscribe(new BaseObserver<PayLayerVipEntity>() {
                     @Override
                     public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
 
                     }
 

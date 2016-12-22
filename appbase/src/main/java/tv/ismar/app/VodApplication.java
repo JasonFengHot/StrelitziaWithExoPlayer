@@ -86,7 +86,7 @@ public class VodApplication extends Application {
         load(this);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-        Picasso picasso = new Picasso.Builder(this).executor(executorService).memoryCache(Cache.NONE).build();
+        Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
         Picasso.setSingletonInstance(picasso);
         IsmartvActivator.initialize(this);
 //        mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
