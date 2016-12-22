@@ -81,35 +81,44 @@ public class DownloadClient implements Runnable {
 
         //database
         DownloadTable downloadTable = new Select().from(DownloadTable.class).where(DownloadTable.DOWNLOAD_PATH + " =? ", downloadFile.getAbsolutePath()).executeSingle();
+        InputStream inputStream = null;
         try {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(url).build();
             Response response = client.newCall(request).execute();
             if (response.body() != null) {
-                InputStream inputStream = response.body().byteStream();
+                inputStream = response.body().byteStream();
                 byte[] buffer = new byte[1024];
                 int byteRead;
                 while ((byteRead = inputStream.read(buffer)) != -1) {
                     fileOutputStream.write(buffer, 0, byteRead);
                 }
-                fileOutputStream.flush();
-                fileOutputStream.close();
-                inputStream.close();
+//                fileOutputStream.flush();
+//                fileOutputStream.close();
+//                inputStream.close();
+
+                downloadTable.download_path = downloadFile.getAbsolutePath();
+                downloadTable.download_state = DownloadState.complete.name();
+                downloadTable.local_md5 = HardwareUtils.getMd5ByFile(downloadFile);
+                downloadTable.save();
             }
         } catch (IOException e) {
             Log.e(TAG, "IOException: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "IllegalArgumentException: " + e.getMessage());
+        } finally {
+            try {
+                if (fileOutputStream != null){
+                    fileOutputStream.close();
+                }
+                if (inputStream != null){
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "Close stream: " + e.getMessage());
+            }
         }
-
-
-        downloadTable.download_path = downloadFile.getAbsolutePath();
-        downloadTable.download_state = DownloadState.complete.name();
-        downloadTable.local_md5 = HardwareUtils.getMd5ByFile(downloadFile);
-        downloadTable.save();
-
-
-        Log.d(TAG, "url is: " + url);
+        Log.d(TAG, "url is: " + url + " mStoreType:" + mStoreType);
         Log.d(TAG, "server md5 is: " + mServerMD5);
         Log.d(TAG, "local md5 is: " + downloadTable.local_md5);
         Log.d(TAG, "download complete!!!");
