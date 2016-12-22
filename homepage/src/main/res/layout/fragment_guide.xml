@@ -38,13 +38,22 @@
 
         </tv.ismar.homepage.widget.HomeItemContainer>
 
-        <include
-            layout="@layout/guide_carouse"
-            android:layout_width="@dimen/guide_carouse_w"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/guide_video_img_ml"
             android:layout_toRightOf="@id/guide_center_layoutview"
             android:clipChildren="false"
-            android:clipToPadding="false" />
+            android:clipToPadding="false">
+
+            <include
+                layout="@layout/guide_carouse"
+                android:layout_width="@dimen/guide_carouse_w"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

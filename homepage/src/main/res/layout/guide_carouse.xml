@@ -5,43 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:clipToPadding="false"
-    android:paddingLeft="@dimen/guide_video_img_ml">
+    android:clipToPadding="false">
 
     <tv.ismar.homepage.widget.LabelImageView3
         android:id="@+id/toppage_carous_imageView1"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/guide_carouse_w"
         android:layout_height="@dimen/guide_carouse_h"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         labelimage:label3_customFocus="true"
         labelimage:label3_frontColor="@color/color_alpha_black"
         labelimage:label3_needZoom="true" />
 
     <tv.ismar.homepage.widget.LabelImageView3
         android:id="@+id/toppage_carous_imageView2"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/guide_carouse_w"
         android:layout_height="@dimen/guide_carouse_h"
         android:layout_below="@id/toppage_carous_imageView1"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         labelimage:label3_customFocus="true"
         labelimage:label3_frontColor="@color/color_alpha_black"
         labelimage:label3_needZoom="true" />
 
     <tv.ismar.homepage.widget.LabelImageView3
         android:id="@+id/toppage_carous_imageView3"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/guide_carouse_w"
         android:layout_height="@dimen/guide_carouse_h"
         android:layout_below="@id/toppage_carous_imageView2"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         labelimage:label3_customFocus="true"
         labelimage:label3_frontColor="@color/color_alpha_black"
         labelimage:label3_needZoom="true" />

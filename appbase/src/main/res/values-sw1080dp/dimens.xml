@@ -33,7 +33,7 @@
     <dimen name="usercenter_header_fragment_subtitle_mb">10dp</dimen>
     <dimen name="header_fragment_divider_mlr">34dp</dimen>
     <dimen name="header_fragment_btn_width">120dp</dimen>
-    <dimen name="header_fragment_mine_space">34dp</dimen>
+    <dimen name="header_fragment_mine_space">32dp</dimen>
     <dimen name="header_fragment_mine_indicator_h">4dp</dimen>
     <dimen name="header_fragment_mine_indicator_w">94dp</dimen>
     <dimen name="header_title_bottom">12dp</dimen>
