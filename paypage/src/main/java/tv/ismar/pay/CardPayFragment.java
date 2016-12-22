@@ -1,4 +1,5 @@
 package tv.ismar.pay;
+
 import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
@@ -44,6 +45,8 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
     private String flag;
     private TextView rechargeMsgTextView;
 
+    public static final int CHARGE_MONEY_SUCCESS = 0x3729;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +71,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
         submitBtn = (Button) contentView.findViewById(R.id.shiyuncard_submit);
         cardNumberEdt = (EditText) contentView.findViewById(R.id.shiyuncard_input);
         submitBtn.setOnClickListener(this);
-        rechargeMsgTextView = (TextView)contentView.findViewById(R.id.recharge_error_msg);
+        rechargeMsgTextView = (TextView) contentView.findViewById(R.id.recharge_error_msg);
         return contentView;
     }
 
@@ -78,7 +81,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
         View indicatorView = mPaymentActivity.findViewById(R.id.videocard);
         indicatorView.setNextFocusRightId(R.id.shiyuncard_input);
         submitBtn.setOnHoverListener(this);
-        if (!TextUtils.isEmpty(flag)&& "usercenter_charge".equals(flag)){
+        if (!TextUtils.isEmpty(flag) && "usercenter_charge".equals(flag)) {
             cardNumberEdt.requestFocus();
         }
     }
@@ -123,11 +126,19 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
                             case "S":
                                 rechargeMsgTextView.setText("充值成功");
                                 rechargeMsgTextView.setVisibility(View.VISIBLE);
+                                if (!TextUtils.isEmpty(flag) && "usercenter_charge".equals(flag)) {
+                                    getActivity().setResult(CHARGE_MONEY_SUCCESS);
+                                    getActivity().finish();
+                                }
                                 break;
                             //充值成功,系统将在第二天8点为您购买,10s后返回
                             case "T":
                                 rechargeMsgTextView.setText("充值成功");
                                 rechargeMsgTextView.setVisibility(View.VISIBLE);
+                                if (!TextUtils.isEmpty(flag) && "usercenter_charge".equals(flag)) {
+                                    getActivity().setResult(CHARGE_MONEY_SUCCESS);
+                                    getActivity().finish();
+                                }
                                 break;
                             default:
                                 rechargeMsgTextView.setText("充值失败");
