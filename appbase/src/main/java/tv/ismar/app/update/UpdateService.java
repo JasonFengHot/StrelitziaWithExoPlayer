@@ -62,6 +62,8 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     private boolean isInstallSilent = false;
 
+    public static boolean installAppLoading = false;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -189,6 +191,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                                 String path = apkFile.getAbsolutePath();
                                 Log.d(TAG, "install apk path: " + path);
                                 if (isInstallSilent) {
+                                    installAppLoading = true;
                                     boolean installSilentSuccess = installAppSilent(path);
                                     Log.d(TAG, "installSilentSuccess: " + installSilentSuccess);
                                 } else {

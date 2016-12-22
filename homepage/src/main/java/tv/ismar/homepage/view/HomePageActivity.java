@@ -1,4 +1,5 @@
 package tv.ismar.homepage.view;
+
 import cn.ismartv.truetime.TrueTime;
 
 import android.content.Intent;
@@ -93,6 +94,7 @@ import tv.ismar.homepage.fragment.FilmFragment;
 import tv.ismar.homepage.fragment.GuideFragment;
 import tv.ismar.homepage.fragment.MessageDialogFragment;
 import tv.ismar.homepage.fragment.SportFragment;
+import tv.ismar.homepage.fragment.UpdateSlienceLoading;
 import tv.ismar.homepage.widget.DaisyVideoView;
 import tv.ismar.homepage.widget.Position;
 
@@ -150,8 +152,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private FragmentSwitchHandler fragmentSwitch;
     private BitmapDecoder bitmapDecoder;
     private Subscription channelsSub;
-
-
 
 
     @Override
@@ -329,6 +329,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         if (savedInstanceState != null)
             savedInstanceState = null;
@@ -338,6 +340,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         startTrueTimeService();
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
+        if (UpdateService.installAppLoading) {
+            getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new UpdateSlienceLoading()).commit();
+            return;
+        }
+//
         fragmentSwitch = new FragmentSwitchHandler(this);
         homepage_template = getIntent().getStringExtra("homepage_template");
         homepage_url = getIntent().getStringExtra("homepage_url");
@@ -353,7 +360,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
         advertiseManager = new AdvertiseManager(getApplicationContext());
         launchAds = advertiseManager.getAppLaunchAdvertisement();
-        for (AdvertiseTable tab: launchAds){
+        for (AdvertiseTable tab : launchAds) {
             totalAdsMills = totalAdsMills + tab.duration * 1000;
         }
         int i = 0;
@@ -707,7 +714,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     public void onBackPressed() {
         if (countAdTime > 0) {
-            if(mHandler.hasMessages(MSG_AD_COUNTDOWN)){
+            if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
                 mHandler.removeMessages(MSG_AD_COUNTDOWN);
             }
             finish();
@@ -1141,7 +1148,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onResume() {
         super.onResume();
-        if(!isneedpause){
+        if (!isneedpause) {
             return;
         }
         neterrorshow = false;
@@ -1162,20 +1169,22 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         super.onWindowFocusChanged(hasFocus);
         if (!DaisyUtils.isNetworkAvailable(this)) {
             Log.e(TAG, "onresume Isnetwork");
-          //  showNetErrorPopup();
+            //  showNetErrorPopup();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(!isneedpause){
+        if (!isneedpause) {
             return;
         }
-        if (fragmentSwitch.hasMessages(SWITCH_PAGE))
-            fragmentSwitch.removeMessages(SWITCH_PAGE);
-        if (fragmentSwitch.hasMessages(SWITCH_PAGE_FROMLAUNCH))
-            fragmentSwitch.removeMessages(SWITCH_PAGE_FROMLAUNCH);
+        if (fragmentSwitch != null) {
+            if (fragmentSwitch.hasMessages(SWITCH_PAGE))
+                fragmentSwitch.removeMessages(SWITCH_PAGE);
+            if (fragmentSwitch.hasMessages(SWITCH_PAGE_FROMLAUNCH))
+                fragmentSwitch.removeMessages(SWITCH_PAGE_FROMLAUNCH);
+        }
     }
 
     @Override
@@ -1201,7 +1210,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if(!isneedpause){
+        if (!isneedpause) {
             return;
         }
         homepage_template = intent.getStringExtra("homepage_template");
@@ -1365,7 +1374,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         @Override
         public void onCompletion(MediaPlayer mp) {
             Log.i(TAG, "OnCompletionListener");
-            if(isFinishing()){
+            if (isFinishing()) {
                 return;
             }
             if (playIndex == launchAds.size() - 1) {
