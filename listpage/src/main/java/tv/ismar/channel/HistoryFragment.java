@@ -321,9 +321,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 							if(mHGridAdapter.getCount()>0){
 								mHGridView.setAdapter(mHGridAdapter);
 								mHGridView.setFocusable(true);
-								mHGridView.getChildAt(0).requestFocus();
-								//mHGridView.setHorizontalFadingEdgeEnabled(true);
-								//mHGridView.setFadingEdgeLength(144);
 								ArrayList<Item> item  = new ArrayList<Item>();
 								for(Item i:items){
 									item.add(i);
