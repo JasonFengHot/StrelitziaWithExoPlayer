@@ -69,6 +69,69 @@ public class OfflineCheckManager {
                 });
     }
 
+
+    public void checkItem(int pk, Callback callback) {
+        mCallback = callback;
+
+        SkyService skyService = SkyService.ServiceManager.getService();
+        skyService.apiItemIsOffline(String.valueOf(pk))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<OfflineCheckEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.i("LH/", "checkItem:onFailure ");
+                        mCallback.offline();
+                    }
+
+                    @Override
+                    public void onNext(OfflineCheckEntity offlineCheckEntity) {
+                        if (!offlineCheckEntity.isOffline()) {
+                            mCallback.online();
+                        } else {
+                            mCallback.offline();
+                        }
+                    }
+                });
+    }
+
+    public void checkPkg(int pk, Callback callback) {
+        mCallback = callback;
+
+        SkyService skyService = SkyService.ServiceManager.getService();
+        skyService.apiPKGIsOffline(String.valueOf(pk))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<OfflineCheckEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.i("LH/", "checkItem:onFailure ");
+                        mCallback.offline();
+                    }
+
+                    @Override
+                    public void onNext(OfflineCheckEntity offlineCheckEntity) {
+                        if (!offlineCheckEntity.isOffline()) {
+                            mCallback.online();
+                        } else {
+                            mCallback.offline();
+                        }
+                    }
+                });
+    }
+
     interface Callback {
         void online();
 

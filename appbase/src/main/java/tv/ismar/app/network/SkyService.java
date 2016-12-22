@@ -44,6 +44,7 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.Item;
@@ -118,6 +119,16 @@ public interface SkyService {
 
     @GET("api/item/{pk}/")
     Observable<ItemEntity> apiItem(
+            @Path("pk") String pk
+    );
+
+    @GET("api/item/{pk}/")
+    Observable<OfflineCheckManager.OfflineCheckEntity> apiItemIsOffline(
+            @Path("pk") String pk
+    );
+
+    @GET("api/package/{pk}/")
+    Observable<OfflineCheckManager.OfflineCheckEntity> apiPKGIsOffline(
             @Path("pk") String pk
     );
 
