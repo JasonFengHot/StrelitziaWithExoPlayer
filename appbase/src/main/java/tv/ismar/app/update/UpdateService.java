@@ -193,6 +193,9 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                                 if (isInstallSilent) {
                                     installAppLoading = true;
                                     boolean installSilentSuccess = installAppSilent(path);
+                                    if (!installSilentSuccess){
+                                        installAppLoading = false;
+                                    }
                                     Log.d(TAG, "installSilentSuccess: " + installSilentSuccess);
                                 } else {
                                     Bundle bundle = new Bundle();
