@@ -575,8 +575,8 @@ public interface SkyService {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             final OkHttpClient mClient = new OkHttpClient.Builder()
-                    .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                    .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
+//                    .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+//                    .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(VodApplication.getHttpParamsInterceptor())
 //                    .addNetworkInterceptor(VodApplication.getHttpTrafficInterceptor())
                     .retryOnConnectionFailure(true)
@@ -596,7 +596,7 @@ public interface SkyService {
             }.start();
 
             try {
-                latch.await(3, TimeUnit.SECONDS);
+                latch.await(5, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
