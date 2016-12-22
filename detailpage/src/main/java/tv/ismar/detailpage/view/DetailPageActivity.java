@@ -158,8 +158,9 @@ public class DetailPageActivity extends BaseActivity{
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        e.printStackTrace();
+//
+                        if(mLoadingDialog!=null)
+                        mLoadingDialog.dismiss();
                         super.onError(e);
                     }
 

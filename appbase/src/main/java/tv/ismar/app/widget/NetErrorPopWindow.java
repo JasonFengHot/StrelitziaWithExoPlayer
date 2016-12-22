@@ -15,7 +15,7 @@ public class NetErrorPopWindow extends ModuleMessagePopWindow {
         return ourInstance;
     }
 
-    private NetErrorPopWindow(Context context) {
+    public NetErrorPopWindow(Context context) {
        super(context);
     }
 }
