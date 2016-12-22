@@ -467,8 +467,13 @@ public class DetailPageViewModel extends BaseObservable {
                         if(mItemEntity.getExpense() != null){
                             break;
                         }
+                        if(mHistory.sub_url.contains(mItemEntity.getPk()+"")){
+                            subitem_title=subItems[0].getSubtitle();
+                            break;
+                        }
                         if(mHistory.sub_url.contains(subItems[i].getPk()+"")){
                             subitem_title=subItems[i].getSubtitle();
+                            break;
                         }
                     }
                 }
@@ -639,4 +644,6 @@ public class DetailPageViewModel extends BaseObservable {
             return true;
         }
     }
+
+
 }
