@@ -69,6 +69,7 @@ import tv.ismar.app.network.entity.ChatMsgEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.DpiEntity;
 import tv.ismar.app.network.entity.Empty;
+import tv.ismar.app.network.entity.IpLookUpEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PayLayerEntity;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
@@ -547,6 +548,10 @@ public interface SkyService {
                 @Field("nodeId") String nodeId,
                 @Field("nodeSpeed") String nodeSpeed
         );
+    @GET
+    Observable<IpLookUpEntity> fetchIP(
+            @Url String url
+    );
 
     class ServiceManager {
         private volatile static ServiceManager serviceManager;

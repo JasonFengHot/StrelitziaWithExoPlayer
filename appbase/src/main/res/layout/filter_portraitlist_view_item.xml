@@ -18,7 +18,7 @@
             labelimage:focuspaddingtop="0.896"
             labelimage:focustextpaddingtop="0.975"
             labelimage:maxfocustitle="10"
-            labelimage:focustextsize="@dimen/text_size_30sp"
+            labelimage:focustextsize="@dimen/text_size_24sp"
             labelimage:focusbackground="#D9000000"
             />
     <TextView

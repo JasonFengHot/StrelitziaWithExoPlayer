@@ -175,6 +175,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		mChannelLabel = (TextView) fragmentView.findViewById(R.id.channel_label);
 		mChannelLabel.setText(getResources().getString(R.string.guide_my_favorite));
 		clertFavorite.setText(getResources().getString(R.string.clear_favort));
+		clertFavorite.setVisibility(View.GONE);
 		mNoVideoContainer = (RelativeLayout) fragmentView.findViewById(R.id.no_video_container);
 		recommend_gridview = (ZGridView)fragmentView.findViewById(R.id.recommend_gridview);
 		recommend_txt = (TextView)fragmentView.findViewById(R.id.recommend_txt);
@@ -758,5 +759,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		mScrollableSectionList.setVisibility(View.VISIBLE);
 		mHGridView.setVisibility(View.VISIBLE);
 		collect_or_history_txt.setVisibility(View.GONE);
+		clertFavorite.setVisibility(View.VISIBLE);
 	}
 }
