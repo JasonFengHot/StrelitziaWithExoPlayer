@@ -394,6 +394,10 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public void onVideoSizeChanged(SmartPlayer smartPlayer, int width, int height) {
             Log.i(TAG, "onVideoSizeChanged:" + width + " " + height);
+            if(getHolder() == null || !getHolder().getSurface().isValid()){// 视频加载中即将播放时按返回键退出
+                Log.i(TAG, "surface destroyed");
+                return;
+            }
             mVideoWidth = smartPlayer.getVideoWidth();
             mVideoHeight = smartPlayer.getVideoHeight();
 //            if (mVideoWidth != 0 && mVideoHeight != 0) {
