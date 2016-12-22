@@ -129,6 +129,10 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
                                 rechargeMsgTextView.setText("充值成功");
                                 rechargeMsgTextView.setVisibility(View.VISIBLE);
                                 break;
+                            default:
+                                rechargeMsgTextView.setText("充值失败");
+                                rechargeMsgTextView.setVisibility(View.VISIBLE);
+                                break;
                         }
                     }
                 });
