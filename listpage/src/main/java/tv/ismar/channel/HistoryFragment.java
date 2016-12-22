@@ -400,7 +400,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 		@Override
 		protected void onPostExecute(Void result) {
-			Log.i(TAG,mHistoryItemList+"mHistoryItemList.count:"+mHistoryItemList.count);
 			if(mHistoryItemList!=null&&mHistoryItemList.count>0) {
 				//mScrollableSectionList.init(mSectionList, 1365,false);
 				ArrayList<ItemCollection> itemCollections = new ArrayList<ItemCollection>();
