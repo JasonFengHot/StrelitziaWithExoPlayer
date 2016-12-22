@@ -1,4 +1,5 @@
 package tv.ismar.channel;
+import cn.ismartv.truetime.TrueTime;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -117,7 +118,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	private SkyService skyService;
 	private TextView clerHistory;
 	private long getTodayStartPoint() {
-		long currentTime = System.currentTimeMillis();
+		long currentTime = TrueTime.now().getTime();
 		GregorianCalendar currentCalendar = new GregorianCalendar();
 		currentCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 		currentCalendar.setTimeInMillis(currentTime);
@@ -407,7 +408,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 				mHGridAdapter = new HGridAdapterImpl(getActivity(), itemCollections,false);
 				mHGridView.setAdapter(mHGridAdapter);
 				mHGridView.setFocusable(true);
-				mHGridView.requestFocus();
 				showData();
 			} else {
 				no_video();

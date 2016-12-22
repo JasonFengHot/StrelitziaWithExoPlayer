@@ -1,4 +1,5 @@
 package tv.ismar.player.view;
+import cn.ismartv.truetime.TrueTime;
 
 import android.app.Dialog;
 import android.content.Context;

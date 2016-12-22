@@ -1,4 +1,5 @@
 package tv.ismar.app.t;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.Context;
 import android.util.Log;
@@ -117,7 +118,7 @@ public class AccessProxy {
 
 	private static String getAES(String access_token) {
 		String result = null;
-		String contents = (new StringBuilder(String.valueOf(new Date(System.currentTimeMillis())
+		String contents = (new StringBuilder(String.valueOf(new Date(TrueTime.now().getTime())
 				.getTime()))).append(mySN).toString();
 		if (access_token != null && access_token.length() > 0) {
 			if (access_token.length() > 15) {

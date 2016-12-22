@@ -1,4 +1,5 @@
 package tv.ismar.app;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -75,7 +76,7 @@ public class BaseActivity extends AppCompatActivity {
         mIrisService = SkyService.ServiceManager.getIrisService();
         mSpeedCallaService = SkyService.ServiceManager.getSpeedCallaService();
         mLilyHostService = SkyService.ServiceManager.getLilyHostService();
-        app_start_time = System.currentTimeMillis();
+        app_start_time = TrueTime.now().getTime();
     }
 
     @Override

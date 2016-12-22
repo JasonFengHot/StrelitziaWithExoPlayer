@@ -33,6 +33,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Attribute;
 import tv.ismar.app.entity.Item;
@@ -471,19 +472,16 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
 //		intent.putExtra("url", item.item_url);
 //        intent.putExtra(EventProperty.SECTION, mSection);
 //		startActivity(intent);
+        PageIntent pageIntent=new PageIntent();
+        boolean[] isSubItem = new boolean[1];
+        int pk = SimpleRestClient.getItemId(item.item_url, isSubItem);
         if (item.is_complex) {
             if (item.expense != null && (item.content_model.equals("variety") || item.content_model.equals("entertainment"))) {
                 item.content_model = "music";
             }
-          //  DaisyUtils.gotoSpecialPage(this, item.content_model, item.item_url, "related");
-            PageIntent pageIntent=new PageIntent();
-            boolean[] isSubItem = new boolean[1];
-            int pk = SimpleRestClient.getItemId(item.item_url, isSubItem);
             pageIntent.toDetailPage(RelatedActivity.this,"related",pk);
         } else {
-            tool = new InitPlayerTool(RelatedActivity.this);
-            tool.fromPage = "related";
-            tool.initClipInfo(item.item_url, InitPlayerTool.FLAG_URL);
+            pageIntent.toPlayPage(RelatedActivity.this,pk,0, Source.LIST);
         }
     }
 

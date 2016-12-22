@@ -1,4 +1,5 @@
 package tv.ismar.app.widget;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -194,7 +195,7 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
 
 
     private void parseXml(WeatherEntity weatherEntity) {
-        Date now = new Date();
+        Date now = TrueTime.now();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");//可以方便地修改日期格式
         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String todayTime = dateFormat.format(now);

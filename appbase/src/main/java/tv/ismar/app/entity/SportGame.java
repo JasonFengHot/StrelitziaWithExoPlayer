@@ -1,4 +1,5 @@
 package tv.ismar.app.entity;
+import cn.ismartv.truetime.TrueTime;
 
 import android.text.TextUtils;
 
@@ -80,12 +81,12 @@ public class SportGame {
 			try {
 				Date starttime = sdf.parse(start_time);
 				Date expirytime = sdf.parse(expiry_date);
-				if (System.currentTimeMillis() < starttime.getTime())
+				if (TrueTime.now().getTime() < starttime.getTime())
 					return 5;
-				if (System.currentTimeMillis() > starttime.getTime()
-						&& System.currentTimeMillis() < expirytime.getTime())
+				if (TrueTime.now().getTime() > starttime.getTime()
+						&& TrueTime.now().getTime() < expirytime.getTime())
 					return 4;
-				if (System.currentTimeMillis() > expirytime.getTime())
+				if (TrueTime.now().getTime() > expirytime.getTime())
 					return 6;
 			} catch (ParseException e) {
 				e.printStackTrace();

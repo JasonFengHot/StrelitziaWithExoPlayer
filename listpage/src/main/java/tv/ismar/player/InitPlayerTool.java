@@ -1,4 +1,5 @@
 package tv.ismar.player;
+import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.content.Context;
@@ -154,7 +155,7 @@ public class InitPlayerTool {
 						try {
 							Date date = sdf.parse(startTime);
 							long startMillisecond = date.getTime();
-							long nowTime = System.currentTimeMillis();
+							long nowTime = TrueTime.now().getTime();
 							if(nowTime < startMillisecond && startMillisecond - nowTime > 10000 * 60){
 								isLiveVideoNotStart = true;
 							}

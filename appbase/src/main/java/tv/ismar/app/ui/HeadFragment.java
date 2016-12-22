@@ -1,4 +1,5 @@
 package tv.ismar.app.ui;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

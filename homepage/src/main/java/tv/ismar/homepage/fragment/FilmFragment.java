@@ -514,7 +514,7 @@ public class FilmFragment extends ChannelBaseFragment {
         mSurfaceView.stopPlayback();
     }
 
-    private void playCarousel(int delay) {
+    private void playCarousel(final int delay) {
         mHandler.removeMessages(CAROUSEL_NEXT);
         if (film_post_layout == null)
             return;
@@ -576,7 +576,7 @@ public class FilmFragment extends ChannelBaseFragment {
                     public void onNext(Boolean enable) {
                         Log.i(TAG, "onNext thread: " + Thread.currentThread().getName());
                         if (enable) {
-                            playVideo(0);
+                            playVideo(delay);
                         } else {
                             playImage();
                         }

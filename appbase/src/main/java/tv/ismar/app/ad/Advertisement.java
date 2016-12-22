@@ -1,4 +1,5 @@
 package tv.ismar.app.ad;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.Context;
 import android.text.TextUtils;

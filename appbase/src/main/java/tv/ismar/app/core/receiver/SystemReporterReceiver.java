@@ -1,4 +1,5 @@
 package tv.ismar.app.core.receiver;
+import cn.ismartv.truetime.TrueTime;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -54,16 +55,16 @@ public class SystemReporterReceiver extends BroadcastReceiver {
                     NetworkUtils.SaveLogToLocal(eventName, properties);
                     Log.i("reporter", "lastUseTime:" + lastUseTme);
                 }
-                long tvOnTime = System.currentTimeMillis();
+                long tvOnTime = TrueTime.now().getTime();
                 Log.d(TAG, "tvOnTime:" + tvOnTime+"  lastUseTme:"+lastUseTme);
-                editor.putLong(tv_on_time, System.currentTimeMillis());
+                editor.putLong(tv_on_time, TrueTime.now().getTime());
                 editor.apply();
                 new Thread(mUpLoadLogRunnable).start();
             } else if (action.equals(ACTION_SHUTDOWN)) {
                 long lastTvOnTime = settings.getLong(tv_on_time, 0);
                 long useTime = 0;
                 if (lastTvOnTime > 0) {
-                    useTime = System.currentTimeMillis() - lastTvOnTime;
+                    useTime = TrueTime.now().getTime() - lastTvOnTime;
                 }
                     Log.d(TAG, "lastUseTime:" + useTime);
                     editor.putLong(lastUseTime, useTime);
