@@ -653,9 +653,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
             intent.putExtra("itemJson", itemJson);
             startActivity(intent);
-            if (player_seekBar != null) {
-                player_seekBar.setProgress(0);
-            }
             getActivity().finish();
         }
     }
