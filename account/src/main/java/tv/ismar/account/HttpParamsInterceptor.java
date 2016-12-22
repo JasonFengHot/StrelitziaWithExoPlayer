@@ -99,7 +99,13 @@ public class HttpParamsInterceptor implements Interceptor {
         }
 
         request = requestBuilder.build();
-        return chain.proceed(request);
+        Response response;
+        try {
+            response = chain.proceed(request);
+        } catch (Exception var27) {
+            throw var27;
+        }
+        return response;
     }
 
     // func to inject params into url
