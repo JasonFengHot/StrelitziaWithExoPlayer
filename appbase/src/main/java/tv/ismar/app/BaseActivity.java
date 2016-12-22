@@ -154,7 +154,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNetWorkErrorDialog(Throwable e) {
-        netErrorPopWindow = NetErrorPopWindow.getInstance(this);
+        netErrorPopWindow = new NetErrorPopWindow(this);
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
         netErrorPopWindow.setCancelBtn(getString(R.string.back));
@@ -228,7 +228,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     public void showExpireAccessTokenPop() {
-        expireAccessTokenPop = ExpireAccessTokenPop.getInstance(this);
+        expireAccessTokenPop =new ExpireAccessTokenPop(this);
         expireAccessTokenPop.setFirstMessage(getString(R.string.access_token_expire));
         expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
         expireAccessTokenPop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {

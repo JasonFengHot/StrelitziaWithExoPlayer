@@ -15,7 +15,7 @@ public class ExpireAccessTokenPop extends ModuleMessagePopWindow {
         return ourInstance;
     }
 
-    private ExpireAccessTokenPop(Context context) {
+    public ExpireAccessTokenPop(Context context) {
         super(context);
     }
 }
