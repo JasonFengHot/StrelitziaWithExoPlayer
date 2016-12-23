@@ -3,7 +3,6 @@
     xmlns:labelimage="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/sport_linearLayout_margin_t"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical">
@@ -200,7 +199,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/entertainment_bottom_mt"
+        android:layout_marginTop="@dimen/sport_bottom_mt"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal">
@@ -232,7 +231,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sport_channel1_image"
-                android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
+                android:layout_marginTop="@dimen/sport_bottom_text_mt"
                 android:gravity="center"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_24sp" />
@@ -266,7 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sport_channel2_image"
-                android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
+                android:layout_marginTop="@dimen/sport_bottom_text_mt"
                 android:gravity="center"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_24sp" />
@@ -300,7 +299,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sport_channel3_image"
-                android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
+                android:layout_marginTop="@dimen/sport_bottom_text_mt"
                 android:gravity="center"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_24sp" />
@@ -334,7 +333,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sport_channel4_image"
-                android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
+                android:layout_marginTop="@dimen/sport_bottom_text_mt"
                 android:gravity="center"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_24sp" />

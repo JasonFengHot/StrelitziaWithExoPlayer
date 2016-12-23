@@ -27,7 +27,7 @@
     <dimen name="header_fragment_title_divider_w">50dp</dimen>
     <dimen name="header_fragment_title_divider_h">5dp</dimen>
     <dimen name="header_fragment_subtitle_ml">4dp</dimen>
-    <dimen name="header_fragment_weather_ml">420dp</dimen>
+    <dimen name="header_fragment_weather_ml">419dp</dimen>
     <dimen name="usercenter_header_fragment_weather_ml">190dp</dimen>
     <dimen name="usercenter_header_fragment_weather_mb">35dp</dimen>
     <dimen name="usercenter_header_fragment_subtitle_mb">10dp</dimen>
