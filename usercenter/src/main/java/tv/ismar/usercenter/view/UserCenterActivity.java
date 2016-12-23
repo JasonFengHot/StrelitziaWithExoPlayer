@@ -537,7 +537,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             indicatorView.get(0).callOnClick();
             indicatorView.get(0).requestFocus();
             changeViewState(indicatorView.get(0), ViewState.Select);
-            selectProduct();
         }
     }
 

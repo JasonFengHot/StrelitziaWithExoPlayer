@@ -82,13 +82,14 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.start();
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated");
+        mPresenter.start();
     }
 
     @Override
