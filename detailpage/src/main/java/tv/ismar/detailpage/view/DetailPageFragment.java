@@ -173,6 +173,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void onPause() {
         mPageStatistics.videoDetailOut(mItemEntity);
+        mPresenter.stop();
         super.onPause();
     }
 
@@ -180,7 +181,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     public void onStop() {
         String sn = IsmartvActivator.getInstance().getSnToken();
         Log.i("LH/", "sn:" + sn);
-        mPresenter.stop();
         super.onStop();
     }
 
