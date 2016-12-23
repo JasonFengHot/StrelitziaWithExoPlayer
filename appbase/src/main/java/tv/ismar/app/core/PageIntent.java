@@ -5,8 +5,12 @@ import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 
+import tv.ismar.app.R;
 import tv.ismar.app.network.entity.FeedBackEntity;
+import tv.ismar.app.ui.MessageDialogFragment;
 
 /**
  * Created by huibin on 9/13/16.
@@ -14,13 +18,31 @@ import tv.ismar.app.network.entity.FeedBackEntity;
 public class PageIntent implements PageIntentInterface {
 
     @Override
-    public void toDetailPage(Context context, String source, int pk) {
-        Intent intent = new Intent();
-        intent.setAction("tv.ismar.daisy.detailpage");
-        intent.putExtra(EXTRA_PK, pk);
-        intent.putExtra(EXTRA_SOURCE, source);
-        intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_ITEM);
-        context.startActivity(intent);
+    public void toDetailPage(final Context context, final String source, final int pk) {
+        OfflineCheckManager.getInstance().checkItem(pk, new OfflineCheckManager.Callback() {
+            @Override
+            public void online() {
+                Intent intent = new Intent();
+                intent.setAction("tv.ismar.daisy.detailpage");
+                intent.putExtra(EXTRA_PK, pk);
+                intent.putExtra(EXTRA_SOURCE, source);
+                intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_ITEM);
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void offline() {
+                showNetErrorPopup(context, context.getString(R.string.item_offline));
+            }
+
+            @Override
+            public void netError() {
+                showNetErrorPopup(context, "网络数据异常");
+            }
+        });
+
+
+
     }
 
 
@@ -35,17 +57,34 @@ public class PageIntent implements PageIntentInterface {
     }
 
     @Override
-    public void toPackageDetail(Context context, String source, int pk) {
-        Intent intent = new Intent();
-        intent.setAction("tv.ismar.daisy.detailpage");
-        intent.putExtra(EXTRA_PK, pk);
-        intent.putExtra(EXTRA_SOURCE, source);
-        intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_PKG);
-        context.startActivity(intent);
+    public void toPackageDetail(final Context context, final String source, final int pk) {
+        OfflineCheckManager.getInstance().checkPkg(pk, new OfflineCheckManager.Callback() {
+            @Override
+            public void online() {
+                Intent intent = new Intent();
+                intent.setAction("tv.ismar.daisy.detailpage");
+                intent.putExtra(EXTRA_PK, pk);
+                intent.putExtra(EXTRA_SOURCE, source);
+                intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_PKG);
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void offline() {
+                showNetErrorPopup(context, context.getString(R.string.item_offline));
+            }
+
+            @Override
+            public void netError() {
+                showNetErrorPopup(context, "网络数据异常");
+            }
+        });
+
     }
 
     @Override
     public void toPackageDetail(Context context, String source, String json) {
+
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.detailpage");
         intent.putExtra(EXTRA_SOURCE, source);
@@ -179,4 +218,21 @@ public class PageIntent implements PageIntentInterface {
         intent.setAction("cn.ismar.sakura.launcher");
         context.startActivity(intent);
     }
+
+    private static void showNetErrorPopup(Context context, String message) {
+        View rootView = ((Activity) context).getWindow().getDecorView();
+        final MessageDialogFragment dialog = new MessageDialogFragment(context, message, null);
+
+        dialog.setButtonText(context.getString(R.string.vod_i_know), null);
+        dialog.showAtLocation(rootView, Gravity.CENTER,
+                new MessageDialogFragment.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        dialog.dismiss();
+                    }
+                }, null);
+
+    }
+
+
 }

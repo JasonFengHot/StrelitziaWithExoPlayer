@@ -54,8 +54,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     private UserInfoViewModel mViewModel;
     private UserInfoContract.Presenter mPresenter;
 
+    public static final int REQUEST_CHARGE = 0xAC45;
+
 
     private RecyclerViewTV privilegeRecyclerView;
+    private boolean showChargeSuccessPop = false;
 
 
     public static UserInfoFragment newInstance() {
@@ -132,7 +135,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 Intent intent = new Intent();
                 intent.setAction("tv.ismar.pay.payment");
                 intent.putExtra(EXTRA_PRODUCT_CATEGORY, PageIntentInterface.ProductCategory.charge.name());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CHARGE);
             }
         });
 
@@ -250,6 +253,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         }
         mViewModel.refresh();
         userinfoBinding.chargeMoney.setNextFocusLeftId(R.id.usercenter_userinfo);
+
+        if (showChargeSuccessPop) {
+            showChargeSuccessPop = false;
+            showChargeSuccessPop(entity.getBalance().add(entity.getSn_balance()).setScale(1));
+        }
     }
 
 
@@ -325,10 +333,26 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     @Override
     public View onFocusSearchFailed(View view, int focusDirection, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if (focusDirection ==  View.FOCUS_DOWN){
+        if (focusDirection == View.FOCUS_DOWN) {
             privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_min_h));
         }
         return null;
+    }
+
+    public void showChargeSuccessPop(BigDecimal balance) {
+        final MessageDialogFragment dialog = new MessageDialogFragment(getContext(), "当前账户余额" + balance + "元", null);
+        dialog.showAtLocation(getView(), Gravity.CENTER, new MessageDialogFragment.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        dialog.dismiss();
+                    }
+                },
+                null
+        );
+    }
+
+    public void setShowChargeSuccessPop(boolean showChargeSuccessPop) {
+        this.showChargeSuccessPop = showChargeSuccessPop;
     }
 
 

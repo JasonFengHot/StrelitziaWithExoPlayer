@@ -44,6 +44,7 @@ import retrofit2.http.Url;
 import rx.Observable;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
+import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.Item;
@@ -118,6 +119,16 @@ public interface SkyService {
 
     @GET("api/item/{pk}/")
     Observable<ItemEntity> apiItem(
+            @Path("pk") String pk
+    );
+
+    @GET("api/item/{pk}/")
+    Observable<OfflineCheckManager.OfflineCheckEntity> apiItemIsOffline(
+            @Path("pk") String pk
+    );
+
+    @GET("api/package/{pk}/")
+    Observable<OfflineCheckManager.OfflineCheckEntity> apiPKGIsOffline(
             @Path("pk") String pk
     );
 
@@ -575,8 +586,8 @@ public interface SkyService {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             final OkHttpClient mClient = new OkHttpClient.Builder()
-                    .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                    .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
+//                    .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+//                    .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(VodApplication.getHttpParamsInterceptor())
 //                    .addNetworkInterceptor(VodApplication.getHttpTrafficInterceptor())
                     .retryOnConnectionFailure(true)
@@ -596,7 +607,7 @@ public interface SkyService {
             }.start();
 
             try {
-                latch.await(3, TimeUnit.SECONDS);
+                latch.await(5, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

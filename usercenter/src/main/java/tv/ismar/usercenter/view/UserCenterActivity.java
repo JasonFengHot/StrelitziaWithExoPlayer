@@ -20,6 +20,7 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.ActivityUtils;
+import tv.ismar.pay.CardPayFragment;
 import tv.ismar.pay.LoginFragment;
 import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.presenter.HelpPresenter;
@@ -536,7 +537,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             indicatorView.get(0).callOnClick();
             indicatorView.get(0).requestFocus();
             changeViewState(indicatorView.get(0), ViewState.Select);
-            selectProduct();
         }
     }
 
@@ -554,6 +554,15 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
             String geoId = hashMap.get("geo_id");
             headFragment.fetchWeatherInfo(geoId);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == CardPayFragment.CHARGE_MONEY_SUCCESS) {
+            if (mUserInfoFragment != null) {
+                mUserInfoFragment.setShowChargeSuccessPop(true);
+            }
         }
     }
 }
