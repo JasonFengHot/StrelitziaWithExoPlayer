@@ -15,6 +15,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
@@ -137,6 +143,13 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 //        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
 //        loadItem(mItemEntity);
         mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
+        if (videoIsStart()) {
+            palyBtnView.requestFocus();
+            palyBtnView.requestFocusFromTouch();
+        } else {
+            purchaseBtnView.requestFocus();
+            purchaseBtnView.requestFocusFromTouch();
+        }
 
     }
 
@@ -149,14 +162,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         loadItem(mItemEntity);
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
         mModel.notifyBookmark(true);
-
-        if(mModel.getEnabled()){
-            palyBtnView.requestFocus();
-            palyBtnView.requestFocusFromTouch();
-        }else{
-            purchaseBtnView.requestFocus();
-            purchaseBtnView.requestFocusFromTouch();
-        }
     }
 
     @Override
@@ -497,5 +502,21 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
 
         return false;
+    }
+
+    private boolean videoIsStart() {
+        if (mItemEntity.getStartTime() != null) {
+            Calendar currentCalendar = new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+            currentCalendar.setTime(TrueTime.now());
+            Calendar startCalendar = new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+            startCalendar.setTime(mItemEntity.getStartTime());
+            if (currentCalendar.after(startCalendar)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 }
