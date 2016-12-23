@@ -986,7 +986,6 @@
 
 
     <!-- fragment sport -->
-    <dimen name="sport_linearLayout_margin_t">31dp</dimen>
     <dimen name="sport_linearLayout_margin_l">70dp</dimen>
     <dimen name="sport_section_one_h">570dp</dimen>
     <dimen name="sport_section_one_margin">15dp</dimen>

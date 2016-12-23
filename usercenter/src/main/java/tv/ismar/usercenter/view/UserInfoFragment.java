@@ -164,6 +164,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         super.onResume();
         framgentIsPause = false;
         Log.d(TAG, "onResume");
+        mPresenter.fetchPrivilege();
         mPresenter.fetchBalance();
 
 

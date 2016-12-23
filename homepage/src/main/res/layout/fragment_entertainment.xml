@@ -122,7 +122,7 @@
                     android:layout_height="@dimen/entertainment_top_right_item_text_h"
                     android:layout_below="@id/vaiety_card1_image"
                     android:gravity="center"
-                    android:text="电视剧"
+                    android:text=""
                     android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_24sp" />
 
@@ -162,7 +162,7 @@
                     android:layout_height="@dimen/entertainment_top_right_item_text_h"
                     android:layout_below="@id/vaiety_card3_image"
                     android:gravity="center"
-                    android:text="电视剧"
+                    android:text=""
                     android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_24sp" />
             </RelativeLayout>
@@ -211,7 +211,7 @@
                     android:layout_height="@dimen/entertainment_top_right_item_text_h"
                     android:layout_below="@id/vaiety_card2_image"
                     android:gravity="center"
-                    android:text="电视剧"
+                    android:text=""
                     android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_24sp" />
             </RelativeLayout>
@@ -250,7 +250,7 @@
                     android:layout_height="@dimen/entertainment_top_right_item_text_h"
                     android:layout_below="@id/vaiety_card4_image"
                     android:gravity="center"
-                    android:text="电视剧"
+                    android:text=""
                     android:textColor="@color/color_base_white"
                     android:textSize="@dimen/text_size_24sp" />
             </RelativeLayout>
@@ -295,6 +295,7 @@
                 android:layout_below="@id/vaiety_channel1_image"
                 android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
                 android:gravity="center"
+                android:singleLine="true"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_24sp" />
         </RelativeLayout>
@@ -329,6 +330,7 @@
                 android:layout_below="@id/vaiety_channel2_image"
                 android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
                 android:gravity="center"
+                android:singleLine="true"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_24sp" />
         </RelativeLayout>
@@ -363,6 +365,7 @@
                 android:layout_below="@id/vaiety_channel3_image"
                 android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
                 android:gravity="center"
+                android:singleLine="true"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_24sp" />
         </RelativeLayout>
@@ -397,6 +400,7 @@
                 android:layout_below="@id/vaiety_channel4_image"
                 android:layout_marginTop="@dimen/entertainment_bottom_text_mt"
                 android:gravity="center"
+                android:singleLine="true"
                 android:textColor="@color/color_base_white"
                 android:textSize="@dimen/text_size_24sp" />
         </RelativeLayout>
