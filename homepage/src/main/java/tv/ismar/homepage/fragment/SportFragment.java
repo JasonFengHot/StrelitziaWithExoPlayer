@@ -21,6 +21,7 @@ import com.blankj.utilcode.utils.StringUtils;
 import java.util.ArrayList;
 
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.core.PageIntent;
@@ -71,6 +72,8 @@ public class SportFragment extends ChannelBaseFragment {
     private int loopindex = -1;
     private int currentLiveIndex = 0;
     private InitPlayerTool tool;
+    private Subscription dataSubscription;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -225,13 +228,21 @@ public class SportFragment extends ChannelBaseFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (dataSubscription != null && !dataSubscription.isUnsubscribed()) {
+            dataSubscription.unsubscribe();
+        }
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         games = new ArrayList<SportGame>();
         if(channelEntity != null)
             fetchSportGame(channelEntity.getHomepage_url());
     }
     private void fetchSportGame(String url) {
-        ((HomePageActivity) getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
+        dataSubscription = ((HomePageActivity) getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HomePagerEntity>() {
                     @Override

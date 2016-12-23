@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.core.SimpleRestClient;
@@ -57,6 +58,8 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
     private View lefttop;
     private View leftBottom;
     private View righttop;
+    private Subscription dataSubscription;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_child, null);
@@ -117,6 +120,14 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (dataSubscription != null && !dataSubscription.isUnsubscribed()) {
+            dataSubscription.unsubscribe();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
     	leftLayout.removeAllViews();
     	bottomLayout.removeAllViews();
@@ -129,7 +140,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
     }
 
     private void fetchChild(String url) {
-        ((HomePageActivity)getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
+        dataSubscription = ((HomePageActivity)getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<HomePagerEntity>() {
                     @Override

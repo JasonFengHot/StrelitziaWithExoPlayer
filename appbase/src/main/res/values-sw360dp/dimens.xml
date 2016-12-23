@@ -23,7 +23,7 @@
 <dimen name="header_fragment_padding_l">21.67dp</dimen>
 <dimen name="header_fragment_padding_r">27.33dp</dimen>
 <dimen name="header_fragment_padding_bottom1">4.67dp</dimen>
-<dimen name="header_fragment_padding_bottom2">5.33dp</dimen>
+<dimen name="header_fragment_padding_bottom2">5.67dp</dimen>
 <dimen name="header_fragment_title_divider_w">16.67dp</dimen>
 <dimen name="header_fragment_title_divider_h">1.67dp</dimen>
 <dimen name="header_fragment_subtitle_ml">1.33dp</dimen>

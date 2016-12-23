@@ -76,7 +76,6 @@ public class EntertainmentFragment extends ChannelBaseFragment {
     private int loopindex = 0;
 
     private Subscription dataSubscription;
-    private SkyService mSkyservice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -196,6 +195,9 @@ public class EntertainmentFragment extends ChannelBaseFragment {
     public void onPause() {
         imageswitch.removeMessages(IMAGE_SWITCH_KEY);
         super.onPause();
+        if (dataSubscription != null && !dataSubscription.isUnsubscribed()) {
+            dataSubscription.unsubscribe();
+        }
     }
 
     @Override
@@ -445,9 +447,6 @@ public class EntertainmentFragment extends ChannelBaseFragment {
 
     @Override
     public void onDestroyView() {
-        if (dataSubscription != null && !dataSubscription.isUnsubscribed()) {
-            dataSubscription.unsubscribe();
-        }
         super.onDestroyView();
     }
 

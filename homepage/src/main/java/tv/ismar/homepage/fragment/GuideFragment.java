@@ -182,13 +182,13 @@ public class GuideFragment extends ChannelBaseFragment {
     @Override
     public void onPause() {
         super.onPause();
+        if (homePageSub != null && homePageSub.isUnsubscribed()) {
+            homePageSub.unsubscribe();
+        }
     }
 
     @Override
     public void onStop() {
-        if (homePageSub != null && homePageSub.isUnsubscribed()) {
-            homePageSub.unsubscribe();
-        }
         stopPlayback();
         super.onStop();
     }

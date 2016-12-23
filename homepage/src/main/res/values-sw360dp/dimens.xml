@@ -1420,7 +1420,7 @@
 <dimen name="entertainment_top_right_item_h">75.67dp</dimen>
 <dimen name="entertainment_top_right_item_text_h">9.00dp</dimen>
 <dimen name="entertainment_top_right_item_mt">1.00dp</dimen>
-<dimen name="entertainment_bottom_mt">11.00dp</dimen>
+<dimen name="entertainment_bottom_mt">11.67dp</dimen>
 <dimen name="entertainment_bottom_item_w">110.67dp</dimen>
 <dimen name="entertainment_bottom_item_h">63.00dp</dimen>
 <dimen name="entertainment_bottom_item_space1">9.67dp</dimen>
@@ -1428,10 +1428,10 @@
 <dimen name="entertainment_bottom_text_mt">6.33dp</dimen>
 <dimen name="entertainment_more_w">7.33dp</dimen>
 <dimen name="entertainment_more_h">7.33dp</dimen>
-<dimen name="entertainment_top_label_pt">1.33dp</dimen>
+<dimen name="entertainment_top_label_pt">1.00dp</dimen>
 <dimen name="entertainment_top_label_pb">2.00dp</dimen>
-<dimen name="entertainment_bottom_label_pt">1.67dp</dimen>
-<dimen name="entertainment_bottom_label_pb">1.67dp</dimen>
+<dimen name="entertainment_bottom_label_pt">1.00dp</dimen>
+<dimen name="entertainment_bottom_label_pb">2.33dp</dimen>
 
 <dimen name="sport_top_h">166.00dp</dimen>
 <dimen name="sport_top_item_w">97.67dp</dimen>
@@ -1442,14 +1442,14 @@
 <dimen name="sport_top_space1">0.67dp</dimen>
 <dimen name="sport_top_arrow_h">10.00dp</dimen>
 <dimen name="sport_top_arrow_p">2.67dp</dimen>
-<dimen name="sport_top_label_pt">1.67dp</dimen>
-<dimen name="sport_top_label_pb">2.00dp</dimen>
+<dimen name="sport_top_label_pt">1.33dp</dimen>
+<dimen name="sport_top_label_pb">2.67dp</dimen>
 <dimen name="sport_bottom_mt">17.00dp</dimen>
-<dimen name="sport_bottom_label_pt">1.67dp</dimen>
-<dimen name="sport_bottom_label_pb">1.67dp</dimen>
+<dimen name="sport_bottom_label_pt">1.00dp</dimen>
+<dimen name="sport_bottom_label_pb">2.33dp</dimen>
 <dimen name="sport_center_label_pt">1.33dp</dimen>
-<dimen name="sport_center_label_pb">2.00dp</dimen>
-<dimen name="sport_bottom_text_mt">6.33dp</dimen>
+<dimen name="sport_center_label_pb">2.67dp</dimen>
+<dimen name="sport_bottom_text_mt">7.00dp</dimen>
 
 <dimen name="child_mlr">5.67dp</dimen>
 <dimen name="child_mt">2.00dp</dimen>

@@ -727,6 +727,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      * fetch channel
      */
     private void fetchChannels() {
+
         channelsSub = mSkyService.apiTvChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -741,10 +742,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         fillChannelLayout(channelEntities);
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                    }
                 });
     }
 
@@ -1176,6 +1173,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onPause() {
         super.onPause();
+        if (channelsSub != null && channelsSub.isUnsubscribed()) {
+            channelsSub.unsubscribe();
+        }
         if (!isneedpause) {
             return;
         }
@@ -1435,9 +1435,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onStop() {
         Log.i(TAG, "onStop");
-        if (channelsSub != null && channelsSub.isUnsubscribed()) {
-            channelsSub.unsubscribe();
-        }
         super.onStop();
     }
 
