@@ -1,4 +1,5 @@
 package tv.ismar.detailpage.viewmodel;
+import cn.ismartv.injectdb.library.util.Log;
 import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
@@ -463,14 +464,12 @@ public class DetailPageViewModel extends BaseObservable {
                 ItemEntity[] subItems = mItemEntity.getSubitems();
                 String subitem_title="";
                 if(mHistory!=null&&mHistory.sub_url!=null){
+                    Log.e("getPlaytext",mHistory.toString());
                     for (int i = 0; i <subItems.length ; i++) {
                         if(mItemEntity.getExpense() != null){
                             break;
                         }
-                        if(mHistory.sub_url.contains(mItemEntity.getPk()+"")){
-                            subitem_title=subItems[0].getSubtitle();
-                            break;
-                        }
+
                         if(mHistory.sub_url.contains(subItems[i].getPk()+"")){
                             subitem_title=subItems[i].getSubtitle();
                             break;
@@ -553,7 +552,7 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.playText);
         notifyPropertyChanged(BR.expireDate);
         notifyPropertyChanged(BR.expireDateVisibility);
-        notifyPropertyChanged(BR.priceVisibility);
+        notifyPropertyChanged(BR.priceVisibility);     
         notifyPropertyChanged(BR.permissionVisibility);
         notifyPropertyChanged(BR.episodesVisibility);
         notifyPropertyChanged(BR.subitemsVisibility);
