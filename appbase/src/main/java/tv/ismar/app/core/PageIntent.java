@@ -19,9 +19,7 @@ public class PageIntent implements PageIntentInterface {
 
     @Override
     public void toDetailPage(final Context context, final String source, final int pk, final String channel, final String section) {
-        OfflineCheckManager.getInstance().checkItem(pk, new OfflineCheckManager.Callback() {
-            @Override
-            public void online() {
+
                 Intent intent = new Intent();
                 intent.setAction("tv.ismar.daisy.detailpage");
                 intent.putExtra(EXTRA_PK, pk);
@@ -29,19 +27,11 @@ public class PageIntent implements PageIntentInterface {
                 intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_ITEM);
                 intent.putExtra(EXTRA_CHANNEL, channel);
                 intent.putExtra(EXTRA_SECTION, section);
-                context.startActivity(intent);
-            }
-
-            @Override
-            public void offline() {
-                showNetErrorPopup(context, context.getString(R.string.item_offline));
-            }
-
-            @Override
-            public void netError() {
-                showNetErrorPopup(context, "网络数据异常");
-            }
-        });
+                if(context instanceof Activity){
+                    ((Activity)context).startActivityForResult(intent,1);
+                }else {
+                    context.startActivity(intent);
+                }
 
 
 
@@ -62,27 +52,17 @@ public class PageIntent implements PageIntentInterface {
 
     @Override
     public void toPackageDetail(final Context context, final String source, final int pk) {
-        OfflineCheckManager.getInstance().checkPkg(pk, new OfflineCheckManager.Callback() {
-            @Override
-            public void online() {
+
                 Intent intent = new Intent();
                 intent.setAction("tv.ismar.daisy.detailpage");
                 intent.putExtra(EXTRA_PK, pk);
                 intent.putExtra(EXTRA_SOURCE, source);
                 intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_PKG);
-                context.startActivity(intent);
-            }
-
-            @Override
-            public void offline() {
-                showNetErrorPopup(context, context.getString(R.string.item_offline));
-            }
-
-            @Override
-            public void netError() {
-                showNetErrorPopup(context, "网络数据异常");
-            }
-        });
+                if(context instanceof Activity){
+                    ((Activity)context).startActivityForResult(intent,1);
+                }else {
+                     context.startActivity(intent);
+                 }
 
     }
 

@@ -22,6 +22,7 @@ import java.util.Stack;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
@@ -333,4 +334,28 @@ public class BaseActivity extends AppCompatActivity {
             startService(intent);
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data!=null) {
+            OfflineCheckManager.getInstance().checkItem(data.getIntExtra("pk", 0), new OfflineCheckManager.Callback() {
+                @Override
+                public void online() {
+                    Log.e(TAG,"online");
+                }
+
+                @Override
+                public void offline() {
+                    showDialog(getResources().getString(R.string.item_offline));
+                }
+
+                @Override
+                public void netError() {
+                    showDialog("网络数据异常");
+                }
+            });
+        }
+
+    }
 }
