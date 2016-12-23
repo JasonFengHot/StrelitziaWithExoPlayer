@@ -20,11 +20,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+        <tv.ismar.app.ui.ZGridView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/product_recycler_mt"/>
+
+
         <ImageView
             android:id="@+id/tmp"
             android:layout_width="match_parent"
