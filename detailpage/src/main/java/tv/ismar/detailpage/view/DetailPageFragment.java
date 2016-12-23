@@ -82,6 +82,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private View moreBtnView;
 
     private DetailPageStatistics mPageStatistics;
+    private String isLogin = "no";
 
     public DetailPageFragment() {
         // Required empty public constructor
@@ -142,6 +143,9 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void onResume() {
         super.onResume();
+        if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
+            isLogin = "yes";
+        }
         loadItem(mItemEntity);
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
         mModel.notifyBookmark(true);
@@ -171,7 +175,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
-        if(mItemEntity.getExpense()!=null&&mRemandDay<=0) {
+        if(isLogin.equals("yes")&&mItemEntity.getExpense()!=null&&mRemandDay<=0) {
+            Log.e("refresh","true");
             if (itemEntity.getContentModel().equals("sport")) {
                 mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
             } else {
