@@ -1,4 +1,5 @@
 package tv.ismar.app;
+
 import cn.ismartv.truetime.TrueTime;
 
 import android.content.BroadcastReceiver;
@@ -293,11 +294,15 @@ public class BaseActivity extends AppCompatActivity {
 
     private void showUpdatePopup(final View view, final Stack<Bundle> stack) {
         if (!stack.isEmpty()) {
-            updatePopupWindow = new UpdatePopupWindow(this, stack.pop());
+            final Bundle updateBundle =  stack.pop();
+            updatePopupWindow = new UpdatePopupWindow(this,updateBundle);
             updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
             updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
+                    if (!activityIsAlive){
+                        updateInfo.push(updateBundle);
+                    }
                     showUpdatePopup(view, stack);
                 }
             });
@@ -307,7 +312,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (updateHandler!=null){
+        if (updateHandler != null) {
             updateHandler.removeCallbacks(updateRunnable);
         }
         unregisterReceiver(onNetConnectReceiver);
