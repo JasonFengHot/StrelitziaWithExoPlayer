@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import cn.ismartv.downloader.DownloadEntity;
 import cn.ismartv.downloader.DownloadManager;
@@ -54,7 +55,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     public static final int LOADER_ID_APP_UPDATE = 0xca;
 
-    private List<String> md5Jsons;
+    private CopyOnWriteArrayList<String> md5Jsons;
 
 //    private VersionInfoV2Entity mVersionInfoV2Entity;
 
@@ -134,7 +135,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
                     @Override
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
-                        md5Jsons = new ArrayList<>();
+                        md5Jsons = new CopyOnWriteArrayList<String>();
                         for (VersionInfoV2Entity.ApplicationEntity applicationEntity : versionInfoV2Entity.getUpgrades()) {
                             checkUpgrade(applicationEntity);
                         }
@@ -193,7 +194,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                                 if (isInstallSilent) {
                                     installAppLoading = true;
                                     boolean installSilentSuccess = installAppSilent(path);
-                                    if (!installSilentSuccess){
+                                    if (!installSilentSuccess) {
                                         installAppLoading = false;
                                     }
                                     Log.d(TAG, "installSilentSuccess: " + installSilentSuccess);
@@ -274,10 +275,12 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
-        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", md5Jsons.get(0)).executeSingle();
-        if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
-            VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
-            checkUpgrade(applicationEntity);
+        for (String json : md5Jsons) {
+            DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", json).executeSingle();
+            if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
+                VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
+                checkUpgrade(applicationEntity);
+            }
         }
     }
 }
