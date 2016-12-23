@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -378,7 +379,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         @Override
         public void onBindViewHolder(PrivilegeViewHolder holder, int position) {
             PlayAuth playAuth = mPlayAuths.get(position);
-
             String remainday = mContext.getResources().getString(R.string.personcenter_orderlist_item_remainday);
             holder.date.setText(String.format(remainday, remaindDay(playAuth.getExpiry_date())));
             holder.title.setText(playAuth.getTitle());
@@ -386,15 +386,16 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 holder.mButton.setVisibility(View.INVISIBLE);
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.watch) {
                 holder.mButton.setText("详情");
-
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
                 holder.mButton.setText("续费");
-
             } else {
                 holder.mButton.setVisibility(View.INVISIBLE);
-
             }
-
+            if(holder.mButton.getVisibility() == View.VISIBLE){
+                holder.mButton.setId(R.id.btn);
+            }else{
+                holder.mButton.setId(View.NO_ID);
+            }
             holder.mButton.setNextFocusLeftId(R.id.usercenter_userinfo);
             holder.mButton.setNextFocusRightId(holder.mButton.getId());
             holder.mButton.setTag(playAuth);
