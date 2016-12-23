@@ -15,6 +15,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
@@ -84,6 +90,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private View moreBtnView;
 
     private DetailPageStatistics mPageStatistics;
+    private String isLogin = "no";
 
     public DetailPageFragment() {
         // Required empty public constructor
@@ -142,23 +149,25 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 //        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
 //        loadItem(mItemEntity);
         mPresenter.fetchItemRelate(String.valueOf(mItemEntity.getPk()));
+        if (videoIsStart()) {
+            palyBtnView.requestFocus();
+            palyBtnView.requestFocusFromTouch();
+        } else {
+            purchaseBtnView.requestFocus();
+            purchaseBtnView.requestFocusFromTouch();
+        }
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
+            isLogin = "yes";
+        }
         loadItem(mItemEntity);
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
         mModel.notifyBookmark(true);
-
-        if(mModel.getEnabled()){
-            palyBtnView.requestFocus();
-            palyBtnView.requestFocusFromTouch();
-        }else{
-            purchaseBtnView.requestFocus();
-            purchaseBtnView.requestFocusFromTouch();
-        }
     }
 
     @Override
@@ -177,7 +186,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void loadItem(ItemEntity itemEntity) {
-        if(mItemEntity.getExpense()!=null&&mRemandDay<=0) {
+        if(isLogin.equals("yes")&&mItemEntity.getExpense()!=null&&mRemandDay<=0) {
+            Log.e("refresh","true");
             if (itemEntity.getContentModel().equals("sport")) {
                 mPresenter.requestPlayCheck(String.valueOf(mItemEntity.getPk()));
             } else {
@@ -195,11 +205,13 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         relateItems = itemEntities;
         if (itemEntities.length < relViews) {
             for (int i = itemEntities.length; i < relViews; i++) {
-                ((View) relRelImageViews[i].getParent()).setVisibility(View.GONE);
+                ((View) relRelImageViews[i].getParent()).setVisibility(View.INVISIBLE);
             }
             if(itemEntities.length>0) {
-                mNormalBinding.getRoot().findViewById(mRelItemViews[itemEntities.length-1]).setNextFocusDownId(R.id.detail_relative_button);
-                moreBtnView.setNextFocusUpId(mRelItemViews[itemEntities.length - 1]);
+                if (mNormalBinding != null) {
+                    mNormalBinding.getRoot().findViewById(mRelItemViews[itemEntities.length - 1]).setNextFocusDownId(R.id.detail_relative_button);
+                    moreBtnView.setNextFocusUpId(mRelItemViews[itemEntities.length - 1]);
+                }
             }
         }
 
@@ -498,5 +510,21 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
 
         return false;
+    }
+
+    private boolean videoIsStart() {
+        if (mItemEntity.getStartTime() != null) {
+            Calendar currentCalendar = new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+            currentCalendar.setTime(TrueTime.now());
+            Calendar startCalendar = new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+            startCalendar.setTime(mItemEntity.getStartTime());
+            if (currentCalendar.after(startCalendar)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 }
