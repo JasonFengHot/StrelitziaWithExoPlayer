@@ -280,7 +280,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         public void onClick(View v) {
             ItemEntity subItemEntity = mItemEntities[(int) v.getTag()];
             PageIntent pageIntent = new PageIntent();
-            pageIntent.toPlayPage(EpisodeActivity.this, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST);
+            pageIntent.toPlayPage(EpisodeActivity.this, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST, "", "");
         }
 
 

@@ -418,11 +418,11 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                     String itemTitle=semantichObjectEntity.getTitle();
                     long pk=Long.valueOf(semantichObjectEntity.getPk());
                     if(contentModel.equals("music")||(contentModel.equals("sport")&&semantichObjectEntity.getExpense()==null)||contentModel.equals("game")){
-                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,0,Source.SEARCH);
+                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,0,Source.SEARCH, "", "");
                     }else if("person".equals(contentModel)){
                         pageIntent.toFilmStar(FilmStarActivity.this,itemTitle,pk);
                     }else{
-                        pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk);
+                        pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk, "", "");
                     }
                     JasmineUtil.video_search_arrive(title,"text", (int) pk,0,itemTitle);
                 }

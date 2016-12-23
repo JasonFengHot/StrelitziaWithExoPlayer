@@ -355,7 +355,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                     pageIntent.toPackageDetail(mContext, "history", Integer.parseInt(pk));
                     break;
                 case "item":
-                    pageIntent.toDetailPage(mContext, "history", Integer.parseInt(pk));
+                    pageIntent.toDetailPage(mContext, "history", Integer.parseInt(pk), "", "");
                     break;
                 default:
                     throw new IllegalArgumentException(orderEntity.getUrl() + " type not support!!!");

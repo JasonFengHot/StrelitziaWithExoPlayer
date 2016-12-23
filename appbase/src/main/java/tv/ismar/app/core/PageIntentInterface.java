@@ -13,6 +13,8 @@ public interface PageIntentInterface {
     // 电视剧等多集片子集pk,与文档相同
     String EXTRA_SUBITEM_PK = "sub_item_pk";
     String EXTRA_SOURCE = "source";
+    String EXTRA_CHANNEL = "channel";
+    String EXTRA_SECTION = "section";
     String EXTRA_TYPE = "type";
     String EXTRA_TITLE= "title";
 
@@ -31,10 +33,10 @@ public interface PageIntentInterface {
     int PAYVIP = 2;
 
 
-    void toDetailPage(Context context, String source, int pk);
+    void toDetailPage(Context context, String source, int pk, String channel, String section);
 
 
-    void toDetailPage(Context context, String source, String json);
+    void toDetailPage(Context context, String source, String json, String channel, String section);
 
     void toPackageDetail(Context context, String source, int pk);
 
@@ -45,7 +47,7 @@ public interface PageIntentInterface {
 
     void toPaymentForResult(Activity context, String fromPage, PaymentInfo paymentInfo);
 
-    void toPlayPage(Context context, int pk, int sub_item_pk, Source source);
+    void toPlayPage(Context context, int pk, int sub_item_pk, Source source, String channel, String section);
 
     void toUserCenter(Context context);
 

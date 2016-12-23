@@ -727,11 +727,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     public void gotoSpecialPage(long pk, String title, String contentMode, boolean isexpensive) {
         PageIntent pageIntent = new PageIntent();
         if (contentMode.equals("music") || (contentMode.equals("sport") && !isexpensive) || contentMode.equals("game")) {
-            pageIntent.toPlayPage(this, (int) pk, 0, Source.SEARCH);
+            pageIntent.toPlayPage(this, (int) pk, 0, Source.SEARCH, "", "");
         } else if (contentMode.equals("person")) {
             pageIntent.toFilmStar(this, title, pk);
         } else {
-            pageIntent.toDetailPage(this, Source.SEARCH.getValue(), (int) pk);
+            pageIntent.toDetailPage(this, Source.SEARCH.getValue(), (int) pk, "", "");
         }
     }
 

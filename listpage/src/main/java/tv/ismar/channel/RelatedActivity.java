@@ -480,9 +480,9 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
             if (item.expense != null && (item.content_model.equals("variety") || item.content_model.equals("entertainment"))) {
                 item.content_model = "music";
             }
-            pageIntent.toDetailPage(RelatedActivity.this,"related",pk);
+            pageIntent.toDetailPage(RelatedActivity.this,"related",pk, "", "");
         } else {
-            pageIntent.toPlayPage(RelatedActivity.this,pk,0, Source.LIST);
+            pageIntent.toPlayPage(RelatedActivity.this,pk,0, Source.LIST, "", "");
         }
     }
 

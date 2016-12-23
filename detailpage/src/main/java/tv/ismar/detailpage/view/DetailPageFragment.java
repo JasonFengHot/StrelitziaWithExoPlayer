@@ -35,7 +35,9 @@ import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
 import tv.ismar.statistics.DetailPageStatistics;
 
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_CHANNEL;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
+import static tv.ismar.app.core.PageIntentInterface.EXTRA_SECTION;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 
 public class DetailPageFragment extends Fragment implements DetailPageContract.View, View.OnHoverListener {
@@ -62,7 +64,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private TextView[] relFocusTextViews;
 
     //传递参数
-    private String fromPage;
+    private String fromPage, channel, section;
 
     private HeadFragment headFragment;
     private String mHeadTitle;
@@ -88,11 +90,13 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     }
 
 
-    public static DetailPageFragment newInstance(String fromPage, String itemJson) {
+    public static DetailPageFragment newInstance(String fromPage, String itemJson, String channel, String section) {
         DetailPageFragment fragment = new DetailPageFragment();
         Bundle args = new Bundle();
         args.putString(EXTRA_SOURCE, fromPage);
         args.putString(EXTRA_ITEM_JSON, itemJson);
+        args.putString(EXTRA_CHANNEL, channel);
+        args.putString(EXTRA_SECTION, section);
         fragment.setArguments(args);
         return fragment;
     }
@@ -104,6 +108,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             fromPage = bundle.getString(EXTRA_SOURCE);
+            channel = bundle.getString(EXTRA_CHANNEL);
+            section = bundle.getString(EXTRA_SECTION);
             String itemJson = bundle.getString(EXTRA_ITEM_JSON);
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
 
@@ -349,7 +355,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         public void onClick(View v) {
             ItemEntity item = relateItems[(int) v.getTag()];
             mPageStatistics.videoRelateClick(mItemEntity.getPk(), item);
-            new PageIntent().toDetailPage(getContext(), Source.RELATED.getValue(), item.getPk());
+            new PageIntent().toDetailPage(getContext(), Source.RELATED.getValue(), item.getPk(), channel, section);
         }
     };
 

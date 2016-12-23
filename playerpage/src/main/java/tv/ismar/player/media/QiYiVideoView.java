@@ -43,7 +43,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     public static final int STATE_PAUSED = 4;
     public static final int STATE_COMPLETED = 5;
     public static final int STATE_BUFFERING = 6;
-    protected int mCurrentState = STATE_IDLE;
+    private int mCurrentState = STATE_IDLE;
 
     public QiYiVideoView(Context context) {
         super(context);
@@ -138,8 +138,6 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     public void pause() {
         if (mIsmartvPlayer.isInPlaybackState() && mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.pause();
-
-            mCurrentState = STATE_PAUSED;
         }
     }
 
@@ -284,6 +282,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
             if (mPlayer == null) {
                 return;
             }
+            Log.i(TAG, "qiyiOnPaused:" + mCurrentState);
             if (mCurrentState == STATE_PLAYING) {
                 mIsmartvPlayer.logVideoPause();
             }
