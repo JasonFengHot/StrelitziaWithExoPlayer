@@ -229,6 +229,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     public void showExpireAccessTokenPop() {
+        IsmartvActivator.getInstance().removeUserInfo();
         expireAccessTokenPop =new ExpireAccessTokenPop(this);
         expireAccessTokenPop.setFirstMessage(getString(R.string.access_token_expire));
         expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
@@ -236,7 +237,6 @@ public class BaseActivity extends AppCompatActivity {
                     @Override
                     public void confirmClick(View view) {
                         expireAccessTokenPop.dismiss();
-                        IsmartvActivator.getInstance().removeUserInfo();
                     }
                 },
                 null);
