@@ -53,6 +53,7 @@ import tv.ismar.app.entity.History;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.reporter.IsmartvMedia;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
@@ -81,6 +82,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private static final String ARG_PK = "ARG_PK";
     private static final String ARG_SUB_PK = "ARG_SUB_PK";
     private static final String ARG_SOURCE = "ARG_SOURCE";
+    private static final String ARG_CHANNEL = "ARG_CHANNEL";
+    private static final String ARG_SECTION = "ARG_SECTION";
     //    private static final String ARG_DETAIL_PAGE_ITEM = "ARG_DETAIL_PAGE_ITEM";
 //    private static final String ARG_DETAIL_PAGE_CLIP = "ARG_DETAIL_PAGE_CLIP";
 //    private static final String ARG_DETAIL_PAGE_POSITION = "ARG_DETAIL_PAGE_POSITION";
@@ -154,7 +157,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private PlayerPagePresenter mPlayerPagePresenter;
     private Animation panelShowAnimation;
     private Animation panelHideAnimation;
-    private String source;
+    private String source, channel, section;// 日志上报相关
     private AdImageDialog adImageDialog;
     private Advertisement mAdvertisement;
 
@@ -164,12 +167,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         // Required empty public constructor
     }
 
-    public static PlayerFragment newInstance(int pk, int subPk, String source) {
+    public static PlayerFragment newInstance(int pk, int subPk, String source, String channel, String section) {
         PlayerFragment fragment = new PlayerFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PK, pk);
         args.putInt(ARG_SUB_PK, subPk);
         args.putString(ARG_SOURCE, source);
+        args.putString(ARG_CHANNEL, channel);
+        args.putString(ARG_SECTION, section);
 //        args.putString(ARG_DETAIL_PAGE_ITEM, itemJson);
 //        args.putString(ARG_DETAIL_PAGE_CLIP, clipJson);
 //        args.putInt(ARG_DETAIL_PAGE_POSITION, historyPosition);
@@ -197,6 +202,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         itemPK = bundle.getInt(ARG_PK);
         subItemPk = bundle.getInt(ARG_SUB_PK);
         source = bundle.getString(ARG_SOURCE);
+        channel = bundle.getString(ARG_CHANNEL);
+        section = bundle.getString(ARG_SECTION);
 //        String itemJson = bundle.getString(ARG_DETAIL_PAGE_ITEM);
 //        String clipJson = bundle.getString(ARG_DETAIL_PAGE_CLIP);// 注意clipJson地址已解密
 //        if (itemJson != null && clipJson != null) {
@@ -1114,7 +1121,16 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //        if (mHasPreLoad) {
 //            mIsmartvPlayer.setSmartPlayer(BaseActivity.mSmartPlayer, tempPaths, tempAds);
 //        }
-        mIsmartvPlayer.setDataSource(mClipEntity, mCurrentQuality, adList, new IPlayer.OnDataSourceSetListener() {
+        // 日志上报相关 ---Start---
+        IsmartvMedia ismartvMedia = new IsmartvMedia(itemPK, subItemPk);
+        ismartvMedia.setTitle(mItemEntity.getTitle());
+        ismartvMedia.setClipPk(mItemEntity.getClip().getPk());
+        ismartvMedia.setChannel(channel);
+        ismartvMedia.setSource(source);
+        ismartvMedia.setSection(section);
+        // 日志上报相关 ---End-----
+
+        mIsmartvPlayer.setDataSource(ismartvMedia, mClipEntity, mCurrentQuality, adList, new IPlayer.OnDataSourceSetListener() {
             @Override
             public void onSuccess() {
                 Log.i(TAG, "player init success." + mIsmartvPlayer);
@@ -1470,6 +1486,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             addHistory(mCurrentPosition, true);
         }
         if (mIsmartvPlayer != null) {
+            mIsmartvPlayer.logVideoExit();
+        }
+        if (mIsmartvPlayer != null) {
             mIsmartvPlayer.stopPlayBack();
             mIsmartvPlayer = null;
         }
@@ -1484,9 +1503,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         cancelTimer();
         hideBuffer();
         hidePanel();
-        if (mIsmartvPlayer != null) {
-            mIsmartvPlayer.logVideoExit();
-        }
         finishActivity();
     }
 

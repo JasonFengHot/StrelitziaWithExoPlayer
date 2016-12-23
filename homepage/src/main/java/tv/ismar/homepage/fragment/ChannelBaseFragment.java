@@ -125,7 +125,7 @@ public class ChannelBaseFragment extends Fragment {
                 if ("item".equals(mode_name)) {
                     pk = SimpleRestClient.getItemId(url, new boolean[1]);
                     PageIntent pageIntent = new PageIntent();
-                    pageIntent.toDetailPage(mContext, "homepage", pk);
+                    pageIntent.toDetailPage(mContext, "homepage", pk, channelEntity.getChannel(), "");
                 } else if ("topic".equals(mode_name)) {
                     intent.putExtra("url", url);
                     intent.setAction("tv.ismar.daisy.Topic");
@@ -144,7 +144,7 @@ public class ChannelBaseFragment extends Fragment {
                 } else if ("clip".equals(mode_name)) {
                     int itemPk = Utils.getItemPk(url);
                     PageIntent pageIntent = new PageIntent();
-                    pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE);
+                    pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE, channelEntity.getChannel(), "");
 //                    if (tool == null)
 //                        tool = new InitPlayerTool(mContext);
 //                    tool.channel = channelEntity.getChannel();

@@ -108,14 +108,19 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     @Override
-    public void setDataSource(ClipEntity clipEntity, ClipEntity.Quality initQuality,
+    public void setDataSource(IsmartvMedia media, ClipEntity clipEntity, ClipEntity.Quality initQuality,
                               List<AdElementEntity> adList, // 视云影片需要添加是否有广告
                               OnDataSourceSetListener onDataSourceSetListener) {
         if (clipEntity == null || mPlayerMode == 0) {
             throw new IllegalArgumentException("IsmartvPlayer setDataSource invalidate.");
         }
         mOnDataSourceSetListener = onDataSourceSetListener;
-        mMedia = new IsmartvMedia(mItemEntity.getItemPk(), mItemEntity.getPk());
+        if(media == null){
+            mMedia = new IsmartvMedia(mItemEntity.getItemPk(), mItemEntity.getPk());
+            Log.e(TAG, "IsmartvMedia null, it's used to report log.");
+        } else {
+            mMedia = media;
+        }
         mPlayerOpenTime = TrueTime.now().getTime();
 
         switch (mPlayerMode) {

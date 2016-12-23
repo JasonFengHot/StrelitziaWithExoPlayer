@@ -40,6 +40,8 @@ public class PlayerActivity extends BaseActivity {
         int itemPK = intent.getIntExtra(PageIntentInterface.EXTRA_PK, 0);// 当前影片pk值,通过/api/item/{pk}可获取详细信息
         int subItemPk = intent.getIntExtra(PageIntentInterface.EXTRA_SUBITEM_PK, 0);// 当前多集片pk值,通过/api/subitem/{pk}可获取详细信息
         String source = intent.getStringExtra(PageIntentInterface.EXTRA_SOURCE);
+        String channel = intent.getStringExtra(PageIntentInterface.EXTRA_CHANNEL);
+        String section = intent.getStringExtra(PageIntentInterface.EXTRA_SECTION);
 
 //        String itemJson = null;
 //        String clipJson = null;
@@ -65,7 +67,7 @@ public class PlayerActivity extends BaseActivity {
 
 //        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, source, itemJson, clipJson,
 //                historyPosition, historyQuality, paths, adList);
-        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, source);
+        playerFragment = PlayerFragment.newInstance(itemPK, subItemPk, source, channel, section);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity_player_container, playerFragment)

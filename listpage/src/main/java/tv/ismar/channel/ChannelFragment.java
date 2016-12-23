@@ -869,6 +869,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         if (item != null) {
             try{
             if (item.model_name.equals("package")) {
+                int sectionIndex = mHGridAdapter.getSectionIndex(position);
+                final Section s = mSectionList.get(sectionIndex);
                 PageIntent intent =new PageIntent();
                 intent.toPackageDetail(getActivity(),"list",item.pk);
             } else if (item.model_name.equals("topic")) {
@@ -897,10 +899,10 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                         boolean[] isSubItem = new boolean[1];
                         int pk = SimpleRestClient.getItemId(item.url, isSubItem);
                         PageIntent pageIntent=new PageIntent();
-                        pageIntent.toDetailPage(getActivity(),"list",pk);
+                        pageIntent.toDetailPage(getActivity(),"list",pk, mChannel, s.slug);
                     } else {
                         PageIntent playintent=new PageIntent();
-                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST);
+                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST, mChannel, s.slug);
                     }
                 }
             }

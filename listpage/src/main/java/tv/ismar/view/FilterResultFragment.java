@@ -580,7 +580,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                 boolean[] isSubItem = new boolean[1];
                 int id = SimpleRestClient.getItemId(item.url, isSubItem);
                 PageIntent pageIntent=new PageIntent();
-                pageIntent.toDetailPage(getActivity(),"retrieval",id);
+                pageIntent.toDetailPage(getActivity(),"retrieval",id, mChannel, "");
             } else {
                 tool = new InitPlayerTool(getActivity());
                 tool.fromPage = "retrieval";

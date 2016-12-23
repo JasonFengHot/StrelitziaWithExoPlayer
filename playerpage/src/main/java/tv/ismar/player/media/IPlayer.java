@@ -4,6 +4,7 @@ import java.util.List;
 
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
+import tv.ismar.app.reporter.IsmartvMedia;
 
 /**
  * Created by longhai on 16-9-12.
@@ -15,7 +16,7 @@ public interface IPlayer {
      *
      * @param clipEntity 媒体播放地址
      */
-    void setDataSource(ClipEntity clipEntity, ClipEntity.Quality initQuality, List<AdElementEntity> adList, OnDataSourceSetListener onDataSourceSetListener);
+    void setDataSource(IsmartvMedia media, ClipEntity clipEntity, ClipEntity.Quality initQuality, List<AdElementEntity> adList, OnDataSourceSetListener onDataSourceSetListener);
 
     /**
      * 播放器准备

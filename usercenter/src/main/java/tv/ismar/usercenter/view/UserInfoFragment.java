@@ -433,7 +433,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                         pageIntent.toPackageDetail(mContext, "privilege", Integer.parseInt(pk));
                         break;
                     case "item":
-                        pageIntent.toDetailPage(mContext, "privilege", Integer.parseInt(pk));
+                        pageIntent.toDetailPage(mContext, "privilege", Integer.parseInt(pk), "", "");
                         break;
                     default:
                         Toast.makeText(mContext, "因版权限制，此产品无法在当前设备查看", Toast.LENGTH_SHORT).show();
@@ -444,7 +444,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                         pageIntent.toPackageDetail(mContext, "privilege", Integer.parseInt(pk));
                         break;
                     case "item":
-                        pageIntent.toDetailPage(mContext, "privilege", Integer.parseInt(pk));
+                        pageIntent.toDetailPage(mContext, "privilege", Integer.parseInt(pk), "", "");
                         break;
                     default:
                         Toast.makeText(mContext, "因版权限制，此产品无法在当前设备查看", Toast.LENGTH_SHORT).show();
