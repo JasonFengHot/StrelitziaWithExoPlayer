@@ -122,5 +122,7 @@
 <dimen name="usercenter_indicator_divider_line">133.33dp</dimen>
 <dimen name="usercenter_vertical_divider_line_mt">6.67dp</dimen>
 <dimen name="prompt_layout_mb">66.67dp</dimen>
-<dimen name="prompt_layout_mt">188.89dp</dimen>
+<dimen name="prompt_layout_mt">196.44dp</dimen>
+<dimen name="location_confirm_btn_ml">15.56dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">53.33dp</dimen>
 </resources>
