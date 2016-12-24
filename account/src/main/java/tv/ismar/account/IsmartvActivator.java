@@ -110,8 +110,8 @@ public class IsmartvActivator {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
+//                .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+//                .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .build();
 
@@ -141,7 +141,7 @@ public class IsmartvActivator {
             resultEntity = getLicence();
         }
 
-        if (resultEntity == null){
+        if (resultEntity == null) {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -223,7 +223,7 @@ public class IsmartvActivator {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "active error!!!");
             return null;
         }
     }
@@ -314,7 +314,7 @@ public class IsmartvActivator {
 
     public String getApiDomain() {
         String apiDomain = mSharedPreferences.getString("api_domain", "");
-        if (TextUtils.isEmpty(apiDomain)||apiDomain.equals("1.1.1.1")) {
+        if (TextUtils.isEmpty(apiDomain) || apiDomain.equals("1.1.1.1")) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
             return resultEntity.getDomain();
@@ -325,7 +325,7 @@ public class IsmartvActivator {
 
     public String getUpgradeDomain() {
         String upgradeDomain = mSharedPreferences.getString("upgrade_domain", "");
-        if (TextUtils.isEmpty(upgradeDomain)||upgradeDomain.equals("1.1.1.1")) {
+        if (TextUtils.isEmpty(upgradeDomain) || upgradeDomain.equals("1.1.1.1")) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
             return resultEntity.getUpgrade_domain();
@@ -349,7 +349,7 @@ public class IsmartvActivator {
 
     public String getLogDomain() {
         String logDomain = mSharedPreferences.getString("log_domain", "");
-        if (TextUtils.isEmpty(logDomain)||logDomain.equals("1.1.1.1")) {
+        if (TextUtils.isEmpty(logDomain) || logDomain.equals("1.1.1.1")) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
             return resultEntity.getLog_Domain();
