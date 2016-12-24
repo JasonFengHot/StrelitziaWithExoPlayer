@@ -354,6 +354,7 @@ public interface SkyService {
             @Field("timestamp") String timestamp,
             @Field("sign") String sign
     );
+
     @FormUrlEncoded
     @POST("customer/pointlogs/")
     Observable<ResponseBody> UploadFeedback(
@@ -456,10 +457,12 @@ public interface SkyService {
     Observable<HomePagerEntity> fetchHomePage(
             @Url String url
     );
+
     @GET
     Observable<ItemList> getPackageList(
             @Url String url
     );
+
     @GET
     Observable<ItemList> getPackageListItem(
             @Url String url
@@ -521,44 +524,45 @@ public interface SkyService {
 
     @GET("shipinkefu/getCdninfo?actiontype=getBindcdn")
     Observable<BindedCdnEntity> GetBindCdn(
-                @Query("sn") String snCode
-        );
+            @Query("sn") String snCode
+    );
 
     @GET("shipinkefu/getCdninfo?actiontype=bindecdn")
     Observable<Empty> BindCdn(
             @Query("sn") String snCode,
             @Query("cdn") int cdnId
-        );
+    );
 
     @GET("shipinkefu/getCdninfo?actiontype=unbindCdn")
     Observable<Empty> UnbindNode(
-                @Query("sn") String sn
+            @Query("sn") String sn
 
-        );
+    );
 
     @GET("shipinkefu/getCdninfo")
     Observable<List<TeleEntity>> FetchTel(
-                @Query("actiontype") String actiontype,
-                @Query("ModeName") String modeName,
-                @Query("sn") String sn
-        );
+            @Query("actiontype") String actiontype,
+            @Query("ModeName") String modeName,
+            @Query("sn") String sn
+    );
 
 
     @GET("log")
     Observable<Empty> DeviceLog(
-                @Query("data") String data,
-                @Query("sn") String sn,
-                @Query("modelname") String modelName
-        );
+            @Query("data") String data,
+            @Query("sn") String sn,
+            @Query("modelname") String modelName
+    );
 
     @FormUrlEncoded
     @POST("shipinkefu/getCdninfo")
     Observable<Empty> UploadResult(
-                @Field("actiontype") String actionType,
-                @Field("snCode") String snCode,
-                @Field("nodeId") String nodeId,
-                @Field("nodeSpeed") String nodeSpeed
-        );
+            @Field("actiontype") String actionType,
+            @Field("snCode") String snCode,
+            @Field("nodeId") String nodeId,
+            @Field("nodeSpeed") String nodeSpeed
+    );
+
     @GET
     Observable<IpLookUpEntity> fetchIP(
             @Url String url
@@ -586,8 +590,8 @@ public interface SkyService {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             final OkHttpClient mClient = new OkHttpClient.Builder()
-//                    .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
-//                    .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
+                    .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                    .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(VodApplication.getHttpParamsInterceptor())
 //                    .addNetworkInterceptor(VodApplication.getHttpTrafficInterceptor())
                     .retryOnConnectionFailure(true)
@@ -656,7 +660,7 @@ public interface SkyService {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
                     .build();
-            wxApiService=wxApiServiceRetrofit.create(SkyService.class);
+            wxApiService = wxApiServiceRetrofit.create(SkyService.class);
 
             Retrofit irisServiceRetrofit = new Retrofit.Builder()
                     .baseUrl(IRIS_TVXIO_HOST)
@@ -664,7 +668,7 @@ public interface SkyService {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
                     .build();
-            irisService=irisServiceRetrofit.create(SkyService.class);
+            irisService = irisServiceRetrofit.create(SkyService.class);
 
             Retrofit speedCallaServiceRetrofit = new Retrofit.Builder()
                     .baseUrl(SPEED_CALLA_TVXIO_HOST)
@@ -672,7 +676,7 @@ public interface SkyService {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
                     .build();
-            speedCallaService=speedCallaServiceRetrofit.create(SkyService.class);
+            speedCallaService = speedCallaServiceRetrofit.create(SkyService.class);
 
             Retrofit lilyHostServiceRetrofit = new Retrofit.Builder()
                     .baseUrl(LILY_TVXIO_HOST)
@@ -680,7 +684,7 @@ public interface SkyService {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
                     .build();
-            lilyHostService=lilyHostServiceRetrofit.create(SkyService.class);
+            lilyHostService = lilyHostServiceRetrofit.create(SkyService.class);
         }
 
 
@@ -697,72 +701,54 @@ public interface SkyService {
             return url;
         }
 
-        public static SkyService getService() {
+        private static ServiceManager getInstance() {    //对获取实例的方法进行同步
             synchronized (ServiceManager.class) {
                 if (serviceManager == null) {
                     serviceManager = new ServiceManager();
                 }
             }
-            return serviceManager.mSkyService;
+            return serviceManager;
+        }
+
+
+        public static SkyService getService() {
+
+            return getInstance().mSkyService;
         }
 
         public static SkyService getAdService() {
-            synchronized (ServiceManager.class) {
-                if (serviceManager == null) {
-                    serviceManager = new ServiceManager();
-                }
-            }
-            return serviceManager.adSkyService;
+
+            return getInstance().adSkyService;
         }
 
         public static SkyService getUpgradeService() {
-            synchronized (ServiceManager.class) {
-                if (serviceManager == null) {
-                    serviceManager = new ServiceManager();
-                }
-            }
-            return serviceManager.upgradeService;
+
+            return getInstance().upgradeService;
         }
 
         public static SkyService getWeatherService() {
-            synchronized (ServiceManager.class) {
-                if (serviceManager == null) {
-                    serviceManager = new ServiceManager();
-                }
-            }
-            return serviceManager.weatherService;
+
+            return getInstance().weatherService;
         }
+
         public static SkyService getWxApiService() {
-            synchronized (ServiceManager.class) {
-                if (serviceManager == null) {
-                    serviceManager = new ServiceManager();
-                }
-            }
-            return serviceManager.wxApiService;
+
+            return getInstance().wxApiService;
         }
+
         public static SkyService getIrisService() {
-            synchronized (ServiceManager.class) {
-                if (serviceManager == null) {
-                    serviceManager = new ServiceManager();
-                }
-            }
-            return serviceManager.irisService;
+
+            return getInstance().irisService;
         }
+
         public static SkyService getSpeedCallaService() {
-            synchronized (ServiceManager.class) {
-                if (serviceManager == null) {
-                    serviceManager = new ServiceManager();
-                }
-            }
-            return serviceManager.speedCallaService;
+
+            return getInstance().speedCallaService;
         }
+
         public static SkyService getLilyHostService() {
-            synchronized (ServiceManager.class) {
-                if (serviceManager == null) {
-                    serviceManager = new ServiceManager();
-                }
-            }
-            return serviceManager.lilyHostService;
+
+            return getInstance().lilyHostService;
         }
     }
 
