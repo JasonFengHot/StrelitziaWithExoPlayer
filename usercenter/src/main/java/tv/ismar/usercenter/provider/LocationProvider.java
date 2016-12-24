@@ -2,8 +2,11 @@ package tv.ismar.usercenter.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 
 import tv.ismar.account.IsmartvActivator;
 
@@ -22,7 +25,8 @@ public class LocationProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return IsmartvActivator.getInstance().getCity().get("geo_id");
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        return mSharedPreferences.getString("geo_id", "");
     }
 
     @Override
