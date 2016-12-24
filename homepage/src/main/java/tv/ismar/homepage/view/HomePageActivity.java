@@ -1349,7 +1349,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
                         @Override
                         public void onError() {
-                            home_ad_pic.setImageBitmap(Utils.getImgFromAssets(HomePageActivity.this, "poster.png"));
+                            Picasso.with(HomePageActivity.this)
+                                    .load("file:///android_asset/poster.png")
+                                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
+                                    .into(home_ad_pic);
                             if (playIndex == 0) {
                                 mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
                             }
