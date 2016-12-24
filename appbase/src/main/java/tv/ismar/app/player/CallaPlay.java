@@ -464,7 +464,7 @@ public class CallaPlay {
         new NetworkUtils.DataCollectionTask().execute(eventName, properties);
     }
 
-    public void app_start(String sn,String device,String size,String os_version,int app_version, long sd_size,long sd_free_size,String userid,String province,String city,String isp,String source,String Mac) {
+    public void app_start(String sn,String device,String size,String os_version,int app_version, long sd_size,long sd_free_size,String userid,String province,String city,String isp,String source,String Mac, String title, String packageName) {
         HashMap<String, Object> tempMap = new HashMap<String, Object>();
         tempMap.put(EventProperty.SN, sn);
         tempMap.put(EventProperty.DEVICE, device);
@@ -479,6 +479,8 @@ public class CallaPlay {
         tempMap.put(EventProperty.SOURCE, source);
         tempMap.put(EventProperty.MAC, Mac);
         tempMap.put(EventProperty.VERSION, app_version);
+        tempMap.put("title", title);
+        tempMap.put("code", packageName);
         eventName = NetworkUtils.APP_START;
         properties = tempMap;
         new NetworkUtils.DataCollectionTask().execute(eventName, properties);
@@ -542,9 +544,10 @@ public class CallaPlay {
      *
      * @param url    url 预告片地址, 例如: http://v.ismartv.cn/upload/topvideo/no10_20120411.mp4
      */
-    public  void homepage_vod_trailer_play(String url) {
+    public  void homepage_vod_trailer_play(String url, String channel) {
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         hashMap.put("url", url);
+        hashMap.put("channel", channel);
         eventName = NetworkUtils.HOMEPAGE_VOD_TRAILER_PLAY;
         properties = hashMap;
         new NetworkUtils.DataCollectionTask().execute(eventName, properties);

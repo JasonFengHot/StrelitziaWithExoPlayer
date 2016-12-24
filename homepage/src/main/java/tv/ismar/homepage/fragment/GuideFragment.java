@@ -479,7 +479,7 @@ public class GuideFragment extends ChannelBaseFragment {
             String videoPath = CacheManager.getInstance().doRequest(mCarousels.get(mCurrentCarouselIndex).getVideo_url(), videoName, DownloadClient.StoreType.Internal);
             Log.d(TAG, "current video path ====> " + videoPath);
             CallaPlay play = new CallaPlay();
-            play.homepage_vod_trailer_play(videoPath);
+            play.homepage_vod_trailer_play(videoPath, "launcher");
             if (mSurfaceView.isPlaying() && mSurfaceView.getDataSource().equals(videoPath)) {
                 return;
             }

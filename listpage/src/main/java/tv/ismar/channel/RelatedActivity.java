@@ -173,10 +173,10 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
                 showToast(getResources().getString(R.string.no_related_video));
                 this.finish();
             }
-            HashMap<String, Object> properties = new HashMap<String, Object>();
-            properties.put(EventProperty.ITEM, mItem.pk);
-            properties.put(EventProperty.TITLE, "relate");
-            new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_RELATE_IN, properties);
+//            HashMap<String, Object> properties = new HashMap<String, Object>();
+//            properties.put(EventProperty.ITEM, mItem.pk);
+//            properties.put(EventProperty.TITLE, "relate");
+//            new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_RELATE_IN, properties);
         }
     }
 

@@ -379,7 +379,7 @@
 <dimen name="listportait_Hgride_mb">23.11dp</dimen>
 <dimen name="listportait_section_tab_H">39.11dp</dimen>
 <dimen name="relate_title_ML">32.44dp</dimen>
-<dimen name="relate_title_MT">14.67dp</dimen>
+<dimen name="relate_title_MT">12.44dp</dimen>
 <dimen name="relate_Zgride_ML">41.78dp</dimen>
 <dimen name="relate_Zgride_MR">43.56dp</dimen>
 <dimen name="relate_Zgride_MT">3.11dp</dimen>
@@ -589,8 +589,7 @@
 <dimen name="menu_list_PaddingTB">22.22dip</dimen>
 <dimen name="menu_item_PaddingTB">13.33dip</dimen>
 <dimen name="menu_item_text_size">21.33sp</dimen>
-<dimen name="filter_norestult_buton_mt">32.44dp</dimen>
-<dimen name="filter_noresult_text_mt">25.78dp</dimen>
+<dimen name="filter_norestult_buton_mt">32.00dp</dimen>
 <dimen name="pop_btn_margin_lr">54.67dp</dimen>
 <dimen name="usercenter_subtitle_ml">32.44dp</dimen>
 <dimen name="head_weather_ml">193.33dp</dimen>

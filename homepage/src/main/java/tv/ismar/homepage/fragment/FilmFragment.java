@@ -491,7 +491,7 @@ public class FilmFragment extends ChannelBaseFragment {
         String videoPath = CacheManager.getInstance().doRequest(mCarousels.get(mCurrentCarouselIndex).getVideo_url(), videoName, DownloadClient.StoreType.External);
         Log.d(TAG, "current video path ====> " + videoPath);
         CallaPlay play = new CallaPlay();
-        play.homepage_vod_trailer_play(videoPath);
+        play.homepage_vod_trailer_play(videoPath, mChannelName);
         if (mSurfaceView.isPlaying() &&mSurfaceView.getDataSource().equals(videoPath)) {
             return;
         }

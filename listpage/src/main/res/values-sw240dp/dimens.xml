@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <dimen name="tv_guide_top_section_padding">3.11dp</dimen>
-<dimen name="listpage_portrait_detail_title_mt">18.00dp</dimen>
+<dimen name="listpage_portrait_detail_title_mt">16.89dp</dimen>
 <dimen name="listpage_detail_button_h">16.00dp</dimen>
 <dimen name="listpage_detail_button_w">60.89dp</dimen>
 <dimen name="listpage_portrait_detail_title_w">177.33dip</dimen>
@@ -247,7 +247,7 @@
 <dimen name="filter_condition_item_linegroup_ml">21.11dp</dimen>
 <dimen name="filter_condition_item_linegroup_mt">1.33dp</dimen>
 <dimen name="filter_condition_groupview_h">24.00dp</dimen>
-<dimen name="filter_noresult_text_mt">12.89dp</dimen>
+<dimen name="filter_noresult_text_mt">12.44dp</dimen>
 <dimen name="filter_noresult_layout_h">86.67dp</dimen>
 
 <dimen name="filter_condition_item_h">28.00dp</dimen>
@@ -276,16 +276,16 @@
 <dimen name="filter_Hgride_select_paddingBttom">-8.89dp</dimen>
 <dimen name="filter_Hgride_select_hasresult_PB">-13.33dp</dimen>
 <dimen name="filter_Hgride_noresult_select_PB">-6.67dp</dimen>
-<dimen name="filter_Hgride_protra_PT">4.89dp</dimen>
-<dimen name="filter_Hgride_protra_MT">6.67dp</dimen>
-<dimen name="filter_Hgride_protra_ML">8.89dp</dimen>
+<dimen name="filter_Hgride_protra_PT">4.00dp</dimen>
+<dimen name="filter_Hgride_protra_MT">7.56dp</dimen>
+<dimen name="filter_Hgride_protra_ML">9.78dp</dimen>
 <dimen name="filter_Hgride_noresult_ML">34.44dp</dimen>
 <dimen name="filter_Hgride_noresult_PL">3.56dp</dimen>
 <dimen name="filter_Hgride_PT">3.33dp</dimen>
 <dimen name="filter_Hgride_MT">1.56dp</dimen>
 <dimen name="filter_Hgride_noresult_PT">2.67dp</dimen>
 <dimen name="filter_Hgride_noresult_MT">8.89dp</dimen>
-<dimen name="filter_port_Hgride_textMarg">4.00dp</dimen>
+<dimen name="filter_port_Hgride_textMarg">4.67dp</dimen>
 <dimen name="filter_pro_hgride_text_W">26.67dp</dimen>
 <dimen name="filter_pro_hgride_text_H">10.22dp</dimen>
 <dimen name="filter_pro_hgride_text_MR">2.44dp</dimen>
@@ -314,7 +314,7 @@
 <dimen name="list_head_H">22.22dp</dimen>
 <dimen name="list_head_paddingL">16.44dp</dimen>
 <dimen name="divider_blowhead_ML">7.56dp</dimen>
-<dimen name="history_top_textBl">7.33dp</dimen>
+<dimen name="history_top_textBl">6.44dp</dimen>
 <dimen name="clear_history_Ml">329.33dp</dimen>
 <dimen name="divider_1dp">0.22dp</dimen>
 <dimen name="filter_noresult_arrow_Mb">69.33dp</dimen>

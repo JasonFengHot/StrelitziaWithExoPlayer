@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="tv_guide_top_section_padding">14dp</dimen>
-    <dimen name="listpage_portrait_detail_title_mt">81dp</dimen>
+    <dimen name="listpage_portrait_detail_title_mt">76dp</dimen>
     <dimen name="listpage_detail_button_h">72dp</dimen>
     <dimen name="listpage_detail_button_w">274dp</dimen>
     <dimen name="listpage_portrait_detail_title_w">798dip</dimen>
@@ -247,7 +247,7 @@
     <dimen name="filter_condition_item_linegroup_ml">95dp</dimen>
     <dimen name="filter_condition_item_linegroup_mt">6dp</dimen>
     <dimen name="filter_condition_groupview_h">108dp</dimen>
-    <dimen name="filter_noresult_text_mt">58dp</dimen>
+    <dimen name="filter_noresult_text_mt">56dp</dimen>
     <dimen name="filter_noresult_layout_h">390dp</dimen>
 
     <dimen name="filter_condition_item_h">126dp</dimen>
@@ -276,16 +276,16 @@
     <dimen name="filter_Hgride_select_paddingBttom">-40dp</dimen>
     <dimen name="filter_Hgride_select_hasresult_PB">-60dp</dimen>
     <dimen name="filter_Hgride_noresult_select_PB">-30dp</dimen>
-    <dimen name="filter_Hgride_protra_PT">22dp</dimen>
-    <dimen name="filter_Hgride_protra_MT">30dp</dimen>
-    <dimen name="filter_Hgride_protra_ML">40dp</dimen>
+    <dimen name="filter_Hgride_protra_PT">18dp</dimen>
+    <dimen name="filter_Hgride_protra_MT">34dp</dimen>
+    <dimen name="filter_Hgride_protra_ML">44dp</dimen>
     <dimen name="filter_Hgride_noresult_ML">155dp</dimen>
     <dimen name="filter_Hgride_noresult_PL">16dp</dimen>
     <dimen name="filter_Hgride_PT">15dp</dimen>
     <dimen name="filter_Hgride_MT">7dp</dimen>
     <dimen name="filter_Hgride_noresult_PT">12dp</dimen>
     <dimen name="filter_Hgride_noresult_MT">40dp</dimen>
-    <dimen name="filter_port_Hgride_textMarg">18dp</dimen>
+    <dimen name="filter_port_Hgride_textMarg">21dp</dimen>
     <dimen name="filter_pro_hgride_text_W">120dp</dimen>
     <dimen name="filter_pro_hgride_text_H">46dp</dimen>
     <dimen name="filter_pro_hgride_text_MR">11dp</dimen>
@@ -314,7 +314,7 @@
     <dimen name="list_head_H">100dp</dimen>
     <dimen name="list_head_paddingL">74dp</dimen>
     <dimen name="divider_blowhead_ML">34dp</dimen>
-    <dimen name="history_top_textBl">33dp</dimen>
+    <dimen name="history_top_textBl">29dp</dimen>
     <dimen name="clear_history_Ml">1482dp</dimen>
     <dimen name="divider_1dp">1dp</dimen>
     <dimen name="filter_noresult_arrow_Mb">312dp</dimen>
