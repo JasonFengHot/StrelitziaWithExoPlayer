@@ -1368,7 +1368,7 @@
 
 <dimen name="label_image_corner_size">21.33dp</dimen>
 
-<dimen name="home_container_mt">9.67dp</dimen>
+<dimen name="home_container_mt">10.00dp</dimen>
 <dimen name="home_container_mlr">24.33dp</dimen>
 <dimen name="home_scroll_arrow_w">13.67dp</dimen>
 <dimen name="home_scroll_arrow_h">27.67dp</dimen>
@@ -1420,7 +1420,7 @@
 <dimen name="entertainment_top_right_item_h">75.67dp</dimen>
 <dimen name="entertainment_top_right_item_text_h">9.00dp</dimen>
 <dimen name="entertainment_top_right_item_mt">1.00dp</dimen>
-<dimen name="entertainment_bottom_mt">11.00dp</dimen>
+<dimen name="entertainment_bottom_mt">10.67dp</dimen>
 <dimen name="entertainment_bottom_item_w">110.67dp</dimen>
 <dimen name="entertainment_bottom_item_h">63.00dp</dimen>
 <dimen name="entertainment_bottom_item_space1">9.67dp</dimen>
@@ -1449,7 +1449,7 @@
 <dimen name="sport_bottom_label_pb">2.33dp</dimen>
 <dimen name="sport_center_label_pt">0.00dp</dimen>
 <dimen name="sport_center_label_pb">3.00dp</dimen>
-<dimen name="sport_bottom_text_mt">7.00dp</dimen>
+<dimen name="sport_bottom_text_mt">6.33dp</dimen>
 
 <dimen name="child_mlr">5.67dp</dimen>
 <dimen name="child_mt">2.00dp</dimen>

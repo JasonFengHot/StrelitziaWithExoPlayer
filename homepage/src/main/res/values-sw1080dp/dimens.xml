@@ -1368,7 +1368,7 @@
 
     <dimen name="label_image_corner_size">64dp</dimen>
 
-    <dimen name="home_container_mt">29dp</dimen>
+    <dimen name="home_container_mt">30dp</dimen>
     <dimen name="home_container_mlr">73dp</dimen>
     <dimen name="home_scroll_arrow_w">41dp</dimen>
     <dimen name="home_scroll_arrow_h">83dp</dimen>
@@ -1420,7 +1420,7 @@
     <dimen name="entertainment_top_right_item_h">227dp</dimen>
     <dimen name="entertainment_top_right_item_text_h">27dp</dimen>
     <dimen name="entertainment_top_right_item_mt">3dp</dimen>
-    <dimen name="entertainment_bottom_mt">33dp</dimen>
+    <dimen name="entertainment_bottom_mt">32dp</dimen>
     <dimen name="entertainment_bottom_item_w">332dp</dimen>
     <dimen name="entertainment_bottom_item_h">189dp</dimen>
     <dimen name="entertainment_bottom_item_space1">29dp</dimen>
@@ -1449,7 +1449,7 @@
     <dimen name="sport_bottom_label_pb">7dp</dimen>
     <dimen name="sport_center_label_pt">0dp</dimen>
     <dimen name="sport_center_label_pb">9dp</dimen>
-    <dimen name="sport_bottom_text_mt">21dp</dimen>
+    <dimen name="sport_bottom_text_mt">19dp</dimen>
 
     <dimen name="child_mlr">17dp</dimen>
     <dimen name="child_mt">6dp</dimen>
