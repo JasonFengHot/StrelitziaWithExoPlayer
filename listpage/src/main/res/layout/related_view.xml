@@ -18,7 +18,7 @@
         android:layout_marginTop="@dimen/relate_title_MT"
         android:gravity="center"
         android:text="@string/related_view"
-        android:textColor="#FFBBBBBB"
+        android:textColor="@color/_ffffff"
         android:textSize="@dimen/text_size_48sp" />
 
     <ImageView
