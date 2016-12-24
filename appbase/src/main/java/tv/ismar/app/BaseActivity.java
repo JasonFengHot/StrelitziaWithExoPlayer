@@ -71,6 +71,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private Handler updateHandler;
 
+    public boolean isExpireAccessToken = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,8 +182,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNoNetConnectDialog() {
-        Log.i("onNoNet","showNet!!!");
-        noNetConnectWindow =new NoNetConnectWindow(this);
+        Log.i("onNoNet", "showNet!!!");
+        noNetConnectWindow = new NoNetConnectWindow(this);
         noNetConnectWindow.setFirstMessage(getString(R.string.no_connectNet));
         noNetConnectWindow.setConfirmBtn(getString(R.string.setting_network));
         noNetConnectWindow.setCancelBtn(getString(R.string.exit_app));
@@ -232,10 +234,16 @@ public class BaseActivity extends AppCompatActivity {
 
 
     public void showExpireAccessTokenPop() {
-        IsmartvActivator.getInstance().removeUserInfo();
-        expireAccessTokenPop =new ExpireAccessTokenPop(this);
+        expireAccessTokenPop = ExpireAccessTokenPop.getInstance(this);
         expireAccessTokenPop.setFirstMessage(getString(R.string.access_token_expire));
         expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
+        expireAccessTokenPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                isExpireAccessToken = true;
+                IsmartvActivator.getInstance().removeUserInfo();
+            }
+        });
         expireAccessTokenPop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
@@ -243,6 +251,8 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 },
                 null);
+
+
     }
 
     private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
@@ -297,14 +307,14 @@ public class BaseActivity extends AppCompatActivity {
 
     private void showUpdatePopup(final View view, final Stack<Bundle> stack) {
         String currentActivityName = getCurrentActivityName(this);
-        if (!stack.isEmpty()&& !currentActivityName.equals("tv.ismar.player.view.PlayerActivity")) {
-            final Bundle updateBundle =  stack.pop();
-            updatePopupWindow = new UpdatePopupWindow(this,updateBundle);
+        if (!stack.isEmpty() && !currentActivityName.equals("tv.ismar.player.view.PlayerActivity")) {
+            final Bundle updateBundle = stack.pop();
+            updatePopupWindow = new UpdatePopupWindow(this, updateBundle);
             updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
             updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                    if (!activityIsAlive){
+                    if (!activityIsAlive) {
                         updateInfo.push(updateBundle);
                     }
                     showUpdatePopup(view, stack);
@@ -341,11 +351,11 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data!=null) {
+        if (data != null) {
             OfflineCheckManager.getInstance().checkItem(data.getIntExtra("pk", 0), new OfflineCheckManager.Callback() {
                 @Override
                 public void online() {
-                    Log.e(TAG,"online");
+                    Log.e(TAG, "online");
                 }
 
                 @Override

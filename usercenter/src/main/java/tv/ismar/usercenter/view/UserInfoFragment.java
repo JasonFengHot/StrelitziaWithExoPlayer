@@ -300,7 +300,12 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     @Override
     public void onLogout() {
-        showExitAccountMessagePop();
+        if (mUserCenterActivity.isExpireAccessToken){
+            mUserCenterActivity.isExpireAccessToken = false;
+        }else {
+            showExitAccountMessagePop();
+        }
+
         mPresenter.fetchBalance();
         mPresenter.fetchPrivilege();
         mViewModel.refresh();
