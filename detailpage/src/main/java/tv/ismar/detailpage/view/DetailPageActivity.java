@@ -88,6 +88,7 @@ public class DetailPageActivity extends BaseActivity{
 
         //解析来至launcher的参数
         if (!TextUtils.isEmpty(url)) {
+            Log.e("launcher_url",url);
             String[] arrayTmp = url.split("/");
             itemPK = Integer.parseInt(arrayTmp[arrayTmp.length - 1]);
             switch (arrayTmp[arrayTmp.length - 2]) {
@@ -98,6 +99,7 @@ public class DetailPageActivity extends BaseActivity{
                     type = DETAIL_TYPE_PKG;
                     break;
             }
+            Log.e("launcher_type",type+"");
         }
 
         if (!TextUtils.isEmpty(itemJson)) {
