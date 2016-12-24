@@ -428,6 +428,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 SystemFileUtil.getSdCardAvalible(this),
                 SimpleRestClient.mobile_number, province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
                 SimpleRestClient.app, this.getPackageName());
+        callaPlay.launcher_vod_click(
+                "section", -1, homepage_template, -1
+        );
+
 
     }
 
