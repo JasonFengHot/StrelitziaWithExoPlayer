@@ -220,6 +220,9 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onError(Throwable e) {
             e.printStackTrace();
+            if(!activityIsAlive){
+                return;
+            }
             Log.i("onNoNet", "onerror" + NetworkUtils.isConnected(BaseActivity.this));
             if (!NetworkUtils.isConnected(BaseActivity.this) && !NetworkUtils.isWifi(BaseActivity.this)) {
                 Log.i("onNoNet", "" + NetworkUtils.isConnected(BaseActivity.this));
