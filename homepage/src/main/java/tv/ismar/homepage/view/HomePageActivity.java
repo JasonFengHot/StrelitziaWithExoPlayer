@@ -431,7 +431,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 SimpleRestClient.appVersion,
                 SystemFileUtil.getSdCardTotal(this),
                 SystemFileUtil.getSdCardAvalible(this),
-                SimpleRestClient.mobile_number, province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this));
+                SimpleRestClient.mobile_number, province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
+                SimpleRestClient.app, this.getPackageName());
 
     }
 
