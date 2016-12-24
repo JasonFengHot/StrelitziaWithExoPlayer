@@ -132,7 +132,7 @@ public class OfflineCheckManager {
                 });
     }
 
-    interface Callback {
+    public interface Callback {
         void online();
 
         void offline();

@@ -61,6 +61,7 @@ public class DetailPageActivity extends BaseActivity{
     private DetailPageFragment detailPageFragment;
     private PackageDetailFragment mPackageDetailFragment;
     public LoadingDialog mLoadingDialog;
+    private int itemPK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class DetailPageActivity extends BaseActivity{
         instance = this;
         Intent intent = getIntent();
 
-        int itemPK = intent.getIntExtra(EXTRA_PK, -1);
+        itemPK = intent.getIntExtra(EXTRA_PK, -1);
         String itemJson = intent.getStringExtra(EXTRA_ITEM_JSON);
         source = intent.getStringExtra(EXTRA_SOURCE);
         channel = intent.getStringExtra(EXTRA_CHANNEL);
@@ -508,4 +509,11 @@ public class DetailPageActivity extends BaseActivity{
 //    }
 
 
+    @Override
+    protected void onDestroy() {
+        Intent intent=new Intent();
+        intent.putExtra("pk",itemPK);
+        setResult(1,intent);
+        super.onDestroy();
+    }
 }

@@ -2,7 +2,9 @@ package tv.ismar.app;
 
 import cn.ismartv.truetime.TrueTime;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -22,6 +24,7 @@ import java.util.Stack;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
@@ -293,7 +296,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void showUpdatePopup(final View view, final Stack<Bundle> stack) {
-        if (!stack.isEmpty()) {
+        String currentActivityName = getCurrentActivityName(this);
+        if (!stack.isEmpty()&& !currentActivityName.equals("tv.ismar.player.view.PlayerActivity")) {
             final Bundle updateBundle =  stack.pop();
             updatePopupWindow = new UpdatePopupWindow(this,updateBundle);
             updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
@@ -333,4 +337,36 @@ public class BaseActivity extends AppCompatActivity {
             startService(intent);
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data!=null) {
+            OfflineCheckManager.getInstance().checkItem(data.getIntExtra("pk", 0), new OfflineCheckManager.Callback() {
+                @Override
+                public void online() {
+                    Log.e(TAG,"online");
+                }
+
+                @Override
+                public void offline() {
+                    showDialog(getResources().getString(R.string.item_offline));
+                }
+
+                @Override
+                public void netError() {
+                    showDialog("网络数据异常");
+                }
+            });
+        }
+
+    }
+
+    public String getCurrentActivityName(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        android.util.Log.i(TAG, "getCurrentActivityName : pkg --->" + cn.getPackageName());
+        android.util.Log.i(TAG, "getCurrentActivityName : cls ---> " + cn.getClassName());
+        return cn.getClassName();
+    }
 }
