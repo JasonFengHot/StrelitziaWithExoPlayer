@@ -70,6 +70,9 @@ public class BaseActivity extends AppCompatActivity {
 
     public boolean isExpireAccessToken = false;
 
+    private Handler updateAgainHandler;
+    private Runnable updateAgainRunnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,17 @@ public class BaseActivity extends AppCompatActivity {
         if (isCheckoutUpdate) {
             checkUpgrade();
             isCheckoutUpdate = false;
+        } else {
+            if (!updateInfo.isEmpty()) {
+                updateAgainHandler = new Handler();
+                updateAgainRunnable = (new Runnable() {
+                    @Override
+                    public void run() {
+                        showUpdatePopup(getRootView(), updateInfo);
+                    }
+                });
+                updateAgainHandler.postDelayed(updateAgainRunnable, 2000);
+            }
         }
     }
 
@@ -107,6 +121,10 @@ public class BaseActivity extends AppCompatActivity {
             expireAccessTokenPop = null;
         }
         unregisterReceiver(mUpdateReceiver);
+
+        if (updateAgainHandler != null) {
+            updateAgainHandler.removeCallbacks(updateAgainRunnable);
+        }
         super.onPause();
     }
 
@@ -178,7 +196,7 @@ public class BaseActivity extends AppCompatActivity {
                             finish();
                         }
                     });
-        }catch (Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 
@@ -218,7 +236,7 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onError(Throwable e) {
             e.printStackTrace();
-            if(!activityIsAlive){
+            if (!activityIsAlive) {
                 return;
             }
             Log.i("onNoNet", "onerror" + NetworkUtils.isConnected(BaseActivity.this));
