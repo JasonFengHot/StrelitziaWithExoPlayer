@@ -5212,7 +5212,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
 		if (direction == FOCUS_UP) {
 			nextPage = Math.max(0, mSelectedPosition - getChildCount());
 		} else if (direction == FOCUS_DOWN) {
-			nextPage = Math.min(mItemCount - 1, mSelectedPosition
+			nextPage = Math.min(mItemCount - 1, mFirstPosition
 					+ getChildCount());
 		}
 		

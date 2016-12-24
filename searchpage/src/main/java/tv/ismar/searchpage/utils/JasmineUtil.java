@@ -103,6 +103,9 @@ public class JasmineUtil {
      * 搜索日志上报
      */
     public static void video_search(String content_type,String qWord){
+        if(content_type.equals("person")){
+            content_type="star";
+        }
         HashMap<String, Object> tempMap = new HashMap<>();
         tempMap.put(EventProperty.INTERFACE_TYPE, "text");
         tempMap.put(EventProperty.CONTENT_TYPE, content_type);
@@ -127,6 +130,9 @@ public class JasmineUtil {
     public static void loadException(String referer,String page,String channel,
                                   String tab,int item,String url,
                                   int version,String code,String detail) {
+        if(channel.equals("person")){
+            channel="star";
+        }
         HashMap<String, Object> properties = new HashMap<String, Object>();
         properties.put("referer",referer);
         properties.put("page",page);
