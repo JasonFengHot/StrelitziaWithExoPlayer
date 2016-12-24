@@ -2,6 +2,8 @@ package tv.ismar.pay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -41,6 +43,13 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     private TvHorizontalScrollView mTvHorizontalScrollView;
     private ImageView tmp;
     private int mItemId;
+    private Handler handler=new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            finish();
+            return false;
+        }
+    });
 
 
     @Override
@@ -219,7 +228,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == PaymentActivity.PAYMENT_SUCCESS_CODE) {
             setResult(PaymentActivity.PAYMENT_SUCCESS_CODE, data);
-            finish();
+            handler.sendEmptyMessageDelayed(0,800);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
