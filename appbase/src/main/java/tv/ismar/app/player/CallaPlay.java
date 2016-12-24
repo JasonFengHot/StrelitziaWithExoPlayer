@@ -486,6 +486,18 @@ public class CallaPlay {
         new NetworkUtils.DataCollectionTask().execute(eventName, properties);
     }
 
+    public void launcher_vod_click(String type, int pk, String title, int position){
+        HashMap<String, Object> tempMap = new HashMap<String, Object>();
+        tempMap.put("type", type);
+        tempMap.put("pk", pk);
+        tempMap.put("title", title);
+        tempMap.put("position", position);
+        eventName = NetworkUtils.LAUNCHER_VOD_CLICK;
+        properties = tempMap;
+        new NetworkUtils.DataCollectionTask().execute(eventName, properties);
+
+    }
+
     public void app_exit(long duration, int version) {
         HashMap<String, Object> tempMap = new HashMap<String, Object>();
         tempMap.put(EventProperty.DURATION, duration / 1000);
