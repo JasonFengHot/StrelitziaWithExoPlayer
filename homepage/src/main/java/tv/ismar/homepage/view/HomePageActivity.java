@@ -119,6 +119,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      * advertisement start
      */
     private static final int MSG_AD_COUNTDOWN = 0x01;
+    private static final int MSG_FETCH_CHANNELS = 0x02;
     private DaisyVideoView home_ad_video;
     private ImageView home_ad_pic;
     private Button home_ad_timer;
@@ -152,7 +153,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private FragmentSwitchHandler fragmentSwitch;
     private BitmapDecoder bitmapDecoder;
     private Subscription channelsSub;
-
 
     @Override
     public void onUserCenterClick() {
@@ -399,12 +399,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 if (TextUtils.isEmpty(homepage_url)) {
                     playLaunchAd(0);
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            fetchChannels();
-                        }
-                    }, 1000);
+                    mHandler.sendEmptyMessageDelayed(MSG_FETCH_CHANNELS, 1000);
                 }
             }
         });
@@ -1177,6 +1172,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (channelsSub != null && channelsSub.isUnsubscribed()) {
             channelsSub.unsubscribe();
         }
+        if(mHandler.hasMessages(MSG_FETCH_CHANNELS)){
+            mHandler.removeMessages(MSG_FETCH_CHANNELS);
+        }
         if (!isneedpause) {
             return;
         }
@@ -1428,6 +1426,12 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         countAdTime = getAdCountDownTime();
                     }
                     sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, refreshTime);
+                    break;
+                case MSG_FETCH_CHANNELS:
+                    fetchChannels();
+                    if(mHandler.hasMessages(MSG_FETCH_CHANNELS)){
+                        mHandler.removeMessages(MSG_FETCH_CHANNELS);
+                    }
                     break;
             }
         }
