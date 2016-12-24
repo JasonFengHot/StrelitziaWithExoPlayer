@@ -1411,7 +1411,7 @@
 <dimen name="entertainment_thumb_h1">65.78dp</dimen>
 <dimen name="entertainment_thumb_h2">48.00dp</dimen>
 <dimen name="entertainment_thumb_ml">0.89dp</dimen>
-<dimen name="entertainment_thumb_text_h">45.33dp</dimen>
+<dimen name="entertainment_thumb_text_h">46.22dp</dimen>
 <dimen name="entertainment_top_right_ml">23.11dp</dimen>
 <dimen name="entertainment_top_right_item_linear_w">357.33dp</dimen>
 <dimen name="entertainment_top_right_item_linear_h">458.67dp</dimen>
@@ -1420,18 +1420,18 @@
 <dimen name="entertainment_top_right_item_h">201.78dp</dimen>
 <dimen name="entertainment_top_right_item_text_h">24.00dp</dimen>
 <dimen name="entertainment_top_right_item_mt">2.67dp</dimen>
-<dimen name="entertainment_bottom_mt">31.11dp</dimen>
+<dimen name="entertainment_bottom_mt">29.33dp</dimen>
 <dimen name="entertainment_bottom_item_w">295.11dp</dimen>
 <dimen name="entertainment_bottom_item_h">168.00dp</dimen>
 <dimen name="entertainment_bottom_item_space1">25.78dp</dimen>
 <dimen name="entertainment_bottom_item_space2">24.89dp</dimen>
-<dimen name="entertainment_bottom_text_mt">16.89dp</dimen>
+<dimen name="entertainment_bottom_text_mt">18.67dp</dimen>
 <dimen name="entertainment_more_w">19.56dp</dimen>
 <dimen name="entertainment_more_h">19.56dp</dimen>
 <dimen name="entertainment_top_label_pt">2.67dp</dimen>
 <dimen name="entertainment_top_label_pb">5.33dp</dimen>
-<dimen name="entertainment_bottom_label_pt">2.67dp</dimen>
-<dimen name="entertainment_bottom_label_pb">6.22dp</dimen>
+<dimen name="entertainment_bottom_label_pt">1.78dp</dimen>
+<dimen name="entertainment_bottom_label_pb">7.11dp</dimen>
 
 <dimen name="sport_top_h">442.67dp</dimen>
 <dimen name="sport_top_item_w">260.44dp</dimen>
@@ -1442,13 +1442,13 @@
 <dimen name="sport_top_space1">1.78dp</dimen>
 <dimen name="sport_top_arrow_h">26.67dp</dimen>
 <dimen name="sport_top_arrow_p">7.11dp</dimen>
-<dimen name="sport_top_label_pt">3.56dp</dimen>
+<dimen name="sport_top_label_pt">4.44dp</dimen>
 <dimen name="sport_top_label_pb">7.11dp</dimen>
 <dimen name="sport_bottom_mt">45.33dp</dimen>
-<dimen name="sport_bottom_label_pt">2.67dp</dimen>
+<dimen name="sport_bottom_label_pt">1.78dp</dimen>
 <dimen name="sport_bottom_label_pb">6.22dp</dimen>
-<dimen name="sport_center_label_pt">3.56dp</dimen>
-<dimen name="sport_center_label_pb">7.11dp</dimen>
+<dimen name="sport_center_label_pt">0.00dp</dimen>
+<dimen name="sport_center_label_pb">8.00dp</dimen>
 <dimen name="sport_bottom_text_mt">18.67dp</dimen>
 
 <dimen name="child_mlr">15.11dp</dimen>
