@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.network.entity.AccountsOrdersEntity;
+import tv.ismar.app.network.entity.YouHuiDingGouEntity;
+import tv.ismar.app.ui.ZGridView;
 import tv.ismar.usercenter.PurchaseHistoryContract;
 import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.databinding.FragmentPurchasehistoryBinding;
@@ -56,7 +59,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
     private FragmentPurchasehistoryBinding purchasehistoryBinding;
 
-    private RecyclerViewTV mRecyclerView;
+    private ZGridView mRecyclerView;
 
     private boolean fragmentIsPause = false;
 
@@ -93,7 +96,6 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         purchasehistoryBinding.setActionHandler(mPresenter);
 
         mRecyclerView = purchasehistoryBinding.recyclerview;
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.u_purchase_history_item_margin_top)));
         View root = purchasehistoryBinding.getRoot();
         return root;
     }
@@ -202,45 +204,58 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
         }
 
         HistoryAdapter adapter = new HistoryAdapter(getContext(), arrayList);
-        mRecyclerView.setSelectedItemAtCentered(false);
-        mRecyclerView.setLayoutManager(new LinearLayoutManagerTV(getContext()));
         mRecyclerView.setAdapter(adapter);
     }
 
-    private class HistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryFragment.HistoryViewHolder> implements View.OnHoverListener, View.OnClickListener {
-        private Context mContext;
 
+    private class HistoryAdapter extends BaseAdapter {
+        private Context mContext;
         private List<AccountsOrdersEntity.OrderEntity> mOrderEntities;
 
-        public HistoryAdapter(Context context, List<AccountsOrdersEntity.OrderEntity> orderEntities) {
-            mContext = context;
-            mOrderEntities = orderEntities;
+        public HistoryAdapter(Context mContext, List<AccountsOrdersEntity.OrderEntity> mOrderEntities) {
+            this.mContext = mContext;
+            this.mOrderEntities = mOrderEntities;
         }
 
         @Override
-        public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_purchase_history, parent, false);
-            view.setOnHoverListener(this);
-            view.setOnClickListener(this);
-            HistoryViewHolder holder = new HistoryViewHolder(view);
-            return holder;
+        public int getCount() {
+            return mOrderEntities.size();
         }
 
         @Override
-        public void onBindViewHolder(HistoryViewHolder holder, int position) {
-            if (position == 0 ) {
-                holder.itemView.setNextFocusUpId(holder.itemView.getId());
-            }
+        public AccountsOrdersEntity.OrderEntity getItem(int position) {
+            return mOrderEntities.get(position);
+        }
 
-            if (position == mOrderEntities.size() - 1){
-                holder.itemView.setNextFocusDownId(holder.itemView.getId());
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            HistoryViewHolder holder;
+            if (convertView == null) {
+                holder = new HistoryViewHolder();
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.item_purchase_history, null);
+
+                holder.title = (TextView) convertView.findViewById(R.id.orderlistitem_title);
+                holder.buydate_txt = (TextView) convertView.findViewById(R.id.orderlistitem_time);
+                holder.orderlistitem_remainday = (TextView) convertView.findViewById(R.id.orderlistitem_remainday);
+                holder.totalfee = (TextView) convertView.findViewById(R.id.orderlistitem_cost);
+                holder.icon = (ImageView) convertView.findViewById(R.id.orderlistitem_icon);
+                holder.orderlistitem_paychannel = (TextView) convertView.findViewById(R.id.orderlistitem_paychannel);
+                holder.purchaseExtra = (TextView) convertView.findViewById(R.id.purchase_extra);
+                holder.mergeTxt = (TextView) convertView.findViewById(R.id.orderlistitem_merge);
+
+                convertView.setTag(holder);
+
+            } else {
+                holder = (HistoryViewHolder) convertView.getTag();
             }
 
             AccountsOrdersEntity.OrderEntity item = mOrderEntities.get(position);
-
-
-            holder.itemView.setTag(item);
-
 
             String orderday = mContext.getResources().getString(R.string.personcenter_orderlist_item_orderday);
             String remainday = mContext.getResources().getString(R.string.personcenter_orderlist_item_remainday);
@@ -280,17 +295,19 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
                 imageView.setLayoutParams(layoutParams);
             }
-            if (position == mOrderEntities.size() - 1) {
-                holder.itemView.setId(R.id.purchase_last_item_id);
-                holder.itemView.setNextFocusDownId(R.id.purchase_last_item_id);
-            }
 
-            holder.itemView.setNextFocusLeftId(R.id.usercenter_purchase_history);
+            return convertView;
         }
 
-        @Override
-        public int getItemCount() {
-            return mOrderEntities.size();
+        private class HistoryViewHolder {
+            TextView title;
+            TextView buydate_txt;
+            TextView totalfee;
+            TextView orderlistitem_paychannel;
+            TextView purchaseExtra;
+            TextView orderlistitem_remainday;
+            TextView mergeTxt;
+            ImageView icon;
         }
 
         private String getValueBySource(String source) {
@@ -315,98 +332,209 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
             }
             return 0;
         }
-
-        @Override
-        public boolean onHover(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_HOVER_ENTER:
-                case MotionEvent.ACTION_HOVER_MOVE:
-                    if (!v.hasFocus()) {
-                        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
-                        v.requestFocus();
-                        v.requestFocusFromTouch();
-                    }
-
-                    break;
-                case MotionEvent.ACTION_HOVER_EXIT:
-                    Log.d(TAG, "MotionEvent.ACTION_HOVER_EXIT");
-                    if (!fragmentIsPause) {
-                        purchasehistoryBinding.mainupView.requestFocus();
-                        purchasehistoryBinding.mainupView.requestFocusFromTouch();
-                    }
-                    break;
-            }
-            return false;
-        }
-
-        @Override
-        public void onClick(View v) {
-            AccountsOrdersEntity.OrderEntity orderEntity = (AccountsOrdersEntity.OrderEntity) v.getTag();
-            if (TextUtils.isEmpty(orderEntity.getUrl())) {
-                Toast.makeText(mContext, "url is empty!!!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            List<String> pathSegments = Uri.parse(orderEntity.getUrl()).getPathSegments();
-            String pk = pathSegments.get(pathSegments.size() - 1);
-            String type = pathSegments.get(pathSegments.size() - 2);
-            PageIntent pageIntent = new PageIntent();
-            switch (type) {
-                case "package":
-                    pageIntent.toPackageDetail(mContext, "history", Integer.parseInt(pk));
-                    break;
-                case "item":
-                    pageIntent.toDetailPage(mContext, "history", Integer.parseInt(pk), "", "");
-                    break;
-                default:
-                    throw new IllegalArgumentException(orderEntity.getUrl() + " type not support!!!");
-            }
-        }
-    }
-
-    private class HistoryViewHolder extends RecyclerView.ViewHolder {
-        View itemView;
-
-        TextView title;
-        TextView buydate_txt;
-        TextView totalfee;
-        TextView orderlistitem_paychannel;
-        TextView purchaseExtra;
-        TextView orderlistitem_remainday;
-        TextView mergeTxt;
-        ImageView icon;
-
-        public HistoryViewHolder(View itemView) {
-            super(itemView);
-            this.itemView = itemView;
-            title = (TextView) itemView.findViewById(R.id.orderlistitem_title);
-            buydate_txt = (TextView) itemView.findViewById(R.id.orderlistitem_time);
-            orderlistitem_remainday = (TextView) itemView.findViewById(R.id.orderlistitem_remainday);
-            totalfee = (TextView) itemView.findViewById(R.id.orderlistitem_cost);
-            icon = (ImageView) itemView.findViewById(R.id.orderlistitem_icon);
-            orderlistitem_paychannel = (TextView) itemView.findViewById(R.id.orderlistitem_paychannel);
-            purchaseExtra = (TextView) itemView.findViewById(R.id.purchase_extra);
-            mergeTxt = (TextView) itemView.findViewById(R.id.orderlistitem_merge);
-        }
     }
 
 
-    private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-
-            // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildLayoutPosition(view) != 0) {
-                outRect.top = space;
-            } else {
-                outRect.top = (int) (space / 2.1);
-            }
-        }
-    }
+//    private class HistoryAdapter extends RecyclerView.Adapter<PurchaseHistoryFragment.HistoryViewHolder> implements View.OnHoverListener, View.OnClickListener {
+//        private Context mContext;
+//
+//        private List<AccountsOrdersEntity.OrderEntity> mOrderEntities;
+//
+//        public HistoryAdapter(Context context, List<AccountsOrdersEntity.OrderEntity> orderEntities) {
+//            mContext = context;
+//            mOrderEntities = orderEntities;
+//        }
+//
+//        @Override
+//        public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_purchase_history, parent, false);
+//            view.setOnHoverListener(this);
+//            view.setOnClickListener(this);
+//            HistoryViewHolder holder = new HistoryViewHolder(view);
+//            return holder;
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(HistoryViewHolder holder, int position) {
+//            if (position == 0 ) {
+//                holder.itemView.setNextFocusUpId(holder.itemView.getId());
+//            }
+//
+//            if (position == mOrderEntities.size() - 1){
+//                holder.itemView.setNextFocusDownId(holder.itemView.getId());
+//            }
+//
+//            AccountsOrdersEntity.OrderEntity item = mOrderEntities.get(position);
+//
+//
+//            holder.itemView.setTag(item);
+//
+//
+//            String orderday = mContext.getResources().getString(R.string.personcenter_orderlist_item_orderday);
+//            String remainday = mContext.getResources().getString(R.string.personcenter_orderlist_item_remainday);
+//            String cost = mContext.getResources().getString(R.string.personcenter_orderlist_item_cost);
+//            String paySource = mContext.getResources().getString(R.string.personcenter_orderlist_item_paysource);
+//            holder.title.setText(item.getTitle());
+//            holder.buydate_txt.setText(String.format(orderday, item.getStart_date()));
+//            holder.orderlistitem_remainday.setText(String.format(remainday, remaindDay(item.getExpiry_date())));
+//            holder.totalfee.setText(String.format(cost, item.getTotal_fee()));
+//            holder.orderlistitem_paychannel.setText(String.format(paySource, getValueBySource(item.getSource())));
+//            if (!TextUtils.isEmpty(item.getThumb_url()))
+//                Picasso.with(mContext).load(item.getThumb_url()).into(holder.icon);
+//            if (!TextUtils.isEmpty(item.getInfo())) {
+//                String account = item.getInfo().split("@")[0];
+//                String mergedate = item.getInfo().split("@")[1];
+//                SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd");
+//                time.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+//                String mergeTime = time.format(Timestamp.valueOf(mergedate));
+//
+//                if (item.type.equals("order_list")) {
+//                    holder.purchaseExtra.setText("( " + mergeTime + "合并至视云账户" + IsmartvActivator.getInstance().getUsername() + " )");
+//                } else if (item.type.equals("snorder_list")) {
+//                    holder.purchaseExtra.setText(mergeTime + "合并至视云账户" + account);
+//                }
+//
+//                holder.purchaseExtra.setVisibility(View.VISIBLE);
+//                holder.mergeTxt.setVisibility(View.INVISIBLE);
+//            } else {
+//                holder.purchaseExtra.setVisibility(View.INVISIBLE);
+//                holder.mergeTxt.setVisibility(View.INVISIBLE);
+//            }
+//
+//
+//            if (position != mOrderEntities.size() - 1) {
+//                ImageView imageView = new ImageView(mContext);
+//                imageView.setBackgroundResource(R.color.history_divider);
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+//                imageView.setLayoutParams(layoutParams);
+//            }
+//            if (position == mOrderEntities.size() - 1) {
+//                holder.itemView.setId(R.id.purchase_last_item_id);
+//                holder.itemView.setNextFocusDownId(R.id.purchase_last_item_id);
+//            }
+//
+//            holder.itemView.setNextFocusLeftId(R.id.usercenter_purchase_history);
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return mOrderEntities.size();
+//        }
+//
+//        private String getValueBySource(String source) {
+//            if (source.equals("weixin")) {
+//                return "微信";
+//            } else if (source.equals("alipay")) {
+//                return "支付宝";
+//            } else if (source.equals("balance")) {
+//                return "余额";
+//            } else if (source.equals("card")) {
+//                return "卡";
+//            } else {
+//                return source;
+//            }
+//        }
+//
+//        private int remaindDay(String exprieTime) {
+//            try {
+//                return Util.daysBetween(Util.getTime(), exprieTime) + 1;
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            return 0;
+//        }
+//
+//        @Override
+//        public boolean onHover(View v, MotionEvent event) {
+//            switch (event.getAction()) {
+//                case MotionEvent.ACTION_HOVER_ENTER:
+//                case MotionEvent.ACTION_HOVER_MOVE:
+//                    if (!v.hasFocus()) {
+//                        ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
+//                        v.requestFocus();
+//                        v.requestFocusFromTouch();
+//                    }
+//
+//                    break;
+//                case MotionEvent.ACTION_HOVER_EXIT:
+//                    Log.d(TAG, "MotionEvent.ACTION_HOVER_EXIT");
+//                    if (!fragmentIsPause) {
+//                        purchasehistoryBinding.mainupView.requestFocus();
+//                        purchasehistoryBinding.mainupView.requestFocusFromTouch();
+//                    }
+//                    break;
+//            }
+//            return false;
+//        }
+//
+//        @Override
+//        public void onClick(View v) {
+//            AccountsOrdersEntity.OrderEntity orderEntity = (AccountsOrdersEntity.OrderEntity) v.getTag();
+//            if (TextUtils.isEmpty(orderEntity.getUrl())) {
+//                Toast.makeText(mContext, "url is empty!!!", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            List<String> pathSegments = Uri.parse(orderEntity.getUrl()).getPathSegments();
+//            String pk = pathSegments.get(pathSegments.size() - 1);
+//            String type = pathSegments.get(pathSegments.size() - 2);
+//            PageIntent pageIntent = new PageIntent();
+//            switch (type) {
+//                case "package":
+//                    pageIntent.toPackageDetail(mContext, "history", Integer.parseInt(pk));
+//                    break;
+//                case "item":
+//                    pageIntent.toDetailPage(mContext, "history", Integer.parseInt(pk), "", "");
+//                    break;
+//                default:
+//                    throw new IllegalArgumentException(orderEntity.getUrl() + " type not support!!!");
+//            }
+//        }
+//    }
+//
+//    private class HistoryViewHolder extends RecyclerView.ViewHolder {
+//        View itemView;
+//
+//        TextView title;
+//        TextView buydate_txt;
+//        TextView totalfee;
+//        TextView orderlistitem_paychannel;
+//        TextView purchaseExtra;
+//        TextView orderlistitem_remainday;
+//        TextView mergeTxt;
+//        ImageView icon;
+//
+//        public HistoryViewHolder(View itemView) {
+//            super(itemView);
+//            this.itemView = itemView;
+//            title = (TextView) itemView.findViewById(R.id.orderlistitem_title);
+//            buydate_txt = (TextView) itemView.findViewById(R.id.orderlistitem_time);
+//            orderlistitem_remainday = (TextView) itemView.findViewById(R.id.orderlistitem_remainday);
+//            totalfee = (TextView) itemView.findViewById(R.id.orderlistitem_cost);
+//            icon = (ImageView) itemView.findViewById(R.id.orderlistitem_icon);
+//            orderlistitem_paychannel = (TextView) itemView.findViewById(R.id.orderlistitem_paychannel);
+//            purchaseExtra = (TextView) itemView.findViewById(R.id.purchase_extra);
+//            mergeTxt = (TextView) itemView.findViewById(R.id.orderlistitem_merge);
+//        }
+//    }
+//
+//
+//    private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+//        private int space;
+//
+//        public SpacesItemDecoration(int space) {
+//            this.space = space;
+//        }
+//
+//        @Override
+//        public void getItemOffsets(Rect outRect, View view,
+//                                   RecyclerView parent, RecyclerView.State state) {
+//
+//            // Add top margin only for the first item to avoid double space between items
+//            if (parent.getChildLayoutPosition(view) != 0) {
+//                outRect.top = space;
+//            } else {
+//                outRect.top = (int) (space / 2.1);
+//            }
+//        }
+//    }
 }

@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+        <tv.ismar.app.ui.ZGridView
             android:clipToPadding="false"
             android:clipChildren="false"
             android:id="@+id/recyclerview"
