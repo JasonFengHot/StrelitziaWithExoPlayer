@@ -164,21 +164,26 @@ public class BaseActivity extends AppCompatActivity {
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
         netErrorPopWindow.setCancelBtn(getString(R.string.back));
-        netErrorPopWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
-                    @Override
-                    public void confirmClick(View view) {
-                        netErrorPopWindow.dismiss();
-                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(intent);
+        try {
+            netErrorPopWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+                        @Override
+                        public void confirmClick(View view) {
+                            netErrorPopWindow.dismiss();
+                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                            startActivity(intent);
 
-                    }
-                },
-                new ModuleMessagePopWindow.CancelListener() {
-                    @Override
-                    public void cancelClick(View view) {
-                        netErrorPopWindow.dismiss();
-                    }
-                });
+                        }
+                    },
+                    new ModuleMessagePopWindow.CancelListener() {
+                        @Override
+                        public void cancelClick(View view) {
+                            netErrorPopWindow.dismiss();
+                        }
+                    });
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+
     }
 
     public void showNoNetConnectDialog() {

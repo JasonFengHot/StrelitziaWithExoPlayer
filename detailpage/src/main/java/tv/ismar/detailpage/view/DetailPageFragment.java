@@ -344,9 +344,14 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void onError() {
-        if (((DetailPageActivity) getActivity()).mLoadingDialog != null && ((DetailPageActivity) getActivity()).mLoadingDialog.isShowing()) {
-            ((DetailPageActivity) getActivity()).mLoadingDialog.dismiss();
+        try {
+            if (((DetailPageActivity) getActivity()).mLoadingDialog != null && ((DetailPageActivity) getActivity()).mLoadingDialog.isShowing()) {
+                ((DetailPageActivity) getActivity()).mLoadingDialog.dismiss();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     @Override
