@@ -1025,8 +1025,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         ItemEntity.Preview preview = mItemEntity.getPreview();
                         mItemEntity.setTitle(previewTitle);
                         if (preview != null) {
-                            mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
                             mIsPreview = true;
+                            mItemEntity.setLiveVideo(false);
+                            mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
                         }
 
 
@@ -1039,8 +1040,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     Log.e(TAG, "play check fail");
                     ItemEntity.Preview preview = mItemEntity.getPreview();
                     mItemEntity.setTitle(previewTitle);
-                    mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
                     mIsPreview = true;
+                    mItemEntity.setLiveVideo(false);
+                    mPresenter.fetchMediaUrl(preview.getUrl(), sign, code);
 
                 }
             });
@@ -1069,7 +1071,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             initHistory();
         }
         if (mCurrentPosition > 0) {
-            showBuffer(HISTORYCONTINUE + getTimeString(mCurrentPosition));
+            if(!mItemEntity.getLiveVideo()){
+                showBuffer(HISTORYCONTINUE + getTimeString(mCurrentPosition));
+            }
         } else {
             showBuffer(PlAYSTART + mItemEntity.getTitle());
         }
