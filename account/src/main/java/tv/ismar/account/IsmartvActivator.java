@@ -145,7 +145,8 @@ public class IsmartvActivator {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(mContext, "激活失败！", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "激活失败!!!");
+//                    Toast.makeText(mContext, "激活失败！", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -197,6 +198,8 @@ public class IsmartvActivator {
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, "getLicence error!!!");
             return null;
         }
     }

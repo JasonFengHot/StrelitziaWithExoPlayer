@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.blankj.utilcode.utils.AppUtils;
+import com.open.androidtvwidget.utils.NetWorkUtils;
 
 import tv.ismar.app.update.UpdateService;
 
@@ -20,21 +21,11 @@ import static tv.ismar.app.update.UpdateService.INSTALL_SILENT;
 public class BootUpdateReceiver extends BroadcastReceiver {
     private static final String TAG = BootUpdateReceiver.class.getSimpleName();
 
+
+    public static boolean checkUpdate = false;
+
     @Override
     public void onReceive(final Context context, Intent intent) {
-        Log.d(TAG, "onReceive Update App");
-        Log.d(TAG, "AppUtils appInfo: " + AppUtils.isSystemApp(context));
-        Log.d(TAG, "AppUtils getAppVersionCode: " + AppUtils.getAppVersionCode(context));
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent updateIntent = new Intent();
-                updateIntent.setClass(context, UpdateService.class);
-                updateIntent.putExtra("install_type", INSTALL_SILENT);
-                context.startService(updateIntent);
-            }
-        }, 1000 * 3);
-
+        checkUpdate = true;
     }
 }
