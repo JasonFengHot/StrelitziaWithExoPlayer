@@ -12,19 +12,19 @@ import tv.ismar.app.network.entity.ItemEntity;
 
 public class EpisodePageStatistics {
 
-    public void videoEpisodeIn(ItemEntity itemEntity, String source) {
+    public void videoEpisodeIn(ItemEntity itemEntity) {
         HashMap<String, Object> dataCollectionProperties = new HashMap<>();
-        dataCollectionProperties.put(EventProperty.TITLE, itemEntity.getTitle());
         dataCollectionProperties.put(EventProperty.ITEM, itemEntity.getPk());
-        dataCollectionProperties.put(EventProperty.SOURCE, source);
-        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_DETAIL_IN, dataCollectionProperties);
+        dataCollectionProperties.put(EventProperty.TITLE, itemEntity.getTitle());
+        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_DRAMALIST_IN, dataCollectionProperties);
     }
 
-    public void videoEpisodeOut(ItemEntity itemEntity) {
+    public void videoEpisodeOut(ItemEntity itemEntity,int subitem,String to) {
         HashMap<String, Object> dataCollectionProperties = new HashMap<>();
-        dataCollectionProperties.put(EventProperty.TITLE, itemEntity.getTitle());
         dataCollectionProperties.put(EventProperty.ITEM, itemEntity.getPk());
-        dataCollectionProperties.put(EventProperty.TO, "return");
-        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_DETAIL_OUT, dataCollectionProperties);
+        dataCollectionProperties.put(EventProperty.TITLE, itemEntity.getTitle());
+        dataCollectionProperties.put(EventProperty.SUBITEM, itemEntity.getSubitems()[subitem].getPk());
+        dataCollectionProperties.put(EventProperty.TO, to);
+        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_DRAMALIST_OUT, dataCollectionProperties);
     }
 }
