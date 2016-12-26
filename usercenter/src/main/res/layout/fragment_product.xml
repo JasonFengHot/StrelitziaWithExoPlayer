@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sakura="http://schemas.android.com/apk/res-auto">
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="tasks"
-            type="tv.ismar.usercenter.viewmodel.ProductViewModel"/>
+            type="tv.ismar.usercenter.viewmodel.ProductViewModel" />
 
         <variable
             name="actionHandler"
-            type="tv.ismar.usercenter.ProductContract.Presenter"/>
+            type="tv.ismar.usercenter.ProductContract.Presenter" />
     </data>
 
 
@@ -20,16 +21,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+        <tv.ismar.app.ui.ZGridView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/product_recycler_mt"/>
+            android:layout_marginTop="@dimen/product_recycler_mt"
+            sakura:numColumns="4" />
+
+
         <ImageView
             android:id="@+id/tmp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"/>
+            android:focusable="true" />
     </LinearLayout>
 </layout>
 
