@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,6 +23,7 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.ad.Advertisement;
+import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.db.HistoryManager;
@@ -143,7 +145,7 @@ public class DetailPageActivity extends BaseActivity{
 
     }
 
-    public void fetchItem(String pk, final int type) {
+    public void fetchItem(final String pk, final int type) {
         if (apiItemSubsc != null && !apiItemSubsc.isUnsubscribed()) {
             apiItemSubsc.unsubscribe();
         }
@@ -167,10 +169,13 @@ public class DetailPageActivity extends BaseActivity{
 
                     @Override
                     public void onError(Throwable e) {
-//
                         if(mLoadingDialog!=null)
                         mLoadingDialog.dismiss();
-                        super.onError(e);
+                        if (e instanceof HttpException&&((HttpException)e).code() == 404) {
+                            showItemOffLinePop();
+                        }else{
+                            super.onError(e);
+                        }
                     }
 
                     @Override

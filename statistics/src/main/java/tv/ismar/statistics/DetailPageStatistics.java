@@ -20,11 +20,12 @@ public class DetailPageStatistics {
         new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_DETAIL_IN, dataCollectionProperties);
     }
 
-    public void videoDetailOut(ItemEntity itemEntity) {
+    public void videoDetailOut(ItemEntity itemEntity,String to) {
         HashMap<String, Object> dataCollectionProperties = new HashMap<>();
-        dataCollectionProperties.put(EventProperty.TITLE, itemEntity.getTitle());
         dataCollectionProperties.put(EventProperty.ITEM, itemEntity.getPk());
-        dataCollectionProperties.put(EventProperty.TO, "return");
+        dataCollectionProperties.put(EventProperty.SUBITEM, itemEntity.getItemPk());
+        dataCollectionProperties.put(EventProperty.TITLE, itemEntity.getTitle());
+        dataCollectionProperties.put(EventProperty.TO,to);
         new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_DETAIL_OUT, dataCollectionProperties);
     }
 
@@ -33,7 +34,13 @@ public class DetailPageStatistics {
         properties.put(EventProperty.ITEM, itemPK);
         properties.put(EventProperty.TO_ITEM, relatedItemEntity.getPk());
         properties.put(EventProperty.TO_TITLE, relatedItemEntity.getTitle());
-        properties.put(EventProperty.TO, "relate");
+        properties.put(EventProperty.TO_SUBITEM, relatedItemEntity.getItemPk());
         new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_RELATE, properties);
+    }
+    public void packageDetailIn(String  title, String source) {
+        HashMap<String, Object> dataCollectionProperties = new HashMap<>();
+        dataCollectionProperties.put(EventProperty.TITLE, title);
+        dataCollectionProperties.put(EventProperty.SOURCE, source);
+        new NetworkUtils.DataCollectionTask().execute(NetworkUtils.PACKAGE_DETAIL_IN, dataCollectionProperties);
     }
 }

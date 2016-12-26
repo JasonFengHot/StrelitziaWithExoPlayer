@@ -1,7 +1,5 @@
 package tv.ismar.app;
 
-import cn.ismartv.truetime.TrueTime;
-
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -21,10 +19,10 @@ import android.widget.PopupWindow;
 
 import java.util.Stack;
 
+import cn.ismartv.truetime.TrueTime;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
-import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
@@ -35,7 +33,6 @@ import tv.ismar.app.widget.NetErrorPopWindow;
 import tv.ismar.app.widget.NoNetConnectWindow;
 import tv.ismar.app.widget.NoNetModuleMessagePop;
 import tv.ismar.app.widget.UpdatePopupWindow;
-import tv.ismar.player.SmartPlayer;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
@@ -196,6 +193,7 @@ public class BaseActivity extends AppCompatActivity {
                         @Override
                         public void cancelClick(View view) {
                             netErrorPopWindow.dismiss();
+                            finish();
                         }
                     });
         } catch (Exception exception) {
@@ -268,6 +266,28 @@ public class BaseActivity extends AppCompatActivity {
             public void onDismiss() {
                 isExpireAccessToken = true;
                 IsmartvActivator.getInstance().removeUserInfo();
+            }
+        });
+        expireAccessTokenPop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        expireAccessTokenPop.dismiss();
+                    }
+                },
+                null);
+
+
+    }
+    public void showItemOffLinePop() {
+        expireAccessTokenPop = ExpireAccessTokenPop.getInstance(this);
+        expireAccessTokenPop.setFirstMessage(getString(R.string.item_offline));
+        expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
+        expireAccessTokenPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                isExpireAccessToken = true;
+                IsmartvActivator.getInstance().removeUserInfo();
+                finish();
             }
         });
         expireAccessTokenPop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
@@ -373,30 +393,6 @@ public class BaseActivity extends AppCompatActivity {
             startService(intent);
         }
     };
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            OfflineCheckManager.getInstance().checkItem(data.getIntExtra("pk", 0), new OfflineCheckManager.Callback() {
-                @Override
-                public void online() {
-                    Log.e(TAG, "online");
-                }
-
-                @Override
-                public void offline() {
-                    showDialog(getResources().getString(R.string.item_offline));
-                }
-
-                @Override
-                public void netError() {
-                    showDialog("网络数据异常");
-                }
-            });
-        }
-
-    }
 
     public String getCurrentActivityName(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

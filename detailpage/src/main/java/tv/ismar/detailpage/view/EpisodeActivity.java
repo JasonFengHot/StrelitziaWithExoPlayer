@@ -60,7 +60,8 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
 
     private String source;
-
+    private String to="return";
+    private int subitem=0;
 
     private View tmp;
 
@@ -114,7 +115,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
     @Override
     public void onResume() {
         super.onResume();
-        mPageStatistics.videoEpisodeIn(mItemEntity, source);
+        mPageStatistics.videoEpisodeIn(mItemEntity);
     }
 
 
@@ -190,7 +191,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
     @Override
     protected void onPause() {
-        mPageStatistics.videoEpisodeOut(mItemEntity);
+        mPageStatistics.videoEpisodeOut(mItemEntity,subitem,to);
         if (loadDialog != null && loadDialog.isShowing()) {
             loadDialog.dismiss();
         }
@@ -281,6 +282,8 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
             ItemEntity subItemEntity = mItemEntities[(int) v.getTag()];
             PageIntent pageIntent = new PageIntent();
             pageIntent.toPlayPage(EpisodeActivity.this, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST, "", "");
+            to="play";
+            subitem= (int) v.getTag();
         }
 
 
@@ -291,4 +294,9 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
     }
 
+    @Override
+    public void onBackPressed() {
+        to="return";
+        super.onBackPressed();
+    }
 }

@@ -308,29 +308,28 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					@Override
 					public void onNext(Item[] items) {
 						mLoadingDialog.dismiss();
-						if(items!=null&&items.length>0){
-							for(Item i : items){
+						if(items!=null&&items.length>0) {
+							for (Item i : items) {
 								addHistory(i);
 							}
 							mItemCollections = new ArrayList<ItemCollection>();
-							int num_pages = (int) Math.ceil((float)items.length / (float)ItemCollection.NUM_PER_PAGE);
+							int num_pages = (int) Math.ceil((float) items.length / (float) ItemCollection.NUM_PER_PAGE);
 							ItemCollection itemCollection = new ItemCollection(num_pages, items.length, "1", "1");
 							mItemCollections.add(itemCollection);
-							mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections,false);
+							mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections, false);
 							mHGridAdapter.setList(mItemCollections);
-							if(mHGridAdapter.getCount()>0){
+							if (mHGridAdapter.getCount() > 0) {
 								mHGridView.setAdapter(mHGridAdapter);
 								mHGridView.setFocusable(true);
-								ArrayList<Item> item  = new ArrayList<Item>();
-								for(Item i:items){
+								ArrayList<Item> item = new ArrayList<Item>();
+								for (Item i : items) {
 									item.add(i);
 								}
 								mItemCollections.get(0).fillItems(0, item);
 								mHGridAdapter.setList(mItemCollections);
 								showData();
 							}
-						}
-						else{
+						}else{
 							no_video();
 						}
 					}
@@ -467,7 +466,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			},2000);
 		}
 		((ChannelListActivity)getActivity()).registerOnMenuToggleListener(this);
-		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_HISTORY_IN);
 		super.onResume();
 	}
 
@@ -673,10 +671,40 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					@Override
 					public void onNext(Item i) {
 						item = i;
-						PageIntent intent=new PageIntent();
-							intent.toPlayPage(getActivity(),item.pk,0,Source.HISTORY, "", "");
-				}
-
+						String url = item.url;
+						mCurrentGetItemTask.remove(url);
+						History history = null;
+						if (IsmartvActivator.getInstance().isLogin())
+							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "yes");
+						else {
+							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "no");
+						}
+						if (history == null) {
+							return;
+						}
+						// Use to data collection.
+						mDataCollectionProperties = new HashMap<String, Object>();
+						int id = SimpleRestClient.getItemId(url, new boolean[1]);
+						mDataCollectionProperties.put("to_item", id);
+						if (history.sub_url != null && item.subitems != null) {
+							int sub_id = SimpleRestClient.getItemId(history.sub_url, new boolean[1]);
+							mDataCollectionProperties.put("to_subitem", sub_id);
+							for (Item subitem : item.subitems) {
+								if (sub_id == subitem.pk) {
+									mDataCollectionProperties.put("to_clip", subitem.clip.pk);
+									break;
+								}
+							}
+						} else {
+							mDataCollectionProperties.put("to_subitem", item.clip.pk);
+						}
+						mDataCollectionProperties.put("to_title", item.title);
+						mDataCollectionProperties.put("position", history.last_position);
+						String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
+						mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
+						PageIntent intent = new PageIntent();
+						intent.toPlayPage(getActivity(), item.pk, 0, Source.HISTORY, "", "");
+					}
 					@Override
 					public void onError(Throwable e) {
 						super.onError(e);
