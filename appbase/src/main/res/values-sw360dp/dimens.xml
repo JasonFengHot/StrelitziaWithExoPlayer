@@ -11,6 +11,9 @@
 <dimen name="text_size_18sp">6.00dp</dimen>
 <dimen name="focus_padding">7.00dp</dimen>
 
+<dimen name="text_size_48sp_height">22.33dp</dimen>
+<dimen name="text_size_36sp_height">17.33dp</dimen>
+
 <dimen name="h0_size">16.00dp</dimen>
 <dimen name="h1_size">12.00dp</dimen>
 <dimen name="h2_size">9.25dp</dimen>
@@ -589,7 +592,7 @@
 <dimen name="menu_list_PaddingTB">16.67dip</dimen>
 <dimen name="menu_item_PaddingTB">10.00dip</dimen>
 <dimen name="menu_item_text_size">16.00sp</dimen>
-<dimen name="filter_norestult_buton_mt">24.00dp</dimen>
+<dimen name="filter_norestult_buton_mt">24.67dp</dimen>
 <dimen name="pop_btn_margin_lr">41.00dp</dimen>
 <dimen name="usercenter_subtitle_ml">24.33dp</dimen>
 <dimen name="head_weather_ml">145.00dp</dimen>

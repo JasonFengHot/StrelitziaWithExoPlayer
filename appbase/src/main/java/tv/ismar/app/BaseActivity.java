@@ -56,6 +56,7 @@ public class BaseActivity extends AppCompatActivity {
     public SkyService mSpeedCallaService;
     public SkyService mLilyHostService;
     public long app_start_time;
+    public long start_time;
     public static final String NO_NET_CONNECT_ACTION = "cn.ismartv.vod.action.nonet";
     //    public static SmartPlayer mSmartPlayer;// 由于目前需要在详情页实现预加载功能，故写此变量
     public static String brandName;

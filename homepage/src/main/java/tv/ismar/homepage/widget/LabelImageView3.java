@@ -57,6 +57,59 @@ public class LabelImageView3 extends AsyncImageView {
 
     public void setModeType(int modeType) {
         this.modeType = modeType;
+        if (modeType > 0) {
+            switch (modeType) {
+                case 1:
+                    cornerBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.entertainment_bg),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            false
+                    );
+                    break;
+                case 2:
+                    cornerBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.variety_bg),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            false
+                    );
+                    break;
+                case 3:
+                    cornerBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.all_match),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            false
+                    );
+                    break;
+                case 4:
+                    cornerBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.living),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            false
+                    );
+                    break;
+                case 5:
+                    cornerBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.beonline),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            false
+                    );
+                    break;
+                case 6:
+                    cornerBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.collection),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            false
+                    );
+                    break;
+                default:
+                    cornerBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.entertainment_bg),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
+                            false
+                    );
+                    break;
+            }
+        }
     }
 
     public String getTitle() {
@@ -108,36 +161,6 @@ public class LabelImageView3 extends AsyncImageView {
         } else {
             mDrawable = drawable;
         }
-        corner1 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.entertainment_bg),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                false
-        );
-        corner2 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.variety_bg),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                false
-        );
-        corner3 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.all_match),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                false
-        );
-        corner4 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.living),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                false
-        );
-        corner5 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.beonline),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                false
-        );
-        corner6 = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.collection),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                getResources().getDimensionPixelOffset(R.dimen.label_image_corner_size),
-                false
-        );
 
     }
 
@@ -174,7 +197,7 @@ public class LabelImageView3 extends AsyncImageView {
 //			break;
             case MotionEvent.ACTION_HOVER_MOVE:
 //			drawBorder = true;
-                if(isFocusable() && isFocusableInTouchMode())
+                if (isFocusable() && isFocusableInTouchMode())
                     requestFocus();
                 setHovered(true);
 //			invalidate();
@@ -204,30 +227,7 @@ public class LabelImageView3 extends AsyncImageView {
             height = getHeight();
         paint.setAntiAlias(true);
         // 绘制角标
-        if (modeType > 0 && getDrawable() != null) {
-            switch (modeType) {
-                case 1:
-                    cornerBitmap = corner1;
-                    break;
-                case 2:
-                    cornerBitmap = corner2;
-                    break;
-                case 3:
-                    cornerBitmap = corner3;
-                    break;
-                case 4:
-                    cornerBitmap = corner4;
-                    break;
-                case 5:
-                    cornerBitmap = corner5;
-                    break;
-                case 6:
-                    cornerBitmap = corner6;
-                    break;
-                default:
-                    cornerBitmap = corner1;
-                    break;
-            }
+        if (modeType > 0 && getDrawable() != null && cornerBitmap != null) {
             canvas.drawBitmap(cornerBitmap, width - cornerBitmap.getWidth(), paddingtop, paint);
         }
         // 绘制看点背景

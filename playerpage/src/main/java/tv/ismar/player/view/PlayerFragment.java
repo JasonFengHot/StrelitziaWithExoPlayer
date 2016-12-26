@@ -721,6 +721,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             Log.e(TAG, "checkTaskStart: mIsmartvPlayer is null.");
             return;
         }
+        Log.e(TAG, "timerStart.");
         mTimerHandler.removeCallbacks(timerRunnable);
         if (delay > 0) {
             mTimerHandler.postDelayed(timerRunnable, delay);
@@ -731,6 +732,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void timerStop() {
+        Log.e(TAG, "timerStop.");
         mTimerHandler.removeCallbacks(timerRunnable);
     }
 
@@ -768,6 +770,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         return;
                     }
 
+                }
+                if (isSeeking) {// 奇艺视频seek结束后需要置为false
+                    isSeeking = false;
                 }
                 if (isBufferShow()) {
                     hideBuffer();

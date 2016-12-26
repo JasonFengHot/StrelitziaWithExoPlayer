@@ -51,7 +51,6 @@ import tv.ismar.app.exception.NetworkException;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.ui.HGridView;
-import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.ui.ZGridView;
 import tv.ismar.app.ui.adapter.HGridAdapterImpl;
 import tv.ismar.app.ui.view.AlertDialogFragment;
@@ -59,7 +58,6 @@ import tv.ismar.app.ui.view.MenuFragment;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ScrollableSectionList;
 import tv.ismar.listpage.R;
-import tv.ismar.player.InitPlayerTool;
 
 
 public class HistoryFragment extends Fragment implements ScrollableSectionList.OnSectionSelectChangedListener,
@@ -93,8 +91,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	private boolean isInGetItemTask;
 
 	private GetHistoryTask mGetHistoryTask;
-
-	private ConcurrentHashMap<String, GetItemTask> mCurrentGetItemTask = new ConcurrentHashMap<String, GetItemTask>();
 
 	private MenuFragment mMenuFragment;
 
@@ -474,11 +470,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		if(mHGridAdapter!=null) {
 			mHGridAdapter.cancel();
 		}
-		ConcurrentHashMap<String, GetItemTask> currentGetItemTask = mCurrentGetItemTask;
-		for(String url: currentGetItemTask.keySet()) {
-			currentGetItemTask.get(url).cancel(true);
-		}
-
 		((ChannelListActivity)getActivity()).unregisterOnMenuToggleListener();
 		HashMap<String, Object> properties = mDataCollectionProperties;
 		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_HISTORY_OUT, properties);
@@ -492,166 +483,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	}
 	private Item item;
 	private Item netItem;
-	class GetItemTask extends AsyncTask<Item, Void, Integer> {
-
-		private static final int ITEM_OFFLINE = 0;
-		private static final int ITEM_SUCCESS_GET = 1;
-		private static final int NETWORK_EXCEPTION = 2;
-		private static final int TASK_CANCELLED = 3;
-
-
-
-		@Override
-		protected void onPreExecute() {
-			if(mLoadingDialog!=null && !mLoadingDialog.isShowing()) {
-				mLoadingDialog.show();
-			}
-			isInGetItemTask = true;
-		}
-
-
-		@Override
-		protected void onCancelled() {
-			if(mCurrentGetItemTask != null && item != null)
-			mCurrentGetItemTask.remove(item.url);
-		}
-
-
-		@Override
-		protected Integer doInBackground(Item... params) {
-			item = params[0];
-			netItem = params[0];
-			mCurrentGetItemTask.put(item.url, this);
-			Item i;
-			try {
-				String url;
-				if(SimpleRestClient.isLogin()){
-					if(item.model_name.equals("subitem"))
-						url = SimpleRestClient.root_url + "/api/item/" + item.item_pk + "/";
-					else
-						url = SimpleRestClient.root_url + "/api/item/" + item.pk + "/";
-				}
-
-				else{
-
-					int id = SimpleRestClient.getItemId(item.url, new boolean[1]);
-					url = SimpleRestClient.root_url + "/api/item/" + id + "/";
-				}
-
-				i = mRestClient.getItem(url);
-			} catch (ItemOfflineException e) {
-				e.printStackTrace();
-				return ITEM_OFFLINE;
-			} catch (JsonSyntaxException e) {
-				e.printStackTrace();
-				return NETWORK_EXCEPTION;
-			} catch (NetworkException e) {
-				e.printStackTrace();
-				return NETWORK_EXCEPTION;
-			}
-			if(i==null && !isCancelled()) {
-				return NETWORK_EXCEPTION;
-			} else if(!isCancelled()) {
-				item = i;
-				return ITEM_SUCCESS_GET;
-			} else {
-				return TASK_CANCELLED;
-			}
-
-		}
-
-		@Override
-		protected void onPostExecute(Integer result) {
-			if(result== ITEM_OFFLINE) {
-				mCurrentGetItemTask.remove(item.url);
-				showDialog(AlertDialogFragment.ITEM_OFFLINE_DIALOG, null, new Object[]{item.url});
-			} else if(result == NETWORK_EXCEPTION) {
-				mCurrentGetItemTask.remove(item.url);
-				showDialog(AlertDialogFragment.NETWORK_EXCEPTION_DIALOG, new GetItemTask(), new Item[]{item});
-			} else if(result == ITEM_SUCCESS_GET){
-				String url = SimpleRestClient.root_url + "/api/item/" + item.pk + "/";
-				mCurrentGetItemTask.remove(url);
-				History history = null;
-				if(SimpleRestClient.isLogin())
-					history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url,"yes");
-				else{
-					history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url,"no");
-				}
-				if(history==null){
-					return;
-				}
-				// Use to data collection.
-				mDataCollectionProperties = new HashMap<String, Object>();
-				int id = SimpleRestClient.getItemId(url, new boolean[1]);
-				mDataCollectionProperties.put("to_item", id);
-				if(history.sub_url!=null && item.subitems!=null) {
-					int sub_id = SimpleRestClient.getItemId(history.sub_url, new boolean[1]);
-					mDataCollectionProperties.put("to_subitem", sub_id);
-					for(Item subitem: item.subitems) {
-						if(sub_id==subitem.pk) {
-							mDataCollectionProperties.put("to_clip", subitem.clip.pk);
-							break;
-						}
-					}
-				} else {
-					mDataCollectionProperties.put("to_subitem", item.clip.pk);
-				}
-				mDataCollectionProperties.put("to_title", item.title);
-				mDataCollectionProperties.put("position", history.last_position);
-				String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
-				mDataCollectionProperties.put("quality", qualitys[(history.quality >=0 && history.quality < qualitys.length)?history.quality:0]);
-				// start a new activity.
-
-				InitPlayerTool tool = new InitPlayerTool(getActivity());
-				tool.fromPage = "history";
-				tool.setonAsyncTaskListener(new InitPlayerTool.onAsyncTaskHandler() {
-
-					@Override
-					public void onPreExecute(Intent intent) {
-						// TODO Auto-generated method stub
-						if(mLoadingDialog != null)
-							mLoadingDialog.show();
-					}
-
-					@Override
-					public void onPostExecute() {
-						// TODO Auto-generated method stub
-						if(mLoadingDialog != null)
-							mLoadingDialog.dismiss();
-					}
-				});
-				if(history!=null){
-					if(item.subitems!=null&&item.subitems.length>0){
-						if(item.ispayed) {
-							tool.initClipInfo(history.sub_url, InitPlayerTool.FLAG_URL, history.price);
-						}else {
-							tool.initClipInfo(history.sub_url, InitPlayerTool.FLAG_URL, true, null);
-						}
-					}
-					else{
-						tool.initClipInfo(url, InitPlayerTool.FLAG_URL,history.price);
-					}
-//                    else{
-//                        int  c = history.url.lastIndexOf("api");
-//                        String url1 =  history.url.substring(c,history.url.length());
-//                        url1 = SimpleRestClient.sRoot_url + "/" + url1;
-//                        tool.initClipInfo(url1, InitPlayerTool.FLAG_URL,history.price);
-//                    }
-				}
-				else{
-					if(SimpleRestClient.isLogin())
-						tool.initClipInfo(netItem.url, InitPlayerTool.FLAG_URL,history.price);
-				}
-
-
-
-			}
-			if(mLoadingDialog!=null && mLoadingDialog.isShowing()) {
-				mLoadingDialog.dismiss();
-			}
-			isInGetItemTask = false;
-		}
-	}
 	public void getClicItem(Item mItem) {
 		mLoadingDialog.showDialog();
 		int pk = 0;
@@ -671,8 +502,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					@Override
 					public void onNext(Item i) {
 						item = i;
-						String url = item.url;
-						mCurrentGetItemTask.remove(url);
+						String url = IsmartvActivator.getInstance().getApiDomain()+"/api/item/" + item.pk + "/";
 						History history = null;
 						if (IsmartvActivator.getInstance().isLogin())
 							history = DaisyUtils.getHistoryManager(getActivity()).getHistoryByUrl(url, "yes");

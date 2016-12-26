@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -26,6 +29,8 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
+import tv.ismar.app.core.client.NetworkUtils;
+import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.ui.HeadFragment;
@@ -371,6 +376,15 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private void hideLoading() {
         if (((DetailPageActivity) getActivity()).mLoadingDialog != null && ((DetailPageActivity) getActivity()).mLoadingDialog.isShowing() && itemIsLoad && relateIsLoad) {
             ((DetailPageActivity) getActivity()).mLoadingDialog.dismiss();
+            HashMap<String, Object> dataCollectionProperties = new HashMap<>();
+            dataCollectionProperties.put(EventProperty.CLIP, mItemEntity.getClip().getPk());
+            dataCollectionProperties.put(EventProperty.DURATION, (int)((System.currentTimeMillis()-((DetailPageActivity) getActivity()).start_time)/1000));
+            dataCollectionProperties.put(EventProperty.QUALITY, mItemEntity.getQuality());
+            dataCollectionProperties.put(EventProperty.TITLE, mItemEntity.getTitle());
+            dataCollectionProperties.put(EventProperty.ITEM, mItemEntity.getPk());
+            dataCollectionProperties.put(EventProperty.SUBITEM, mItemEntity.getItemPk());
+            dataCollectionProperties.put(EventProperty.LOCATION,"detail");
+            new NetworkUtils.DataCollectionTask().execute(NetworkUtils.DETAIL_PLAY_LOAD, dataCollectionProperties);
         }
 
         mModel.showLayout();

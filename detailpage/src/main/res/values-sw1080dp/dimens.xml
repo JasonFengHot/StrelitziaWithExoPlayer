@@ -31,7 +31,7 @@
     <dimen name="normal_detail_content_padding_t">63dp</dimen>
     <dimen name="normal_detail_content_w">1256dp</dimen>
     <dimen name="normal_detail_text_w">582dp</dimen>
-    <dimen name="normal_detail_text_h">439dp</dimen>
+    <dimen name="normal_detail_text_h">440dp</dimen>
     <dimen name="normal_detail_text_mt1">30.75dp</dimen>
     <dimen name="normal_detail_text_mt2">32.25dp</dimen>
     <dimen name="normal_detail_preview_img_w">480.75dp</dimen>
@@ -42,7 +42,7 @@
     <dimen name="normal_detail_button_h">64dp</dimen>
     <dimen name="normal_detail_button_mt">110dp</dimen>
     <dimen name="normal_detail_button_space">50dp</dimen>
-    <dimen name="normal_detail_detail_mt">46dp</dimen>
+    <dimen name="normal_detail_detail_mt">45dp</dimen>
     <dimen name="normal_detail_detail_w">1090dp</dimen>
 
     <dimen name="normal_detail_relative_mt">35dp</dimen>
@@ -54,7 +54,7 @@
     <dimen name="normal_detail_img_mt2">6dp</dimen>
     <dimen name="normal_detail_relative_text_ml">13dp</dimen>
     <dimen name="normal_detail_relative_text_mt">15dp</dimen>
-    <dimen name="normal_detail_relative_button_mt">54dp</dimen>
+    <dimen name="normal_detail_relative_button_mt">53dp</dimen>
     <dimen name="normal_detail_relative_button_ml">173dp</dimen>
     <dimen name="normal_detail_relative_button_w">247dp</dimen>
     <dimen name="normal_detail_relative_button_h">92dp</dimen>
@@ -112,7 +112,7 @@
     <dimen name="toast_padding">40dip</dimen>
     <dimen name="movie_relate_width">1020dp</dimen>
     <dimen name="normal_linespacingextra">17dp</dimen>
-    <dimen name="detail_text_mt4">19dp</dimen>
+    <dimen name="detail_text_mt4">20dp</dimen>
     <dimen name="detail_header_height">100dp</dimen>
 
 
