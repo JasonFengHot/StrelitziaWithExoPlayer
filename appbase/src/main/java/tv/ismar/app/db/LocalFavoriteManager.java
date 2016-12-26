@@ -3,6 +3,7 @@ package tv.ismar.app.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,7 +150,7 @@ public class LocalFavoriteManager implements FavoriteManager {
                 HashMap<String, Object> properties = new HashMap<String, Object>();
                 properties.put(EventProperty.ITEM, id);
                 properties.put(EventProperty.TITLE, title);
-                properties.put("userid", IsmartvActivator.getInstance().getDeviceToken());
+                properties.put("userid", TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ?IsmartvActivator.getInstance().getDeviceToken():IsmartvActivator.getInstance().getUsername());
 
                 NetworkUtils.SaveLogToLocal(NetworkUtils.VIDEO_COLLECT, properties);
             }
