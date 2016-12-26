@@ -61,7 +61,6 @@ import tv.ismar.app.widget.LaunchHeaderLayout;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ScrollableSectionList;
 import tv.ismar.listpage.R;
-import tv.ismar.player.InitPlayerTool;
 
 
 public class ChannelFragment extends Fragment implements OnItemSelectedListener, OnItemClickListener,
@@ -114,7 +113,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     private Button left_shadow;
     private Button right_shadow;
     private LaunchHeaderLayout weatherFragment;
-    private InitPlayerTool tool;
     private SkyService skyService;
     public void setIsPOrtrait(boolean isPortrait) {
         this.isPortrait = isPortrait;
@@ -718,11 +716,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     @Override
     public void onDestroyView() {
     	super.onDestroyView();
-    	if(tool != null)
-    		tool.removeAsycCallback();
-//        if (mInitTask != null && mInitTask.getStatus() != AsyncTask.Status.FINISHED) {
-//            mInitTask.cancel(true);
-//        }
 		if (mSectionList == null || mCurrentSectionIndex < 0)
 			return;
         // Add data collection.
