@@ -91,6 +91,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     private DetailPageStatistics mPageStatistics;
     private String isLogin = "no";
+    private String to="";
 
     public DetailPageFragment() {
         // Required empty public constructor
@@ -115,6 +116,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             fromPage = bundle.getString(EXTRA_SOURCE);
+            to=fromPage;
             channel = bundle.getString(EXTRA_CHANNEL);
             section = bundle.getString(EXTRA_SECTION);
             String itemJson = bundle.getString(EXTRA_ITEM_JSON);
@@ -172,7 +174,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void onPause() {
-        mPageStatistics.videoDetailOut(mItemEntity);
+        to=mMovieBinding
+        mPageStatistics.videoDetailOut(mItemEntity,to);
         mPresenter.stop();
         super.onPause();
     }
@@ -373,6 +376,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             ItemEntity item = relateItems[(int) v.getTag()];
             mPageStatistics.videoRelateClick(mItemEntity.getPk(), item);
             new PageIntent().toDetailPage(getContext(), Source.RELATED.getValue(), item.getPk(), channel, section);
+            to="relate";
         }
     };
 
