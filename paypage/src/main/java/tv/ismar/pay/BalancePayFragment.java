@@ -4,6 +4,8 @@ import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -48,6 +50,16 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
     private ItemEntity itemEntity;
 
     private TextView payErrorTip;
+    private Handler handler=new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            float result= (float) msg.obj;
+            payErrorTip.setVisibility(View.VISIBLE);
+            balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), result));
+            activity.finish();
+            return false;
+        }
+    });
 
     @Override
     public void onAttach(Activity activity) {
@@ -167,10 +179,11 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                         }
                         float result = new JsonParser().parse(json).getAsJsonObject().get("balance").getAsFloat();
                         purchaseOkStatistics("", result);
-                        payErrorTip.setVisibility(View.VISIBLE);
-                        balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), result));
                         activity.setResult(PaymentActivity.PAYMENT_SUCCESS_CODE);
-                        activity.finish();
+                        Message message=new Message();
+                        message.what=0;
+                        message.obj=result;
+                        handler.sendMessageDelayed(message,1000);
                     }
                 });
 
