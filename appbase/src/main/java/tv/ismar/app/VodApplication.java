@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
-import tv.ismar.account.ActiveService;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;
@@ -43,8 +42,6 @@ import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
-import tv.ismar.app.exception.CrashHandler;
-import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
