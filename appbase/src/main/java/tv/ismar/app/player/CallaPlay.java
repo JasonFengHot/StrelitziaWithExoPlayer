@@ -326,8 +326,8 @@ public class CallaPlay {
             return null;
         }
         HashMap<String, Object> tempMap = getPublicParams(media, quality, speed, sid, playerFlag);
-        tempMap.put(EventProperty.CODE, code);
-        tempMap.put(EventProperty.CONTENT, content);
+        tempMap.put(EventProperty.CODE, code == null ? "" : code);
+        tempMap.put(EventProperty.CONTENT, content == null ? "" : content);
         tempMap.put(EventProperty.POSITION, position / 1000);
         tempMap.put(EventProperty.QUALITY, switchQuality(quality));
         tempMap.put(EventProperty.PLAYER_FLAG, playerFlag);
@@ -477,7 +477,7 @@ public class CallaPlay {
         tempMap.put(EventProperty.PROVINCE, province);
         tempMap.put(EventProperty.CITY, city);
         tempMap.put(EventProperty.ISP, isp);
-        tempMap.put(EventProperty.SOURCE, source);
+        tempMap.put(EventProperty.SOURCE, source == null? "" : source);
         tempMap.put(EventProperty.MAC, Mac);
         tempMap.put(EventProperty.VERSION, app_version);
         tempMap.put("title", title);

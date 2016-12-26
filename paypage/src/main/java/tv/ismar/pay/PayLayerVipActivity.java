@@ -24,6 +24,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
+import tv.ismar.statistics.DetailPageStatistics;
 
 /**
  * Created by huaijie on 4/12/16.
@@ -36,16 +37,24 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
     private ImageView leftArrow;
     private ImageView rightArrow;
     private TextView vipDescriptionTextView;
+    private DetailPageStatistics mPageStatistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paylayervip);
+        mPageStatistics = new DetailPageStatistics();
         initViews();
         Intent intent = getIntent();
         int cpid = intent.getIntExtra("cpid", -1);
         int itemId = intent.getIntExtra("item_id", -1);
         payLayerVip(String.valueOf(cpid), String.valueOf(itemId));
+    }
+
+    @Override
+    protected void onResume() {
+        mPageStatistics.packageDetailIn("vip","detail");
+        super.onResume();
     }
 
     private void initViews() {

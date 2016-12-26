@@ -27,6 +27,7 @@ import tv.ismar.app.core.PlayCheckManager;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
+import tv.ismar.statistics.DetailPageStatistics;
 
 import static tv.ismar.pay.PaymentActivity.PAYMENT_REQUEST_CODE;
 
@@ -49,16 +50,24 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     private PayLayerPackageEntity entity;
     private Button purchaseBtn;
     private boolean listLayoutItemNextFocusUpIsSelf = false;
+    private DetailPageStatistics mPageStatistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paylayerpackage);
+        mPageStatistics = new DetailPageStatistics();
         initViews();
         Intent intent = getIntent();
         int packageId = intent.getIntExtra("package_id", -1);
         payLayerPackage(String.valueOf(packageId));
         orderCheck(String.valueOf(packageId));
+    }
+
+    @Override
+    protected void onResume() {
+        mPageStatistics.packageDetailIn("relate","detail");
+        super.onResume();
     }
 
     private void initViews() {

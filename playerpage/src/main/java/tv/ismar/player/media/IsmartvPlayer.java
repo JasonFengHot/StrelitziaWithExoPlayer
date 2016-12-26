@@ -112,6 +112,13 @@ public abstract class IsmartvPlayer implements IPlayer {
                               List<AdElementEntity> adList, // 视云影片需要添加是否有广告
                               OnDataSourceSetListener onDataSourceSetListener) {
         if (clipEntity == null || mPlayerMode == 0) {
+            String sn = IsmartvActivator.getInstance().getSnToken();
+            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            mCallPlay.videoExcept(
+                    "noplayaddress", "noplayaddress",
+                    mMedia, mSpeed, sid,
+                    getQualityIndex(getCurrentQuality()), getCurrentPosition(),
+                    mPlayerFlag);
             throw new IllegalArgumentException("IsmartvPlayer setDataSource invalidate.");
         }
         mOnDataSourceSetListener = onDataSourceSetListener;
