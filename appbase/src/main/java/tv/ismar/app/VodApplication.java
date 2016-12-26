@@ -77,7 +77,6 @@ public class VodApplication extends Application {
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
         Log.i("LH/", "applicationOnCreate:" + TrueTime.now().getTime());
-        startIntervalActive();
         SPUtils.init(this);
         appInstance = this;
         ActiveAndroid.initialize(this);
@@ -362,11 +361,5 @@ public class VodApplication extends Application {
         Log.i("LH/", "attachBaseContext:" + TrueTime.now().getTime());
         super.attachBaseContext(base);
         MultiDex.install(this);
-    }
-
-    private void startIntervalActive() {
-        Intent intent = new Intent();
-        intent.setClass(this, ActiveService.class);
-        startService(intent);
     }
 }
