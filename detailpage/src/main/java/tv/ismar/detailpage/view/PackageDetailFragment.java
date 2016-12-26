@@ -160,7 +160,7 @@ public class PackageDetailFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         requestPlayCheck(String.valueOf(mItemEntity.getPk()));
-        mPageStatistics.videoDetailIn(mItemEntity, source);
+        mPageStatistics.packageDetailIn("vip", source);
 
     }
 

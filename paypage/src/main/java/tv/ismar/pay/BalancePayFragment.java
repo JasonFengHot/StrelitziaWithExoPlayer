@@ -1,4 +1,5 @@
 package tv.ismar.pay;
+
 import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
@@ -27,6 +28,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.statistics.PurchaseStatistics;
 
 
 /**
@@ -70,7 +72,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         balanceTv = (TextView) contentView.findViewById(R.id.card_balance_title_label);
         priceTv = (TextView) contentView.findViewById(R.id.package_price);
         durationTv = (TextView) contentView.findViewById(R.id.package_exprice_label);
-        payErrorTip = (TextView)contentView.findViewById(R.id.pay_error_tip);
+        payErrorTip = (TextView) contentView.findViewById(R.id.pay_error_tip);
         return contentView;
     }
 
@@ -92,11 +94,38 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         int i = v.getId();
         if (i == R.id.card_balance_submit) {
             createOrder();
+            purchaseClickStatistics();
         } else if (i == R.id.card_balance_cancel) {
             activity.finish();
         }
     }
 
+    private void purchaseClickStatistics() {
+        int item = itemEntity.getItemPk();
+        String userId = IsmartvActivator.getInstance().getUsername();
+        String title = itemEntity.getTitle();
+        String clip = "";
+        if (itemEntity.getClip() != null) {
+            clip = String.valueOf(itemEntity.getClip().getPk());
+        }
+
+        String type = "ismartv";
+        new PurchaseStatistics().videoPurchaseClick(String.valueOf(item), userId, title, clip, type);
+    }
+
+    private void purchaseOkStatistics(String valid, float balance) {
+
+        String item = String.valueOf(itemEntity.getItemPk());
+        String account = String.valueOf(balance);
+        String price = String.valueOf(itemEntity.getExpense().getPrice());
+        String userId = IsmartvActivator.getInstance().getUsername();
+        String type = "ismartv";
+        String clip = "";
+        if (itemEntity.getExpense() != null) {
+            clip = String.valueOf(itemEntity.getExpense().getPrice());
+        }
+        new PurchaseStatistics().videoPurchaseOk(item, account, valid, price, userId, type, clip);
+    }
 
     public void createOrder() {
         String waresId = String.valueOf(activity.getPk());
@@ -137,6 +166,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                             e.printStackTrace();
                         }
                         float result = new JsonParser().parse(json).getAsJsonObject().get("balance").getAsFloat();
+                        purchaseOkStatistics("", result);
                         payErrorTip.setVisibility(View.VISIBLE);
                         balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), result));
                         activity.setResult(PaymentActivity.PAYMENT_SUCCESS_CODE);

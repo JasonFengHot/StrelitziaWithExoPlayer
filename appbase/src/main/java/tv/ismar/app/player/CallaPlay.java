@@ -1,6 +1,7 @@
 package tv.ismar.app.player;
 
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import java.util.HashMap;
 
@@ -606,7 +607,7 @@ public class CallaPlay {
         }
         tempMap.put(EventProperty.TITLE, history.title);
         tempMap.put(EventProperty.POSITION, history.last_position);
-        tempMap.put("userid", IsmartvActivator.getInstance().getDeviceToken());
+        tempMap.put("userid", TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ?IsmartvActivator.getInstance().getDeviceToken():IsmartvActivator.getInstance().getUsername());
         eventName = NetworkUtils.VIDEO_HISTORY;
         properties = tempMap;
         new NetworkUtils.DataCollectionTask().execute(eventName, properties);

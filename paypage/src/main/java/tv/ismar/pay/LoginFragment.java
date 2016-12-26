@@ -1,5 +1,4 @@
 package tv.ismar.pay;
-import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -32,6 +31,7 @@ import tv.ismar.app.BaseFragment;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
+import tv.ismar.statistics.AccountStatistics;
 
 /**
  * Created by huibin on 2016/9/14.
@@ -105,7 +105,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
         btn_submit.setOnHoverListener(this);
         identifyCodeBtn.setOnHoverListener(this);
 
-        if (source.equals("usercenter")){
+        if (source.equals("usercenter")) {
             edit_mobile.setNextFocusLeftId(R.id.usercenter_login_register);
             edit_identifycode.setNextFocusLeftId(R.id.usercenter_login_register);
             btn_submit.setNextFocusLeftId(R.id.usercenter_login_register);
@@ -324,12 +324,18 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
                     public void onNext(AccountsLoginEntity entity) {
                         String username = edit_mobile.getText().toString();
                         IsmartvActivator.getInstance().saveUserInfo(username, entity.getAuth_token(), entity.getZuser_token());
+                        loginStatistics(username);
                         if (mLoginCallback != null) {
                             mLoginCallback.onSuccess();
                         }
                         showLoginSuccessPopup();
                     }
                 });
+    }
+
+
+    private void loginStatistics(String username) {
+        new AccountStatistics().userLogin(username);
     }
 
     private void timeCountDown() {

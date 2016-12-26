@@ -28,6 +28,7 @@ public class EventProperty {
     public final static String MODE = "mode";
     public final static String CATEGORY = "category";
     public final static String TO_TITLE = "to_title";
+    public final static String TO_SUBITEM = "to_subitem";
     public final static String TO_ITEM = "to_item";
     public final static String Q = "q";
     public final static String CONTENT_TYPE = "content_type";
