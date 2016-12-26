@@ -174,7 +174,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void onPause() {
-        to=mMovieBinding
         mPageStatistics.videoDetailOut(mItemEntity,to);
         mPresenter.stop();
         super.onPause();
