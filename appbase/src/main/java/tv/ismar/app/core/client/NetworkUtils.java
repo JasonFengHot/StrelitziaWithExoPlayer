@@ -992,4 +992,8 @@ public class NetworkUtils {
      * 进入包详情
      */
     public static final String PACKAGE_DETAIL_IN = "package_detail_in";
+    /**
+     * 详情页缓冲完成
+     */
+    public static final String DETAIL_PLAY_LOAD = "detail_play_load";
 }

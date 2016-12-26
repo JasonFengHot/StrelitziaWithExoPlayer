@@ -2,7 +2,6 @@ package tv.ismar.detailpage.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -10,34 +9,16 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import retrofit2.adapter.rxjava.HttpException;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.VodApplication;
-import tv.ismar.app.ad.Advertisement;
-import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
-import tv.ismar.app.db.HistoryManager;
-import tv.ismar.app.entity.DBQuality;
-import tv.ismar.app.entity.History;
-import tv.ismar.app.network.entity.AdElementEntity;
-import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.ItemEntity;
-import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
-import tv.ismar.player.AccessProxy;
-import tv.ismar.player.SmartPlayer;
-import tv.ismar.player.view.PlayerActivity;
 
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_ITEM;
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_PKG;
@@ -206,6 +187,7 @@ public class DetailPageActivity extends BaseActivity{
     }
 
     public void showDialog() {
+        start_time=System.currentTimeMillis();
         mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
