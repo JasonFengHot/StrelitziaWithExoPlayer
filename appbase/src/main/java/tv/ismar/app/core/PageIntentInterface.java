@@ -17,6 +17,7 @@ public interface PageIntentInterface {
     String EXTRA_SECTION = "section";
     String EXTRA_TYPE = "type";
     String EXTRA_TITLE= "title";
+    String EXTRA_START_TIME= "time";
 
     String EXTRA_PRODUCT_CATEGORY = "product_category";
 
