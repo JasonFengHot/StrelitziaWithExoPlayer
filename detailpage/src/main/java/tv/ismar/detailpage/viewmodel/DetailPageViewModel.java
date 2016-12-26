@@ -51,6 +51,7 @@ public class DetailPageViewModel extends BaseObservable {
     private boolean itemIsload = false;
     private HistoryManager historyManager;
     private History mHistory;
+    public String to="";
 
     public DetailPageViewModel(Context context, DetailPagePresenter presenter) {
         mContext = context;

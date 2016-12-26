@@ -116,7 +116,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             fromPage = bundle.getString(EXTRA_SOURCE);
-            to=fromPage;
             channel = bundle.getString(EXTRA_CHANNEL);
             section = bundle.getString(EXTRA_SECTION);
             String itemJson = bundle.getString(EXTRA_ITEM_JSON);
@@ -164,6 +163,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void onResume() {
         super.onResume();
+        to="";
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
             isLogin = "yes";
         }
@@ -174,6 +174,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void onPause() {
+        if(!to.equals(""))
         mPageStatistics.videoDetailOut(mItemEntity,to);
         mPresenter.stop();
         super.onPause();
@@ -184,6 +185,12 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         String sn = IsmartvActivator.getInstance().getSnToken();
         Log.i("LH/", "sn:" + sn);
         super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        mPageStatistics.videoDetailOut(mItemEntity,fromPage);
+        super.onDestroy();
     }
 
     @Override
@@ -469,8 +476,24 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
 
         palyBtnView.setOnHoverListener(this);
+        palyBtnView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    to="play";
+                }
+            }
+        });
         if (purchaseBtnView != null) {
             purchaseBtnView.setOnHoverListener(this);
+            purchaseBtnView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus){
+                        to="pay";
+                    }
+                }
+            });
         }
 
         if (exposideBtnView != null) {
@@ -478,7 +501,14 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         favoriteBtnView.setOnHoverListener(this);
         moreBtnView.setOnHoverListener(this);
-
+        moreBtnView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    to="relate";
+                }
+            }
+        });
         relRelImageViews = new LabelImageView[relViews];
         relTextViews = new TextView[relViews];
 

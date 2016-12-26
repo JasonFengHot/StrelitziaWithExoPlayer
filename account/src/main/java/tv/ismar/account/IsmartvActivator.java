@@ -52,7 +52,7 @@ public class IsmartvActivator {
     private static final String SKY_HOST_TEST = "http://peachtest.tvxio.com";
     private static final String SIGN_FILE_NAME = "sign1";
     private static final int DEFAULT_CONNECT_TIMEOUT = 2;
-    private static final int DEFAULT_READ_TIMEOUT = 5;
+    private static final int DEFAULT_READ_TIMEOUT = 2;
 
     private ResultEntity mResult;
 
@@ -110,8 +110,8 @@ public class IsmartvActivator {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
-//                .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
-//                .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .build();
 

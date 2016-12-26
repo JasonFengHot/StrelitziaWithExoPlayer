@@ -611,7 +611,7 @@ public interface SkyService {
             }.start();
 
             try {
-                latch.await(5, TimeUnit.SECONDS);
+                latch.await(8, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

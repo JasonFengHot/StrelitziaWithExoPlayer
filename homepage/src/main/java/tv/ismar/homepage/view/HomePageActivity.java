@@ -1506,6 +1506,4 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         intent.setClass(this, TrueTimeService.class);
         startService(intent);
     }
-
-
 }

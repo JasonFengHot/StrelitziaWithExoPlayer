@@ -30,7 +30,6 @@ import rx.schedulers.Schedulers;
 import tv.ismar.Utils.LogUtils;
 import tv.ismar.adapter.RelatedAdapter;
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Source;
@@ -47,7 +46,6 @@ import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ScrollableSectionList;
 import tv.ismar.listpage.R;
-import tv.ismar.player.InitPlayerTool;
 import tv.ismar.view.RelateScrollableSectionList;
 
 
@@ -83,7 +81,6 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
     private static final int LABEL_TEXT_COLOR_FOCUSED1 = 0xffffba00;
     private static final int LABEL_TEXT_COLOR_NOFOCUSED = 0xffffffff;
     private BitmapDecoder bitmapDecoder;
-    private InitPlayerTool tool;
     private SkyService skyService;
     private void initViews() {
         mSectionTabs = (RelateScrollableSectionList) findViewById(R.id.related_section_tabs);
@@ -346,8 +343,6 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
 
     @Override
     protected void onDestroy() {
-    	if(tool != null)
-    		tool.removeAsycCallback();
         if(bitmapDecoder != null && bitmapDecoder.isAlive()){
         	bitmapDecoder.interrupt();
         }

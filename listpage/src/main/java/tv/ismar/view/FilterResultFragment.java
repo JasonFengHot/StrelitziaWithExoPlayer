@@ -30,6 +30,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
@@ -43,7 +44,6 @@ import tv.ismar.app.ui.adapter.HGridFilterAdapterImpl;
 import tv.ismar.app.ui.view.AlertDialogFragment;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.listpage.R;
-import tv.ismar.player.InitPlayerTool;
 
 /**
  * Created by zhangjiqiang on 15-6-23.
@@ -73,7 +73,6 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
     private Button left_shadow;
     private Button right_shadow;
     private float rate;
-    private InitPlayerTool tool;
     private SkyService skyService;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -558,8 +557,6 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
     }
     @Override
     public void onDestroyView() {
-    	if(tool != null)
-    		tool.removeAsycCallback();
         if(mInitTask!=null && mInitTask.getStatus()!=AsyncTask.Status.FINISHED) {
             mInitTask.cancel(true);
         }
@@ -575,31 +572,13 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         Item item = mHGridAdapter.getItem(position);
         if(item!=null) {
-            Intent intent = new Intent();
+            boolean[] isSubItem = new boolean[1];
+            int id = SimpleRestClient.getItemId(item.url, isSubItem);
+            PageIntent pageIntent=new PageIntent();
             if(item.is_complex) {
-                boolean[] isSubItem = new boolean[1];
-                int id = SimpleRestClient.getItemId(item.url, isSubItem);
-                PageIntent pageIntent=new PageIntent();
                 pageIntent.toDetailPage(getActivity(),"retrieval",id, mChannel, "");
             } else {
-                tool = new InitPlayerTool(getActivity());
-                tool.fromPage = "retrieval";
-                tool.setonAsyncTaskListener(new InitPlayerTool.onAsyncTaskHandler() {
-
-                    @Override
-                    public void onPreExecute(Intent intent) {
-                        // TODO Auto-generated method stub
-                        //intent.putExtra(EventProperty.SECTION, "");
-                        mLoadingDialog.show();
-                    }
-
-                    @Override
-                    public void onPostExecute() {
-                        // TODO Auto-generated method stub
-                        mLoadingDialog.dismiss();
-                    }
-                });
-                tool.initClipInfo(item.url, InitPlayerTool.FLAG_URL);
+                pageIntent.toPlayPage(getActivity(),id,0, Source.LIST,mChannel,"");
             }
         }
     }

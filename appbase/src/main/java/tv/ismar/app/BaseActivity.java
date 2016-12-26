@@ -27,6 +27,7 @@ import tv.ismar.app.network.SkyService;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.widget.ExpireAccessTokenPop;
+import tv.ismar.app.widget.ItemOffLinePopWindow;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.NetErrorPopWindow;
@@ -46,6 +47,7 @@ public class BaseActivity extends AppCompatActivity {
     private LoadingDialog mLoadingDialog;
     private ModuleMessagePopWindow netErrorPopWindow;
     private ModuleMessagePopWindow expireAccessTokenPop;
+    private ModuleMessagePopWindow itemOffLinePop;
     private NoNetModuleMessagePop noNetConnectWindow;
     public SkyService mSkyService;
     public SkyService mWeatherSkyService;
@@ -279,21 +281,19 @@ public class BaseActivity extends AppCompatActivity {
 
     }
     public void showItemOffLinePop() {
-        expireAccessTokenPop = ExpireAccessTokenPop.getInstance(this);
-        expireAccessTokenPop.setFirstMessage(getString(R.string.item_offline));
-        expireAccessTokenPop.setConfirmBtn(getString(R.string.confirm));
-        expireAccessTokenPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        itemOffLinePop = new ItemOffLinePopWindow(this);
+        itemOffLinePop.setFirstMessage(getString(R.string.item_offline));
+        itemOffLinePop.setConfirmBtn(getString(R.string.confirm));
+        itemOffLinePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                isExpireAccessToken = true;
-                IsmartvActivator.getInstance().removeUserInfo();
                 finish();
             }
         });
-        expireAccessTokenPop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+        itemOffLinePop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
-                        expireAccessTokenPop.dismiss();
+                        itemOffLinePop.dismiss();
                     }
                 },
                 null);
