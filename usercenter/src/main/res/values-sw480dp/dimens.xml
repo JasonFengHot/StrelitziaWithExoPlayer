@@ -75,7 +75,7 @@
 <dimen name="locationFragment_h4_textSize">10.67sp</dimen>
 <dimen name="weather_layout_w">635.56dp</dimen>
 <dimen name="weather_layout_h">426.67dp</dimen>
-<dimen name="weather_city_ml">88.89dp</dimen>
+<dimen name="weather_city_ml">75.56dp</dimen>
 <dimen name="weather_city_mr">80.00dp</dimen>
 <dimen name="weather_city_layout_spac">26.67dp</dimen>
 
