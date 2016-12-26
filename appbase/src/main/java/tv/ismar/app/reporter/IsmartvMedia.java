@@ -7,13 +7,13 @@ import java.io.Serializable;
  */
 public class IsmartvMedia implements Serializable {
 
-    private String title;
+    private String title = "";
     private int pk;
     private int subItemPk;
     private int clipPk;
-    private String channel;
-    private String source;
-    private String section;
+    private String channel = "";
+    private String source = "";
+    private String section = "";
 
     public IsmartvMedia(int pk, int subItemPk) {
         this.pk = pk;
