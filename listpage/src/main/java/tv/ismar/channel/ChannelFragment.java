@@ -883,6 +883,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                     mSectionProperties.put(EventProperty.TO_ITEM, item.pk);
                     mSectionProperties.put(EventProperty.TO_TITLE, item.title);
                     mSectionProperties.put(EventProperty.POSITION, position);
+                    mSectionProperties.put(EventProperty.SOURCE,"list");
                     int sectionIndex = mHGridAdapter.getSectionIndex(position);
                     final Section s = mSectionList.get(sectionIndex);
                     mSectionProperties.put(EventProperty.TITLE, s.title);
@@ -959,7 +960,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 newSection = mSectionList.get(newSectionIndex);
             mSectionProperties.put(EventProperty.SECTION, newSection.slug);
             mSectionProperties.put(EventProperty.TITLE, newSection.title);
-           mSectionProperties.put("sid", newSectionIndex);
+            mSectionProperties.put(EventProperty.SOURCE,"list");
+         //  mSectionProperties.put("sid", newSectionIndex);
            new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_IN, mSectionProperties);
             if (mCurrentSectionIndex >= 0) {
                 Section oldSection;
