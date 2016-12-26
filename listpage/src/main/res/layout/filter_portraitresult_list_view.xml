@@ -116,9 +116,10 @@
             <TextView
                     android:layout_marginTop="@dimen/listpage_portrait_detail_title_mt"
                     android:text="抱歉,没有找到匹配的内容"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/text_size_48sp_height"
                     android:gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_48sp" />
 
@@ -137,7 +138,8 @@
             <TextView
                     android:layout_marginTop="@dimen/filter_noresult_text_mt"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/text_size_36sp_height"
+                    android:gravity="center"
                     android:layout_marginLeft="@dimen/filter_noresult_text_ML"
                     android:textSize="@dimen/text_size_36sp"
                     android:textColor="@android:color/white"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="tv_guide_top_section_padding">14dp</dimen>
-    <dimen name="listpage_portrait_detail_title_mt">76dp</dimen>
+    <dimen name="listpage_portrait_detail_title_mt">69dp</dimen>
     <dimen name="listpage_detail_button_h">72dp</dimen>
     <dimen name="listpage_detail_button_w">274dp</dimen>
     <dimen name="listpage_portrait_detail_title_w">798dip</dimen>
@@ -247,7 +247,7 @@
     <dimen name="filter_condition_item_linegroup_ml">95dp</dimen>
     <dimen name="filter_condition_item_linegroup_mt">6dp</dimen>
     <dimen name="filter_condition_groupview_h">108dp</dimen>
-    <dimen name="filter_noresult_text_mt">56dp</dimen>
+    <dimen name="filter_noresult_text_mt">52dp</dimen>
     <dimen name="filter_noresult_layout_h">390dp</dimen>
 
     <dimen name="filter_condition_item_h">126dp</dimen>
