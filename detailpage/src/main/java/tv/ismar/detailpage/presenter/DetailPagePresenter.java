@@ -27,6 +27,7 @@ import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.view.DetailPageActivity;
+import tv.ismar.statistics.PurchaseStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
@@ -193,7 +194,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                 playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
                 int remainDay;
                 try {
-                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date())+1 ;
+                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date()) + 1;
                 } catch (ParseException e) {
                     remainDay = 0;
                 }
@@ -271,6 +272,15 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         int jumpTo = mItemEntity.getExpense().getJump_to();
         int cpid = mItemEntity.getExpense().getCpid();
         PaymentInfo paymentInfo = new PaymentInfo(item, pk, jumpTo, cpid);
+
+        String userName = IsmartvActivator.getInstance().getUsername();
+        String title = mItemEntity.getTitle();
+
+        String clip = "";
+        if (mItemEntity.getClip() != null) {
+            clip = String.valueOf(mItemEntity.getClip().getPk());
+        }
+        new PurchaseStatistics().videoExpenseClick(String.valueOf(pk), userName, title, clip);
         new PageIntent().toPayment(mDetailView.getContext(), unknown.name(), paymentInfo);
     }
 
@@ -335,8 +345,8 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                 favorite.isnet = "no";
             }
             ArrayList<Favorite> favorites = DaisyUtils.getFavoriteManager(mDetailView.getContext()).getAllFavorites("no");
-            if(favorites.size()>49){
-                favoriteManager.deleteFavoriteByUrl(favorites.get(favorites.size()-1).url, "no");
+            if (favorites.size() > 49) {
+                favoriteManager.deleteFavoriteByUrl(favorites.get(favorites.size() - 1).url, "no");
 
             }
             favoriteManager.addFavorite(favorite, favorite.isnet);
