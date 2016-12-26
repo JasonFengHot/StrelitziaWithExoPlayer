@@ -116,16 +116,17 @@
                     android:layout_marginTop="@dimen/listpage_portrait_detail_title_mt"
                     android:text="抱歉,没有找到匹配的内容"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/text_size_48sp_height"
                     android:gravity="center"
+                    android:layout_gravity="center_horizontal"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/h1_text_size" />
+                    android:textSize="@dimen/text_size_48sp" />
 
             <Button
                     android:layout_marginTop="@dimen/filter_norestult_buton_mt"
                     android:layout_gravity="center_horizontal"
                     android:text="重新筛选"
-                    android:textSize="@dimen/h2_text_size"
+                    android:textSize="@dimen/text_size_36sp"
                     android:gravity="center"
                     android:id="@+id/refilter_btn"
                     android:layout_width="@dimen/filter_noresult_button_W"
@@ -135,11 +136,12 @@
             </Button>
             <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/text_size_36sp_height"
                     android:layout_marginLeft="@dimen/filter_noresult_text_ML"
                     android:layout_marginTop="@dimen/filter_noresult_text_mt"
                     android:textSize="@dimen/h2_text_size"
                     android:textColor="@android:color/white"
+                    android:gravity="center"
                     android:text="当前大家正在看"/>
         </LinearLayout>
         <ProgressBar
