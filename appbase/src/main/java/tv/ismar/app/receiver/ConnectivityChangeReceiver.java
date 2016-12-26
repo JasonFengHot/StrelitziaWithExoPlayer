@@ -3,13 +3,17 @@ package tv.ismar.app.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.utils.AppUtils;
 
+import tv.ismar.account.ActiveService;
 import tv.ismar.app.update.UpdateService;
 
 import static tv.ismar.app.update.UpdateService.INSTALL_SILENT;
@@ -27,10 +31,21 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
             Log.i(TAG, "netWork has lost");
         } else {
             Log.i(TAG, "netWork has connect");
+            SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String apiDomain = mSharedPreferences.getString("api_domain", "");
+
+            if (TextUtils.isEmpty(apiDomain)){
+                //更新会去激活
+            }else {
+                startIntervalActive(context);
+            }
+
             if (BootUpdateReceiver.checkUpdate = true) {
                 BootUpdateReceiver.checkUpdate = false;
                 checkUpdate(context);
             }
+
+
         }
 
         NetworkInfo tmpInfo = (NetworkInfo) intent.getExtras().get(ConnectivityManager.EXTRA_NETWORK_INFO);
@@ -52,4 +67,12 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
             }
         }, 1000 * 3);
     }
+
+
+    private void startIntervalActive(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, ActiveService.class);
+        context.startService(intent);
+    }
+
 }
