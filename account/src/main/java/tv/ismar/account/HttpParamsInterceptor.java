@@ -105,7 +105,7 @@ public class HttpParamsInterceptor implements Interceptor {
             response = chain.proceed(request);
         } catch (Exception var27) {
             Log.e(TAG, "error: " + request.url() +" " + var27.getMessage());
-            response = new Response.Builder().code(404)
+            response = new Response.Builder().code(500)
                     .request(request)
                     .protocol(Protocol.HTTP_1_1)
                     .build();
