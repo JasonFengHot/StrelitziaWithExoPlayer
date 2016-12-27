@@ -590,6 +590,8 @@ public interface SkyService {
         private SkyService lilyHostService;
         private SkyService mCacheSkyService;
 
+        private static String[] domain = new String[]{"1.1.1.1", "1.1.1.1", "1.1.1.1"};
+
         private ServiceManager() {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -598,12 +600,12 @@ public interface SkyService {
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(VodApplication.getHttpParamsInterceptor())
 //                    .addNetworkInterceptor(VodApplication.getHttpTrafficInterceptor())
-                    .retryOnConnectionFailure(true)
+//                    .retryOnConnectionFailure(true)
                     .addInterceptor(interceptor)
                     .build();
 
             final CountDownLatch latch = new CountDownLatch(1);
-            final String[] domain = new String[]{"1.1.1.1", "1.1.1.1", "1.1.1.1"};
+
             new Thread() {
                 @Override
                 public void run() {
@@ -615,7 +617,7 @@ public interface SkyService {
             }.start();
 
             try {
-                latch.await(8, TimeUnit.SECONDS);
+                latch.await(3, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -725,7 +727,7 @@ public interface SkyService {
 
         private static ServiceManager getInstance() {    //对获取实例的方法进行同步
             synchronized (ServiceManager.class) {
-                if (serviceManager == null) {
+                if (serviceManager == null || domain[0].endsWith("1.1.1.1")) {
                     serviceManager = new ServiceManager();
                 }
             }

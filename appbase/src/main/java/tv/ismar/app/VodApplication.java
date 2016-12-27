@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
-import tv.ismar.account.ActiveService;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;

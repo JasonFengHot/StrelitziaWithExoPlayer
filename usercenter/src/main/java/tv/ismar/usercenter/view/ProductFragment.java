@@ -1,15 +1,24 @@
 package tv.ismar.usercenter.view;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,11 +26,16 @@ import com.open.androidtvwidget.leanback.recycle.GridLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.squareup.picasso.Picasso;
 
+import java.io.InputStream;
 import java.util.List;
 
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.VipMark;
+import tv.ismar.app.core.client.NetworkUtils;
+import tv.ismar.app.entity.Item;
 import tv.ismar.app.network.entity.YouHuiDingGouEntity;
+import tv.ismar.app.ui.ZGridView;
 import tv.ismar.usercenter.ProductContract;
 import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.databinding.FragmentProductBinding;
@@ -31,7 +45,7 @@ import tv.ismar.usercenter.viewmodel.ProductViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class ProductFragment extends BaseFragment implements ProductContract.View, RecyclerViewTV.OnItemClickListener {
+public class ProductFragment extends BaseFragment implements ProductContract.View, AdapterView.OnItemClickListener {
     private static final String TAG = ProductFragment.class.getSimpleName();
     private ProductViewModel mViewModel;
     private ProductContract.Presenter mPresenter;
@@ -41,7 +55,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     }
 
 
-    private RecyclerViewTV mRecyclerView;
+    private ZGridView gridView;
 
     private YouHuiDingGouEntity mYouHuiDingGouEntity;
     private FragmentProductBinding productBinding;
@@ -69,12 +83,15 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         productBinding.setTasks(mViewModel);
         productBinding.setActionHandler(mPresenter);
 
-        mRecyclerView = productBinding.recyclerview;
-        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.product_recycler_item_spacing)));
-        mRecyclerView.setLayoutManager(new GridLayoutManagerTV(getContext(), 4));
-        mRecyclerView.setSelectedItemAtCentered(false);
-        mRecyclerView.setOnItemClickListener(this);
+        gridView = productBinding.recyclerview;
+        gridView.setOnItemClickListener(this);
         View root = productBinding.getRoot();
+//        root.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+//            @Override
+//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+//                Log.d(TAG, "onGlobalFocusChanged: " + newFocus);
+//            }
+//        });
         return root;
     }
 
@@ -153,128 +170,204 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     public void loadProductItem(YouHuiDingGouEntity entity) {
         mYouHuiDingGouEntity = entity;
         ProductAdapter adapter = new ProductAdapter(getContext(), entity.getObjects());
-
-        mRecyclerView.setAdapter(adapter);
+        gridView.setAdapter(adapter);
     }
 
     @Override
-    public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toPackageDetail(getContext(), "usercenter", (int) mYouHuiDingGouEntity.getObjects().get(position).getPk());
     }
 
 
-    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener, View.OnFocusChangeListener, OnClickListener {
+    private class ProductAdapter extends BaseAdapter {
         private Context mContext;
-
         private List<YouHuiDingGouEntity.Object> mObjects;
 
-
-        public ProductAdapter(Context context, List<YouHuiDingGouEntity.Object> objects) {
-            mContext = context;
-            mObjects = objects;
+        public ProductAdapter(Context mContext, List<YouHuiDingGouEntity.Object> mObjects) {
+            this.mContext = mContext;
+            this.mObjects = mObjects;
         }
 
         @Override
-
-        public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_product_list, viewGroup, false);
-            view.setOnHoverListener(this);
-            view.setOnFocusChangeListener(this);
-            ProductViewHolder holder = new ProductViewHolder(view);
-            holder.itemView.setOnClickListener(this);
-            return holder;
+        public int getCount() {
+            return mObjects.size();
         }
 
         @Override
-        public void onBindViewHolder(ProductViewHolder holder, int position) {
-            YouHuiDingGouEntity.Object item = mObjects.get(position);
-            holder.itemView.setTag(position);
-            holder.mTextView.setText(item.getTitle());
-            if (item.getPoster_url().trim().length() == 0) {
-                Picasso.with(mContext).load(R.drawable.list_item_preview_bg).into(holder.mImageView);
+        public YouHuiDingGouEntity.Object getItem(int position) {
+            return mObjects.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ProductViewHolder productViewHolder;
+            if (convertView == null) {
+                productViewHolder = new ProductViewHolder();
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.item_product_list, null);
+                productViewHolder.imageView = (ImageView) convertView.findViewById(R.id.package_list_image);
+                productViewHolder.textView = (TextView) convertView.findViewById(R.id.package_list_title);
+                convertView.setTag(productViewHolder);
+
             } else {
-                Picasso.with(mContext).load(item.getPoster_url()).into(holder.mImageView);
-            }
-            if (position == 0 || position == 1 || position == 2 || position == 3) {
-                holder.itemView.setId(View.generateViewId());
-                holder.itemView.setNextFocusUpId(holder.itemView.getId());
+                productViewHolder = (ProductViewHolder) convertView.getTag();
             }
 
-//            if (position == mObjects.size() - 1 || position == mObjects.size() - 2 || position == mObjects.size() - 3 || position == mObjects.size() - 4) {
-//                holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
-//            }
+            productViewHolder.textView.setText(mObjects.get(position).getTitle());
+            if (mObjects.get(position).getPoster_url().trim().length() == 0) {
+                Picasso.with(mContext).load(R.drawable.list_item_preview_bg).into(productViewHolder.imageView);
+            } else {
+                Picasso.with(mContext).load(mObjects.get(position).getPoster_url()).into(productViewHolder.imageView);
+            }
+
+
+            if (position == 0 || position == 1 || position == 2 || position == 3) {
+                convertView.setId(View.generateViewId());
+                convertView.setNextFocusUpId(convertView.getId());
+            }
+
 
             int theLastLineCount = (position + 1) % 4;
 
             if (theLastLineCount != 0) {
                 if (position >= mObjects.size() - 1 - theLastLineCount) {
-                    holder.itemView.setId(View.generateViewId());
-                    holder.itemView.setNextFocusDownId(holder.itemView.getId());
+                    convertView.setId(View.generateViewId());
+                    convertView.setNextFocusDownId(convertView.getId());
                 }
 
             }
 
             if ((position + 1) % 4 == 1) {
-                holder.itemView.setNextFocusLeftId(R.id.usercenter_store);
+                convertView.setNextFocusLeftId(R.id.usercenter_store);
             }
+            return convertView;
         }
 
-        @Override
-        public int getItemCount() {
-            return mObjects.size();
-        }
-
-        @Override
-        public boolean onHover(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_HOVER_ENTER:
-                case MotionEvent.ACTION_HOVER_MOVE:
-                    if (!v.hasFocus()) {
-                        v.requestFocus();
-                        v.requestFocusFromTouch();
-                    }
-                    break;
-                case MotionEvent.ACTION_HOVER_EXIT:
-                    if (!fragmentIsPause) {
-                        productBinding.tmp.requestFocus();
-                        productBinding.tmp.requestFocusFromTouch();
-                    }
-                    break;
-
-            }
-            return true;
-        }
-
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
-            if (v.getId() != R.id.tmp) {
-                View imageView = v.findViewById(R.id.package_list_image);
-                if (hasFocus) {
-                    imageView.setSelected(true);
-                } else {
-                    imageView.setSelected(false);
-                }
-            }
-        }
-
-        @Override
-        public void onClick(View v) {
-            int position = (int) v.getTag();
-            PageIntent pageIntent = new PageIntent();
-            pageIntent.toPackageDetail(getContext(), "usercenter", (int) mYouHuiDingGouEntity.getObjects().get(position).getPk());
+        private class ProductViewHolder {
+            ImageView imageView;
+            TextView textView;
         }
     }
 
-    private class ProductViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mImageView;
-        private TextView mTextView;
 
-        public ProductViewHolder(View itemView) {
-            super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.package_list_image);
-            mImageView.setTag("right");
-            mTextView = (TextView) itemView.findViewById(R.id.package_list_title);
-        }
-    }
+//    private class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> implements View.OnHoverListener, View.OnFocusChangeListener, OnClickListener {
+//        private Context mContext;
+//
+//        private List<YouHuiDingGouEntity.Object> mObjects;
+//
+//
+//        public ProductAdapter(Context context, List<YouHuiDingGouEntity.Object> objects) {
+//            mContext = context;
+//            mObjects = objects;
+//        }
+//
+//        @Override
+//
+//        public ProductViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+//            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_product_list, viewGroup, false);
+//            view.setOnHoverListener(this);
+//            view.setOnFocusChangeListener(this);
+//            ProductViewHolder holder = new ProductViewHolder(view);
+//            holder.itemView.setOnClickListener(this);
+//            return holder;
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(ProductViewHolder holder, int position) {
+//            YouHuiDingGouEntity.Object item = mObjects.get(position);
+//            holder.itemView.setTag(position);
+//            holder.mTextView.setText(item.getTitle());
+//            if (item.getPoster_url().trim().length() == 0) {
+//                Picasso.with(mContext).load(R.drawable.list_item_preview_bg).into(holder.mImageView);
+//            } else {
+//                Picasso.with(mContext).load(item.getPoster_url()).into(holder.mImageView);
+//            }
+//            if (position == 0 || position == 1 || position == 2 || position == 3) {
+//                holder.itemView.setId(View.generateViewId());
+//                holder.itemView.setNextFocusUpId(holder.itemView.getId());
+//            }
+//
+////            if (position == mObjects.size() - 1 || position == mObjects.size() - 2 || position == mObjects.size() - 3 || position == mObjects.size() - 4) {
+////                holder.mImageView.setNextFocusDownId(holder.mImageView.getId());
+////            }
+//
+//            int theLastLineCount = (position + 1) % 4;
+//
+//            if (theLastLineCount != 0) {
+//                if (position >= mObjects.size() - 1 - theLastLineCount) {
+//                    holder.itemView.setId(View.generateViewId());
+//                    holder.itemView.setNextFocusDownId(holder.itemView.getId());
+//                }
+//
+//            }
+//
+//            if ((position + 1) % 4 == 1) {
+//                holder.itemView.setNextFocusLeftId(R.id.usercenter_store);
+//            }
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return mObjects.size();
+//        }
+//
+//        @Override
+//        public boolean onHover(View v, MotionEvent event) {
+//            switch (event.getAction()) {
+//                case MotionEvent.ACTION_HOVER_ENTER:
+//                case MotionEvent.ACTION_HOVER_MOVE:
+//                    if (!v.hasFocus()) {
+//                        v.requestFocus();
+//                        v.requestFocusFromTouch();
+//                    }
+//                    break;
+//                case MotionEvent.ACTION_HOVER_EXIT:
+//                    if (!fragmentIsPause) {
+//                        productBinding.tmp.requestFocus();
+//                        productBinding.tmp.requestFocusFromTouch();
+//                    }
+//                    break;
+//
+//            }
+//            return true;
+//        }
+//
+//        @Override
+//        public void onFocusChange(View v, boolean hasFocus) {
+//            ((UserCenterActivity) getActivity()).clearTheLastHoveredVewState();
+//            if (v.getId() != R.id.tmp) {
+//                View imageView = v.findViewById(R.id.package_list_image);
+//                if (hasFocus) {
+//                    imageView.setSelected(true);
+//                } else {
+//                    imageView.setSelected(false);
+//                }
+//            }
+//        }
+//
+//        @Override
+//        public void onClick(View v) {
+//            int position = (int) v.getTag();
+//            PageIntent pageIntent = new PageIntent();
+//            pageIntent.toPackageDetail(getContext(), "usercenter", (int) mYouHuiDingGouEntity.getObjects().get(position).getPk());
+//        }
+//    }
+//
+//    private class ProductViewHolder extends RecyclerView.ViewHolder {
+//        private ImageView mImageView;
+//        private TextView mTextView;
+//
+//        public ProductViewHolder(View itemView) {
+//            super(itemView);
+//            mImageView = (ImageView) itemView.findViewById(R.id.package_list_image);
+//            mImageView.setTag("right");
+//            mTextView = (TextView) itemView.findViewById(R.id.package_list_title);
+//        }
+//    }
 }

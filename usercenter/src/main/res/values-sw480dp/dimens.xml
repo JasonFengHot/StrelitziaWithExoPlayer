@@ -48,8 +48,8 @@
 <dimen name="help_title_icon_h">23.11dp</dimen>
 <dimen name="ismartv_icon_w">73.33dp</dimen>
 
-<dimen name="usercenter_storefragment_packagelist_item_image_width">153.78dp</dimen>
-<dimen name="usercenter_storefragment_packagelist_item_image_height">88.89dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_image_width">148.89dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_image_height">84.00dp</dimen>
 <dimen name="h2_text_size">16.00sp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_layout_marginRight">3.11dp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_text_height">27.56dp</dimen>
@@ -82,7 +82,7 @@
 <dimen name="usercenter_header_height">44.44dp</dimen>
 <dimen name="product_recycler_mt">10.67dp</dimen>
 <dimen name="product_recycler_item_spacing">-1.78dp</dimen>
-<dimen name="product_item_mt">-8.00dp</dimen>
+<dimen name="product_item_mt">-2.67dp</dimen>
 <dimen name="userinfo_layout_pb">26.67dp</dimen>
 <dimen name="user_info_other_item_vertical_spacing">20.00dp</dimen>
 <dimen name="user_center_logout_width">121.78dp</dimen>
@@ -125,4 +125,11 @@
 <dimen name="prompt_layout_mt">196.44dp</dimen>
 <dimen name="location_confirm_btn_ml">15.56dp</dimen>
 <dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">53.33dp</dimen>
+<dimen name="product_gridview_bp">-15.56dp</dimen>
+<dimen name="product_gridview_lp">9.78dp</dimen>
+<dimen name="product_gridview_rp">9.33dp</dimen>
+<dimen name="product_gridview_tp">9.78dp</dimen>
+<dimen name="product_gridview_vertical_space">-2.22dp</dimen>
+<dimen name="product_gridview_ml">6.67dp</dimen>
+<dimen name="usercenter_fragment_indicator_mt">1.78dp</dimen>
 </resources>

@@ -1,4 +1,5 @@
 package tv.ismar.app.ui;
+
 import cn.ismartv.truetime.TrueTime;
 
 import android.content.BroadcastReceiver;
@@ -105,12 +106,18 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                 case HEADER_USERCENTER:
                     subTitleTextView.setText("个人中心");
                     LinearMainLayout.LayoutParams layoutParams = (LinearMainLayout.LayoutParams) subTitleTextView.getLayoutParams();
-                    layoutParams.setMargins(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_subtitle_mb));
+                    layoutParams.setMargins(
+                            getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_subtitle_ml),
+                            0,
+                            0,
+                            getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_subtitle_mb));
                     subTitleTextView.setLayoutParams(layoutParams);
                     RelativeLayout.LayoutParams weatherLayoutParams = (RelativeLayout.LayoutParams) weatherInfoTextView.getLayoutParams();
-                    weatherLayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_weather_ml), 0,
-                            0, getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_weather_mb));
-//                    weatherLayoutParams.addRule(CENTER_VERTICAL);
+                    weatherLayoutParams.setMargins(
+                            getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_weather_ml),
+                            0,
+                            0,
+                            getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_weather_mb));
                     weatherInfoTextView.setLayoutParams(weatherLayoutParams);
                     hideIndicatorTable();
                     hideTitle();
@@ -244,7 +251,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
 
 
     public void fetchWeatherInfo(String geoId) {
-        if(!NetworkUtils.isConnected(getActivity())){// 断开网络做如下请求时出错
+        if (!NetworkUtils.isConnected(getActivity())) {// 断开网络做如下请求时出错
             return;
         }
         ((BaseActivity) getActivity()).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())

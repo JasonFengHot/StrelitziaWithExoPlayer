@@ -50,7 +50,7 @@ public class ActiveService extends Service {
         if (activeSubscription != null && !activeSubscription.isUnsubscribed()) {
             activeSubscription.unsubscribe();
         }
-        activeSubscription = Observable.interval(10, 60 * 60, TimeUnit.SECONDS)
+        activeSubscription = Observable.interval(0, 60 * 60, TimeUnit.SECONDS)
                 .observeOn(Schedulers.io())
                 .map(new Func1<Long, ResultEntity>() {
                     @Override

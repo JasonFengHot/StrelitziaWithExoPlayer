@@ -54,11 +54,9 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.ismartv.truetime.TrueTime;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import tv.ismar.account.ActiveService;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
@@ -413,7 +411,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             fetchChannels();
             startAdsService();
         }
-        startIntervalActive();
+//        startIntervalActive();
 
         // 日志上报
         String fromPage = getIntent().getStringExtra("fromPage");
@@ -1498,12 +1496,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     /**
      * advertisement end
      */
-
-    private void startIntervalActive() {
-        Intent intent = new Intent();
-        intent.setClass(this, ActiveService.class);
-        startService(intent);
-    }
 
 
     private void startTrueTimeService() {
