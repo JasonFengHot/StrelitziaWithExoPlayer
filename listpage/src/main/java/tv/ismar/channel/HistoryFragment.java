@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.gson.JsonSyntaxException;
@@ -29,6 +31,7 @@ import java.util.HashMap;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.Utils.LogUtils;
@@ -55,7 +58,9 @@ import tv.ismar.app.ui.ZGridView;
 import tv.ismar.app.ui.adapter.HGridAdapterImpl;
 import tv.ismar.app.ui.view.AlertDialogFragment;
 import tv.ismar.app.ui.view.MenuFragment;
+import tv.ismar.app.widget.ItemOffLinePopWindow;
 import tv.ismar.app.widget.LoadingDialog;
+import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.ScrollableSectionList;
 import tv.ismar.listpage.R;
 
@@ -73,7 +78,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	private HGridView mHGridView;
 	private ScrollableSectionList mScrollableSectionList;
 	private TextView mChannelLabel;
-
 	private HGridAdapterImpl mHGridAdapter;
 	private SectionList mSectionList;
 
@@ -137,6 +141,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		right_shadow = (Button)fragmentView.findViewById(R.id.right_shadow);
 		gideview_layuot = fragmentView.findViewById(R.id.gideview_layuot);
 		clerHistory= (TextView) fragmentView.findViewById(R.id.clear_history);
+
 		mHGridView.leftbtn = left_shadow;
 		mHGridView.rightbtn = right_shadow;
 		mHGridView.setOnItemClickListener(this);
@@ -537,7 +542,13 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					}
 					@Override
 					public void onError(Throwable e) {
-						super.onError(e);
+						HttpException httpException = (HttpException) e;
+						if(httpException.code() == 404){
+                            ChannelListActivity activity= (ChannelListActivity) getActivity();
+                            activity.historyShowItemOffLinePop();
+						}else {
+							super.onError(e);
+						}
 						mLoadingDialog.dismiss();
 					}
 				});

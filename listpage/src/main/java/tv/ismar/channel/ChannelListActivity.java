@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.PopupWindow;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
@@ -17,6 +19,8 @@ import tv.ismar.app.core.VipMark;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
+import tv.ismar.app.widget.ItemOffLinePopWindow;
+import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.listpage.R;
 
 public class ChannelListActivity extends BaseActivity {
@@ -27,7 +31,6 @@ public class ChannelListActivity extends BaseActivity {
     private ChannelFragment channelFragment;
     private View filter;
     private HGridView mHgridView;
-
     private BitmapDecoder bitmapDecoder;
 	private HeadFragment headFragment;
 	private FrameLayout head;
@@ -229,5 +232,4 @@ public class ChannelListActivity extends BaseActivity {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
 	}
-
 }
