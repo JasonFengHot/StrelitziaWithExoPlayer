@@ -20,6 +20,7 @@
     <dimen name="h3_size">24dp</dimen>
     <dimen name="h4_size">18.75dp</dimen>
     <dimen name="h5_size">14.25dp</dimen>
+    <dimen name="h6_size">30dp</dimen>
 
     <!-- 头部高度 -->
     <dimen name="header_fragment_h">100dp</dimen>
@@ -469,7 +470,7 @@
 
     <dimen name="locatoinFragment_areaPop_cancelBtn_marginLeft">85dp</dimen>
     <dimen name="locationFragment_areaPop_Btn_marginTop">40dp</dimen>
-    <dimen name="locationFragment_areaPop_Btn_marginTop1">25dp</dimen>
+    <dimen name="locationFragment_areaPop_Btn_marginTop1">30dp</dimen>
     <dimen name="locationFragment_weatherLayout_width">180dp</dimen>
 
     <!-- zjq -->

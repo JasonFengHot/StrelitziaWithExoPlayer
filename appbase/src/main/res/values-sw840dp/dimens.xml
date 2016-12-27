@@ -20,6 +20,7 @@
 <dimen name="h3_size">18.67dp</dimen>
 <dimen name="h4_size">14.58dp</dimen>
 <dimen name="h5_size">11.08dp</dimen>
+<dimen name="h6_size">23.33dp</dimen>
 
 <!-- 头部高度 -->
 <dimen name="header_fragment_h">77.78dp</dimen>
@@ -469,7 +470,7 @@
 
 <dimen name="locatoinFragment_areaPop_cancelBtn_marginLeft">66.11dp</dimen>
 <dimen name="locationFragment_areaPop_Btn_marginTop">31.11dp</dimen>
-<dimen name="locationFragment_areaPop_Btn_marginTop1">19.44dp</dimen>
+<dimen name="locationFragment_areaPop_Btn_marginTop1">23.33dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">140.00dp</dimen>
 
 <!-- zjq -->
