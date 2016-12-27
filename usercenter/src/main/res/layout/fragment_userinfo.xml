@@ -3,22 +3,21 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="tasks"
-            type="tv.ismar.usercenter.viewmodel.UserInfoViewModel"/>
+            type="tv.ismar.usercenter.viewmodel.UserInfoViewModel" />
 
         <variable
             name="actionHandler"
-            type="tv.ismar.usercenter.UserInfoContract.Presenter"/>
+            type="tv.ismar.usercenter.UserInfoContract.Presenter" />
     </data>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/userinfo_layout"
@@ -34,8 +33,7 @@
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
                 android:layout_marginRight="@dimen/usercenter_info_layout_margin_right"
                 android:layout_marginTop="@dimen/user_info_item_vertical_spacing"
-                android:visibility="@{tasks.usernameVisibility}"
-            >
+                android:visibility="@{tasks.usernameVisibility}">
 
                 <TextView
                     android:id="@+id/account_text"
@@ -45,8 +43,7 @@
                     android:singleLine="true"
                     android:text="账号："
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_27sp"
-                />
+                    android:textSize="@dimen/text_size_27sp" />
 
                 <TextView
                     android:id="@+id/phone_number"
@@ -57,8 +54,7 @@
                     android:singleLine="true"
                     android:text="@{tasks.username}"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_27sp"
-                />
+                    android:textSize="@dimen/text_size_27sp" />
 
                 <Button
                     android:id="@+id/exit_account"
@@ -66,6 +62,7 @@
                     android:layout_height="@dimen/user_center_logout_height"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/exit_account_mt"
                     android:background="@drawable/selector_button"
                     android:focusable="true"
                     android:gravity="center"
@@ -74,8 +71,7 @@
                     android:onClick="@{() -> actionHandler.exitAccount()}"
                     android:text="@string/exit_account"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_36sp"
-                />
+                    android:textSize="@dimen/text_size_36sp" />
 
             </RelativeLayout>
 
@@ -94,8 +90,7 @@
                     android:gravity="center_vertical"
                     android:text="S N："
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_27sp"
-                />
+                    android:textSize="@dimen/text_size_27sp" />
 
                 <TextView
                     android:id="@+id/device_number"
@@ -105,8 +100,7 @@
                     android:singleLine="true"
                     android:text="@{tasks.snCode}"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/text_size_27sp"
-                />
+                    android:textSize="@dimen/text_size_27sp" />
 
 
                 <TextView
@@ -119,7 +113,7 @@
                     android:text="@string/association_prompt"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/text_size_27sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -136,8 +130,7 @@
                     android:singleLine="true"
                     android:text="设备："
                     android:textColor="@color/color_base_white"
-                    android:textSize="@dimen/text_size_27sp"
-                />
+                    android:textSize="@dimen/text_size_27sp" />
 
                 <TextView
                     android:id="@+id/device_name"
@@ -145,8 +138,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{tasks.deviceName}"
                     android:textColor="@color/color_base_white"
-                    android:textSize="@dimen/text_size_27sp"
-                />
+                    android:textSize="@dimen/text_size_27sp" />
 
 
             </LinearLayout>
@@ -157,6 +149,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
                 android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:visibility="@{tasks.balanceVisibility}">
 
@@ -167,8 +161,7 @@
                     android:singleLine="true"
                     android:text="余额："
                     android:textColor="#FFF8F8FF"
-                    android:textSize="@dimen/text_size_27sp"
-                />
+                    android:textSize="@dimen/text_size_27sp" />
 
                 <TextView
                     android:id="@+id/remain_money_value"
@@ -177,19 +170,19 @@
                     android:gravity="center_vertical"
                     android:text="@{tasks.balance}"
                     android:textColor="#FFF8F8FF"
-                    android:textSize="@dimen/text_size_27sp"
-                />
+                    android:textSize="@dimen/text_size_27sp" />
 
                 <Button
                     android:id="@+id/charge_money"
                     android:layout_width="@dimen/charge_btn_width"
                     android:layout_height="@dimen/charge_btn_height"
                     android:layout_marginLeft="@dimen/charge_btn_margin_left"
+                    android:layout_marginTop="@dimen/charge_money_mt"
                     android:background="@drawable/selector_button"
                     android:nextFocusRight="@id/exit_account"
                     android:nextFocusUp="@id/exit_account"
                     android:text="@string/usercenter_charge"
-                    android:textSize="@dimen/text_size_30sp"/>
+                    android:textSize="@dimen/text_size_30sp" />
             </LinearLayout>
 
 
@@ -197,9 +190,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing"
-                android:visibility="@{tasks.privilegeVisibility}"
-            >
+                android:layout_marginTop="@dimen/privilege_layout_mt"
+                android:visibility="@{tasks.privilegeVisibility}">
 
                 <TextView
                     android:id="@+id/privilege_txt"
@@ -209,8 +201,7 @@
                     android:singleLine="true"
                     android:text="特权："
                     android:textColor="#FFF8F8FF"
-                    android:textSize="@dimen/text_size_27sp"
-                >
+                    android:textSize="@dimen/text_size_27sp">
 
                 </TextView>
 
@@ -218,8 +209,7 @@
                     android:id="@+id/privilege_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_toRightOf="@id/privilege_txt"
-                />
+                    android:layout_toRightOf="@id/privilege_txt" />
 
 
             </RelativeLayout>
@@ -231,7 +221,7 @@
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:focusable="true"/>
+            android:focusable="true" />
     </RelativeLayout>
 
 </layout>

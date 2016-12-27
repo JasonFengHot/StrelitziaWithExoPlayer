@@ -26,7 +26,7 @@
     <dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">24dp</dimen>
 
     <dimen name="usercenter_info_association_pop_height">870dp</dimen>
-    <dimen name="user_info_item_vertical_spacing">55dp</dimen>
+    <dimen name="user_info_item_vertical_spacing">61dp</dimen>
     <dimen name="usercenter_info_layout_margin_left">60dp</dimen>
     <dimen name="h4_text_size">30sp</dimen>
     <dimen name="user_center_logout_height">72dp</dimen>
@@ -84,12 +84,12 @@
     <dimen name="product_recycler_item_spacing">-4dp</dimen>
     <dimen name="product_item_mt">-18dp</dimen>
     <dimen name="userinfo_layout_pb">60dp</dimen>
-    <dimen name="user_info_other_item_vertical_spacing">45dp</dimen>
+    <dimen name="user_info_other_item_vertical_spacing">39dp</dimen>
     <dimen name="user_center_logout_width">274dp</dimen>
 
     <dimen name="user_info_item_vertical_spacing_0">0dp</dimen>
-    <dimen name="usercenter_info_layout_margin_right">20dp</dimen>
-    <dimen name="charge_btn_margin_left">170dp</dimen>
+    <dimen name="usercenter_info_layout_margin_right">22dp</dimen>
+    <dimen name="charge_btn_margin_left">200dp</dimen>
     <dimen name="charge_btn_width">161dp</dimen>
     <dimen name="charge_btn_height">51dp</dimen>
     <dimen name="usercenter_line_spacing">40dp</dimen>
@@ -125,4 +125,7 @@
     <dimen name="prompt_layout_mt">442dp</dimen>
     <dimen name="location_confirm_btn_ml">35dp</dimen>
     <dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">120dp</dimen>
+    <dimen name="exit_account_mt">2dp</dimen>
+    <dimen name="privilege_layout_mt">33dp</dimen>
+    <dimen name="charge_money_mt">-3dp</dimen>
 </resources>
