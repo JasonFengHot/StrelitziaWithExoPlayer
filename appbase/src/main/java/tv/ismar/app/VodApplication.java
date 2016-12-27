@@ -44,6 +44,7 @@ import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
 import tv.ismar.app.exception.CrashHandler;
+import tv.ismar.app.network.HttpCacheInterceptor;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
@@ -54,6 +55,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 public class VodApplication extends Application {
     private static HttpParamsInterceptor mHttpParamsInterceptor;
+    private HttpCacheInterceptor mHttpCacheInterceptor;
     public static final boolean DEBUG = true;
     private ArrayList<WeakReference<OnLowMemoryListener>> mLowMemoryListeners;
     private static VodApplication appInstance;
@@ -132,6 +134,13 @@ public class VodApplication extends Application {
 
     public static HttpParamsInterceptor getHttpParamsInterceptor() {
         return mHttpParamsInterceptor;
+    }
+
+    public HttpCacheInterceptor getCacheInterceptor(){
+        if(mHttpCacheInterceptor == null){
+            mHttpCacheInterceptor = new HttpCacheInterceptor(this);
+        }
+        return mHttpCacheInterceptor;
     }
 
     public static VodApplication getModuleAppContext() {

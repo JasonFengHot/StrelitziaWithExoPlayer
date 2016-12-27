@@ -73,12 +73,14 @@ import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
+import tv.ismar.app.network.SkyService;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.service.TrueTimeService;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.DeviceUtils;
+import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.app.util.Utils;
@@ -729,7 +731,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      */
     private void fetchChannels() {
 
-        channelsSub = mSkyService.apiTvChannels()
+        channelsSub = SkyService.ServiceManager.getCacheSkyService().apiTvChannels()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<ChannelEntity[]>() {
@@ -1465,6 +1467,9 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
         isneedpause = true;
+        if (!NetworkUtils.isConnected(this)) {// 首页有数据缓存
+            showNoNetConnectDialog();
+        }
         startAdsService();
     }
 

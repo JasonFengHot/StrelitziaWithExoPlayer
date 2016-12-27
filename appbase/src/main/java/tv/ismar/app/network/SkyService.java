@@ -10,6 +10,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +22,7 @@ import java.util.TimeZone;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -468,6 +470,7 @@ public interface SkyService {
             @Url String url
     );
 
+    @Headers("Cache-Control: public, max-age=5")
     @GET("api/tv/homepage/top/")
     Observable<HomePagerEntity> TvHomepageTop();
 
@@ -477,6 +480,7 @@ public interface SkyService {
     @GET("api/tv/living_video/game/")
     Observable<Game> apiGame();
 
+    @Headers("Cache-Control: public, max-age=5")
     @GET("api/tv/channels/")
     Observable<ChannelEntity[]> apiTvChannels();
 
@@ -584,7 +588,7 @@ public interface SkyService {
         private SkyService irisService;
         private SkyService speedCallaService;
         private SkyService lilyHostService;
-
+        private SkyService mCacheSkyService;
 
         private ServiceManager() {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -685,6 +689,24 @@ public interface SkyService {
                     .client(mClient)
                     .build();
             lilyHostService = lilyHostServiceRetrofit.create(SkyService.class);
+
+            File cacheFile = new File(VodApplication.getModuleAppContext().getCacheDir(), "okhttp_cache");
+            Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
+            OkHttpClient cacheClient = new OkHttpClient.Builder()
+                    .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                    .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
+                    .addInterceptor(interceptor)
+                    .addInterceptor(VodApplication.getModuleAppContext().getCacheInterceptor())
+                    .addNetworkInterceptor(VodApplication.getModuleAppContext().getCacheInterceptor())
+                    .cache(cache)
+                    .build();
+            Retrofit cacheSkyRetrofit = new Retrofit.Builder()
+                    .client(cacheClient)
+                    .baseUrl(appendProtocol(domain[0]))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .build();
+            mCacheSkyService = cacheSkyRetrofit.create(SkyService.class);
         }
 
 
@@ -749,6 +771,10 @@ public interface SkyService {
         public static SkyService getLilyHostService() {
 
             return getInstance().lilyHostService;
+        }
+
+        public static SkyService getCacheSkyService(){
+            return getInstance().mCacheSkyService;
         }
     }
 

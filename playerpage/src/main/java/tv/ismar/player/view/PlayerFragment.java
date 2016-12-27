@@ -615,7 +615,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onCompleted() {
-        if ((mIsmartvPlayer == null) || isPopWindowShow() || isQuit) {// isQuit 奇艺试看视频结束后没有onCompleted,而是onStop.而部分机型返回键退出时也是调用onStop
+        if ((mIsmartvPlayer == null) || isPopWindowShow() || isQuit || !NetworkUtils.isConnected(getActivity())) {// isQuit 奇艺试看视频结束后没有onCompleted,而是onStop.而部分机型返回键退出时也是调用onStop
             return;
         }
         hideMenu();
@@ -737,6 +737,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private Handler mTimerHandler = new Handler();
+    private int historyPosition;// 人为操控断网，再连接网络进入播放器，可能导致进入播放器起播后，网络获取到的是未连接情况
 
     private Runnable timerRunnable = new Runnable() {
         public void run() {
@@ -747,10 +748,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             if (mIsmartvPlayer.isPlaying()) {
                 int mediaPosition = mIsmartvPlayer.getCurrentPosition();
                 // 播放过程中断网判断Start
-                if (mCurrentPosition == mediaPosition) {
+                if (mCurrentPosition == mediaPosition && mediaPosition != historyPosition) {
                     if (!NetworkUtils.isConnected(getActivity())) {
+                        addHistory(mCurrentPosition, true);
+                        mIsmartvPlayer.pause();
+                        hidePanel();
                         ((BaseActivity) getActivity()).showNoNetConnectDialog();
-                        Log.e(TAG, "Network error.");
+                        Log.e(TAG, "Network error on timer runnable.");
                         return;
                     }
                 }
@@ -1113,6 +1117,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //        }
 
         Log.i(TAG, "mCurrentPosition:" + mCurrentPosition);
+        historyPosition = mCurrentPosition;
         mIsmartvPlayer = PlayerBuilder.getInstance()
                 .setActivity(getActivity())
                 .setPlayerMode(playerMode)
