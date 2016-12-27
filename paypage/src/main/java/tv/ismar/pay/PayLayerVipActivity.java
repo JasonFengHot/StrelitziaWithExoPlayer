@@ -38,6 +38,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
     private ImageView rightArrow;
     private TextView vipDescriptionTextView;
     private DetailPageStatistics mPageStatistics;
+    private int itemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +48,13 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         initViews();
         Intent intent = getIntent();
         int cpid = intent.getIntExtra("cpid", -1);
-        int itemId = intent.getIntExtra("item_id", -1);
+        itemId = intent.getIntExtra("item_id", -1);
         payLayerVip(String.valueOf(cpid), String.valueOf(itemId));
     }
 
     @Override
     protected void onResume() {
-        mPageStatistics.packageDetailIn("vip","detail");
+        mPageStatistics.packageDetailIn(itemId+"","detail");
         super.onResume();
     }
 
