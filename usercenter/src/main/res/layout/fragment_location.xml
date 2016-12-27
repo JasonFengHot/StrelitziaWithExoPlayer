@@ -81,10 +81,10 @@
 
 
                     <ImageView
-
+                        android:layout_marginTop="@dimen/weather_icon_mt"
                         android:id="@+id/today_weather_icon1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/weather_icon"
+                        android:layout_height="@dimen/weather_icon"
                         android:gravity="center"
                         app:weatherIcon="@{tasks.todayWeatherIcon}" />
 
@@ -93,6 +93,7 @@
                         android:id="@+id/today_weather_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/weather_info"
                         android:gravity="center"
                         android:text="@{tasks.todayCondition}"
                         android:textColor="@color/color_base_white"
@@ -102,6 +103,7 @@
                         android:id="@+id/today_weather_temperature"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/weather_temperature_mt"
                         android:gravity="center"
                         android:text="@{tasks.todayTemp}"
                         android:textColor="@color/color_base_white"
@@ -111,6 +113,7 @@
                         android:id="@+id/today_weather_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/weather_text_mt"
                         android:gravity="center"
                         android:text="@string/today_text"
                         android:textColor="@color/color_base_white"
@@ -125,9 +128,10 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:layout_marginTop="@dimen/weather_icon_mt"
                         android:id="@+id/tomorrow_weather_icon1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/weather_icon"
+                        android:layout_height="@dimen/weather_icon"
                         android:gravity="center"
                         app:weatherIcon="@{tasks.tomorrowWeatherIcon}" />
 
@@ -136,6 +140,7 @@
                         android:id="@+id/tomorrow_weather_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/weather_info"
                         android:gravity="center"
                         android:text="@{tasks.tomorrowCondition}"
                         android:textColor="@color/color_base_white"
@@ -145,6 +150,7 @@
                         android:id="@+id/tomorrow_weather_temperature"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/weather_temperature_mt"
                         android:gravity="center"
                         android:text="@{tasks.tomorrowTemp}"
                         android:textColor="@color/color_base_white"
@@ -154,6 +160,7 @@
                         android:id="@+id/tomorrow_weather_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/weather_text_mt"
                         android:gravity="center"
                         android:text="@string/tomorrow_text"
                         android:textColor="@color/color_base_white"

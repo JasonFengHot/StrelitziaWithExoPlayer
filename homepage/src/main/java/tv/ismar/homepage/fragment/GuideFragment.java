@@ -40,6 +40,7 @@ import tv.ismar.app.core.cache.CacheManager;
 import tv.ismar.app.core.cache.DownloadClient;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
+import tv.ismar.app.network.SkyService;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.homepage.R;
@@ -204,7 +205,7 @@ public class GuideFragment extends ChannelBaseFragment {
 
 
     public void fetchHomePage() {
-        homePageSub = ((HomePageActivity) getActivity()).mSkyService.TvHomepageTop().subscribeOn(Schedulers.io())
+        homePageSub = SkyService.ServiceManager.getCacheSkyService().TvHomepageTop().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(((HomePageActivity) getActivity()).new BaseObserver<HomePagerEntity>() {
                     @Override

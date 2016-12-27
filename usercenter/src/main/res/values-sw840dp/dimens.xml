@@ -48,8 +48,8 @@
 <dimen name="help_title_icon_h">40.44dp</dimen>
 <dimen name="ismartv_icon_w">128.33dp</dimen>
 
-<dimen name="usercenter_storefragment_packagelist_item_image_width">269.11dp</dimen>
-<dimen name="usercenter_storefragment_packagelist_item_image_height">155.56dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_image_width">260.56dp</dimen>
+<dimen name="usercenter_storefragment_packagelist_item_image_height">147.00dp</dimen>
 <dimen name="h2_text_size">28.00sp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_layout_marginRight">5.44dp</dimen>
 <dimen name="usercenter_storefragment_packagelist_item_text_height">48.22dp</dimen>
@@ -82,7 +82,7 @@
 <dimen name="usercenter_header_height">77.78dp</dimen>
 <dimen name="product_recycler_mt">18.67dp</dimen>
 <dimen name="product_recycler_item_spacing">-3.11dp</dimen>
-<dimen name="product_item_mt">-14.00dp</dimen>
+<dimen name="product_item_mt">-4.67dp</dimen>
 <dimen name="userinfo_layout_pb">46.67dp</dimen>
 <dimen name="user_info_other_item_vertical_spacing">35.00dp</dimen>
 <dimen name="user_center_logout_width">213.11dp</dimen>
@@ -123,6 +123,19 @@
 <dimen name="usercenter_vertical_divider_line_mt">11.67dp</dimen>
 <dimen name="prompt_layout_mb">116.67dp</dimen>
 <dimen name="prompt_layout_mt">343.78dp</dimen>
-<dimen name="location_confirm_btn_ml">27.22dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">93.33dp</dimen>
+<dimen name="location_confirm_btn_ml">34.22dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">89.44dp</dimen>
+<dimen name="product_gridview_bp">-27.22dp</dimen>
+<dimen name="product_gridview_lp">17.11dp</dimen>
+<dimen name="product_gridview_rp">16.33dp</dimen>
+<dimen name="product_gridview_tp">17.11dp</dimen>
+<dimen name="product_gridview_vertical_space">-3.89dp</dimen>
+<dimen name="product_gridview_ml">11.67dp</dimen>
+<dimen name="usercenter_fragment_indicator_mt">3.11dp</dimen>
+<dimen name="today_weather_info_mt">-7.78dp</dimen>
+<dimen name="weather_icon">46.67dp</dimen>
+<dimen name="weather_temperature_mt">4.67dp</dimen>
+<dimen name="weather_info">4.67dp</dimen>
+<dimen name="weather_text_mt">7.78dp</dimen>
+<dimen name="weather_icon_mt">9.33dp</dimen>
 </resources>

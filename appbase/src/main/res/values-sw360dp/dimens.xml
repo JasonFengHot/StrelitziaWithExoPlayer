@@ -30,11 +30,13 @@
 <dimen name="header_fragment_padding_bottom2">5.67dp</dimen>
 <dimen name="header_fragment_title_divider_w">16.67dp</dimen>
 <dimen name="header_fragment_title_divider_h">1.67dp</dimen>
-<dimen name="header_fragment_subtitle_ml">1.33dp</dimen>
+<dimen name="header_fragment_subtitle_ml">6.67dp</dimen>
 <dimen name="header_fragment_weather_ml">139.67dp</dimen>
-<dimen name="usercenter_header_fragment_weather_ml">63.33dp</dimen>
-<dimen name="usercenter_header_fragment_weather_mb">11.67dp</dimen>
+<dimen name="usercenter_header_fragment_weather_ml">64.33dp</dimen>
+<dimen name="usercenter_header_fragment_weather_mt">2.67dp</dimen>
+<dimen name="usercenter_header_fragment_weather_mb">10.67dp</dimen>
 <dimen name="usercenter_header_fragment_subtitle_mb">3.33dp</dimen>
+<dimen name="usercenter_header_fragment_subtitle_ml">2.00dp</dimen>
 <dimen name="header_fragment_divider_mlr">11.33dp</dimen>
 <dimen name="header_fragment_btn_width">40.00dp</dimen>
 <dimen name="header_fragment_mine_space">10.67dp</dimen>
@@ -468,7 +470,7 @@
 
 <dimen name="locatoinFragment_areaPop_cancelBtn_marginLeft">28.33dp</dimen>
 <dimen name="locationFragment_areaPop_Btn_marginTop">13.33dp</dimen>
-<dimen name="locationFragment_areaPop_Btn_marginTop1">8.33dp</dimen>
+<dimen name="locationFragment_areaPop_Btn_marginTop1">10.00dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">60.00dp</dimen>
 
 <!-- zjq -->
