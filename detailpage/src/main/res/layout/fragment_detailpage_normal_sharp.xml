@@ -59,6 +59,7 @@
                         android:layout_marginTop="@dimen/detail_normal_title_mt"
                         android:ellipsize="end"
                         android:text="@{tasks.itemTitle}"
+                        android:includeFontPadding="true"
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_40sp"/>
 
@@ -73,6 +74,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_type"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"/>
 
@@ -81,6 +83,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:text="@{tasks.genre}"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -99,6 +102,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_level"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                         />
@@ -108,6 +112,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:text="@{tasks.classification}"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -126,6 +131,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_area"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                         />
@@ -135,6 +141,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:text="@{tasks.area}"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -153,6 +160,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/detail_page_time"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                         />
@@ -162,6 +170,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:text="@{tasks.airDate}"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -179,6 +188,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:includeFontPadding="true"
                             android:text="@string/detail_page_director"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -189,6 +199,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:text="@{tasks.director}"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -206,6 +217,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:includeFontPadding="true"
                             android:text="@string/detail_page_actor"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -216,6 +228,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:text="@{tasks.actor}"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -233,6 +246,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:includeFontPadding="true"
                             android:text="@string/detail_page_episodes"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -243,6 +257,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:text="@{tasks.episodes}"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
@@ -377,6 +392,7 @@
                         android:ellipsize="end"
                         android:lineSpacingExtra="@dimen/normal_linespacingextra"
                         android:maxLines="4"
+                        android:includeFontPadding="true"
                         android:text="@{tasks.description}"
                         android:textColor="@color/module_color_white"
                         android:textSize="@dimen/text_size_30sp"
@@ -407,6 +423,7 @@
                     android:layout_width="@dimen/normal_detail_label_image_w"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:includeFontPadding="true"
                     android:text="@string/recommend_str"
                     android:textColor="@color/module_color_white"
                     android:layout_marginLeft="@dimen/normal_detail_label_image_ml"
@@ -463,6 +480,7 @@
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                             android:layout_marginTop="@dimen/related__layout_item_title_mt"/>
@@ -473,6 +491,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_24sp"/>
 
@@ -527,6 +546,7 @@
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                             android:layout_marginTop="@dimen/related__layout_item_title_mt"/>
@@ -537,6 +557,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_24sp"/>
 
@@ -591,6 +612,7 @@
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                             android:layout_marginTop="@dimen/related__layout_item_title_mt"/>
@@ -601,6 +623,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_24sp"/>
 
@@ -655,6 +678,7 @@
                             android:ellipsize="marquee"
                             android:marqueeRepeatLimit="marquee_forever"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_30sp"
                             android:layout_marginTop="@dimen/related__layout_item_title_mt"/>
@@ -665,6 +689,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/detail_text_mt3"
                             android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="@color/module_color_white"
                             android:textSize="@dimen/text_size_24sp"/>
 

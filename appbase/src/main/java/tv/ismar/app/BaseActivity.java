@@ -301,6 +301,26 @@ public class BaseActivity extends AppCompatActivity {
 
 
     }
+    public void historyShowItemOffLinePop() {
+        itemOffLinePop = new ItemOffLinePopWindow(this);
+        itemOffLinePop.setFirstMessage(getString(R.string.item_offline));
+        itemOffLinePop.setConfirmBtn(getString(R.string.confirm));
+        itemOffLinePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                itemOffLinePop.dismiss();
+            }
+        });
+        itemOffLinePop.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        itemOffLinePop.dismiss();
+                    }
+                },
+                null);
+
+
+    }
 
     private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override
