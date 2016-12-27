@@ -516,7 +516,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
         mCallPlay.videoSwitchStream(mMedia, getQualityIndex(getCurrentQuality()), "manual",
-                null, sn, mMediaIp, sid, mPlayerFlag);
+                mSpeed, sn, mMediaIp, sid, mPlayerFlag);
     }
 
     private String initSmartQuality(ClipEntity.Quality initQuality) {

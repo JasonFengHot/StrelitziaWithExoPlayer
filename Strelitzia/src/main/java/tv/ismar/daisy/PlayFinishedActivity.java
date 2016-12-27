@@ -40,6 +40,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.player.InitPlayerTool;
 import tv.ismar.app.ui.ZGridView;
 import tv.ismar.app.util.BitmapDecoder;
+import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.AsyncImageView;
 
 public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeListener, OnItemClickListener, OnClickListener {
@@ -246,7 +247,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
                 break;
             case R.id.btn_favorites:
                 String isnet = "";
-                if (IsmartvActivator.getInstance().isLogin()) {
+                if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
                     isnet = "yes";
                 } else {
                     isnet = "no";
