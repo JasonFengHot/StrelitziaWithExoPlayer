@@ -48,6 +48,7 @@ public class CallaPlay {
         if (media == null) {
             return null;
         }
+        userId = TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ? userId:IsmartvActivator.getInstance().getUsername();
         HashMap<String, Object> tempMap = getPublicParams(media, quality, speed, sid, playerFlag);
         tempMap.put("userid", userId);
         tempMap.put("source", media.getSource());
@@ -355,6 +356,7 @@ public class CallaPlay {
         if (media == null) {
             return null;
         }
+        userid = TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ?userid:IsmartvActivator.getInstance().getUsername();
         HashMap<String, Object> tempMap = getPublicParams(media, quality, speed, sid, playerFlag);
         tempMap.put(EventProperty.MODE, mode);
         tempMap.put("userid", userid);
