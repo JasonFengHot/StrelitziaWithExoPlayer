@@ -51,6 +51,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     private Button purchaseBtn;
     private boolean listLayoutItemNextFocusUpIsSelf = false;
     private DetailPageStatistics mPageStatistics;
+    private int packageId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +60,14 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         mPageStatistics = new DetailPageStatistics();
         initViews();
         Intent intent = getIntent();
-        int packageId = intent.getIntExtra("package_id", -1);
+        packageId = intent.getIntExtra("package_id", -1);
         payLayerPackage(String.valueOf(packageId));
         orderCheck(String.valueOf(packageId));
     }
 
     @Override
     protected void onResume() {
-        mPageStatistics.packageDetailIn("relate","detail");
+        mPageStatistics.packageDetailIn(packageId+"","detail");
         super.onResume();
     }
 
