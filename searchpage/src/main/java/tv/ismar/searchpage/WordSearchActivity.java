@@ -962,6 +962,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 iv_left_arrow.setVisibility(View.INVISIBLE);
                 iv_right_arrow.setVisibility(View.VISIBLE);
             }
+            iv_right_arrow.requestFocus();
         } else if (i1 == R.id.iv_right_arrow) {
             scroll = scrowview.getScrollX();
             if (scroll + getResources().getDimensionPixelOffset(R.dimen.dimention_left) < dimension) {
@@ -972,6 +973,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 iv_right_arrow.setVisibility(View.INVISIBLE);
                 iv_left_arrow.setVisibility(View.VISIBLE);
             }
+            iv_left_arrow.requestFocus();
         } else {
             if (et_input.getText().toString().length() <= 25) {
                 et_input.append(((TextView) view).getText().toString());
