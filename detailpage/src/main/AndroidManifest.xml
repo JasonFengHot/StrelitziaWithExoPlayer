@@ -16,6 +16,12 @@
             </intent-filter>
 
             <intent-filter>
+                <action android:name="tv.ismar.daisy.packageitem"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+            <intent-filter>
                 <action android:name="tv.ismar.daisy.Item"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>

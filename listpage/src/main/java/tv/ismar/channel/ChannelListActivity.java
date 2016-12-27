@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.ui.HGridView;
@@ -59,12 +60,21 @@ public class ChannelListActivity extends BaseActivity {
 				
 				channel = bundle.getString("channel");
 				portraitflag = bundle.getInt("portraitflag");
+			}else{
+				url =intent.getStringExtra("url");
+
+				title = intent.getStringExtra("title");
+
+				channel = intent.getStringExtra("channel");
+				portraitflag = intent.getIntExtra("portraitflag",0);
 			}
 		}
 		if(url==null) {
 			//url = "http://cord.tvxio.com/api/tv/sections/chinesemovie/";
 		//	url = SimpleRestClient.root_url+"/api/tv/sections/chinesemovie/";
 		//	url = "http://cord.tvxio.com/api/live/channel/movie/";
+		}else if(url.startsWith("/api")){
+				url= "http://"+IsmartvActivator.getInstance().getApiDomain()+url;
 		}
 		if(title==null) {
 			title = "华语电影";
