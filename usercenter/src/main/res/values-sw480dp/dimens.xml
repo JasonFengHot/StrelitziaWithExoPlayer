@@ -123,8 +123,8 @@
 <dimen name="usercenter_vertical_divider_line_mt">6.67dp</dimen>
 <dimen name="prompt_layout_mb">66.67dp</dimen>
 <dimen name="prompt_layout_mt">196.44dp</dimen>
-<dimen name="location_confirm_btn_ml">15.56dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">53.33dp</dimen>
+<dimen name="location_confirm_btn_ml">19.56dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">51.11dp</dimen>
 <dimen name="product_gridview_bp">-15.56dp</dimen>
 <dimen name="product_gridview_lp">9.78dp</dimen>
 <dimen name="product_gridview_rp">9.33dp</dimen>
@@ -132,4 +132,10 @@
 <dimen name="product_gridview_vertical_space">-2.22dp</dimen>
 <dimen name="product_gridview_ml">6.67dp</dimen>
 <dimen name="usercenter_fragment_indicator_mt">1.78dp</dimen>
+<dimen name="today_weather_info_mt">-4.44dp</dimen>
+<dimen name="weather_icon">26.67dp</dimen>
+<dimen name="weather_temperature_mt">2.67dp</dimen>
+<dimen name="weather_info">2.67dp</dimen>
+<dimen name="weather_text_mt">4.44dp</dimen>
+<dimen name="weather_icon_mt">5.33dp</dimen>
 </resources>
