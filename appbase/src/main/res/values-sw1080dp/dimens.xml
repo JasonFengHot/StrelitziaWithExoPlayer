@@ -29,11 +29,13 @@
     <dimen name="header_fragment_padding_bottom2">17dp</dimen>
     <dimen name="header_fragment_title_divider_w">50dp</dimen>
     <dimen name="header_fragment_title_divider_h">5dp</dimen>
-    <dimen name="header_fragment_subtitle_ml">4dp</dimen>
+    <dimen name="header_fragment_subtitle_ml">20dp</dimen>
     <dimen name="header_fragment_weather_ml">419dp</dimen>
-    <dimen name="usercenter_header_fragment_weather_ml">190dp</dimen>
-    <dimen name="usercenter_header_fragment_weather_mb">35dp</dimen>
+    <dimen name="usercenter_header_fragment_weather_ml">193dp</dimen>
+    <dimen name="usercenter_header_fragment_weather_mt">8dp</dimen>
+    <dimen name="usercenter_header_fragment_weather_mb">32dp</dimen>
     <dimen name="usercenter_header_fragment_subtitle_mb">10dp</dimen>
+    <dimen name="usercenter_header_fragment_subtitle_ml">6dp</dimen>
     <dimen name="header_fragment_divider_mlr">34dp</dimen>
     <dimen name="header_fragment_btn_width">120dp</dimen>
     <dimen name="header_fragment_mine_space">32dp</dimen>

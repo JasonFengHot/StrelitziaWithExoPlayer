@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,7 +45,7 @@ import tv.ismar.usercenter.viewmodel.ProductViewModel;
  * Created by huibin on 10/27/16.
  */
 
-public class ProductFragment extends BaseFragment implements ProductContract.View {
+public class ProductFragment extends BaseFragment implements ProductContract.View, AdapterView.OnItemClickListener {
     private static final String TAG = ProductFragment.class.getSimpleName();
     private ProductViewModel mViewModel;
     private ProductContract.Presenter mPresenter;
@@ -81,11 +84,14 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         productBinding.setActionHandler(mPresenter);
 
         gridView = productBinding.recyclerview;
-//        mRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.product_recycler_item_spacing)));
-//        mRecyclerView.setLayoutManager(new GridLayoutManagerTV(getContext(), 4));
-//        mRecyclerView.setSelectedItemAtCentered(false);
-//        mRecyclerView.setOnItemClickListener(this);
+        gridView.setOnItemClickListener(this);
         View root = productBinding.getRoot();
+//        root.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+//            @Override
+//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+//                Log.d(TAG, "onGlobalFocusChanged: " + newFocus);
+//            }
+//        });
         return root;
     }
 
@@ -167,6 +173,12 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         gridView.setAdapter(adapter);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        PageIntent pageIntent = new PageIntent();
+        pageIntent.toPackageDetail(getContext(), "usercenter", (int) mYouHuiDingGouEntity.getObjects().get(position).getPk());
+    }
+
 
     private class ProductAdapter extends BaseAdapter {
         private Context mContext;
@@ -214,6 +226,26 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
                 Picasso.with(mContext).load(mObjects.get(position).getPoster_url()).into(productViewHolder.imageView);
             }
 
+
+            if (position == 0 || position == 1 || position == 2 || position == 3) {
+                convertView.setId(View.generateViewId());
+                convertView.setNextFocusUpId(convertView.getId());
+            }
+
+
+            int theLastLineCount = (position + 1) % 4;
+
+            if (theLastLineCount != 0) {
+                if (position >= mObjects.size() - 1 - theLastLineCount) {
+                    convertView.setId(View.generateViewId());
+                    convertView.setNextFocusDownId(convertView.getId());
+                }
+
+            }
+
+            if ((position + 1) % 4 == 1) {
+                convertView.setNextFocusLeftId(R.id.usercenter_store);
+            }
             return convertView;
         }
 
