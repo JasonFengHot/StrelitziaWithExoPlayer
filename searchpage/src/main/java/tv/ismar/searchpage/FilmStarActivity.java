@@ -610,11 +610,11 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
             TextView textView = (TextView) v.findViewById(R.id.title_new);
             if (hasFocus) {
                 focusTranslate.setFocusable(false);
-                if (indicatorSelectedView == v) {
-                    textView.setTextColor(getResources().getColor(R.color.word_selected));
-                } else {
+//                if (indicatorSelectedView == v) {
+//                    textView.setTextColor(getResources().getColor(R.color.word_selected));
+//                } else {
                     textView.setTextColor(getResources().getColor(R.color.word_focus));
-                }
+//                }
                 bg.setVisibility(View.VISIBLE);
                 JasmineUtil.scaleOut(v);
 //                currentFocuedIndicatorView = v;
