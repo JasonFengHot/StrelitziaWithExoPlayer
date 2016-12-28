@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.picasso.Picasso;
@@ -48,7 +49,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
 
     private FragmentPurchasehistoryBinding purchasehistoryBinding;
 
-    private LinearLayout mRecyclerView;
+    private RelativeLayout mRecyclerView;
 
     private boolean fragmentIsPause = false;
 
@@ -251,7 +252,23 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 mergeTxt.setVisibility(View.INVISIBLE);
             }
             convertView.setTag(item);
-            mRecyclerView.addView(convertView);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            if (i == 0) {
+                convertView.setId(R.id.balance_pay);
+            } else {
+                convertView.setId(R.id.balance_pay + i * 5);
+                params.addRule(RelativeLayout.BELOW, R.id.feedback_time + 5 * (i - 1));
+            }
+            mRecyclerView.addView(convertView,params);
+            ImageView imageView = new ImageView(mUserCenterActivity);
+            imageView.setBackgroundResource(R.color.history_divider);
+            imageView.setId(R.id.feedback_time+i * 5);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 1);
+            layoutParams.bottomMargin = 4;
+            layoutParams.topMargin =4;
+            layoutParams.addRule(RelativeLayout.BELOW,convertView.getId());
+            imageView.setLayoutParams(layoutParams);
+            mRecyclerView.addView(imageView);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -302,8 +319,11 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 }
             });
             if (i == 0) {
-                convertView.setId(R.id.purchase_last_item_id);
+//                convertView.setId(R.id.purchase_last_item_id);
                 convertView.setNextFocusUpId(convertView.getId());
+            }
+            if(i == orderEntities.size() -1){
+                convertView.setNextFocusDownId(convertView.getId());
             }
             convertView.setNextFocusLeftId(R.id.usercenter_purchase_history);
             icon.setOnKeyListener(new View.OnKeyListener() {
@@ -317,13 +337,13 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
                 }
             });
 
-            if (i != orderEntities.size() - 1) {
-                ImageView imageView = new ImageView(mUserCenterActivity);
-                imageView.setBackgroundResource(R.color.history_divider);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
-                imageView.setLayoutParams(layoutParams);
-                mRecyclerView.addView(imageView);
-            }
+//            if (i != orderEntities.size() - 1) {
+//                ImageView imageView = new ImageView(mUserCenterActivity);
+//                imageView.setBackgroundResource(R.color.history_divider);
+//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+//                imageView.setLayoutParams(layoutParams);
+//                mRecyclerView.addView(imageView);
+//            }
         }
 
     }

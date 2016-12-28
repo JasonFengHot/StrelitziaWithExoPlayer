@@ -487,6 +487,10 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
             if ((position + 1) % 6 == 1) {
                 holder.itemView.setNextFocusLeftId(R.id.usercenter_location);
             }
+
+            if (position == mCityTableList.size() -1){
+                holder.itemView.setNextFocusRightId(holder.itemView.getId());
+            }
         }
 
         @Override
