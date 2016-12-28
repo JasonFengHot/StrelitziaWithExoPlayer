@@ -20,6 +20,7 @@
 <dimen name="h3_size">5.33dp</dimen>
 <dimen name="h4_size">4.17dp</dimen>
 <dimen name="h5_size">3.17dp</dimen>
+<dimen name="h6_size">6.67dp</dimen>
 
 <!-- 头部高度 -->
 <dimen name="header_fragment_h">22.22dp</dimen>

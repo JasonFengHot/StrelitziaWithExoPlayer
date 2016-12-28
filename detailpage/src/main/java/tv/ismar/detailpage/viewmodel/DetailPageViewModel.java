@@ -423,7 +423,7 @@ public class DetailPageViewModel extends BaseObservable {
     public String getEpisodes() {
         String episodes;
         try {
-            episodes = String.valueOf(mItemEntity.getEpisode());
+            episodes = String.valueOf(mItemEntity.getSubitems().length);
             if (episodes.equals("0")) {
                 episodes = "";
             } else {

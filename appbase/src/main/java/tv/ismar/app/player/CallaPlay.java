@@ -19,7 +19,7 @@ public class CallaPlay {
     private String eventName = "";
 
     // 日志发送和原先Daisy项目相同，由于现有播放器没有使用Item对象
-    private HashMap<String, Object> getPublicParams(IsmartvMedia media, Integer quality, Integer speed, String sid, String playerFlag) {
+    private HashMap<String, Object> getPublicParams(IsmartvMedia media, Integer quality, int speed, String sid, String playerFlag) {
         HashMap<String, Object> tempMap = new HashMap<>();
         tempMap.put(EventProperty.ITEM, media.getPk());
         if (media.getSubItemPk() > 0 && media.getPk() != media.getSubItemPk()) {
@@ -44,10 +44,11 @@ public class CallaPlay {
      * @param speed   (网速, 单位KB/s) INTEGER
      * @return HashMap
      */
-    public HashMap<String, Object> videoStart(IsmartvMedia media, Integer quality, String userId, Integer speed, String sid, String playerFlag) {
+    public HashMap<String, Object> videoStart(IsmartvMedia media, Integer quality, String userId, int speed, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
+        userId = TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ? userId:IsmartvActivator.getInstance().getUsername();
         HashMap<String, Object> tempMap = getPublicParams(media, quality, speed, sid, playerFlag);
         tempMap.put("userid", userId);
         tempMap.put("source", media.getSource());
@@ -70,7 +71,7 @@ public class CallaPlay {
      * @return HashMap
      */
     public HashMap<String, Object> videoPlayLoad(IsmartvMedia media, Integer quality,
-                                                 long duration, Integer speed, String mediaIP, String sid, String playerUrl, String playerFlag) {
+                                                 long duration, int speed, String mediaIP, String sid, String playerUrl, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -96,7 +97,7 @@ public class CallaPlay {
      * @return HashMap
      */
 
-    public HashMap<String, Object> videoPlayStart(IsmartvMedia media, Integer quality, Integer speed, String sid, String playerFlag) {
+    public HashMap<String, Object> videoPlayStart(IsmartvMedia media, Integer quality, int speed, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -118,7 +119,7 @@ public class CallaPlay {
      * @param speed    (网速, 单位KB/s) INTEGER
      * @return HashMap
      */
-    public HashMap<String, Object> videoPlayPause(IsmartvMedia media, Integer quality, Integer speed, Integer position, String sid, String playerFlag) {
+    public HashMap<String, Object> videoPlayPause(IsmartvMedia media, Integer quality, int speed, Integer position, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -143,7 +144,7 @@ public class CallaPlay {
      * @return HashMap
      */
 
-    public HashMap<String, Object> videoPlayContinue(IsmartvMedia media, Integer quality, Integer speed, Integer position, String sid, String playerFlag) {
+    public HashMap<String, Object> videoPlayContinue(IsmartvMedia media, Integer quality, int speed, Integer position, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -167,7 +168,7 @@ public class CallaPlay {
      * @return HashMap
      */
 
-    public HashMap<String, Object> videoPlaySeek(IsmartvMedia media, Integer quality, Integer speed, Integer position, String sid, String playerFlag) {
+    public HashMap<String, Object> videoPlaySeek(IsmartvMedia media, Integer quality, int speed, Integer position, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -193,7 +194,7 @@ public class CallaPlay {
      * @return HashMap
      */
 
-    public HashMap<String, Object> videoPlaySeekBlockend(IsmartvMedia media, Integer quality, Integer speed, Integer position, long duration, String mediaIP, String sid, String playerFlag) {
+    public HashMap<String, Object> videoPlaySeekBlockend(IsmartvMedia media, Integer quality, int speed, Integer position, long duration, String mediaIP, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -220,7 +221,7 @@ public class CallaPlay {
      * @param mediaIP  (媒体IP)STRING
      * @return HashMap
      */
-    public HashMap<String, Object> videoPlayBlockend(IsmartvMedia media, Integer quality, Integer speed, long duration, String mediaIP, String sid, String playerFlag) {
+    public HashMap<String, Object> videoPlayBlockend(IsmartvMedia media, Integer quality, int speed, long duration, String mediaIP, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -244,7 +245,7 @@ public class CallaPlay {
      * @param mediaIP (媒体IP) STRING
      * @return HashMap
      */
-    public HashMap<String, Object> videoPlaySpeed(IsmartvMedia media, Integer quality, Integer speed, String mediaIP, String sid, String playerFlag) {
+    public HashMap<String, Object> videoPlaySpeed(IsmartvMedia media, Integer quality, int speed, String mediaIP, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -268,7 +269,7 @@ public class CallaPlay {
      * @return HashMap
      */
 
-    public HashMap<String, Object> videoLowSpeed(IsmartvMedia media, Integer quality, Integer speed, String mediaIP, String sid, String playerFlag) {
+    public HashMap<String, Object> videoLowSpeed(IsmartvMedia media, Integer quality, int speed, String mediaIP, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -292,7 +293,7 @@ public class CallaPlay {
      * @return HashMap
      */
 
-    public HashMap<String, Object> videoExit(IsmartvMedia media, Integer quality, Integer speed, String to, Integer position, long duration, String sid, String playerFlag) {
+    public HashMap<String, Object> videoExit(IsmartvMedia media, Integer quality, int speed, String to, Integer position, long duration, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -321,7 +322,7 @@ public class CallaPlay {
      * @return HashMap
      */
 
-    public HashMap<String, Object> videoExcept(String code, String content, IsmartvMedia media, Integer speed, String sid, Integer quality, Integer position, String playerFlag) {
+    public HashMap<String, Object> videoExcept(String code, String content, IsmartvMedia media, int speed, String sid, Integer quality, Integer position, String playerFlag) {
         if (media == null) {
             return null;
         }
@@ -351,10 +352,11 @@ public class CallaPlay {
      * @return HashMap
      */
 
-    public HashMap<String, Object> videoSwitchStream(IsmartvMedia media, Integer quality, String mode, Integer speed, String userid, String mediaip, String sid, String playerFlag) {
+    public HashMap<String, Object> videoSwitchStream(IsmartvMedia media, Integer quality, String mode, int speed, String userid, String mediaip, String sid, String playerFlag) {
         if (media == null) {
             return null;
         }
+        userid = TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ?userid:IsmartvActivator.getInstance().getUsername();
         HashMap<String, Object> tempMap = getPublicParams(media, quality, speed, sid, playerFlag);
         tempMap.put(EventProperty.MODE, mode);
         tempMap.put("userid", userid);

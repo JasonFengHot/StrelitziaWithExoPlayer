@@ -10,13 +10,18 @@ public class NetworkUtils {
      * 是否已有网络连接
      */
     public static boolean isConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = cm.getActiveNetworkInfo();
-        if (info != null && info.getState() == NetworkInfo.State.CONNECTED) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mobNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        NetworkInfo wifiNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo ethNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET);
+        boolean isConnected = (mobNetInfo != null && mobNetInfo.isConnected())
+                || (wifiNetInfo != null && wifiNetInfo.isConnected())
+                || (ethNetInfo != null && ethNetInfo.isConnected());
+
+        if (isConnected) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
