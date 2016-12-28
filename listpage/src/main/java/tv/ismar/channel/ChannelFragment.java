@@ -744,6 +744,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         }
         mSectionList = null;
         mScrollableSectionList = null;
+        BaseActivity.baseSection = "";
     }
 
     private OnCancelListener mLoadingCancelListener = new OnCancelListener() {
@@ -954,6 +955,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             mSectionProperties.put(EventProperty.SECTION, newSection.slug);
             mSectionProperties.put(EventProperty.TITLE, newSection.title);
             mSectionProperties.put(EventProperty.SOURCE,"list");
+
+            BaseActivity.baseSection = newSection.slug;
          //  mSectionProperties.put("sid", newSectionIndex);
            new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_IN, mSectionProperties);
             if (mCurrentSectionIndex >= 0) {

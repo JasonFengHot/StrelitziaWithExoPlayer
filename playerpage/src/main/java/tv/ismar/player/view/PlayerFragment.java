@@ -1141,7 +1141,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         ismartvMedia.setClipPk(mItemEntity.getClip().getPk());
         ismartvMedia.setChannel(channel);
         ismartvMedia.setSource(source);
-        ismartvMedia.setSection(section);
+        ismartvMedia.setSection(BaseActivity.baseSection);
         // 日志上报相关 ---End-----
 
         mIsmartvPlayer.setDataSource(ismartvMedia, mClipEntity, mCurrentQuality, adList, new IPlayer.OnDataSourceSetListener() {
