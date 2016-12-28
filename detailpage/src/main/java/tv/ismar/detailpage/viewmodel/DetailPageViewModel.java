@@ -458,44 +458,48 @@ public class DetailPageViewModel extends BaseObservable {
     @Bindable
     public String getPlayText() {
 
+        try {
+            switch (mPresenter.getContentModel()) {
+                case "entertainment":
+                case "variety":
+                    ItemEntity[] subItems = mItemEntity.getSubitems();
+                    String subitem_title = "";
+                    if (mHistory != null && mHistory.sub_url != null) {
+                        Log.e("getPlaytext", mHistory.toString());
+                        for (int i = 0; i < subItems.length; i++) {
+                            if (mItemEntity.getExpense() != null) {
+                                break;
+                            }
 
-        switch (mPresenter.getContentModel()) {
-            case "entertainment":
-            case "variety":
-                ItemEntity[] subItems = mItemEntity.getSubitems();
-                String subitem_title="";
-                if(mHistory!=null&&mHistory.sub_url!=null){
-                    Log.e("getPlaytext",mHistory.toString());
-                    for (int i = 0; i <subItems.length ; i++) {
-                        if(mItemEntity.getExpense() != null){
-                            break;
-                        }
-
-                        if(mHistory.sub_url.contains(subItems[i].getPk()+"")){
-                            subitem_title=subItems[i].getSubtitle();
-                            break;
+                            if (mHistory.sub_url.contains(subItems[i].getPk() + "")) {
+                                subitem_title = subItems[i].getSubtitle();
+                                break;
+                            }
                         }
                     }
-                }
-                if (subItems == null || subItems.length == 0) {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0  ? mContext.getString(R.string.video_preview) :
-                            mContext.getString(R.string.video_play);
-                } else {
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ?
-                            mContext.getString(R.string.video_preview)
-                            + " " + subitem_title
+                    if (subItems == null || subItems.length == 0) {
+                        return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
+                                mContext.getString(R.string.video_play);
+                    } else {
+                        return mItemEntity.getExpense() != null && mRemandDay <= 0 ?
+                                mContext.getString(R.string.video_preview)
+                                        + " " + subitem_title
 //                                    subItems[subItems.length - 1].getSubtitle()
-                            :
-                            mContext.getString(R.string.video_play) + " " +subitem_title;
+                                :
+                                mContext.getString(R.string.video_play) + " " + subitem_title;
 //                                    subItems[subItems.length - 1].getSubtitle();
-                }
+                    }
 
-            default:
-                return mItemEntity.getExpense() != null && mRemandDay <= 0? mContext.getString(R.string.video_preview) :
-                        mContext.getString(R.string.video_play);
+                default:
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
+                            mContext.getString(R.string.video_play);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
+        return mContext.getString(R.string.video_play);
     }
+
     @Bindable
     public boolean getEnabled() {
 

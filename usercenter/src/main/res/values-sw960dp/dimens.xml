@@ -26,7 +26,7 @@
 <dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">21.33dp</dimen>
 
 <dimen name="usercenter_info_association_pop_height">773.33dp</dimen>
-<dimen name="user_info_item_vertical_spacing">48.89dp</dimen>
+<dimen name="user_info_item_vertical_spacing">54.22dp</dimen>
 <dimen name="usercenter_info_layout_margin_left">53.33dp</dimen>
 <dimen name="h4_text_size">26.67sp</dimen>
 <dimen name="user_center_logout_height">64.00dp</dimen>
@@ -84,12 +84,12 @@
 <dimen name="product_recycler_item_spacing">-3.56dp</dimen>
 <dimen name="product_item_mt">-5.33dp</dimen>
 <dimen name="userinfo_layout_pb">53.33dp</dimen>
-<dimen name="user_info_other_item_vertical_spacing">40.00dp</dimen>
+<dimen name="user_info_other_item_vertical_spacing">34.67dp</dimen>
 <dimen name="user_center_logout_width">243.56dp</dimen>
 
 <dimen name="user_info_item_vertical_spacing_0">0.00dp</dimen>
-<dimen name="usercenter_info_layout_margin_right">17.78dp</dimen>
-<dimen name="charge_btn_margin_left">151.11dp</dimen>
+<dimen name="usercenter_info_layout_margin_right">19.56dp</dimen>
+<dimen name="charge_btn_margin_left">177.78dp</dimen>
 <dimen name="charge_btn_width">143.11dp</dimen>
 <dimen name="charge_btn_height">45.33dp</dimen>
 <dimen name="usercenter_line_spacing">35.56dp</dimen>
@@ -123,8 +123,6 @@
 <dimen name="usercenter_vertical_divider_line_mt">13.33dp</dimen>
 <dimen name="prompt_layout_mb">133.33dp</dimen>
 <dimen name="prompt_layout_mt">392.89dp</dimen>
-<dimen name="location_confirm_btn_ml">39.11dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">102.22dp</dimen>
 <dimen name="product_gridview_bp">-31.11dp</dimen>
 <dimen name="product_gridview_lp">19.56dp</dimen>
 <dimen name="product_gridview_rp">18.67dp</dimen>
@@ -138,4 +136,10 @@
 <dimen name="weather_info">5.33dp</dimen>
 <dimen name="weather_text_mt">8.89dp</dimen>
 <dimen name="weather_icon_mt">10.67dp</dimen>
+
+<dimen name="location_confirm_btn_ml">31.11dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">106.67dp</dimen>
+<dimen name="exit_account_mt">1.78dp</dimen>
+<dimen name="privilege_layout_mt">29.33dp</dimen>
+<dimen name="charge_money_mt">-2.67dp</dimen>
 </resources>
