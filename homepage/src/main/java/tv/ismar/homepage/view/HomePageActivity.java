@@ -403,6 +403,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             home_layout_advertisement.setVisibility(View.GONE);
             large_layout.removeView(home_layout_advertisement);
             layout_homepage.setVisibility(View.VISIBLE);
+            BaseActivity.baseChannel = "";
+            BaseActivity.baseSection = "";
             fetchChannels();
             startAdsService();
         }
