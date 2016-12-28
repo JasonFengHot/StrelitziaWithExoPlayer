@@ -39,6 +39,7 @@ dependencies {
     compile dependencies.appCompat
     compile dependencies.recyclerView
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
 }
 
 tasks.withType(JavaCompile) {
