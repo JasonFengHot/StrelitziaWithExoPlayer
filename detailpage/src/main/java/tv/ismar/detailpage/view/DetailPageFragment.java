@@ -117,6 +117,10 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             fromPage = bundle.getString(EXTRA_SOURCE);
+            if(fromPage!=null&&fromPage.equals("launcher")){
+                ((BaseActivity)getActivity()).baseSection="";
+                ((BaseActivity)getActivity()).baseChannel="";
+            }
             String itemJson = bundle.getString(EXTRA_ITEM_JSON);
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
 
