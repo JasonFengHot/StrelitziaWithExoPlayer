@@ -98,6 +98,12 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
 
         if (!source.equals("usercenter")) {
             edit_mobile.requestFocus();
+            edit_mobile.setNextFocusLeftId(edit_mobile.getId());
+            identifyCodeBtn.setNextFocusUpId(identifyCodeBtn.getId());
+            edit_identifycode.setNextFocusLeftId(edit_identifycode.getId());
+            edit_identifycode.setNextFocusRightId(edit_identifycode.getId());
+            btn_submit.setNextFocusLeftId(btn_submit.getId());
+
         } else {
             tmp.setNextFocusLeftId(R.id.usercenter_login_register);
         }

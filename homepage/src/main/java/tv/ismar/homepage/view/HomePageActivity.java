@@ -58,6 +58,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.account.core.http.HttpService;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.ad.AdsUpdateService;
@@ -816,6 +817,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                     @Override
                     public void confirmClick(View view) {
                         isCheckoutUpdate = true;
+                        SkyService.ServiceManager.executeActive = true;
                         exitPopup.dismiss();
                         CallaPlay callaPlay = new CallaPlay();
 //                        callaPlay.app_exit(TrueTime.now().getTime() - app_start_time, SimpleRestClient.appVersion);
@@ -1447,6 +1449,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onStop() {
         Log.i(TAG, "onStop");
+        SkyService.ServiceManager.executeActive = true;
         super.onStop();
     }
 
@@ -1501,4 +1504,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         intent.setClass(this, TrueTimeService.class);
         startService(intent);
     }
+
+
 }

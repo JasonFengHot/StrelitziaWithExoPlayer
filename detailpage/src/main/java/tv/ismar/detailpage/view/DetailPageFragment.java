@@ -373,7 +373,25 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             HashMap<String, Object> dataCollectionProperties = new HashMap<>();
             dataCollectionProperties.put(EventProperty.CLIP, mItemEntity.getClip().getPk());
             dataCollectionProperties.put(EventProperty.DURATION, (int)((System.currentTimeMillis()-((DetailPageActivity) getActivity()).start_time)/1000));
-            dataCollectionProperties.put(EventProperty.QUALITY, mItemEntity.getQuality());
+            String quality="";
+            switch (mItemEntity.getQuality()){
+                case 1:
+                    quality="normal";
+                    break;
+                case 2:
+                    quality="medium";
+                    break;
+                case 3:
+                    quality="high";
+                    break;
+                case 4:
+                    quality="ultra";
+                    break;
+                default:
+                    quality="adaptive";
+                    break;
+            }
+            dataCollectionProperties.put(EventProperty.QUALITY, quality);
             dataCollectionProperties.put(EventProperty.TITLE, mItemEntity.getTitle());
             dataCollectionProperties.put(EventProperty.ITEM, mItemEntity.getPk());
             dataCollectionProperties.put(EventProperty.SUBITEM, mItemEntity.getItemPk());

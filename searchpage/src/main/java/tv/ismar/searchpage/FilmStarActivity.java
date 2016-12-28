@@ -33,6 +33,7 @@ import tv.ismar.app.models.ActorRelateRequestParams;
 import tv.ismar.app.models.AttributesEntity;
 import tv.ismar.app.models.Expense;
 import tv.ismar.app.models.PersonEntitiy;
+import tv.ismar.app.models.Section;
 import tv.ismar.app.models.SemanticSearchResponseEntity;
 import tv.ismar.app.models.SemantichObjectEntity;
 import tv.ismar.app.util.DeviceUtils;
@@ -424,6 +425,8 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                     }else{
                         pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk);
                     }
+                    baseSection="";
+                    baseChannel=contentModel.equals("person")?"star":contentModel;
                     JasmineUtil.video_search_arrive(title,contentModel.equals("person")?"star":contentModel, (int) pk,0,itemTitle);
                 }
             });
@@ -631,5 +634,12 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        baseChannel="";
+        baseSection="";
+        super.onDestroy();
     }
 }
