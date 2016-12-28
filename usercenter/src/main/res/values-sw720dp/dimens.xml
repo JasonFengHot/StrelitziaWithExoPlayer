@@ -17,11 +17,11 @@
 <dimen name="usercenter_help_contact_margin_left">113.33dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_icon_margin_top">61.33dp</dimen>
 <dimen name="usercenter_help_helpcenter_text_margin_top">72.00dp</dimen>
-<dimen name="usercenter_help_icon_margin_top">36.67dp</dimen>
+<dimen name="usercenter_help_icon_margin_top">28.67dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_margin_top">65.33dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_margin_left">56.67dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_text_size">24.00dp</dimen>
-<dimen name="usercenter_help_shipinkefu_margin_top">10.00dp</dimen>
+<dimen name="usercenter_help_shipinkefu_margin_top">11.33dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_margin_right">66.67dp</dimen>
 <dimen name="usercenter_fragment_help_ismartv_introduction_lineSpacingExtra">16.00dp</dimen>
 
@@ -142,4 +142,12 @@
 <dimen name="exit_account_mt">1.33dp</dimen>
 <dimen name="privilege_layout_mt">22.00dp</dimen>
 <dimen name="charge_money_mt">-2.00dp</dimen>
+<dimen name="help_center_text_ml">16.67dp</dimen>
+<dimen name="helpcenter_hotline_mt">62.00dp</dimen>
+<dimen name="helpcenter_qq_mt">19.33dp</dimen>
+<dimen name="helpcenter_wx_mt">19.33dp</dimen>
+<dimen name="helpcenter_version_mt">19.33dp</dimen>
+<dimen name="ismartv_icon_ml">30.67dp</dimen>
+<dimen name="ismartv_icon_text_ml">18.67dp</dimen>
+<dimen name="usercenter_help_ismartv_icon_ml">-5.33dp</dimen>
 </resources>
