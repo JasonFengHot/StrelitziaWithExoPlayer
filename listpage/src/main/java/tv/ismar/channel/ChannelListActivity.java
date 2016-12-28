@@ -76,8 +76,10 @@ public class ChannelListActivity extends BaseActivity {
 			//url = "http://cord.tvxio.com/api/tv/sections/chinesemovie/";
 		//	url = SimpleRestClient.root_url+"/api/tv/sections/chinesemovie/";
 		//	url = "http://cord.tvxio.com/api/live/channel/movie/";
-		}else if(url.startsWith("/api")){
+		}else if(url.startsWith("/api/tv/sections/")){
 				url= "http://"+IsmartvActivator.getInstance().getApiDomain()+url;
+		}else if(url.startsWith("/api/tv/section/")){
+			url="http://"+IsmartvActivator.getInstance().getApiDomain()+"/api/tv/sections/"+channel;
 		}
 		if(title==null) {
 			title = "华语电影";
