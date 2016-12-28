@@ -475,7 +475,7 @@ public class CallaPlay {
         tempMap.put(EventProperty.OS_VERSION, os_version);
         tempMap.put(EventProperty.SD_SIZE, sd_size);
         tempMap.put(EventProperty.SD_FREE_SIZE, sd_free_size);
-        tempMap.put(EventProperty.USER_ID, userid);
+        tempMap.put("userid", userid);
         tempMap.put(EventProperty.PROVINCE, province);
         tempMap.put(EventProperty.CITY, city);
         tempMap.put(EventProperty.ISP, isp);
