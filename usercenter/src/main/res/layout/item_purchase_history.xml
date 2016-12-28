@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/header_divider"/>
+        android:background="@drawable/header_divider"
+        android:visibility="gone"
+        />
     <ImageView
         android:id="@+id/orderlistitem_icon"
         android:layout_width="@dimen/purchaseFragment_item_image_width"
