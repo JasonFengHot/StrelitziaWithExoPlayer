@@ -1444,13 +1444,9 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         ll_hotwords = null;
         popupWindow = null;
         errorDialog = null;
+        baseChannel="";
+        baseSection="";
         super.onDestroy();
     }
 
-    @Override
-    protected void onPause() {
-        baseChannel="";
-        baseSection="";
-        super.onPause();
-    }
 }
