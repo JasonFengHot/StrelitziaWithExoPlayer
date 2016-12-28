@@ -1,5 +1,6 @@
 package tv.ismar.account;
 
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -41,6 +42,12 @@ public class HttpParamsInterceptor implements Interceptor {
         Request request = chain.request();
         Request.Builder requestBuilder = request.newBuilder();
 
+        HttpUrl.Builder hostBuilder = request.url().newBuilder();
+
+        refactorRequest(request, hostBuilder);
+
+        requestBuilder.url(hostBuilder.build());
+
         IsmartvActivator activator = IsmartvActivator.getInstance();
         String accessToken = activator.getAuthToken();
         String deviceToken = activator.getDeviceToken();
@@ -53,8 +60,11 @@ public class HttpParamsInterceptor implements Interceptor {
             paramsMap.put("access_token", accessToken);
         }
 
+
         // process header params inject
         Headers.Builder headerBuilder = request.headers().newBuilder();
+
+
         if (headerParamsMap.size() > 0) {
             Iterator iterator = headerParamsMap.entrySet().iterator();
             while (iterator.hasNext()) {
@@ -100,11 +110,13 @@ public class HttpParamsInterceptor implements Interceptor {
         }
 
         request = requestBuilder.build();
+
+
         Response response;
         try {
             response = chain.proceed(request);
         } catch (Exception var27) {
-            Log.e(TAG, "error: " + request.url() +" " + var27.getMessage());
+            Log.e(TAG, "error: " + request.url() + " " + var27.getMessage());
             response = new Response.Builder().code(500)
                     .request(request)
                     .protocol(Protocol.HTTP_1_1)
@@ -116,6 +128,9 @@ public class HttpParamsInterceptor implements Interceptor {
     // func to inject params into url
     private void injectParamsIntoUrl(Request request, Request.Builder requestBuilder, Map<String, String> paramsMap) {
         HttpUrl.Builder httpUrlBuilder = request.url().newBuilder();
+
+        refactorRequest(request, httpUrlBuilder);
+
         if (paramsMap.size() > 0) {
             Iterator iterator = paramsMap.entrySet().iterator();
             while (iterator.hasNext()) {
@@ -204,4 +219,63 @@ public class HttpParamsInterceptor implements Interceptor {
         }
 
     }
+
+    private String appendProtocol(String host) {
+        Uri uri = Uri.parse(host);
+        String url = uri.toString();
+        if (!uri.toString().startsWith("http://") && !uri.toString().startsWith("https://")) {
+            url = "http://" + host;
+        }
+
+        if (!url.endsWith("/")) {
+            url = url + "/";
+        }
+        return url;
+    }
+
+
+    public void refactorRequest(Request request, HttpUrl.Builder httpUrlBuilder) {
+        String domain;
+        switch (request.url().host()) {
+            //api domain
+            case "1.1.1.1":
+                domain = appendProtocol(IsmartvActivator.getInstance().getApiDomain());
+                break;
+            //advertisement domain
+            case "1.1.1.2":
+                domain = appendProtocol(IsmartvActivator.getInstance().getAdDomain());
+                break;
+            //upgrade domain
+            case "1.1.1.3":
+                domain = appendProtocol(IsmartvActivator.getInstance().getUpgradeDomain());
+                break;
+            //log domain
+            case "1.1.1.4":
+                domain = appendProtocol(IsmartvActivator.getInstance().getLogDomain());
+                break;
+            default:
+                return;
+        }
+
+        HttpUrl httpUrl = HttpUrl.parse(domain);
+
+        httpUrlBuilder.host(httpUrl.host());
+
+        List<String> segments = httpUrl.pathSegments();
+
+        List<String> originalSegments = request.url().pathSegments();
+
+        List<String> requestSegments = new ArrayList<>();
+        requestSegments.addAll(segments);
+        requestSegments.addAll(originalSegments);
+
+        for (int i = 0; i < originalSegments.size(); i++) {
+            httpUrlBuilder.removePathSegment(originalSegments.size() - 1 - i);
+        }
+
+        for (String segment : requestSegments) {
+            httpUrlBuilder.addPathSegment(segment);
+        }
+    }
+
 }
