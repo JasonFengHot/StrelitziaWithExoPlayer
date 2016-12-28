@@ -33,6 +33,7 @@ import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.Constants;
 import tv.ismar.app.util.Utils;
@@ -48,6 +49,8 @@ import tv.ismar.statistics.DetailPageStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
+import static tv.ismar.app.core.PageIntentInterface.POSITION;
+import static tv.ismar.app.core.PageIntentInterface.TYPE;
 
 public class DetailPageFragment extends Fragment implements DetailPageContract.View, View.OnHoverListener {
     private static final String TAG = "LH/DetailPageFragment";
@@ -95,6 +98,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private DetailPageStatistics mPageStatistics;
     private String isLogin = "no";
     private String to="";
+    private int position;
+    private String type="item";
 
     public DetailPageFragment() {
         // Required empty public constructor
@@ -122,6 +127,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
                 ((BaseActivity)getActivity()).baseChannel="";
             }
             String itemJson = bundle.getString(EXTRA_ITEM_JSON);
+            position = bundle.getInt(POSITION,-1);
+            type=bundle.getString(TYPE);
             mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
 
         }
@@ -172,6 +179,11 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         loadItem(mItemEntity);
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
+        if(fromPage!=null&&fromPage.equals("launcher")) {
+            CallaPlay callaPlay = new CallaPlay();
+            callaPlay.launcher_vod_click(type,mItemEntity.getPk(),mItemEntity.getTitle(),position);
+        }
+
         mModel.notifyBookmark(true);
     }
 
