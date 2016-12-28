@@ -425,7 +425,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                     }else{
                         pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk);
                     }
-                    baseSection=new Section().slug;
+                    baseSection="";
                     baseChannel=contentModel.equals("person")?"star":contentModel;
                     JasmineUtil.video_search_arrive(title,contentModel.equals("person")?"star":contentModel, (int) pk,0,itemTitle);
                 }
