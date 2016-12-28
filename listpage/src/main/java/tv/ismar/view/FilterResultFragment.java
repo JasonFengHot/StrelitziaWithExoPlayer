@@ -576,9 +576,9 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
             int id = SimpleRestClient.getItemId(item.url, isSubItem);
             PageIntent pageIntent=new PageIntent();
             if(item.is_complex) {
-                pageIntent.toDetailPage(getActivity(),"retrieval",id, mChannel, "");
+                pageIntent.toDetailPage(getActivity(),"retrieval",id);
             } else {
-                pageIntent.toPlayPage(getActivity(),id,0, Source.LIST,mChannel,"");
+                pageIntent.toPlayPage(getActivity(),id,0, Source.LIST);
             }
         }
     }

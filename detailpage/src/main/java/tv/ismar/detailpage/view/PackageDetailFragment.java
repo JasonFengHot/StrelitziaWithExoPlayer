@@ -362,7 +362,7 @@ public class PackageDetailFragment extends BaseFragment {
         public void onItemClick(RecyclerViewTV recyclerViewTV, View view, int i) {
             ItemEntity itemEntity = itemEntities.get(i);
             PageIntent pageIntent = new PageIntent();
-            pageIntent.toDetailPage(getContext(), "package", itemEntity.getPk(), "", "");
+            pageIntent.toDetailPage(getContext(), "package", itemEntity.getPk());
         }
     };
 

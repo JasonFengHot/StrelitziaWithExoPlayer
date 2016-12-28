@@ -496,14 +496,17 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         mMenuFragment.setResId(R.string.filter);
         mMenuFragment.setOnMenuItemClickedListener(this);
     }
-    private  int nextSection=0;
+    private  int nextSection=5;
     public void getData(final String url, final String channel){
             if (mSectionList == null) {
                 skyService.getSections(url).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(((BaseActivity) getActivity())
                                            .new BaseObserver<SectionList>() {
-                    @Override
+
+                            private int selectedPosition=-1;
+
+                            @Override
                     public void onCompleted() {
 
                     }
@@ -519,9 +522,13 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                         }
                                     }
                                     SectionList tmp = new SectionList();
-                                    for (Section s : sections) {
+                                    for (int i = 0; i <sections.size() ; i++) {
+                                        Section s=sections.get(i);
                                         if (s.count != 0) {
                                             tmp.add(s);
+                                            if(s.url.contains(getActivity().getIntent().getStringExtra("url"))){
+                                                selectedPosition = i;
+                                            }
                                         }
                                     }
                                     mSectionList = tmp;
@@ -562,6 +569,17 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                                 int totalColumnsOfSectionX = (int) Math.ceil((float) mItemCollections.get(nextSection).count / (float) num_rows);
                                                 mScrollableSectionList.setPercentage(nextSection + 1, (int) (1f / (float) totalColumnsOfSectionX * 100f));
                                                 checkSectionChanged(nextSection + 1);
+                                            }
+                                            if(selectedPosition!=-1){
+                                                int position=0;
+                                                for (int i = 0; i <selectedPosition ; i++) {
+                                                    position+=mItemCollections.get(i).count;
+                                                }
+                                                mHGridView.setSelection(position);
+                                                if(selectedPosition>0){
+                                                    left_shadow.setVisibility(View.VISIBLE);
+                                                }
+
                                             }
 
                                         } else {
@@ -684,6 +702,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 }
             }
         }
+        mScrollableSectionList.requestFocus();
     }
 
     @Override
@@ -744,6 +763,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         }
         mSectionList = null;
         mScrollableSectionList = null;
+        BaseActivity.baseSection = "";
     }
 
     private OnCancelListener mLoadingCancelListener = new OnCancelListener() {
@@ -893,10 +913,10 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                         boolean[] isSubItem = new boolean[1];
                         int pk = SimpleRestClient.getItemId(item.url, isSubItem);
                         PageIntent pageIntent=new PageIntent();
-                        pageIntent.toDetailPage(getActivity(),"list",pk, mChannel, s.slug);
+                        pageIntent.toDetailPage(getActivity(),"list",pk);
                     } else {
                         PageIntent playintent=new PageIntent();
-                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST, mChannel, s.slug);
+                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST);
                     }
                 }
             }
@@ -954,6 +974,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             mSectionProperties.put(EventProperty.SECTION, newSection.slug);
             mSectionProperties.put(EventProperty.TITLE, newSection.title);
             mSectionProperties.put(EventProperty.SOURCE,"list");
+
+            BaseActivity.baseSection = newSection.slug;
          //  mSectionProperties.put("sid", newSectionIndex);
            new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_IN, mSectionProperties);
             if (mCurrentSectionIndex >= 0) {

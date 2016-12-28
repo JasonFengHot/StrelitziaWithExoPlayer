@@ -3,38 +3,48 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="tasks"
-            type="tv.ismar.usercenter.viewmodel.PurchaseHistoryViewModel"/>
+            type="tv.ismar.usercenter.viewmodel.PurchaseHistoryViewModel" />
 
         <variable
             name="actionHandler"
-            type="tv.ismar.usercenter.PurchaseHistoryContract.Presenter"/>
+            type="tv.ismar.usercenter.PurchaseHistoryContract.Presenter" />
     </data>
 
 
     <LinearLayout
-        android:clipToPadding="false"
-        android:clipChildren="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical">
-
-        <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            android:id="@+id/recyclerview"
-            android:layout_marginTop="@dimen/purchase_history_recycler_mt"
-            android:layout_marginLeft="@dimen/usercenter_purchase_history_ml"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/usercenter_purchase_history_ml"
+            android:layout_marginTop="@dimen/purchase_history_recycler_mt"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="false"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"></LinearLayout>
+        </ScrollView>
         <ImageView
             android:id="@+id/mainup_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"/>
+            android:focusable="true" />
+
     </LinearLayout>
 </layout>
 

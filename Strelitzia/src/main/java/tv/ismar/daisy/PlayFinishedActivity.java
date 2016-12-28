@@ -241,7 +241,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
 //                        }
 //                    }
                     PageIntent pageIntent = new PageIntent();
-                    pageIntent.toPlayPage(PlayFinishedActivity.this, mItemEntity.getItemPk(), 0, Source.UNKNOWN, "", "");
+                    pageIntent.toPlayPage(PlayFinishedActivity.this, mItemEntity.getItemPk(), 0, Source.UNKNOWN);
                     finish();
                 }
                 break;

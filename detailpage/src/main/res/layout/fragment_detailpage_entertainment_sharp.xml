@@ -93,7 +93,7 @@
                         android:layout_height="@dimen/text_size_30sp"
                         android:layout_marginLeft="@dimen/entertainment_detail_des_ml"
                         android:layout_toRightOf="@id/detail_preview_frame"
-                        android:layout_marginTop="70dp"
+                        android:layout_marginTop="@dimen/entertainment_detail_des_mt"
                         android:orientation="horizontal">
 
                         <LinearLayout

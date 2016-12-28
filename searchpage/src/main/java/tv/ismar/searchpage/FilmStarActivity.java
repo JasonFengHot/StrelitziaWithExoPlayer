@@ -33,6 +33,7 @@ import tv.ismar.app.models.ActorRelateRequestParams;
 import tv.ismar.app.models.AttributesEntity;
 import tv.ismar.app.models.Expense;
 import tv.ismar.app.models.PersonEntitiy;
+import tv.ismar.app.models.Section;
 import tv.ismar.app.models.SemanticSearchResponseEntity;
 import tv.ismar.app.models.SemantichObjectEntity;
 import tv.ismar.app.util.DeviceUtils;
@@ -418,12 +419,14 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                     String itemTitle=semantichObjectEntity.getTitle();
                     long pk=Long.valueOf(semantichObjectEntity.getPk());
                     if(contentModel.equals("music")||(contentModel.equals("sport")&&semantichObjectEntity.getExpense()==null)||contentModel.equals("game")){
-                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,0,Source.SEARCH, "", "");
+                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,0,Source.SEARCH);
                     }else if("person".equals(contentModel)){
                         pageIntent.toFilmStar(FilmStarActivity.this,itemTitle,pk);
                     }else{
-                        pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk, "", "");
+                        pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk);
                     }
+                    baseSection=new Section().slug;
+                    baseChannel=contentModel.equals("person")?"star":contentModel;
                     JasmineUtil.video_search_arrive(title,contentModel.equals("person")?"star":contentModel, (int) pk,0,itemTitle);
                 }
             });
@@ -631,5 +634,12 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        baseChannel="";
+        baseSection="";
+        super.onPause();
     }
 }

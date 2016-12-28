@@ -34,6 +34,7 @@ import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.models.HotWords;
 import tv.ismar.app.models.Recommend;
+import tv.ismar.app.models.Section;
 import tv.ismar.app.models.VodFacetEntity;
 import tv.ismar.app.models.VodSearchRequestEntity;
 import tv.ismar.app.network.SkyService;
@@ -709,9 +710,13 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                    @Override
                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                        if (poster_gridview.getAdapter() instanceof PosterAdapter) {
+                                                           baseSection=new Section().slug;
+                                                           baseChannel=type_now.equals("person")?"star":type_now;
                                                            gotoSpecialPage(posterAdapter.getItem(position).getPk(), posterAdapter.getItem(position).getTitle(), posterAdapter.getItem(position).getContent_model(), posterAdapter.getItem(position).getExpense() != null);
                                                            JasmineUtil.video_search_arrive(keyWord_now, type_now, ((int) posterAdapter.getItem(position).getPk()), 0, posterAdapter.getItem(position).getTitle());
                                                        } else {
+                                                           baseSection=new Section().slug;
+                                                           baseChannel=type_now.equals("person")?"star":type_now;
                                                            gotoSpecialPage(recommendAdapter.getItem(position).pk, null, recommendAdapter.getItem(position).content_model, recommendAdapter.getItem(position).expense != null);
                                                            JasmineUtil.video_search_arrive(keyWord_now, type_now, recommendAdapter.getItem(position).pk, recommendAdapter.getItem(position).item_pk, recommendAdapter.getItem(position).title);
                                                        }
@@ -727,11 +732,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     public void gotoSpecialPage(long pk, String title, String contentMode, boolean isexpensive) {
         PageIntent pageIntent = new PageIntent();
         if (contentMode.equals("music") || (contentMode.equals("sport") && !isexpensive) || contentMode.equals("game")) {
-            pageIntent.toPlayPage(this, (int) pk, 0, Source.SEARCH, "", "");
+            pageIntent.toPlayPage(this, (int) pk, 0, Source.SEARCH);
         } else if (contentMode.equals("person")) {
             pageIntent.toFilmStar(this, title, pk);
         } else {
-            pageIntent.toDetailPage(this, Source.SEARCH.getValue(), (int) pk, "", "");
+            pageIntent.toDetailPage(this, Source.SEARCH.getValue(), (int) pk);
         }
     }
 
@@ -1440,5 +1445,12 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         popupWindow = null;
         errorDialog = null;
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        baseChannel="";
+        baseSection="";
+        super.onPause();
     }
 }

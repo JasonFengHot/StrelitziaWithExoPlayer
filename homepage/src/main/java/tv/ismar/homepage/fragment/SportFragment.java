@@ -73,6 +73,8 @@ public class SportFragment extends ChannelBaseFragment {
     private int currentLiveIndex = 0;
     private InitPlayerTool tool;
     private Subscription dataSubscription;
+    private Subscription sportSubscription;
+    private Subscription gameSubscription;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -233,6 +235,12 @@ public class SportFragment extends ChannelBaseFragment {
         if (dataSubscription != null && !dataSubscription.isUnsubscribed()) {
             dataSubscription.unsubscribe();
         }
+        if (sportSubscription != null && !sportSubscription.isUnsubscribed()) {
+            sportSubscription.unsubscribe();
+        }
+        if (gameSubscription != null && !gameSubscription.isUnsubscribed()) {
+            gameSubscription.unsubscribe();
+        }
     }
 
     @Override
@@ -242,17 +250,15 @@ public class SportFragment extends ChannelBaseFragment {
             fetchSportGame(channelEntity.getHomepage_url());
     }
     private void fetchSportGame(String url) {
+        if (dataSubscription != null && !dataSubscription.isUnsubscribed()) {
+            dataSubscription.unsubscribe();
+        }
         dataSubscription = ((HomePageActivity) getActivity()).mSkyService.fetchHomePage(url).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<HomePagerEntity>() {
+                .subscribe(((HomePageActivity) getActivity()).new BaseObserver<HomePagerEntity>() {
                     @Override
                     public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "fetchHomePage: " + e.getMessage());
                     }
 
                     @Override
@@ -277,17 +283,15 @@ public class SportFragment extends ChannelBaseFragment {
     }
 
        private void getSport() {
-        ((HomePageActivity) getActivity()).mSkyService.apiSport().subscribeOn(Schedulers.io())
+           if (sportSubscription != null && !sportSubscription.isUnsubscribed()) {
+               sportSubscription.unsubscribe();
+           }
+           sportSubscription = ((HomePageActivity) getActivity()).mSkyService.apiSport().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Sport>() {
+                .subscribe(((HomePageActivity) getActivity()).new BaseObserver<Sport>() {
                     @Override
                     public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "fetchHomePage: " + e.getMessage());
                     }
 
                     @Override
@@ -307,17 +311,15 @@ public class SportFragment extends ChannelBaseFragment {
     }
 
     private void getGame() {
-        ((HomePageActivity) getActivity()).mSkyService.apiGame().subscribeOn(Schedulers.io())
+        if (gameSubscription != null && !gameSubscription.isUnsubscribed()) {
+            gameSubscription.unsubscribe();
+        }
+        gameSubscription = ((HomePageActivity) getActivity()).mSkyService.apiGame().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Game>() {
+                .subscribe(((HomePageActivity) getActivity()).new BaseObserver<Game>() {
                     @Override
                     public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "fetchHomePage: " + e.getMessage());
                     }
 
                     @Override
@@ -493,7 +495,7 @@ public class SportFragment extends ChannelBaseFragment {
             if (data.is_complex()) {
                 int pk = SimpleRestClient.getItemId(data.getUrl(), new boolean[1]);
                 PageIntent pageIntent = new PageIntent();
-                pageIntent.toDetailPage(mContext, "homepage", pk, channelEntity.getChannel(), "");
+                pageIntent.toDetailPage(mContext, "homepage", pk);
 
 //                Intent intent = new Intent();
 //                intent.setAction("tv.ismar.daisy.Item");
@@ -504,7 +506,7 @@ public class SportFragment extends ChannelBaseFragment {
             } else {
                 int itemPk = Utils.getItemPk(data.getUrl());
                 PageIntent pageIntent = new PageIntent();
-                pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE, channelEntity.getChannel(), "");
+                pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE);
 //                tool = new InitPlayerTool(mContext);
 //                tool.channel=channelEntity.getChannel();
 //                tool.fromPage="homepage";

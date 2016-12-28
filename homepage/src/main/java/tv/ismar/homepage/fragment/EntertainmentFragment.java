@@ -454,15 +454,10 @@ public class EntertainmentFragment extends ChannelBaseFragment {
         dataSubscription = ((HomePageActivity) getActivity()).mSkyService.fetchHomePage(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<HomePagerEntity>() {
+                .subscribe(((HomePageActivity) getActivity()).new BaseObserver<HomePagerEntity>() {
                     @Override
                     public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "fetchHomePage: " + e.getMessage());
                     }
 
                     @Override
