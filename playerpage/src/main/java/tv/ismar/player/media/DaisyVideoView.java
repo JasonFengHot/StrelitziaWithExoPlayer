@@ -432,11 +432,13 @@ public class DaisyVideoView extends SurfaceView {
                 mIsmartvPlayer.mMediaIp = getMediaIp(s);
                 mIsmartvPlayer.mMediaId = mIsmartvPlayer.mAdIdMap.get(s);
                 mIsmartvPlayer.mAdIdMap.remove(s);
+                if(mIsmartvPlayer.mIsPlayingAdvertisement){
+                    mIsmartvPlayer.logAdExit();
+                }
                 if (mIsmartvPlayer.mAdIdMap.isEmpty()) {
                     if (mIsmartvPlayer.mOnStateChangedListener != null) {
                         mIsmartvPlayer.mOnStateChangedListener.onAdEnd();
                     }
-                    mIsmartvPlayer.logAdExit();
                     mIsmartvPlayer.mIsPlayingAdvertisement = false;
                 }
                 if (currentIndex >= 0 && currentIndex < paths.length - 1) { // 如果当前播放的为第一个影片的话，则准备播放第二个影片。
