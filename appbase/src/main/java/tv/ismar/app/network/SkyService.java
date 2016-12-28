@@ -698,6 +698,7 @@ public interface SkyService {
                     .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(interceptor)
+                    .addInterceptor(VodApplication.getHttpParamsInterceptor())
                     .addInterceptor(VodApplication.getModuleAppContext().getCacheInterceptor())
                     .addNetworkInterceptor(VodApplication.getModuleAppContext().getCacheInterceptor())
                     .cache(cache)
