@@ -496,7 +496,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         mMenuFragment.setResId(R.string.filter);
         mMenuFragment.setOnMenuItemClickedListener(this);
     }
-    private  int nextSection=5;
+    private  int nextSection=0;
     public void getData(final String url, final String channel){
             if (mSectionList == null) {
                 skyService.getSections(url).subscribeOn(Schedulers.io())
@@ -571,15 +571,9 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                                 checkSectionChanged(nextSection + 1);
                                             }
                                             if(selectedPosition!=-1){
-                                                int position=0;
-                                                for (int i = 0; i <selectedPosition ; i++) {
-                                                    position+=mItemCollections.get(i).count;
-                                                }
-                                                mHGridView.setSelection(position);
-                                                if(selectedPosition>0){
-                                                    left_shadow.setVisibility(View.VISIBLE);
-                                                }
-
+                                                getItemlistHandler.removeCallbacks(getItemlistRunnable);
+                                                checkSectionChanged(selectedPosition);
+                                                mHGridView.jumpToSection(selectedPosition);
                                             }
 
                                         } else {
@@ -702,7 +696,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 }
             }
         }
-        mScrollableSectionList.requestFocus();
     }
 
     @Override
