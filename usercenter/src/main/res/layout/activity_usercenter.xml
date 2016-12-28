@@ -64,8 +64,6 @@
                 android:layout_width="@dimen/user_center_container_width"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/user_center_container_marginLeft"
-                android:clipChildren="false"
-                android:clipToPadding="false"
             />
         </LinearLayout>
 

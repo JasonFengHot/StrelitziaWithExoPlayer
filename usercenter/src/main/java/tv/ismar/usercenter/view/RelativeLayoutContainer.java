@@ -55,7 +55,7 @@ public class RelativeLayoutContainer extends RelativeLayout {
 		super.onDraw(canvas);
 		if (isDrawBorder) {
 			super.getDrawingRect(mRect);
-			mBound.set(-21+mRect.left, -21+mRect.top, 21+mRect.right, mRect.bottom+21);
+			mBound.set(-21+mRect.left, -21+mRect.top, mRect.right, mRect.bottom+21);
 			mDrawable.setBounds(mBound);
 			canvas.save();
 			mDrawable.draw(canvas);
