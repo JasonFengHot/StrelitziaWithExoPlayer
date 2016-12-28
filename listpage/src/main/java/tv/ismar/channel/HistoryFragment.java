@@ -538,7 +538,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 						String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
 						mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
 						PageIntent intent = new PageIntent();
-						intent.toPlayPage(getActivity(), item.pk, 0, Source.HISTORY, "", "");
+						intent.toPlayPage(getActivity(), item.pk, 0, Source.HISTORY);
 					}
 					@Override
 					public void onError(Throwable e) {
@@ -702,9 +702,9 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
 			PageIntent intent=new PageIntent();
 			if (tvHome.getObjects().get(position).isIs_complex()) {
-				intent.toDetailPage(getActivity(),"tvhome",pk, "", "");
+				intent.toDetailPage(getActivity(),"tvhome",pk);
 			} else {
-				intent.toPlayPage(getActivity(),pk,0, Source.HISTORY, "", "");
+				intent.toPlayPage(getActivity(),pk,0, Source.HISTORY);
 			}
 		}
 	}

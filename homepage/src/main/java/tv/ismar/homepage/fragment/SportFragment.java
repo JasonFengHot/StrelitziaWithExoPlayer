@@ -495,7 +495,7 @@ public class SportFragment extends ChannelBaseFragment {
             if (data.is_complex()) {
                 int pk = SimpleRestClient.getItemId(data.getUrl(), new boolean[1]);
                 PageIntent pageIntent = new PageIntent();
-                pageIntent.toDetailPage(mContext, "homepage", pk, channelEntity.getChannel(), "");
+                pageIntent.toDetailPage(mContext, "homepage", pk);
 
 //                Intent intent = new Intent();
 //                intent.setAction("tv.ismar.daisy.Item");
@@ -506,7 +506,7 @@ public class SportFragment extends ChannelBaseFragment {
             } else {
                 int itemPk = Utils.getItemPk(data.getUrl());
                 PageIntent pageIntent = new PageIntent();
-                pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE, channelEntity.getChannel(), "");
+                pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE);
 //                tool = new InitPlayerTool(mContext);
 //                tool.channel=channelEntity.getChannel();
 //                tool.fromPage="homepage";

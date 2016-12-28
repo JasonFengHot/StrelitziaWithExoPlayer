@@ -894,10 +894,10 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                         boolean[] isSubItem = new boolean[1];
                         int pk = SimpleRestClient.getItemId(item.url, isSubItem);
                         PageIntent pageIntent=new PageIntent();
-                        pageIntent.toDetailPage(getActivity(),"list",pk, mChannel, s.slug);
+                        pageIntent.toDetailPage(getActivity(),"list",pk);
                     } else {
                         PageIntent playintent=new PageIntent();
-                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST, mChannel, s.slug);
+                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST);
                     }
                 }
             }

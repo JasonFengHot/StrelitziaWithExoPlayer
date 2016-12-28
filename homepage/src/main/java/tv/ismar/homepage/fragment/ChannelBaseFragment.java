@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Source;
@@ -91,6 +92,7 @@ public class ChannelBaseFragment extends Fragment {
                         channel = "top";
                     }
                 }
+            BaseActivity.baseChannel = channel;
             if (view.getTag() instanceof Poster) {
                 Poster new_name = (Poster) view.getTag();
                 contentMode = new_name.getContent_model();
@@ -125,7 +127,7 @@ public class ChannelBaseFragment extends Fragment {
                 if ("item".equals(mode_name)) {
                     pk = SimpleRestClient.getItemId(url, new boolean[1]);
                     PageIntent pageIntent = new PageIntent();
-                    pageIntent.toDetailPage(mContext, "homepage", pk, channelEntity.getChannel(), "");
+                    pageIntent.toDetailPage(mContext, "homepage", pk);
                 } else if ("topic".equals(mode_name)) {
                     intent.putExtra("url", url);
                     intent.setAction("tv.ismar.daisy.Topic");
@@ -144,7 +146,7 @@ public class ChannelBaseFragment extends Fragment {
                 } else if ("clip".equals(mode_name)) {
                     int itemPk = Utils.getItemPk(url);
                     PageIntent pageIntent = new PageIntent();
-                    pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE, channelEntity.getChannel(), "");
+                    pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE);
 //                    if (tool == null)
 //                        tool = new InitPlayerTool(mContext);
 //                    tool.channel = channelEntity.getChannel();

@@ -80,6 +80,7 @@ public class BaseActivity extends AppCompatActivity {
      * 日志新加字段相关，定义为全局静态变量
      */
     public static String baseSection = "";
+    public static String baseChannel = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
