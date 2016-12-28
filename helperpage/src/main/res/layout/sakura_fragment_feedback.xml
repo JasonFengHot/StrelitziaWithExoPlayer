@@ -58,6 +58,7 @@
                 android:text="@string/contact_phone_number"/>
 
         <tv.ismar.helperpage.ui.widget.SakuraEditText
+                style="@style/AppTheme.Widget.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="@dimen/sakura_h5_text_size"
@@ -89,6 +90,7 @@
                 android:text="@string/add_description"/>
 
         <tv.ismar.helperpage.ui.widget.SakuraEditText
+                style="@style/AppTheme.Widget.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="@dimen/sakura_h5_text_size"

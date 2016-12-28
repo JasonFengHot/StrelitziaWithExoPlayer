@@ -11,10 +11,14 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="IsmartvAppTheme.Widget"/>
+    <style name="IsmartvAppTheme.Widget" />
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
         <item name="fontPath">DroidSansFallback.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.EditText" parent="android:Widget.Holo.Light.EditText">
+        <item name="android:textCursorDrawable">@drawable/edit_cursor_color</item>
     </style>
 
     <style name="IsmartvAppTheme.Fullscreen" parent="IsmartvAppTheme">
@@ -25,157 +29,157 @@
     </style>
 
     <declare-styleable name="IndicatorButton">
-        <attr name="ib_drawable" format="reference"/>
-        <attr name="ib_textSize" format="dimension"/>
-        <attr name="ib_textColor" format="color"/>
-        <attr name="ib_text" format="string"/>
-        <attr name="ib_wrapContent" format="boolean"/>
+        <attr name="ib_drawable" format="reference" />
+        <attr name="ib_textSize" format="dimension" />
+        <attr name="ib_textColor" format="color" />
+        <attr name="ib_text" format="string" />
+        <attr name="ib_wrapContent" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="DetailAttributeContainer">
-        <attr name="dac_textSize" format="dimension"/>
-        <attr name="dac_textColor" format="color"/>
-        <attr name="dac_space" format="dimension"/>
+        <attr name="dac_textSize" format="dimension" />
+        <attr name="dac_textColor" format="color" />
+        <attr name="dac_space" format="dimension" />
     </declare-styleable>
     <declare-styleable name="AsyncImageView">
-        <attr name="defaultSrc" format="reference"/>
-        <attr name="url" format="string"/>
+        <attr name="defaultSrc" format="reference" />
+        <attr name="url" format="string" />
         <attr name="inDensity">
-            <enum name="ldpi" value="120"/>
-            <enum name="mdpi" value="160"/>
-            <enum name="hdpi" value="240"/>
-            <enum name="xhdpi" value="320"/>
+            <enum name="ldpi" value="120" />
+            <enum name="mdpi" value="160" />
+            <enum name="hdpi" value="240" />
+            <enum name="xhdpi" value="320" />
             <enum name="xxhdpi" value="480"></enum>
         </attr>
     </declare-styleable>
 
     <declare-styleable name="LabelImageView">
-        <attr name="livWidth" format="dimension"/>
-        <attr name="livHeight" format="dimension"/>
-        <attr name="livUrl" format="string"/>
-        <attr name="livSelectorDrawable" format="reference"/>
-        <attr name="livErrorDrawable" format="reference"/>
-        <attr name="livContentPadding" format="dimension"/>
-        <attr name="livLabelText" format="string"/>
-        <attr name="livLabelColor" format="color"/>
-        <attr name="livLabelSize" format="dimension"/>
-        <attr name="livLabelBackColor" format="color"/>
+        <attr name="livWidth" format="dimension" />
+        <attr name="livHeight" format="dimension" />
+        <attr name="livUrl" format="string" />
+        <attr name="livSelectorDrawable" format="reference" />
+        <attr name="livErrorDrawable" format="reference" />
+        <attr name="livContentPadding" format="dimension" />
+        <attr name="livLabelText" format="string" />
+        <attr name="livLabelColor" format="color" />
+        <attr name="livLabelSize" format="dimension" />
+        <attr name="livLabelBackColor" format="color" />
         <attr name="livVipPosition">
-            <enum name="leftTop" value="0"/>
-            <enum name="rightTop" value="1"/>
-            <enum name="gone" value="-1"/>
+            <enum name="leftTop" value="0" />
+            <enum name="rightTop" value="1" />
+            <enum name="gone" value="-1" />
         </attr>
-        <attr name="livVipUrl" format="string"/>
-        <attr name="livVipSize" format="dimension"/>
-        <attr name="livRate" format="float"/>
-        <attr name="livRateColor" format="color"/>
-        <attr name="livRateSize" format="dimension"/>
+        <attr name="livVipUrl" format="string" />
+        <attr name="livVipSize" format="dimension" />
+        <attr name="livRate" format="float" />
+        <attr name="livRateColor" format="color" />
+        <attr name="livRateSize" format="dimension" />
     </declare-styleable>
     <declare-styleable name="LabelImageView2">
-        <attr name="focustextsize" format="dimension"/>
-        <attr name="focusbackground" format="color"/>
-        <attr name="frontcolor" format="color"/>
-        <attr name="focustextpaddingtop" format="float"/>
-        <attr name="focuspaddingtop" format="float"/>
-        <attr name="customfocus" format="boolean"/>
-        <attr name="maxfocustitle" format="integer"/>
-        <attr name="needzoom" format="boolean"/>
+        <attr name="focustextsize" format="dimension" />
+        <attr name="focusbackground" format="color" />
+        <attr name="frontcolor" format="color" />
+        <attr name="focustextpaddingtop" format="float" />
+        <attr name="focuspaddingtop" format="float" />
+        <attr name="customfocus" format="boolean" />
+        <attr name="maxfocustitle" format="integer" />
+        <attr name="needzoom" format="boolean" />
     </declare-styleable>
     <declare-styleable name="HGridView">
-        <attr name="horizontalSpacing" format="dimension"/>
-        <attr name="verticalSpacing" format="dimension"/>
-        <attr name="rowHeight" format="dimension"/>
-        <attr name="numRows" format="integer"/>
-        <attr name="labelDrawable" format="integer"/>
-        <attr name="labelBackgroundDrawable" format="integer"/>
-        <attr name="selectorDrawable" format="integer"/>
-        <attr name="labelLeftOffset" format="dimension"/>
-        <attr name="labelTopOffset" format="dimension"/>
-        <attr name="labelWidth" format="dimension"/>
-        <attr name="labelHeight" format="dimension"/>
-        <attr name="labelBackgroundLeftOffset" format="dimension"/>
-        <attr name="labelBackgroundTopOffset" format="dimension"/>
-        <attr name="labelBackgroundWidth" format="dimension"/>
-        <attr name="labelBackgroundHeight" format="dimension"/>
-        <attr name="labelTextSize" format="dimension"/>
-        <attr name="labelTextColor" format="color"/>
-        <attr name="labelTextMarginTop" format="dimension"/>
-        <attr name="labelTextMarginLeft" format="dimension"/>
-        <attr name="labelTextMarginRight" format="dimension"/>
-        <attr name="labelTextMarginBottom" format="dimension"/>
-        <attr name="selectionLeftPadding" format="dimension"/>
-        <attr name="selectionTopPadding" format="dimension"/>
-        <attr name="selectionRightPadding" format="dimension"/>
-        <attr name="selectionBottomPadding" format="dimension"/>
+        <attr name="horizontalSpacing" format="dimension" />
+        <attr name="verticalSpacing" format="dimension" />
+        <attr name="rowHeight" format="dimension" />
+        <attr name="numRows" format="integer" />
+        <attr name="labelDrawable" format="integer" />
+        <attr name="labelBackgroundDrawable" format="integer" />
+        <attr name="selectorDrawable" format="integer" />
+        <attr name="labelLeftOffset" format="dimension" />
+        <attr name="labelTopOffset" format="dimension" />
+        <attr name="labelWidth" format="dimension" />
+        <attr name="labelHeight" format="dimension" />
+        <attr name="labelBackgroundLeftOffset" format="dimension" />
+        <attr name="labelBackgroundTopOffset" format="dimension" />
+        <attr name="labelBackgroundWidth" format="dimension" />
+        <attr name="labelBackgroundHeight" format="dimension" />
+        <attr name="labelTextSize" format="dimension" />
+        <attr name="labelTextColor" format="color" />
+        <attr name="labelTextMarginTop" format="dimension" />
+        <attr name="labelTextMarginLeft" format="dimension" />
+        <attr name="labelTextMarginRight" format="dimension" />
+        <attr name="labelTextMarginBottom" format="dimension" />
+        <attr name="selectionLeftPadding" format="dimension" />
+        <attr name="selectionTopPadding" format="dimension" />
+        <attr name="selectionRightPadding" format="dimension" />
+        <attr name="selectionBottomPadding" format="dimension" />
     </declare-styleable>
     <declare-styleable name="ZGridView">
 
         <!-- Defines the default horizontal spacing between columns. -->
-        <attr name="horizontalSpace" format="dimension"/>
+        <attr name="horizontalSpace" format="dimension" />
         <!-- Defines the default vertical spacing between rows. -->
-        <attr name="verticalSpace" format="dimension"/>
+        <attr name="verticalSpace" format="dimension" />
         <!-- Defines how columns should stretch to fill the available empty space, if any. -->
         <attr name="stretchMode">
 
             <!-- Stretching is disabled. -->
-            <enum name="none" value="0"/>
+            <enum name="none" value="0" />
             <!-- The spacing between each column is stretched. -->
-            <enum name="spacingWidth" value="1"/>
+            <enum name="spacingWidth" value="1" />
             <!-- Each column is stretched equally. -->
-            <enum name="columnWidth" value="2"/>
+            <enum name="columnWidth" value="2" />
             <!-- The spacing between each column is uniformly stretched.. -->
-            <enum name="spacingWidthUniform" value="3"/>
+            <enum name="spacingWidthUniform" value="3" />
         </attr>
         <!-- Specifies the fixed width for each column. -->
-        <attr name="columnWidth" format="dimension"/>
+        <attr name="columnWidth" format="dimension" />
         <!-- Defines how many columns to show. -->
         <attr name="numColumns" format="integer" min="0">
 
             <!-- Display as many columns as possible to fill the available space. -->
-            <enum name="auto_fit" value="-1"/>
+            <enum name="auto_fit" value="-1" />
         </attr>
         <!-- Specifies the gravity within each cell. -->
-        <attr name="gravity" format="integer"/>
+        <attr name="gravity" format="integer" />
         <!-- //////////////////////////////////////////////////////////// -->
         <!-- Drawable used to indicate the currently selected item in the list. -->
-        <attr name="listSelector" format="color|reference"/>
-        <attr name="drawSelectorOnTop" format="boolean"/>
-        <attr name="stackFromBottom" format="boolean"/>
-        <attr name="scrollingCache" format="boolean"/>
-        <attr name="textFilterEnabled" format="boolean"/>
+        <attr name="listSelector" format="color|reference" />
+        <attr name="drawSelectorOnTop" format="boolean" />
+        <attr name="stackFromBottom" format="boolean" />
+        <attr name="scrollingCache" format="boolean" />
+        <attr name="textFilterEnabled" format="boolean" />
         <!--
              Sets the transcript mode for the list. In transcript mode, the list
              scrolls to the bottom to make new items visible when they are added.
         -->
         <attr name="transcriptMode">
-            <enum name="disabled" value="0"/>
-            <enum name="normal" value="1"/>
-            <enum name="alwaysScroll" value="2"/>
+            <enum name="disabled" value="0" />
+            <enum name="normal" value="1" />
+            <enum name="alwaysScroll" value="2" />
         </attr>
-        <attr name="cacheColorHint" format="color"/>
-        <attr name="fastScrollEnabled" format="boolean"/>
-        <attr name="smoothScrollbar" format="boolean"/>
+        <attr name="cacheColorHint" format="color" />
+        <attr name="fastScrollEnabled" format="boolean" />
+        <attr name="smoothScrollbar" format="boolean" />
         <attr name="choiceMode">
 
             <!-- Normal list that does not indicate choices. -->
-            <enum name="none" value="0"/>
+            <enum name="none" value="0" />
             <!-- The list allows up to one choice. -->
-            <enum name="singleChoice" value="1"/>
+            <enum name="singleChoice" value="1" />
             <!-- The list allows multiple choices. -->
-            <enum name="multipleChoice" value="2"/>
+            <enum name="multipleChoice" value="2" />
             <!-- The list allows multiple choices in a custom selection mode. -->
-            <enum name="multipleChoiceModal" value="3"/>
+            <enum name="multipleChoiceModal" value="3" />
         </attr>
 
         <!--
              When set to true, the list will always show the fast scroll interface.
              This setting implies fastScrollEnabled.
         -->
-        <attr name="fastScrollAlwaysVisible" format="boolean"/>
-        <attr name="selectorLeftPadding" format="dimension"/>
-        <attr name="selectorTopPadding" format="dimension"/>
-        <attr name="selectorRightPadding" format="dimension"/>
-        <attr name="selectorBottomPadding" format="dimension"/>
+        <attr name="fastScrollAlwaysVisible" format="boolean" />
+        <attr name="selectorLeftPadding" format="dimension" />
+        <attr name="selectorTopPadding" format="dimension" />
+        <attr name="selectorRightPadding" format="dimension" />
+        <attr name="selectorBottomPadding" format="dimension" />
     </declare-styleable>
 
     <style name="LoadingDialog" parent="@android:style/Theme.Dialog">
@@ -198,6 +202,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
+
     <style name="MyDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

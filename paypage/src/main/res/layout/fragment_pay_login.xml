@@ -22,6 +22,7 @@
             android:textSize="@dimen/pay_person_login_textview_textsize" />
 
         <EditText
+            style="@style/AppTheme.Widget.EditText"
             android:id="@+id/pay_edit_mobile"
             android:layout_width="@dimen/pay_person_login_pay_edit_mobile_w"
             android:layout_height="@dimen/login_edit_h"
@@ -75,6 +76,7 @@
 
         <EditText
             android:id="@+id/pay_edit_identifycode"
+            style="@style/AppTheme.Widget.EditText"
             android:layout_width="@dimen/pay_person_login_pay_edit_mobile_w"
             android:layout_height="@dimen/login_edit_h"
             android:background="@android:drawable/edit_text"

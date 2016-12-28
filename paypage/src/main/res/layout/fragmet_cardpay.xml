@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:minHeight="@dimen/page_min_height"
-              android:minWidth="@dimen/page_min_width"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:minHeight="@dimen/page_min_height"
+    android:minWidth="@dimen/page_min_width"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/account_label"
@@ -13,20 +13,21 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:text="@string/pay_shiyuncard_account_label"
-        android:textSize="@dimen/pay_shiyuncard_account_label_textsize"/>
+        android:textSize="@dimen/pay_shiyuncard_account_label_textsize" />
 
     <TextView
         android:id="@+id/recharge_error_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="#fe8109"
         android:text="充值成功"
+        android:textColor="#fe8109"
         android:textSize="@dimen/pay_shiyuncard_account_label_textsize"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <EditText
         android:id="@+id/shiyuncard_input"
+        style="@style/AppTheme.Widget.EditText"
         android:layout_width="@dimen/shiyuncard_input_widht"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pay_shiyuncard_input_margintop"
@@ -39,7 +40,7 @@
         android:nextFocusUp="@id/shiyuncard_input"
         android:singleLine="true"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/textsize_30sp"/>
+        android:textSize="@dimen/textsize_30sp" />
 
     <Button
         android:id="@+id/shiyuncard_submit"
@@ -54,6 +55,6 @@
         android:nextFocusLeft="@id/videocard"
         android:text="@string/pay_shiyuncard_submit_label"
         android:textColor="#FFF8F8FF"
-        android:textSize="@dimen/pay_shiyuncard_submit_textsize"/>
+        android:textSize="@dimen/pay_shiyuncard_submit_textsize" />
 
 </LinearLayout>
