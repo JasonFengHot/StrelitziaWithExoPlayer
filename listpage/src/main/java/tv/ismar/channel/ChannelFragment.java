@@ -763,6 +763,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         }
         mSectionList = null;
         mScrollableSectionList = null;
+        BaseActivity.baseSection = "";
     }
 
     private OnCancelListener mLoadingCancelListener = new OnCancelListener() {
@@ -912,10 +913,10 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                         boolean[] isSubItem = new boolean[1];
                         int pk = SimpleRestClient.getItemId(item.url, isSubItem);
                         PageIntent pageIntent=new PageIntent();
-                        pageIntent.toDetailPage(getActivity(),"list",pk, mChannel, s.slug);
+                        pageIntent.toDetailPage(getActivity(),"list",pk);
                     } else {
                         PageIntent playintent=new PageIntent();
-                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST, mChannel, s.slug);
+                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST);
                     }
                 }
             }
@@ -973,6 +974,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             mSectionProperties.put(EventProperty.SECTION, newSection.slug);
             mSectionProperties.put(EventProperty.TITLE, newSection.title);
             mSectionProperties.put(EventProperty.SOURCE,"list");
+
+            BaseActivity.baseSection = newSection.slug;
          //  mSectionProperties.put("sid", newSectionIndex);
            new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_CATEGORY_IN, mSectionProperties);
             if (mCurrentSectionIndex >= 0) {

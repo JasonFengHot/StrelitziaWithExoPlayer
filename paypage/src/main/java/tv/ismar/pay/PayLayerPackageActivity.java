@@ -176,7 +176,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, Source.UNKNOWN.getValue(), itemList.getItem_id(), "", "");
+                    new PageIntent().toDetailPage(PayLayerPackageActivity.this, Source.UNKNOWN.getValue(), itemList.getItem_id());
                 }
             });
             if (listLayoutItemNextFocusUpIsSelf == true) {

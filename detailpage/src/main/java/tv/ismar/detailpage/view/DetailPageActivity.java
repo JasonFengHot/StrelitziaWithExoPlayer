@@ -22,10 +22,8 @@ import tv.ismar.detailpage.R;
 
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_ITEM;
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_PKG;
-import static tv.ismar.app.core.PageIntentInterface.EXTRA_CHANNEL;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
-import static tv.ismar.app.core.PageIntentInterface.EXTRA_SECTION;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_TYPE;
 
@@ -38,7 +36,7 @@ public class DetailPageActivity extends BaseActivity{
     public static DetailPageActivity instance = null;
 
     private Subscription apiItemSubsc;
-    private String source, channel, section;
+    private String source;
     private ItemEntity mItemEntity;
 
     private DetailPageFragment detailPageFragment;
@@ -57,8 +55,6 @@ public class DetailPageActivity extends BaseActivity{
         itemPK = intent.getIntExtra(EXTRA_PK, -1);
         String itemJson = intent.getStringExtra(EXTRA_ITEM_JSON);
         source = intent.getStringExtra(EXTRA_SOURCE);
-        channel = intent.getStringExtra(EXTRA_CHANNEL);
-        section = intent.getStringExtra(EXTRA_SECTION);
         int type = intent.getIntExtra(EXTRA_TYPE, 0);
         String url = intent.getStringExtra("url");
 
@@ -102,8 +98,6 @@ public class DetailPageActivity extends BaseActivity{
         intent.putExtra(PageIntentInterface.EXTRA_PK, mItemEntity.getPk());
 //        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, mSubItemPk);
         intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
-        intent.putExtra(PageIntentInterface.EXTRA_CHANNEL, channel);
-        intent.putExtra(PageIntentInterface.EXTRA_SECTION, section);
 
 //        // 只有在预加载成功的情况下进入播放器无需重新getItem, playCheck等
 //        if (mHasPreLoad && mItemEntity != null && mClipEntity != null) {
@@ -172,7 +166,7 @@ public class DetailPageActivity extends BaseActivity{
         switch (type) {
             case PageIntent.DETAIL_TYPE_ITEM:
                 String itemJson = new Gson().toJson(mItemEntity);
-                detailPageFragment = DetailPageFragment.newInstance(source, itemJson, channel, section);
+                detailPageFragment = DetailPageFragment.newInstance(source, itemJson);
                 fragmentTransaction.replace(R.id.activity_detail_container, detailPageFragment);
                 fragmentTransaction.commit();
                 break;

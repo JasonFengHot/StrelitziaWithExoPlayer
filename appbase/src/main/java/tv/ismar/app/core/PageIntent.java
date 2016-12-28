@@ -18,15 +18,13 @@ import tv.ismar.app.ui.MessageDialogFragment;
 public class PageIntent implements PageIntentInterface {
 
     @Override
-    public void toDetailPage(final Context context, final String source, final int pk, final String channel, final String section) {
+    public void toDetailPage(final Context context, final String source, final int pk) {
 
                 Intent intent = new Intent();
                 intent.setAction("tv.ismar.daisy.detailpage");
                 intent.putExtra(EXTRA_PK, pk);
                 intent.putExtra(EXTRA_SOURCE, source);
                 intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_ITEM);
-                intent.putExtra(EXTRA_CHANNEL, channel);
-                intent.putExtra(EXTRA_SECTION, section);
                 if(context instanceof Activity){
                     ((Activity)context).startActivityForResult(intent,1);
                 }else {
@@ -39,14 +37,12 @@ public class PageIntent implements PageIntentInterface {
 
 
     @Override
-    public void toDetailPage(Context context, String source, String json, String channel, String section) {
+    public void toDetailPage(Context context, String source, String json) {
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.detailpage");
         intent.putExtra(EXTRA_SOURCE, source);
         intent.putExtra(EXTRA_ITEM_JSON, json);
         intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_ITEM);
-        intent.putExtra(EXTRA_CHANNEL, channel);
-        intent.putExtra(EXTRA_SECTION, section);
         context.startActivity(intent);
     }
 
@@ -128,15 +124,13 @@ public class PageIntent implements PageIntentInterface {
     }
 
 
-    public void toPlayPage(Context context, int pk, int sub_item_pk, Source source, String channel, String section) {
+    public void toPlayPage(Context context, int pk, int sub_item_pk, Source source) {
         Log.i("toPlayPage","startpalyer");
         Intent intent = new Intent();
         intent.setAction("tv.ismar.daisy.Player");
         intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
         intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, sub_item_pk);
         intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source.getValue());
-        intent.putExtra(PageIntentInterface.EXTRA_CHANNEL, channel);
-        intent.putExtra(PageIntentInterface.EXTRA_SECTION, section);
         context.startActivity(intent);
     }
 

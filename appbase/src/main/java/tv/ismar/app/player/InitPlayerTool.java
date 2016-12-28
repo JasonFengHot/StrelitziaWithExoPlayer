@@ -82,8 +82,6 @@ public class InitPlayerTool {
 				intent.setAction("tv.ismar.daisy.Player");
 				newIntent.putExtra(PageIntentInterface.EXTRA_PK, result.item_pk);
 				newIntent.putExtra(PageIntentInterface.EXTRA_SOURCE, result.fromPage);
-				newIntent.putExtra(PageIntentInterface.EXTRA_CHANNEL, result.channel);
-				newIntent.putExtra(PageIntentInterface.EXTRA_SECTION, result.section);
 				if(result.pk != result.item_pk){
 					newIntent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, result.pk);
 				}

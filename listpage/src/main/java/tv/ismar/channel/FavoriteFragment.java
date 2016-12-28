@@ -372,9 +372,9 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		}
 		mDataCollectionProperties.put("to_title", item.title);
 		if(item.is_complex) {
-			pageIntent.toDetailPage(getActivity(),"favorite",id, "", "");
+			pageIntent.toDetailPage(getActivity(),"favorite",id);
 		} else {
-			pageIntent.toPlayPage(getActivity(),id,0,Source.FAVORITE, "", "");
+			pageIntent.toPlayPage(getActivity(),id,0,Source.FAVORITE);
 		}
 		if(mLoadingDialog!=null && mLoadingDialog.isShowing()) {
 			mLoadingDialog.dismiss();
@@ -552,9 +552,9 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
 			PageIntent intent=new PageIntent();
 			if (tvHome.getObjects().get(position).isIs_complex()) {
-				intent.toDetailPage(getActivity(),"tvhome",pk, "", "");
+				intent.toDetailPage(getActivity(),"tvhome",pk);
 			} else {
-				intent.toPlayPage(getActivity(),pk,0, Source.FAVORITE, "", "");
+				intent.toPlayPage(getActivity(),pk,0, Source.FAVORITE);
 			}
 
 		}

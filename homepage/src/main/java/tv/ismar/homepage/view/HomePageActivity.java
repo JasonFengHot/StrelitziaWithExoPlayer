@@ -363,16 +363,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         for (AdvertiseTable tab : launchAds) {
             totalAdsMills = totalAdsMills + tab.duration * 1000;
         }
-        int i = 0;
         for (AdvertiseTable adTable : launchAds) {
             int duration = adTable.duration;
             Log.d("LH/", "GetStartAd:" + adTable.location);
             countAdTime += duration;
-
-            if ((i == launchAds.size() - 1) && !adTable.location.equals(AdvertiseManager.DEFAULT_ADV_PICTURE)) {
-                new CallaPlay().boot_ad_play(adTable.title, adTable.media_id, adTable.media_url, String.valueOf(countAdTime));
-            }
-            i++;
         }
 
         /**
@@ -1324,6 +1318,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private void playLaunchAd(final int index) {
         isPlayingStartAd = true;
         playIndex = index;
+        if (!launchAds.get(index).location.equals(AdvertiseManager.DEFAULT_ADV_PICTURE)) {
+            new CallaPlay().boot_ad_play(launchAds.get(index).title, launchAds.get(index).media_id,
+                    launchAds.get(index).media_url, String.valueOf(launchAds.get(index).duration));
+        }
         if (launchAds.get(index).media_type.equals(AdvertiseManager.TYPE_VIDEO)) {
             isPlayingVideo = true;
         }
