@@ -590,7 +590,9 @@ public interface SkyService {
         private SkyService lilyHostService;
         private SkyService mCacheSkyService;
 
-        private static String[] domain = new String[]{"1.1.1.1", "1.1.1.1", "1.1.1.1"};
+        public static boolean executeActive = true;
+
+        private static String[] domain = new String[]{"1.1.1.1", "1.1.1.2", "1.1.1.3", "1.1.1.4"};
 
         private ServiceManager() {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -604,23 +606,32 @@ public interface SkyService {
                     .addInterceptor(interceptor)
                     .build();
 
-            final CountDownLatch latch = new CountDownLatch(1);
+//            if (executeActive) {
+//                final CountDownLatch latch = new CountDownLatch(1);
+//
+//                new Thread() {
+//                    @Override
+//                    public void run() {
+//                        domain[0] = IsmartvActivator.getInstance().getApiDomain();
+//                        if (domain[0].equals("1.1.1.1")) {
+//                            executeActive = false;
+//                            latch.countDown();
+//                        }
+//                        domain[1] = IsmartvActivator.getInstance().getAdDomain();
+//                        domain[2] = IsmartvActivator.getInstance().getUpgradeDomain();
+//                        if (latch.getCount() > 0) {
+//                            latch.getCount();
+//                        }
+//                    }
+//                }.start();
+//
+//                try {
+//                    latch.await(3, TimeUnit.SECONDS);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
-            new Thread() {
-                @Override
-                public void run() {
-                    domain[0] = IsmartvActivator.getInstance().getApiDomain();
-                    domain[1] = IsmartvActivator.getInstance().getAdDomain();
-                    domain[2] = IsmartvActivator.getInstance().getUpgradeDomain();
-                    latch.countDown();
-                }
-            }.start();
-
-            try {
-                latch.await(3, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
             Gson gson = new GsonBuilder()
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -643,8 +654,8 @@ public interface SkyService {
             adSkyService = adRetrofit.create(SkyService.class);
 
             Retrofit upgradeRetrofit = new Retrofit.Builder()
-//                    .baseUrl(appendProtocol(domain[2]))
-                    .baseUrl(appendProtocol("http://124.42.65.66/"))
+                    .baseUrl(appendProtocol(domain[2]))
+//                    .baseUrl(appendProtocol("http://124.42.65.66/"))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
@@ -697,8 +708,9 @@ public interface SkyService {
             OkHttpClient cacheClient = new OkHttpClient.Builder()
                     .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
-                    .addInterceptor(interceptor)
+                    .addInterceptor(VodApplication.getHttpParamsInterceptor())
                     .addInterceptor(VodApplication.getModuleAppContext().getCacheInterceptor())
+                    .addInterceptor(interceptor)
                     .addNetworkInterceptor(VodApplication.getModuleAppContext().getCacheInterceptor())
                     .cache(cache)
                     .build();
@@ -775,7 +787,7 @@ public interface SkyService {
             return getInstance().lilyHostService;
         }
 
-        public static SkyService getCacheSkyService(){
+        public static SkyService getCacheSkyService() {
             return getInstance().mCacheSkyService;
         }
     }
