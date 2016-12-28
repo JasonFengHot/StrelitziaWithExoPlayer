@@ -218,6 +218,7 @@
 <dimen name="genre_layout_mt">28.78dp</dimen>
 <dimen name="detail_normal_title_mt">49.00dp</dimen>
 <dimen name="entertainment_detail_des_ml">20.22dp</dimen>
+<dimen name="entertainment_detail_des_mt">54.44dp</dimen>
 
 <dimen name="drama_main_image_daram_label_MR">-2.33dp</dimen>
 <dimen name="drama_main_tv_daram_textsize">23.33sp</dimen>
