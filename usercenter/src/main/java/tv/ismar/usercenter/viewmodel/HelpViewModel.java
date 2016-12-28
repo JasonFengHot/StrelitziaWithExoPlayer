@@ -21,11 +21,11 @@ public class HelpViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getVersionName() {
+    public String getVersionCode() {
         PackageManager packageManager = mContext.getPackageManager();
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(mContext.getPackageName(), 0);
-            return "版本号：" + packageInfo.versionName;
+            return "版本号：" + packageInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
