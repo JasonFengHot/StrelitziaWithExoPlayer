@@ -51,6 +51,7 @@ import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemList;
+import tv.ismar.app.entity.Section;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.models.ActorRelateRequestParams;
@@ -134,9 +135,10 @@ public interface SkyService {
             @Path("pk") String pk
     );
 
-    @GET("api/tv/sections/{channel}")
+    @GET("api/tv/{section}/{channel}")
     Observable<SectionList> getSectionlist(
-            @Path("channel") String channel
+            @Path("channel") String channel,
+            @Path("section") String Section
     );
 
     @GET("api/tv/retrieval/{channel}")
@@ -172,9 +174,9 @@ public interface SkyService {
             @Path("page") int page
     );
 
-    @GET
+    @GET("api/tv/sections/{channel}/")
     Observable<SectionList> getSections(
-            @Url String url
+            @Path("channel") String channel
     );
 
     @GET("api/histories/")

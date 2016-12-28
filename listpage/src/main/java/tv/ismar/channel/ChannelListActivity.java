@@ -7,20 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.PopupWindow;
 
-import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
-import tv.ismar.app.widget.ItemOffLinePopWindow;
-import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.listpage.R;
 
 public class ChannelListActivity extends BaseActivity {
@@ -76,11 +71,8 @@ public class ChannelListActivity extends BaseActivity {
 			//url = "http://cord.tvxio.com/api/tv/sections/chinesemovie/";
 		//	url = SimpleRestClient.root_url+"/api/tv/sections/chinesemovie/";
 		//	url = "http://cord.tvxio.com/api/live/channel/movie/";
-		}else if(url.startsWith("/api/tv/sections/")){
-				url= "http://"+IsmartvActivator.getInstance().getApiDomain()+url;
-		}else if(url.startsWith("/api/tv/section/")){
-			url="http://"+IsmartvActivator.getInstance().getApiDomain()+"/api/tv/sections/"+channel;
 		}
+
 		if(title==null) {
 			title = "华语电影";
 		}
