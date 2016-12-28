@@ -637,9 +637,9 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     }
 
     @Override
-    protected void onPause() {
+    protected void onDestroy() {
         baseChannel="";
         baseSection="";
-        super.onPause();
+        super.onDestroy();
     }
 }
