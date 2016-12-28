@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<tv.ismar.usercenter.view.RelativeLayoutContainer xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/purchase_history_item_selector"
+                android:layout_height="@dimen/purchaseFragment_item_minHeight"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:minHeight="@dimen/purchaseFragment_item_minHeight"
->
+                >
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -19,7 +17,9 @@
         android:id="@+id/orderlistitem_icon"
         android:layout_width="@dimen/purchaseFragment_item_image_width"
         android:layout_height="@dimen/purchaseFragment_item_image_height"
+
         android:scaleType="fitXY"
+        android:layout_centerVertical="true"
     />
 
     <LinearLayout
@@ -114,4 +114,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</tv.ismar.usercenter.view.RelativeLayoutContainer>

@@ -2,6 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+
 >
 
     <LinearLayout
@@ -9,7 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="false"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        >
 
         <FrameLayout
             android:id="@+id/header"
@@ -31,7 +37,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            >
 
             <LinearLayout
                 android:layout_marginTop="@dimen/usercenter_fragment_indicator_mt"
@@ -55,6 +64,8 @@
                 android:layout_width="@dimen/user_center_container_width"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/user_center_container_marginLeft"
+                android:clipChildren="false"
+                android:clipToPadding="false"
             />
         </LinearLayout>
 
