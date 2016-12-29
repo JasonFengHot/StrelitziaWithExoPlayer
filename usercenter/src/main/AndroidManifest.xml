@@ -7,6 +7,7 @@
 
         <activity android:name=".view.UserCenterActivity"
                   android:hardwareAccelerated="true"
+                  android:launchMode="singleTop"
         >
             <intent-filter>
                 <action android:name="tv.ismar.daisy.usercenter"/>
