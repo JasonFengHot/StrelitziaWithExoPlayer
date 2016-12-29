@@ -202,7 +202,10 @@ public class BaseActivity extends AppCompatActivity {
                         @Override
                         public void cancelClick(View view) {
                             netErrorPopWindow.dismiss();
-                            finish();
+                            String act=getCurrentActivityName(BaseActivity.this);
+                            if(!act.contains("HomePageActivity")) {
+                                finish();
+                            }
                         }
                     });
         } catch (Exception exception) {
