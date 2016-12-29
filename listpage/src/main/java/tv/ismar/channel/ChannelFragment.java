@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -114,6 +116,16 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     private Button right_shadow;
     private LaunchHeaderLayout weatherFragment;
     private SkyService skyService;
+    private Handler handler=new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(mLoadingDialog.isShowing()) {
+                mLoadingDialog.dismiss();
+                ((BaseActivity)getActivity()).showNetWorkErrorDialog(new TimeoutException());
+            }
+            return false;
+        }
+    });
     public void setIsPOrtrait(boolean isPortrait) {
         this.isPortrait = isPortrait;
     }
@@ -299,6 +311,12 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                              Bundle savedInstanceState) {
         if (fragmentView == null) {
             mLoadingDialog = new LoadingDialog(getActivity(),R.style.LoadingDialog);
+            mLoadingDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    handler.sendEmptyMessageDelayed(1,15000);
+                }
+            });
             mLoadingDialog.setTvText(getResources().getString(R.string.loading));
             mLoadingDialog.setOnCancelListener(mLoadingCancelListener);
         //    mLoadingDialog.show();
