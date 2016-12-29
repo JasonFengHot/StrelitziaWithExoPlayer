@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.ResponseBody;
@@ -28,6 +30,10 @@ import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.BaseFragment;
+import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.entity.Favorite;
+import tv.ismar.app.entity.History;
+import tv.ismar.app.entity.Item;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
@@ -60,6 +66,8 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
     private Subscription accountsCombineSub;
     private Subscription verificationCodeSub;
     private Subscription accountsLoginSub;
+    private Subscription bookmarksSub;
+    private Subscription historySub;
 
 
     public static LoginFragment newInstance() {
@@ -328,6 +336,8 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
 
                     @Override
                     public void onNext(AccountsLoginEntity entity) {
+                        fetchFavorite();
+                        getHistoryByNet();
                         String username = edit_mobile.getText().toString();
                         IsmartvActivator.getInstance().saveUserInfo(username, entity.getAuth_token(), entity.getZuser_token());
                         loginStatistics(username);
@@ -425,6 +435,112 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
         if (accountsLoginSub != null && accountsLoginSub.isUnsubscribed()) {
             accountsLoginSub.unsubscribe();
         }
+
+        if (bookmarksSub != null && accountsLoginSub.isUnsubscribed()) {
+            bookmarksSub.unsubscribe();
+        }
+
+        if (historySub != null && historySub.isUnsubscribed()) {
+            historySub.unsubscribe();
+        }
         super.onStop();
+    }
+
+
+    private void fetchFavorite() {
+        bookmarksSub = mSkyService.getBookmarks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(activity.new BaseObserver<Item[]>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(Item[] items) {
+                        for (Item item : items) {
+                            addFavorite(item);
+                        }
+                    }
+                });
+    }
+
+
+    private void addFavorite(Item mItem) {
+        if (isFavorite(mItem)) {
+            String url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItem.pk + "/";
+            // DaisyUtils.getFavoriteManager(getContext())
+            // .deleteFavoriteByUrl(url,"yes");
+        } else {
+            String url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItem.pk + "/";
+            Favorite favorite = new Favorite();
+            favorite.title = mItem.title;
+            favorite.adlet_url = mItem.adlet_url;
+            favorite.content_model = mItem.content_model;
+            favorite.url = url;
+            favorite.quality = mItem.quality;
+            favorite.is_complex = mItem.is_complex;
+            favorite.isnet = "yes";
+            DaisyUtils.getFavoriteManager(getContext()).addFavorite(favorite, favorite.isnet);
+        }
+    }
+
+
+    private boolean isFavorite(Item mItem) {
+        if (mItem != null) {
+            String url = mItem.item_url;
+            if (url == null && mItem.pk != 0) {
+                url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItem.pk + "/";
+            }
+            Favorite favorite = DaisyUtils.getFavoriteManager(getContext()).getFavoriteByUrl(url, "yes");
+            if (favorite != null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void getHistoryByNet() {
+        historySub = mSkyService.getHistoryByNet()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(activity.new BaseObserver<Item[]>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(Item[] items) {
+                        for (Item item : items) {
+                            addHistory(item);
+                        }
+                    }
+                });
+    }
+
+    private void addHistory(Item item) {
+        History history = new History();
+        history.title = item.title;
+        history.adlet_url = item.adlet_url;
+        history.content_model = item.content_model;
+        history.is_complex = item.is_complex;
+        history.last_position = item.offset;
+        history.last_quality = item.quality;
+        if ("subitem".equals(item.model_name)) {
+            history.sub_url = item.url;
+            history.url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + item.item_pk + "/";
+        } else {
+            history.url = item.url;
+        }
+
+        history.is_continue = true;
+        if (IsmartvActivator.getInstance().isLogin())
+            DaisyUtils.getHistoryManager(getContext()).addHistory(history, "yes");
+        else
+            DaisyUtils.getHistoryManager(getActivity()).addHistory(history, "no");
+
     }
 }
