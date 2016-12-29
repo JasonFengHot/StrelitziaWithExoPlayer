@@ -3,11 +3,15 @@ package tv.ismar.detailpage.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+
+import java.util.concurrent.TimeoutException;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscription;
@@ -42,6 +46,16 @@ public class DetailPageActivity extends BaseActivity{
     private PackageDetailFragment mPackageDetailFragment;
     public LoadingDialog mLoadingDialog;
     private int itemPK;
+    private Handler handler=new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if(mLoadingDialog.isShowing()) {
+                mLoadingDialog.dismiss();
+                showNetWorkErrorDialog(new TimeoutException());
+            }
+            return false;
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +193,7 @@ public class DetailPageActivity extends BaseActivity{
     }
 
     public void showDialog() {
+        handler.sendEmptyMessageDelayed(0,15000);
         start_time=System.currentTimeMillis();
         mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
