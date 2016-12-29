@@ -1,4 +1,5 @@
 package tv.ismar.player.media;
+
 import cn.ismartv.truetime.TrueTime;
 
 import android.content.Context;
@@ -363,7 +364,7 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public void onPrepared(SmartPlayer smartPlayer, String s) {
             Log.i(TAG, "onPrepared state url ==" + s + " " + mIsmartvPlayer.mIsPlayingAdvertisement);
-            if(mSurfaceHolder == null){
+            if (mSurfaceHolder == null) {
                 return;
             }
             mCurrentState = STATE_PREPARED;
@@ -380,7 +381,7 @@ public class DaisyVideoView extends SurfaceView {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(mIsmartvPlayer == null || mSurfaceHolder == null){
+                    if (mIsmartvPlayer == null || mSurfaceHolder == null) {
                         return;
                     }
                     if (mIsmartvPlayer.mOnStateChangedListener != null) {
@@ -400,7 +401,7 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public void onVideoSizeChanged(SmartPlayer smartPlayer, int width, int height) {
             Log.i(TAG, "onVideoSizeChanged:" + width + " " + height);
-            if(getHolder() == null || !getHolder().getSurface().isValid()){// 视频加载中即将播放时按返回键退出
+            if (getHolder() == null || !getHolder().getSurface().isValid()) {// 视频加载中即将播放时按返回键退出
                 Log.i(TAG, "surface destroyed");
                 return;
             }
@@ -432,7 +433,7 @@ public class DaisyVideoView extends SurfaceView {
                 mIsmartvPlayer.mMediaIp = getMediaIp(s);
                 mIsmartvPlayer.mMediaId = mIsmartvPlayer.mAdIdMap.get(s);
                 mIsmartvPlayer.mAdIdMap.remove(s);
-                if(mIsmartvPlayer.mIsPlayingAdvertisement){
+                if (mIsmartvPlayer.mIsPlayingAdvertisement) {
                     mIsmartvPlayer.logAdExit();
                 }
                 if (mIsmartvPlayer.mAdIdMap.isEmpty()) {
@@ -471,6 +472,7 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnInfoListener smartInfoListener = new SmartPlayer.OnInfoListener() {
         @Override
         public boolean onInfo(SmartPlayer smartPlayer, int i, int i1) {
+            Log.v(TAG, "onInfo i=" + i + "<>j=" + i1 + "SmartPlayer status = " + smartPlayer.isPlaying());
             if (player == null) {
                 return false;
             }

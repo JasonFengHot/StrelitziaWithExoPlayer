@@ -299,7 +299,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
 
     private void deleteFavoriteByNet() {
         simpleRest.doSendRequest("/api/bookmarks/remove/", "post", "access_token=" +
-                SimpleRestClient.access_token + "&device_token=" + SimpleRestClient.device_token + "&item=" + mItemEntity.getItemPk(), new SimpleRestClient.HttpPostRequestInterface() {
+                IsmartvActivator.getInstance().getAuthToken() + "&device_token=" + SimpleRestClient.device_token + "&item=" + mItemEntity.getItemPk(), new SimpleRestClient.HttpPostRequestInterface() {
 
             @Override
             public void onSuccess(String info) {
@@ -324,7 +324,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
     }
 
     private void createFavoriteByNet() {
-        simpleRest.doSendRequest("/api/bookmarks/create/", "post", "access_token=" + SimpleRestClient.access_token + "&device_token=" + SimpleRestClient.device_token + "&item=" + mItemEntity.getItemPk(), new SimpleRestClient.HttpPostRequestInterface() {
+        simpleRest.doSendRequest("/api/bookmarks/create/", "post", "access_token=" + IsmartvActivator.getInstance().getAuthToken() + "&device_token=" + SimpleRestClient.device_token + "&item=" + mItemEntity.getItemPk(), new SimpleRestClient.HttpPostRequestInterface() {
 
             @Override
             public void onSuccess(String info) {

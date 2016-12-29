@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.bean.ClipInfo;
 import tv.ismar.app.core.SimpleRestClient;
 
@@ -110,7 +111,7 @@ public class AccessProxy {
         if (SimpleRestClient.device_token == null||"".equals(SimpleRestClient.device_token)){
 //            VodApplication.setDevice_Token();
         }
-		buffer.append("?access_token=").append(SimpleRestClient.access_token)
+		buffer.append("?access_token=").append(IsmartvActivator.getInstance().getAuthToken())
 				.append("&device_token=").append(SimpleRestClient.device_token)
 				.append("&sign=").append(getAES(access_token)).append("&code=1").toString();
 		return buffer.toString();

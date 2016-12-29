@@ -39,6 +39,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
 import cn.ismartv.truetime.TrueTime;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VodUserAgent;
@@ -71,7 +72,7 @@ public class NetworkUtils {
             }
             URL url = new URL(urlStr + "?device_token="
                     + SimpleRestClient.device_token + "&access_token="
-                    + SimpleRestClient.access_token + values);
+                    + IsmartvActivator.getInstance().getAuthToken() + values);
             Log.v("NetworkUtils", "url=" + url.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -247,7 +248,7 @@ public class NetworkUtils {
         String baseparams = "sn=" + SimpleRestClient.sn_token + "&modelName="
                 + VodUserAgent.getModelName() + "&version="
                 + SimpleRestClient.appVersion + "&accessToken="
-                + SimpleRestClient.access_token + "&deviceToken="
+                + IsmartvActivator.getInstance().getAuthToken() + "&deviceToken="
                 + SimpleRestClient.device_token + "&province=" + province
                 + "&city=" + "" + "&app=" + "sky"
                 + "&resolution=" + SimpleRestClient.screenWidth + ","
@@ -438,7 +439,7 @@ public class NetworkUtils {
                     + VodUserAgent.getModelName() + "&data="
                     + URLEncoder.encode(jsonContent, "UTF-8") + "&deviceToken="
                     + SimpleRestClient.device_token + "&acessToken="
-                    + SimpleRestClient.access_token;
+                    + IsmartvActivator.getInstance().getAuthToken();
             out.writeBytes(content);
             // ///gzip
             // out.write(MessageGZIP.compressToByte(content));
@@ -545,7 +546,7 @@ public class NetworkUtils {
                     + VodUserAgent.getModelName() + "&data="
                     + URLEncoder.encode(jsonContent, "UTF-8") + "&deviceToken="
                     + SimpleRestClient.device_token + "&acessToken="
-                    + SimpleRestClient.access_token;
+                    + IsmartvActivator.getInstance().getAuthToken();
             Log.d(TAG, content);
             byte[] datas = content.getBytes();
 

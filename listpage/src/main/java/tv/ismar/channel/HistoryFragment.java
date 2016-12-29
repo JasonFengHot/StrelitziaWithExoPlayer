@@ -644,7 +644,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			case 2:
 				if(mHGridAdapter!=null) {
 					if(!isInGetHistoryTask) {
-						if("".equals(SimpleRestClient.access_token)){
+						if("".equals(IsmartvActivator.getInstance().getAuthToken())){
 							DaisyUtils.getHistoryManager(getActivity()).deleteAll("no");
 							reset();
 						}
@@ -681,7 +681,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 							   long id) {
-		if("".equals(SimpleRestClient.access_token)){
+		if("".equals(IsmartvActivator.getInstance().getAuthToken())){
 			mSelectedPosition = position;
 		}
 	}

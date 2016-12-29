@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.entity.Attribute;
@@ -51,7 +52,6 @@ public class SimpleRestClient {
 	public static String carnation_domain = "carnation.tvxio.com";
 	public static String device_token;
 	public static String sn_token;
-	public static String access_token = "";
 	public static String mobile_number = "";
 	public static String zuser_token ="";
 	public static String zdevice_token="";
@@ -496,7 +496,7 @@ public class SimpleRestClient {
 	}
 
 	public static boolean isLogin() {
-		if ("".equals(SimpleRestClient.access_token)) {
+		if ("".equals(IsmartvActivator.getInstance().getAuthToken())) {
 			return false;
 		}
 		return true;

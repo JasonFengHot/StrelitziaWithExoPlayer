@@ -478,7 +478,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		case 2:
 			if(mHGridAdapter!=null) {
 				if(!isInGetFavoriteTask) {
-					if("".equals(SimpleRestClient.access_token)){
+					if("".equals(IsmartvActivator.getInstance().getAuthToken())){
 						DaisyUtils.getFavoriteManager(getActivity()).deleteAll("no");
 						reset();
 					}

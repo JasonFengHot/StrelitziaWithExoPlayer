@@ -701,7 +701,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 SimpleRestClient.upgrade_domain = upgrade_domain;
                 SimpleRestClient.device_token = IsmartvActivator.getInstance().getDeviceToken();
                 SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
-                SimpleRestClient.access_token = IsmartvActivator.getInstance().getAuthToken();
                 SimpleRestClient.zuser_token = IsmartvActivator.getInstance().getZUserToken();
                 SimpleRestClient.zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
             }
