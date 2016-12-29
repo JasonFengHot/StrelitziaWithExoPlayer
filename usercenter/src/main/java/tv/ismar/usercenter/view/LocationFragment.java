@@ -289,7 +289,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 mViewModel.loadselectedCity();
 
                 proviceGridView.setAdapter(provinceAdapter);
-                ((UserCenterActivity)getActivity()).refreshWeather();
+                ((UserCenterActivity) getActivity()).refreshWeather();
             }
         });
 
@@ -317,7 +317,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                         ((TextView) focusView.findViewById(R.id.province_text)).setTextColor(getResources().getColor(R.color.location_text_focus));
                         cityOldView[0] = focusView;
                     }
-                },100);
+                }, 100);
 
 //
             }
@@ -343,7 +343,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         return true;
     }
 
-    private class ProvinceAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener{
+    private class ProvinceAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener {
         private Context mContext;
 
         private List<ProvinceTable> mProvinceTableList;
@@ -429,7 +429,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 
     }
 
-    private class CityAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener{
+    private class CityAdapter extends RecyclerView.Adapter<LocationViewHolder> implements OnHoverListener {
         private Context mContext;
 
         private List<CityTable> mCityTableList;
@@ -488,8 +488,13 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
                 holder.itemView.setNextFocusLeftId(R.id.usercenter_location);
             }
 
-            if (position == mCityTableList.size() -1){
+            if (position == mCityTableList.size() - 1) {
                 holder.itemView.setNextFocusRightId(holder.itemView.getId());
+            }
+
+            int remainCount = (position + 1) % 6;
+            if (position + 1 > mCityTableList.size() - remainCount) {
+                holder.itemView.setNextFocusDownId(holder.itemView.getId());
             }
         }
 
