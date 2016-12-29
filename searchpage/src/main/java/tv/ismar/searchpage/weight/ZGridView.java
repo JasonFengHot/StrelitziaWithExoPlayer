@@ -2704,11 +2704,16 @@ public class ZGridView extends AdapterView<ListAdapter> {
 	@Override
 	public View getSelectedView() {
 		// TODO Auto-generated method stub
+		try{
 		if (mAdapter.getCount() > 0 && mSelectedPosition >= 0) {
 			return getChildAt(mSelectedPosition - mFirstPosition);
 		} else {
 			return null;
+		}}catch (Exception e){
+			e.printStackTrace();
+			return null;
 		}
+
 	}
 
 	/**
