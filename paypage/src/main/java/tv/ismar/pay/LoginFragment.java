@@ -483,7 +483,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
             favorite.quality = mItem.quality;
             favorite.is_complex = mItem.is_complex;
             favorite.isnet = "yes";
-            DaisyUtils.getFavoriteManager(getContext()).addFavorite(favorite, favorite.isnet);
+            DaisyUtils.getFavoriteManager(activity).addFavorite(favorite, favorite.isnet);
         }
     }
 
@@ -494,7 +494,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
             if (url == null && mItem.pk != 0) {
                 url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItem.pk + "/";
             }
-            Favorite favorite = DaisyUtils.getFavoriteManager(getContext()).getFavoriteByUrl(url, "yes");
+            Favorite favorite = DaisyUtils.getFavoriteManager(activity).getFavoriteByUrl(url, "yes");
             if (favorite != null) {
                 return true;
             }
@@ -539,9 +539,9 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
 
         history.is_continue = true;
         if (IsmartvActivator.getInstance().isLogin())
-            DaisyUtils.getHistoryManager(getContext()).addHistory(history, "yes");
+            DaisyUtils.getHistoryManager(activity).addHistory(history, "yes");
         else
-            DaisyUtils.getHistoryManager(getActivity()).addHistory(history, "no");
+            DaisyUtils.getHistoryManager(activity).addHistory(history, "no");
 
     }
 }
