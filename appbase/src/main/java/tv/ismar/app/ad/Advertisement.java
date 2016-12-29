@@ -31,6 +31,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.network.SkyService;
@@ -268,8 +269,8 @@ public class Advertisement {
             }
 
         }
-        adParams.put("channel", "");
-        adParams.put("section", "");
+        adParams.put("channel", BaseActivity.baseChannel);
+        adParams.put("section", BaseActivity.baseSection);
         adParams.put("itemid", itemEntity.getItemPk());
         adParams.put("topic", "");
         Log.i(TAG, "GetAdParam-Source:" + source);
