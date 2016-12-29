@@ -187,10 +187,19 @@ public class BaseActivity extends AppCompatActivity {
         if(netErrorPopWindow!=null&&netErrorPopWindow.isShowing()){
             return;
         }
+        final String act=getCurrentActivityName(BaseActivity.this);
         netErrorPopWindow = new NetErrorPopWindow(this);
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
         netErrorPopWindow.setCancelBtn(getString(R.string.back));
+        netErrorPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity")||act.contains("FilmStar"))) {
+                    finish();
+                }
+            }
+        });
         try {
             netErrorPopWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
                         @Override
@@ -205,8 +214,7 @@ public class BaseActivity extends AppCompatActivity {
                         @Override
                         public void cancelClick(View view) {
                             netErrorPopWindow.dismiss();
-                            String act=getCurrentActivityName(BaseActivity.this);
-                            if(!act.contains("HomePageActivity")) {
+                            if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity"))||act.contains("FilmStar")) {
                                 finish();
                             }
                         }
