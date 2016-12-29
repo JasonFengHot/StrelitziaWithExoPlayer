@@ -2,6 +2,7 @@ package tv.ismar.searchpage;
 import cn.ismartv.truetime.TrueTime;
 
 import android.content.res.AssetFileDescriptor;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
@@ -393,6 +394,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         t9_keyboard = (ZGridView) findViewById(R.id.t9_keyboard);
         search_keyboard = findViewById(R.id.search_keyboard);
         loading = findViewById(R.id.loading);
+        ImageView progress_view= (ImageView) findViewById(R.id.progress_view);
+        AnimationDrawable animationDrawable= (AnimationDrawable) progress_view.getBackground();
+        if(animationDrawable!=null){
+            animationDrawable.start();
+        }
         junp_view = findViewById(R.id.jump_view);
         junp_view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
