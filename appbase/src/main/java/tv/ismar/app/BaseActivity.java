@@ -195,7 +195,7 @@ public class BaseActivity extends AppCompatActivity {
         netErrorPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity"))) {
+                if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity")||act.contains("FilmStar"))) {
                     finish();
                 }
             }
@@ -214,7 +214,7 @@ public class BaseActivity extends AppCompatActivity {
                         @Override
                         public void cancelClick(View view) {
                             netErrorPopWindow.dismiss();
-                            if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity"))) {
+                            if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity"))||act.contains("FilmStar")) {
                                 finish();
                             }
                         }
