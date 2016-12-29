@@ -268,6 +268,7 @@ public class SportFragment extends ChannelBaseFragment {
                                     "", 0, channelEntity.getHomepage_url(),
                                     SimpleRestClient.appVersion, "data", ""
                             );
+                            super.onError(new Exception("数据异常"));
                             return;
                         }
                         ArrayList<Poster> postlist = homePagerEntity.getPosters();
@@ -301,6 +302,7 @@ public class SportFragment extends ChannelBaseFragment {
                                     "", 0, "api/tv/living_video/sport/",
                                     SimpleRestClient.appVersion, "data", ""
                             );
+                            super.onError(new Exception("数据异常"));
                             return;
                         }
                         games.clear();
@@ -329,6 +331,7 @@ public class SportFragment extends ChannelBaseFragment {
                                     "", 0, "api/tv/living_video/game/",
                                     SimpleRestClient.appVersion, "data", ""
                             );
+                            super.onError(new Exception("数据异常"));
                             return;
                         }
                         games.clear();

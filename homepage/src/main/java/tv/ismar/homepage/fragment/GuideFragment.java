@@ -215,7 +215,11 @@ public class GuideFragment extends ChannelBaseFragment {
 
                     @Override
                     public void onNext(HomePagerEntity homePagerEntity) {
-                        fillLayout(homePagerEntity);
+                        if(homePagerEntity == null){
+                            super.onError(new Exception("数据异常"));
+                        } else {
+                            fillLayout(homePagerEntity);
+                        }
                     }
                 });
 

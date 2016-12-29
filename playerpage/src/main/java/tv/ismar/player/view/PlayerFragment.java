@@ -632,6 +632,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         ItemEntity nextItem = subItems[i + 1];
                         if (nextItem != null && nextItem.getClip() != null) {
                             if (mIsmartvPlayer != null) {
+                                mIsmartvPlayer.logVideoExit();
+                            }
+                            if (mIsmartvPlayer != null) {
                                 mIsmartvPlayer.stopPlayBack();
                                 mIsmartvPlayer = null;
                             }
