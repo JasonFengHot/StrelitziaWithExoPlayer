@@ -1,9 +1,12 @@
 package tv.ismar.detailpage.view;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -146,6 +149,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mDetailPagePresenter.setItemEntity(mItemEntity);
         String source=getActivity().getIntent().getStringExtra("fromPage");
         if(source!=null&&source.equals("launcher")) {
+            tempInitStaticVariable();
             BaseActivity.baseSection="";
             BaseActivity.baseChannel="";
             CallaPlay callaPlay = new CallaPlay();
@@ -154,7 +158,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
             String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
             String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
-            callaPlay.app_start(SimpleRestClient.sn_token,
+            callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
                     VodUserAgent.getModelName(), "0",
                     android.os.Build.VERSION.RELEASE,
                     SimpleRestClient.appVersion,
@@ -625,5 +629,51 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         } else {
             return true;
         }
+    }
+
+    // 从launcher进入详情页，初始化赋值问题
+    private void tempInitStaticVariable() {
+        new Thread() {
+            @Override
+            public void run() {
+                DisplayMetrics metric = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metric);
+                SimpleRestClient.densityDpi = metric.densityDpi;
+                SimpleRestClient.screenWidth = metric.widthPixels;
+                SimpleRestClient.screenHeight = metric.heightPixels;
+                PackageManager manager = getActivity().getPackageManager();
+                try {
+                    PackageInfo info = manager.getPackageInfo(getActivity().getPackageName(), 0);
+                    SimpleRestClient.appVersion = info.versionCode;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                String apiDomain = IsmartvActivator.getInstance().getApiDomain();
+                String ad_domain = IsmartvActivator.getInstance().getAdDomain();
+                String log_domain = IsmartvActivator.getInstance().getLogDomain();
+                String upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
+                if (apiDomain != null && !apiDomain.contains("http")) {
+                    apiDomain = "http://" + apiDomain;
+                }
+                if (ad_domain != null && !ad_domain.contains("http")) {
+                    ad_domain = "http://" + ad_domain;
+                }
+                if (log_domain != null && !log_domain.contains("http")) {
+                    log_domain = "http://" + log_domain;
+                }
+                if (upgrade_domain != null && !upgrade_domain.contains("http")) {
+                    upgrade_domain = "http://" + upgrade_domain;
+                }
+                SimpleRestClient.root_url = apiDomain;
+                SimpleRestClient.ad_domain = ad_domain;
+                SimpleRestClient.log_domain = log_domain;
+                SimpleRestClient.upgrade_domain = upgrade_domain;
+                SimpleRestClient.device_token = IsmartvActivator.getInstance().getDeviceToken();
+                SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
+                SimpleRestClient.zuser_token = IsmartvActivator.getInstance().getZUserToken();
+                SimpleRestClient.zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
+            }
+        }.start();
+
     }
 }
