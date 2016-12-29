@@ -650,6 +650,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                mLoadingDialog.dismiss();
             }
         });
     }

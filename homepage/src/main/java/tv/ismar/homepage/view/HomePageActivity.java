@@ -838,6 +838,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         DaisyUtils.getVodApplication(getApplicationContext())
                                 .save();
                         finish();
+                        BaseActivity.baseChannel = "";
+                        BaseActivity.baseSection = "";
                     }
                 },
                 new ModuleMessagePopWindow.CancelListener() {
