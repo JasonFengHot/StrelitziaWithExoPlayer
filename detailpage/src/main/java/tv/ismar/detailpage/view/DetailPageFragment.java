@@ -164,7 +164,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
                     SimpleRestClient.appVersion,
                     SystemFileUtil.getSdCardTotal(getActivity().getApplicationContext()),
                     SystemFileUtil.getSdCardAvalible(getActivity().getApplicationContext()),
-                    IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage,
+                    IsmartvActivator.getInstance().getUsername(), province, city, isp, source,
                     DeviceUtils.getLocalMacAddress(getActivity().getApplicationContext()),
                     SimpleRestClient.app, getActivity().getPackageName()
             );
