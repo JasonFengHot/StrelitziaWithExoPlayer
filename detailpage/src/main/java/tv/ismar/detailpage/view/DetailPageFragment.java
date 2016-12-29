@@ -153,7 +153,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             BaseActivity.baseSection="";
             BaseActivity.baseChannel="";
             CallaPlay callaPlay = new CallaPlay();
-            callaPlay.launcher_vod_click(type,mItemEntity.getPk(),mItemEntity.getTitle(),position);
+            callaPlay.launcher_vod_click("item",mItemEntity.getPk(),mItemEntity.getTitle(),position);
 
             String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
             String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
