@@ -400,7 +400,7 @@
                     android:gravity="center"
                     android:nextFocusDown="@id/detail_relative_button"
                     android:onClick="@{() -> actionHandler.handleMoreRelate()}"
-                    android:text="@string/movie_more"
+                    android:text="@string/movie_more_movie"
                     android:textColor="@color/module_color_white"
                     android:textSize="@dimen/text_size_36sp"
                     android:layout_marginRight="@dimen/movie_detail_content_padding_pr"

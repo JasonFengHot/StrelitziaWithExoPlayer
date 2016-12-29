@@ -85,6 +85,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
     public ImageView arrow_right;
     Animation scaleSmallAnimation;
     Animation scaleBigAnimation;
+    public int initTab=1;
 
     public void setIsPortrait(boolean isPortrait) {
         this.isPortrait = isPortrait;
@@ -129,7 +130,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
 
     public HGridView mGridView;
 
-    public void init(SectionList sectionLists, int totalWidth, boolean isChangeBarStyle) {
+    public void init(SectionList sectionLists, int totalWidth, boolean isChangeBarStyle,int initTab) {
      //   rate = DaisyUtils.getVodApplication(getContext()).getRate(getContext());
         mContainer = new LinearLayout(getContext());
         mContainer.setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
@@ -177,9 +178,9 @@ public class ScrollableSectionList extends HorizontalScrollView {
 
         this.addView(mContainer);
 
-        View childView = mContainer.getChildAt(1);
+        View childView = mContainer.getChildAt(initTab);
         if (childView != null) {
-            changeSelection(1);
+            changeSelection(initTab);
             childView.requestFocus();
         }
 

@@ -553,7 +553,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                                 arrow_right.setVisibility(View.VISIBLE);
                                             }
 
-                                            mScrollableSectionList.init(mSectionList,getResources().getDimensionPixelSize(R.dimen.list_section_width), false);
+                                            mScrollableSectionList.init(mSectionList,getResources().getDimensionPixelSize(R.dimen.list_section_width), false,selectedPosition+1==0?1:selectedPosition+1);
                                             mHGridAdapter = new HGridAdapterImpl(getActivity(), mItemCollections);
                                             if (isPortrait)
                                                 mHGridAdapter.setIsPortrait(true);
@@ -571,8 +571,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                                 checkSectionChanged(nextSection + 1);
                                             }
                                             if(selectedPosition!=-1){
-                                                getItemlistHandler.removeCallbacks(getItemlistRunnable);
-                                                checkSectionChanged(selectedPosition);
                                                 mHGridView.jumpToSection(selectedPosition);
                                             }
 

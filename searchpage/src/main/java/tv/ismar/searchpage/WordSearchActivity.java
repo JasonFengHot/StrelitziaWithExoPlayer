@@ -716,7 +716,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                            JasmineUtil.video_search_arrive(keyWord_now, type_now, ((int) posterAdapter.getItem(position).getPk()), 0, posterAdapter.getItem(position).getTitle());
                                                        } else {
                                                            baseSection="";
-                                                           baseChannel=type_now.equals("person")?"star":type_now;
+                                                           baseChannel="";
                                                            gotoSpecialPage(recommendAdapter.getItem(position).pk, null, recommendAdapter.getItem(position).content_model, recommendAdapter.getItem(position).expense != null);
                                                            JasmineUtil.video_search_arrive(keyWord_now, type_now, recommendAdapter.getItem(position).pk, recommendAdapter.getItem(position).item_pk, recommendAdapter.getItem(position).title);
                                                        }
