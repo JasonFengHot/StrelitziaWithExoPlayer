@@ -133,10 +133,11 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         String userId = IsmartvActivator.getInstance().getUsername();
         String type = "ismartv";
         String clip = "";
-        if (itemEntity.getExpense() != null) {
-            clip = String.valueOf(itemEntity.getExpense().getPrice());
+        if (itemEntity.getClip() != null) {
+            clip = String.valueOf(itemEntity.getClip().getPk());
         }
-        new PurchaseStatistics().videoPurchaseOk(item, account, valid, price, userId, type, clip);
+        String title = itemEntity.getTitle();
+        new PurchaseStatistics().videoPurchaseOk(item, account, valid, price, userId, type, clip, title);
     }
 
     public void createOrder() {

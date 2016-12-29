@@ -31,7 +31,7 @@ public class PurchaseStatistics {
         new NetworkUtils.DataCollectionTask().execute("video_purchase_click", dataCollectionProperties);
     }
 
-    public void videoPurchaseOk(String item, String account, String valid, String price, String userid, String type, String clip) {
+    public void videoPurchaseOk(String item, String account, String valid, String price, String userid, String type, String clip, String title) {
         HashMap<String, Object> dataCollectionProperties = new HashMap<>();
         dataCollectionProperties.put("item", item);
         dataCollectionProperties.put("account", account);
@@ -40,6 +40,7 @@ public class PurchaseStatistics {
         dataCollectionProperties.put("userid", userid);
         dataCollectionProperties.put("type", type);
         dataCollectionProperties.put("clip", clip);
+        dataCollectionProperties.put("title", title);
         new NetworkUtils.DataCollectionTask().execute("video_purchase_ok", dataCollectionProperties);
     }
 
