@@ -468,6 +468,7 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                                     "", 0, channelEntity.getHomepage_url(),
                                     SimpleRestClient.appVersion, "data", ""
                             );
+                            super.onError(new Exception("数据异常"));
                             return;
                         }
                         ArrayList<Carousel> carousellist = entity.getCarousels();

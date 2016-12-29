@@ -459,7 +459,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                                 } else {
                                     initView(fragmentView, false);
                                 }
-                                if (items != null) {
+                                if (items != null && mItemCollections != null) {
                                     mHGridAdapter = new HGridFilterAdapterImpl(getActivity(), mItemCollections, false);
                                     mHGridAdapter.setIsPortrait(isPortrait);
                                     mHGridAdapter.setList(mItemCollections);

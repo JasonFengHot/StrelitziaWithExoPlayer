@@ -157,6 +157,7 @@ public class ChildFragment extends ChannelBaseFragment implements Flag.ChangeCal
                                     "", 0, channelEntity.getHomepage_url(),
                                     SimpleRestClient.appVersion, "data", ""
                             );
+                            super.onError(new Exception("数据异常"));
                             return;
                         }
                         ArrayList<HomePagerEntity.Poster> posters = homePagerEntity.getPosters();

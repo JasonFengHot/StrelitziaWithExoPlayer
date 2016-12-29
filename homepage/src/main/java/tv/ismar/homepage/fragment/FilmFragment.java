@@ -38,6 +38,8 @@ import cn.ismartv.downloader.DownloadStatus;
 import cn.ismartv.downloader.Md5;
 import cn.ismartv.injectdb.library.query.Select;
 import okhttp3.HttpUrl;
+import okhttp3.Response;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -264,7 +266,11 @@ public class FilmFragment extends ChannelBaseFragment {
 
                     @Override
                     public void onNext(HomePagerEntity homePagerEntity) {
-                        fillLayout(homePagerEntity);
+                        if(homePagerEntity == null){
+                            super.onError(new Exception("数据异常"));
+                        } else {
+                            fillLayout(homePagerEntity);
+                        }
                     }
                 });
     }
