@@ -26,9 +26,12 @@ import java.util.TimeZone;
 import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
+import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.network.entity.EventProperty;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -36,6 +39,9 @@ import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.Constants;
+import tv.ismar.app.util.DeviceUtils;
+import tv.ismar.app.util.SPUtils;
+import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.LabelImageView;
 import tv.ismar.detailpage.DetailPageContract;
@@ -140,10 +146,24 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mDetailPagePresenter.setItemEntity(mItemEntity);
         String source=getActivity().getIntent().getStringExtra("fromPage");
         if(source!=null&&source.equals("launcher")) {
-            ((BaseActivity)getActivity()).baseSection="";
-            ((BaseActivity)getActivity()).baseChannel="";
+            BaseActivity.baseSection="";
+            BaseActivity.baseChannel="";
             CallaPlay callaPlay = new CallaPlay();
             callaPlay.launcher_vod_click(type,mItemEntity.getPk(),mItemEntity.getTitle(),position);
+
+            String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
+            String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
+            String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
+            callaPlay.app_start(SimpleRestClient.sn_token,
+                    VodUserAgent.getModelName(), "0",
+                    android.os.Build.VERSION.RELEASE,
+                    SimpleRestClient.appVersion,
+                    SystemFileUtil.getSdCardTotal(getActivity().getApplicationContext()),
+                    SystemFileUtil.getSdCardAvalible(getActivity().getApplicationContext()),
+                    IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage,
+                    DeviceUtils.getLocalMacAddress(getActivity().getApplicationContext()),
+                    SimpleRestClient.app, getActivity().getPackageName()
+            );
 
         }
     }

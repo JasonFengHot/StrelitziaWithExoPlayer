@@ -2,6 +2,7 @@ package tv.ismar.app.core.client;
 import cn.ismartv.truetime.TrueTime;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -408,7 +409,7 @@ public class NetworkUtils {
             String jsonContent = base64Code(Content);
 //            String url = "http://ismartv.calla.tvxio.com/log";
 //            String url = "http://192.168.1.119:8099/m3u8parse/parseM3u8";
-            String url = SimpleRestClient.log_domain + "/log";
+            String url = appendProtocol(IsmartvActivator.getInstance().getLogDomain()) + "/log";
             java.net.URL connURL = new URL(url);
             HttpURLConnection httpConn = (HttpURLConnection) connURL
                     .openConnection();
@@ -435,10 +436,10 @@ public class NetworkUtils {
             DataOutputStream out = new DataOutputStream(
                     httpConn.getOutputStream());
 
-            String content = "sn=" + SimpleRestClient.sn_token + "&modelname="
+            String content = "sn=" + IsmartvActivator.getInstance().getSnToken() + "&modelname="
                     + VodUserAgent.getModelName() + "&data="
                     + URLEncoder.encode(jsonContent, "UTF-8") + "&deviceToken="
-                    + SimpleRestClient.device_token + "&acessToken="
+                    + IsmartvActivator.getInstance().getDeviceToken() + "&acessToken="
                     + IsmartvActivator.getInstance().getAuthToken();
             out.writeBytes(content);
             // ///gzip
@@ -468,6 +469,19 @@ public class NetworkUtils {
             return false;
         }
 
+    }
+
+    private static String appendProtocol(String host) {
+        Uri uri = Uri.parse(host);
+        String url = uri.toString();
+        if (!uri.toString().startsWith("http://") && !uri.toString().startsWith("https://")) {
+            url = "http://" + host;
+        }
+
+        if (!url.endsWith("/")) {
+            url = url + "/";
+        }
+        return url;
     }
 
     private static boolean isSupportGzip() {
