@@ -32,6 +32,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.entity.Favorite;
+import tv.ismar.app.entity.History;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
@@ -66,6 +67,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
     private Subscription verificationCodeSub;
     private Subscription accountsLoginSub;
     private Subscription bookmarksSub;
+    private Subscription historySub;
 
 
     public static LoginFragment newInstance() {
@@ -335,6 +337,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
                     @Override
                     public void onNext(AccountsLoginEntity entity) {
                         fetchFavorite();
+                        getHistoryByNet();
                         String username = edit_mobile.getText().toString();
                         IsmartvActivator.getInstance().saveUserInfo(username, entity.getAuth_token(), entity.getZuser_token());
                         loginStatistics(username);
@@ -436,6 +439,10 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
         if (bookmarksSub != null && accountsLoginSub.isUnsubscribed()) {
             bookmarksSub.unsubscribe();
         }
+
+        if (historySub != null && historySub.isUnsubscribed()) {
+            historySub.unsubscribe();
+        }
         super.onStop();
     }
 
@@ -493,5 +500,47 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
         }
 
         return false;
+    }
+
+    private void getHistoryByNet() {
+        historySub = mSkyService.getHistoryByNet()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(activity.new BaseObserver<Item[]>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(Item[] items) {
+                        for (Item item : items) {
+                            addHistory(item);
+                        }
+                    }
+                });
+    }
+
+    private void addHistory(Item item) {
+        History history = new History();
+        history.title = item.title;
+        history.adlet_url = item.adlet_url;
+        history.content_model = item.content_model;
+        history.is_complex = item.is_complex;
+        history.last_position = item.offset;
+        history.last_quality = item.quality;
+        if ("subitem".equals(item.model_name)) {
+            history.sub_url = item.url;
+            history.url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + item.item_pk + "/";
+        } else {
+            history.url = item.url;
+        }
+
+        history.is_continue = true;
+        if (IsmartvActivator.getInstance().isLogin())
+            DaisyUtils.getHistoryManager(getContext()).addHistory(history, "yes");
+        else
+            DaisyUtils.getHistoryManager(getActivity()).addHistory(history, "no");
+
     }
 }
