@@ -121,11 +121,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mPageStatistics = new DetailPageStatistics();
         if (getArguments() != null) {
             Bundle bundle = getArguments();
-            fromPage = bundle.getString(EXTRA_SOURCE);
-            if(fromPage!=null&&fromPage.equals("launcher")){
-                ((BaseActivity)getActivity()).baseSection="";
-                ((BaseActivity)getActivity()).baseChannel="";
-            }
+            fromPage = bundle.getString("fromPage");
             String itemJson = bundle.getString(EXTRA_ITEM_JSON);
             position = bundle.getInt(POSITION,-1);
             type=bundle.getString(TYPE);
@@ -142,7 +138,14 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mDetailPagePresenter = new DetailPagePresenter((DetailPageActivity) getActivity(), this, mItemEntity.getContentModel());
         mModel = new DetailPageViewModel(mActivity, mDetailPagePresenter);
         mDetailPagePresenter.setItemEntity(mItemEntity);
+        String source=getActivity().getIntent().getStringExtra("fromPage");
+        if(source!=null&&source.equals("launcher")) {
+            ((BaseActivity)getActivity()).baseSection="";
+            ((BaseActivity)getActivity()).baseChannel="";
+            CallaPlay callaPlay = new CallaPlay();
+            callaPlay.launcher_vod_click(type,mItemEntity.getPk(),mItemEntity.getTitle(),position);
 
+        }
     }
 
     @Override
@@ -179,10 +182,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         loadItem(mItemEntity);
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
-        if(getActivity().getIntent().getStringExtra("fromPage")!=null) {
-            CallaPlay callaPlay = new CallaPlay();
-            callaPlay.launcher_vod_click(type,mItemEntity.getPk(),mItemEntity.getTitle(),position);
-        }
 
         mModel.notifyBookmark(true);
     }
