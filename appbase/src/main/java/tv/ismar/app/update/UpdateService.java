@@ -151,10 +151,19 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
         try {
             packageInfo = getPackageManager().getPackageInfo(applicationEntity.getProduct(), 0);
             installVersionCode = packageInfo.versionCode;
+
+
+
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "can't find this application!!!");
             installVersionCode = 0;
         }
+
+        if (installVersionCode >= Integer.parseInt(applicationEntity.getVersion())){
+            Log.w(TAG, "installVersionCode >= applicationEntity.getVersion()");
+            return;
+        }
+
         Log.i(TAG, "local version code ---> " + installVersionCode);
         String title = Md5.md5(new Gson().toJson(applicationEntity));
         md5Jsons.add(title);
