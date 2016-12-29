@@ -336,8 +336,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
 
                     @Override
                     public void onNext(AccountsLoginEntity entity) {
-                        fetchFavorite();
-                        getHistoryByNet();
+
                         String username = edit_mobile.getText().toString();
                         IsmartvActivator.getInstance().saveUserInfo(username, entity.getAuth_token(), entity.getZuser_token());
                         loginStatistics(username);
@@ -345,6 +344,8 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
                             mLoginCallback.onSuccess();
                         }
                         showLoginSuccessPopup();
+                        fetchFavorite();
+                        getHistoryByNet();
                     }
                 });
     }
