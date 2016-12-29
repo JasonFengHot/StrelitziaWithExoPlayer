@@ -326,6 +326,8 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         locationBinding.confirmBtn.setOnHoverListener(this);
         locationBinding.cancelBtn.setOnHoverListener(this);
 
+        setNextFocusDown(true);
+
     }
 
     @Override
@@ -494,13 +496,15 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
 //                holder.itemView.setNextFocusDownId(holder.itemView.getId());
 //            }
 //
-//            int remainCount = mCityTableList.size() % 6;
-//            if (position + 1 > mCityTableList.size() - remainCount) {
-//                holder.itemView.setNextFocusDownId(holder.itemView.getId());
-//            }
+            int remainCount = mCityTableList.size() % 6;
+            if (remainCount != 0) {
+                if (position + 1 > mCityTableList.size() && position + 1 <= mCityTableList.size() - remainCount) {
+                    holder.itemView.setNextFocusDownId(View.NO_ID);
+                }
 
-            if (position + 1 > mCityTableList.size() - 6) {
-                holder.itemView.setNextFocusDownId(holder.itemView.getId());
+                if (position + 1 > mCityTableList.size() - remainCount) {
+                    holder.itemView.setNextFocusDownId(holder.itemView.getId());
+                }
             }
         }
 
@@ -574,24 +578,26 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         setNextFocusDown(false);
 
 
-
     }
 
     private void setNextFocusDown(boolean self) {
 
-
+        int remainCount = proviceGridView.getChildCount() % 6;
         if (self) {
             for (int position = 0; position < proviceGridView.getChildCount(); position++) {
-
-                if (position + 1 > proviceGridView.getChildCount() - 6) {
-                    proviceGridView.getChildAt(position).setNextFocusDownId(proviceGridView.getChildAt(position).getId());
+                if (remainCount != 0) {
+                    if (position + 1 > proviceGridView.getChildCount() - remainCount) {
+                        proviceGridView.getChildAt(position).setNextFocusDownId(proviceGridView.getChildAt(position).getId());
+                    }
                 }
             }
         } else {
             for (int position = 0; position < proviceGridView.getChildCount(); position++) {
+                if (remainCount != 0) {
 
-                if (position + 1 > proviceGridView.getChildCount() - 6) {
-                    proviceGridView.getChildAt(position).setNextFocusDownId(locationBinding.confirmBtn.getId());
+                    if (position + 1 > proviceGridView.getChildCount() - remainCount) {
+                        proviceGridView.getChildAt(position).setNextFocusDownId(locationBinding.confirmBtn.getId());
+                    }
                 }
             }
         }
