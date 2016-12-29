@@ -184,6 +184,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNetWorkErrorDialog(Throwable e) {
+        if(netErrorPopWindow!=null&&netErrorPopWindow.isShowing()){
+            return;
+        }
         netErrorPopWindow = new NetErrorPopWindow(this);
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));

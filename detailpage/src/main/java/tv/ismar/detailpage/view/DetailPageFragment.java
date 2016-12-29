@@ -391,16 +391,16 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             dataCollectionProperties.put(EventProperty.DURATION, (int)((System.currentTimeMillis()-((DetailPageActivity) getActivity()).start_time)/1000));
             String quality="";
             switch (mItemEntity.getQuality()){
-                case 1:
+                case 2:
                     quality="normal";
                     break;
-                case 2:
+                case 3:
                     quality="medium";
                     break;
-                case 3:
+                case 4:
                     quality="high";
                     break;
-                case 4:
+                case 5:
                     quality="ultra";
                     break;
                 default:

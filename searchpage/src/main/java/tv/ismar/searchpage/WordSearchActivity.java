@@ -32,6 +32,7 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VodUserAgent;
+import tv.ismar.app.exception.NetworkException;
 import tv.ismar.app.models.HotWords;
 import tv.ismar.app.models.Recommend;
 import tv.ismar.app.models.Section;
@@ -113,9 +114,11 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     private android.os.Handler handler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 1 && errorDialog != null) {
+            if (msg.what == 1 ) {
                 lay_focus.requestFocus();
-                errorDialog.show();
+//                errorDialog.show();
+                showNetWorkErrorDialog(new Exception());
+                handler.removeMessages(1);
 
             } else if (msg.what == 2) {
                 editable = et_input.getText();
