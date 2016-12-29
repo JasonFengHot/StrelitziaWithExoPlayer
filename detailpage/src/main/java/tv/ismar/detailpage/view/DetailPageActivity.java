@@ -33,7 +33,6 @@ import static tv.ismar.app.core.PageIntentInterface.EXTRA_TYPE;
 public class DetailPageActivity extends BaseActivity{
     private static final String TAG = "DetailPageActivity";
 
-    public static DetailPageActivity instance = null;
 
     private Subscription apiItemSubsc;
     private String source;
@@ -49,7 +48,6 @@ public class DetailPageActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
 //        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         setContentView(R.layout.activity_detailpage);
-        instance = this;
         Intent intent = getIntent();
 
         itemPK = intent.getIntExtra(EXTRA_PK, -1);
