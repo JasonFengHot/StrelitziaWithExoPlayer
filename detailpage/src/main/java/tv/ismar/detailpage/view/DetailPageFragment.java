@@ -179,7 +179,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         }
         loadItem(mItemEntity);
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
-        if(getActivity().getIntent().getStringExtra(EXTRA_SOURCE)!=null) {
+        if(getActivity().getIntent().getStringExtra("fromPage")!=null) {
             CallaPlay callaPlay = new CallaPlay();
             callaPlay.launcher_vod_click(type,mItemEntity.getPk(),mItemEntity.getTitle(),position);
         }
