@@ -499,7 +499,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
     private  int nextSection=0;
     public void getData(final String url, final String channel){
             if (mSectionList == null) {
-                skyService.getSections(url).subscribeOn(Schedulers.io())
+                skyService.getSections(channel).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(((BaseActivity) getActivity())
                                            .new BaseObserver<SectionList>() {
@@ -652,6 +652,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+                mLoadingDialog.dismiss();
             }
         });
     }

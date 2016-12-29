@@ -445,6 +445,8 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 	@Override
 	public void onResume() {
+        BaseActivity.baseChannel="";
+        BaseActivity.baseSection="";
 		if(IsmartvActivator.getInstance().isLogin()){
 			//登录，网络获取
 			Log.i("onResum","onreusm");
@@ -534,7 +536,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 							mDataCollectionProperties.put("to_subitem", item.clip.pk);
 						}
 						mDataCollectionProperties.put("to_title", item.title);
-						mDataCollectionProperties.put("position", history.last_position);
+						mDataCollectionProperties.put("position", history.last_position/1000);
 						String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
 						mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
 						PageIntent intent = new PageIntent();

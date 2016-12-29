@@ -29,6 +29,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
@@ -102,6 +103,10 @@ public class PackageDetailFragment extends BaseFragment {
         Bundle bundle = getArguments();
         mItemEntity = new Gson().fromJson(bundle.getString(EXTRA_ITEM_JSON), ItemEntity.class);
         source = bundle.getString(EXTRA_SOURCE);
+        if(source!=null&&source.equals("launcher")){
+            ((BaseActivity)getActivity()).baseSection="";
+            ((BaseActivity)getActivity()).baseChannel="";
+        }
         mSkyService = SkyService.ServiceManager.getService();
     }
 
