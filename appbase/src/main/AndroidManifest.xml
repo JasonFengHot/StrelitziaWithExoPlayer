@@ -16,6 +16,7 @@
 
         <service android:name=".ad.AdsUpdateService" />
         <service android:name=".service.TrueTimeService" />
+        <service android:name="com.squareup.leakcanary.DisplayLeakService" />
 
         <receiver android:name=".receiver.BootUpdateReceiver">
             <intent-filter>
