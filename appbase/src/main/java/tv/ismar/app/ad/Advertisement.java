@@ -270,7 +270,7 @@ public class Advertisement {
 
         }
         adParams.put("channel", BaseActivity.baseChannel);
-        adParams.put("section", BaseActivity.baseChannel);
+        adParams.put("section", BaseActivity.baseSection);
         adParams.put("itemid", itemEntity.getItemPk());
         adParams.put("topic", "");
         Log.i(TAG, "GetAdParam-Source:" + source);
