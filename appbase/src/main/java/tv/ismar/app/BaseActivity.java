@@ -137,8 +137,8 @@ public class BaseActivity extends AppCompatActivity {
             updateAgainHandler.removeCallbacks(updateAgainRunnable);
         }
 
-        if (netWorkErrorHandler!=null){
-            netWorkErrorHandler.removeCallbacks(netWorkErrorRunnable);
+        if (noNetConnectHandler!=null){
+            noNetConnectHandler.removeCallbacks(noNetConnectRunnable);
         }
         super.onPause();
     }
@@ -271,16 +271,16 @@ public class BaseActivity extends AppCompatActivity {
             Log.i("onNoNet", "onerror" + NetworkUtils.isConnected(BaseActivity.this));
             if (!NetworkUtils.isConnected(BaseActivity.this) && !NetworkUtils.isWifi(BaseActivity.this)) {
                 Log.i("onNoNet", "" + NetworkUtils.isConnected(BaseActivity.this));
-                showNoNetConnectDialog();
+                showNoNetConnectDelay();
             } else if (e instanceof HttpException) {
                 HttpException httpException = (HttpException) e;
                 if (httpException.code() == 401) {
                     showExpireAccessTokenPop();
                 } else {
-                    showNetworkErrorDelay(e);
+                    showNetWorkErrorDialog(e);
                 }
             } else {
-                showNetworkErrorDelay(e);
+                showNetWorkErrorDialog(e);
             }
         }
     }
@@ -460,19 +460,19 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    Handler netWorkErrorHandler;
-    Runnable netWorkErrorRunnable;
+    Handler noNetConnectHandler;
+    Runnable noNetConnectRunnable;
 
-    private void showNetworkErrorDelay(final Throwable throwable) {
-        netWorkErrorHandler = new Handler();
+    private void showNoNetConnectDelay() {
+        noNetConnectHandler = new Handler();
         new Runnable() {
             @Override
             public void run() {
-                showNetWorkErrorDialog(throwable);
+                showNoNetConnectDialog();
             }
         };
 
-        netWorkErrorHandler.postDelayed(netWorkErrorRunnable, 1000);
+        noNetConnectHandler.postDelayed(noNetConnectRunnable, 1000);
     }
 
 }
