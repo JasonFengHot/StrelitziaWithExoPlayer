@@ -425,8 +425,8 @@ public class BaseActivity extends AppCompatActivity {
         }
         super.onDestroy();
 
-        RefWatcher refWatcher = VodApplication.getRefWatcher(this);
-        refWatcher.watch(this);
+//        RefWatcher refWatcher = VodApplication.getRefWatcher(this);
+//        refWatcher.watch(this);
 
     }
 
