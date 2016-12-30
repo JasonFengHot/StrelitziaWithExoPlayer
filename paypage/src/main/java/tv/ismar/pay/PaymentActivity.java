@@ -1,4 +1,5 @@
 package tv.ismar.pay;
+
 import cn.ismartv.truetime.TrueTime;
 
 import android.content.Intent;
@@ -40,7 +41,7 @@ import tv.ismar.pay.LoginFragment.LoginCallback;
 /**
  * Created by huibin on 9/13/16.
  */
-public class PaymentActivity extends BaseActivity implements View.OnClickListener, LoginCallback,OnHoverListener {
+public class PaymentActivity extends BaseActivity implements View.OnClickListener, LoginCallback, OnHoverListener {
     private static final String TAG = "PaymentActivity";
     private LoginFragment loginFragment;
     private Fragment weixinFragment;
@@ -67,7 +68,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     public static final int PAYMENT_REQUEST_CODE = 0xd6;
     public static final int PAYMENT_SUCCESS_CODE = 0x5c;
     public static final int PAYMENT_FAILURE_CODE = 0xd2;
-
+    private Subscription accountsBalanceSub;
+    private Subscription apiOrderCreateSub;
+    private Subscription apiOptItemSub;
 
 
     @Override
@@ -142,10 +145,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     }
 
     public void fetchAccountBalance() {
-        mSkyService.accountsBalance()
+        accountsBalanceSub = mSkyService.accountsBalance()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<AccountBalanceEntity>(){
+                .subscribe(new BaseObserver<AccountBalanceEntity>() {
                     @Override
                     public void onCompleted() {
 
@@ -199,13 +202,13 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public boolean onHover(View v, MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
                 v.requestFocus();
                 v.requestFocusFromTouch();
                 break;
-            case  MotionEvent.ACTION_HOVER_EXIT:
+            case MotionEvent.ACTION_HOVER_EXIT:
                 break;
         }
         return false;
@@ -298,7 +301,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
 
 
-        mSkyService.apiOrderCreate(waresId, waresType, source, timestamp, sign)
+        apiOrderCreateSub = mSkyService.apiOrderCreate(waresId, waresType, source, timestamp, sign)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -352,7 +355,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private void fetchItem(int pk, String model) {
         String opt = model;
 
-        mSkyService.apiOptItem(String.valueOf(pk), opt)
+        apiOptItemSub = mSkyService.apiOptItem(String.valueOf(pk), opt)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<ItemEntity>() {
@@ -444,5 +447,21 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        if (accountsBalanceSub != null && accountsBalanceSub.isUnsubscribed()) {
+            accountsBalanceSub.unsubscribe();
+        }
+
+        if (apiOptItemSub != null && apiOptItemSub.isUnsubscribed()) {
+            apiOptItemSub.unsubscribe();
+        }
+
+        if (apiOrderCreateSub != null && apiOrderCreateSub.isUnsubscribed()) {
+            apiOrderCreateSub.unsubscribe();
+        }
+        super.onPause();
     }
 }

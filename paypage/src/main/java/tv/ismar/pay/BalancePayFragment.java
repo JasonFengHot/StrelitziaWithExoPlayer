@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
@@ -50,16 +51,18 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
     private ItemEntity itemEntity;
 
     private TextView payErrorTip;
-    private Handler handler=new Handler(new Handler.Callback() {
+    private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            float result= (float) msg.obj;
+            float result = (float) msg.obj;
             payErrorTip.setVisibility(View.VISIBLE);
             balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), result));
             activity.finish();
             return false;
         }
     });
+    private Subscription apiOrderCreateSub;
+    private Subscription accountsBalanceSub;
 
     @Override
     public void onAttach(Activity activity) {
@@ -156,7 +159,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
             sign = activator.encryptWithPublic(encode);
         }
 
-        activity.mSkyService.apiOrderCreate(waresId, waresType, source, timestamp, sign)
+        apiOrderCreateSub = activity.mSkyService.apiOrderCreate(waresId, waresType, source, timestamp, sign)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -181,17 +184,17 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                         float result = new JsonParser().parse(json).getAsJsonObject().get("balance").getAsFloat();
                         purchaseOkStatistics("", result);
                         activity.setResult(PaymentActivity.PAYMENT_SUCCESS_CODE);
-                        Message message=new Message();
-                        message.what=0;
-                        message.obj=result;
-                        handler.sendMessageDelayed(message,1000);
+                        Message message = new Message();
+                        message.what = 0;
+                        message.obj = result;
+                        handler.sendMessageDelayed(message, 1000);
                     }
                 });
 
     }
 
     private void fetchAccountBalance() {
-        activity.mSkyService.accountsBalance()
+        accountsBalanceSub = activity.mSkyService.accountsBalance()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AccountBalanceEntity>() {
@@ -231,5 +234,18 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onPause() {
+        if (accountsBalanceSub != null && accountsBalanceSub.isUnsubscribed()) {
+            accountsBalanceSub.unsubscribe();
+        }
+
+        if (apiOrderCreateSub != null && apiOrderCreateSub.isUnsubscribed()) {
+            apiOrderCreateSub.unsubscribe();
+        }
+
+        super.onPause();
     }
 }
