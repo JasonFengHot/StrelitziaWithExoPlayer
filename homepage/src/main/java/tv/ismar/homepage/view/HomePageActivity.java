@@ -1207,6 +1207,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
             mHandler.removeMessages(MSG_AD_COUNTDOWN);
         }
+        BaseActivity.baseChannel = "";
+        BaseActivity.baseSection = "";
         super.onDestroy();
     }
 
