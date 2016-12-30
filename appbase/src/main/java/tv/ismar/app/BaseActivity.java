@@ -416,7 +416,11 @@ public class BaseActivity extends AppCompatActivity {
         if (updateHandler != null) {
             updateHandler.removeCallbacks(updateRunnable);
         }
-        unregisterReceiver(onNetConnectReceiver);
+        try {
+            unregisterReceiver(onNetConnectReceiver);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         super.onDestroy();
     }
 
