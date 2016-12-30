@@ -230,6 +230,20 @@ public class PlayerMenu extends PlayerMenuItem {
         }
     }
 
+    public void showQuality(int click_position){
+        if (!visible && (subItems != null) && (subItems.size() != 0)) {
+            visible = true;
+            menuStackTop = 0;
+            create();
+            loadMenu(this, true, -1);
+            listView.setVisibility(View.VISIBLE);
+            listView.startAnimation(showAnimation);
+            listView.setItemsCanFocus(true);
+            listView.requestFocus();
+            listView.performItemClick(listView.getChildAt(click_position), click_position, listView.getItemIdAtPosition(click_position));
+        }
+    }
+
     public void show() {
         if (!visible && (subItems != null) && (subItems.size() != 0)) {
             visible = true;

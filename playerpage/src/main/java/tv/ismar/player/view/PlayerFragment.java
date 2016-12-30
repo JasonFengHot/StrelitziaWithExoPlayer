@@ -1582,11 +1582,29 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     case POP_TYPE_BUFFERING_LONG:
                         if (!popDialog.isConfirmClick) {
                             if (!isMenuShow()) {
-                                showMenu();
+                                if (isPanelShow()) {
+                                    hidePanel();
+                                }
+                                createMenu();
+                                ItemEntity[] subItems = mItemEntity.getSubitems();
+                                if (subItems != null && subItems.length > 0 && !mIsPreview) {
+                                    // 电视剧
+                                    playerMenu.showQuality(1);
+                                } else {
+                                    // 电影
+                                    playerMenu.showQuality(0);
+                                }
                             }
                         } else {
-                            timerStart(0);
-                            mIsmartvPlayer.start();
+                            // 重新加载，先存历史记录
+                            addHistory(mCurrentPosition, false);
+                            mCurrentPosition = 0;
+                            mIsmartvPlayer.stopPlayBack();
+                            mIsmartvPlayer = null;
+                            String sign = "";
+                            String code = "1";
+                            showBuffer(PlAYSTART + mItemEntity.getTitle());
+                            mPresenter.fetchMediaUrl(mItemEntity.getClip().getUrl(), sign, code);
                         }
                         break;
                 }
