@@ -205,7 +205,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         if (paylayerVipSub != null && paylayerVipSub.isUnsubscribed()) {
             paylayerVipSub.unsubscribe();
         }
