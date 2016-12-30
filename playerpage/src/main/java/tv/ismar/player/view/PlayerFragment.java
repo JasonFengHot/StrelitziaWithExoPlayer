@@ -432,19 +432,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (!isSeeking) {
             showBuffer(null);
         }
-        if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
-            if (mBufferingTimer == null) {
-                mBufferingTimer = new Timer();
-                mBufferingTask = new BufferingTask();
-                mBufferingTimer.schedule(mBufferingTask, 50 * 1000, 50 * 1000);
-            }
-        }
     }
 
     @Override
     public void onBufferEnd() {
         Log.i(TAG, "onBufferEnd");
-        cancelTimer();
         if (!isSeeking || mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
             hideBuffer();
         }
@@ -1426,6 +1418,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 animationDrawable.start();
             }
         }
+
+        if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
+            if (mBufferingTimer == null) {
+                mBufferingTimer = new Timer();
+                mBufferingTask = new BufferingTask();
+                mBufferingTimer.schedule(mBufferingTask, 50 * 1000, 50 * 1000);
+            }
+        }
     }
 
     private void hideBuffer() {
@@ -1439,6 +1439,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 animationDrawable.stop();
             }
         }
+        cancelTimer();
     }
 
     public boolean isBufferShow() {
