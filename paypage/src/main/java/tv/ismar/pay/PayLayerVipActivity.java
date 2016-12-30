@@ -41,6 +41,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
     private DetailPageStatistics mPageStatistics;
     private int itemId;
     private Subscription paylayerVipSub;
+    private int cpid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         mPageStatistics = new DetailPageStatistics();
         initViews();
         Intent intent = getIntent();
-        int cpid = intent.getIntExtra("cpid", -1);
+        cpid = intent.getIntExtra("cpid", -1);
         itemId = intent.getIntExtra("item_id", -1);
         payLayerVip(String.valueOf(cpid), String.valueOf(itemId));
     }

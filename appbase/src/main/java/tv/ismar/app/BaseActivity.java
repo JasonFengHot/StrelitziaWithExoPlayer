@@ -136,6 +136,10 @@ public class BaseActivity extends AppCompatActivity {
         if (updateAgainHandler != null) {
             updateAgainHandler.removeCallbacks(updateAgainRunnable);
         }
+
+        if (netWorkErrorHandler!=null){
+            netWorkErrorHandler.removeCallbacks(netWorkErrorRunnable);
+        }
         super.onPause();
     }
 
@@ -186,10 +190,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNetWorkErrorDialog(Throwable e) {
-        if(netErrorPopWindow!=null&&netErrorPopWindow.isShowing()){
+        if (netErrorPopWindow != null && netErrorPopWindow.isShowing()) {
             return;
         }
-        final String act=getCurrentActivityName(BaseActivity.this);
+        final String act = getCurrentActivityName(BaseActivity.this);
         netErrorPopWindow = new NetErrorPopWindow(this);
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
@@ -197,7 +201,7 @@ public class BaseActivity extends AppCompatActivity {
         netErrorPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity")||act.contains("FilmStar"))) {
+                if (!(act.contains("HomePageActivity") || act.contains("WordSearchActivity") || act.contains("FilmStar"))) {
                     finish();
                 }
             }
@@ -216,7 +220,7 @@ public class BaseActivity extends AppCompatActivity {
                         @Override
                         public void cancelClick(View view) {
                             netErrorPopWindow.dismiss();
-                            if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity"))||act.contains("FilmStar")) {
+                            if (!(act.contains("HomePageActivity") || act.contains("WordSearchActivity")) || act.contains("FilmStar")) {
                                 finish();
                             }
                         }
@@ -273,10 +277,10 @@ public class BaseActivity extends AppCompatActivity {
                 if (httpException.code() == 401) {
                     showExpireAccessTokenPop();
                 } else {
-                    showNetWorkErrorDialog(e);
+                    showNetworkErrorDelay(e);
                 }
             } else {
-                showNetWorkErrorDialog(e);
+                showNetworkErrorDelay(e);
             }
         }
     }
@@ -303,6 +307,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     }
+
     public void showItemOffLinePop() {
         itemOffLinePop = new ItemOffLinePopWindow(this);
         itemOffLinePop.setFirstMessage(getString(R.string.item_offline));
@@ -323,6 +328,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     }
+
     public void historyShowItemOffLinePop() {
         itemOffLinePop = new ItemOffLinePopWindow(this);
         itemOffLinePop.setFirstMessage(getString(R.string.item_offline));
@@ -420,7 +426,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         try {
             unregisterReceiver(onNetConnectReceiver);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onDestroy();
@@ -453,5 +459,20 @@ public class BaseActivity extends AppCompatActivity {
         return cn.getClassName();
     }
 
+
+    Handler netWorkErrorHandler;
+    Runnable netWorkErrorRunnable;
+
+    private void showNetworkErrorDelay(final Throwable throwable) {
+        netWorkErrorHandler = new Handler();
+        new Runnable() {
+            @Override
+            public void run() {
+                showNetWorkErrorDialog(throwable);
+            }
+        };
+
+        netWorkErrorHandler.postDelayed(netWorkErrorRunnable, 1000);
+    }
 
 }

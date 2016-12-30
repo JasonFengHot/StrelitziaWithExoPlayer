@@ -426,7 +426,7 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
     }
 
     @Override
-    public void onStop() {
+    public void onPause() {
         if (accountsCombineSub != null && accountsCombineSub.isUnsubscribed()) {
             accountsCombineSub.unsubscribe();
         }
