@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
@@ -39,6 +40,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
     private TextView vipDescriptionTextView;
     private DetailPageStatistics mPageStatistics;
     private int itemId;
+    private Subscription paylayerVipSub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
 
     @Override
     protected void onResume() {
-        mPageStatistics.packageDetailIn(itemId+"","detail");
+        mPageStatistics.packageDetailIn(itemId + "", "detail");
         super.onResume();
     }
 
@@ -89,7 +91,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
 
 
     private void payLayerVip(String cpid, String itemId) {
-        mSkyService.apiPaylayerVip(cpid, itemId)
+        paylayerVipSub = mSkyService.apiPaylayerVip(cpid, itemId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<PayLayerVipEntity>() {
@@ -200,5 +202,13 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
     public void onBackPressed() {
         setResult(PaymentActivity.PAYMENT_FAILURE_CODE);
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        if (paylayerVipSub != null && paylayerVipSub.isUnsubscribed()) {
+            paylayerVipSub.unsubscribe();
+        }
+        super.onStop();
     }
 }
