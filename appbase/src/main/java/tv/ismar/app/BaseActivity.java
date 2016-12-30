@@ -137,7 +137,7 @@ public class BaseActivity extends AppCompatActivity {
             updateAgainHandler.removeCallbacks(updateAgainRunnable);
         }
 
-        if (noNetConnectHandler!=null){
+        if (noNetConnectHandler != null) {
             noNetConnectHandler.removeCallbacks(noNetConnectRunnable);
         }
         super.onPause();
@@ -465,7 +465,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void showNoNetConnectDelay() {
         noNetConnectHandler = new Handler();
-        new Runnable() {
+        noNetConnectRunnable = new Runnable() {
             @Override
             public void run() {
                 showNoNetConnectDialog();
