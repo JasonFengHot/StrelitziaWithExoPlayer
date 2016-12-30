@@ -655,6 +655,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             String itemJson = new Gson().toJson(mItemEntity);
             Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
             intent.putExtra("itemJson", itemJson);
+            intent.putExtra("source", source);
             startActivity(intent);
             finishActivity();
         }

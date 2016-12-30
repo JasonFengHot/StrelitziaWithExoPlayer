@@ -65,6 +65,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
     private FavoriteManager mFavoriteManager;
     private HistoryManager mHistorymanager;
     private InitPlayerTool tool;
+    private String source;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
 //                DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
                 String itemJson = intent.getStringExtra("itemJson");
                 mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+                source = intent.getStringExtra("source");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,7 +243,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
 //                        }
 //                    }
                     PageIntent pageIntent = new PageIntent();
-                    pageIntent.toPlayPage(PlayFinishedActivity.this, mItemEntity.getItemPk(), 0, Source.UNKNOWN);
+                    pageIntent.toPlayPage(PlayFinishedActivity.this, mItemEntity.getItemPk(), 0, Source.getSource(source));
                     finish();
                 }
                 break;

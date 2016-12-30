@@ -31,4 +31,13 @@ public enum Source {
         return source;
     }
 
+    public static Source getSource(String source){
+        try {
+            return Source.valueOf(source.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return UNKNOWN;
+    }
+
 }
