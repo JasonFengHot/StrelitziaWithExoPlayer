@@ -10,6 +10,8 @@ import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Cache;
 import com.squareup.picasso.Picasso;
 
@@ -78,6 +80,7 @@ public class VodApplication extends Application {
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
         Log.i("LH/", "applicationOnCreate:" + TrueTime.now().getTime());
+        refWatcher = LeakCanary.install(this);
         SPUtils.init(this);
         appInstance = this;
         ActiveAndroid.initialize(this);
@@ -370,4 +373,12 @@ public class VodApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
+    public static RefWatcher getRefWatcher(Context context) {
+        VodApplication application = (VodApplication) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
+    private RefWatcher refWatcher;
+
 }

@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.util.Stack;
 
 import cn.ismartv.truetime.TrueTime;
@@ -416,8 +418,16 @@ public class BaseActivity extends AppCompatActivity {
         if (updateHandler != null) {
             updateHandler.removeCallbacks(updateRunnable);
         }
-        unregisterReceiver(onNetConnectReceiver);
+        try {
+            unregisterReceiver(onNetConnectReceiver);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         super.onDestroy();
+
+//        RefWatcher refWatcher = VodApplication.getRefWatcher(this);
+//        refWatcher.watch(this);
+
     }
 
     private void checkUpgrade() {
@@ -442,4 +452,6 @@ public class BaseActivity extends AppCompatActivity {
         android.util.Log.i(TAG, "getCurrentActivityName : cls ---> " + cn.getClassName());
         return cn.getClassName();
     }
+
+
 }
