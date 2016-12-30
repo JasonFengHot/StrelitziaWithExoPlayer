@@ -66,7 +66,7 @@
 <dimen name="entertainment_detail_content_padding_t">6.22dp</dimen>
 <dimen name="entertainment_detail_preview_img_w">106.67dp</dimen>
 <dimen name="entertainment_detail_preview_img_h">60.00dp</dimen>
-<dimen name="entertainment_detail_preview_img_mt">6.67dp</dimen>
+<dimen name="entertainment_detail_preview_img_mt">5.33dp</dimen>
 <dimen name="entertainment_detail_text_mt1">2.17dp</dimen>
 <dimen name="entertainment_detail_text_mt2">4.22dp</dimen>
 <dimen name="entertainment_detail_text_h">20.22dp</dimen>
