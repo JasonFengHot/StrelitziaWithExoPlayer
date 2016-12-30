@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
@@ -52,6 +53,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     private boolean listLayoutItemNextFocusUpIsSelf = false;
     private DetailPageStatistics mPageStatistics;
     private int packageId;
+    private Subscription paylayerPackageSub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
 
     @Override
     protected void onResume() {
-        mPageStatistics.packageDetailIn(packageId+"","detail");
+        mPageStatistics.packageDetailIn(packageId + "", "detail");
         super.onResume();
     }
 
@@ -110,7 +112,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     }
 
     private void payLayerPackage(String packageId) {
-        mSkyService.apiPaylayerPackage(packageId)
+        paylayerPackageSub = mSkyService.apiPaylayerPackage(packageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<PayLayerPackageEntity>() {
@@ -290,5 +292,13 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     public void onBackPressed() {
         setResult(PaymentActivity.PAYMENT_FAILURE_CODE);
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        if (paylayerPackageSub != null && paylayerPackageSub.isUnsubscribed()) {
+            paylayerPackageSub.unsubscribe();
+        }
+        super.onStop();
     }
 }

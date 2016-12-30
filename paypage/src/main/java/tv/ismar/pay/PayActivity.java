@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
@@ -43,6 +44,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     private TvHorizontalScrollView mTvHorizontalScrollView;
     private ImageView tmp;
     private int mItemId;
+    private Subscription paylayerSub;
 
 
     @Override
@@ -75,7 +77,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     //675300
     //675322
     public void payLayer(String itemId) {
-        mSkyService.apiPaylayer(itemId)
+        paylayerSub = mSkyService.apiPaylayer(itemId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<PayLayerEntity>() {
@@ -230,5 +232,13 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
     public void onBackPressed() {
         setResult(PaymentActivity.PAYMENT_FAILURE_CODE);
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        if (paylayerSub != null && paylayerSub.isUnsubscribed()) {
+            paylayerSub.unsubscribe();
+        }
+        super.onStop();
     }
 }

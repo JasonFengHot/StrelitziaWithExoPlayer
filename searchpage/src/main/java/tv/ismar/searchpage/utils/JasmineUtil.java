@@ -85,7 +85,7 @@ public class JasmineUtil {
      * 点击搜索结果日志上报
      */
     public static void video_search_arrive(String qWord,String content_type,int item,int subitem,String title){
-        if(content_type.equals("person")){
+        if(content_type!=null&&content_type.equals("person")){
             content_type="star";
         }
         HashMap<String, Object> tempMap = new HashMap<String, Object>();
