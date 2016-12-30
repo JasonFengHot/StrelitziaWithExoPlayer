@@ -378,7 +378,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             super.onStop();
             return;
         }
-//        cancelTimer();
+        cancelTimer();
         hidePanel();
         timerStop();
         hideMenu();
@@ -432,19 +432,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (!isSeeking) {
             showBuffer(null);
         }
-//        if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
-//            if (mBufferingTimer == null) {
-//                mBufferingTimer = new Timer();
-//                mBufferingTask = new BufferingTask();
-//                mBufferingTimer.schedule(mBufferingTask, 50 * 1000, 50 * 1000);
-//            }
-//        }
+        if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
+            if (mBufferingTimer == null) {
+                mBufferingTimer = new Timer();
+                mBufferingTask = new BufferingTask();
+                mBufferingTimer.schedule(mBufferingTask, 50 * 1000, 50 * 1000);
+            }
+        }
     }
 
     @Override
     public void onBufferEnd() {
         Log.i(TAG, "onBufferEnd");
-//        cancelTimer();
+        cancelTimer();
         if (!isSeeking || mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
             hideBuffer();
         }
@@ -655,6 +655,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             String itemJson = new Gson().toJson(mItemEntity);
             Intent intent = new Intent("tv.ismar.daisy.PlayFinished");
             intent.putExtra("itemJson", itemJson);
+            intent.putExtra("source", source);
             startActivity(intent);
             finishActivity();
         }
@@ -663,7 +664,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public boolean onError(String message) {
         Log.e(TAG, "onError:" + message);
-        if (mIsmartvPlayer == null || isDetached()) {
+        if (mIsmartvPlayer == null || isDetached() || isExit) {
             return true;
         }
         showExitPopup(POP_TYPE_PLAYER_ERROR);
@@ -1511,7 +1512,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
         timerStop();
-//        cancelTimer();
+        cancelTimer();
         hideBuffer();
         hidePanel();
         finishActivity();
@@ -1528,7 +1529,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             popDialog.dismiss();
             popDialog = null;
         }
-//        cancelTimer();
+        cancelTimer();
         timerStop();
         hideBuffer();
         hidePanel();
@@ -1831,37 +1832,37 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         return false;
     }
 
-//    private Timer mBufferingTimer;
-//    private BufferingTask mBufferingTask;
-//
-//    private void cancelTimer() {
-//        if (mBufferingTask != null) {
-//            mBufferingTask.cancel();
-//            mBufferingTask = null;
-//        }
-//        if (mBufferingTimer != null) {
-//            mBufferingTimer.cancel();
-//            mBufferingTimer = null;
-//            System.gc();
-//        }
-//
-//    }
+    private Timer mBufferingTimer;
+    private BufferingTask mBufferingTask;
 
-//    class BufferingTask extends TimerTask {
-//
-//        @Override
-//        public void run() {
-//            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    cancelTimer();
-//                    if (getActivity() != null && !getActivity().isFinishing()) {
-//                        showExitPopup(POP_TYPE_BUFFERING_LONG);
-//                    }
-//                }
-//            });
-//
-//        }
-//    }
+    private void cancelTimer() {
+        if (mBufferingTask != null) {
+            mBufferingTask.cancel();
+            mBufferingTask = null;
+        }
+        if (mBufferingTimer != null) {
+            mBufferingTimer.cancel();
+            mBufferingTimer = null;
+            System.gc();
+        }
+
+    }
+
+    class BufferingTask extends TimerTask {
+
+        @Override
+        public void run() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    cancelTimer();
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        showExitPopup(POP_TYPE_BUFFERING_LONG);
+                    }
+                }
+            });
+
+        }
+    }
 
 }
