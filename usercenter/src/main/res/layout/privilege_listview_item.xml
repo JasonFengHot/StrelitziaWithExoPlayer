@@ -7,6 +7,7 @@
                 android:minHeight="@dimen/privilege_min_h">
 
     <TextView
+        android:layout_centerVertical="true"
         android:id="@+id/title_txt"
         android:layout_width="@dimen/privilege_item_title_txt_W"
         android:layout_height="wrap_content"
@@ -16,6 +17,7 @@
 
 
     <TextView
+        android:layout_centerVertical="true"
         android:id="@+id/buydate_txt"
         android:layout_width="@dimen/privilege_item_date_w"
         android:layout_height="wrap_content"
@@ -26,6 +28,7 @@
     />
 
     <Button
+        android:layout_centerVertical="true"
         android:id="@+id/btn"
         android:layout_width="@dimen/privilege_btn_w"
         android:layout_height="@dimen/privilege_min_h"

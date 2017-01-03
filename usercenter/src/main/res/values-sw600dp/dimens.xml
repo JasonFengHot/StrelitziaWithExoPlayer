@@ -64,12 +64,12 @@
 <dimen name="location_selected_city_text_width">97.78dp</dimen>
 <dimen name="location_grid_margin_top">20.56dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">100.00dp</dimen>
-<dimen name="locationFragment_selectedPositionTitle_marginLeft">55.56dp</dimen>
+<dimen name="locationFragment_selectedPositionTitle_marginLeft">25.56dp</dimen>
 <dimen name="locationFragment_h2_textSize">20.00sp</dimen>
 <dimen name="location_fragment_current_position_height">127.78dp</dimen>
 <dimen name="location_divider_width">730.00dp</dimen>
 <dimen name="locationFragment_h1_textSize">26.67sp</dimen>
-<dimen name="locationFragment_todayLayout_marginLeft">77.78dp</dimen>
+<dimen name="locationFragment_todayLayout_marginLeft">107.78dp</dimen>
 <dimen name="locationFragment_currentPositionTitle_marginLeft">69.44dp</dimen>
 <dimen name="location_divider_margin_left">20.00dp</dimen>
 <dimen name="locationFragment_h4_textSize">13.33sp</dimen>
@@ -89,9 +89,9 @@
 
 <dimen name="user_info_item_vertical_spacing_0">0.00dp</dimen>
 <dimen name="usercenter_info_layout_margin_right">12.22dp</dimen>
-<dimen name="charge_btn_margin_left">111.11dp</dimen>
+<dimen name="charge_btn_margin_left">34.44dp</dimen>
 <dimen name="charge_btn_width">89.44dp</dimen>
-<dimen name="charge_btn_height">28.33dp</dimen>
+<dimen name="charge_btn_height">28.89dp</dimen>
 <dimen name="usercenter_line_spacing">22.22dp</dimen>
 <dimen name="usercenter_help_introduce_w">422.22dp</dimen>
 <dimen name="usercenter_help_introduce_text_w">300.00dp</dimen>
@@ -110,9 +110,9 @@
 <dimen name="privilege_item_date_w">230.56dp</dimen>
 <dimen name="privilege_item_date_ml">44.44dp</dimen>
 <dimen name="privilege_btn_w">88.89dp</dimen>
-<dimen name="privilege_item_btn_ml">11.11dp</dimen>
+<dimen name="privilege_item_btn_ml">3.89dp</dimen>
 
-<dimen name="privilege_item_margin_bottom">13.33dp</dimen>
+<dimen name="privilege_item_margin_bottom">13.89dp</dimen>
 <dimen name="usercenter_purchase_history_ml">36.11dp</dimen>
 
 
@@ -127,8 +127,8 @@
 <dimen name="product_gridview_lp">12.22dp</dimen>
 <dimen name="product_gridview_rp">11.67dp</dimen>
 <dimen name="product_gridview_tp">12.22dp</dimen>
-<dimen name="product_gridview_vertical_space">-2.78dp</dimen>
-<dimen name="product_gridview_ml">8.33dp</dimen>
+<dimen name="product_gridview_vertical_space">-2.22dp</dimen>
+<dimen name="product_gridview_ml">7.78dp</dimen>
 <dimen name="usercenter_fragment_indicator_mt">2.22dp</dimen>
 <dimen name="today_weather_info_mt">-5.56dp</dimen>
 <dimen name="weather_icon">33.33dp</dimen>
@@ -137,11 +137,11 @@
 <dimen name="weather_text_mt">5.56dp</dimen>
 <dimen name="weather_icon_mt">6.67dp</dimen>
 
-<dimen name="location_confirm_btn_ml">19.44dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">66.67dp</dimen>
+<dimen name="location_confirm_btn_ml">23.89dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">63.33dp</dimen>
 <dimen name="exit_account_mt">1.11dp</dimen>
-<dimen name="privilege_layout_mt">18.33dp</dimen>
-<dimen name="charge_money_mt">-1.67dp</dimen>
+<dimen name="privilege_layout_mt">13.89dp</dimen>
+<dimen name="charge_money_mt">-0.56dp</dimen>
 <dimen name="help_center_text_ml">13.89dp</dimen>
 <dimen name="helpcenter_hotline_mt">51.67dp</dimen>
 <dimen name="helpcenter_qq_mt">16.11dp</dimen>
@@ -150,4 +150,7 @@
 <dimen name="ismartv_icon_ml">25.56dp</dimen>
 <dimen name="ismartv_icon_text_ml">15.56dp</dimen>
 <dimen name="usercenter_help_ismartv_icon_ml">-4.44dp</dimen>
+<dimen name="remain_money_value_w">138.89dp</dimen>
+<dimen name="privilege_recycler_mt">-6.11dp</dimen>
+<dimen name="privilege_txt">5.56dp</dimen>
 </resources>

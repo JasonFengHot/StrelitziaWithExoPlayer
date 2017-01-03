@@ -1350,7 +1350,8 @@ public class HGridView extends AdapterView<HGridAdapter> {
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	public boolean
+	onKeyDown(int keyCode, KeyEvent event) {
 		boolean s = commonKey(keyCode, 1, event);
 		Log.i("zjq", "onKeyDown return " + s);
 		return s;
@@ -1721,6 +1722,8 @@ public class HGridView extends AdapterView<HGridAdapter> {
 	// }
 
 	public void offsetChildrenLeftAndRight(int offset) {
+		if(offset < 0)
+			offset -=18;
 		final int count = getChildCount();
 		for (int i = 0; i < count; i++) {
 			final View v = getChildAt(i);

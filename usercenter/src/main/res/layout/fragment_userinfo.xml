@@ -165,7 +165,7 @@
 
                 <TextView
                     android:id="@+id/remain_money_value"
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/remain_money_value_w"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@{tasks.balance}"
@@ -194,6 +194,7 @@
                 android:visibility="@{tasks.privilegeVisibility}">
 
                 <TextView
+                    android:layout_marginTop="@dimen/privilege_txt"
                     android:id="@+id/privilege_txt"
                     android:layout_width="@dimen/userinfo_snNumber_title_width"
                     android:layout_height="wrap_content"
