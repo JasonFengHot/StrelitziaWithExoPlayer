@@ -219,10 +219,8 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         mViewModel.refresh();
         ArrayList<AccountPlayAuthEntity.PlayAuth> playAuths = new ArrayList<>();
 
-        for (int i = 0; i < 20; i++) {
-            playAuths.addAll(entity.getSn_playauth_list());
-            playAuths.addAll(entity.getPlayauth_list());
-        }
+        playAuths.addAll(entity.getSn_playauth_list());
+        playAuths.addAll(entity.getPlayauth_list());
 
         LinearLayoutManagerTV linearLayoutManagerTV = new LinearLayoutManagerTV(getContext());
         linearLayoutManagerTV.setFocusSearchFailedListener(this);
