@@ -15,7 +15,7 @@
         android:id="@+id/channel_label"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="74dp"
+        android:layout_marginLeft="@dimen/list_head_paddingL"
         android:layout_marginTop="@dimen/history_top_textBl"
         android:textColor="#FFFFFF"
         android:textSize="@dimen/filmitem_portrait_detail_title_size" />
