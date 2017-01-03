@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.SystemClock;
+import android.provider.UserDictionary;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,6 +42,7 @@ import tv.ismar.app.models.VodFacetEntity;
 import tv.ismar.app.models.VodSearchRequestEntity;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.util.DeviceUtils;
+import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.searchpage.adapter.KeyboardAdapter;
 import tv.ismar.searchpage.adapter.PosterAdapter;
@@ -117,8 +119,12 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         public void handleMessage(Message msg) {
             if (msg.what == 1 ) {
                 lay_focus.requestFocus();
-//                errorDialog.show();
-                showNetWorkErrorDialog(new Exception());
+                if (!NetworkUtils.isConnected(WordSearchActivity.this) && !NetworkUtils.isWifi(WordSearchActivity.this)) {
+                    Log.i("onNoNet", "" + NetworkUtils.isConnected(WordSearchActivity.this));
+                    showNoNetConnectDialog();
+                }else{
+                    showNetWorkErrorDialog(new Exception());
+                }
                 handler.removeMessages(1);
 
             } else if (msg.what == 2) {

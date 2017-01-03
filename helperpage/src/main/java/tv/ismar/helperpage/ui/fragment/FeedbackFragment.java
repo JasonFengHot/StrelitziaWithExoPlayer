@@ -119,12 +119,12 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
 
         arrowUp.setOnClickListener(this);
         arrowDown.setOnClickListener(this);
+        createProblemsRadio(FeedbackProblem.getInstance().getCache());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        createProblemsRadio(FeedbackProblem.getInstance().getCache());
         fetchFeedback(snCode, "5");
     }
 
