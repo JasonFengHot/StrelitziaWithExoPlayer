@@ -396,8 +396,6 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                                 ItemCollection itemCollection = mItemCollections.get(sectionIndex);
                                 itemCollection.fillItems(page, itemList.objects);
                                 mHGridAdapter.setList(mItemCollections);
-                            } else {
-                                showDialog();
                             }
                         }
 
@@ -424,8 +422,6 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                                 ItemCollection itemCollection = mItemCollections.get(sectionIndex);
                                 itemCollection.fillItems(page, itemList.objects);
                                 mHGridAdapter.setList(mItemCollections);
-                            } else {
-                                showDialog();
                             }
                         }
 
@@ -472,8 +468,6 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                                         mHGridAdapter.setList(mItemCollections);
                                     }
 
-                                } else {
-                                    showDialog();
                                 }
                             } catch (Exception e) {
                                 LogUtils.loadException("channel ","result ","","getItemList",0,"","","client",e.toString());

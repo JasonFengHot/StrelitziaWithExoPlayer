@@ -2228,7 +2228,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 		if (mOnScrollListener != null) {
 			mOnScrollListener.onScroll(this, mFirstPosition, getChildCount(),
 					mAdapter.getCount());
-//            Log.i("LH/","mFirstPosition=="+mFirstPosition+"//"+getChildCount()+"//mSelectedPosition=="+mSelectedPosition+"//mNextSelectedPosition=="+mNextSelectedPosition);
+            Log.i("LH/","mFirstPosition=="+mFirstPosition+"//"+getChildCount()+"//mSelectedPosition=="+mSelectedPosition+"//mNextSelectedPosition=="+mNextSelectedPosition);
            // initChildren();
             if(mFirstPosition+getChildCount()<mAdapter.getCount()){
                 if(leftbtn!=null&&rightbtn!=null){
