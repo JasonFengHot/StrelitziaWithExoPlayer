@@ -92,6 +92,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private static final String PlAYSTART = "即将放映：";
     private static final int MSG_SEK_ACTION = 103;
     private static final int MSG_AD_COUNTDOWN = 104;
+    private static final int MSG_SHOW_BUFFERING_LONG = 105;
     private static final int EVENT_CLICK_VIP_BUY = 0x10;
     private static final int EVENT_CLICK_KEFU = 0x11;
     private static final int EVENT_COMPLETE_BUY = 0x12;
@@ -148,6 +149,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //    private String[] tempPaths;// 预加载时用到
 //    private List<AdElementEntity> tempAds;// 预加载时用到
     private boolean isExit = false;// 播放器退出release需要时间，此时的UI事件会导致ANR
+    private boolean closePopup = false;// 网速由不正常到正常时判断，关闭弹窗
+    private boolean isFinishing;
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -237,6 +240,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mBinding.setActionHandler(mPresenter);
         View contentView = mBinding.getRoot();
         initView(contentView);
+        isFinishing = false;
         return contentView;
     }
 
@@ -301,6 +305,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 finishActivity();
             }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isFinishing = true;
     }
 
     private void fetchItemData() {
@@ -378,7 +388,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             super.onStop();
             return;
         }
-        cancelTimer();
+        removeBufferingLongTime();
         hidePanel();
         timerStop();
         hideMenu();
@@ -465,7 +475,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.i(TAG, "onPrepared:" + mCurrentPosition + " playingAd:" + mIsPlayingAd);
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
         hideBuffer();
-        if (!mIsmartvPlayer.isPlaying()) {
+        if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
             mIsmartvPlayer.start();
         }
 //        if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
@@ -771,6 +781,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 if (isBufferShow()) {
                     hideBuffer();
                 }
+                removeBufferingLongTime();
                 mCurrentPosition = mediaPosition;
                 player_seekBar.setProgress(mCurrentPosition);
             }
@@ -801,6 +812,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     }
                     ad_count_text.setText("" + time);
                     sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, 1000);
+                    break;
+                case MSG_SHOW_BUFFERING_LONG:
+                    if (getActivity() != null && !isExit) {
+                        showExitPopup(POP_TYPE_BUFFERING_LONG);
+                    }
                     break;
             }
         }
@@ -1410,11 +1426,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void showBuffer(String msg) {
         Log.d(TAG, "showBuffer:" + msg);
         if (mIsmartvPlayer != null) {// 只要显示buffer就开始计时
-            if (mBufferingTimer == null) {
-                mBufferingTimer = new Timer();
-                mBufferingTask = new BufferingTask();
-                mBufferingTimer.schedule(mBufferingTask, 50 * 1000, 50 * 1000);
-            }
+            mHandler.sendEmptyMessageDelayed(MSG_SHOW_BUFFERING_LONG, 50 * 1000);
         }
 
         if (mIsOnPaused || isPopWindowShow()) {
@@ -1433,7 +1445,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void hideBuffer() {
-        cancelTimer();
+        removeBufferingLongTime();
         if (mIsmartvPlayer == null) {
             return;
         }
@@ -1517,7 +1529,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
         timerStop();
-        cancelTimer();
+        removeBufferingLongTime();
         hideBuffer();
         hidePanel();
         finishActivity();
@@ -1530,16 +1542,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showExitPopup(final byte popType) {
+        if(isFinishing){
+            return;
+        }
         if (popDialog != null && popDialog.isShowing()) {
             popDialog.dismiss();
             popDialog = null;
-        }
-        cancelTimer();
-        timerStop();
-        hideBuffer();
-        hidePanel();
-        if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
-            mIsmartvPlayer.pause();
         }
         String message = getString(R.string.player_error);
         String cancelText = getString(R.string.player_pop_cancel);
@@ -1550,6 +1558,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 cancelText = getString(R.string.player_pop_switch_quality);
                 break;
             case POP_TYPE_PLAYER_ERROR:
+                timerStop();
+                hideBuffer();
+                hidePanel();
                 hideCancel = true;
                 break;
         }
@@ -1585,6 +1596,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         finishActivity();
                         break;
                     case POP_TYPE_BUFFERING_LONG:
+                        if (closePopup) {
+                            closePopup = false;
+                            return;
+                        }
                         if (!isExit) {
                             if (!popDialog.isConfirmClick) {
                                 if (!isMenuShow()) {
@@ -1857,37 +1872,16 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         return false;
     }
 
-    private Timer mBufferingTimer;
-    private BufferingTask mBufferingTask;
-
-    private void cancelTimer() {
-        if (mBufferingTask != null) {
-            mBufferingTask.cancel();
-            mBufferingTask = null;
+    private void removeBufferingLongTime() {
+        if (mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)) {
+            mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
         }
-        if (mBufferingTimer != null) {
-            mBufferingTimer.cancel();
-            mBufferingTimer = null;
-            System.gc();
+        if (popDialog != null && popDialog.isShowing()) {
+            closePopup = true;
+            popDialog.dismiss();
+            popDialog = null;
         }
 
-    }
-
-    class BufferingTask extends TimerTask {
-
-        @Override
-        public void run() {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    cancelTimer();
-                    if (getActivity() != null && !isExit) {
-                        showExitPopup(POP_TYPE_BUFFERING_LONG);
-                    }
-                }
-            });
-
-        }
     }
 
 }
