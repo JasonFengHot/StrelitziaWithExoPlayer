@@ -89,9 +89,9 @@
 
 <dimen name="user_info_item_vertical_spacing_0">0.00dp</dimen>
 <dimen name="usercenter_info_layout_margin_right">16.30dp</dimen>
-<dimen name="charge_btn_margin_left">148.15dp</dimen>
+<dimen name="charge_btn_margin_left">45.93dp</dimen>
 <dimen name="charge_btn_width">119.26dp</dimen>
-<dimen name="charge_btn_height">37.78dp</dimen>
+<dimen name="charge_btn_height">38.52dp</dimen>
 <dimen name="usercenter_line_spacing">29.63dp</dimen>
 <dimen name="usercenter_help_introduce_w">562.96dp</dimen>
 <dimen name="usercenter_help_introduce_text_w">400.00dp</dimen>
@@ -110,9 +110,9 @@
 <dimen name="privilege_item_date_w">307.41dp</dimen>
 <dimen name="privilege_item_date_ml">59.26dp</dimen>
 <dimen name="privilege_btn_w">118.52dp</dimen>
-<dimen name="privilege_item_btn_ml">14.81dp</dimen>
+<dimen name="privilege_item_btn_ml">5.19dp</dimen>
 
-<dimen name="privilege_item_margin_bottom">17.78dp</dimen>
+<dimen name="privilege_item_margin_bottom">18.52dp</dimen>
 <dimen name="usercenter_purchase_history_ml">48.15dp</dimen>
 
 
@@ -137,11 +137,11 @@
 <dimen name="weather_text_mt">7.41dp</dimen>
 <dimen name="weather_icon_mt">8.89dp</dimen>
 
-<dimen name="location_confirm_btn_ml">32.59dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">82.96dp</dimen>
+<dimen name="location_confirm_btn_ml">31.85dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">84.44dp</dimen>
 <dimen name="exit_account_mt">1.48dp</dimen>
-<dimen name="privilege_layout_mt">24.44dp</dimen>
-<dimen name="charge_money_mt">-2.22dp</dimen>
+<dimen name="privilege_layout_mt">18.52dp</dimen>
+<dimen name="charge_money_mt">-0.74dp</dimen>
 <dimen name="help_center_text_ml">18.52dp</dimen>
 <dimen name="helpcenter_hotline_mt">68.89dp</dimen>
 <dimen name="helpcenter_qq_mt">21.48dp</dimen>
@@ -150,4 +150,7 @@
 <dimen name="ismartv_icon_ml">34.07dp</dimen>
 <dimen name="ismartv_icon_text_ml">20.74dp</dimen>
 <dimen name="usercenter_help_ismartv_icon_ml">-5.93dp</dimen>
+<dimen name="remain_money_value_w">185.19dp</dimen>
+<dimen name="privilege_recycler_mt">-8.15dp</dimen>
+<dimen name="privilege_txt">7.41dp</dimen>
 </resources>

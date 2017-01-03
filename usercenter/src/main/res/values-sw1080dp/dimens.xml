@@ -89,9 +89,9 @@
 
     <dimen name="user_info_item_vertical_spacing_0">0dp</dimen>
     <dimen name="usercenter_info_layout_margin_right">22dp</dimen>
-    <dimen name="charge_btn_margin_left">200dp</dimen>
+    <dimen name="charge_btn_margin_left">62dp</dimen>
     <dimen name="charge_btn_width">161dp</dimen>
-    <dimen name="charge_btn_height">51dp</dimen>
+    <dimen name="charge_btn_height">52dp</dimen>
     <dimen name="usercenter_line_spacing">40dp</dimen>
     <dimen name="usercenter_help_introduce_w">760dp</dimen>
     <dimen name="usercenter_help_introduce_text_w">540dp</dimen>
@@ -110,9 +110,9 @@
     <dimen name="privilege_item_date_w">415dp</dimen>
     <dimen name="privilege_item_date_ml">80dp</dimen>
     <dimen name="privilege_btn_w">160dp</dimen>
-    <dimen name="privilege_item_btn_ml">20dp</dimen>
+    <dimen name="privilege_item_btn_ml">7dp</dimen>
 
-    <dimen name="privilege_item_margin_bottom">24dp</dimen>
+    <dimen name="privilege_item_margin_bottom">25dp</dimen>
     <dimen name="usercenter_purchase_history_ml">65dp</dimen>
 
 
@@ -140,8 +140,8 @@
     <dimen name="location_confirm_btn_ml">43dp</dimen>
     <dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">114dp</dimen>
     <dimen name="exit_account_mt">2dp</dimen>
-    <dimen name="privilege_layout_mt">33dp</dimen>
-    <dimen name="charge_money_mt">-3dp</dimen>
+    <dimen name="privilege_layout_mt">25dp</dimen>
+    <dimen name="charge_money_mt">-1dp</dimen>
     <dimen name="help_center_text_ml">25dp</dimen>
     <dimen name="helpcenter_hotline_mt">93dp</dimen>
     <dimen name="helpcenter_qq_mt">29dp</dimen>
@@ -150,4 +150,7 @@
     <dimen name="ismartv_icon_ml">46dp</dimen>
     <dimen name="ismartv_icon_text_ml">28dp</dimen>
     <dimen name="usercenter_help_ismartv_icon_ml">-8dp</dimen>
+    <dimen name="remain_money_value_w">250dp</dimen>
+    <dimen name="privilege_recycler_mt">-11dp</dimen>
+    <dimen name="privilege_txt">10dp</dimen>
 </resources>
