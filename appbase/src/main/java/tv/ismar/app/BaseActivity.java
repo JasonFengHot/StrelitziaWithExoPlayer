@@ -137,7 +137,7 @@ public class BaseActivity extends AppCompatActivity {
             updateAgainHandler.removeCallbacks(updateAgainRunnable);
         }
 
-        if (noNetConnectHandler!=null){
+        if (noNetConnectHandler != null) {
             noNetConnectHandler.removeCallbacks(noNetConnectRunnable);
         }
         super.onPause();
@@ -201,7 +201,7 @@ public class BaseActivity extends AppCompatActivity {
         netErrorPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (!(act.contains("HomePageActivity") || act.contains("WordSearchActivity") || act.contains("FilmStar"))) {
+                if (!(act.contains("HomePageActivity") || act.contains("WordSearchActivity") || act.contains("FilmStar")||act.contains("UserCenterActivity"))) {
                     finish();
                 }
             }
@@ -220,7 +220,7 @@ public class BaseActivity extends AppCompatActivity {
                         @Override
                         public void cancelClick(View view) {
                             netErrorPopWindow.dismiss();
-                            if (!(act.contains("HomePageActivity") || act.contains("WordSearchActivity")) || act.contains("FilmStar")) {
+                            if (!(act.contains("HomePageActivity") || act.contains("WordSearchActivity") || act.contains("FilmStar")||act.contains("UserCenterActivity"))) {
                                 finish();
                             }
                         }
@@ -465,7 +465,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void showNoNetConnectDelay() {
         noNetConnectHandler = new Handler();
-        new Runnable() {
+        noNetConnectRunnable = new Runnable() {
             @Override
             public void run() {
                 showNoNetConnectDialog();
