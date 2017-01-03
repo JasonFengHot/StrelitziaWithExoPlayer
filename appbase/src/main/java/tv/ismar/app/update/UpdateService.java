@@ -153,13 +153,12 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
             installVersionCode = packageInfo.versionCode;
 
 
-
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "can't find this application!!!");
             installVersionCode = 0;
         }
 
-        if (installVersionCode >= Integer.parseInt(applicationEntity.getVersion())){
+        if (installVersionCode >= Integer.parseInt(applicationEntity.getVersion())) {
             Log.w(TAG, "installVersionCode >= applicationEntity.getVersion()");
             return;
         }
@@ -284,12 +283,13 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
-        for (String json : md5Jsons) {
-            DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", json).executeSingle();
-            if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
-                VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
-                checkUpgrade(applicationEntity);
-            }
+//        for (String json : md5Jsons) {
+        String title = data.getString(data.getColumnIndex("title"));
+        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
+        if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
+            VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
+            checkUpgrade(applicationEntity);
         }
+//        }
     }
 }
