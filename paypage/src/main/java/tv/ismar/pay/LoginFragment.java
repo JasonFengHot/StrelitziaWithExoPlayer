@@ -444,7 +444,11 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
         if (historySub != null && historySub.isUnsubscribed()) {
             historySub.unsubscribe();
         }
-        super.onStop();
+
+        if (countDownSubscription!=null && countDownSubscription.isUnsubscribed()){
+            countDownSubscription.unsubscribe();
+        }
+        super.onPause();
     }
 
 
