@@ -1409,6 +1409,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void showBuffer(String msg) {
         Log.d(TAG, "showBuffer:" + msg);
+        if (mIsmartvPlayer != null) {// 只要显示buffer就开始计时
+            if (mBufferingTimer == null) {
+                mBufferingTimer = new Timer();
+                mBufferingTask = new BufferingTask();
+                mBufferingTimer.schedule(mBufferingTask, 50 * 1000, 50 * 1000);
+            }
+        }
+
         if (mIsOnPaused || isPopWindowShow()) {
             return;
         }
@@ -1422,16 +1430,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
         }
 
-        if (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying()) {
-            if (mBufferingTimer == null) {
-                mBufferingTimer = new Timer();
-                mBufferingTask = new BufferingTask();
-                mBufferingTimer.schedule(mBufferingTask, 50 * 1000, 50 * 1000);
-            }
-        }
     }
 
     private void hideBuffer() {
+        cancelTimer();
         if (mIsmartvPlayer == null) {
             return;
         }
@@ -1442,7 +1444,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 animationDrawable.stop();
             }
         }
-        cancelTimer();
     }
 
     public boolean isBufferShow() {

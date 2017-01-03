@@ -239,44 +239,44 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
             feedBack.setIp(accountSharedPrefs.getSharedPrefs(AccountSharedPrefs.IP));
             feedBack.setIsp(accountSharedPrefs.getSharedPrefs(AccountSharedPrefs.ISP));
             feedBack.setLocation(accountSharedPrefs.getSharedPrefs(AccountSharedPrefs.PROVINCE));
-//            String userAgent = android.os.Build.MODEL.replaceAll(" ", "_") + "/" + android.os.Build.ID + " " + snCode;
-//            String q=new Gson().toJson(feedBack);
-//                ((HomeActivity)getActivity()).mIrisService.UploadFeedback(userAgent,q)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread()).subscribe(((HomeActivity) getActivity()).new BaseObserver<ResponseBody>() {
-//                            @Override
-//                            public void onCompleted() {
-//
-//                            }
-//                            @Override
-//                            public void onNext(ResponseBody responseBody) {
-//                                fetchFeedback(snCode, "10");
-//                                Toast.makeText(mContext, "提交成功!", Toast.LENGTH_LONG).show();
-//                                submitButton.setEnabled(true);
-//                            }
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Toast.makeText(mContext, "提交失败!", Toast.LENGTH_LONG).show();
-//                        submitButton.setEnabled(true);
-//                        super.onError(e);
-//                    }
-//                });
-            UploadFeedback.getInstance().excute(feedBack, snCode, new UploadFeedback.Callback() {
-                @Override
-                public void success(String msg) {
-                    Log.d(TAG, "uploadFeedback: " + msg);
-                    fetchFeedback(snCode, "10");
-                    Toast.makeText(mContext, "提交成功!", Toast.LENGTH_LONG).show();
-                    submitButton.setEnabled(true);
-                }
+            String userAgent = android.os.Build.MODEL.replaceAll(" ", "_") + "/" + android.os.Build.ID + " " + snCode;
+            String q=new Gson().toJson(feedBack);
+                ((HomeActivity)getActivity()).mIrisService.UploadFeedback(userAgent,q)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(((HomeActivity) getActivity()).new BaseObserver<ResponseBody>() {
+                            @Override
+                            public void onCompleted() {
 
-                @Override
-                public void failure(String msg) {
+                            }
+                            @Override
+                            public void onNext(ResponseBody responseBody) {
+                                fetchFeedback(snCode, "10");
+                                Toast.makeText(mContext, "提交成功!", Toast.LENGTH_LONG).show();
+                                submitButton.setEnabled(true);
+                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(mContext, "提交失败!", Toast.LENGTH_LONG).show();
+                        submitButton.setEnabled(true);
+                        super.onError(e);
+                    }
+                });
+//            UploadFeedback.getInstance().excute(feedBack, snCode, new UploadFeedback.Callback() {
+//                @Override
+//                public void success(String msg) {
 //                    Log.d(TAG, "uploadFeedback: " + msg);
-                    Toast.makeText(mContext, "提交失败!", Toast.LENGTH_LONG).show();
-                    submitButton.setEnabled(true);
-                }
-            });
+//                    fetchFeedback(snCode, "10");
+//                    Toast.makeText(mContext, "提交成功!", Toast.LENGTH_LONG).show();
+//                    submitButton.setEnabled(true);
+//                }
+//
+//                @Override
+//                public void failure(String msg) {
+////                    Log.d(TAG, "uploadFeedback: " + msg);
+//                    Toast.makeText(mContext, "提交失败!", Toast.LENGTH_LONG).show();
+//                    submitButton.setEnabled(true);
+//                }
+//            });
         }
     }
 
