@@ -64,12 +64,12 @@
 <dimen name="location_selected_city_text_width">65.19dp</dimen>
 <dimen name="location_grid_margin_top">13.70dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">66.67dp</dimen>
-<dimen name="locationFragment_selectedPositionTitle_marginLeft">37.04dp</dimen>
+<dimen name="locationFragment_selectedPositionTitle_marginLeft">17.04dp</dimen>
 <dimen name="locationFragment_h2_textSize">13.33sp</dimen>
 <dimen name="location_fragment_current_position_height">85.19dp</dimen>
 <dimen name="location_divider_width">486.67dp</dimen>
 <dimen name="locationFragment_h1_textSize">17.78sp</dimen>
-<dimen name="locationFragment_todayLayout_marginLeft">51.85dp</dimen>
+<dimen name="locationFragment_todayLayout_marginLeft">71.85dp</dimen>
 <dimen name="locationFragment_currentPositionTitle_marginLeft">46.30dp</dimen>
 <dimen name="location_divider_margin_left">13.33dp</dimen>
 <dimen name="locationFragment_h4_textSize">8.89sp</dimen>
@@ -127,8 +127,8 @@
 <dimen name="product_gridview_lp">8.15dp</dimen>
 <dimen name="product_gridview_rp">7.78dp</dimen>
 <dimen name="product_gridview_tp">8.15dp</dimen>
-<dimen name="product_gridview_vertical_space">-1.85dp</dimen>
-<dimen name="product_gridview_ml">5.56dp</dimen>
+<dimen name="product_gridview_vertical_space">-1.48dp</dimen>
+<dimen name="product_gridview_ml">5.19dp</dimen>
 <dimen name="usercenter_fragment_indicator_mt">1.48dp</dimen>
 <dimen name="today_weather_info_mt">-3.70dp</dimen>
 <dimen name="weather_icon">22.22dp</dimen>
@@ -137,8 +137,8 @@
 <dimen name="weather_text_mt">3.70dp</dimen>
 <dimen name="weather_icon_mt">4.44dp</dimen>
 
-<dimen name="location_confirm_btn_ml">12.96dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">44.44dp</dimen>
+<dimen name="location_confirm_btn_ml">16.30dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">41.48dp</dimen>
 <dimen name="exit_account_mt">0.74dp</dimen>
 <dimen name="privilege_layout_mt">12.22dp</dimen>
 <dimen name="charge_money_mt">-1.11dp</dimen>

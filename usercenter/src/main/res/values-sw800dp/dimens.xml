@@ -64,12 +64,12 @@
 <dimen name="location_selected_city_text_width">130.37dp</dimen>
 <dimen name="location_grid_margin_top">27.41dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">133.33dp</dimen>
-<dimen name="locationFragment_selectedPositionTitle_marginLeft">74.07dp</dimen>
+<dimen name="locationFragment_selectedPositionTitle_marginLeft">34.07dp</dimen>
 <dimen name="locationFragment_h2_textSize">26.67sp</dimen>
 <dimen name="location_fragment_current_position_height">170.37dp</dimen>
 <dimen name="location_divider_width">973.33dp</dimen>
 <dimen name="locationFragment_h1_textSize">35.56sp</dimen>
-<dimen name="locationFragment_todayLayout_marginLeft">103.70dp</dimen>
+<dimen name="locationFragment_todayLayout_marginLeft">143.70dp</dimen>
 <dimen name="locationFragment_currentPositionTitle_marginLeft">92.59dp</dimen>
 <dimen name="location_divider_margin_left">26.67dp</dimen>
 <dimen name="locationFragment_h4_textSize">17.78sp</dimen>
@@ -127,8 +127,8 @@
 <dimen name="product_gridview_lp">16.30dp</dimen>
 <dimen name="product_gridview_rp">15.56dp</dimen>
 <dimen name="product_gridview_tp">16.30dp</dimen>
-<dimen name="product_gridview_vertical_space">-3.70dp</dimen>
-<dimen name="product_gridview_ml">11.11dp</dimen>
+<dimen name="product_gridview_vertical_space">-2.96dp</dimen>
+<dimen name="product_gridview_ml">10.37dp</dimen>
 <dimen name="usercenter_fragment_indicator_mt">2.96dp</dimen>
 <dimen name="today_weather_info_mt">-7.41dp</dimen>
 <dimen name="weather_icon">44.44dp</dimen>
@@ -137,8 +137,8 @@
 <dimen name="weather_text_mt">7.41dp</dimen>
 <dimen name="weather_icon_mt">8.89dp</dimen>
 
-<dimen name="location_confirm_btn_ml">25.93dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">88.89dp</dimen>
+<dimen name="location_confirm_btn_ml">32.59dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">82.96dp</dimen>
 <dimen name="exit_account_mt">1.48dp</dimen>
 <dimen name="privilege_layout_mt">24.44dp</dimen>
 <dimen name="charge_money_mt">-2.22dp</dimen>

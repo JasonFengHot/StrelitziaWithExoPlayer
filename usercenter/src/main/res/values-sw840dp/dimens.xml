@@ -64,12 +64,12 @@
 <dimen name="location_selected_city_text_width">136.89dp</dimen>
 <dimen name="location_grid_margin_top">28.78dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">140.00dp</dimen>
-<dimen name="locationFragment_selectedPositionTitle_marginLeft">77.78dp</dimen>
+<dimen name="locationFragment_selectedPositionTitle_marginLeft">35.78dp</dimen>
 <dimen name="locationFragment_h2_textSize">28.00sp</dimen>
 <dimen name="location_fragment_current_position_height">178.89dp</dimen>
 <dimen name="location_divider_width">1022.00dp</dimen>
 <dimen name="locationFragment_h1_textSize">37.33sp</dimen>
-<dimen name="locationFragment_todayLayout_marginLeft">108.89dp</dimen>
+<dimen name="locationFragment_todayLayout_marginLeft">150.89dp</dimen>
 <dimen name="locationFragment_currentPositionTitle_marginLeft">97.22dp</dimen>
 <dimen name="location_divider_margin_left">28.00dp</dimen>
 <dimen name="locationFragment_h4_textSize">18.67sp</dimen>
@@ -127,8 +127,8 @@
 <dimen name="product_gridview_lp">17.11dp</dimen>
 <dimen name="product_gridview_rp">16.33dp</dimen>
 <dimen name="product_gridview_tp">17.11dp</dimen>
-<dimen name="product_gridview_vertical_space">-3.89dp</dimen>
-<dimen name="product_gridview_ml">11.67dp</dimen>
+<dimen name="product_gridview_vertical_space">-3.11dp</dimen>
+<dimen name="product_gridview_ml">10.89dp</dimen>
 <dimen name="usercenter_fragment_indicator_mt">3.11dp</dimen>
 <dimen name="today_weather_info_mt">-7.78dp</dimen>
 <dimen name="weather_icon">46.67dp</dimen>
@@ -137,8 +137,8 @@
 <dimen name="weather_text_mt">7.78dp</dimen>
 <dimen name="weather_icon_mt">9.33dp</dimen>
 
-<dimen name="location_confirm_btn_ml">27.22dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">93.33dp</dimen>
+<dimen name="location_confirm_btn_ml">34.22dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">87.11dp</dimen>
 <dimen name="exit_account_mt">1.56dp</dimen>
 <dimen name="privilege_layout_mt">25.67dp</dimen>
 <dimen name="charge_money_mt">-2.33dp</dimen>
