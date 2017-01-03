@@ -23,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 
 import cn.ismartv.truetime.TrueTime;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
@@ -46,6 +47,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
     private TextView rechargeMsgTextView;
 
     public static final int CHARGE_MONEY_SUCCESS = 0x3729;
+    private Subscription apiPayVerifySub;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,7 +106,7 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
         }
 
 
-        skyService.apiPayVerify(card_secret, app_name, user, user_id, timestamp, sid)
+        apiPayVerifySub = skyService.apiPayVerify(card_secret, app_name, user, user_id, timestamp, sid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<PayVerifyEntity>() {
@@ -198,5 +200,13 @@ public class CardPayFragment extends Fragment implements View.OnClickListener, O
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onPause() {
+        if (apiPayVerifySub != null && apiPayVerifySub.isUnsubscribed()) {
+            apiPayVerifySub.unsubscribe();
+        }
+        super.onPause();
     }
 }

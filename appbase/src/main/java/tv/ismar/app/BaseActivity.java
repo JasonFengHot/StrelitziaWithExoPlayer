@@ -136,6 +136,10 @@ public class BaseActivity extends AppCompatActivity {
         if (updateAgainHandler != null) {
             updateAgainHandler.removeCallbacks(updateAgainRunnable);
         }
+
+        if (noNetConnectHandler != null) {
+            noNetConnectHandler.removeCallbacks(noNetConnectRunnable);
+        }
         super.onPause();
     }
 
@@ -186,10 +190,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showNetWorkErrorDialog(Throwable e) {
-        if(netErrorPopWindow!=null&&netErrorPopWindow.isShowing()){
+        if (netErrorPopWindow != null && netErrorPopWindow.isShowing()) {
             return;
         }
-        final String act=getCurrentActivityName(BaseActivity.this);
+        final String act = getCurrentActivityName(BaseActivity.this);
         netErrorPopWindow = new NetErrorPopWindow(this);
         netErrorPopWindow.setFirstMessage(getString(R.string.fetch_net_data_error));
         netErrorPopWindow.setConfirmBtn(getString(R.string.setting_network));
@@ -197,7 +201,7 @@ public class BaseActivity extends AppCompatActivity {
         netErrorPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity")||act.contains("FilmStar")||act.contains("UserCenterActivity"))) {
+                if (!(act.contains("HomePageActivity") || act.contains("WordSearchActivity") || act.contains("FilmStar"))) {
                     finish();
                 }
             }
@@ -216,7 +220,7 @@ public class BaseActivity extends AppCompatActivity {
                         @Override
                         public void cancelClick(View view) {
                             netErrorPopWindow.dismiss();
-                            if(!(act.contains("HomePageActivity")||act.contains("WordSearchActivity")||act.contains("FilmStar")||act.contains("UserCenterActivity"))) {
+                            if (!(act.contains("HomePageActivity") || act.contains("WordSearchActivity")) || act.contains("FilmStar")) {
                                 finish();
                             }
                         }
@@ -267,7 +271,7 @@ public class BaseActivity extends AppCompatActivity {
             Log.i("onNoNet", "onerror" + NetworkUtils.isConnected(BaseActivity.this));
             if (!NetworkUtils.isConnected(BaseActivity.this) && !NetworkUtils.isWifi(BaseActivity.this)) {
                 Log.i("onNoNet", "" + NetworkUtils.isConnected(BaseActivity.this));
-                showNoNetConnectDialog();
+                showNoNetConnectDelay();
             } else if (e instanceof HttpException) {
                 HttpException httpException = (HttpException) e;
                 if (httpException.code() == 401) {
@@ -303,6 +307,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     }
+
     public void showItemOffLinePop() {
         itemOffLinePop = new ItemOffLinePopWindow(this);
         itemOffLinePop.setFirstMessage(getString(R.string.item_offline));
@@ -323,6 +328,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     }
+
     public void historyShowItemOffLinePop() {
         itemOffLinePop = new ItemOffLinePopWindow(this);
         itemOffLinePop.setFirstMessage(getString(R.string.item_offline));
@@ -420,7 +426,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         try {
             unregisterReceiver(onNetConnectReceiver);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onDestroy();
@@ -453,5 +459,20 @@ public class BaseActivity extends AppCompatActivity {
         return cn.getClassName();
     }
 
+
+    Handler noNetConnectHandler;
+    Runnable noNetConnectRunnable;
+
+    private void showNoNetConnectDelay() {
+        noNetConnectHandler = new Handler();
+        noNetConnectRunnable = new Runnable() {
+            @Override
+            public void run() {
+                showNoNetConnectDialog();
+            }
+        };
+
+        noNetConnectHandler.postDelayed(noNetConnectRunnable, 1000);
+    }
 
 }
