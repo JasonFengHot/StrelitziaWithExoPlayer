@@ -144,7 +144,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean isNeedOnResume = false;// 当前页面未销毁,不在栈的顶层
     private boolean isClickKeFu = false;// 跳转至客服界面再返回后,不再做广告请求
     private String mUser;// playerCheck 返回user类型
-//    private boolean mHasPreLoad;// 已经在详情页实现了预加载
+    //    private boolean mHasPreLoad;// 已经在详情页实现了预加载
 //    private String[] tempPaths;// 预加载时用到
 //    private List<AdElementEntity> tempAds;// 预加载时用到
     private boolean isExit = false;// 播放器退出release需要时间，此时的UI事件会导致ANR
@@ -1070,7 +1070,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             initHistory();
         }
         if (mCurrentPosition > 0) {
-            if(!mItemEntity.getLiveVideo()){
+            if (!mItemEntity.getLiveVideo()) {
                 showBuffer(HISTORYCONTINUE + getTimeString(mCurrentPosition));
             }
         } else {
@@ -1256,6 +1256,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private boolean createMenu() {
+        if (mIsmartvPlayer == null) {
+            return true;
+        }
         if (playerMenu == null) {
             playerMenu = new PlayerMenu(getActivity(), player_menu);
             playerMenu.setOnCreateMenuListener(this);
@@ -1452,7 +1455,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private View.OnHoverListener onHoverListener = new View.OnHoverListener() {
         @Override
         public boolean onHover(View v, MotionEvent event) {
-            if(isExit){
+            if (isExit) {
                 return true;
             }
             int what = event.getAction();
@@ -1493,7 +1496,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         return String.format("%1$02d:%2$02d:%3$02d", hour, min, sec);
     }
 
-    private void finishActivity(){
+    private void finishActivity() {
         isExit = true;
         if (!mIsPlayingAd) {
             addHistory(mCurrentPosition, true);
@@ -1581,31 +1584,33 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         finishActivity();
                         break;
                     case POP_TYPE_BUFFERING_LONG:
-                        if (!popDialog.isConfirmClick) {
-                            if (!isMenuShow()) {
-                                if (isPanelShow()) {
-                                    hidePanel();
+                        if (!isExit) {
+                            if (!popDialog.isConfirmClick) {
+                                if (!isMenuShow()) {
+                                    if (isPanelShow()) {
+                                        hidePanel();
+                                    }
+                                    createMenu();
+                                    ItemEntity[] subItems = mItemEntity.getSubitems();
+                                    if (subItems != null && subItems.length > 0 && !mIsPreview) {
+                                        // 电视剧
+                                        playerMenu.showQuality(1);
+                                    } else {
+                                        // 电影
+                                        playerMenu.showQuality(0);
+                                    }
                                 }
-                                createMenu();
-                                ItemEntity[] subItems = mItemEntity.getSubitems();
-                                if (subItems != null && subItems.length > 0 && !mIsPreview) {
-                                    // 电视剧
-                                    playerMenu.showQuality(1);
-                                } else {
-                                    // 电影
-                                    playerMenu.showQuality(0);
-                                }
+                            } else {
+                                // 重新加载，先存历史记录
+                                mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
+                                addHistory(mCurrentPosition, false);
+                                mIsmartvPlayer.stopPlayBack();
+                                mIsmartvPlayer = null;
+                                String sign = "";
+                                String code = "1";
+                                showBuffer(PlAYSTART + mItemEntity.getTitle());
+                                mPresenter.fetchMediaUrl(mItemEntity.getClip().getUrl(), sign, code);
                             }
-                        } else {
-                            // 重新加载，先存历史记录
-                            addHistory(mCurrentPosition, false);
-                            mCurrentPosition = 0;
-                            mIsmartvPlayer.stopPlayBack();
-                            mIsmartvPlayer = null;
-                            String sign = "";
-                            String code = "1";
-                            showBuffer(PlAYSTART + mItemEntity.getTitle());
-                            mPresenter.fetchMediaUrl(mItemEntity.getClip().getUrl(), sign, code);
                         }
                         break;
                 }
@@ -1667,7 +1672,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private Timer quitTimer = new Timer();
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(isExit){
+        if (isExit) {
             return true;
         }
         if ("lcd_s3a01".equals(getModelName())) {
@@ -1875,7 +1880,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 @Override
                 public void run() {
                     cancelTimer();
-                    if (getActivity() != null && !getActivity().isFinishing()) {
+                    if (getActivity() != null && !isExit) {
                         showExitPopup(POP_TYPE_BUFFERING_LONG);
                     }
                 }
