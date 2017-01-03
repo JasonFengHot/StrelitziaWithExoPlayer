@@ -27,6 +27,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/usercenter_purchase_history_ml"
             android:layout_marginTop="@dimen/purchase_history_recycler_mt"
+            android:layout_marginBottom="@dimen/purchase_history_recycler_mt"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:focusable="false"
