@@ -84,7 +84,7 @@
 <dimen name="product_recycler_item_spacing">-2.22dp</dimen>
 <dimen name="product_item_mt">-3.33dp</dimen>
 <dimen name="userinfo_layout_pb">33.33dp</dimen>
-<dimen name="user_info_other_item_vertical_spacing">19.44dp</dimen>
+<dimen name="user_info_other_item_vertical_spacing">20.00dp</dimen>
 <dimen name="user_center_logout_width">152.22dp</dimen>
 
 <dimen name="user_info_item_vertical_spacing_0">0.00dp</dimen>
@@ -109,7 +109,7 @@
 <dimen name="privilege_min_h">27.78dp</dimen>
 <dimen name="privilege_item_date_w">230.56dp</dimen>
 <dimen name="privilege_item_date_ml">44.44dp</dimen>
-<dimen name="privilege_btn_w">88.89dp</dimen>
+<dimen name="privilege_btn_w">89.44dp</dimen>
 <dimen name="privilege_item_btn_ml">3.89dp</dimen>
 
 <dimen name="privilege_item_margin_bottom">13.89dp</dimen>

@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing"
+                android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing_device"
                 android:orientation="horizontal">
 
                 <TextView
@@ -148,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_info_layout_margin_left"
-                android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing"
+                android:layout_marginTop="@dimen/user_info_other_item_vertical_spacing_balance"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
@@ -177,7 +177,6 @@
                     android:layout_width="@dimen/charge_btn_width"
                     android:layout_height="@dimen/charge_btn_height"
                     android:layout_marginLeft="@dimen/charge_btn_margin_left"
-                    android:layout_marginTop="@dimen/charge_money_mt"
                     android:background="@drawable/selector_button"
                     android:nextFocusRight="@id/exit_account"
                     android:nextFocusUp="@id/exit_account"
@@ -207,6 +206,7 @@
                 </TextView>
 
                 <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
+                    android:layout_marginTop="1dp"
                     android:id="@+id/privilege_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
