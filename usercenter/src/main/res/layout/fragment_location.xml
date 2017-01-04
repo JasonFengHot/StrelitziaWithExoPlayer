@@ -206,6 +206,7 @@
                     android:visibility="invisible">
 
                     <LinearLayout
+                        android:layout_marginLeft="@dimen/locationFragment_areaPop_ml"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

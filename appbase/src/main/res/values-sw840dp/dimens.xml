@@ -470,7 +470,7 @@
 
 <dimen name="locatoinFragment_areaPop_cancelBtn_marginLeft">66.11dp</dimen>
 <dimen name="locationFragment_areaPop_Btn_marginTop">31.11dp</dimen>
-<dimen name="locationFragment_areaPop_Btn_marginTop1">23.33dp</dimen>
+<dimen name="locationFragment_areaPop_Btn_marginTop1">22.56dp</dimen>
 <dimen name="locationFragment_weatherLayout_width">140.00dp</dimen>
 
 <!-- zjq -->

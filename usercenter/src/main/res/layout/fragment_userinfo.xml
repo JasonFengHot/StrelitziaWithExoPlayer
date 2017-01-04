@@ -206,7 +206,7 @@
                 </TextView>
 
                 <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="@dimen/privilege_recycler_layout_mt"
                     android:id="@+id/privilege_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

@@ -138,8 +138,8 @@
     <dimen name="weather_text_mt">10dp</dimen>
     <dimen name="weather_icon_mt">12dp</dimen>
 
-    <dimen name="location_confirm_btn_ml">44dp</dimen>
-    <dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">112dp</dimen>
+    <dimen name="location_confirm_btn_ml">43dp</dimen>
+    <dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">114dp</dimen>
     <dimen name="exit_account_mt">2dp</dimen>
     <dimen name="privilege_layout_mt">23dp</dimen>
     <dimen name="charge_money_mt">-2dp</dimen>
@@ -154,4 +154,6 @@
     <dimen name="remain_money_value_w">250dp</dimen>
     <dimen name="privilege_recycler_mt">-11dp</dimen>
     <dimen name="privilege_txt">10dp</dimen>
+    <dimen name="locationFragment_areaPop_ml">1dp</dimen>
+    <dimen name="privilege_recycler_layout_mt">1dp</dimen>
 </resources>
