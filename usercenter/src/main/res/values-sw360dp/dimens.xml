@@ -84,7 +84,7 @@
 <dimen name="product_recycler_item_spacing">-1.33dp</dimen>
 <dimen name="product_item_mt">-2.00dp</dimen>
 <dimen name="userinfo_layout_pb">20.00dp</dimen>
-<dimen name="user_info_other_item_vertical_spacing">13.00dp</dimen>
+<dimen name="user_info_other_item_vertical_spacing">11.67dp</dimen>
 <dimen name="user_center_logout_width">91.33dp</dimen>
 
 <dimen name="user_info_item_vertical_spacing_0">0.00dp</dimen>
@@ -137,8 +137,8 @@
 <dimen name="weather_text_mt">3.33dp</dimen>
 <dimen name="weather_icon_mt">4.00dp</dimen>
 
-<dimen name="location_confirm_btn_ml">14.33dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">38.00dp</dimen>
+<dimen name="location_confirm_btn_ml">14.67dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">37.33dp</dimen>
 <dimen name="exit_account_mt">0.67dp</dimen>
 <dimen name="privilege_layout_mt">8.33dp</dimen>
 <dimen name="charge_money_mt">-0.33dp</dimen>
