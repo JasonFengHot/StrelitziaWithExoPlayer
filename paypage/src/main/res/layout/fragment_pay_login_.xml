@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:minHeight="@dimen/page_min_height"
+    android:minWidth="@dimen/page_min_width"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/pay_person_login_linearLayout_w"
+        android:layout_height="@dimen/pay_person_login_linearLayout_h"
+        android:layout_marginLeft="@dimen/_login_edit_ml"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/pay_person_login_textview_w"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="手机号码"
+            android:textColor="#FFF8F8FF"
+            android:textSize="@dimen/pay_person_login_textview_textsize" />
+
+        <EditText
+            style="@style/AppTheme.Widget.EditText"
+            android:id="@+id/pay_edit_mobile"
+            android:layout_width="@dimen/_pay_person_login_pay_edit_mobile_w"
+            android:layout_height="@dimen/_login_edit_h"
+            android:background="@android:drawable/edit_text"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:inputType="phone"
+            android:nextFocusUp="@id/pay_edit_mobile"
+            android:textColor="#000000"
+            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
+
+        <Button
+            android:id="@+id/pay_identifyCodeBtn"
+            android:layout_width="@dimen/_pay_person_login_pay_identifyCodeBtn_w"
+            android:layout_height="@dimen/_pay_person_login_pay_identifyCodeBtn_h"
+            android:layout_marginLeft="@dimen/_pay_person_login_pay_identifyCodeBtn_ml"
+            android:background="@drawable/selector_button"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:text="获取验证码"
+            android:textColor="#FFF8F8FF"
+            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pay_count_tip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pay_person_login_pay_count_tip_h"
+        android:layout_marginTop="@dimen/_pay_count_tip_mt"
+        android:gravity="center_horizontal"
+        android:text="无需设置密码，使用验证码直接登录"
+        android:textColor="#FFFF0000"
+        android:textSize="@dimen/h3_size" />
+
+    <LinearLayout
+        android:layout_width="@dimen/pay_person_login_linearLayout_w"
+        android:layout_height="@dimen/pay_person_login_linearLayout_h"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/_login_edit_ml"
+        android:layout_marginTop="@dimen/_pay_person_login_linearLayout2_mt"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/pay_person_login_textview_w"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="验证码"
+            android:textColor="#FFF8F8FF"
+            android:textSize="@dimen/pay_person_login_textview_textsize" />
+
+        <EditText
+            android:id="@+id/pay_edit_identifycode"
+            style="@style/AppTheme.Widget.EditText"
+            android:layout_width="@dimen/_pay_person_login_pay_edit_mobile_w"
+            android:layout_height="@dimen/_login_edit_h"
+            android:background="@android:drawable/edit_text"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColor="#000000"
+            android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pay_person_login_pay_count_tip_h"
+        android:layout_marginTop="@dimen/_pay_count_tip_mt"
+        android:gravity="center_horizontal"
+        android:text="请输入您手机收到的6位数字验证码"
+        android:textColor="#FFFF0000"
+        android:textSize="@dimen/h3_size" />
+
+    <Button
+        android:id="@+id/pay_btn_submit"
+        android:layout_width="@dimen/_pay_person_login_pay_btn_submit_w"
+        android:layout_height="@dimen/_pay_person_login_pay_btn_submit_h"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_pay_person_login_pay_btn_submit_mt"
+        android:background="@drawable/selector_button"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
+        android:nextFocusDown="@id/pay_btn_submit"
+        android:text="提&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;交"
+        android:textColor="#FFF8F8FF"
+        android:textSize="@dimen/pay_person_login_pay_edit_mobile_textsize" />
+
+    <ImageView
+        android:id="@+id/tmp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:focusable="true" />
+
+</LinearLayout>

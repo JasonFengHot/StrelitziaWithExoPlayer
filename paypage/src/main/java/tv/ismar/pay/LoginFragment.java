@@ -88,7 +88,20 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        contentView = inflater.inflate(R.layout.fragment_pay_login, null);
+
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            source = bundle.getString("source");
+        }
+
+        if (!source.equals("usercenter")) {
+            contentView = inflater.inflate(R.layout.fragment_pay_login_, null);
+
+        } else {
+            contentView = inflater.inflate(R.layout.fragment_pay_login, null);
+        }
+
         return contentView;
     }
 

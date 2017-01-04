@@ -153,4 +153,17 @@
 <dimen name="pay_btn_submit_ml">17.41dp</dimen>
 <dimen name="pay_identifyCodeBtn_mt">1.48dp</dimen>
 
+
+<dimen name="_pay_person_login_pay_identifyCodeBtn_w">74.07dip</dimen>
+<dimen name="_pay_person_login_pay_btn_submit_h">27.78dip</dimen>
+<dimen name="_pay_person_login_pay_identifyCodeBtn_h">27.78dip</dimen>
+<dimen name="_pay_person_login_pay_identifyCodeBtn_ml">14.81dip</dimen>
+<dimen name="_pay_person_login_pay_edit_mobile_w">185.19dip</dimen>
+<dimen name="_pay_person_login_pay_btn_submit_mt">37.04dip</dimen>
+<dimen name="_pay_person_login_linearLayout2_mt">7.41dip</dimen>
+<dimen name="_pay_person_login_pay_btn_submit_w">111.11dip</dimen>
+<dimen name="_pay_count_tip_mt">3.70dp</dimen>
+<dimen name="_login_edit_ml">11.11dp</dimen>
+<dimen name="_login_edit_h">29.63dp</dimen>
+
 </resources>
