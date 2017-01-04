@@ -84,6 +84,8 @@ public class BaseActivity extends AppCompatActivity {
     public static String baseSection = "";
     public static String baseChannel = "";
 
+    private Bundle updateBundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -365,6 +367,14 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
 
+            if (updateBundle!=null) {
+                if (updateBundle.get("path").equals(bundle.get("path")) &&
+                        updateBundle.get("msgs").equals(bundle.get("msgs"))) {
+                    isExsit = true;
+
+                }
+            }
+
             if (!isExsit) {
                 updateInfo.push(bundle);
                 new Handler().postDelayed(new Runnable() {
@@ -403,7 +413,7 @@ public class BaseActivity extends AppCompatActivity {
     private void showUpdatePopup(final View view, final Stack<Bundle> stack) {
         String currentActivityName = getCurrentActivityName(this);
         if (!stack.isEmpty() && !currentActivityName.equals("tv.ismar.player.view.PlayerActivity")) {
-            final Bundle updateBundle = stack.pop();
+            updateBundle = stack.pop();
             updatePopupWindow = new UpdatePopupWindow(this, updateBundle);
             updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
             updatePopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {

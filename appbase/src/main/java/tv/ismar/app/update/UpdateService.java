@@ -11,7 +11,9 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -164,18 +166,23 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
         }
 
         Log.i(TAG, "local version code ---> " + installVersionCode);
-        String title = Md5.md5(new Gson().toJson(applicationEntity));
+        final String title = Md5.md5(new Gson().toJson(applicationEntity));
         md5Jsons.add(title);
 
         DownloadEntity download = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
         if (download == null || download.status != DownloadStatus.COMPLETED) {
             downloadApp(applicationEntity);
 
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    mCursorLoader = new CursorLoader(getApplicationContext(), ContentProvider.createUri(DownloadEntity.class, null),
+                            null, "title = ?", new String[]{title}, null);
+                    mCursorLoader.registerListener(LOADER_ID_APP_UPDATE, UpdateService.this);
+                    mCursorLoader.startLoading();
+                }
+            });
 
-            mCursorLoader = new CursorLoader(this, ContentProvider.createUri(DownloadEntity.class, null),
-                    null, "title = ?", new String[]{title}, null);
-            mCursorLoader.registerListener(LOADER_ID_APP_UPDATE, this);
-            mCursorLoader.startLoading();
         } else {
             final File apkFile = new File(download.savePath);
             if (installVersionCode < Integer.parseInt(applicationEntity.getVersion())) {
@@ -284,11 +291,16 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
 //        for (String json : md5Jsons) {
+        data.moveToFirst();
+
         String title = data.getString(data.getColumnIndex("title"));
-        DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
-        if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
-            VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
-            checkUpgrade(applicationEntity);
+        String status = data.getString(data.getColumnIndex("status"));
+        if (status.equalsIgnoreCase("COMPLETED")) {
+            DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
+            if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
+                VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
+                checkUpgrade(applicationEntity);
+            }
         }
 //        }
     }
