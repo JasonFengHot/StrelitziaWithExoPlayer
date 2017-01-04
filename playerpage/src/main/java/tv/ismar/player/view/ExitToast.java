@@ -46,7 +46,6 @@ public class ExitToast {
         TextView text = (TextView) layout.findViewById(R.id.exit_text);
         text.setText(msp);
         toast = new Toast(context);
-        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 64);
         toast.setView(layout);
 
         mDuration = duration;
