@@ -29,6 +29,16 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
     }
 
     @Override
+    public void bufferOnSharpS3Release() {
+        if(mDaisyVideoView == null){
+            return;
+        }
+        mDaisyVideoView.bufferOnSharpS3Release();
+        mDaisyVideoView = null;
+
+    }
+
+    @Override
     protected void setMedia(String[] urls) {
         mPaths = urls;
         mDaisyVideoView.setVisibility(View.VISIBLE);

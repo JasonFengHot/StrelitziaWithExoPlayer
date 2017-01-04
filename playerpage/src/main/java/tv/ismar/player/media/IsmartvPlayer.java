@@ -111,6 +111,10 @@ public abstract class IsmartvPlayer implements IPlayer {
         this.mIsPreview = isPreview;
     }
 
+    public void bufferOnSharpS3Release(){
+
+    }
+
     @Override
     public void setDataSource(IsmartvMedia media, ClipEntity clipEntity, ClipEntity.Quality initQuality,
                               List<AdElementEntity> adList, // 视云影片需要添加是否有广告

@@ -256,6 +256,12 @@ public class DaisyVideoView extends SurfaceView {
         return player.IsDownloadError();
     }
 
+    public void bufferOnSharpS3Release(){
+        mCurrentState = STATE_IDLE;
+        mTargetState = STATE_IDLE;
+        player = null;
+    }
+
     public boolean isInPlaybackState() {
         return (player != null && mCurrentState != STATE_ERROR
                 && mCurrentState != STATE_IDLE && mCurrentState != STATE_PREPARING);
@@ -302,11 +308,14 @@ public class DaisyVideoView extends SurfaceView {
 
     public void stopPlayback() {
         if (player != null) {
+            mCurrentState = STATE_IDLE;
+            mTargetState = STATE_IDLE;
             player.stop();
             player.release();
             player = null;
-            mCurrentState = STATE_IDLE;
-            mTargetState = STATE_IDLE;
+
+            PlayerBuilder.getInstance().release();
+
         }
     }
 
@@ -479,7 +488,7 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnInfoListener smartInfoListener = new SmartPlayer.OnInfoListener() {
         @Override
         public boolean onInfo(SmartPlayer smartPlayer, int i, int i1) {
-            Log.v(TAG, "onInfo i=" + i + "<>j=" + i1 + "SmartPlayer status = " + smartPlayer.isPlaying());
+            Log.v(TAG, "onInfo i=" + i + "<>j=" + i1);
             if (player == null) {
                 return false;
             }
