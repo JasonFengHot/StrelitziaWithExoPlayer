@@ -1116,6 +1116,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (Utils.isEmptyText(iqiyi)) {
             // 片源为视云
             playerMode = PlayerBuilder.MODE_SMART_PLAYER;
+            /**
+             * 在新的线程中，定时向底层查询数据，为解决播放过程中，网络限速至无法播放，视频卡住时需要显示正在加载中弹窗
+             */
+            if (mNeedBufferTimer == null) {
+                mNeedBufferTimer = new Timer();
+                mNeedBufferTask = new BufferingTask();
+                mNeedBufferTimer.schedule(mNeedBufferTask, 2 * 1000, 2 * 1000);
+            }
         } else {
             // 片源为爱奇艺
             playerMode = PlayerBuilder.MODE_QIYI_PLAYER;
@@ -1426,7 +1434,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void showBuffer(String msg) {
         Log.d(TAG, "showBuffer:" + msg);
         if (mIsmartvPlayer != null) {// 只要显示buffer就开始计时
-            mHandler.sendEmptyMessageDelayed(MSG_SHOW_BUFFERING_LONG, 50 * 1000);
+            if(count > 0){
+                mHandler.sendEmptyMessage(MSG_SHOW_BUFFERING_LONG);
+            } else {
+                mHandler.sendEmptyMessageDelayed(MSG_SHOW_BUFFERING_LONG, 50 * 1000);
+            }
         }
 
         if (mIsOnPaused || isPopWindowShow()) {
@@ -1511,6 +1523,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void finishActivity() {
         isExit = true;
+        cancelTimer();
         if (!mIsPlayingAd) {
             addHistory(mCurrentPosition, true);
         }
@@ -1542,7 +1555,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showExitPopup(final byte popType) {
-        if(isFinishing){
+        if (isFinishing) {
             return;
         }
         if (popDialog != null && popDialog.isShowing()) {
@@ -1882,6 +1895,68 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             popDialog = null;
         }
 
+    }
+
+    /**
+     * 在新的线程中，定时向底层查询数据，为解决播放过程中，网络限速至无法播放，需要显示正在加载中弹窗
+     */
+
+    private Timer mNeedBufferTimer;
+    private BufferingTask mNeedBufferTask;
+
+    private void cancelTimer() {
+        needBufferPosition = 0;
+        if (mNeedBufferTask != null) {
+            mNeedBufferTask.cancel();
+            mNeedBufferTask = null;
+        }
+        if (mNeedBufferTimer != null) {
+            mNeedBufferTimer.cancel();
+            mNeedBufferTimer = null;
+            System.gc();
+        }
+
+    }
+
+    private int needBufferPosition = 0;
+    private int count = 0;
+
+    class BufferingTask extends TimerTask {
+
+        @Override
+        public void run() {
+            if (mIsmartvPlayer != null && !isExit && !isFinishing && !isPopWindowShow()) {
+                Log.i(TAG, "isDownError:" + mIsmartvPlayer.isDownloadError() + " needPosition:" + needBufferPosition + " count:" + count);
+                if (mIsmartvPlayer.isDownloadError() && !isBufferShow()) {
+                    if (needBufferPosition == mIsmartvPlayer.getCurrentPosition()) {
+                        count++;
+                    }
+                    if (needBufferPosition == 0) {
+                        needBufferPosition = mIsmartvPlayer.getCurrentPosition();
+                    }
+                    if(count > 2){
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                showBuffer(null);
+                            }
+                        });
+                    }
+                } else if(!mIsmartvPlayer.isDownloadError()) {
+                    if(isBufferShow() && count > 0){
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideBuffer();
+                            }
+                        });
+                    }
+                    needBufferPosition = 0;
+                    count = 0;
+                }
+            }
+
+        }
     }
 
 }

@@ -83,6 +83,10 @@ public abstract class IsmartvPlayer implements IPlayer {
         return mPlayerMode;
     }
 
+    public boolean isDownloadError(){
+        return false;
+    }
+
     public void setContext(Activity context) {
         mContext = context;
     }

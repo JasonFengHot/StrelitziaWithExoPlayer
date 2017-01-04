@@ -369,7 +369,7 @@
 <dimen name="listportait_Hgride_verSpace">2.78dp</dimen>
 <dimen name="listportait_Hgride_filterverSpace">2.22dp</dimen>
 <dimen name="filter_Hgride_rowH">220.56dp</dimen>
-<dimen name="listview_hgride_horSpace">64.44dp</dimen>
+<dimen name="listview_hgride_horSpace">64.72dp</dimen>
 <dimen name="listview_hgride_rowHeight">150.56dp</dimen>
 <dimen name="listview_Hgride_MT">4.44dp</dimen>
 <dimen name="listview_Hgride_PT">7.78dp</dimen>

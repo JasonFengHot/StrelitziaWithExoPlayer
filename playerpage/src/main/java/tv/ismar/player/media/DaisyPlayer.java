@@ -21,6 +21,14 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
     }
 
     @Override
+    public boolean isDownloadError() {
+        if(mDaisyVideoView == null){
+            return false;
+        }
+        return mDaisyVideoView.isDownloadError();
+    }
+
+    @Override
     protected void setMedia(String[] urls) {
         mPaths = urls;
         mDaisyVideoView.setVisibility(View.VISIBLE);

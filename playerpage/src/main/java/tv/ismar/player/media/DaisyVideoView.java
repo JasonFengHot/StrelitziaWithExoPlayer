@@ -249,6 +249,13 @@ public class DaisyVideoView extends SurfaceView {
         }
     }
 
+    public boolean isDownloadError(){
+        if(player == null){
+            return false;
+        }
+        return player.IsDownloadError();
+    }
+
     public boolean isInPlaybackState() {
         return (player != null && mCurrentState != STATE_ERROR
                 && mCurrentState != STATE_IDLE && mCurrentState != STATE_PREPARING);
