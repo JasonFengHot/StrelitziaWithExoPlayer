@@ -259,8 +259,8 @@
 <dimen name="filter_view_filtersubmit_ml">548.67dp</dimen>
 <dimen name="filter_view_filtersubmit_w">182.67dp</dimen>
 <dimen name="filter_view_filtersubmit_h">48.00dp</dimen>
-<dimen name="filter_noresult_Gride_horizontalSpacing">29.33dp</dimen>
-<dimen name="filter_noresult_Gride_rowHeight">167.33dp</dimen>
+<dimen name="filter_noresult_Gride_horizontalSpacing">29.67dp</dimen>
+<dimen name="filter_noresult_Gride_rowHeight">167.67dp</dimen>
 <dimen name="filter_noresult_Gride_MT">32.00dp</dimen>
 <dimen name="filter_noresult_Gride_ML">110.00dp</dimen>
 <dimen name="filter_noresult_Gride_MB">30.00dp</dimen>
@@ -285,7 +285,7 @@
 <dimen name="filter_Hgride_MT">4.67dp</dimen>
 <dimen name="filter_Hgride_noresult_PT">8.00dp</dimen>
 <dimen name="filter_Hgride_noresult_MT">26.67dp</dimen>
-<dimen name="filter_port_Hgride_textMarg">14.00dp</dimen>
+<dimen name="filter_port_Hgride_textMarg">12.00dp</dimen>
 <dimen name="filter_pro_hgride_text_W">80.00dp</dimen>
 <dimen name="filter_pro_hgride_text_H">30.67dp</dimen>
 <dimen name="filter_pro_hgride_text_MR">7.33dp</dimen>
