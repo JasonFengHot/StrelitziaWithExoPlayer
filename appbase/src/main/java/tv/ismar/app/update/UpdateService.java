@@ -121,7 +121,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
         mSkyService.appUpgrade(upgradeRequestEntities)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.computation())
                 .subscribe(new Observer<VersionInfoV2Entity>() {
                     @Override
                     public void onCompleted() {
