@@ -28,7 +28,7 @@
 <dimen name="usercenter_info_association_pop_height">676.67dp</dimen>
 <dimen name="user_info_item_vertical_spacing">47.44dp</dimen>
 <dimen name="usercenter_info_layout_margin_left">46.67dp</dimen>
-<dimen name="h4_text_size">23.33sp</dimen>
+<dimen name="h4_text_size">21.00sp</dimen>
 <dimen name="user_center_logout_height">56.00dp</dimen>
 <dimen name="userinfo_balance_title_width">108.89dp</dimen>
 <dimen name="userinfo_association_marginLeft">15.56dp</dimen>
@@ -56,8 +56,8 @@
 <dimen name="usercenter_storefragment_packagelist_item_text_width">261.33dp</dimen>
 
 
-<dimen name="purchase_history_text_margin_top">17.89dp</dimen>
-<dimen name="purchase_history_item_margin_left">18.67dp</dimen>
+<dimen name="purchase_history_text_margin_top">37.33dp</dimen>
+<dimen name="purchase_history_item_margin_left">24.11dp</dimen>
 
 
 <dimen name="locationFragment_tomorrowLayout_marginLeft">31.11dp</dimen>
@@ -113,11 +113,11 @@
 <dimen name="privilege_item_btn_ml">5.44dp</dimen>
 
 <dimen name="privilege_item_margin_bottom">19.44dp</dimen>
-<dimen name="usercenter_purchase_history_ml">50.56dp</dimen>
+<dimen name="usercenter_purchase_history_ml">52.11dp</dimen>
 
 
 <dimen name="u_purchase_history_item_margin_top">-35.00dp</dimen>
-<dimen name="purchase_history_recycler_mt">3.89dp</dimen>
+<dimen name="purchase_history_recycler_mt">18.67dp</dimen>
 <dimen name="usercenter_indicator_width">155.56dp</dimen>
 <dimen name="usercenter_indicator_divider_line">233.33dp</dimen>
 <dimen name="usercenter_vertical_divider_line_mt">11.67dp</dimen>

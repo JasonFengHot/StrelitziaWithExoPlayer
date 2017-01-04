@@ -608,7 +608,7 @@ public class CallaPlay {
             tempMap.put(EventProperty.SUBITEM, sub_id);
         }
         tempMap.put(EventProperty.TITLE, history.title);
-        tempMap.put(EventProperty.POSITION, history.last_position);
+        tempMap.put(EventProperty.POSITION, history.last_position/1000);
         tempMap.put("userid", TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ?IsmartvActivator.getInstance().getDeviceToken():IsmartvActivator.getInstance().getUsername());
         eventName = NetworkUtils.VIDEO_HISTORY;
         properties = tempMap;
