@@ -2,6 +2,7 @@ package tv.ismar.app.core;
 
 import android.app.Activity;
 import android.app.LauncherActivity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -195,8 +196,13 @@ public class PageIntent implements PageIntentInterface {
     @Override
     public void toHelpPage(Context context) {
         Intent intent = new Intent();
-        intent.setAction("cn.ismar.sakura.launcher");
-        context.startActivity(intent);
+        try {
+            intent.setAction("cn.ismartv.speedtester.feedback");
+            context.startActivity(intent);
+        }catch (ActivityNotFoundException e) {
+            intent.setAction("cn.ismar.sakura.launcher");
+            context.startActivity(intent);
+        }
     }
 
     private static void showNetErrorPopup(Context context, String message) {
