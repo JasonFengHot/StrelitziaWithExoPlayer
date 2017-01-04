@@ -1,22 +1,22 @@
 <resources>
-    <dimen name="pay_person_login_pay_identifyCodeBtn_w">200dip</dimen>
+    <dimen name="pay_person_login_pay_identifyCodeBtn_w">274dip</dimen>
     <dimen name="pay_person_login_pay_edit_mobile_pl">10dip</dimen>
-    <dimen name="pay_person_login_pay_btn_submit_h">75dip</dimen>
+    <dimen name="pay_person_login_pay_btn_submit_h">72dip</dimen>
     <dimen name="pay_person_login_linearLayout_h">115dp</dimen>
     <dimen name="pay_person_login_pay_edit_mobile_textsize">30sp</dimen>
     <dimen name="pay_qrcode_pay_panel_marginleft">50dp</dimen>
     <dimen name="pay_person_login_pay_edit_mobile_marginLeft">40dip</dimen>
     <dimen name="pay_person_login_pay_count_tip_h">60dip</dimen>
-    <dimen name="pay_person_login_pay_identifyCodeBtn_h">75dip</dimen>
+    <dimen name="pay_person_login_pay_identifyCodeBtn_h">72dip</dimen>
     <dimen name="pay_person_login_textview_textsize">35sp</dimen>
     <dimen name="pay_person_login_pay_btn_submit_ml">335dip</dimen>
     <dimen name="pay_person_login_textview_w">185dip</dimen>
-    <dimen name="pay_person_login_pay_identifyCodeBtn_ml">40dip</dimen>
-    <dimen name="pay_person_login_pay_edit_mobile_w">500dip</dimen>
-    <dimen name="pay_person_login_pay_btn_submit_mt">100dip</dimen>
+    <dimen name="pay_person_login_pay_identifyCodeBtn_ml">15dp</dimen>
+    <dimen name="pay_person_login_pay_edit_mobile_w">442dip</dimen>
+    <dimen name="pay_person_login_pay_btn_submit_mt">5dp</dimen>
     <dimen name="textsize_30sp">30sp</dimen>
-    <dimen name="pay_person_login_linearLayout2_mt">20dip</dimen>
-    <dimen name="pay_person_login_pay_btn_submit_w">300dip</dimen>
+    <dimen name="pay_person_login_linearLayout2_mt">3dip</dimen>
+    <dimen name="pay_person_login_pay_btn_submit_w">274dip</dimen>
 
     <dimen name="pay_paymentselect_marginright">30dp</dimen>
     <dimen name="pay_paymentselect_hseparate_height">2dp</dimen>
@@ -129,18 +129,28 @@
     <dimen name="payment_divider_margin">10dp</dimen>
     <dimen name="payment_type_btn_width">260dp</dimen>
     <dimen name="pay_person_login_linearLayout_w">950dp</dimen>
-    <dimen name="pay_count_tip_mt">10dp</dimen>
+    <dimen name="pay_count_tip_mt">-15dp</dimen>
     <dimen name="qrcode_width">555dp</dimen>
     <dimen name="qrcode_height">475dp</dimen>
     <dimen name="qrcode_ml">80dp</dimen>
     <dimen name="balance_layout_ml">300dp</dimen>
     <dimen name="card_input_ml">50dp</dimen>
     <dimen name="pay_channel_weixin_width">380dp</dimen>
-    <dimen name="login_edit_ml">30dp</dimen>
-    <dimen name="login_edit_h">80dp</dimen>
+    <dimen name="login_edit_ml">332dp</dimen>
+    <dimen name="identify_edit_ml">110dp</dimen>
+    <dimen name="login_edit_h">66dp</dimen>
     <dimen name="login_tip_mt">30dp</dimen>
     <dimen name="username_mr">40dp</dimen>
     <dimen name="shiyuncard_input_widht">900dp</dimen>
     <dimen name="pay_error_tip_mt">20dp</dimen>
+    <dimen name="login_linearLayout_mt">302dp</dimen>
+    <dimen name="pay_person_login_textview_ml">42dp</dimen>
+    <dimen name="pay_count_tip_ml">575dp</dimen>
+    <dimen name="pay_edit_mobile_ml">15dp</dimen>
+    <dimen name="identify_text_ml">62dp</dimen>
+    <dimen name="pay_edit_identifycode_ml">17dp</dimen>
+    <dimen name="pay_btn_submit_tip_ml">579dp</dimen>
+    <dimen name="pay_btn_submit_ml">47dp</dimen>
+    <dimen name="pay_identifyCodeBtn_mt">4dp</dimen>
 
 </resources>
