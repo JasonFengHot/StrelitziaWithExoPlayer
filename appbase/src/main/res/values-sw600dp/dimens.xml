@@ -369,7 +369,7 @@
 <dimen name="listportait_Hgride_verSpace">2.78dp</dimen>
 <dimen name="listportait_Hgride_filterverSpace">2.22dp</dimen>
 <dimen name="filter_Hgride_rowH">220.56dp</dimen>
-<dimen name="listview_hgride_horSpace">64.44dp</dimen>
+<dimen name="listview_hgride_horSpace">64.72dp</dimen>
 <dimen name="listview_hgride_rowHeight">150.56dp</dimen>
 <dimen name="listview_Hgride_MT">4.44dp</dimen>
 <dimen name="listview_Hgride_PT">7.78dp</dimen>
@@ -452,11 +452,11 @@
 <dimen name="loginfragment_textSize">13.33sp</dimen>
 <dimen name="purchaseFragment_item_paddingLeft">1.11dp</dimen>
 <dimen name="purchaseFragment_item_minHeight">111.67dp</dimen>
-<dimen name="purchaseFragment_item_image_width">186.67dp</dimen>
+<dimen name="purchaseFragment_item_image_width">186.11dp</dimen>
 <dimen name="purchaseFragment_item_image_height">105.00dp</dimen>
 <dimen name="purchaseFragment_item_order_title_marginTop">11.11dp</dimen>
 <dimen name="purchaseFragment_item_order_extra_marginLeft">22.22dp</dimen>
-<dimen name="purchaseFragment_item_marginLeft">49.44dp</dimen>
+<dimen name="purchaseFragment_item_marginLeft">14.44dp</dimen>
 <dimen name="purchaseFragment_item_icon_marginTop">3.33dp</dimen>
 <dimen name="locationFragment_areaPop_xOffset">111.11dp</dimen>
 <dimen name="locationFragment_areaPop_yOffset">86.11dp</dimen>

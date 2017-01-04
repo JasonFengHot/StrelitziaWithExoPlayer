@@ -123,6 +123,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                 isNoData = true;
                doFilterRequest();
             }
+        mHGridView.portraitflg=isPortrait;
         mHGridView.leftbtn = left_shadow;
         mHGridView.rightbtn = right_shadow;
         mHGridView.setOnItemClickListener(this);

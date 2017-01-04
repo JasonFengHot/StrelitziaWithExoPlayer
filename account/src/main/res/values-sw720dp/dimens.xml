@@ -1,23 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<dimen name="page_min_width">800.00dp</dimen>
-<dimen name="login_edit_ml">73.33dp</dimen>
-<dimen name="pay_person_login_pay_identifyCodeBtn_w">133.33dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_h">50.00dip</dimen>
-<dimen name="pay_person_login_linearLayout_h">76.67dp</dimen>
-<dimen name="pay_person_login_pay_edit_mobile_textsize">20.00sp</dimen>
-<dimen name="page_min_height">400.00dp</dimen>
-<dimen name="pay_person_login_pay_count_tip_h">40.00dip</dimen>
-<dimen name="pay_count_tip_mt">6.67dp</dimen>
-<dimen name="pay_person_login_pay_identifyCodeBtn_h">50.00dip</dimen>
-<dimen name="pay_person_login_textview_textsize">23.33sp</dimen>
-<dimen name="pay_person_login_textview_w">123.33dip</dimen>
-<dimen name="pay_person_login_pay_identifyCodeBtn_ml">26.67dip</dimen>
-<dimen name="pay_person_login_pay_edit_mobile_w">333.33dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_mt">66.67dip</dimen>
-<dimen name="pay_person_login_linearLayout_w">633.33dp</dimen>
-<dimen name="pay_person_login_linearLayout2_mt">13.33dip</dimen>
-<dimen name="pay_person_login_pay_btn_submit_w">200.00dip</dimen>
-<dimen name="login_edit_h">53.33dp</dimen>
-<dimen name="h3_size">15.50dp</dimen>
 </resources>

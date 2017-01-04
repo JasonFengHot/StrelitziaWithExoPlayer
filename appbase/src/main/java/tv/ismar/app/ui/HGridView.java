@@ -161,7 +161,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 	public int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
     public int pageCount = 12;
 	private boolean isGotoGrid = false;
-
+	public boolean portraitflg=true;
 	public void setGotoGrid(boolean gotoGrid){
 		isGotoGrid = gotoGrid;
 	}
@@ -1722,8 +1722,15 @@ public class HGridView extends AdapterView<HGridAdapter> {
 	// }
 
 	public void offsetChildrenLeftAndRight(int offset) {
-		if(offset < 0)
-			offset -=18;
+		Log.i("H/L",portraitflg+"");
+		if(offset < 0){
+			if(portraitflg){
+				offset -=18;
+			}else{
+				offset -=1;
+			}
+		}
+
 		final int count = getChildCount();
 		for (int i = 0; i < count; i++) {
 			final View v = getChildAt(i);
