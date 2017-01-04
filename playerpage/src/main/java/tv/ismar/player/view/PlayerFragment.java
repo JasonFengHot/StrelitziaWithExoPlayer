@@ -151,6 +151,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean isExit = false;// 播放器退出release需要时间，此时的UI事件会导致ANR
     private boolean closePopup = false;// 网速由不正常到正常时判断，关闭弹窗
     private boolean isFinishing;
+    private boolean isClickBufferLongSwitch;
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -1112,6 +1113,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //            // 视云预加载
 //            playerMode = PlayerBuilder.MODE_PRELOAD_PLAYER;
 //        } else {
+        PlayerBuilder.getInstance().release();
         String iqiyi = mClipEntity.getIqiyi_4_0();
         if (Utils.isEmptyText(iqiyi)) {
             // 片源为视云
@@ -1371,8 +1373,21 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 if (subItem.getPk() == id) {
                     mCurrentPosition = 0;
                     timerStop();
-                    mIsmartvPlayer.stopPlayBack();
-                    mIsmartvPlayer = null;
+                    if (isClickBufferLongSwitch && ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName()))) {
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                mIsmartvPlayer.bufferOnSharpS3Release();
+                                mIsmartvPlayer.stopPlayBack();
+                                mIsmartvPlayer = null;
+                                isClickBufferLongSwitch = false;
+                            }
+                        }.start();
+                    } else {
+                        mIsmartvPlayer.stopPlayBack();
+                        mIsmartvPlayer = null;
+                    }
+
                     ItemEntity.Clip clip = subItem.getClip();
                     String sign = "";
                     String code = "1";
@@ -1621,6 +1636,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         }
                         if (!isExit) {
                             if (!popDialog.isConfirmClick) {
+                                isClickBufferLongSwitch = true;
                                 if (!isMenuShow()) {
                                     if (isPanelShow()) {
                                         hidePanel();
@@ -1639,8 +1655,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                                 // 重新加载，先存历史记录
                                 mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
                                 addHistory(mCurrentPosition, false);
-                                mIsmartvPlayer.stopPlayBack();
-                                mIsmartvPlayer = null;
+                                if ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName())) {
+                                    new Thread() {
+                                        @Override
+                                        public void run() {
+                                            mIsmartvPlayer.bufferOnSharpS3Release();
+                                            mIsmartvPlayer.stopPlayBack();
+                                            mIsmartvPlayer = null;
+                                        }
+                                    }.start();
+                                } else {
+                                    mIsmartvPlayer.stopPlayBack();
+                                    mIsmartvPlayer = null;
+                                }
                                 String sign = "";
                                 String code = "1";
                                 showBuffer(PlAYSTART + mItemEntity.getTitle());
