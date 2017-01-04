@@ -1435,8 +1435,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.d(TAG, "showBuffer:" + msg);
         if (mIsmartvPlayer != null) {// 只要显示buffer就开始计时
             if(count > 0){
+                if(mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)){
+                    mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
+                }
                 mHandler.sendEmptyMessage(MSG_SHOW_BUFFERING_LONG);
             } else {
+                if(mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)){
+                    mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
+                }
                 mHandler.sendEmptyMessageDelayed(MSG_SHOW_BUFFERING_LONG, 50 * 1000);
             }
         }
