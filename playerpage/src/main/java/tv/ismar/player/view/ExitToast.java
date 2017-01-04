@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class ExitToast {
         TextView text = (TextView) layout.findViewById(R.id.exit_text);
         text.setText(msp);
         toast = new Toast(context);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 64);
         toast.setView(layout);
 
         mDuration = duration;
