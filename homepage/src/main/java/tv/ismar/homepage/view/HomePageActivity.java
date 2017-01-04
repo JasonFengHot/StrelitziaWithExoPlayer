@@ -1,7 +1,5 @@
 package tv.ismar.homepage.view;
 
-import cn.ismartv.truetime.TrueTime;
-
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -35,7 +33,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.blankj.utilcode.utils.StringUtils;
 import com.konka.android.media.KKMediaPlayer;
@@ -54,11 +51,11 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.ismartv.truetime.TrueTime;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
-import tv.ismar.account.core.http.HttpService;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.ad.AdsUpdateService;
@@ -82,7 +79,6 @@ import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import tv.ismar.app.util.SystemFileUtil;
-import tv.ismar.app.util.Utils;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.adapter.ChannelRecyclerAdapter;
@@ -121,6 +117,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
      */
     private static final int MSG_AD_COUNTDOWN = 0x01;
     private static final int MSG_FETCH_CHANNELS = 0x02;
+    private static final int MSG_SHOW_NO_NET = 0x03;
+    private static final int MSG_SHOW_NET_ERROR = 0x04;
     private DaisyVideoView home_ad_video;
     private ImageView home_ad_pic;
     private Button home_ad_timer;
@@ -425,7 +423,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 SystemFileUtil.getSdCardAvalible(this),
                 IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
                 SimpleRestClient.app, this.getPackageName());
-        if(fromPage != null){
+        if (fromPage != null) {
             callaPlay.launcher_vod_click(
                     "section", -1, homepage_template, -1
             );
@@ -732,6 +730,23 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                     @Override
                     public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (isPlayingStartAd) {
+                            if (!NetworkUtils.isConnected(HomePageActivity.this) && !NetworkUtils.isWifi(HomePageActivity.this)) {
+                                mHandler.sendEmptyMessageDelayed(MSG_SHOW_NO_NET, totalAdsMills);
+                            } else {
+                                mHandler.sendEmptyMessageDelayed(MSG_SHOW_NET_ERROR, totalAdsMills);
+                            }
+                        } else {
+                            if (!NetworkUtils.isConnected(HomePageActivity.this) && !NetworkUtils.isWifi(HomePageActivity.this)) {
+                                showNoNetConnectDialog();
+                            } else {
+                                showNetWorkErrorDialog(e);
+                            }
+                        }
                     }
 
                     @Override
@@ -1176,8 +1191,14 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (channelsSub != null && channelsSub.isUnsubscribed()) {
             channelsSub.unsubscribe();
         }
-        if(mHandler.hasMessages(MSG_FETCH_CHANNELS)){
+        if (mHandler.hasMessages(MSG_FETCH_CHANNELS)) {
             mHandler.removeMessages(MSG_FETCH_CHANNELS);
+        }
+        if (mHandler.hasMessages(MSG_SHOW_NO_NET)) {
+            mHandler.removeMessages(MSG_SHOW_NO_NET);
+        }
+        if (mHandler.hasMessages(MSG_SHOW_NET_ERROR)) {
+            mHandler.removeMessages(MSG_SHOW_NET_ERROR);
         }
         if (!isneedpause) {
             return;
@@ -1443,10 +1464,16 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                     break;
                 case MSG_FETCH_CHANNELS:
                     fetchChannels();
-                    if(mHandler.hasMessages(MSG_FETCH_CHANNELS)){
+                    if (mHandler.hasMessages(MSG_FETCH_CHANNELS)) {
                         mHandler.removeMessages(MSG_FETCH_CHANNELS);
                     }
                     break;
+                case MSG_SHOW_NO_NET:
+                    showNoNetConnectDialog();
+                    break;
+                case MSG_SHOW_NET_ERROR:
+                    break;
+
             }
         }
     };
