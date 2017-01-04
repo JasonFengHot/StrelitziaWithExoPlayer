@@ -314,6 +314,8 @@ public class DaisyVideoView extends SurfaceView {
             player.release();
             player = null;
 
+            PlayerBuilder.getInstance().release();
+
         }
     }
 

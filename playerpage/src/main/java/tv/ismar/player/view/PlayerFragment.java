@@ -420,6 +420,16 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         super.onStop();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mIsmartvPlayer != null) {
+            mIsmartvPlayer.stopPlayBack();
+            mIsmartvPlayer = null;
+
+        }
+    }
+
     public void buyVipOnShowAd() {
         if (mIsmartvPlayer == null) {
             return;
@@ -1588,6 +1598,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         boolean hideCancel = false;
         switch (popType) {
             case POP_TYPE_BUFFERING_LONG:
+                timerStop();
                 message = getString(R.string.player_buffering_long);
                 cancelText = getString(R.string.player_pop_switch_quality);
                 break;
@@ -1967,7 +1978,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     if (needBufferPosition == 0) {
                         needBufferPosition = mIsmartvPlayer.getCurrentPosition();
                     }
-                    if(count > 2){
+                    if (count > 2) {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
@@ -1975,8 +1986,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                             }
                         });
                     }
-                } else if(!mIsmartvPlayer.isDownloadError()) {
-                    if(isBufferShow() && count > 0){
+                } else if (!mIsmartvPlayer.isDownloadError()) {
+                    if (isBufferShow() && count > 0) {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
