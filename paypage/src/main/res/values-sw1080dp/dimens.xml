@@ -136,21 +136,21 @@
     <dimen name="balance_layout_ml">300dp</dimen>
     <dimen name="card_input_ml">50dp</dimen>
     <dimen name="pay_channel_weixin_width">380dp</dimen>
-    <dimen name="login_edit_ml">332dp</dimen>
-    <dimen name="identify_edit_ml">110dp</dimen>
+    <dimen name="login_edit_ml">315dp</dimen>
+    <dimen name="identify_edit_ml">92dp</dimen>
     <dimen name="login_edit_h">66dp</dimen>
     <dimen name="login_tip_mt">30dp</dimen>
     <dimen name="username_mr">40dp</dimen>
     <dimen name="shiyuncard_input_widht">900dp</dimen>
     <dimen name="pay_error_tip_mt">20dp</dimen>
-    <dimen name="login_linearLayout_mt">302dp</dimen>
+    <dimen name="login_linearLayout_mt">276dp</dimen>
     <dimen name="pay_person_login_textview_ml">42dp</dimen>
-    <dimen name="pay_count_tip_ml">575dp</dimen>
+    <dimen name="pay_count_tip_ml">557dp</dimen>
     <dimen name="pay_edit_mobile_ml">15dp</dimen>
     <dimen name="identify_text_ml">62dp</dimen>
     <dimen name="pay_edit_identifycode_ml">17dp</dimen>
-    <dimen name="pay_btn_submit_tip_ml">579dp</dimen>
-    <dimen name="pay_btn_submit_ml">47dp</dimen>
+    <dimen name="pay_btn_submit_tip_ml">561dp</dimen>
+    <dimen name="pay_btn_submit_ml">22dp</dimen>
     <dimen name="pay_identifyCodeBtn_mt">4dp</dimen>
 
 
