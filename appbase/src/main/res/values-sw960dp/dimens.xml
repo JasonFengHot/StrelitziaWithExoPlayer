@@ -452,11 +452,11 @@
 <dimen name="loginfragment_textSize">21.33sp</dimen>
 <dimen name="purchaseFragment_item_paddingLeft">1.78dp</dimen>
 <dimen name="purchaseFragment_item_minHeight">178.67dp</dimen>
-<dimen name="purchaseFragment_item_image_width">298.67dp</dimen>
+<dimen name="purchaseFragment_item_image_width">297.78dp</dimen>
 <dimen name="purchaseFragment_item_image_height">168.00dp</dimen>
 <dimen name="purchaseFragment_item_order_title_marginTop">17.78dp</dimen>
 <dimen name="purchaseFragment_item_order_extra_marginLeft">35.56dp</dimen>
-<dimen name="purchaseFragment_item_marginLeft">79.11dp</dimen>
+<dimen name="purchaseFragment_item_marginLeft">23.11dp</dimen>
 <dimen name="purchaseFragment_item_icon_marginTop">5.33dp</dimen>
 <dimen name="locationFragment_areaPop_xOffset">177.78dp</dimen>
 <dimen name="locationFragment_areaPop_yOffset">137.78dp</dimen>
