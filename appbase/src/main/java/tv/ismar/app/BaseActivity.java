@@ -101,12 +101,13 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        activityIsAlive = true;
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         registerUpdateReceiver();
         registerNoNetReceiver();
-        activityIsAlive = true;
+
 
         //checkout update
         if (isCheckoutUpdate) {
@@ -375,9 +376,11 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
 
+
             if (!isExsit) {
                 updateInfo.push(bundle);
-                new Handler().postDelayed(new Runnable() {
+                updateAgainHandler = new Handler();
+                updateAgainRunnable = (new Runnable() {
                     @Override
                     public void run() {
                         if (updatePopupWindow == null || !updatePopupWindow.isShowing()) {
@@ -386,7 +389,8 @@ public class BaseActivity extends AppCompatActivity {
                             }
                         }
                     }
-                }, 2000);
+                });
+                updateAgainHandler.postDelayed(updateAgainRunnable, 2000);
             }
         }
     };
