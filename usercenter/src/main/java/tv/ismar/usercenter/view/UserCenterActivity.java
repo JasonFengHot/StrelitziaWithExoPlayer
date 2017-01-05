@@ -683,9 +683,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
         history.is_continue = true;
         if (IsmartvActivator.getInstance().isLogin())
-            DaisyUtils.getHistoryManager(this).addHistory(history, "yes");
+            DaisyUtils.getHistoryManager(this).addHistory(history, "yes", -1);
         else
-            DaisyUtils.getHistoryManager(this).addHistory(history, "no");
+            DaisyUtils.getHistoryManager(this).addHistory(history, "no", -1);
 
     }
 }

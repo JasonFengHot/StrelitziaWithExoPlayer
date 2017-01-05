@@ -342,6 +342,7 @@ public class DaisyVideoView extends SurfaceView {
                     player.seekTo(msec);
                 }
             }.start();
+            mIsmartvPlayer.mBufferStartTime = TrueTime.now().getTime();
             mSeekWhenPrepared = 0;
             mIsmartvPlayer.logVideoSeek();
         } else {
