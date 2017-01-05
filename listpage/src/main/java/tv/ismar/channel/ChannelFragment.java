@@ -226,6 +226,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 				// TODO Auto-generated method stub
         mHGridView.leftbtn = left_shadow;
         mHGridView.rightbtn = right_shadow;
+        mHGridView.portraitflg=isPortrait;
         if(left_shadow!=null&&right_shadow!=null){
             left_shadow.setOnClickListener(new View.OnClickListener() {
                 @Override
