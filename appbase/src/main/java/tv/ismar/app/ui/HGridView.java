@@ -1722,7 +1722,6 @@ public class HGridView extends AdapterView<HGridAdapter> {
 	// }
 
 	public void offsetChildrenLeftAndRight(int offset) {
-		Log.i("H/L",portraitflg+"");
 		if(offset < 0){
 			if(portraitflg){
 				offset -=18;
