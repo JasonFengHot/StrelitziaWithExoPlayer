@@ -185,6 +185,9 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             if (i == 5) {
                 frameLayout.setNextFocusDownId(frameLayout.getId());
             }
+            if (i == 2){
+                frameLayout.setNextFocusRightId(R.id.pay_edit_mobile);
+            }
             indicatorView.add(frameLayout);
             userCenterIndicatorLayout.addView(frameLayout);
         }
