@@ -54,7 +54,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
         setContentView(R.layout.activity_newvip_pay);
 
         ImageView pay_back = (ImageView) findViewById(R.id.pay_back);
-        Picasso.with(this).load(R.drawable.newvip_bg).fit().centerCrop().into(pay_back);
+        Picasso.with(this).load(R.drawable.newvip_bg).fit().centerCrop().fit().into(pay_back);
         initViews();
         Intent intent = getIntent();
         mItemId = intent.getIntExtra("item_id", -1);
@@ -114,10 +114,10 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
             TextView price = (TextView) vipItem.findViewById(R.id.price);
             price.setText(vip.getPrice() + "元/" + vip.getDuration() + "天");
             if (TextUtils.isEmpty(vip.getVertical_url())) {
-                Picasso.with(this).load(R.drawable.error_ver).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(imageView);
+                Picasso.with(this).load(R.drawable.error_ver).fit().into(imageView);
             } else {
 
-                Picasso.with(this).load(vip.getVertical_url()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).error(R.drawable.error_ver).into(imageView);
+                Picasso.with(this).load(vip.getVertical_url()).error(R.drawable.error_ver).fit().into(imageView);
             }
             vipItem.setOnHoverListener(this);
             vipItem.setOnFocusChangeListener(this);
@@ -136,10 +136,10 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
             RelativeLayout item = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.item_newvip_pay, null);
             ImageView imageView = (ImageView) item.findViewById(R.id.item_newvip_pay_img);
             if (TextUtils.isEmpty(expenseItem.getVertical_url())) {
-                Picasso.with(this).load(R.drawable.error_ver).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(imageView);
+                Picasso.with(this).load(R.drawable.error_ver).fit().fit().into(imageView);
             } else {
 
-                Picasso.with(this).load(expenseItem.getVertical_url()).error(R.drawable.error_ver).into(imageView);
+                Picasso.with(this).load(expenseItem.getVertical_url()).error(R.drawable.error_ver).fit().into(imageView);
             }
             TextView title = (TextView) item.findViewById(R.id.title);
             title.setText(expenseItem.getTitle());
@@ -161,9 +161,9 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
             RelativeLayout item = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.item_newvip_pay, null);
             ImageView imageView = (ImageView) item.findViewById(R.id.item_newvip_pay_img);
             if (TextUtils.isEmpty(newVipPackage.getVertical_url())) {
-                Picasso.with(this).load(R.drawable.error_ver).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(imageView);
+                Picasso.with(this).load(R.drawable.error_ver).fit().into(imageView);
             } else {
-                Picasso.with(this).load(newVipPackage.getVertical_url()).error(R.drawable.error_ver).into(imageView);
+                Picasso.with(this).load(newVipPackage.getVertical_url()).error(R.drawable.error_ver).fit().into(imageView);
             }
             TextView title = (TextView) item.findViewById(R.id.title);
             title.setText(newVipPackage.getTitle());

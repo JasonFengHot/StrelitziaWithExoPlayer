@@ -84,14 +84,15 @@
 <dimen name="product_recycler_item_spacing">-3.56dp</dimen>
 <dimen name="product_item_mt">-5.33dp</dimen>
 <dimen name="userinfo_layout_pb">53.33dp</dimen>
-<dimen name="user_info_other_item_vertical_spacing">31.11dp</dimen>
+<dimen name="user_info_other_item_vertical_spacing_device">32.89dp</dimen>
+<dimen name="user_info_other_item_vertical_spacing_balance">30.22dp</dimen>
 <dimen name="user_center_logout_width">243.56dp</dimen>
 
 <dimen name="user_info_item_vertical_spacing_0">0.00dp</dimen>
 <dimen name="usercenter_info_layout_margin_right">19.56dp</dimen>
 <dimen name="charge_btn_margin_left">55.11dp</dimen>
 <dimen name="charge_btn_width">143.11dp</dimen>
-<dimen name="charge_btn_height">46.22dp</dimen>
+<dimen name="charge_btn_height">45.33dp</dimen>
 <dimen name="usercenter_line_spacing">35.56dp</dimen>
 <dimen name="usercenter_help_introduce_w">675.56dp</dimen>
 <dimen name="usercenter_help_introduce_text_w">480.00dp</dimen>
@@ -106,13 +107,13 @@
 <dimen name="privilege_item_title_txt_W">533.33dp</dimen>
 <dimen name="privilege_item_title_txt_PL">44.44dip</dimen>
 <dimen name="privilege_recycler_ml">44.44dp</dimen>
-<dimen name="privilege_min_h">44.44dp</dimen>
+<dimen name="privilege_min_h">45.33dp</dimen>
 <dimen name="privilege_item_date_w">368.89dp</dimen>
 <dimen name="privilege_item_date_ml">71.11dp</dimen>
-<dimen name="privilege_btn_w">142.22dp</dimen>
+<dimen name="privilege_btn_w">143.11dp</dimen>
 <dimen name="privilege_item_btn_ml">6.22dp</dimen>
 
-<dimen name="privilege_item_margin_bottom">22.22dp</dimen>
+<dimen name="privilege_item_margin_bottom">21.33dp</dimen>
 <dimen name="usercenter_purchase_history_ml">59.56dp</dimen>
 
 
@@ -137,11 +138,11 @@
 <dimen name="weather_text_mt">8.89dp</dimen>
 <dimen name="weather_icon_mt">10.67dp</dimen>
 
-<dimen name="location_confirm_btn_ml">39.11dp</dimen>
-<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">99.56dp</dimen>
+<dimen name="location_confirm_btn_ml">38.22dp</dimen>
+<dimen name="locatoinFragment1_areaPop_cancelBtn_marginLeft">101.33dp</dimen>
 <dimen name="exit_account_mt">1.78dp</dimen>
-<dimen name="privilege_layout_mt">22.22dp</dimen>
-<dimen name="charge_money_mt">-0.89dp</dimen>
+<dimen name="privilege_layout_mt">20.44dp</dimen>
+<dimen name="charge_money_mt">-1.78dp</dimen>
 <dimen name="help_center_text_ml">22.22dp</dimen>
 <dimen name="helpcenter_hotline_mt">82.67dp</dimen>
 <dimen name="helpcenter_qq_mt">25.78dp</dimen>
@@ -153,4 +154,6 @@
 <dimen name="remain_money_value_w">222.22dp</dimen>
 <dimen name="privilege_recycler_mt">-9.78dp</dimen>
 <dimen name="privilege_txt">8.89dp</dimen>
+<dimen name="locationFragment_areaPop_ml">0.89dp</dimen>
+<dimen name="privilege_recycler_layout_mt">0.89dp</dimen>
 </resources>
