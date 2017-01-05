@@ -708,14 +708,14 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     @Override
     public void onBackPressed() {
-        if (countAdTime > 0) {
-            if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
-                mHandler.removeMessages(MSG_AD_COUNTDOWN);
+            if (countAdTime > 0) {
+                if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
+                    mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                }
+                finish();
+            } else {
+                showExitPopup(getRootView());
             }
-            finish();
-        } else {
-            showExitPopup(getRootView());
-        }
     }
 
     /**

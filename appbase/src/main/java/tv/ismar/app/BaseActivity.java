@@ -33,6 +33,7 @@ import tv.ismar.app.widget.ItemOffLinePopWindow;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.NetErrorPopWindow;
+import tv.ismar.app.widget.NoNetConnectDialog;
 import tv.ismar.app.widget.NoNetConnectWindow;
 import tv.ismar.app.widget.NoNetModuleMessagePop;
 import tv.ismar.app.widget.UpdatePopupWindow;
@@ -50,7 +51,8 @@ public class BaseActivity extends AppCompatActivity {
     private ModuleMessagePopWindow netErrorPopWindow;
     private ModuleMessagePopWindow expireAccessTokenPop;
     private ModuleMessagePopWindow itemOffLinePop;
-    private NoNetModuleMessagePop noNetConnectWindow;
+    public NoNetModuleMessagePop noNetConnectWindow;
+    private NoNetConnectDialog dialog;
     public SkyService mSkyService;
     public SkyService mWeatherSkyService;
     public SkyService mWxApiService;
@@ -236,30 +238,51 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showNoNetConnectDialog() {
         Log.i("onNoNet", "showNet!!!");
-        noNetConnectWindow = new NoNetConnectWindow(this);
-        noNetConnectWindow.setFirstMessage(getString(R.string.no_connectNet));
-        noNetConnectWindow.setConfirmBtn(getString(R.string.setting_network));
-        noNetConnectWindow.setCancelBtn(getString(R.string.exit_app));
-        noNetConnectWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
-                    @Override
-                    public void confirmClick(View view) {
-                        noNetConnectWindow.dismiss();
-                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(intent);
-
-                    }
-                },
-                new ModuleMessagePopWindow.CancelListener() {
-                    @Override
-                    public void cancelClick(View view) {
-                        noNetConnectWindow.dismiss();
-                        Intent intent = new Intent();
-                        intent.setAction(NO_NET_CONNECT_ACTION);
-                        sendBroadcast(intent);
-                    }
-                });
+//        noNetConnectWindow = new NoNetConnectWindow(this);
+//        noNetConnectWindow.setFirstMessage(getString(R.string.no_connectNet));
+//        noNetConnectWindow.setConfirmBtn(getString(R.string.setting_network));
+//        noNetConnectWindow.setCancelBtn(getString(R.string.exit_app));
+//        noNetConnectWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
+//                    @Override
+//                    public void confirmClick(View view) {
+//                        noNetConnectWindow.dismiss();
+//                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
+//                        startActivity(intent);
+//
+//                    }
+//                },
+//                new ModuleMessagePopWindow.CancelListener() {
+//                    @Override
+//                    public void cancelClick(View view) {
+//                        noNetConnectWindow.dismiss();
+//                        Intent intent = new Intent();
+//                        intent.setAction(NO_NET_CONNECT_ACTION);
+//                        sendBroadcast(intent);
+//                    }
+//                });
+        dialog=new NoNetConnectDialog(this,R.style.NoNetDialog);
+        dialog.setFirstMessage(getString(R.string.no_connectNet));
+        dialog.setConfirmBtn(getString(R.string.setting_network));
+        dialog.setCancelBtn(getString(R.string.exit_app));
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.keyListen(new ModuleMessagePopWindow.ConfirmListener() {
+            @Override
+            public void confirmClick(View view) {
+                dialog.dismiss();
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                startActivity(intent);
+            }
+        }, new ModuleMessagePopWindow.CancelListener() {
+            @Override
+            public void cancelClick(View view) {
+                dialog.dismiss();
+                Intent intent = new Intent();
+                intent.setAction(NO_NET_CONNECT_ACTION);
+                sendBroadcast(intent);
+            }
+        });
+        dialog.show();
     }
-
     public boolean isshowNetWorkErrorDialog() {
         return netErrorPopWindow != null && netErrorPopWindow.isShowing();
     }

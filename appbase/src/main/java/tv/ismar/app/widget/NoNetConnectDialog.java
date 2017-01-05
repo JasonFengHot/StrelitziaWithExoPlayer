@@ -1,25 +1,23 @@
 package tv.ismar.app.widget;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tv.ismar.app.R;
 
 /**
- * Created by liucan on 2016/12/19.
+ * Created by liucan on 2017/1/5.
  */
 
-public class NoNetModuleMessagePop extends PopupWindow implements View.OnClickListener{
+public class NoNetConnectDialog extends Dialog implements View.OnClickListener{
     private Button confirmBtn;
     private Button cancelBtn;
     private TextView firstMessage;
@@ -27,34 +25,16 @@ public class NoNetModuleMessagePop extends PopupWindow implements View.OnClickLi
     private ModuleMessagePopWindow.ConfirmListener confirmListener;
     private ModuleMessagePopWindow.CancelListener cancleListener;
     public boolean isConfirmClick = false;
-
     private Context mContext;
+    private int height;
 
-    public interface CancelListener {
-        void cancelClick(View view);
-    }
-
-    public interface ConfirmListener {
-        void confirmClick(View view);
-    }
-
-    int height;
-
-    public NoNetModuleMessagePop(){
-
-    }
-
-    public NoNetModuleMessagePop(Context context) {
+    public NoNetConnectDialog(Context context, int themeResId) {
+        super(context, themeResId);
         mContext = context;
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        int screenWidth = wm.getDefaultDisplay().getWidth();
-        int screenHeight = wm.getDefaultDisplay().getHeight();
 
         int width = (int) (context.getResources().getDimension(R.dimen.module_pop_width));
         height = (int) (context.getResources().getDimension(R.dimen.module_pop_height));
-
-        setWidth(screenWidth);
-        setHeight(screenHeight);
 
         View contentView = LayoutInflater.from(context).inflate(R.layout.module_popup_message, null);
         contentView.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.pop_bg_drawable));
@@ -90,56 +70,8 @@ public class NoNetModuleMessagePop extends PopupWindow implements View.OnClickLi
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
         relativeLayout.addView(contentView, layoutParams);
-
-        setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.pop_bg_drawable));
-        setContentView(relativeLayout);
-        setFocusable(true);
-
+        setContentView(relativeLayout,layoutParams);
     }
-
-
-    public void setBackgroundRes(int resId) {
-        setBackgroundDrawable(mContext.getResources().getDrawable(resId));
-    }
-
-    public void setFirstMessage(int messageId) {
-        firstMessage.setText(messageId);
-    }
-
-    public void setFirstMessage(String message) {
-        firstMessage.setText(message);
-    }
-
-    public void setSecondMessage(int messageId) {
-        height = ((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
-        secondMessage.setVisibility(View.VISIBLE);
-        secondMessage.setText(messageId);
-    }
-
-    public void setConfirmBtn(String text) {
-        confirmBtn.setText(text);
-    }
-
-    public void setCancelBtn(String text) {
-        cancelBtn.setText(text);
-    }
-
-    public void setSecondMessage(String message) {
-        height = ((int) (mContext.getResources().getDimension(R.dimen.module_pop_double_line_height)));
-        secondMessage.setVisibility(View.VISIBLE);
-        secondMessage.setText(message);
-    }
-
-    public void hideCancelBtn() {
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                mContext.getResources().getDimensionPixelSize(R.dimen.pop_btn_width),
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        lp.rightMargin = 0;
-        confirmBtn.setLayoutParams(lp);
-        cancelBtn.setVisibility(View.GONE);
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -160,10 +92,30 @@ public class NoNetModuleMessagePop extends PopupWindow implements View.OnClickLi
         }
     }
 
+    public interface CancelListener {
+        void cancelClick(View view);
+    }
 
+    public interface ConfirmListener {
+        void confirmClick(View view);
+    }
 
-    public void showAtLocation(View parent, int gravity, int x, int y, ModuleMessagePopWindow.ConfirmListener confirmListener,
-                               ModuleMessagePopWindow.CancelListener cancleListener) {
+    public void setConfirmBtn(String text) {
+        confirmBtn.setText(text);
+    }
+
+    public void setCancelBtn(String text) {
+        cancelBtn.setText(text);
+    }
+    public void setFirstMessage(String message) {
+        firstMessage.setText(message);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+    public void keyListen(ModuleMessagePopWindow.ConfirmListener confirmListener, ModuleMessagePopWindow.CancelListener cancleListener){
         if (confirmListener == null) {
             confirmBtn.setVisibility(View.GONE);
         }
@@ -174,6 +126,5 @@ public class NoNetModuleMessagePop extends PopupWindow implements View.OnClickLi
         this.confirmListener = confirmListener;
         this.cancleListener = cancleListener;
         isConfirmClick = false;
-        super.showAtLocation(parent, gravity, x, y);
     }
 }
