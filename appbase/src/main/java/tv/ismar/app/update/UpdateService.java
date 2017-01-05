@@ -138,9 +138,28 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                     @Override
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
                         md5Jsons = new CopyOnWriteArrayList<String>();
+                        String title;
+                        String selection =  "title in (";
                         for (VersionInfoV2Entity.ApplicationEntity applicationEntity : versionInfoV2Entity.getUpgrades()) {
+                            title = Md5.md5(new Gson().toJson(applicationEntity));
+                            md5Jsons.add(title);
                             checkUpgrade(applicationEntity);
+                            selection += "?,";
                         }
+                        selection = selection.substring(0, selection.length() -1);
+                        selection += ")";
+
+
+                        final String finalSelection = selection;
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCursorLoader = new CursorLoader(getApplicationContext(), ContentProvider.createUri(DownloadEntity.class, null),
+                                        null, finalSelection, md5Jsons.toArray(new String[]{}), null);
+                                mCursorLoader.registerListener(LOADER_ID_APP_UPDATE, UpdateService.this);
+                                mCursorLoader.startLoading();
+                            }
+                        });
                     }
                 });
     }
@@ -166,22 +185,12 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
         }
 
         Log.i(TAG, "local version code ---> " + installVersionCode);
-        final String title = Md5.md5(new Gson().toJson(applicationEntity));
-        md5Jsons.add(title);
+         String title = Md5.md5(new Gson().toJson(applicationEntity));
+
 
         DownloadEntity download = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
         if (download == null || download.status != DownloadStatus.COMPLETED) {
-            downloadApp(applicationEntity);
-
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    mCursorLoader = new CursorLoader(getApplicationContext(), ContentProvider.createUri(DownloadEntity.class, null),
-                            null, "title = ?", new String[]{title}, null);
-                    mCursorLoader.registerListener(LOADER_ID_APP_UPDATE, UpdateService.this);
-                    mCursorLoader.startLoading();
-                }
-            });
+            postDownload(applicationEntity);
 
         } else {
             final File apkFile = new File(download.savePath);
@@ -225,13 +234,13 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                         if (apkFile.exists()) {
                             apkFile.delete();
                         }
-                        downloadApp(applicationEntity);
+                        postDownload(applicationEntity);
                     }
                 } else {
                     if (apkFile.exists()) {
                         apkFile.delete();
                     }
-                    downloadApp(applicationEntity);
+                    postDownload(applicationEntity);
                 }
             } else {
                 if (apkFile.exists()) {
@@ -291,17 +300,28 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
 //        for (String json : md5Jsons) {
-        data.moveToFirst();
 
-        String title = data.getString(data.getColumnIndex("title"));
-        String status = data.getString(data.getColumnIndex("status"));
-        if (status.equalsIgnoreCase("COMPLETED")) {
-            DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
-            if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
-                VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
-                checkUpgrade(applicationEntity);
+        for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
+            String title = data.getString(data.getColumnIndex("title"));
+            Log.d(TAG, "title: " + title);
+            String status = data.getString(data.getColumnIndex("status"));
+            if (status.equalsIgnoreCase("COMPLETED")) {
+                DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
+                if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
+                    VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
+                    checkUpgrade(applicationEntity);
+                }
             }
         }
 //        }
+    }
+
+    private void postDownload(VersionInfoV2Entity.ApplicationEntity applicationEntity) {
+
+
+        downloadApp(applicationEntity);
+
+
+
     }
 }
