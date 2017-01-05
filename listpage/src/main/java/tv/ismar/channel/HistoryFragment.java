@@ -269,10 +269,10 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		history.is_continue = true;
 		if (IsmartvActivator.getInstance().isLogin())
 			DaisyUtils.getHistoryManager(getActivity()).addHistory(history,
-					"yes");
+					"yes", -1);
 		else
 			DaisyUtils.getHistoryManager(getActivity())
-					.addHistory(history, "no");
+					.addHistory(history, "no", -1);
 
 	}
 

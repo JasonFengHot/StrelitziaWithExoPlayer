@@ -631,9 +631,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsPreview) {
             mIsPreview = false;
             if (mItemEntity.getLiveVideo() && "sport".equals(mItemEntity.getContentModel())) {
+                addHistory(mCurrentPosition, true, true);
                 finishActivity();
             } else {
-                addHistory(mCurrentPosition, false);
+                addHistory(mCurrentPosition, false, true);
                 goOtherPage(EVENT_COMPLETE_BUY);
             }
         } else {
@@ -670,6 +671,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             intent.putExtra("itemJson", itemJson);
             intent.putExtra("source", source);
             startActivity(intent);
+            addHistory(mCurrentPosition, true, true);
             finishActivity();
         }
     }
@@ -761,7 +763,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 // 播放过程中断网判断Start
                 if (mCurrentPosition == mediaPosition && mediaPosition != historyPosition) {
                     if (!NetworkUtils.isConnected(getActivity())) {
-                        addHistory(mCurrentPosition, true);
+                        addHistory(mCurrentPosition, true, false);
                         mIsmartvPlayer.pause();
                         hidePanel();
                         ((BaseActivity) getActivity()).showNoNetConnectDialog();
@@ -1238,9 +1240,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     }
 
-    private void addHistory(int last_position, boolean sendToServer) {
+    private void addHistory(int last_position, boolean sendToServer, boolean isComplete) {
         if (mItemEntity == null || mIsmartvPlayer == null || mIsPlayingAd) {
             return;
+        }
+        int completePosition = -1;
+        if(isComplete){
+            completePosition = mIsmartvPlayer.getDuration();
         }
         Log.i(TAG, "addHistory");
         if (historyManager == null) {
@@ -1270,9 +1276,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             history.sub_url = Utils.getSubItemUrl(subItemPk);
         }
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()))
-            historyManager.addHistory(history, "yes");
+            historyManager.addHistory(history, "yes", completePosition);
         else
-            historyManager.addHistory(history, "no");
+            historyManager.addHistory(history, "no", completePosition);
 
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()) && sendToServer) {
             int offset = last_position;
@@ -1416,7 +1422,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
         } else if (id == MENU_KEFU_ID) {
             mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
-            addHistory(mCurrentPosition, false);
+            addHistory(mCurrentPosition, false, false);
             goOtherPage(EVENT_CLICK_KEFU);
             ret = true;
         } else if (id == MENU_RESTART) {
@@ -1555,9 +1561,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void finishActivity() {
         isExit = true;
         cancelTimer();
-        if (!mIsPlayingAd) {
-            addHistory(mCurrentPosition, true);
-        }
         if (mIsmartvPlayer != null) {
             mIsmartvPlayer.logVideoExit();
         }
@@ -1576,6 +1579,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         removeBufferingLongTime();
         hideBuffer();
         hidePanel();
+        if (!mIsPlayingAd) {
+            addHistory(mCurrentPosition, true, false);
+        }
         finishActivity();
     }
 
@@ -1638,6 +1644,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         if (mIsmartvPlayer != null && (mIsmartvPlayer.getDuration() - mCurrentPosition <= value)) {
                             mCurrentPosition = 0;
                         }
+                        if (!mIsPlayingAd) {
+                            addHistory(mCurrentPosition, true, false);
+                        }
                         finishActivity();
                         break;
                     case POP_TYPE_BUFFERING_LONG:
@@ -1665,7 +1674,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                             } else {
                                 // 重新加载，先存历史记录
                                 mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
-                                addHistory(mCurrentPosition, false);
+                                addHistory(mCurrentPosition, false, false);
                                 if ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName())) {
                                     new Thread() {
                                         @Override

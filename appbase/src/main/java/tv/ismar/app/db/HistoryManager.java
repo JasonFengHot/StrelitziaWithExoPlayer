@@ -17,7 +17,7 @@ public interface HistoryManager {
      *
      * @param history
      */
-    public void addHistory(History history, String isnet);
+    public void addHistory(History history, String isnet, int completePosition);
 
     /**
      * Add a history. Called by player when user exits player.Note that url may be an field of ItemEntity.

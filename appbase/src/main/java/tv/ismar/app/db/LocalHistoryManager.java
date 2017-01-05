@@ -94,7 +94,7 @@ public class LocalHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void addHistory(History history, String isnet) {
+    public void addHistory(History history, String isnet, int completePosition) {
         if (history == null || history.title == null || history.content_model == null || history.url == null) {
             throw new RuntimeException("history or history's field should not be null");
         }
@@ -140,10 +140,11 @@ public class LocalHistoryManager implements HistoryManager {
             cv.put(DBFields.FavoriteTable.PAYTYPE, history.paytype);
             long result = mDBHelper.insert(cv, DBFields.HistroyTable.TABLE_NAME, mTotalEntriesLimit);
             mHistories = mDBHelper.getAllHistories(isnet);
-            if (result >= 0) {
-                new DataCollectionTask().execute(history);
-            }
         }
+        if(completePosition > 0){
+            history.last_position = completePosition;
+        }
+        new DataCollectionTask().execute(history);
     }
 
     @Override
