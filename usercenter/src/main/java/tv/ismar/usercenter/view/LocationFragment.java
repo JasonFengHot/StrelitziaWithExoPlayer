@@ -117,6 +117,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         super.onViewCreated(view, savedInstanceState);
         locationBinding.tmp.setNextFocusLeftId(R.id.usercenter_help);
         locationBinding.getRoot().setNextFocusLeftId(R.id.usercenter_help);
+        createLocationView();
     }
 
     @Override
@@ -131,13 +132,15 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
         Log.d(TAG, "onStart");
     }
 
+
+
     @Override
     public void onResume() {
         super.onResume();
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
         mPresenter.start();
-        createLocationView();
+
 
         HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
         String geoId = hashMap.get("geo_id");
