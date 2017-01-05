@@ -55,7 +55,6 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         @Override
         public boolean handleMessage(Message msg) {
             float result = (float) msg.obj;
-            payErrorTip.setVisibility(View.VISIBLE);
             balanceTv.setText(String.format(getString(R.string.pay_card_balance_title_label), result));
             activity.finish();
             return false;
@@ -170,7 +169,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(activity, "支付失败!", Toast.LENGTH_LONG).show();
+                        payErrorTip.setVisibility(View.VISIBLE);
                     }
 
                     @Override
