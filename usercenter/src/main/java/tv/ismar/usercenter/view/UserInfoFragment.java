@@ -225,6 +225,12 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         LinearLayoutManagerTV linearLayoutManagerTV = new LinearLayoutManagerTV(getContext());
         linearLayoutManagerTV.setFocusSearchFailedListener(this);
         privilegeRecyclerView.setLayoutManager(linearLayoutManagerTV);
+        for(AccountPlayAuthEntity.PlayAuth element:playAuths) {
+            if (element.getAction() == AccountPlayAuthEntity.Action.watch || element.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
+                break;
+            }
+            userinfoBinding.chargeMoney.setNextFocusDownId(R.id.charge_money);
+        }
         PrivilegeAdapter privilegeAdapter = new PrivilegeAdapter(getContext(), playAuths);
         privilegeRecyclerView.setAdapter(privilegeAdapter);
     }
@@ -346,6 +352,9 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         if (focusDirection == View.FOCUS_DOWN) {
             privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_min_h));
         }
+        if (focusDirection == View.FOCUS_UP) {
+            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_min_h) * -1);
+        }
         return null;
     }
 
@@ -410,7 +419,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             holder.mButton.setTag(R.id.usercenter_userinfo, position);
             holder.mButton.setOnHoverListener(UserInfoFragment.this);
             holder.mButton.setOnClickListener(this);
-            if (privileViewIndex == position) {
+            if (privileViewIndex == position && holder.mButton.getVisibility() == View.VISIBLE) {
                 holder.mButton.requestFocusFromTouch();
                 privileViewIndex = -1;
             }

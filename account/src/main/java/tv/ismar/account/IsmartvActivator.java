@@ -492,9 +492,11 @@ public class IsmartvActivator {
     private String generateSn() {
         String mysn;
         mysn = stringFromJNI();
-        mysn = helloMd5(mysn);
+        Log.d(TAG, "stringFromJNI: " + mysn);
         if ("noaddress".equals(mysn)) {
             mysn = Md5.md5(getDeviceId() + Build.SERIAL);
+        }else {
+            mysn = Md5.md5(mysn);
         }
         Log.d(TAG, "sn: " + mysn);
         return mysn;

@@ -414,7 +414,7 @@ public class BaseActivity extends AppCompatActivity {
                         }
                     }
                 });
-                updateAgainHandler.postDelayed(updateAgainRunnable, 2000);
+                updateAgainHandler.postDelayed(updateAgainRunnable, 4000);
             }
         }
     };
