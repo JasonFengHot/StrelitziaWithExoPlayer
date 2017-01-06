@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
-import com.squareup.leakcanary.RefWatcher;
 
 import java.util.Stack;
 
