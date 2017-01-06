@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,8 +95,23 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                         }
 
                     } else if(adMaps.containsKey(mediaUrl)) {
-                        // 接口返回数据和数据库都有,无需下载
-                        adMaps.remove(mediaUrl);
+                        // 接口返回数据和数据库都有,无需下载,按照测试的要求，需要先判断每条数据所有字段是否匹配本地，服务器端更改任何一条数据都应更新
+                        String serverAd = new Gson().toJson(adTables);
+                        String localAd = new Gson().toJson(adMaps.get(mediaUrl));
+                        Log.i(TAG, "serverAd:" + serverAd + " localAd:" + localAd);
+                        if(serverAd.equals(localAd)){
+                            adMaps.remove(mediaUrl);
+                        } else {
+                            File file = new File(
+                                    getFilesDir() + "/" + AdvertiseManager.AD_DIR + "/" +
+                                            FileUtils.getFileByUrl(adTables.media_url)
+                            );
+                            if (file.exists() && file.delete()) {
+                                new Delete().from(AdvertiseTable.class)
+                                        .where(AdvertiseTable.MEDIA_URL + "=?", mediaUrl)
+                                        .execute();
+                            }
+                        }
                     }
                 }
                 for (Map.Entry<String, AdElementEntity> entry : adMaps.entrySet()) {
