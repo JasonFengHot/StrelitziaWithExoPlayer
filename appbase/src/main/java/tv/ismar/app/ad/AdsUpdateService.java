@@ -5,14 +5,16 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -94,12 +96,43 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                                     .execute();
                         }
 
-                    } else if(adMaps.containsKey(mediaUrl)) {
+                    } else if (adMaps.containsKey(mediaUrl)) {
                         // 接口返回数据和数据库都有,无需下载,按照测试的要求，需要先判断每条数据所有字段是否匹配本地，服务器端更改任何一条数据都应更新
-                        String serverAd = new Gson().toJson(adTables);
-                        String localAd = new Gson().toJson(adMaps.get(mediaUrl));
-                        Log.i(TAG, "serverAd:" + serverAd + " localAd:" + localAd);
-                        if(serverAd.equals(localAd)){
+                        String tabelTitle = adTables.title;
+                        long tabelStartDate = adTables.start_date;
+                        long tabelEndDate = adTables.end_date;
+                        String tabelMediaId = adTables.media_id;
+                        String tabelMediaUrl = adTables.media_url;
+                        String tabelMediaType = adTables.media_type;
+                        int tabelDuration = adTables.duration;
+                        String tabelMd5 = adTables.md5;
+
+                        AdElementEntity adElementEntity = adMaps.get(mediaUrl);
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+                        String start_date = adElementEntity.getStart_date() + " " + adElementEntity.getStart_time();
+                        String end_date = adElementEntity.getEnd_date() + " " + adElementEntity.getEnd_time();
+                        long adStartDate = 0, adEndDate = 0;
+                        try {
+                            adStartDate = dateFormat.parse(start_date).getTime();
+                            adEndDate = dateFormat.parse(end_date).getTime();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        String adTitle = adElementEntity.getTitle();
+                        String adMedia_url = adElementEntity.getMedia_url();
+                        String adMedia_type = adElementEntity.getMedia_type();
+                        int adDuration = adElementEntity.getDuration();
+                        String adMd5 = adElementEntity.getMd5();
+                        String adMedia_id = String.valueOf(adElementEntity.getMedia_id());
+
+                        boolean isEqual = tabelTitle.equals(adTitle) && tabelStartDate == adStartDate
+                                && tabelEndDate == adEndDate && tabelMediaId.equals(adMedia_id)
+                                && tabelMediaType.equals(adMedia_type) && tabelMediaUrl.equals(adMedia_url)
+                                && tabelDuration == adDuration && tabelMd5.equals(adMd5);
+                        Log.i(TAG, "isEqual:" + isEqual + " " + tabelStartDate + " " + tabelEndDate + " " + tabelDuration
+                                + "\n" + tabelMediaUrl + "\n" + tabelMediaId + " " + " " + tabelMediaType + " " + tabelMd5);
+                        if (isEqual) {
                             adMaps.remove(mediaUrl);
                         } else {
                             File file = new File(
