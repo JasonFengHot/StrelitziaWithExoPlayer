@@ -351,6 +351,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }, 400);
                 break;
             case EVENT_COMPLETE_BUY:
+                if(mIsmartvPlayer != null){
+                    mIsmartvPlayer.logVideoExit();
+                }
                 ItemEntity.Expense expense = mItemEntity.getExpense();
                 PageIntentInterface.ProductCategory mode = null;
                 if (1 == mItemEntity.getExpense().getJump_to()) {
