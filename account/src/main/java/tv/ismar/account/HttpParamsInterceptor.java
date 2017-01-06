@@ -260,6 +260,7 @@ public class HttpParamsInterceptor implements Interceptor {
         HttpUrl httpUrl = HttpUrl.parse(domain);
 
         httpUrlBuilder.host(httpUrl.host());
+        httpUrlBuilder.port(httpUrl.port());
 
         List<String> segments = httpUrl.pathSegments();
 
