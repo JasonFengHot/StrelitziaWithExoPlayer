@@ -260,27 +260,29 @@ public class BaseActivity extends AppCompatActivity {
 //                        sendBroadcast(intent);
 //                    }
 //                });
-        dialog=new NoNetConnectDialog(this,R.style.NoNetDialog);
-        dialog.setFirstMessage(getString(R.string.no_connectNet));
-        dialog.setConfirmBtn(getString(R.string.setting_network));
-        dialog.setCancelBtn(getString(R.string.exit_app));
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.keyListen(new ModuleMessagePopWindow.ConfirmListener() {
-            @Override
-            public void confirmClick(View view) {
-                dialog.dismiss();
-                Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                startActivity(intent);
-            }
-        }, new ModuleMessagePopWindow.CancelListener() {
-            @Override
-            public void cancelClick(View view) {
-                dialog.dismiss();
-                Intent intent = new Intent();
-                intent.setAction(NO_NET_CONNECT_ACTION);
-                sendBroadcast(intent);
-            }
-        });
+        if(dialog==null) {
+            dialog = new NoNetConnectDialog(this, R.style.NoNetDialog);
+            dialog.setFirstMessage(getString(R.string.no_connectNet));
+            dialog.setConfirmBtn(getString(R.string.setting_network));
+            dialog.setCancelBtn(getString(R.string.exit_app));
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.keyListen(new ModuleMessagePopWindow.ConfirmListener() {
+                @Override
+                public void confirmClick(View view) {
+                    dialog.dismiss();
+                    Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                    startActivity(intent);
+                }
+            }, new ModuleMessagePopWindow.CancelListener() {
+                @Override
+                public void cancelClick(View view) {
+                    dialog.dismiss();
+                    Intent intent = new Intent();
+                    intent.setAction(NO_NET_CONNECT_ACTION);
+                    sendBroadcast(intent);
+                }
+            });
+        }
         dialog.show();
     }
     public boolean isshowNetWorkErrorDialog() {
@@ -500,7 +502,7 @@ public class BaseActivity extends AppCompatActivity {
     Handler noNetConnectHandler;
     Runnable noNetConnectRunnable;
 
-    private void showNoNetConnectDelay() {
+    public void showNoNetConnectDelay() {
         noNetConnectHandler = new Handler();
         noNetConnectRunnable = new Runnable() {
             @Override

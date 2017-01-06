@@ -28,6 +28,7 @@ public class NoNetConnectDialog extends Dialog implements View.OnClickListener{
     private Context mContext;
     private int height;
 
+
     public NoNetConnectDialog(Context context, int themeResId) {
         super(context, themeResId);
         mContext = context;
