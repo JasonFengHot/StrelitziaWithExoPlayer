@@ -346,6 +346,9 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         if (focusDirection == View.FOCUS_DOWN) {
             privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_min_h));
         }
+        if (focusDirection == View.FOCUS_UP) {
+            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_min_h) * -1);
+        }
         return null;
     }
 
