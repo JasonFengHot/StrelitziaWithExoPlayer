@@ -225,12 +225,15 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         LinearLayoutManagerTV linearLayoutManagerTV = new LinearLayoutManagerTV(getContext());
         linearLayoutManagerTV.setFocusSearchFailedListener(this);
         privilegeRecyclerView.setLayoutManager(linearLayoutManagerTV);
+        boolean flag = false;
         for(AccountPlayAuthEntity.PlayAuth element:playAuths) {
             if (element.getAction() == AccountPlayAuthEntity.Action.watch || element.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
+                flag = true;
                 break;
             }
-            userinfoBinding.chargeMoney.setNextFocusDownId(R.id.charge_money);
         }
+        if(!flag)
+            userinfoBinding.chargeMoney.setNextFocusDownId(R.id.charge_money);
         PrivilegeAdapter privilegeAdapter = new PrivilegeAdapter(getContext(), playAuths);
         privilegeRecyclerView.setAdapter(privilegeAdapter);
     }
