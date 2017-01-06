@@ -1174,6 +1174,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 e.printStackTrace();
             }
         }
+        if (!NetworkUtils.isConnected(this) && !NetworkUtils.isWifi(this))
+            showNoNetConnectDelay();
     }
 
     @Override
