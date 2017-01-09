@@ -128,7 +128,7 @@
 <dimen name="product_gridview_lp">6.11dp</dimen>
 <dimen name="product_gridview_rp">5.83dp</dimen>
 <dimen name="product_gridview_tp">6.11dp</dimen>
-<dimen name="product_gridview_vertical_space">-1.11dp</dimen>
+<dimen name="product_gridview_vertical_space">-1.39dp</dimen>
 <dimen name="product_gridview_ml">3.89dp</dimen>
 <dimen name="usercenter_fragment_indicator_mt">1.11dp</dimen>
 <dimen name="today_weather_info_mt">-2.78dp</dimen>
@@ -156,4 +156,5 @@
 <dimen name="privilege_txt">2.78dp</dimen>
 <dimen name="locationFragment_areaPop_ml">0.28dp</dimen>
 <dimen name="privilege_recycler_layout_mt">0.28dp</dimen>
+<dimen name="product_gridview_horizontal_space">-0.28dp</dimen>
 </resources>
