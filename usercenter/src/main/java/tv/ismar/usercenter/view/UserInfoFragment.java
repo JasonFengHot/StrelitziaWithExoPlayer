@@ -353,10 +353,10 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     @Override
     public View onFocusSearchFailed(View view, int focusDirection, RecyclerView.Recycler recycler, RecyclerView.State state) {
         if (focusDirection == View.FOCUS_DOWN) {
-            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_min_h));
+            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_item_scroll));
         }
         if (focusDirection == View.FOCUS_UP) {
-            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_min_h) * -1);
+            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_item_scroll) * -1);
         }
         return null;
     }
@@ -513,7 +513,10 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                                    RecyclerView parent, RecyclerView.State state) {
 
             // Add top margin only for the first item to avoid double space between items
-            outRect.bottom = space;
+            int position = parent.getChildAdapterPosition(view);
+            if (position != parent.getAdapter().getItemCount() - 1) {
+                outRect.bottom = space;
+            }
         }
     }
 }
