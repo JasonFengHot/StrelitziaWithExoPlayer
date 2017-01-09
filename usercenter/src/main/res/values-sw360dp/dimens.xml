@@ -84,7 +84,7 @@
 <dimen name="product_recycler_item_spacing">-1.33dp</dimen>
 <dimen name="product_item_mt">-2.00dp</dimen>
 <dimen name="userinfo_layout_pb">20.00dp</dimen>
-<dimen name="user_info_other_item_vertical_spacing_device">12.33dp</dimen>
+<dimen name="user_info_other_item_vertical_spacing_device">14.33dp</dimen>
 <dimen name="user_info_other_item_vertical_spacing_balance">11.33dp</dimen>
 <dimen name="user_center_logout_width">91.33dp</dimen>
 
@@ -157,4 +157,6 @@
 <dimen name="locationFragment_areaPop_ml">0.33dp</dimen>
 <dimen name="privilege_recycler_layout_mt">0.33dp</dimen>
 <dimen name="product_gridview_horizontal_space">-0.33dp</dimen>
+<dimen name="privilege_item_scroll">26.67dp</dimen>
+<dimen name="privilege_recycler_layout_mb">17.00dp</dimen>
 </resources>

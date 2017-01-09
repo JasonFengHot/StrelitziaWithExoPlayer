@@ -198,6 +198,7 @@
                     android:layout_width="@dimen/userinfo_snNumber_title_width"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+
                     android:singleLine="true"
                     android:text="特权："
                     android:textColor="#FFF8F8FF"
@@ -210,6 +211,7 @@
                     android:id="@+id/privilege_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/privilege_recycler_layout_mb"
                     android:layout_toRightOf="@id/privilege_txt" />
 
 
