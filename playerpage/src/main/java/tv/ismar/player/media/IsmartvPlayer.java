@@ -510,6 +510,20 @@ public abstract class IsmartvPlayer implements IPlayer {
                 mPlayerFlag);
     }
 
+    public void logVideoExit(int qiyiPreviewPosition) {
+        String sn = IsmartvActivator.getInstance().getSnToken();
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
+        mCallPlay.videoExit(
+                mMedia,
+                getQualityIndex(getCurrentQuality()),
+                mSpeed,
+                "detail",
+                qiyiPreviewPosition,
+                (TrueTime.now().getTime() - mPlayerOpenTime),
+                sid,
+                mPlayerFlag);
+    }
+
     protected void logVideoException(String code) {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
