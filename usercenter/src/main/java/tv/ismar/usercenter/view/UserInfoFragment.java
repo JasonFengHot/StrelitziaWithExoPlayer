@@ -413,6 +413,9 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             }
             if (holder.mButton.getVisibility() == View.VISIBLE) {
                 holder.mButton.setId(R.id.btn);
+                if(position == mPlayAuths.size() -1){
+                    holder.mButton.setNextFocusDownId(holder.mButton.getId());
+                }
             } else {
                 holder.mButton.setId(View.NO_ID);
             }
