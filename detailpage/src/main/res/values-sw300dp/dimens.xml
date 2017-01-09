@@ -265,4 +265,5 @@
 <dimen name="episode_arrow_down_mb">4.72dp</dimen>
 <dimen name="episode_arrow_down_ml">247.78dp</dimen>
 <dimen name="episode_tv_drama_name_mt">4.44dp</dimen>
+<dimen name="episode_header_title_ml">-3.89dp</dimen>
 </resources>
