@@ -141,14 +141,14 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
                         md5Jsons = new CopyOnWriteArrayList<String>();
                         String title;
-                        String selection =  "title in (";
+                        String selection = "title in (";
                         for (VersionInfoV2Entity.ApplicationEntity applicationEntity : versionInfoV2Entity.getUpgrades()) {
                             title = Md5.md5(new Gson().toJson(applicationEntity));
                             md5Jsons.add(title);
                             checkUpgrade(applicationEntity);
                             selection += "?,";
                         }
-                        selection = selection.substring(0, selection.length() -1);
+                        selection = selection.substring(0, selection.length() - 1);
                         selection += ")";
 
 
@@ -187,7 +187,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
         }
 
         Log.i(TAG, "local version code ---> " + installVersionCode);
-         String title = Md5.md5(new Gson().toJson(applicationEntity));
+        String title = Md5.md5(new Gson().toJson(applicationEntity));
 
 
         DownloadEntity download = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
@@ -219,7 +219,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                                 Log.d(TAG, "install apk path: " + path);
                                 if (isInstallSilent) {
                                     installAppLoading = true;
-                                    boolean installSilentSuccess = installAppSilent(path);
+                                    boolean installSilentSuccess = installAppSilent(path, getApplicationContext());
                                     if (!installSilentSuccess) {
                                         installAppLoading = false;
                                     }
@@ -321,7 +321,6 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
 
         downloadApp(applicationEntity);
-
 
 
     }
