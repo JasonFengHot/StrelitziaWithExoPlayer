@@ -641,7 +641,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 goOtherPage(EVENT_COMPLETE_BUY);
             }
         } else {
-            mCurrentPosition = 0;
             ItemEntity[] subItems = mItemEntity.getSubitems();
             if (subItems != null) {
                 for (int i = 0; i < subItems.length; i++) {
@@ -649,8 +648,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         ItemEntity nextItem = subItems[i + 1];
                         if (nextItem != null && nextItem.getClip() != null) {
                             if (mIsmartvPlayer != null) {
-                                mIsmartvPlayer.logVideoExit();
+                                mIsmartvPlayer.logVideoExit(mCurrentPosition);
                             }
+                            mCurrentPosition = 0;
                             if (mIsmartvPlayer != null) {
                                 mIsmartvPlayer.stopPlayBack();
                                 mIsmartvPlayer = null;
@@ -674,7 +674,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             intent.putExtra("itemJson", itemJson);
             intent.putExtra("source", source);
             startActivity(intent);
-            addHistory(mCurrentPosition, true, true);
+            addHistory(0, true, true);
             finishActivity();
         }
     }
@@ -1390,6 +1390,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
             for (ItemEntity subItem : mItemEntity.getSubitems()) {
                 if (subItem.getPk() == id) {
+                    if (mIsmartvPlayer != null) {
+                        mIsmartvPlayer.logVideoExit(mCurrentPosition);
+                    }
                     mCurrentPosition = 0;
                     timerStop();
                     if (isClickBufferLongSwitch && ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName()))) {
