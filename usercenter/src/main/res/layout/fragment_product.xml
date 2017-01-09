@@ -40,6 +40,7 @@
             sakura:selectorLeftPadding="@dimen/product_gridview_lp"
             sakura:selectorRightPadding="@dimen/product_gridview_rp"
             sakura:selectorTopPadding="@dimen/product_gridview_tp"
+            sakura:horizontalSpace="@dimen/product_gridview_horizontal_space"
             sakura:verticalSpace="@dimen/product_gridview_vertical_space" />
 
 
