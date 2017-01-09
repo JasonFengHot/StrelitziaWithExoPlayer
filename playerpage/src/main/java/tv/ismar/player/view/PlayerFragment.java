@@ -163,7 +163,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private AdImageDialog adImageDialog;
     private Advertisement mAdvertisement;
 
-    private boolean sharpKeyDownNotResume = false; // 夏普电视设置按键Activity样式为Dialog样式
+    public boolean sharpKeyDownNotResume = false; // 夏普电视设置按键Activity样式为Dialog样式,SD卡弹出框
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -1653,6 +1653,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         if (!mIsPlayingAd) {
                             addHistory(mCurrentPosition, true, false);
                         }
+                        if (mIsmartvPlayer != null) {
+                            mIsmartvPlayer.logVideoExit();
+                        }
+                        mIsmartvPlayer = null;
                         finishActivity();
                         break;
                     case POP_TYPE_BUFFERING_LONG:

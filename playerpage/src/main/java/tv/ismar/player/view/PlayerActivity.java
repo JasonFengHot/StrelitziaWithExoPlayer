@@ -1,6 +1,9 @@
 package tv.ismar.player.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -78,6 +81,11 @@ public class PlayerActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
+        filter.addAction(Intent.ACTION_MEDIA_CHECKING);
+        filter.setPriority(1000);
+        filter.addDataScheme("file");
+        registerReceiver(mountRecevicer, filter);
 //        if (!TextUtils.isEmpty(brandName) && brandName.equalsIgnoreCase("konka")) {
 //            try {
 //                Class.forName("com.konka.android.media.KKMediaPlayer");
@@ -89,6 +97,12 @@ public class PlayerActivity extends BaseActivity {
 //            }
 //        }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mountRecevicer);
     }
 
     public void onBuyVip(View view) {
@@ -163,5 +177,16 @@ public class PlayerActivity extends BaseActivity {
 //    private View getRootView() {
 //        return ((ViewGroup) (getWindow().getDecorView().findViewById(android.R.id.content))).getChildAt(0);
 //    }
+
+    private BroadcastReceiver mountRecevicer = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(Intent.ACTION_MEDIA_MOUNTED)){
+                if(playerFragment != null){
+                    playerFragment.sharpKeyDownNotResume = true;
+                }
+            }
+        }
+    };
 
 }
