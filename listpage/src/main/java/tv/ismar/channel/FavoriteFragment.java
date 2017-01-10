@@ -163,6 +163,29 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 				}
 			}
 		});
+		right_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus){
+					v.setBackgroundResource(R.drawable.scroll_right_focus);
+				}else{
+					v.setBackgroundResource(R.drawable.scroll_right_normal);
+				}
+			}
+		});
+
+		left_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					v.setBackgroundResource(R.drawable.scroll_left_focus);
+				} else {
+					v.setBackgroundResource(R.drawable.scroll_left_normal);
+				}
+			}
+		});
 
 		mScrollableSectionList = (ScrollableSectionList) fragmentView.findViewById(R.id.section_tabs);
 		mScrollableSectionList.setVisibility(View.GONE);
