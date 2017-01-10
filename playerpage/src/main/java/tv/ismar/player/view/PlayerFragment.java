@@ -423,6 +423,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //            }
         } else if(!isNeedOnResume && !isClickKeFu && mounted){
             if (mIsmartvPlayer != null) {
+                addHistory(mCurrentPosition, false, false);
                 mIsmartvPlayer.stopPlayBack();
                 mIsmartvPlayer = null;
             }
