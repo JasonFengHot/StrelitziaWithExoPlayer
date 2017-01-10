@@ -39,6 +39,7 @@ dependencies {
     compile dependencies.appCompat
     compile dependencies.recyclerView
     compile 'com.android.support:multidex:1.0.1'
+    compile project(':picasso')
 }
 
 tasks.withType(JavaCompile) {
