@@ -691,7 +691,6 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 				v.requestFocus();
 				break;
 			case MotionEvent.ACTION_HOVER_EXIT:
-                v.clearFocus();
 				break;
 			}
 			return false;
