@@ -151,7 +151,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean isExit = false;// 播放器退出release需要时间，此时的UI事件会导致ANR
     private boolean closePopup = false;// 网速由不正常到正常时判断，关闭弹窗
     private boolean isFinishing;
-    private boolean isClickBufferLongSwitch;
+//    private boolean isClickBufferLongSwitch;// 去掉s3相关适配
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -1395,20 +1395,21 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     }
                     mCurrentPosition = 0;
                     timerStop();
-                    if (isClickBufferLongSwitch && ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName()))) {
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                mIsmartvPlayer.bufferOnSharpS3Release();
-                                mIsmartvPlayer.stopPlayBack();
-                                mIsmartvPlayer = null;
-                                isClickBufferLongSwitch = false;
-                            }
-                        }.start();
-                    } else {
-                        mIsmartvPlayer.stopPlayBack();
-                        mIsmartvPlayer = null;
-                    }
+//                    if (isClickBufferLongSwitch && ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName()))) {
+//                        new Thread() {
+//                            @Override
+//                            public void run() {
+//                                mIsmartvPlayer.bufferOnSharpS3Release();
+//                                mIsmartvPlayer.stopPlayBack();
+//                                mIsmartvPlayer = null;
+//                                isClickBufferLongSwitch = false;
+//                            }
+//                        }.start();
+//                    } else {
+//
+//                    }
+                    mIsmartvPlayer.stopPlayBack();
+                    mIsmartvPlayer = null;
 
                     ItemEntity.Clip clip = subItem.getClip();
                     String sign = "";
@@ -1666,7 +1667,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         }
                         if (!isExit) {
                             if (!popDialog.isConfirmClick) {
-                                isClickBufferLongSwitch = true;
+//                                isClickBufferLongSwitch = true;
                                 if (!isMenuShow()) {
                                     if (isPanelShow()) {
                                         hidePanel();
@@ -1685,19 +1686,20 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                                 // 重新加载，先存历史记录
                                 mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
                                 addHistory(mCurrentPosition, false, false);
-                                if ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName())) {
-                                    new Thread() {
-                                        @Override
-                                        public void run() {
-                                            mIsmartvPlayer.bufferOnSharpS3Release();
-                                            mIsmartvPlayer.stopPlayBack();
-                                            mIsmartvPlayer = null;
-                                        }
-                                    }.start();
-                                } else {
-                                    mIsmartvPlayer.stopPlayBack();
-                                    mIsmartvPlayer = null;
-                                }
+//                                if ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName())) {
+//                                    new Thread() {
+//                                        @Override
+//                                        public void run() {
+//                                            mIsmartvPlayer.bufferOnSharpS3Release();
+//                                            mIsmartvPlayer.stopPlayBack();
+//                                            mIsmartvPlayer = null;
+//                                        }
+//                                    }.start();
+//                                } else {
+//
+//                                }
+                                mIsmartvPlayer.stopPlayBack();
+                                mIsmartvPlayer = null;
                                 String sign = "";
                                 String code = "1";
                                 showBuffer(PlAYSTART + mItemEntity.getTitle());

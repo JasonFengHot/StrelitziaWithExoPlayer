@@ -1490,11 +1490,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private void goNextPage() {
         Log.i(TAG, "goNextPage");
         isPlayingStartAd = false;
-        home_layout_advertisement.setVisibility(View.GONE);
         if(home_ad_video != null){
             home_ad_video.stopPlayback();
             home_ad_video = null;
         }
+        home_layout_advertisement.setVisibility(View.GONE);
         large_layout.removeView(home_layout_advertisement);
         layout_homepage.setVisibility(View.VISIBLE);
         if (currentFragment != null) {
