@@ -183,7 +183,7 @@ public class PlayerActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(Intent.ACTION_MEDIA_MOUNTED)){
                 if(playerFragment != null){
-                    playerFragment.sharpKeyDownNotResume = true;
+                    playerFragment.mounted = true;
                 }
             }
         }

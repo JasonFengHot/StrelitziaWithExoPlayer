@@ -163,7 +163,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private AdImageDialog adImageDialog;
     private Advertisement mAdvertisement;
 
-    public boolean sharpKeyDownNotResume = false; // 夏普电视设置按键Activity样式为Dialog样式,SD卡弹出框
+    private boolean sharpKeyDownNotResume = false; // 夏普电视设置按键Activity样式为Dialog样式
+    public boolean mounted = false; // SD卡弹出后操作问题
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -369,8 +370,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onResume() {
         super.onResume();
-        if (sharpKeyDownNotResume) {
+        if (sharpKeyDownNotResume || mounted) {
             sharpKeyDownNotResume = false;
+            mounted = false;
             return;
         }
         // 从客服中心，购买页面返回
@@ -410,7 +412,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             popDialog.dismiss();
             popDialog = null;
         }
-        if (!isNeedOnResume && !isClickKeFu) {
+        if (!isNeedOnResume && !isClickKeFu && !mounted) {
             mPresenter.stop();
 //            if (mIsmartvPlayer != null) {
 //                mIsmartvPlayer.stopPlayBack();
@@ -419,6 +421,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //            if (BaseActivity.mSmartPlayer != null) {
 //                BaseActivity.mSmartPlayer = null;
 //            }
+        } else if(!isNeedOnResume && !isClickKeFu && mounted){
+            if (mIsmartvPlayer != null) {
+                mIsmartvPlayer.stopPlayBack();
+                mIsmartvPlayer = null;
+            }
+            mounted = false;
         }
         super.onStop();
     }
