@@ -51,7 +51,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:nextFocusLeft="@id/home_scroll_left"
-                    android:src="@drawable/selector_scroll_left"
+                    android:src="@drawable/scroll_left_normal"
                     android:visibility="invisible" />
 
                 <ImageView
@@ -65,7 +65,7 @@
                     android:focusable="true"
                     android:nextFocusRight="@+id/home_scroll_right"
                     android:nextFocusUp="@+id/home_scroll_right"
-                    android:src="@drawable/selector_scroll_right"
+                    android:src="@drawable/scroll_right_normal"
                     android:visibility="invisible" />
 
             </RelativeLayout>

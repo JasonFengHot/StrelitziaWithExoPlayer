@@ -67,6 +67,7 @@ import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.MessageQueue;
+import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.network.SkyService;
@@ -701,10 +702,19 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
                 SimpleRestClient.zuser_token = IsmartvActivator.getInstance().getZUserToken();
                 SimpleRestClient.zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
+                AccountSharedPrefs accountSharedPrefs = AccountSharedPrefs.getInstance();
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.APP_UPDATE_DOMAIN, upgrade_domain);
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.LOG_DOMAIN, log_domain);
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.API_DOMAIN, apiDomain);
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.ADVERTISEMENT_DOMAIN,ad_domain);
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.DEVICE_TOKEN, IsmartvActivator.getInstance().getDeviceToken());
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.SN_TOKEN, IsmartvActivator.getInstance().getSnToken());
+
             }
         }.start();
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -1490,11 +1500,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private void goNextPage() {
         Log.i(TAG, "goNextPage");
         isPlayingStartAd = false;
-        home_layout_advertisement.setVisibility(View.GONE);
         if(home_ad_video != null){
             home_ad_video.stopPlayback();
             home_ad_video = null;
         }
+        home_layout_advertisement.setVisibility(View.GONE);
         large_layout.removeView(home_layout_advertisement);
         layout_homepage.setVisibility(View.VISIBLE);
         if (currentFragment != null) {

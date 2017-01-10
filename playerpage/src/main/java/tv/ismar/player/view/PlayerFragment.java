@@ -151,7 +151,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean isExit = false;// 播放器退出release需要时间，此时的UI事件会导致ANR
     private boolean closePopup = false;// 网速由不正常到正常时判断，关闭弹窗
     private boolean isFinishing;
-    private boolean isClickBufferLongSwitch;
+//    private boolean isClickBufferLongSwitch;// 去掉s3相关适配
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -164,6 +164,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private Advertisement mAdvertisement;
 
     private boolean sharpKeyDownNotResume = false; // 夏普电视设置按键Activity样式为Dialog样式
+    public boolean mounted = false; // SD卡弹出后操作问题
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -352,7 +353,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 break;
             case EVENT_COMPLETE_BUY:
                 if(mIsmartvPlayer != null){
-                    mIsmartvPlayer.logVideoExit();
+                    mIsmartvPlayer.logVideoExit(mCurrentPosition);
                 }
                 ItemEntity.Expense expense = mItemEntity.getExpense();
                 PageIntentInterface.ProductCategory mode = null;
@@ -369,8 +370,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onResume() {
         super.onResume();
-        if (sharpKeyDownNotResume) {
+        if (sharpKeyDownNotResume || mounted) {
             sharpKeyDownNotResume = false;
+            mounted = false;
             return;
         }
         // 从客服中心，购买页面返回
@@ -410,7 +412,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             popDialog.dismiss();
             popDialog = null;
         }
-        if (!isNeedOnResume && !isClickKeFu) {
+        if (!isNeedOnResume && !isClickKeFu && !mounted) {
             mPresenter.stop();
 //            if (mIsmartvPlayer != null) {
 //                mIsmartvPlayer.stopPlayBack();
@@ -419,6 +421,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //            if (BaseActivity.mSmartPlayer != null) {
 //                BaseActivity.mSmartPlayer = null;
 //            }
+        } else if(!isNeedOnResume && !isClickKeFu && mounted){
+            if (mIsmartvPlayer != null) {
+                addHistory(mCurrentPosition, false, false);
+                mIsmartvPlayer.stopPlayBack();
+                mIsmartvPlayer = null;
+            }
+            mounted = false;
         }
         super.onStop();
     }
@@ -1395,20 +1404,21 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     }
                     mCurrentPosition = 0;
                     timerStop();
-                    if (isClickBufferLongSwitch && ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName()))) {
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                mIsmartvPlayer.bufferOnSharpS3Release();
-                                mIsmartvPlayer.stopPlayBack();
-                                mIsmartvPlayer = null;
-                                isClickBufferLongSwitch = false;
-                            }
-                        }.start();
-                    } else {
-                        mIsmartvPlayer.stopPlayBack();
-                        mIsmartvPlayer = null;
-                    }
+//                    if (isClickBufferLongSwitch && ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName()))) {
+//                        new Thread() {
+//                            @Override
+//                            public void run() {
+//                                mIsmartvPlayer.bufferOnSharpS3Release();
+//                                mIsmartvPlayer.stopPlayBack();
+//                                mIsmartvPlayer = null;
+//                                isClickBufferLongSwitch = false;
+//                            }
+//                        }.start();
+//                    } else {
+//
+//                    }
+                    mIsmartvPlayer.stopPlayBack();
+                    mIsmartvPlayer = null;
 
                     ItemEntity.Clip clip = subItem.getClip();
                     String sign = "";
@@ -1653,6 +1663,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         if (!mIsPlayingAd) {
                             addHistory(mCurrentPosition, true, false);
                         }
+                        if (mIsmartvPlayer != null) {
+                            mIsmartvPlayer.logVideoExit();
+                        }
+                        mIsmartvPlayer = null;
                         finishActivity();
                         break;
                     case POP_TYPE_BUFFERING_LONG:
@@ -1662,7 +1676,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         }
                         if (!isExit) {
                             if (!popDialog.isConfirmClick) {
-                                isClickBufferLongSwitch = true;
+//                                isClickBufferLongSwitch = true;
                                 if (!isMenuShow()) {
                                     if (isPanelShow()) {
                                         hidePanel();
@@ -1681,19 +1695,20 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                                 // 重新加载，先存历史记录
                                 mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
                                 addHistory(mCurrentPosition, false, false);
-                                if ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName())) {
-                                    new Thread() {
-                                        @Override
-                                        public void run() {
-                                            mIsmartvPlayer.bufferOnSharpS3Release();
-                                            mIsmartvPlayer.stopPlayBack();
-                                            mIsmartvPlayer = null;
-                                        }
-                                    }.start();
-                                } else {
-                                    mIsmartvPlayer.stopPlayBack();
-                                    mIsmartvPlayer = null;
-                                }
+//                                if ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName())) {
+//                                    new Thread() {
+//                                        @Override
+//                                        public void run() {
+//                                            mIsmartvPlayer.bufferOnSharpS3Release();
+//                                            mIsmartvPlayer.stopPlayBack();
+//                                            mIsmartvPlayer = null;
+//                                        }
+//                                    }.start();
+//                                } else {
+//
+//                                }
+                                mIsmartvPlayer.stopPlayBack();
+                                mIsmartvPlayer = null;
                                 String sign = "";
                                 String code = "1";
                                 showBuffer(PlAYSTART + mItemEntity.getTitle());

@@ -103,6 +103,11 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                 mHGridView = (HGridView)fragmentView.findViewById(R.id.filter_grid);
                 left_shadow = (Button)fragmentView.findViewById(R.id.left_shadow);
                 right_shadow = (Button)fragmentView.findViewById(R.id.right_shadow);
+                if(!isPortrait){
+                    mHGridView.list_offset=21;
+                }else{
+                    mHGridView.list_offset=15;
+                }
             }else{
                 left_shadow = (Button)fragmentView.findViewById(R.id.recommend_left_shadow);
                 right_shadow = (Button)fragmentView.findViewById(R.id.recommend_right_shadow);
@@ -122,6 +127,11 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 			    filterBtn.setOnHoverListener(onHoverListener);
                 isNoData = true;
                doFilterRequest();
+                if(isPortrait){
+                    mHGridView.list_offset=18;
+                }else{
+                    mHGridView.list_offset=1;
+                }
             }
         mHGridView.portraitflg=isPortrait;
         mHGridView.leftbtn = left_shadow;
