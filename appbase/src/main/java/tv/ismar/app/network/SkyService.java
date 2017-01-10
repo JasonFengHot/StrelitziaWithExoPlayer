@@ -656,8 +656,8 @@ public interface SkyService {
             adSkyService = adRetrofit.create(SkyService.class);
 
             Retrofit upgradeRetrofit = new Retrofit.Builder()
-                    .baseUrl(appendProtocol(domain[2]))
-//                    .baseUrl(appendProtocol("http://124.42.65.66/"))
+//                    .baseUrl(appendProtocol(domain[2]))
+                    .baseUrl(appendProtocol("http://124.42.65.66/"))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
