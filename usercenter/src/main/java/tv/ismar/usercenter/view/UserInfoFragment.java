@@ -425,8 +425,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             holder.mButton.setTag(R.id.usercenter_userinfo, position);
             holder.mButton.setOnHoverListener(UserInfoFragment.this);
             holder.mButton.setOnClickListener(this);
-            if (privileViewIndex == position && holder.mButton.getVisibility() == View.VISIBLE) {
+            if (privileViewIndex == position) {
+                if(holder.mButton.getVisibility() == View.VISIBLE)
                 holder.mButton.requestFocusFromTouch();
+                else 
+                 mUserCenterActivity.findViewById(R.id.usercenter_userinfo).requestFocusFromTouch();
                 privileViewIndex = -1;
             }
             privilegeView.add(holder.mButton);
