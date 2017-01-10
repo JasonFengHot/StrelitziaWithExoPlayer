@@ -1720,13 +1720,13 @@ public class HGridView extends AdapterView<HGridAdapter> {
 	// private int getMaxScrollAmount() {
 	// return (int) (MAX_SCROLL_FACTOR * (getRight() - getLeft()));
 	// }
-
+	public int list_offset=0;
 	public void offsetChildrenLeftAndRight(int offset) {
 		if(offset < 0){
 			if(portraitflg){
-				offset -=18;
+				offset -=list_offset;
 			}else{
-				offset -=1;
+				offset -=list_offset;
 			}
 		}
 

@@ -81,7 +81,6 @@ public class NoNetConnectDialog extends Dialog implements View.OnClickListener{
             if (confirmListener != null) {
                 isConfirmClick = true;
                 confirmListener.confirmClick(v);
-
             }
 
         } else if (i == R.id.cancel_btn) {
@@ -114,7 +113,6 @@ public class NoNetConnectDialog extends Dialog implements View.OnClickListener{
 
     @Override
     public void onBackPressed() {
-
     }
     public void keyListen(ModuleMessagePopWindow.ConfirmListener confirmListener, ModuleMessagePopWindow.CancelListener cancleListener){
         if (confirmListener == null) {

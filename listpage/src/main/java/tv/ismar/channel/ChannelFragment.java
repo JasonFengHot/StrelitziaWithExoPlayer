@@ -195,10 +195,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 					arg0.setFocusable(true);
 					arg0.setFocusableInTouchMode(true);
 					arg0.requestFocus();
-//					arg0.setHovered(true);
 				}else if(arg1.getAction() == MotionEvent.ACTION_HOVER_EXIT){
 //					right_shadow.setBackgroundResource(R.drawable.scroll_right_normal);
-					arg0.setHovered(false);
 				}
 				return false;
 			}
@@ -213,10 +211,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 //					left_shadow.setBackgroundResource(R.drawable.scroll_left_focus);
 					arg0.setFocusable(true);
 					arg0.setFocusableInTouchMode(true);
-//					arg0.setHovered(true);
 					arg0.requestFocus();
 				}else if(arg1.getAction() == MotionEvent.ACTION_HOVER_EXIT){
-					arg0.setHovered(false);
 //					left_shadow.setBackgroundResource(R.drawable.scroll_left_normal);
 				}
 				return false;
@@ -232,7 +228,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 @Override
                 public void onClick(View view) {
                     mHGridView.pageScroll(View.FOCUS_LEFT);
-                    view.setHovered(true);
                     view.requestFocus();
                 }
             });
@@ -240,7 +235,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 @Override
                 public void onClick(View view) {
                     mHGridView.pageScroll(View.FOCUS_RIGHT);
-                    view.setHovered(true);
                     view.requestFocus();
                     if(right_shadow.getVisibility() != View.VISIBLE){
                         View lastView = mScrollableSectionList.mContainer.getChildAt(mScrollableSectionList.mContainer.getChildCount() - 1);
@@ -253,23 +247,29 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         }
 
 
-//        left_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    mHGridView.pageScroll(View.FOCUS_LEFT);
-//                }
-//            }
-//        });
-//
-//        right_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    mHGridView.pageScroll(View.FOCUS_RIGHT);
-//                }
-//            }
-//        });
+        right_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    v.setBackgroundResource(R.drawable.scroll_right_focus);
+                }else{
+                    v.setBackgroundResource(R.drawable.scroll_right_normal);
+                }
+            }
+        });
+
+        left_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    v.setBackgroundResource(R.drawable.scroll_left_focus);
+                } else {
+                    v.setBackgroundResource(R.drawable.scroll_left_normal);
+                }
+            }
+        });
         mScrollableSectionList = (ScrollableSectionList) fragmentView.findViewById(R.id.section_tabs);
         mScrollableSectionList.setOnSectionSelectChangeListener(mOnSectionSelectChangedListener);
         mScrollableSectionList.percentageBar = percentage;
@@ -283,6 +283,11 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         mHGridView.setOnItemClickListener(this);
         mHGridView.setOnItemSelectedListener(this);
         mHGridView.setOnScrollListener(this);
+        if(!isPortrait){
+            mHGridView.list_offset=21;
+        }else{
+            mHGridView.list_offset=8;
+        }
         mHGridView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -322,10 +327,11 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             mLoadingDialog.setOnCancelListener(mLoadingCancelListener);
         //    mLoadingDialog.show();
             mLoadingDialog.showDialog();
-            if (!isPortrait)
+            if (!isPortrait) {
                 fragmentView = inflater.inflate(R.layout.list_view, container, false);
-            else
+            }else {
                 fragmentView = inflater.inflate(R.layout.listportrait, container, false);
+            }
             initViews(fragmentView);
             skyService=SkyService.ServiceManager.getService();
             getData(mUrl,mChannel);
