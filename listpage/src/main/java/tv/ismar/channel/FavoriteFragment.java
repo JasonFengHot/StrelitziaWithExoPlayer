@@ -142,6 +142,12 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			@Override
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_LEFT);
+				if(left_shadow.getVisibility() != View.VISIBLE){
+					View lastView = mHGridView.getChildAt(0);
+					if(lastView != null){
+						lastView.requestFocus();
+					}
+				}
 			}
 		});
 		right_shadow.setOnClickListener(new OnClickListener() {
@@ -149,6 +155,12 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			@Override
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_RIGHT);
+				if(right_shadow.getVisibility() != View.VISIBLE){
+					View lastView = mHGridView.getChildAt(mHGridView.getChildCount()-1);
+					if(lastView != null){
+						lastView.requestFocus();
+					}
+				}
 			}
 		});
 
@@ -191,6 +203,17 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 				}else{
 					clertFavorite.setTextColor(getResources().getColor(R.color._ffffff));
 				}
+			}
+		});
+		clertFavorite.setOnHoverListener(new View.OnHoverListener() {
+			@Override
+			public boolean onHover(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_HOVER_ENTER || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+					v.setFocusable(true);
+					v.setFocusableInTouchMode(true);
+					v.requestFocus();
+				}
+				return false;
 			}
 		});
 		HashMap<String, Object> properties = new HashMap<String, Object>();

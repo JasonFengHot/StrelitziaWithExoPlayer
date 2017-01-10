@@ -193,7 +193,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 				if(arg1.getAction() == MotionEvent.ACTION_HOVER_ENTER || arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE){
 //					right_shadow.setBackgroundResource(R.drawable.scroll_right_focus);
 					arg0.setFocusable(true);
-					arg0.setFocusableInTouchMode(true);
+                    arg0.setFocusableInTouchMode(true);
 					arg0.requestFocus();
 				}else if(arg1.getAction() == MotionEvent.ACTION_HOVER_EXIT){
 //					right_shadow.setBackgroundResource(R.drawable.scroll_right_normal);
