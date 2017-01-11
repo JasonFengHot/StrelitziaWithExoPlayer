@@ -109,6 +109,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
         gideview_layuot = fragmentView.findViewById(R.id.gideview_layuot);
         mHGridView.leftbtn = left_shadow;
         mHGridView.rightbtn = right_shadow;
+		mHGridView.list_offset=21;
 		mHGridView.setOnItemClickListener(this);
 		mHGridView.setOnItemSelectedListener(this);
 		left_shadow.setOnHoverListener(new View.OnHoverListener() {
@@ -147,6 +148,8 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					if(lastView != null){
 						lastView.requestFocus();
 					}
+					right_shadow.setFocusable(true);
+					right_shadow.requestFocus();
 				}
 			}
 		});
@@ -160,6 +163,8 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 					if(lastView != null){
 						lastView.requestFocus();
 					}
+					left_shadow.setFocusable(true);
+					left_shadow.requestFocus();
 				}
 			}
 		});

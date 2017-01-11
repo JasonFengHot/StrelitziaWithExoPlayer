@@ -144,6 +144,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 		mHGridView.leftbtn = left_shadow;
 		mHGridView.rightbtn = right_shadow;
+		mHGridView.list_offset=21;
 		mHGridView.setOnItemClickListener(this);
 		mHGridView.setOnItemSelectedListener(this);
 		left_shadow.setOnHoverListener(new View.OnHoverListener() {
@@ -182,6 +183,8 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 					if(lastView != null){
 						lastView.requestFocus();
 					}
+					right_shadow.setFocusable(true);
+					right_shadow.requestFocus();
 				}
 			}
 		});

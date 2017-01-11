@@ -104,7 +104,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                 left_shadow = (Button)fragmentView.findViewById(R.id.left_shadow);
                 right_shadow = (Button)fragmentView.findViewById(R.id.right_shadow);
                 if(!isPortrait){
-                    mHGridView.list_offset=21;
+                    mHGridView.list_offset=38;
                 }else{
                     mHGridView.list_offset=15;
                 }

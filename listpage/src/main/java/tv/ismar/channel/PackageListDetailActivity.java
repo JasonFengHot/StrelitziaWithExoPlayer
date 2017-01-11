@@ -112,6 +112,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         mHGridView.setOnScrollListener(this);
         mHGridView.leftbtn = left_shadow;
         mHGridView.rightbtn = right_shadow;
+        mHGridView.list_offset=21;
         left_shadow.setOnHoverListener(new View.OnHoverListener() {
 
 			@Override
