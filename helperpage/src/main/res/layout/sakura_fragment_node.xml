@@ -3,7 +3,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sakura_bg_fragment"
     android:orientation="vertical"
     android:padding="@dimen/layout_border_padding">
 

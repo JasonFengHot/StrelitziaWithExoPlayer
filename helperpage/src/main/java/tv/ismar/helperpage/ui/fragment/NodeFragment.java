@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -30,6 +31,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.helperpage.R;
 import tv.ismar.helperpage.core.CdnCacheLoader;
 import tv.ismar.helperpage.core.HttpDownloadTask;
@@ -110,7 +112,7 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
 
 
     private float rate;
-
+    private BitmapDecoder bitmapDecoder;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -127,7 +129,14 @@ public class NodeFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sakura_fragment_node, null);
+        final View view = inflater.inflate(R.layout.sakura_fragment_node, null);
+        bitmapDecoder = new BitmapDecoder();
+        bitmapDecoder.decode(mContext, R.drawable.sakura_bg_fragment, new BitmapDecoder.Callback() {
+            @Override
+            public void onSuccess(BitmapDrawable bitmapDrawable) {
+                view.setBackgroundDrawable(bitmapDrawable);
+            }
+        });
         currentNodeTextView = (TextView) view.findViewById(R.id.current_node_text);
         unbindButton = (SakuraButton) view.findViewById(R.id.unbind_node);
         nodeListView = (SakuraListView) view.findViewById(R.id.node_list);
