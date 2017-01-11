@@ -1,6 +1,7 @@
 package tv.ismar.app.update;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -19,6 +20,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.blankj.utilcode.utils.AppUtils;
 import com.blankj.utilcode.utils.FileUtils;
 import com.blankj.utilcode.utils.ShellUtils;
 import com.google.gson.Gson;
@@ -139,14 +141,14 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
                         md5Jsons = new CopyOnWriteArrayList<String>();
                         String title;
-                        String selection =  "title in (";
+                        String selection = "title in (";
                         for (VersionInfoV2Entity.ApplicationEntity applicationEntity : versionInfoV2Entity.getUpgrades()) {
                             title = Md5.md5(new Gson().toJson(applicationEntity));
                             md5Jsons.add(title);
                             checkUpgrade(applicationEntity);
                             selection += "?,";
                         }
-                        selection = selection.substring(0, selection.length() -1);
+                        selection = selection.substring(0, selection.length() - 1);
                         selection += ")";
 
 
@@ -185,7 +187,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
         }
 
         Log.i(TAG, "local version code ---> " + installVersionCode);
-         String title = Md5.md5(new Gson().toJson(applicationEntity));
+        String title = Md5.md5(new Gson().toJson(applicationEntity));
 
 
         DownloadEntity download = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
@@ -217,7 +219,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                                 Log.d(TAG, "install apk path: " + path);
                                 if (isInstallSilent) {
                                     installAppLoading = true;
-                                    boolean installSilentSuccess = installAppSilent(path);
+                                    boolean installSilentSuccess = installAppSilent(path, getApplicationContext());
                                     if (!installSilentSuccess) {
                                         installAppLoading = false;
                                     }
@@ -289,12 +291,11 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
         DownloadManager.getInstance().start(url, title, json, filePath);
     }
 
-    public static boolean installAppSilent(String filePath) {
+    public static boolean installAppSilent(String filePath, Context context) {
         File file = FileUtils.getFileByPath(filePath);
         if (!FileUtils.isFileExists(file)) return false;
-        String command = "LD_LIBRARY_PATH=/vendor/lib:/system/lib pm install -r " + filePath;
-        ShellUtils.CommandResult commandResult = ShellUtils.execCmd(command, true, true);
-        return commandResult.successMsg != null && commandResult.successMsg.toLowerCase().contains("success");
+        boolean isSuccess = AppUtils.installAppSilent(context, filePath);
+        return isSuccess;
     }
 
     @Override
@@ -320,7 +321,6 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
 
         downloadApp(applicationEntity);
-
 
 
     }

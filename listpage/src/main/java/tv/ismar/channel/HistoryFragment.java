@@ -191,10 +191,36 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_RIGHT);
 				if(right_shadow.getVisibility() != View.VISIBLE){
+					Log.i("historyLeft","view gone");
 					View lastView = mHGridView.getChildAt(mHGridView.getChildCount()-1);
 					if(lastView != null){
 						lastView.requestFocus();
 					}
+					left_shadow.setFocusable(true);
+					left_shadow.requestFocus();
+				}
+			}
+		});
+		right_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus){
+					v.setBackgroundResource(R.drawable.scroll_right_focus);
+				}else{
+					v.setBackgroundResource(R.drawable.scroll_right_normal);
+				}
+			}
+		});
+
+		left_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					v.setBackgroundResource(R.drawable.scroll_left_focus);
+				} else {
+					v.setBackgroundResource(R.drawable.scroll_left_normal);
 				}
 			}
 		});

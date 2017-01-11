@@ -1,6 +1,7 @@
 package tv.ismar.app.network;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -12,6 +13,10 @@ import com.google.gson.JsonParseException;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +26,11 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -596,9 +606,36 @@ public interface SkyService {
 
         private static String[] domain = new String[]{"1.1.1.1", "1.1.1.2", "1.1.1.3", "1.1.1.4"};
 
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return new java.security.cert.X509Certificate[]{};
+            }
+
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                Log.i("TrustManager", "checkClientTrusted");
+            }
+
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                Log.i("TrustManager", "checkServerTrusted");
+            }
+        }};
+
         private ServiceManager() {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+
+            SSLContext sc = null;
+            try {
+                sc = SSLContext.getInstance("TLS");
+                sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
+
             final OkHttpClient mClient = new OkHttpClient.Builder()
                     .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
@@ -606,6 +643,7 @@ public interface SkyService {
 //                    .addNetworkInterceptor(VodApplication.getHttpTrafficInterceptor())
 //                    .retryOnConnectionFailure(true)
                     .addInterceptor(interceptor)
+                    .sslSocketFactory(sc.getSocketFactory())
                     .build();
 
 //            if (executeActive) {
@@ -656,8 +694,8 @@ public interface SkyService {
             adSkyService = adRetrofit.create(SkyService.class);
 
             Retrofit upgradeRetrofit = new Retrofit.Builder()
-                    .baseUrl(appendProtocol(domain[2]))
-//                    .baseUrl(appendProtocol("http://124.42.65.66/"))
+//                    .baseUrl(appendProtocol(domain[2]))
+                    .baseUrl(appendProtocol("http://124.42.65.66/"))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
