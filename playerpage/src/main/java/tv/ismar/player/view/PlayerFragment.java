@@ -1578,7 +1578,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         isExit = true;
         cancelTimer();
         if (mIsmartvPlayer != null) {
-            mIsmartvPlayer.logVideoExit();
+            mIsmartvPlayer.logVideoExit(mCurrentPosition);
         }
         if (mIsmartvPlayer != null) {
             mIsmartvPlayer.stopPlayBack();
@@ -1655,6 +1655,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             public void onDismiss() {
                 switch (popType) {
                     case POP_TYPE_PLAYER_ERROR:
+                        if (mIsmartvPlayer != null) {
+                            mIsmartvPlayer.logVideoExit(mCurrentPosition);
+                        }
                         // 播放器异常情况,判断播放进度临界值,剩余时长8分钟为界,小于8分钟下次从头播放
                         int value = 8 * 1000 * 60;
                         if (mIsmartvPlayer != null && (mIsmartvPlayer.getDuration() - mCurrentPosition <= value)) {
@@ -1662,9 +1665,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         }
                         if (!mIsPlayingAd) {
                             addHistory(mCurrentPosition, true, false);
-                        }
-                        if (mIsmartvPlayer != null) {
-                            mIsmartvPlayer.logVideoExit();
                         }
                         mIsmartvPlayer = null;
                         finishActivity();
