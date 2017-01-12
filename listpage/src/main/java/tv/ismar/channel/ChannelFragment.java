@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -249,7 +250,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 }
             });
         }
-
 
         right_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
