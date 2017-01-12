@@ -143,6 +143,8 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			@Override
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_LEFT);
+				mHGridView.setFocusableInTouchMode(true);
+				mHGridView.setFocusable(true);
 				if(left_shadow.getVisibility() != View.VISIBLE){
 					View lastView = mHGridView.getChildAt(0);
 					if(lastView != null){
@@ -158,6 +160,8 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			@Override
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_RIGHT);
+				mHGridView.setFocusableInTouchMode(true);
+				mHGridView.setFocusable(true);
 				if(right_shadow.getVisibility() != View.VISIBLE){
 					View lastView = mHGridView.getChildAt(mHGridView.getChildCount()-1);
 					if(lastView != null){

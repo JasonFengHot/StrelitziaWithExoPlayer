@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -228,6 +229,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 @Override
                 public void onClick(View view) {
                     mHGridView.pageScroll(View.FOCUS_LEFT);
+                    mHGridView.setFocusableInTouchMode(true);
+                    mHGridView.setFocusable(true);
                     view.requestFocus();
                 }
             });
@@ -236,6 +239,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 public void onClick(View view) {
                     mHGridView.pageScroll(View.FOCUS_RIGHT);
                     view.requestFocus();
+                    mHGridView.setFocusableInTouchMode(true);
+                    mHGridView.setFocusable(true);
                     if(right_shadow.getVisibility() != View.VISIBLE){
                         View lastView = mScrollableSectionList.mContainer.getChildAt(mScrollableSectionList.mContainer.getChildCount() - 1);
                         if(lastView != null){
@@ -245,7 +250,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 }
             });
         }
-
 
         right_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 

@@ -144,6 +144,8 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
 			@Override
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_LEFT);
+                mHGridView.setFocusableInTouchMode(true);
+                mHGridView.setFocusable(true);
 			}
 		});
 		right_shadow.setOnClickListener(new OnClickListener() {
@@ -152,6 +154,8 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_RIGHT);
 				 left_shadow.setVisibility(View.VISIBLE);
+                mHGridView.setFocusableInTouchMode(true);
+                mHGridView.setFocusable(true);
 			}
 		});
 //        btn_search = (Button) findViewById(R.id.list_view_search);

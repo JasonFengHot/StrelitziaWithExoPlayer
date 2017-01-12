@@ -170,6 +170,8 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 			@Override
 			public void onClick(View v) {
 				mHGridView.pageScroll(View.FOCUS_RIGHT);
+                mHGridView.setFocusableInTouchMode(true);
+                mHGridView.setFocusable(true);
 			}
 		});
 		left_shadow.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +179,8 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 			@Override
 			public void onClick(View v) {
 				mHGridView.pageScroll(View.FOCUS_LEFT);
+                mHGridView.setFocusableInTouchMode(true);
+                mHGridView.setFocusable(true);
 			}
 		});
     }
