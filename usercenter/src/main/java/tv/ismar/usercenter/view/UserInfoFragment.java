@@ -219,9 +219,10 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         mViewModel.refresh();
         ArrayList<AccountPlayAuthEntity.PlayAuth> playAuths = new ArrayList<>();
 
-        playAuths.addAll(entity.getSn_playauth_list());
-        playAuths.addAll(entity.getPlayauth_list());
-
+        for (int i= 0 ; i < 5; i++) {
+            playAuths.addAll(entity.getSn_playauth_list());
+            playAuths.addAll(entity.getPlayauth_list());
+        }
         LinearLayoutManagerTV linearLayoutManagerTV = new LinearLayoutManagerTV(getContext());
         linearLayoutManagerTV.setFocusSearchFailedListener(this);
         privilegeRecyclerView.setLayoutManager(linearLayoutManagerTV);
@@ -357,8 +358,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         }
         if (focusDirection == View.FOCUS_UP) {
             privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_item_scroll) * -1);
+            if (privilegeRecyclerView.getChildAdapterPosition(view) == 0){
+                return null;
+            }
         }
-        return null;
+        return view;
     }
 
     public void showChargeSuccessPop(BigDecimal balance) {
