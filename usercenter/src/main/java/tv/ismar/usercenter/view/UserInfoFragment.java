@@ -410,8 +410,10 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 holder.mButton.setVisibility(View.INVISIBLE);
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.watch) {
                 holder.mButton.setText("详情");
+                holder.mButton.setVisibility(View.VISIBLE);
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
                 holder.mButton.setText("续费");
+                holder.mButton.setVisibility(View.VISIBLE);
             } else {
                 holder.mButton.setVisibility(View.INVISIBLE);
             }
