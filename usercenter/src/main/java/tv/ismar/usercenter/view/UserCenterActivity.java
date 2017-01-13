@@ -304,6 +304,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     protected void onResume() {
         super.onResume();
         fargmentIsActive = true;
+        baseChannel="";
+        baseSection="";
         if (IsmartvActivator.getInstance().isLogin()) {
             changeViewState(indicatorView.get(2), ViewState.Disable);
         } else {
