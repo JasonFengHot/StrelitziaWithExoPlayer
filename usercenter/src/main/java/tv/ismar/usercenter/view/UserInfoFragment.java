@@ -221,18 +221,17 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
         playAuths.addAll(entity.getSn_playauth_list());
         playAuths.addAll(entity.getPlayauth_list());
-
         LinearLayoutManagerTV linearLayoutManagerTV = new LinearLayoutManagerTV(getContext());
         linearLayoutManagerTV.setFocusSearchFailedListener(this);
         privilegeRecyclerView.setLayoutManager(linearLayoutManagerTV);
         boolean flag = false;
-        for(AccountPlayAuthEntity.PlayAuth element:playAuths) {
+        for (AccountPlayAuthEntity.PlayAuth element : playAuths) {
             if (element.getAction() == AccountPlayAuthEntity.Action.watch || element.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
                 flag = true;
                 break;
             }
         }
-        if(!flag)
+        if (!flag)
             userinfoBinding.chargeMoney.setNextFocusDownId(R.id.charge_money);
         PrivilegeAdapter privilegeAdapter = new PrivilegeAdapter(getContext(), playAuths);
         privilegeRecyclerView.setAdapter(privilegeAdapter);
@@ -357,8 +356,11 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         }
         if (focusDirection == View.FOCUS_UP) {
             privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_item_scroll) * -1);
+            if (privilegeRecyclerView.getChildAt(0).findViewById(R.id.btn) == view) {
+                return null;
+            }
         }
-        return null;
+        return view;
     }
 
     public void showChargeSuccessPop(BigDecimal balance) {
@@ -406,14 +408,16 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                 holder.mButton.setVisibility(View.INVISIBLE);
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.watch) {
                 holder.mButton.setText("详情");
+                holder.mButton.setVisibility(View.VISIBLE);
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
                 holder.mButton.setText("续费");
+                holder.mButton.setVisibility(View.VISIBLE);
             } else {
                 holder.mButton.setVisibility(View.INVISIBLE);
             }
             if (holder.mButton.getVisibility() == View.VISIBLE) {
                 holder.mButton.setId(R.id.btn);
-                if(position == mPlayAuths.size() -1){
+                if (position == mPlayAuths.size() - 1) {
                     holder.mButton.setNextFocusDownId(holder.mButton.getId());
                 }
             } else {
@@ -426,10 +430,10 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             holder.mButton.setOnHoverListener(UserInfoFragment.this);
             holder.mButton.setOnClickListener(this);
             if (privileViewIndex == position) {
-                if(holder.mButton.getVisibility() == View.VISIBLE)
-                holder.mButton.requestFocusFromTouch();
-                else 
-                 mUserCenterActivity.findViewById(R.id.usercenter_userinfo).requestFocusFromTouch();
+                if (holder.mButton.getVisibility() == View.VISIBLE)
+                    holder.mButton.requestFocusFromTouch();
+                else
+                    mUserCenterActivity.findViewById(R.id.usercenter_userinfo).requestFocusFromTouch();
                 privileViewIndex = -1;
             }
             privilegeView.add(holder.mButton);

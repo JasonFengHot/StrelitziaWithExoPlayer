@@ -69,13 +69,13 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historycollectlist_view);
-        final View background = findViewById(R.id.large_layout);
-        new BitmapDecoder().decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-                background.setBackgroundDrawable(bitmapDrawable);
-            }
-        });
+//        final View background = findViewById(R.id.large_layout);
+//        new BitmapDecoder().decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+//            @Override
+//            public void onSuccess(BitmapDrawable bitmapDrawable) {
+//                background.setBackgroundDrawable(bitmapDrawable);
+//            }
+//        });
         skyService=SkyService.ServiceManager.getService();
         mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         mLoadingDialog.setTvText(getResources().getString(R.string.loading));
@@ -112,6 +112,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         mHGridView.setOnScrollListener(this);
         mHGridView.leftbtn = left_shadow;
         mHGridView.rightbtn = right_shadow;
+        mHGridView.list_offset=21;
         left_shadow.setOnHoverListener(new View.OnHoverListener() {
 
 			@Override
@@ -143,6 +144,8 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
 			@Override
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_LEFT);
+                mHGridView.setFocusableInTouchMode(true);
+                mHGridView.setFocusable(true);
 			}
 		});
 		right_shadow.setOnClickListener(new OnClickListener() {
@@ -151,6 +154,8 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_RIGHT);
 				 left_shadow.setVisibility(View.VISIBLE);
+                mHGridView.setFocusableInTouchMode(true);
+                mHGridView.setFocusable(true);
 			}
 		});
 //        btn_search = (Button) findViewById(R.id.list_view_search);

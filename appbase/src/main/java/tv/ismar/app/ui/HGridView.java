@@ -2254,6 +2254,13 @@ public class HGridView extends AdapterView<HGridAdapter> {
 					}
 				}
 			}
+			if(mFirstPosition==0){
+				if(leftbtn!=null){
+					leftbtn.setVisibility(View.INVISIBLE);
+				}
+			}else{
+				leftbtn.setVisibility(View.VISIBLE);
+			}
 		}
 	}
     private void initChildren(){
@@ -2653,6 +2660,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 			int[] positionRange = getPositionRangeByColumn(nextCol);
 			nextPage = Math.min(positionRange[0] + currentRow, positionRange[1]);
 		}
+		Log.i("left_showd","nextpage: "+nextPage+"currentCol: "+currentCol+"pagecounte: "+pageCount);
 		if(nextPage >= 0) {
 			View v = getChildAt(mSelectedPosition - mFirstPosition);
 			mSpecificLeft = v.getLeft();

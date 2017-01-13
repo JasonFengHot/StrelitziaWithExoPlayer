@@ -34,14 +34,14 @@ public class ChannelListActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.channel_layout);
-        final View vv = findViewById(R.id.large_layout);
-        bitmapDecoder = new BitmapDecoder();
-        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-                vv.setBackgroundDrawable(bitmapDrawable);
-            }
-        });
+//        final View vv = findViewById(R.id.large_layout);
+//        bitmapDecoder = new BitmapDecoder();
+//        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+//            @Override
+//            public void onSuccess(BitmapDrawable bitmapDrawable) {
+//                vv.setBackgroundDrawable(bitmapDrawable);
+//            }
+//        });
 		head= (FrameLayout) findViewById(R.id.head_layout);
 		dip=VipMark.getInstance();
 		Intent intent = getIntent();

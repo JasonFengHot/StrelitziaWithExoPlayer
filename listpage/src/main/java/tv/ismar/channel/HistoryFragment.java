@@ -144,6 +144,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 		mHGridView.leftbtn = left_shadow;
 		mHGridView.rightbtn = right_shadow;
+		mHGridView.list_offset=21;
 		mHGridView.setOnItemClickListener(this);
 		mHGridView.setOnItemSelectedListener(this);
 		left_shadow.setOnHoverListener(new View.OnHoverListener() {
@@ -177,11 +178,15 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			@Override
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_LEFT);
+				mHGridView.setFocusableInTouchMode(true);
+				mHGridView.setFocusable(true);
 				if(left_shadow.getVisibility() != View.VISIBLE){
 					View lastView = mHGridView.getChildAt(0);
 					if(lastView != null){
 						lastView.requestFocus();
 					}
+					right_shadow.setFocusable(true);
+					right_shadow.requestFocus();
 				}
 			}
 		});
@@ -190,6 +195,8 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			@Override
 			public void onClick(View arg0) {
 				mHGridView.pageScroll(View.FOCUS_RIGHT);
+				mHGridView.setFocusableInTouchMode(true);
+				mHGridView.setFocusable(true);
 				if(right_shadow.getVisibility() != View.VISIBLE){
 					Log.i("historyLeft","view gone");
 					View lastView = mHGridView.getChildAt(mHGridView.getChildCount()-1);

@@ -1,5 +1,8 @@
 package tv.ismar.helperpage.ui.fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.helperpage.LauncherActivity;
 import tv.ismar.helperpage.R;
 import tv.ismar.helperpage.ui.activity.HomeActivity;
@@ -35,10 +39,24 @@ public class HelpFragment extends Fragment {
     private TextView tvTitle;
     private TextView tvTel;
     private TextView deviceCode;
+    private Context mContext;
+    private BitmapDecoder bitmapDecoder;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mContext = activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sakura_fragment_help, null);
+        final View view = inflater.inflate(R.layout.sakura_fragment_help, null);
+        bitmapDecoder = new BitmapDecoder();
+        bitmapDecoder.decode(mContext, R.drawable.sakura_bg_fragment, new BitmapDecoder.Callback() {
+            @Override
+            public void onSuccess(BitmapDrawable bitmapDrawable) {
+                view.setBackgroundDrawable(bitmapDrawable);
+            }
+        });
         return view;
     }
 

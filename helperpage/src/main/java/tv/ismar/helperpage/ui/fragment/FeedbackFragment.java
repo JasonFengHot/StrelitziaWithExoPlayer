@@ -3,6 +3,7 @@ package tv.ismar.helperpage.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -40,6 +41,7 @@ import tv.ismar.app.network.entity.ChatMsgEntity;
 import tv.ismar.app.network.entity.FeedBackEntity;
 import tv.ismar.app.network.entity.ProblemEntity;
 import tv.ismar.app.ui.MessageDialogFragment;
+import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.helperpage.R;
 import tv.ismar.helperpage.core.FeedbackProblem;
 import tv.ismar.helperpage.core.UploadFeedback;
@@ -74,7 +76,7 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
 
     private String snCode = TextUtils.isEmpty(IsmartvActivator.getInstance().getSnToken()) ? "sn is null" : IsmartvActivator.getInstance().getSnToken();
 
-
+    private BitmapDecoder bitmapDecoder;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -83,7 +85,14 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sakura_fragment_feedback, null);
+        final View view = inflater.inflate(R.layout.sakura_fragment_feedback, null);
+        bitmapDecoder = new BitmapDecoder();
+        bitmapDecoder.decode(mContext, R.drawable.sakura_bg_fragment, new BitmapDecoder.Callback() {
+            @Override
+            public void onSuccess(BitmapDrawable bitmapDrawable) {
+                view.setBackgroundDrawable(bitmapDrawable);
+            }
+        });
         skyService=SkyService.ServiceManager.getService();
         view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

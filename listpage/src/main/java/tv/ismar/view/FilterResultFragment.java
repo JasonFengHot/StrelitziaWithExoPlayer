@@ -104,7 +104,7 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
                 left_shadow = (Button)fragmentView.findViewById(R.id.left_shadow);
                 right_shadow = (Button)fragmentView.findViewById(R.id.right_shadow);
                 if(!isPortrait){
-                    mHGridView.list_offset=21;
+                    mHGridView.list_offset=38;
                 }else{
                     mHGridView.list_offset=15;
                 }
@@ -170,6 +170,8 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 			@Override
 			public void onClick(View v) {
 				mHGridView.pageScroll(View.FOCUS_RIGHT);
+                mHGridView.setFocusableInTouchMode(true);
+                mHGridView.setFocusable(true);
 			}
 		});
 		left_shadow.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +179,8 @@ public class FilterResultFragment extends BackHandledFragment implements Adapter
 			@Override
 			public void onClick(View v) {
 				mHGridView.pageScroll(View.FOCUS_LEFT);
+                mHGridView.setFocusableInTouchMode(true);
+                mHGridView.setFocusable(true);
 			}
 		});
     }

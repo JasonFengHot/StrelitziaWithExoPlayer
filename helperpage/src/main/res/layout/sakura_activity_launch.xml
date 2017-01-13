@@ -4,7 +4,7 @@
               android:gravity="center"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/sakura_background"
+              android:background="@color/main_bg"
         >
 
     <LinearLayout
