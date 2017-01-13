@@ -510,6 +510,7 @@ public class DetailPageActivity extends BaseActivity{
         Intent intent=new Intent();
         intent.putExtra("pk",itemPK);
         setResult(1,intent);
+        handler.removeMessages(0);
         super.onDestroy();
     }
 }
