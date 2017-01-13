@@ -120,14 +120,14 @@ public class RelatedActivity extends BaseActivity implements RelateScrollableSec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.related_view);
-        final View background = findViewById(R.id.large_layout);
-        bitmapDecoder = new BitmapDecoder();
-        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-            	background.setBackgroundDrawable(bitmapDrawable);
-            }
-        });
+//        final View background = findViewById(R.id.large_layout);
+//        bitmapDecoder = new BitmapDecoder();
+//        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+//            @Override
+//            public void onSuccess(BitmapDrawable bitmapDrawable) {
+//            	background.setBackgroundDrawable(bitmapDrawable);
+//            }
+//        });
         skyService=SkyService.ServiceManager.getService();
         mSimpleRestClient = new SimpleRestClient();
         mLoadingDialog = new LoadingDialog(this,R.style.LoadingDialog);

@@ -124,13 +124,13 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
     }
 
     private void initViews() {
-        final View background = findViewById(R.id.large_layout);
-        new BitmapDecoder().decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-                background.setBackgroundDrawable(bitmapDrawable);
-            }
-        });
+//        final View background = findViewById(R.id.large_layout);
+//        new BitmapDecoder().decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+//            @Override
+//            public void onSuccess(BitmapDrawable bitmapDrawable) {
+//                background.setBackgroundDrawable(bitmapDrawable);
+//            }
+//        });
 
         linearLeft = (LinearLayout) findViewById(R.id.linear_left);
 //        linearLeft.setOnHoverListener(mOnHoverListener);
