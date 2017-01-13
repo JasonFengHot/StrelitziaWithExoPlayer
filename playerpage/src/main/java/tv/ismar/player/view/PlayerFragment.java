@@ -1002,7 +1002,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mItemEntity = itemEntity;
 
         if (historyManager == null) {
-            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+            historyManager = ((VodApplication)getActivity().getApplicationContext()).getModuleHistoryManager();
         }
         String historyUrl = Utils.getItemUrl(itemPK);
         String isLogin = "no";
@@ -1262,7 +1262,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         Log.i(TAG, "addHistory");
         if (historyManager == null) {
-            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+            historyManager = ((VodApplication)getActivity().getApplicationContext()).getModuleHistoryManager();
         }
         History history = new History();
         history.title = mItemEntity.getTitle();
@@ -1388,7 +1388,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mModel.updateQuality();
             // 写入数据库
             if (historyManager == null) {
-                historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
+                historyManager = ((VodApplication)getActivity().getApplicationContext()).getModuleHistoryManager();
             }
             historyManager.addOrUpdateQuality(new DBQuality(0, "", mIsmartvPlayer.getCurrentQuality().getValue()));
             ret = true;

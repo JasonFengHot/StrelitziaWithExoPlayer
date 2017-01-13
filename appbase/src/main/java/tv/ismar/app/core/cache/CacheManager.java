@@ -1,7 +1,5 @@
 package tv.ismar.app.core.cache;
 
-import android.content.Context;
-
 import java.io.File;
 
 import cn.ismartv.injectdb.library.query.Select;
@@ -16,10 +14,10 @@ public class CacheManager {
     private static final String TAG = "CacheManager";
 
     private static CacheManager instance;
-    private static Context mContext;
+    private static String mSavePath;
 
-    public static void initialize(Context context) {
-        mContext = context;
+    public static void initialize(String path) {
+        mSavePath = path;
     }
 
     public static CacheManager getInstance() {
@@ -34,7 +32,7 @@ public class CacheManager {
         File downloadFile = null;
         switch (storeType) {
             case Internal:
-                downloadFile = mContext.getFileStreamPath(saveName);
+                downloadFile = new File(mSavePath, saveName);
                 break;
             case External:
                 downloadFile = new File(HardwareUtils.getSDCardCachePath(), saveName);
@@ -43,32 +41,30 @@ public class CacheManager {
 
         DownloadTable downloadTable = new Select().from(DownloadTable.class).where(DownloadTable.DOWNLOAD_PATH + " =? ", downloadFile.getAbsolutePath()).executeSingle();
         if (downloadTable == null) {
-            DownloadThreadPool.getInstance().add(new DownloadClient(mContext, url, saveName, storeType));
+            DownloadThreadPool.getInstance().add(new DownloadClient(mSavePath, url, saveName, storeType));
             return url;
         } else {
             String serverMD5 = FileUtils.getFileByUrl(url).split("\\.")[0];
             String localMD5 = downloadTable.local_md5;
             if (serverMD5.equalsIgnoreCase(localMD5)) {
                 File file = new File(downloadTable.download_path);
-                if (file.exists()){
+                if (file.exists()) {
                     return "file://" + downloadTable.download_path;
-                }else {
+                } else {
                     downloadTable.delete();
-                    DownloadThreadPool.getInstance().add(new DownloadClient(mContext, url, saveName, storeType));
+                    DownloadThreadPool.getInstance().add(new DownloadClient(mSavePath, url, saveName, storeType));
                     return url;
                 }
-                
+
             } else {
                 if (downloadTable.download_state.equals(DownloadClient.DownloadState.run.name())) {
                     //--------
                 } else if (downloadTable.download_state.equals(DownloadClient.DownloadState.complete.name())) {
                     downloadTable.delete();
-                    DownloadThreadPool.getInstance().add(new DownloadClient(mContext, url, saveName, storeType));
+                    DownloadThreadPool.getInstance().add(new DownloadClient(mSavePath, url, saveName, storeType));
                 }
                 return url;
             }
         }
     }
-
-
 }

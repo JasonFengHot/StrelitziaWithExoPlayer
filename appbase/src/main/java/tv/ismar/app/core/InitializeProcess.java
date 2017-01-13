@@ -1,8 +1,8 @@
 package tv.ismar.app.core;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.res.Resources;
+import android.net.ConnectivityManager;
 
 import com.google.gson.Gson;
 
@@ -52,11 +52,12 @@ public class InitializeProcess implements Runnable {
     public static final String IP = "ip";
     public static final String GEO_ID = "geo_id";
 
-    private Context mContext;
     private SharedPreferences mSharedPreferences;
     private OkHttpClient mOkHttpClient;
     private final String[] mDistrictArray;
     private final String[] mIspArray;
+    private Resources mResources;
+    private ConnectivityManager mConnectivityManager;
 
     Interceptor mHeaderInterceptor = new Interceptor() {
         @Override
@@ -69,11 +70,12 @@ public class InitializeProcess implements Runnable {
         }
     };
 
-    public InitializeProcess(Context context) {
-        this.mContext = context;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mDistrictArray = mContext.getResources().getStringArray(R.array.district);
-        mIspArray = mContext.getResources().getStringArray(R.array.isp);
+    public InitializeProcess(SharedPreferences sharedPreferences, Resources resources, ConnectivityManager connectivityManager) {
+        mResources = resources;
+        mConnectivityManager = connectivityManager;
+        mSharedPreferences = sharedPreferences;
+        mDistrictArray = mResources.getStringArray(R.array.district);
+        mIspArray = mResources.getStringArray(R.array.isp);
         mOkHttpClient = new OkHttpClient.Builder()
                 .retryOnConnectionFailure(true)
                 .connectTimeout(3000, TimeUnit.MILLISECONDS)
@@ -120,7 +122,7 @@ public class InitializeProcess implements Runnable {
             ActiveAndroid.beginTransaction();
             try {
                 for (int i = 0; i < mDistrictArray.length; i++) {
-                    String[] provinceArray = mContext.getResources().getStringArray(PROVINCE_STRING_ARRAY_RES[i]);
+                    String[] provinceArray = mResources.getStringArray(PROVINCE_STRING_ARRAY_RES[i]);
                     for (String province : provinceArray) {
                         ProvinceTable provinceTable = new ProvinceTable();
                         String[] strs = province.split(",");
@@ -146,7 +148,7 @@ public class InitializeProcess implements Runnable {
         if (new Select().from(CityTable.class).executeSingle() == null) {
             ActiveAndroid.beginTransaction();
             try {
-                InputStream inputStream = mContext.getResources().getAssets().open("location.txt");
+                InputStream inputStream = mResources.getAssets().open("location.txt");
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String s;
                 while ((s = bufferedReader.readLine()) != null) {
@@ -195,7 +197,7 @@ public class InitializeProcess implements Runnable {
     }
 
     private void fetchCdnList() {
-        if(!NetworkUtils.isConnected(mContext)){// 断开网络做如下请求时出错
+        if (!NetworkUtils.isConnected(mConnectivityManager)) {// 断开网络做如下请求时出错
             return;
         }
         String resultString = null;
@@ -242,7 +244,7 @@ public class InitializeProcess implements Runnable {
     }
 
     private void fetchLocationByIP() {
-        if(!NetworkUtils.isConnected(mContext)){// 断开网络做如下请求时出错
+        if (!NetworkUtils.isConnected(mConnectivityManager)) {// 断开网络做如下请求时出错
             return;
         }
         String resultString = null;

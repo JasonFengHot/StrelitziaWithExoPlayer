@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
-
 import java.util.Stack;
 
 import cn.ismartv.truetime.TrueTime;
@@ -33,7 +32,6 @@ import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.NetErrorPopWindow;
 import tv.ismar.app.widget.NoNetConnectDialog;
-import tv.ismar.app.widget.NoNetConnectWindow;
 import tv.ismar.app.widget.NoNetModuleMessagePop;
 import tv.ismar.app.widget.UpdatePopupWindow;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;

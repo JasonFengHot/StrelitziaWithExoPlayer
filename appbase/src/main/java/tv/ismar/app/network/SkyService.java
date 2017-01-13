@@ -743,15 +743,15 @@ public interface SkyService {
                     .build();
             lilyHostService = lilyHostServiceRetrofit.create(SkyService.class);
 
-            File cacheFile = new File(VodApplication.getModuleAppContext().getCacheDir(), "okhttp_cache");
+            File cacheFile = new File(VodApplication.getCacheDirPath(), "okhttp_cache");
             Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
             OkHttpClient cacheClient = new OkHttpClient.Builder()
                     .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(VodApplication.getHttpParamsInterceptor())
-                    .addInterceptor(VodApplication.getModuleAppContext().getCacheInterceptor())
+                    .addInterceptor(VodApplication.getCacheInterceptor())
                     .addInterceptor(interceptor)
-                    .addNetworkInterceptor(VodApplication.getModuleAppContext().getCacheInterceptor())
+                    .addNetworkInterceptor(VodApplication.getCacheInterceptor())
                     .cache(cache)
                     .build();
             Retrofit cacheSkyRetrofit = new Retrofit.Builder()
