@@ -475,6 +475,7 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
         gideview_layuot.setVisibility(View.GONE);
 //		mScrollableSectionList.setVisibility(View.GONE);
 		mHGridView.setVisibility(View.GONE);
+		clertFavorite.setVisibility(View.GONE);
 		collect_or_history_txt.setText(getResources().getString(R.string.no_collect_record));
 		getTvHome();
 	}
