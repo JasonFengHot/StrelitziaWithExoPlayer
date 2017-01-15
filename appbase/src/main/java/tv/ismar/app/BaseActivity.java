@@ -121,7 +121,7 @@ public class BaseActivity extends AppCompatActivity {
                         showUpdatePopup(getRootView(), updateInfo);
                     }
                 });
-                updateAgainHandler.postDelayed(updateAgainRunnable, 2000);
+                updateAgainHandler.postDelayed(updateAgainRunnable, 4000);
             }
         }
     }
