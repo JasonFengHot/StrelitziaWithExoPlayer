@@ -69,13 +69,13 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historycollectlist_view);
-        final View background = findViewById(R.id.large_layout);
-        new BitmapDecoder().decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-                background.setBackgroundDrawable(bitmapDrawable);
-            }
-        });
+//        final View background = findViewById(R.id.large_layout);
+//        new BitmapDecoder().decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+//            @Override
+//            public void onSuccess(BitmapDrawable bitmapDrawable) {
+//                background.setBackgroundDrawable(bitmapDrawable);
+//            }
+//        });
         skyService=SkyService.ServiceManager.getService();
         mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         mLoadingDialog.setTvText(getResources().getString(R.string.loading));

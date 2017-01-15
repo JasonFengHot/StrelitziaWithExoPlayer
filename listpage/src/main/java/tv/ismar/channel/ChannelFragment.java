@@ -249,6 +249,12 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                     }
                 }
             });
+            left_shadow.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    return false;
+                }
+            });
         }
 
         right_shadow.setOnFocusChangeListener(new View.OnFocusChangeListener() {

@@ -664,9 +664,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                                 mIsmartvPlayer.stopPlayBack();
                                 mIsmartvPlayer = null;
                             }
+                            // 菜单栏剧集切换
+                            createMenu();
+                            PlayerMenuItem menuItem = playerMenu.findItem(subItemPk);
+                            if(menuItem != null){
+                                menuItem.selected = false;
+                            }
                             mItemEntity.setTitle(nextItem.getTitle());
                             mItemEntity.setClip(nextItem.getClip());
                             subItemPk = nextItem.getPk();
+                            PlayerMenuItem nextMenuItem = playerMenu.findItem(subItemPk);
+                            if(nextMenuItem != null){
+                                nextMenuItem.selected = true;
+                            }
 
                             showBuffer(PlAYSTART + mItemEntity.getTitle());
 
@@ -1481,7 +1491,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void showBuffer(String msg) {
         Log.d(TAG, "showBuffer:" + msg);
         if (mIsmartvPlayer != null) {// 只要显示buffer就开始计时
-            if(count > 0){
+            if(count > 2){
                 if(mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)){
                     mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
                 }

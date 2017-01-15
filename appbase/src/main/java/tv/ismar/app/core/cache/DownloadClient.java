@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 import cn.ismartv.injectdb.library.query.Select;
 import okhttp3.OkHttpClient;
@@ -21,7 +22,7 @@ import tv.ismar.app.util.HardwareUtils;
  * Created by huaijie on 6/19/15.
  */
 public class DownloadClient implements Runnable {
-    private static final String TAG = "DownloadClient";
+    private static final String TAG = "LH/DownloadClient";
 
     private String url;
     private File downloadFile;
@@ -78,24 +79,31 @@ public class DownloadClient implements Runnable {
                 }
                 break;
         }
+        Log.d(TAG, "DownloadUrl: " + url);
 
         //database
         DownloadTable downloadTable = new Select().from(DownloadTable.class).where(DownloadTable.DOWNLOAD_PATH + " =? ", downloadFile.getAbsolutePath()).executeSingle();
         InputStream inputStream = null;
         try {
-            OkHttpClient client = new OkHttpClient();
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(6, TimeUnit.SECONDS)
+                    .readTimeout(15, TimeUnit.SECONDS)
+                    .build();
             Request request = new Request.Builder().url(url).build();
             Response response = client.newCall(request).execute();
             if (response.body() != null) {
                 inputStream = response.body().byteStream();
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[2048];
                 int byteRead;
                 while ((byteRead = inputStream.read(buffer)) != -1) {
                     fileOutputStream.write(buffer, 0, byteRead);
                 }
-//                fileOutputStream.flush();
-//                fileOutputStream.close();
-//                inputStream.close();
+                fileOutputStream.flush();
+                fileOutputStream.close();
+                inputStream.close();
+
+                fileOutputStream = null;
+                inputStream = null;
 
                 downloadTable.download_path = downloadFile.getAbsolutePath();
                 downloadTable.download_state = DownloadState.complete.name();
