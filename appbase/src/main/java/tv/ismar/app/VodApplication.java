@@ -85,7 +85,7 @@ public class VodApplication extends Application {
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
         Log.i("LH/", "applicationOnCreate:" + TrueTime.now().getTime());
-        refWatcher = LeakCanary.install(this);
+        refWatcher = installLeakCanary();
         SPUtils.init(this);
         cacheDirPath = getApplicationContext().getCacheDir().getAbsolutePath();
 
@@ -409,5 +409,10 @@ public class VodApplication extends Application {
     }
 
     private RefWatcher refWatcher;
+
+
+    private RefWatcher installLeakCanary() {
+        return RefWatcher.DISABLED;
+    }
 
 }
