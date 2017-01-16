@@ -212,8 +212,8 @@ public class LabelImageView3 extends AsyncImageView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
         super.getDrawingRect(mRect);
         int width = getLayoutParams().width;
         int height = getLayoutParams().height;
