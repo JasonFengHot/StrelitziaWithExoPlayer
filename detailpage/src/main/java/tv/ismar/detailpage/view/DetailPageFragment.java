@@ -29,6 +29,7 @@ import java.util.TimeZone;
 import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
@@ -149,7 +150,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mDetailPagePresenter.setItemEntity(mItemEntity);
         String source=getActivity().getIntent().getStringExtra("fromPage");
         if(source!=null&&source.equals("launcher")) {
-            tempInitStaticVariable();
+            DaisyUtils.tempInitStaticVariable(getActivity());
             BaseActivity.baseSection="";
             BaseActivity.baseChannel="";
             CallaPlay callaPlay = new CallaPlay();
