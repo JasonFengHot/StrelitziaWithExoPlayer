@@ -141,7 +141,13 @@ public class ChannelListActivity extends BaseActivity {
 					SystemFileUtil.getSdCardAvalible(this),
 					IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
 					SimpleRestClient.app, this.getPackageName());
+			if(!channel.equals("$bookmarks")||channel.equals("histories")){
+				callaPlay.launcher_vod_click(
+						"section", -1, homepage_template, -1
+				);
+			}
 		}
+
 		//DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
 	}
 	public void addHead(String title){
