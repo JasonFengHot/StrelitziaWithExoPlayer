@@ -11,11 +11,19 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.InitializeProcess;
+import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VipMark;
+import tv.ismar.app.core.VodUserAgent;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
+import tv.ismar.app.util.DeviceUtils;
+import tv.ismar.app.util.SPUtils;
+import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.listpage.R;
 
 public class ChannelListActivity extends BaseActivity {
@@ -48,6 +56,8 @@ public class ChannelListActivity extends BaseActivity {
 		String title = null;
 		String url = null;
 		String channel = null;
+		String fromPage=null;
+		String homepage_template=null;
 		int portraitflag =1;
 		if(intent!=null){
 			Bundle bundle = intent.getExtras();
@@ -58,6 +68,8 @@ public class ChannelListActivity extends BaseActivity {
 				
 				channel = bundle.getString("channel");
 				portraitflag = bundle.getInt("portraitflag");
+				fromPage=bundle.getString("fromPage");
+				homepage_template=bundle.getString("homepage_template");
 			}else{
 				url =intent.getStringExtra("url");
 
@@ -65,6 +77,8 @@ public class ChannelListActivity extends BaseActivity {
 
 				channel = intent.getStringExtra("channel");
 				portraitflag = intent.getIntExtra("portraitflag",0);
+				fromPage=intent.getStringExtra("fromPage");
+				homepage_template=intent.getStringExtra("homepage_template");
 			}
 		}
 		if(url==null) {
@@ -113,6 +127,23 @@ public class ChannelListActivity extends BaseActivity {
 				fragmentTransaction.add(R.id.fragment_container, channelFragment);
 			}
 			fragmentTransaction.commit();
+		}
+		if(fromPage!=null) {
+			String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
+			String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
+			String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
+			CallaPlay callaPlay = new CallaPlay();
+			callaPlay.app_start(SimpleRestClient.sn_token,
+					VodUserAgent.getModelName(), "0",
+					android.os.Build.VERSION.RELEASE,
+					SimpleRestClient.appVersion,
+					SystemFileUtil.getSdCardTotal(this),
+					SystemFileUtil.getSdCardAvalible(this),
+					IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
+					SimpleRestClient.app, this.getPackageName());
+				callaPlay.launcher_vod_click(
+						"section", -1, homepage_template, -1
+				);
 		}
 		//DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
 	}
