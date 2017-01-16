@@ -26,6 +26,7 @@ import com.blankj.utilcode.utils.ShellUtils;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -220,6 +221,12 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                                 Log.d(TAG, "isInstallSilent: " + isInstallSilent);
                                 if (isInstallSilent) {
                                     installAppLoading = true;
+                                    try {
+                                        String[] args2 = {"chmod", "604", path};
+                                        Runtime.getRuntime().exec(args2);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                     boolean installSilentSuccess = installAppSilent(path, getApplicationContext());
                                     if (!installSilentSuccess) {
                                         installAppLoading = false;
