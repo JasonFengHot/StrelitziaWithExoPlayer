@@ -104,22 +104,24 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         alipayFragment = new AlipayFragment();
         cardpayFragment = new CardPayFragment();
         balanceFragment = new BalancePayFragment();
-
-        if (category.equals(PageIntentInterface.ProductCategory.charge.name())) {
-            changeChagrgeStatus();
-            title.setText("充值");
-        } else {
-            String itemJson = intent.getStringExtra(PageIntent.EXTRA_ITEM_JSON);
-            if (!TextUtils.isEmpty(itemJson)) {
-                mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
-                pk = mItemEntity.getPk();
-                purchaseCheck(CheckType.PlayCheck);
-
-            } else {
-                pk = intent.getIntExtra("pk", 0);
-                fetchItem(pk, category);
-            }
+        if(category==null){
+            category="";
         }
+            if (category.equals(PageIntentInterface.ProductCategory.charge.name())) {
+                changeChagrgeStatus();
+                title.setText("充值");
+            } else {
+                String itemJson = intent.getStringExtra(PageIntent.EXTRA_ITEM_JSON);
+                if (!TextUtils.isEmpty(itemJson)) {
+                    mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+                    pk = mItemEntity.getPk();
+                    purchaseCheck(CheckType.PlayCheck);
+
+                } else {
+                    pk = intent.getIntExtra("pk", 0);
+                    fetchItem(pk, category);
+                }
+            }
 
     }
 

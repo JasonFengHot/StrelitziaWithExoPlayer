@@ -65,7 +65,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     public static final int INSTALL_SILENT = 0x7c;
 
-    private boolean isInstallSilent = false;
+    private volatile boolean isInstallSilent = false;
 
     public static boolean installAppLoading = false;
 
@@ -217,6 +217,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                             public void run() {
                                 String path = apkFile.getAbsolutePath();
                                 Log.d(TAG, "install apk path: " + path);
+                                Log.d(TAG, "isInstallSilent: " + isInstallSilent);
                                 if (isInstallSilent) {
                                     installAppLoading = true;
                                     boolean installSilentSuccess = installAppSilent(path, getApplicationContext());
