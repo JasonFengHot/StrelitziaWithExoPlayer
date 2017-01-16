@@ -1,5 +1,6 @@
 package tv.ismar.app.core.preferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
@@ -39,8 +40,9 @@ public class AccountSharedPrefs {
 
     private static AccountSharedPrefs instance;
 
+    private static Context mContext;
 
-    private static SharedPreferences mSharedPreferences;
+    private  static SharedPreferences mSharedPreferences;
 
     public static AccountSharedPrefs getInstance() {
         if (instance == null) {
@@ -53,22 +55,23 @@ public class AccountSharedPrefs {
         return mSharedPreferences;
     }
 
-    public static void initialize(SharedPreferences sharedPreferences) {
-        mSharedPreferences = sharedPreferences;
+    public static void initialize(Context context) {
+        mContext = context;
+        mSharedPreferences = mContext.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_WORLD_READABLE);
         mSharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
     public static String getSharedPrefs(String key) {
-        if (mSharedPreferences == null) {
+        if(mSharedPreferences == null){
             return "";
         }
-        if (TextUtils.isEmpty(key)) {
+        if(TextUtils.isEmpty(key)){
             return "";
         }
         return mSharedPreferences.getString(key, "");
     }
 
-    public static void setSharedPrefs(String key, String value) {
+    public static void  setSharedPrefs(String key, String value) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(key, value);
         editor.apply();

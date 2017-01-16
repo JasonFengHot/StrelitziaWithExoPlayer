@@ -1,18 +1,16 @@
 package tv.ismar.app;
+import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.net.ConnectivityManager;
-import android.preference.PreferenceManager;
+import android.os.Handler;
 import android.support.multidex.MultiDex;
-import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
+import com.squareup.picasso.Cache;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -30,8 +28,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
-import cn.ismartv.truetime.TrueTime;
-import tv.ismar.account.Configuration;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;
@@ -46,7 +42,9 @@ import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
+import tv.ismar.app.exception.CrashHandler;
 import tv.ismar.app.network.HttpCacheInterceptor;
+import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -56,9 +54,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 public class VodApplication extends Application {
     private static HttpParamsInterceptor mHttpParamsInterceptor;
-    private static HttpCacheInterceptor mHttpCacheInterceptor;
+    private HttpCacheInterceptor mHttpCacheInterceptor;
     public static final boolean DEBUG = true;
     private ArrayList<WeakReference<OnLowMemoryListener>> mLowMemoryListeners;
+    private static VodApplication appInstance;
     private HistoryManager mModuleHistoryManager;
     private FavoriteManager mModuleFavoriteManager;
     private DBHelper mModuleDBHelper;
@@ -73,72 +72,35 @@ public class VodApplication extends Application {
     public static final String PREFERENCE_FILE_NAME = "Daisy";
     private boolean isFinish = true;
 
-    private static String cacheDirPath;
-
-    public static String getCacheDirPath() {
-        return cacheDirPath;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
         Log.i("LH/", "applicationOnCreate:" + TrueTime.now().getTime());
-        refWatcher = installLeakCanary();
         SPUtils.init(this);
-        cacheDirPath = getApplicationContext().getCacheDir().getAbsolutePath();
-
-
-        cn.ismartv.injectdb.library.Configuration ActiveAndroidConfiguration =
-                new cn.ismartv.injectdb.library.Configuration.Builder(getApplicationContext()).
-                        create();
-        ActiveAndroid.initialize(ActiveAndroidConfiguration, true);
-
-
-        SharedPreferences sharedPreferences = getSharedPreferences("account", Context.MODE_WORLD_READABLE);
-        AccountSharedPrefs.initialize(sharedPreferences);
-        CacheManager.initialize(getFilesDir().getAbsolutePath());// 首页导视相关
+        appInstance = this;
+        ActiveAndroid.initialize(this);
+        AccountSharedPrefs.initialize(this);
+        CacheManager.initialize(this);// 首页导视相关
         load(this);
-
         ExecutorService executorService = Executors.newSingleThreadExecutor();
 
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
         Picasso.setSingletonInstance(picasso);
-
-        Configuration configuration = new Configuration(
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()),
-                (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE),
-                getApplicationContext().getPackageManager(),
-                getApplicationContext().getFilesDir().getAbsolutePath()
-
-        );
-        IsmartvActivator.initialize(configuration);
-
-
+        IsmartvActivator.initialize(this);
 //        mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
 //        mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
         mHttpParamsInterceptor = new HttpParamsInterceptor.Builder()
                 .build();
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        mHttpCacheInterceptor = new HttpCacheInterceptor(connectivityManager);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("DroidSansFallback.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
-
-        SharedPreferences initializeProcesssharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Resources initializeProcessRes = getApplicationContext().getResources();
-        ConnectivityManager initializeProcessConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (NetworkUtils.isConnected(this)) {
-            new Thread(new InitializeProcess(
-                    initializeProcesssharedPreferences,
-                    initializeProcessRes,
-                    initializeProcessConnectivityManager
-            )).start();
+            new Thread(new InitializeProcess(this)).start();
         }
         Log.i("LH/", "applicationOnCreateEnd:" + TrueTime.now().getTime());
     }
@@ -173,10 +135,16 @@ public class VodApplication extends Application {
         return mHttpParamsInterceptor;
     }
 
-    public static HttpCacheInterceptor getCacheInterceptor() {
+    public HttpCacheInterceptor getCacheInterceptor(){
+        if(mHttpCacheInterceptor == null){
+            mHttpCacheInterceptor = new HttpCacheInterceptor(this);
+        }
         return mHttpCacheInterceptor;
     }
 
+    public static VodApplication getModuleAppContext() {
+        return appInstance;
+    }
 
     public void load(Context a) {
         try {
@@ -184,10 +152,10 @@ public class VodApplication extends Application {
             mEditor = mPreferences.edit();
             Set<String> cached_log = mPreferences.getStringSet(CACHED_LOG, null);
             mEditor.remove(CACHED_LOG).commit();
-            if (!isFinish) {
-            new Thread(mUpLoadLogRunnable).start();
-            isFinish = true;
-            }
+//            if (!isFinish) {
+                new Thread(mUpLoadLogRunnable).start();
+                isFinish = true;
+//            }
             if (cached_log != null) {
                 Iterator<String> it = cached_log.iterator();
                 while (it.hasNext()) {
@@ -402,17 +370,4 @@ public class VodApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
-
-    public static RefWatcher getRefWatcher(Context context) {
-        VodApplication application = (VodApplication) context.getApplicationContext();
-        return application.refWatcher;
-    }
-
-    private RefWatcher refWatcher;
-
-
-    private RefWatcher installLeakCanary() {
-        return RefWatcher.DISABLED;
-    }
-
 }

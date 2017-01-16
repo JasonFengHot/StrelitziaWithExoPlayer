@@ -1,7 +1,6 @@
 package tv.ismar.app.network;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
 
 import java.io.IOException;
 
@@ -17,22 +16,22 @@ import tv.ismar.app.util.NetworkUtils;
 
 public class HttpCacheInterceptor implements Interceptor {
 
-    private ConnectivityManager connectivityManager;
+    private Context mContext;
 
-    public HttpCacheInterceptor(ConnectivityManager manager) {
-        connectivityManager = manager;
+    public HttpCacheInterceptor(Context context) {
+        mContext = context;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        if (!NetworkUtils.isConnected(connectivityManager)) {
+        if (!NetworkUtils.isConnected(mContext)) {
             request = request.newBuilder()
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();
         }
         okhttp3.Response originalResponse = chain.proceed(request);
-        if (NetworkUtils.isConnected(connectivityManager)) {
+        if (NetworkUtils.isConnected(mContext)) {
             //有网的时候读接口上的@Headers里的配置，你可以在这里进行统一的设置
             String cacheControl = request.cacheControl().toString();
             return originalResponse.newBuilder()

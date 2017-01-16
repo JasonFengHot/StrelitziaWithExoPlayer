@@ -107,7 +107,7 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.visibility);
         notifyPropertyChanged(BR.enabled);
         if (historyManager == null) {
-            historyManager = ((VodApplication)mContext.getApplicationContext()).getModuleHistoryManager();
+            historyManager = VodApplication.getModuleAppContext().getModuleHistoryManager();
         }
         String historyUrl = Utils.getItemUrl(mItemEntity.getPk());
         String isLogin = "no";
