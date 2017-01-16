@@ -24,18 +24,24 @@ import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
+import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
 import tv.ismar.app.entity.ItemList;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.network.SkyService;
+import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.adapter.HGridAdapterImpl;
 import tv.ismar.app.util.BitmapDecoder;
+import tv.ismar.app.util.DeviceUtils;
+import tv.ismar.app.util.SPUtils;
+import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ScrollableSectionList;
 import tv.ismar.listpage.R;
@@ -63,6 +69,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
     private Button right_shadow;
     private SkyService skyService;
     private TextView clear_history;
+    private String fromPage=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,21 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         lableString = getIntent().getStringExtra("lableString");
         initView();
         getData();
+        fromPage=getIntent().getStringExtra("fromPage");
+        if(fromPage!=null) {
+            String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
+            String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
+            String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
+            CallaPlay callaPlay = new CallaPlay();
+            callaPlay.app_start(SimpleRestClient.sn_token,
+                    VodUserAgent.getModelName(), "0",
+                    android.os.Build.VERSION.RELEASE,
+                    SimpleRestClient.appVersion,
+                    SystemFileUtil.getSdCardTotal(this),
+                    SystemFileUtil.getSdCardAvalible(this),
+                    IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
+                    SimpleRestClient.app, this.getPackageName());
+        }
     }
 
     @Override
