@@ -16,7 +16,7 @@ android {
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
         applicationId "tv.ismar.daisy"
         versionCode 1
-        versionName "1.0"
+        versionName "1"
 
         multiDexEnabled true
     }

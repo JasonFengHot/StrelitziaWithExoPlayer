@@ -30,11 +30,11 @@ public class DownloadClient implements Runnable {
     private String mSaveName;
 
     private StoreType mStoreType;
+    private Context mContext;
 
-    private String mSavePath;
 
-    public DownloadClient(String path, String downloadUrl, String saveName, StoreType storeType) {
-        mSavePath = path;
+    public DownloadClient(Context context, String downloadUrl, String saveName, StoreType storeType) {
+        mContext = context;
         url = downloadUrl;
         mServerMD5 = FileUtils.getFileByUrl(downloadUrl).split("\\.")[0];
         mStoreType = storeType;
@@ -42,7 +42,7 @@ public class DownloadClient implements Runnable {
 
         switch (mStoreType) {
             case Internal:
-                downloadFile = new File(mSavePath, mSaveName);
+                downloadFile = mContext.getFileStreamPath(mSaveName);
                 break;
             case External:
                 downloadFile = new File(HardwareUtils.getSDCardCachePath(), mSaveName);
@@ -57,7 +57,7 @@ public class DownloadClient implements Runnable {
         switch (mStoreType) {
             case Internal:
                 try {
-                    fileOutputStream = new FileOutputStream(new File(mSavePath, mSaveName));
+                    fileOutputStream = mContext.openFileOutput(mSaveName, Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
                 } catch (FileNotFoundException e) {
                     Log.e(TAG, e.getMessage());
                     return;
@@ -116,10 +116,10 @@ public class DownloadClient implements Runnable {
             Log.e(TAG, "IllegalArgumentException: " + e.getMessage());
         } finally {
             try {
-                if (fileOutputStream != null) {
+                if (fileOutputStream != null){
                     fileOutputStream.close();
                 }
-                if (inputStream != null) {
+                if (inputStream != null){
                     inputStream.close();
                 }
             } catch (IOException e) {

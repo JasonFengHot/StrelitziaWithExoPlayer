@@ -141,9 +141,6 @@ public class ChannelListActivity extends BaseActivity {
 					SystemFileUtil.getSdCardAvalible(this),
 					IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
 					SimpleRestClient.app, this.getPackageName());
-				callaPlay.launcher_vod_click(
-						"section", -1, homepage_template, -1
-				);
 		}
 		//DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
 	}

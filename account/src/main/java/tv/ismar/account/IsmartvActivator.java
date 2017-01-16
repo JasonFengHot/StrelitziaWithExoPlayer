@@ -1,15 +1,18 @@
 package tv.ismar.account;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,10 +62,10 @@ public class IsmartvActivator {
     private String version;
     private String location;
     private String sn;
+    private static Context mContext;
     private String fingerprint;
     private Retrofit SKY_Retrofit;
     private String deviceId;
-    private static Configuration mConfiguration;
 
     private static IsmartvActivator mInstance;
 
@@ -91,12 +94,12 @@ public class IsmartvActivator {
         this.location = location;
     }
 
-    public static void initialize(Configuration configuration) {
-        mConfiguration = configuration;
+    public static void initialize(Context context) {
+        mContext = context;
     }
 
     private IsmartvActivator() {
-        mSharedPreferences = mConfiguration.getSharedPreferences();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         manufacture = Build.BRAND.replace(" ", "_");
         kind = Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
         version = String.valueOf(getAppVersionCode());
@@ -122,7 +125,7 @@ public class IsmartvActivator {
     private String getDeviceId() {
         String deviceId = "test";
         try {
-            TelephonyManager tm = mConfiguration.getTelephonyManager();
+            TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
             deviceId = tm.getDeviceId();
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,9 +157,9 @@ public class IsmartvActivator {
     }
 
     private int getAppVersionCode() {
-        PackageManager packageManager = mConfiguration.getPackageManager();
+        PackageManager packageManager = mContext.getPackageManager();
         try {
-            PackageInfo packageInfo = packageManager.getPackageInfo("tv.ismar.daisy", 0);
+            PackageInfo packageInfo = packageManager.getPackageInfo(mContext.getPackageName(), 0);
             return packageInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -167,8 +170,8 @@ public class IsmartvActivator {
     private String getAppVersionName() {
         String appVersionName = new String();
         try {
-            PackageManager pm = mConfiguration.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo("tv.ismar.daisy", 0);
+            PackageManager pm = mContext.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), 0);
             appVersionName = pi.versionName;
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,7 +180,7 @@ public class IsmartvActivator {
     }
 
     private boolean isSignFileExists() {
-        return new File(mConfiguration.getSavePath(), SIGN_FILE_NAME).exists();
+        return mContext.getFileStreamPath(SIGN_FILE_NAME).exists();
     }
 
 
@@ -248,7 +251,7 @@ public class IsmartvActivator {
     private void writeToSign(byte[] bytes) {
         FileOutputStream fs;
         try {
-            fs = new FileOutputStream(new File(mConfiguration.getSavePath(), SIGN_FILE_NAME));
+            fs = mContext.openFileOutput(SIGN_FILE_NAME, Context.MODE_WORLD_READABLE);
             fs.write(bytes);
             fs.flush();
             fs.close();
@@ -279,7 +282,7 @@ public class IsmartvActivator {
 
 
     public String encryptWithPublic(String string) {
-        String signPath = new File(mConfiguration.getSavePath(), SIGN_FILE_NAME).getAbsolutePath();
+        String signPath = mContext.getFileStreamPath(SIGN_FILE_NAME).getAbsolutePath();
         String result = decryptSign(sn, signPath);
         String publicKey = result.split("\\$\\$\\$")[1];
         try {
@@ -492,7 +495,7 @@ public class IsmartvActivator {
         Log.d(TAG, "stringFromJNI: " + mysn);
         if ("noaddress".equals(mysn)) {
             mysn = Md5.md5(getDeviceId() + Build.SERIAL);
-        } else {
+        }else {
             mysn = Md5.md5(mysn);
         }
         Log.d(TAG, "sn: " + mysn);

@@ -24,21 +24,6 @@ public class NetworkUtils {
         return false;
     }
 
-    public static boolean isConnected(ConnectivityManager manager) {
-        ConnectivityManager connectivityManager = manager;
-        NetworkInfo mobNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        NetworkInfo wifiNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo ethNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET);
-        boolean isConnected = (mobNetInfo != null && mobNetInfo.isConnected())
-                || (wifiNetInfo != null && wifiNetInfo.isConnected())
-                || (ethNetInfo != null && ethNetInfo.isConnected());
-
-        if (isConnected) {
-            return true;
-        }
-        return false;
-    }
-
     /**
      * 是否wifi连接
      */
