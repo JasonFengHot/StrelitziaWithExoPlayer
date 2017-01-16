@@ -29,13 +29,22 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.BaseFragment;
+import tv.ismar.app.core.DaisyUtils;
+import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
+import tv.ismar.app.core.SimpleRestClient;
+import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
+import tv.ismar.app.player.CallaPlay;
+import tv.ismar.app.util.DeviceUtils;
+import tv.ismar.app.util.SPUtils;
+import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.R;
 import tv.ismar.statistics.DetailPageStatistics;
@@ -43,6 +52,7 @@ import tv.ismar.statistics.DetailPageStatistics;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 import static tv.ismar.app.core.PageIntentInterface.PAYMENT;
+import static tv.ismar.app.core.PageIntentInterface.POSITION;
 import static tv.ismar.app.core.PageIntentInterface.ProductCategory.Package;
 
 /**
@@ -70,6 +80,7 @@ public class PackageDetailFragment extends BaseFragment {
 
     private ItemEntity mItemEntity;
     private String source;
+    private int position;
 
     private ItemEntity[] relatedItems;
 
@@ -103,9 +114,27 @@ public class PackageDetailFragment extends BaseFragment {
         Bundle bundle = getArguments();
         mItemEntity = new Gson().fromJson(bundle.getString(EXTRA_ITEM_JSON), ItemEntity.class);
         source = bundle.getString(EXTRA_SOURCE);
+        position = bundle.getInt(POSITION,-1);
         if(source!=null&&source.equals("launcher")){
             ((BaseActivity)getActivity()).baseSection="";
             ((BaseActivity)getActivity()).baseChannel="";
+            DaisyUtils.tempInitStaticVariable(getActivity());
+            CallaPlay callaPlay = new CallaPlay();
+            callaPlay.launcher_vod_click("item",mItemEntity.getPk(),mItemEntity.getTitle(),position);
+
+            String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
+            String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
+            String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
+            callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
+                        VodUserAgent.getModelName(), "0",
+                        android.os.Build.VERSION.RELEASE,
+                        SimpleRestClient.appVersion,
+                        SystemFileUtil.getSdCardTotal(getActivity().getApplicationContext()),
+                        SystemFileUtil.getSdCardAvalible(getActivity().getApplicationContext()),
+                        IsmartvActivator.getInstance().getUsername(), province, city, isp, source,
+                        DeviceUtils.getLocalMacAddress(getActivity().getApplicationContext()),
+                        SimpleRestClient.app, getActivity().getPackageName()
+                );
         }
         mSkyService = SkyService.ServiceManager.getService();
     }

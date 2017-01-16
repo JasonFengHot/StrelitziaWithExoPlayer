@@ -29,6 +29,7 @@ import java.util.TimeZone;
 import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
+import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;

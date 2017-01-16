@@ -733,7 +733,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                                                            baseSection="";
                                                            baseChannel="";
                                                            gotoSpecialPage(recommendAdapter.getItem(position).pk, null, recommendAdapter.getItem(position).content_model, recommendAdapter.getItem(position).expense != null);
-                                                           JasmineUtil.video_search_arrive(keyWord_now, type_now, recommendAdapter.getItem(position).pk, recommendAdapter.getItem(position).item_pk, recommendAdapter.getItem(position).title);
+                                                           JasmineUtil.video_search_arrive(keyWord_now, "", recommendAdapter.getItem(position).pk, recommendAdapter.getItem(position).item_pk, recommendAdapter.getItem(position).title);
                                                        }
                                                    }
                                                }
@@ -1211,6 +1211,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     }
 
     private void fetchRecommend() {
+        JasmineUtil.video_search("", keyWord_now);
         mSkyService.apiSearchRecommend()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

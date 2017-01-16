@@ -252,6 +252,13 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             left_shadow.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    Log.i("onkeycode",keyCode+"");
+                    if(keyCode==22){
+//                        mHGridView.setFocusableInTouchMode(true);
+//                        mHGridView.setFocusable(true);
+                        mHGridView.getChildAt(mHGridView.getFirstVisiblePosition()).requestFocus();
+                        mHGridView.invalidate();
+                    }
                     return false;
                 }
             });
@@ -943,7 +950,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                         pageIntent.toDetailPage(getActivity(),"list",pk);
                     } else {
                         PageIntent playintent=new PageIntent();
-                        playintent.toPlayPage(getActivity(),item.pk,item.item_pk, Source.LIST);
+                        playintent.toPlayPage(getActivity(),item.pk,0, Source.LIST);
                     }
                 }
             }

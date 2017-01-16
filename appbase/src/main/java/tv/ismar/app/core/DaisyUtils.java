@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
 import java.util.concurrent.ExecutorService;
 
+import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.R;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.db.DBHelper;
@@ -153,5 +157,51 @@ public class DaisyUtils {
             }
         }
         return false;
+    }
+
+    // 从launcher进入详情页，初始化赋值问题
+    public static void tempInitStaticVariable(final Activity activity) {
+        new Thread() {
+            @Override
+            public void run() {
+                DisplayMetrics metric = new DisplayMetrics();
+                activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+                SimpleRestClient.densityDpi = metric.densityDpi;
+                SimpleRestClient.screenWidth = metric.widthPixels;
+                SimpleRestClient.screenHeight = metric.heightPixels;
+                PackageManager manager = activity.getPackageManager();
+                try {
+                    PackageInfo info = manager.getPackageInfo(activity.getPackageName(), 0);
+                    SimpleRestClient.appVersion = info.versionCode;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                String apiDomain = IsmartvActivator.getInstance().getApiDomain();
+                String ad_domain = IsmartvActivator.getInstance().getAdDomain();
+                String log_domain = IsmartvActivator.getInstance().getLogDomain();
+                String upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
+                if (apiDomain != null && !apiDomain.contains("http")) {
+                    apiDomain = "http://" + apiDomain;
+                }
+                if (ad_domain != null && !ad_domain.contains("http")) {
+                    ad_domain = "http://" + ad_domain;
+                }
+                if (log_domain != null && !log_domain.contains("http")) {
+                    log_domain = "http://" + log_domain;
+                }
+                if (upgrade_domain != null && !upgrade_domain.contains("http")) {
+                    upgrade_domain = "http://" + upgrade_domain;
+                }
+                SimpleRestClient.root_url = apiDomain;
+                SimpleRestClient.ad_domain = ad_domain;
+                SimpleRestClient.log_domain = log_domain;
+                SimpleRestClient.upgrade_domain = upgrade_domain;
+                SimpleRestClient.device_token = IsmartvActivator.getInstance().getDeviceToken();
+                SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
+                SimpleRestClient.zuser_token = IsmartvActivator.getInstance().getZUserToken();
+                SimpleRestClient.zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
+            }
+        }.start();
+
     }
 }

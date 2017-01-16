@@ -184,10 +184,10 @@ public class VodApplication extends Application {
             mEditor = mPreferences.edit();
             Set<String> cached_log = mPreferences.getStringSet(CACHED_LOG, null);
             mEditor.remove(CACHED_LOG).commit();
-//            if (!isFinish) {
-//            new Thread(mUpLoadLogRunnable).start();
+            if (!isFinish) {
+            new Thread(mUpLoadLogRunnable).start();
             isFinish = true;
-//            }
+            }
             if (cached_log != null) {
                 Iterator<String> it = cached_log.iterator();
                 while (it.hasNext()) {
