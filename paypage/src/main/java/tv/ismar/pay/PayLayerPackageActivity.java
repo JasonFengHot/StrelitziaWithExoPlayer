@@ -24,6 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PlayCheckManager;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
@@ -228,6 +229,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         intent.setAction("tv.ismar.pay.payment");
         intent.putExtra(PageIntent.EXTRA_PK, pk);
         intent.putExtra("model", "package");
+        intent.putExtra(PageIntentInterface.EXTRA_PRODUCT_CATEGORY, PageIntentInterface.ProductCategory.Package.toString());
         startActivityForResult(intent, PAYMENT_REQUEST_CODE);
     }
 
