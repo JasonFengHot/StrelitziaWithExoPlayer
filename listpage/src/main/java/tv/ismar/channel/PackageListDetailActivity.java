@@ -70,6 +70,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
     private SkyService skyService;
     private TextView clear_history;
     private String fromPage=null;
+    private String homepage_template=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         initView();
         getData();
         fromPage=getIntent().getStringExtra("fromPage");
+        homepage_template=getIntent().getStringExtra("homepage_template");
         if(fromPage!=null) {
             String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
             String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
@@ -106,6 +108,9 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
                     SystemFileUtil.getSdCardAvalible(this),
                     IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
                     SimpleRestClient.app, this.getPackageName());
+            callaPlay.launcher_vod_click(
+                    "section", -1, homepage_template, -1
+            );
         }
     }
 

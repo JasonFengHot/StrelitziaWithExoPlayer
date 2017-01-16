@@ -253,7 +253,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     Log.i("onkeycode",keyCode+"");
-                    if(keyCode==22){
+                    if(keyCode==event.KEYCODE_DPAD_RIGHT){
 //                        mHGridView.setFocusableInTouchMode(true);
 //                        mHGridView.setFocusable(true);
                         mHGridView.getChildAt(mHGridView.getFirstVisiblePosition()).requestFocus();
