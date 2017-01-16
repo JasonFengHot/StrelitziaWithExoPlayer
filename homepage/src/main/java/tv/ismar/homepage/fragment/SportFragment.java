@@ -24,6 +24,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Source;
@@ -246,8 +247,10 @@ public class SportFragment extends ChannelBaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         games = new ArrayList<SportGame>();
-        if(channelEntity != null)
+        if(channelEntity != null) {
+            BaseActivity.baseChannel = channelEntity.getChannel();
             fetchSportGame(channelEntity.getHomepage_url());
+        }
     }
     private void fetchSportGame(String url) {
         if (dataSubscription != null && !dataSubscription.isUnsubscribed()) {
@@ -500,6 +503,8 @@ public class SportFragment extends ChannelBaseFragment {
                 PageIntent pageIntent = new PageIntent();
                 pageIntent.toDetailPage(mContext, "homepage", pk);
 
+                CallaPlay play = new CallaPlay();
+                play.homepage_vod_click(pk, data.getTitle(), BaseActivity.baseChannel, data.getPosition(), data.getModel_name());
 //                Intent intent = new Intent();
 //                intent.setAction("tv.ismar.daisy.Item");
 //                intent.putExtra("url", data.getUrl());
@@ -510,6 +515,9 @@ public class SportFragment extends ChannelBaseFragment {
                 int itemPk = Utils.getItemPk(data.getUrl());
                 PageIntent pageIntent = new PageIntent();
                 pageIntent.toPlayPage(mContext, itemPk, -1, Source.HOMEPAGE);
+
+                CallaPlay play = new CallaPlay();
+                play.homepage_vod_click(itemPk, data.getTitle(), BaseActivity.baseChannel, data.getPosition(), data.getModel_name());
 //                tool = new InitPlayerTool(mContext);
 //                tool.channel=channelEntity.getChannel();
 //                tool.fromPage="homepage";
