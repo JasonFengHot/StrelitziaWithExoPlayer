@@ -248,7 +248,6 @@ public class SportFragment extends ChannelBaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         games = new ArrayList<SportGame>();
         if(channelEntity != null) {
-            BaseActivity.baseChannel = channelEntity.getChannel();
             fetchSportGame(channelEntity.getHomepage_url());
         }
     }
@@ -276,6 +275,7 @@ public class SportFragment extends ChannelBaseFragment {
                         }
                         ArrayList<Poster> postlist = homePagerEntity.getPosters();
                         ArrayList<Carousel> carousels = homePagerEntity.getCarousels();
+                        BaseActivity.baseChannel = channelEntity.getChannel();
                         if("sport".equals(channelEntity.getChannel())) {
                             getSport();
                         }else if("game".equals(channelEntity.getChannel())){

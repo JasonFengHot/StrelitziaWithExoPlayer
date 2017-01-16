@@ -35,7 +35,7 @@ public class AdImageDialog extends Dialog {
     private Context mContext;
     private int width;
     private int height;
-    private long mDuration;
+//    private long mDuration;
     private List<AdElementEntity> mAdElementEntityList;
     private int mCurrentAdIndex = 0;
     private ImageView imageView;
@@ -61,7 +61,7 @@ public class AdImageDialog extends Dialog {
         button = (Button) findViewById(R.id.player_pause_close);
         button.setVisibility(View.GONE);
 
-        mDuration = TrueTime.now().getTime();
+//        mDuration = TrueTime.now().getTime();
 
         if (sensorTimer == null) {
             sensorTimer = new Timer();
@@ -106,6 +106,15 @@ public class AdImageDialog extends Dialog {
                                     public void onSuccess() {
                                         button.setVisibility(View.VISIBLE);
                                         button.requestFocus();
+
+//                                        mDuration = TrueTime.now().getTime() - mDuration;
+                                        callaPlay.pause_ad_play(
+                                                mAdElementEntityList.get(mCurrentAdIndex).getTitle(),
+                                                mAdElementEntityList.get(mCurrentAdIndex).getMedia_id(),
+                                                mAdElementEntityList.get(mCurrentAdIndex).getMedia_url(),
+                                                6000, "bestv");
+
+//                                        mDuration = TrueTime.now().getTime();
                                     }
 
                                     @Override
@@ -156,12 +165,6 @@ public class AdImageDialog extends Dialog {
     public void dismiss() {
         cancelTimer();
         super.dismiss();
-        mDuration = TrueTime.now().getTime() - mDuration;
-        callaPlay.pause_ad_play(
-                mAdElementEntityList.get(mCurrentAdIndex).getTitle(),
-                mAdElementEntityList.get(mCurrentAdIndex).getMedia_id(),
-                mAdElementEntityList.get(mCurrentAdIndex).getMedia_url(),
-                mDuration, "bestv");
     }
 
     @Override

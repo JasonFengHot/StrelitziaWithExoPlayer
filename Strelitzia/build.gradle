@@ -15,8 +15,8 @@ android {
         minSdkVersion rootProject.ext.androidMinSdkVersion
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
         applicationId "tv.ismar.daisy"
-        versionCode 3000000
-        versionName "3000000"
+        versionCode 1
+        versionName "1"
 
         multiDexEnabled true
     }
