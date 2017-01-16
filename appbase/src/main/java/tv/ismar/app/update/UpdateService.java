@@ -243,7 +243,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                     if (apkFile.exists()) {
                         apkFile.delete();
                     }
-                    postDownload(applicationEntity);
+//                    postDownload(applicationEntity);
                 }
             } else {
                 if (apkFile.exists()) {
