@@ -1211,6 +1211,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     }
 
     private void fetchRecommend() {
+        JasmineUtil.video_search("", keyWord_now);
         mSkyService.apiSearchRecommend()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
