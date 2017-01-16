@@ -150,7 +150,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mDetailPagePresenter.setItemEntity(mItemEntity);
         String source=getActivity().getIntent().getStringExtra("fromPage");
         if(source!=null&&source.equals("launcher")) {
-            DaisyUtils.tempInitStaticVariable(getActivity());
+            tempInitStaticVariable();
             BaseActivity.baseSection="";
             BaseActivity.baseChannel="";
             CallaPlay callaPlay = new CallaPlay();
