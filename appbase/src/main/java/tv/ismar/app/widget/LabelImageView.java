@@ -153,6 +153,8 @@ public class LabelImageView extends FrameLayout {
             livSelectorDrawable.draw(canvas);
             canvas.restore();
         }
+        getRootView().requestLayout();
+        getRootView().invalidate();
     }
 
     private void setBackgroundBorder(boolean focus) {
