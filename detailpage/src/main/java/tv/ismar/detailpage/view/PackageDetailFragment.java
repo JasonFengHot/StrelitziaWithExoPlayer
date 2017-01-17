@@ -35,6 +35,7 @@ import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
+import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VodUserAgent;
@@ -91,6 +92,7 @@ public class PackageDetailFragment extends BaseFragment {
     private List<ItemEntity> itemEntities;
 
     private boolean firstIn=false;
+    private String frompage;
 
     public static PackageDetailFragment newInstance(String fromPage, String itemJson) {
         PackageDetailFragment fragment = new PackageDetailFragment();
@@ -115,7 +117,8 @@ public class PackageDetailFragment extends BaseFragment {
         mItemEntity = new Gson().fromJson(bundle.getString(EXTRA_ITEM_JSON), ItemEntity.class);
         source = bundle.getString(EXTRA_SOURCE);
         position = bundle.getInt(POSITION,-1);
-        if(source!=null&&source.equals("launcher")){
+        frompage = getActivity().getIntent().getStringExtra("fromPage");
+        if(frompage !=null&& frompage.equals("launcher")){
             ((BaseActivity)getActivity()).baseSection="";
             ((BaseActivity)getActivity()).baseChannel="";
             DaisyUtils.tempInitStaticVariable(getActivity());
@@ -131,7 +134,7 @@ public class PackageDetailFragment extends BaseFragment {
                         SimpleRestClient.appVersion,
                         SystemFileUtil.getSdCardTotal(getActivity().getApplicationContext()),
                         SystemFileUtil.getSdCardAvalible(getActivity().getApplicationContext()),
-                        IsmartvActivator.getInstance().getUsername(), province, city, isp, source,
+                        IsmartvActivator.getInstance().getUsername(), province, city, isp, frompage,
                         DeviceUtils.getLocalMacAddress(getActivity().getApplicationContext()),
                         SimpleRestClient.app, getActivity().getPackageName()
                 );
@@ -194,7 +197,7 @@ public class PackageDetailFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         requestPlayCheck(String.valueOf(mItemEntity.getPk()));
-        mPageStatistics.packageDetailIn(mItemEntity.getPk()+"", source);
+        mPageStatistics.packageDetailIn(mItemEntity.getPk()+"", source==null?frompage:source);
 
     }
 
