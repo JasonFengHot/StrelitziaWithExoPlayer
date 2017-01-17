@@ -663,11 +663,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                             if (mIsmartvPlayer != null) {
                                 mIsmartvPlayer.logVideoExit(mCurrentPosition);
                             }
-                            mCurrentPosition = 0;
-                            if (mIsmartvPlayer != null) {
-                                mIsmartvPlayer.stopPlayBack();
-                                mIsmartvPlayer = null;
-                            }
                             // 菜单栏剧集切换
                             createMenu();
                             PlayerMenuItem menuItem = playerMenu.findItem(subItemPk);
@@ -682,8 +677,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                                 nextMenuItem.selected = true;
                             }
 
+                            mCurrentPosition = 0;
+                            if (mIsmartvPlayer != null) {
+                                mIsmartvPlayer.stopPlayBack();
+                                mIsmartvPlayer = null;
+                            }
                             showBuffer(PlAYSTART + mItemEntity.getTitle());
-
                             String sign = "";
                             String code = "1";
                             mPresenter.fetchMediaUrl(nextItem.getClip().getUrl(), sign, code);
