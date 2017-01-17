@@ -174,8 +174,8 @@ public class LabelImageView3 extends AsyncImageView {
                 }
                 drawBorder = true;
                 getParent().requestLayout();
-//                getRootView().requestLayout();
-//                getRootView().invalidate();
+                getRootView().requestLayout();
+                getRootView().invalidate();
             } else {
                 drawBorder = false;
             }
