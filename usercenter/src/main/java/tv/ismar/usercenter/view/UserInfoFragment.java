@@ -73,7 +73,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     private boolean framgentIsPause = false;
 
     private UserCenterActivity mUserCenterActivity;
-    private int privileViewIndex = -1;
 
     @Override
     public void onAttach(Context context) {
@@ -166,6 +165,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         super.onResume();
         framgentIsPause = false;
         Log.d(TAG, "onResume");
+        privilegeRecyclerView.setVisibility(View.INVISIBLE);
         mPresenter.fetchPrivilege();
         mPresenter.fetchBalance();
 
@@ -216,6 +216,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
     @Override
     public void loadPrivilege(AccountPlayAuthEntity entity) {
+        privilegeRecyclerView.setVisibility(View.VISIBLE);
         mViewModel.refresh();
         ArrayList<AccountPlayAuthEntity.PlayAuth> playAuths = new ArrayList<>();
 
@@ -235,6 +236,9 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             userinfoBinding.chargeMoney.setNextFocusDownId(R.id.charge_money);
         PrivilegeAdapter privilegeAdapter = new PrivilegeAdapter(getContext(), playAuths);
         privilegeRecyclerView.setAdapter(privilegeAdapter);
+
+        mUserCenterActivity.changeUserInfoSelectStatus();
+
     }
 
     @Override
@@ -426,16 +430,8 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             holder.mButton.setNextFocusLeftId(R.id.usercenter_userinfo);
             holder.mButton.setNextFocusRightId(holder.mButton.getId());
             holder.mButton.setTag(playAuth);
-            holder.mButton.setTag(R.id.usercenter_userinfo, position);
             holder.mButton.setOnHoverListener(UserInfoFragment.this);
             holder.mButton.setOnClickListener(this);
-            if (privileViewIndex == position) {
-                if (holder.mButton.getVisibility() == View.VISIBLE)
-                    holder.mButton.requestFocusFromTouch();
-                else
-                    mUserCenterActivity.findViewById(R.id.usercenter_userinfo).requestFocusFromTouch();
-                privileViewIndex = -1;
-            }
             privilegeView.add(holder.mButton);
         }
 
@@ -460,7 +456,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
             String pk = pathSegments.get(pathSegments.size() - 1);
             String type = pathSegments.get(pathSegments.size() - 2);
             PageIntent pageIntent = new PageIntent();
-            privileViewIndex = (Integer) (v.getTag(R.id.usercenter_userinfo));
             if (playAuth.getAction() == null) {
                 //
             } else if (playAuth.getAction() == AccountPlayAuthEntity.Action.watch) {

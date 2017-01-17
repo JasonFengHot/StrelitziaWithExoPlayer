@@ -693,4 +693,10 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             DaisyUtils.getHistoryManager(this).addHistory(history, "no", -1);
 
     }
+
+    public void changeUserInfoSelectStatus(){
+        indicatorView.get(1).callOnClick();
+        indicatorView.get(1).requestFocus();
+        changeViewState(indicatorView.get(1), ViewState.Select);
+    }
 }
