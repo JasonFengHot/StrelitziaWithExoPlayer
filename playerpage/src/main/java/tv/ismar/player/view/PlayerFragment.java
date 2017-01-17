@@ -628,7 +628,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
             mIsmartvPlayer.start();
         }
-        timerStart(500);
+        if(mIsmartvPlayer != null && mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER){
+            timerStart(1500);
+        } else {
+            timerStart(500);
+        }
         showPannelDelayOut();
     }
 
@@ -1169,7 +1173,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.i(TAG, "mCurrentPosition:" + mCurrentPosition);
         historyPosition = mCurrentPosition;
         mIsmartvPlayer = PlayerBuilder.getInstance()
-                .setActivity(getActivity())
                 .setPlayerMode(playerMode)
                 .setItemEntity(mItemEntity)
                 .setDaisyVideoview(player_surface)
@@ -1177,6 +1180,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 .setStartPosition(mCurrentPosition)
                 .setIsPreview(mIsPreview)
                 .build();
+        mIsmartvPlayer.setContext(getActivity());
         mIsmartvPlayer.setOnBufferChangedListener(this);
         mIsmartvPlayer.setOnStateChangedListener(this);
         mIsmartvPlayer.setOnVideoSizeChangedListener(this);

@@ -16,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.VideoView;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -634,7 +635,7 @@ public class DaisyVideoView extends SurfaceView {
         public void surfaceDestroyed(SurfaceHolder holder) {
             // after we return from this we can't use the surface any more
             mSurfaceHolder = null;
-//            release(true);
+            release(true);
         }
     };
 

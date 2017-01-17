@@ -29,7 +29,6 @@ public class PlayerBuilder {
 //    public static final byte MODE_PRELOAD_PLAYER = 0x03;
 
     private byte mPlayerMode = -1;
-    private Activity mContext;
     private ItemEntity mItemEntity;
     private FrameLayout mContainer;
     private int mStartPosition = 0;
@@ -64,11 +63,6 @@ public class PlayerBuilder {
         return this;
     }
 
-    public PlayerBuilder setActivity(Activity context) {
-        mContext = context;
-        return this;
-    }
-
     public PlayerBuilder setItemEntity(ItemEntity itemEntity) {
         mItemEntity = itemEntity;
         return this;
@@ -99,10 +93,6 @@ public class PlayerBuilder {
             Log.e(TAG, "Must call setPlayerMode first.");
             throw new IllegalAccessError("Must call setPlayerMode first.");
         }
-        if (mContext == null) {
-            Log.e(TAG, "Must call setActivity first.");
-            throw new IllegalAccessError("Must call setActivity first.");
-        }
         if (mItemEntity == null) {
             Log.e(TAG, "Must call setItemEntity first.");
             throw new IllegalAccessError("Must call setItemEntity first.");
@@ -128,7 +118,6 @@ public class PlayerBuilder {
             throw new IllegalAccessError("Not support player mode.");
         }
         Log.e(TAG, "new IsmartvPlayer success.");
-        ismartvPlayer.setContext(mContext);
         ismartvPlayer.setItemEntity(mItemEntity);
         ismartvPlayer.setContainer(mContainer);
         ismartvPlayer.setDaisyVideoView(mDaisyVideoView);
@@ -139,7 +128,6 @@ public class PlayerBuilder {
 
     public void release() {
         mPlayerMode = -1;
-        mContext = null;
         mItemEntity = null;
         mContainer = null;
         sInstance = null;
