@@ -166,6 +166,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         framgentIsPause = false;
         Log.d(TAG, "onResume");
         privilegeRecyclerView.setVisibility(View.INVISIBLE);
+        mUserCenterActivity.changeUserInfoSelectStatus();
         mPresenter.fetchPrivilege();
         mPresenter.fetchBalance();
 
@@ -175,6 +176,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     @Override
     public void onPause() {
         framgentIsPause = true;
+        mPresenter.stop();
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -237,7 +239,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         PrivilegeAdapter privilegeAdapter = new PrivilegeAdapter(getContext(), playAuths);
         privilegeRecyclerView.setAdapter(privilegeAdapter);
 
-        mUserCenterActivity.changeUserInfoSelectStatus();
+
 
     }
 
