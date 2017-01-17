@@ -135,7 +135,7 @@ public class BaseActivity extends AppCompatActivity {
             expireAccessTokenPop.dismiss();
             expireAccessTokenPop = null;
         }
-        unregisterReceiver(mUpdateReceiver);
+
 
         if (updateAgainHandler != null) {
             updateAgainHandler.removeCallbacks(updateAgainRunnable);
@@ -144,6 +144,7 @@ public class BaseActivity extends AppCompatActivity {
         if (noNetConnectHandler != null) {
             noNetConnectHandler.removeCallbacks(noNetConnectRunnable);
         }
+        unregisterReceiver(mUpdateReceiver);
         super.onPause();
     }
 
@@ -464,6 +465,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         try {
             unregisterReceiver(onNetConnectReceiver);
+            unregisterReceiver(mUpdateReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }
