@@ -14,11 +14,11 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_item">
 
-        <com.example.foregroundimageview.ForegroundImageView
+        <ImageView
             android:id="@+id/image"
             android:layout_width="@dimen/paylayervip_img_width"
             android:layout_height="@dimen/paylayervip_img_height"
-            android:scaleType="fitXY"/>
+            />
 
         <ImageView
             android:id="@+id/expense_txt"

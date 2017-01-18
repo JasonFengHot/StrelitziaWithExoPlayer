@@ -144,7 +144,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         for (int i = 0; i < packageEntity.getItem_list().size(); i++) {
             final PayLayerPackageEntity.Item_list itemList = packageEntity.getItem_list().get(i);
             RelativeLayout itemView = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.item_paylayerpackage, null);
-            ForegroundImageView imageView = (ForegroundImageView) itemView.findViewById(R.id.image);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.image);
             TextView itemTitle = (TextView) itemView.findViewById(R.id.title);
             itemTitle.setText(itemList.getTitle());
             ImageView expense_txt = (ImageView) itemView.findViewById(R.id.expense_txt);
