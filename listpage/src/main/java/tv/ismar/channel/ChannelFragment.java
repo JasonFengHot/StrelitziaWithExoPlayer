@@ -616,6 +616,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                                 mHGridView.jumpToSection(selectedPosition);
                                                 mScrollableSectionList.mContainer.invalidate();
                                                 mScrollableSectionList.mContainer.getChildAt(selectedPosition+1).requestFocus();
+                                                mHGridView.requestFocus();
                                             }
 
                                         } else {
