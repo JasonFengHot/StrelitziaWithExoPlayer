@@ -429,7 +429,7 @@
                     android:layout_marginLeft="@dimen/normal_detail_label_image_ml"
                     android:textSize="@dimen/text_size_36sp"/>
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="@dimen/related__layout_h"
                     android:layout_marginTop="@dimen/related__layout_view_mt"
                     android:orientation="vertical"
