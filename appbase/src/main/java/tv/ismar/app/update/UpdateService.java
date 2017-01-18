@@ -136,11 +136,13 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
                     @Override
                     public void onError(Throwable e) {
+                        checkRemaindUpdateFile();
                         e.printStackTrace();
                     }
 
                     @Override
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
+                        checkRemaindUpdateFile();
                         md5Jsons = new CopyOnWriteArrayList<String>();
                         String title;
                         String selection = "title in (";
@@ -328,10 +330,28 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     }
 
     private void postDownload(VersionInfoV2Entity.ApplicationEntity applicationEntity) {
-        if (isMD5Error){
+        if (isMD5Error) {
 
-        }else {
+        } else {
             downloadApp(applicationEntity);
+        }
+    }
+
+    private void checkRemaindUpdateFile() {
+        List<DownloadEntity> downloadEntities = new Select().from(DownloadEntity.class).execute();
+        for (DownloadEntity entity : downloadEntities) {
+            VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(entity.json, VersionInfoV2Entity.ApplicationEntity.class);
+            int versionCode = AppUtils.getAppVersionCode(this, applicationEntity.getProduct());
+            int saveFileVersionCode = getLocalApkVersionCode(entity.savePath);
+            Log.d(TAG, "checkRemaindUpdateFile: versionCode " + versionCode);
+            Log.d(TAG, "checkRemaindUpdateFile: saveFileVersionCode " + saveFileVersionCode);
+            if (versionCode >= saveFileVersionCode){
+                File file = new File(entity.savePath);
+                if (file.exists()){
+                    file.delete();
+                }
+                entity.delete();
+            }
         }
     }
 }
