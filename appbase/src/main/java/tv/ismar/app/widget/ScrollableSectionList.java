@@ -354,11 +354,11 @@ public class ScrollableSectionList extends HorizontalScrollView {
         lastLabel.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
       //  lastLabel.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
         last_section_image.setImageResource(android.R.color.transparent);
-        if(initTab > 1 && temp++ ==0) {
-            mContainer.requestFocus();
-            mContainer.invalidate();
-            currentView = mContainer.getChildAt(0);
-        }
+//        if(initTab > 1 && temp++ ==0) {
+//            mContainer.requestFocus();
+//            mContainer.invalidate();
+//            currentView = mContainer.getChildAt(0);
+//        }
         TextView label = (TextView) currentView.findViewById(R.id.section_label);
         label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
        // label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
