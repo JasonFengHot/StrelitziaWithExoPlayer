@@ -275,8 +275,8 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
                             BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
                             bufferedSink.writeAll(responseBody.source());
                             bufferedSink.close();
-                            path = file.getAbsolutePath();
-//                            path = "asset:///test.m3u8";
+//                            path = file.getAbsolutePath();
+                            path = "asset:///test.m3u8";
                             mediaDataSourceFactory = buildDataSourceFactory(true);
                             initializePlayer();
                         } catch (IOException e) {
