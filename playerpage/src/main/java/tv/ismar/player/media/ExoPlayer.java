@@ -2,7 +2,6 @@ package tv.ismar.player.media;
 
 import android.net.Uri;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -25,8 +24,26 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
+
+import java.io.File;
+import java.io.IOException;
 
 import cn.ismartv.exoplayer.EventLogger;
+import okhttp3.ResponseBody;
+import okio.BufferedSink;
+import okio.Okio;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tv.ismar.app.network.entity.ClipEntity;
 
 /**
@@ -52,8 +69,26 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     private String path;
     private MediaSource mediaSource;
 
+    private M3U8Service mM3U8Service;
+    private Subscription mM3U8Sub;
+
+
     public ExoPlayer() {
         this(PlayerBuilder.MODE_SMART_PLAYER);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://www.baidu.com/")
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        mM3U8Service = retrofit.create(M3U8Service.class);
+
+        Logger.init(TAG)                 // default PRETTYLOGGER or use just init()
+                .methodCount(3)                 // default 2
+                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
+                .methodOffset(2);
+
+
+        // default 0
     }
 
 
@@ -68,11 +103,9 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     @Override
     protected void setMedia(String[] urls) {
         super.setMedia(urls);
+        Logger.d(urls);
         videoPaths = urls;
-        path = "asset:///test.m3u8";
-        Log.d(TAG, "video path: " + path);
-        mediaDataSourceFactory = buildDataSourceFactory(true);
-        initializePlayer();
+        fetchM3u8(urls[0]);
     }
 
 
@@ -186,9 +219,9 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     //ExoPlayer
     @Override
     public void onLoadingChanged(boolean isLoading) {
-        if (isLoading){
+        if (isLoading) {
             mOnBufferChangedListener.onBufferStart();
-        }else {
+        } else {
             mOnBufferChangedListener.onBufferEnd();
 
         }
@@ -217,5 +250,47 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     @Override
     public void onTrackSelectionsChanged(TrackSelections<? extends MappedTrackInfo> trackSelections) {
 
+    }
+
+    private void fetchM3u8(String url) {
+        mM3U8Sub = mM3U8Service.m3u8(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        try {
+                            File file = File.createTempFile("video", ".m3u8");
+                            Logger.d(file);
+                            BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+                            bufferedSink.writeAll(responseBody.source());
+                            bufferedSink.close();
+                            path = file.getAbsolutePath();
+//                            path = "asset:///test.m3u8";
+                            mediaDataSourceFactory = buildDataSourceFactory(true);
+                            initializePlayer();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    private interface M3U8Service {
+        @GET
+        @Streaming
+        Observable<ResponseBody> m3u8(
+                @Url String url
+        );
     }
 }

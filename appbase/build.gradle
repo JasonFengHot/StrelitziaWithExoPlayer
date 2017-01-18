@@ -36,6 +36,7 @@ dependencies {
     compile project(':ismartv_tvhorizontalscrollview')
     compile project(':calligraphy-2.2.0')
     compile project(':utilcode-1.3.0')
+    compile 'com.orhanobut:logger:1.15'
     compile dependencies.appCompat
     compile dependencies.recyclerView
     compile 'com.android.support:multidex:1.0.1'
