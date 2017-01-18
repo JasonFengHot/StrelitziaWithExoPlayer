@@ -12,7 +12,7 @@ public interface PageIntentInterface {
     String EXTRA_ITEM_JSON = "item_json";
     // 电视剧等多集片子集pk,与文档相同
     String EXTRA_SUBITEM_PK = "sub_item_pk";
-    String EXTRA_SOURCE = "source";
+    String EXTRA_SOURCE = "fromPage";
     String EXTRA_TYPE = "type";
     String EXTRA_TITLE= "title";
     String EXTRA_START_TIME= "time";

@@ -724,7 +724,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 }
                 finish();
             } else {
-                showExitPopup(getRootView());
+                showExitPopup(contentView);
             }
     }
 

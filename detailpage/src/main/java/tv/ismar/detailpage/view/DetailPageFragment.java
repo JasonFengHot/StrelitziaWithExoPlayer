@@ -131,7 +131,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         mPageStatistics = new DetailPageStatistics();
         if (getArguments() != null) {
             Bundle bundle = getArguments();
-            fromPage = bundle.getString("source");
+            fromPage = bundle.getString(EXTRA_SOURCE);
             String itemJson = bundle.getString(EXTRA_ITEM_JSON);
             position = bundle.getInt(POSITION,-1);
             type=bundle.getString(TYPE);
