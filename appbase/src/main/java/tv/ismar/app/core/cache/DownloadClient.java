@@ -81,6 +81,7 @@ public class DownloadClient implements Runnable {
         }
         Log.d(TAG, "DownloadUrl: " + url);
 
+        boolean isDownload = false;
         //database
         DownloadTable downloadTable = new Select().from(DownloadTable.class).where(DownloadTable.DOWNLOAD_PATH + " =? ", downloadFile.getAbsolutePath()).executeSingle();
         InputStream inputStream = null;
@@ -93,22 +94,12 @@ public class DownloadClient implements Runnable {
             Response response = client.newCall(request).execute();
             if (response.body() != null) {
                 inputStream = response.body().byteStream();
-                byte[] buffer = new byte[2048];
+                byte[] buffer = new byte[1024];
                 int byteRead;
                 while ((byteRead = inputStream.read(buffer)) != -1) {
                     fileOutputStream.write(buffer, 0, byteRead);
                 }
-                fileOutputStream.flush();
-                fileOutputStream.close();
-                inputStream.close();
-
-                fileOutputStream = null;
-                inputStream = null;
-
-                downloadTable.download_path = downloadFile.getAbsolutePath();
-                downloadTable.download_state = DownloadState.complete.name();
-                downloadTable.local_md5 = HardwareUtils.getMd5ByFile(downloadFile);
-                downloadTable.save();
+                isDownload = true;
             }
         } catch (IOException e) {
             Log.e(TAG, "IOException: " + e.getMessage());
@@ -125,6 +116,12 @@ public class DownloadClient implements Runnable {
             } catch (IOException e) {
                 Log.e(TAG, "Close stream: " + e.getMessage());
             }
+        }
+        if(isDownload){
+            downloadTable.download_path = downloadFile.getAbsolutePath();
+            downloadTable.download_state = DownloadState.complete.name();
+            downloadTable.local_md5 = HardwareUtils.getMd5ByFile(downloadFile);
+            downloadTable.save();
         }
         Log.d(TAG, "url is: " + url + " mStoreType:" + mStoreType);
         Log.d(TAG, "server md5 is: " + mServerMD5);
