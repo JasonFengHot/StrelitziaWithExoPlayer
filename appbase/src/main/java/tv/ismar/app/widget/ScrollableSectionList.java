@@ -85,7 +85,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
     public ImageView arrow_right;
     Animation scaleSmallAnimation;
     Animation scaleBigAnimation;
-    public int initTab=1;
+    private int initTab=1;
 
     public void setIsPortrait(boolean isPortrait) {
         this.isPortrait = isPortrait;
@@ -177,7 +177,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
         }
 
         this.addView(mContainer);
-
+        this.initTab = initTab;
         View childView = mContainer.getChildAt(initTab);
         if (childView != null) {
             changeSelection(initTab);
@@ -346,6 +346,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
 //            }
 //    };
 
+    int temp = 0;
     // 切换tab时调用
     private void setSectionTabProperty(View currentView, View lastSelectedView) {
         TextView lastLabel = (TextView) lastSelectedView.findViewById(R.id.section_label);
@@ -353,7 +354,11 @@ public class ScrollableSectionList extends HorizontalScrollView {
         lastLabel.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
       //  lastLabel.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));
         last_section_image.setImageResource(android.R.color.transparent);
-
+        if(initTab > 1 && temp++ ==0) {
+            mContainer.requestFocus();
+            mContainer.invalidate();
+            currentView = mContainer.getChildAt(0);
+        }
         TextView label = (TextView) currentView.findViewById(R.id.section_label);
         label.setTextColor(LABEL_TEXT_COLOR_NOFOCUSED);
        // label.setTextSize(getResources().getDimensionPixelSize(R.dimen.list_section_tabSize));

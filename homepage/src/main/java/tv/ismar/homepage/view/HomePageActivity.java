@@ -682,6 +682,13 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 String ad_domain = IsmartvActivator.getInstance().getAdDomain();
                 String log_domain = IsmartvActivator.getInstance().getLogDomain();
                 String upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
+                AccountSharedPrefs accountSharedPrefs = AccountSharedPrefs.getInstance();
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.APP_UPDATE_DOMAIN, upgrade_domain);
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.LOG_DOMAIN, log_domain);
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.API_DOMAIN, apiDomain);
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.ADVERTISEMENT_DOMAIN,ad_domain);
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.DEVICE_TOKEN, IsmartvActivator.getInstance().getDeviceToken());
+                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.SN_TOKEN, IsmartvActivator.getInstance().getSnToken());
                 if (apiDomain != null && !apiDomain.contains("http")) {
                     apiDomain = "http://" + apiDomain;
                 }
@@ -702,13 +709,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 SimpleRestClient.sn_token = IsmartvActivator.getInstance().getSnToken();
                 SimpleRestClient.zuser_token = IsmartvActivator.getInstance().getZUserToken();
                 SimpleRestClient.zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
-                AccountSharedPrefs accountSharedPrefs = AccountSharedPrefs.getInstance();
-                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.APP_UPDATE_DOMAIN, upgrade_domain);
-                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.LOG_DOMAIN, log_domain);
-                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.API_DOMAIN, apiDomain);
-                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.ADVERTISEMENT_DOMAIN,ad_domain);
-                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.DEVICE_TOKEN, IsmartvActivator.getInstance().getDeviceToken());
-                accountSharedPrefs.setSharedPrefs(AccountSharedPrefs.SN_TOKEN, IsmartvActivator.getInstance().getSnToken());
 
             }
         }.start();

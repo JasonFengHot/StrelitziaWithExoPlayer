@@ -22,7 +22,6 @@ import android.util.Log;
 
 import com.blankj.utilcode.utils.AppUtils;
 import com.blankj.utilcode.utils.FileUtils;
-import com.blankj.utilcode.utils.ShellUtils;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -37,7 +36,6 @@ import cn.ismartv.downloader.DownloadStatus;
 import cn.ismartv.injectdb.library.content.ContentProvider;
 import cn.ismartv.injectdb.library.query.Select;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
@@ -70,6 +68,8 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
     public static boolean installAppLoading = false;
 
+    public volatile boolean isMD5Error = false;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -100,6 +100,7 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
 
     private void fetchAppUpgrade() {
+        isMD5Error = false;
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String sn = mSharedPreferences.getString("sn_token", "");
         if (TextUtils.isEmpty(sn)) {
@@ -241,16 +242,17 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                             }
                         }.start();
                     } else {
+                        isMD5Error = true;
                         if (apkFile.exists()) {
                             apkFile.delete();
                         }
-                        postDownload(applicationEntity);
+//                        postDownload(applicationEntity);
                     }
                 } else {
                     if (apkFile.exists()) {
                         apkFile.delete();
                     }
-//                    postDownload(applicationEntity);
+                    postDownload(applicationEntity);
                 }
             } else {
                 if (apkFile.exists()) {
@@ -326,10 +328,10 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     }
 
     private void postDownload(VersionInfoV2Entity.ApplicationEntity applicationEntity) {
+        if (isMD5Error){
 
-
-        downloadApp(applicationEntity);
-
-
+        }else {
+            downloadApp(applicationEntity);
+        }
     }
 }
