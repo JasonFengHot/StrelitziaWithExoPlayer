@@ -104,7 +104,7 @@ public class PlayerBuilder {
         IsmartvPlayer ismartvPlayer = null;
         switch (mPlayerMode) {
             case MODE_SMART_PLAYER:
-                ismartvPlayer = new DaisyPlayer(MODE_SMART_PLAYER);
+                ismartvPlayer = new ExoPlayer();
                 break;
             case MODE_QIYI_PLAYER:
                 ismartvPlayer = new QiyiPlayer();
