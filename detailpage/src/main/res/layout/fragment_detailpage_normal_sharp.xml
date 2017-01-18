@@ -428,7 +428,7 @@
                     android:textColor="@color/module_color_white"
                     android:layout_marginLeft="@dimen/normal_detail_label_image_ml"
                     android:textSize="@dimen/text_size_36sp"/>
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/related__layout_h"
                     android:layout_marginTop="@dimen/related__layout_view_mt"
@@ -445,7 +445,9 @@
                     android:clipToPadding="false"
                     android:descendantFocusability="blocksDescendants"
                     android:focusable="true"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+
+                    >
 
                     <tv.ismar.app.widget.LabelImageView
                         android:id="@+id/rel_1_img"
@@ -505,6 +507,7 @@
                     android:layout_width="@dimen/related_item_layout_width"
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_related_item"
+                    android:layout_below="@id/related_item_layout_1"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
                     android:clickable="true"
                     android:clipChildren="false"
@@ -572,6 +575,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_related_item"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
+                    android:layout_below="@id/related_item_layout_2"
                     android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
@@ -638,6 +642,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/selector_related_item"
                     android:layout_marginTop="@dimen/normal_detail_img_mt2"
+                    android:layout_below="@id/related_item_layout_3"
                     android:clickable="true"
                     android:clipChildren="false"
                     android:clipToPadding="false"
@@ -697,7 +702,7 @@
 
 
                 </LinearLayout>
-                </LinearLayout>
+                </RelativeLayout>
                 <Button
                     android:id="@+id/detail_relative_button"
                     android:layout_width="@dimen/normal_detail_relative_button_w"
