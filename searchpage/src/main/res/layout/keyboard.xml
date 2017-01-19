@@ -38,8 +38,8 @@
             android:id="@+id/keyboard"
             android:layout_width="@dimen/full_keyboard_width"
             android:layout_height="@dimen/full_keyboard_height"
-            android:layout_marginLeft="@dimen/full_keyboard_margin_left"
-            android:layout_marginTop="@dimen/full_keyboard_margin_top"
+            android:paddingLeft="@dimen/full_keyboard_margin_left"
+            android:paddingTop="@dimen/full_keyboard_margin_top"
             jasmine:verticalSpace="@dimen/full_keyboard_v_spacing"
             jasmine:horizontalSpace="@dimen/full_keyboard_h_spacing"
             jasmine:numColumns="5"
@@ -63,8 +63,8 @@
             android:id="@+id/t9_keyboard"
             android:layout_width="@dimen/t9_keyboard_width"
             android:layout_height="@dimen/t9_keyboard_height"
-            android:layout_marginLeft="@dimen/t9_keyboard_margin_left"
-            android:layout_marginTop="@dimen/t9_keyboard_margin_top"
+            android:paddingLeft="@dimen/t9_keyboard_margin_left"
+            android:paddingTop="@dimen/t9_keyboard_margin_top"
             jasmine:verticalSpace="@dimen/t9_keyboard_v_spacing"
             jasmine:horizontalSpace="@dimen/t9_keyboard_h_spacing"
             jasmine:numColumns="3"
@@ -122,10 +122,11 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+        android:clipToPadding="false"
+        android:clipChildren="false"
             android:layout_marginLeft="@dimen/shift_key_margin_left"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/shift_key_margin_bottom">
@@ -157,6 +158,7 @@
         </RelativeLayout>
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/tv_key_0"
+                        android:layout_toRightOf="@id/tv_back"
                         android:layout_width="@dimen/item_key_width"
                         android:layout_height="@dimen/item_key_width"
                         android:padding="@dimen/long_key_padding"
@@ -165,6 +167,8 @@
                         android:layout_marginLeft="@dimen/key_0_margin_left"
                         android:descendantFocusability="beforeDescendants"
                         android:background="@drawable/key_selector"
+            android:clipToPadding="false"
+            android:clipChildren="false"
                         android:gravity="center"
                         android:nextFocusDown="@id/tv_key_0"
                         android:visibility="invisible">
@@ -181,12 +185,15 @@
                         android:id="@+id/tv_T9"
                         android:layout_width="@dimen/long_key_width"
                         android:layout_height="@dimen/long_key_height"
+                        android:layout_toRightOf="@id/tv_key_0"
                         android:padding="@dimen/long_key_padding"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:layout_marginLeft="@dimen/key_0_margin_left"
                         android:descendantFocusability="beforeDescendants"
                         android:background="@drawable/long_key_selector"
+            android:clipToPadding="false"
+            android:clipChildren="false"
                         android:gravity="center"
                         android:nextFocusDown="@id/tv_T9"
                         android:visibility="invisible">
@@ -210,5 +217,5 @@
                     android:visibility="gone"
                     android:background="@drawable/bg_button_long"/>
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

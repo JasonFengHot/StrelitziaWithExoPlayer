@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -133,19 +135,25 @@ public class ChannelListActivity extends BaseActivity {
 			String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
 			String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
 			CallaPlay callaPlay = new CallaPlay();
-			callaPlay.app_start(SimpleRestClient.sn_token,
-					VodUserAgent.getModelName(), "0",
-					android.os.Build.VERSION.RELEASE,
-					SimpleRestClient.appVersion,
-					SystemFileUtil.getSdCardTotal(this),
-					SystemFileUtil.getSdCardAvalible(this),
-					IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
-					SimpleRestClient.app, this.getPackageName());
-			if(!channel.equals("$bookmarks")||channel.equals("histories")){
-				callaPlay.launcher_vod_click(
-						"section", -1, homepage_template, -1
-				);
+			try {
+				callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
+						VodUserAgent.getModelName(), "0",
+						android.os.Build.VERSION.RELEASE,
+						SimpleRestClient.appVersion,
+						SystemFileUtil.getSdCardTotal(this),
+						SystemFileUtil.getSdCardAvalible(this),
+						IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
+						SimpleRestClient.app, this.getPackageName());
+				if(!channel.equals("$bookmarks")||channel.equals("histories")){
+					callaPlay.launcher_vod_click(
+							"section", -1, homepage_template, -1
+					);
+				}
+//				Log.i("frompage",IsmartvActivator.getInstance().getUsername()+"...."+IsmartvActivator.getInstance().getSnToken());
+			}catch (Exception e){
+				e.printStackTrace();
 			}
+
 		}
 
 		//DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
