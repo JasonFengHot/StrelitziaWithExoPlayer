@@ -237,7 +237,7 @@
 <dimen name="key_0_margin_left">21.33dp</dimen>
 
 <dimen name="t9_keyboard_width">348.00dp</dimen>
-<dimen name="t9_keyboard_height">324.00dp</dimen>
+<dimen name="t9_keyboard_height">477.00dp</dimen>
 <dimen name="t9_keyboard_margin_left">30.67dp</dimen>
 <dimen name="t9_keyboard_margin_top">153.33dp</dimen>
 <dimen name="t9_keyboard_v_spacing">36.00dp</dimen>
