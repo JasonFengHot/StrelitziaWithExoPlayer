@@ -224,8 +224,8 @@
     <dimen name="edittext_divider_margin_top">172dp</dimen>
     <dimen name="edittext_divider_margin_left">48dp</dimen>
 
-    <dimen name="full_keyboard_width">518dp</dimen>
-    <dimen name="full_keyboard_height">690dp</dimen>
+    <dimen name="full_keyboard_width">567dp</dimen>
+    <dimen name="full_keyboard_height">920dp</dimen>
     <dimen name="full_keyboard_margin_left">49dp</dimen>
     <dimen name="full_keyboard_margin_top">230dp</dimen>
     <dimen name="full_keyboard_vertival_spacing">24dp</dimen>
@@ -236,8 +236,8 @@
     <dimen name="key_width">60dp</dimen>
     <dimen name="key_0_margin_left">32dp</dimen>
 
-    <dimen name="t9_keyboard_width">522dp</dimen>
-    <dimen name="t9_keyboard_height">486dp</dimen>
+    <dimen name="t9_keyboard_width">568dp</dimen>
+    <dimen name="t9_keyboard_height">716dp</dimen>
     <dimen name="t9_keyboard_margin_left">46dp</dimen>
     <dimen name="t9_keyboard_margin_top">230dp</dimen>
     <dimen name="t9_keyboard_v_spacing">54dp</dimen>

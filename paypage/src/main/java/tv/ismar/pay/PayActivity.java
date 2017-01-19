@@ -2,8 +2,6 @@ package tv.ismar.pay;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,11 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.foregroundimageview.ForegroundImageView;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -52,9 +48,6 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_newvip_pay);
-
-        ImageView pay_back = (ImageView) findViewById(R.id.pay_back);
-        Picasso.with(this).load(R.drawable.newvip_bg).fit().centerCrop().fit().into(pay_back);
         initViews();
         Intent intent = getIntent();
         mItemId = intent.getIntExtra("item_id", -1);

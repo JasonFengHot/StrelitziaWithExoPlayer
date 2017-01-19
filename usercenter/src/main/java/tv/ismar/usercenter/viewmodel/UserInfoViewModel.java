@@ -60,7 +60,7 @@ public class UserInfoViewModel extends BaseObservable {
 
     @Bindable
     public int getBalanceVisibility() {
-        return mPresenter.getBalance().setScale(1).equals(new BigDecimal(0).setScale(1)) ? View.GONE : View.VISIBLE;
+        return mPresenter.getBalance().setScale(2).equals(new BigDecimal(0).setScale(2)) ? View.GONE : View.VISIBLE;
     }
 
     @Bindable

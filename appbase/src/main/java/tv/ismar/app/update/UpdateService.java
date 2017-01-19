@@ -136,11 +136,16 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
                     @Override
                     public void onError(Throwable e) {
+                        checkRemaindUpdateFile();
                         e.printStackTrace();
                     }
 
                     @Override
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
+                        if (mCursorLoader!=null){
+                            mCursorLoader.unregisterListener(UpdateService.this);
+                        }
+                        checkRemaindUpdateFile();
                         md5Jsons = new CopyOnWriteArrayList<String>();
                         String title;
                         String selection = "title in (";
@@ -158,8 +163,12 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
+                                if (mCursorLoader!=null){
+                                    mCursorLoader.reset();
+                                }
                                 mCursorLoader = new CursorLoader(getApplicationContext(), ContentProvider.createUri(DownloadEntity.class, null),
                                         null, finalSelection, md5Jsons.toArray(new String[]{}), null);
+
                                 mCursorLoader.registerListener(LOADER_ID_APP_UPDATE, UpdateService.this);
                                 mCursorLoader.startLoading();
                             }
@@ -314,12 +323,14 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
         for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
             String title = data.getString(data.getColumnIndex("title"));
-            Log.d(TAG, "title: " + title);
+//            Log.d(TAG, "onLoadComplete title: " + title);
             String status = data.getString(data.getColumnIndex("status"));
             if (status.equalsIgnoreCase("COMPLETED")) {
                 DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
                 if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
                     VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
+                    Log.d(TAG, "onLoadComplete pkg: " + applicationEntity.getProduct());
+                    Log.d(TAG, "onLoadComplete version: " + applicationEntity.getVersion());
                     checkUpgrade(applicationEntity);
                 }
             }
@@ -328,10 +339,28 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
     }
 
     private void postDownload(VersionInfoV2Entity.ApplicationEntity applicationEntity) {
-        if (isMD5Error){
+        if (isMD5Error) {
 
-        }else {
+        } else {
             downloadApp(applicationEntity);
+        }
+    }
+
+    private void checkRemaindUpdateFile() {
+        List<DownloadEntity> downloadEntities = new Select().from(DownloadEntity.class).execute();
+        for (DownloadEntity entity : downloadEntities) {
+            VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(entity.json, VersionInfoV2Entity.ApplicationEntity.class);
+            int versionCode = AppUtils.getAppVersionCode(this, applicationEntity.getProduct());
+            int saveFileVersionCode = getLocalApkVersionCode(entity.savePath);
+            Log.d(TAG, "checkRemaindUpdateFile: versionCode " + versionCode);
+            Log.d(TAG, "checkRemaindUpdateFile: saveFileVersionCode " + saveFileVersionCode);
+            if (versionCode >= saveFileVersionCode){
+                File file = new File(entity.savePath);
+                if (file.exists()){
+                    file.delete();
+                }
+                entity.delete();
+            }
         }
     }
 }

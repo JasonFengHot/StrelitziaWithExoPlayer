@@ -70,6 +70,8 @@ public class ItemContainer extends RelativeLayout {
             mDrawable.draw(canvas);
             canvas.restore();
         }
+            getRootView().requestLayout();
+			getRootView().invalidate();
         super.onDraw(canvas);
     }
 
