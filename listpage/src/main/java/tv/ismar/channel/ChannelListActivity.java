@@ -133,7 +133,7 @@ public class ChannelListActivity extends BaseActivity {
 			String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
 			String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
 			CallaPlay callaPlay = new CallaPlay();
-			callaPlay.app_start(SimpleRestClient.sn_token,
+			callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
 					VodUserAgent.getModelName(), "0",
 					android.os.Build.VERSION.RELEASE,
 					SimpleRestClient.appVersion,
