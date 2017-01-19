@@ -97,6 +97,7 @@ public class DownloadClient implements Runnable {
                 byte[] buffer = new byte[1024];
                 int byteRead;
                 while ((byteRead = inputStream.read(buffer)) != -1) {
+                    Log.i(TAG, "byteRead:" + byteRead);
                     fileOutputStream.write(buffer, 0, byteRead);
                 }
                 isDownload = true;
