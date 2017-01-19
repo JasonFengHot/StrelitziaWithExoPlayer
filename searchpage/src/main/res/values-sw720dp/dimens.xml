@@ -224,8 +224,8 @@
 <dimen name="edittext_divider_margin_top">114.67dp</dimen>
 <dimen name="edittext_divider_margin_left">32.00dp</dimen>
 
-<dimen name="full_keyboard_width">345.33dp</dimen>
-<dimen name="full_keyboard_height">460.00dp</dimen>
+<dimen name="full_keyboard_width">378dp</dimen>
+<dimen name="full_keyboard_height">613.00dp</dimen>
 <dimen name="full_keyboard_margin_left">32.67dp</dimen>
 <dimen name="full_keyboard_margin_top">153.33dp</dimen>
 <dimen name="full_keyboard_vertival_spacing">16.00dp</dimen>
