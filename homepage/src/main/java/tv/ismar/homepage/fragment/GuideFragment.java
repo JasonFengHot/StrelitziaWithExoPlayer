@@ -494,9 +494,9 @@ public class GuideFragment extends ChannelBaseFragment {
                 return;
             }
             linkedVideoLoadingImage.setVisibility(View.VISIBLE);
-            stopPlayback();
+//            stopPlayback();
             mSurfaceView.setVideoPath(videoPath);
-            mSurfaceView.start();
+//            mSurfaceView.start();
             mSurfaceView.setFocusable(true);
             mSurfaceView.setFocusableInTouchMode(true);
 
@@ -510,7 +510,7 @@ public class GuideFragment extends ChannelBaseFragment {
     }
 
     private void stopPlayback() {
-        mSurfaceView.pause();
+//        mSurfaceView.pause();
         mSurfaceView.stopPlayback();
 
     }
@@ -571,6 +571,9 @@ public class GuideFragment extends ChannelBaseFragment {
     private MediaPlayer.OnPreparedListener mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
+            if(mp != null && !mp.isPlaying()){
+                mp.start();
+            }
             if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
                 bitmapDecoder.interrupt();
             }
