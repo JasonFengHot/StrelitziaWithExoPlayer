@@ -377,7 +377,7 @@ public class IsmartvActivator {
         if (TextUtils.isEmpty(snToken)) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
-            return resultEntity.getDevice_token();
+            return resultEntity.getSn_Token();
         } else {
             return snToken;
         }
