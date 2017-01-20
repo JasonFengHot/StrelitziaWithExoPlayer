@@ -12,7 +12,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +72,11 @@ public class IsmartvActivator {
 
     public static IsmartvActivator getInstance() {
         if (mInstance == null) {
-            mInstance = new IsmartvActivator();
+            synchronized (IsmartvActivator.class) {
+                if (mInstance == null) {
+                    mInstance = new IsmartvActivator();
+                }
+            }
         }
         return mInstance;
     }
@@ -152,7 +157,7 @@ public class IsmartvActivator {
 
             resultEntity = new ResultEntity();
         }
-
+        saveAccountInfo(resultEntity);
         return resultEntity;
     }
 
@@ -185,7 +190,7 @@ public class IsmartvActivator {
 
 
     private ResultEntity getLicence() {
-        Log.d(TAG, "getLicence");
+        Logger.d("getLicence");
         try {
             Response<ResponseBody> response = SKY_Retrofit.create(HttpService.class).trustGetlicence(fingerprint, sn, manufacture, "1")
                     .execute();
@@ -495,7 +500,7 @@ public class IsmartvActivator {
         Log.d(TAG, "stringFromJNI: " + mysn);
         if ("noaddress".equals(mysn)) {
             mysn = Md5.md5(getDeviceId() + Build.SERIAL);
-        }else {
+        } else {
             mysn = Md5.md5(mysn);
         }
         Log.d(TAG, "sn: " + mysn);
