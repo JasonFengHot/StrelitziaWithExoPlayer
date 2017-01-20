@@ -188,7 +188,18 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                 vodHorizontalScrollView.pageScroll(View.FOCUS_RIGHT);
             }
         });
-
+        horizontalScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        vodHorizontalScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
     }
 
