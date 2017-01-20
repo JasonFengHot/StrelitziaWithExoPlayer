@@ -92,15 +92,19 @@ public class DownloadClient implements Runnable {
                     .build();
             Request request = new Request.Builder().url(url).build();
             Response response = client.newCall(request).execute();
+            long total = response.body().contentLength();
+            long current = 0;
             if (response.body() != null) {
                 inputStream = response.body().byteStream();
                 byte[] buffer = new byte[1024];
                 int byteRead;
                 while ((byteRead = inputStream.read(buffer)) != -1) {
                     Log.i(TAG, "byteRead:" + byteRead);
+                    current += byteRead;
                     fileOutputStream.write(buffer, 0, byteRead);
                 }
                 isDownload = true;
+                fileOutputStream.flush();
             }
         } catch (IOException e) {
             Log.e(TAG, "IOException: " + e.getMessage());
