@@ -409,26 +409,31 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
 //        startIntervalActive();
 
-        // 日志上报
-        String fromPage = getIntent().getStringExtra("fromPage");
-        String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
-        String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
-        String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
-        CallaPlay callaPlay = new CallaPlay();
+        final String fromPage = getIntent().getStringExtra("fromPage");
         app_start_time = TrueTime.now().getTime();
-        callaPlay.app_start(SimpleRestClient.sn_token,
-                VodUserAgent.getModelName(), "0",
-                android.os.Build.VERSION.RELEASE,
-                SimpleRestClient.appVersion,
-                SystemFileUtil.getSdCardTotal(this),
-                SystemFileUtil.getSdCardAvalible(this),
-                IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
-                SimpleRestClient.app, this.getPackageName());
+        final CallaPlay callaPlay = new CallaPlay();
         if (fromPage != null) {
             callaPlay.launcher_vod_click(
                     "section", -1, homepage_template, -1
             );
         }
+        new Thread(){
+            @Override
+            public void run() {
+                // 日志上报
+                String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
+                String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
+                String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
+                callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
+                        VodUserAgent.getModelName(), "0",
+                        android.os.Build.VERSION.RELEASE,
+                        SimpleRestClient.appVersion,
+                        SystemFileUtil.getSdCardTotal(HomePageActivity.this),
+                        SystemFileUtil.getSdCardAvalible(HomePageActivity.this),
+                        IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(HomePageActivity.this),
+                        SimpleRestClient.app, getPackageName());
+            }
+        }.start();
 
     }
 
