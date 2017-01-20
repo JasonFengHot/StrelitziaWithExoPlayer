@@ -31,12 +31,15 @@ import com.orhanobut.logger.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cn.ismartv.exoplayer.EventLogger;
 import okhttp3.ResponseBody;
 import okio.BufferedSink;
 import okio.Okio;
+import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.http.GET;
@@ -46,6 +49,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.network.entity.ClipEntity;
 
@@ -107,8 +111,7 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     protected void setMedia(String[] urls) {
         super.setMedia(urls);
         Logger.d(urls);
-        videoPaths = urls;
-        fetchM3u8(urls[0]);
+        fetchM3u8(Arrays.asList(urls));
     }
 
 
@@ -196,7 +199,7 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
 
 //            return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
 
-            for (String  path : videoPaths) {
+            for (String path : videoPaths) {
                 mediaSourceList.add(new HlsMediaSource(Uri.parse(path), mediaDataSourceFactory, mainHandler, eventLogger));
             }
 
@@ -232,12 +235,12 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     //ExoPlayer
     @Override
     public void onLoadingChanged(boolean isLoading) {
-        if (isLoading) {
-            mOnBufferChangedListener.onBufferStart();
-        } else {
-            mOnBufferChangedListener.onBufferEnd();
-
-        }
+//        if (isLoading) {
+//            mOnBufferChangedListener.onBufferStart();
+//        } else {
+//            mOnBufferChangedListener.onBufferEnd();
+//
+//        }
     }
 
     @Override
@@ -265,11 +268,32 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
 
     }
 
-    private void fetchM3u8(String url) {
-        mM3U8Sub = mM3U8Service.m3u8(url)
+    private void fetchM3u8(List<String> uris) {
+
+        Observable.just(uris)
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .map(new Func1<List<String>, List<String>>() {
+                    @Override
+                    public List<String> call(List<String> strings) {
+                        List<String> m3u8s = new ArrayList<>();
+                        for (String s : strings) {
+                            try {
+                                Response<ResponseBody> response = mM3U8Service.m3u8(s).execute();
+                                File file = File.createTempFile("video", ".m3u8");
+                                BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+                                bufferedSink.writeAll(response.body().source());
+                                bufferedSink.close();
+                                m3u8s.add(file.getAbsolutePath());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return m3u8s;
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
+                .subscribe(new Observer<List<String>>() {
                     @Override
                     public void onCompleted() {
 
@@ -281,20 +305,11 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
                     }
 
                     @Override
-                    public void onNext(ResponseBody responseBody) {
-                        try {
-                            File file = File.createTempFile("video", ".m3u8");
-                            Logger.d(file);
-                            BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
-                            bufferedSink.writeAll(responseBody.source());
-                            bufferedSink.close();
-                            path = file.getAbsolutePath();
-//                            path = "asset:///test.m3u8";
-                            mediaDataSourceFactory = buildDataSourceFactory(true);
-                            initializePlayer();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    public void onNext(List<String> strings) {
+                        Logger.d(strings);
+                        videoPaths = strings.toArray(new String[strings.size()]);
+                        mediaDataSourceFactory = buildDataSourceFactory(true);
+                        initializePlayer();
                     }
                 });
     }
@@ -302,7 +317,7 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     private interface M3U8Service {
         @GET
         @Streaming
-        Observable<ResponseBody> m3u8(
+        Call<ResponseBody> m3u8(
                 @Url String url
         );
     }
