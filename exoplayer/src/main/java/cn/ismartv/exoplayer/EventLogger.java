@@ -54,12 +54,12 @@ import java.util.Locale;
 /**
  * Logs player events using {@link Log}.
  */
-/* package */ final public class EventLogger implements ExoPlayer.EventListener,
+final public class EventLogger implements ExoPlayer.EventListener,
         AudioRendererEventListener, VideoRendererEventListener, AdaptiveMediaSourceEventListener,
         ExtractorMediaSource.EventListener, StreamingDrmSessionManager.EventListener,
         TrackSelector.EventListener<MappedTrackInfo>, MetadataRenderer.Output<List<Id3Frame>> {
 
-    private static final String TAG = "EventLogger";
+    private static final String TAG = "ExoPlayerEventLogger";
     private static final int MAX_TIMELINE_ITEM_LINES = 3;
     private static final NumberFormat TIME_FORMAT;
 

@@ -10,6 +10,8 @@ import com.google.android.exoplayer2.ExoPlayer.EventListener;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
@@ -29,6 +31,8 @@ import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.ismartv.exoplayer.EventLogger;
 import okhttp3.ResponseBody;
@@ -186,12 +190,21 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
             Uri[] uris = new Uri[1];
             uris[0] = Uri.parse(path);
 
-            MediaSource[] mediaSources = new MediaSource[uris.length];
-            mediaSources[0] = buildMediaSource(uris[0]);
+//            MediaSource[] mediaSources = new MediaSource[uris.length];
+//            mediaSources[0] = buildMediaSource(uris[0]);
+//
+//            mediaSource = mediaSources[0];
 
-            mediaSource = mediaSources[0];
+            List<MediaSource> mediaSourceList = new ArrayList<>();
 
-            player.prepare(mediaSource);
+//            return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
+            MediaSource firstSource = new HlsMediaSource(uris[0], mediaDataSourceFactory, mainHandler, eventLogger);
+            mediaSourceList.add(firstSource);
+//            MediaSource secondSource = new ExtractorMediaSource(secondVideoUri,...);
+            // Plays the first video, then the second video.
+            ConcatenatingMediaSource concatenatedSource =
+                    new ConcatenatingMediaSource(mediaSourceList.toArray(new MediaSource[mediaSourceList.size()]));
+            player.prepare(concatenatedSource);
             mOnStateChangedListener.onStarted();
         }
     }
@@ -275,8 +288,8 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
                             BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
                             bufferedSink.writeAll(responseBody.source());
                             bufferedSink.close();
-//                            path = file.getAbsolutePath();
-                            path = "asset:///test.m3u8";
+                            path = file.getAbsolutePath();
+//                            path = "asset:///test.m3u8";
                             mediaDataSourceFactory = buildDataSourceFactory(true);
                             initializePlayer();
                         } catch (IOException e) {
