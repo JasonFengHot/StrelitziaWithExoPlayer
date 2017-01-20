@@ -11,7 +11,6 @@ import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
@@ -187,8 +186,6 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
 
             player.setPlayWhenReady(true);
 
-            Uri[] uris = new Uri[1];
-            uris[0] = Uri.parse(path);
 
 //            MediaSource[] mediaSources = new MediaSource[uris.length];
 //            mediaSources[0] = buildMediaSource(uris[0]);
@@ -198,8 +195,11 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
             List<MediaSource> mediaSourceList = new ArrayList<>();
 
 //            return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
-            MediaSource firstSource = new HlsMediaSource(uris[0], mediaDataSourceFactory, mainHandler, eventLogger);
-            mediaSourceList.add(firstSource);
+
+            for (String  path : videoPaths) {
+                mediaSourceList.add(new HlsMediaSource(Uri.parse(path), mediaDataSourceFactory, mainHandler, eventLogger));
+            }
+
 //            MediaSource secondSource = new ExtractorMediaSource(secondVideoUri,...);
             // Plays the first video, then the second video.
             ConcatenatingMediaSource concatenatedSource =
