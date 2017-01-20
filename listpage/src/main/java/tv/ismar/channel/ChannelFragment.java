@@ -626,6 +626,10 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                     LogUtils.loadException("channel","list",mChannel,"",0,"","","",e.toString());
                                     e.printStackTrace();
                                     }
+                                ChannelListActivity channelListActivity= (ChannelListActivity) getActivity();
+                                if(channelListActivity.fromPage!=null){
+                                    channelListActivity.sendLog();
+                                }
                                 }
 
                             @Override

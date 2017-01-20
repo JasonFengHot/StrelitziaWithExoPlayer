@@ -441,6 +441,7 @@ public class NetworkUtils {
                     + URLEncoder.encode(jsonContent, "UTF-8") + "&deviceToken="
                     + IsmartvActivator.getInstance().getDeviceToken() + "&acessToken="
                     + IsmartvActivator.getInstance().getAuthToken();
+            Log.i("logsender",IsmartvActivator.getInstance().getSnToken()+"");
             out.writeBytes(content);
             // ///gzip
             // out.write(MessageGZIP.compressToByte(content));
