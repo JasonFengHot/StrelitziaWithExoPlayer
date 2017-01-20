@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -38,6 +40,9 @@ public class ChannelListActivity extends BaseActivity {
 	private HeadFragment headFragment;
 	private FrameLayout head;
 	private VipMark dip;
+	private String channel;
+	public String fromPage=null;
+	private String homepage_template;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,9 +60,9 @@ public class ChannelListActivity extends BaseActivity {
 		Intent intent = getIntent();
 		String title = null;
 		String url = null;
-		String channel = null;
-		String fromPage=null;
-		String homepage_template=null;
+		channel = null;
+		fromPage=null;
+
 		int portraitflag =1;
 		if(intent!=null){
 			Bundle bundle = intent.getExtras();
@@ -128,27 +133,26 @@ public class ChannelListActivity extends BaseActivity {
 			}
 			fragmentTransaction.commit();
 		}
-		if(fromPage!=null) {
-			String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
-			String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
-			String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
-			CallaPlay callaPlay = new CallaPlay();
-			callaPlay.app_start(SimpleRestClient.sn_token,
-					VodUserAgent.getModelName(), "0",
-					android.os.Build.VERSION.RELEASE,
-					SimpleRestClient.appVersion,
-					SystemFileUtil.getSdCardTotal(this),
-					SystemFileUtil.getSdCardAvalible(this),
-					IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
-					SimpleRestClient.app, this.getPackageName());
-			if(!channel.equals("$bookmarks")||channel.equals("histories")){
-				callaPlay.launcher_vod_click(
-						"section", -1, homepage_template, -1
-				);
-			}
-		}
-
 		//DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
+	}
+	public void sendLog(){
+		String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
+		String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
+		String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
+		CallaPlay callaPlay = new CallaPlay();
+		callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
+				VodUserAgent.getModelName(), "0",
+				android.os.Build.VERSION.RELEASE,
+				SimpleRestClient.appVersion,
+				SystemFileUtil.getSdCardTotal(this),
+				SystemFileUtil.getSdCardAvalible(this),
+				IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
+				SimpleRestClient.app, this.getPackageName());
+		if(!channel.equals("$bookmarks")||channel.equals("histories")){
+			callaPlay.launcher_vod_click(
+					"section", -1, homepage_template, -1
+			);
+		}
 	}
 	public void addHead(String title){
 		headFragment = new HeadFragment();

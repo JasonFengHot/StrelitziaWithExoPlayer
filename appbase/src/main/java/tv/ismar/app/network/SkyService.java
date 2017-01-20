@@ -579,6 +579,7 @@ public interface SkyService {
             @Field("nodeSpeed") String nodeSpeed
     );
 
+
     @GET
     Observable<IpLookUpEntity> fetchIP(
             @Url String url

@@ -142,6 +142,9 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
                     @Override
                     public void onNext(VersionInfoV2Entity versionInfoV2Entity) {
+                        if (mCursorLoader!=null){
+                            mCursorLoader.unregisterListener(UpdateService.this);
+                        }
                         checkRemaindUpdateFile();
                         md5Jsons = new CopyOnWriteArrayList<String>();
                         String title;
@@ -160,8 +163,12 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
+                                if (mCursorLoader!=null){
+                                    mCursorLoader.reset();
+                                }
                                 mCursorLoader = new CursorLoader(getApplicationContext(), ContentProvider.createUri(DownloadEntity.class, null),
                                         null, finalSelection, md5Jsons.toArray(new String[]{}), null);
+
                                 mCursorLoader.registerListener(LOADER_ID_APP_UPDATE, UpdateService.this);
                                 mCursorLoader.startLoading();
                             }
@@ -316,12 +323,14 @@ public class UpdateService extends Service implements Loader.OnLoadCompleteListe
 
         for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
             String title = data.getString(data.getColumnIndex("title"));
-            Log.d(TAG, "title: " + title);
+//            Log.d(TAG, "onLoadComplete title: " + title);
             String status = data.getString(data.getColumnIndex("status"));
             if (status.equalsIgnoreCase("COMPLETED")) {
                 DownloadEntity downloadEntity = new Select().from(DownloadEntity.class).where("title = ?", title).executeSingle();
                 if (downloadEntity != null && downloadEntity.status == DownloadStatus.COMPLETED) {
                     VersionInfoV2Entity.ApplicationEntity applicationEntity = new Gson().fromJson(downloadEntity.json, VersionInfoV2Entity.ApplicationEntity.class);
+                    Log.d(TAG, "onLoadComplete pkg: " + applicationEntity.getProduct());
+                    Log.d(TAG, "onLoadComplete version: " + applicationEntity.getVersion());
                     checkUpgrade(applicationEntity);
                 }
             }

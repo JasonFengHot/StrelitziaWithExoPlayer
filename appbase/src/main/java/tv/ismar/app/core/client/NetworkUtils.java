@@ -409,7 +409,7 @@ public class NetworkUtils {
             String jsonContent = base64Code(Content);
 //            String url = "http://ismartv.calla.tvxio.com/log";
 //            String url = "http://192.168.1.119:8099/m3u8parse/parseM3u8";
-            String url = appendProtocol(IsmartvActivator.getInstance().getLogDomain()) + "/log";
+            String url = appendProtocol(IsmartvActivator.getInstance().getLogDomain()) + "log";
             java.net.URL connURL = new URL(url);
             HttpURLConnection httpConn = (HttpURLConnection) connURL
                     .openConnection();
@@ -441,6 +441,7 @@ public class NetworkUtils {
                     + URLEncoder.encode(jsonContent, "UTF-8") + "&deviceToken="
                     + IsmartvActivator.getInstance().getDeviceToken() + "&acessToken="
                     + IsmartvActivator.getInstance().getAuthToken();
+            Log.i("logsender",IsmartvActivator.getInstance().getSnToken()+"");
             out.writeBytes(content);
             // ///gzip
             // out.write(MessageGZIP.compressToByte(content));

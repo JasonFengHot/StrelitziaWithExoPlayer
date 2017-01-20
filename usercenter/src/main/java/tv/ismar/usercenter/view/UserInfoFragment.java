@@ -248,7 +248,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 //        UserCenterActivity userCenterActivity = (UserCenterActivity) getActivity();
         View userInfo = mUserCenterActivity.findViewById(R.id.usercenter_userinfo);
 
-        if (entity.getBalance().add(entity.getSn_balance()).setScale(1).equals(new BigDecimal(0).setScale(1))) {
+        if (entity.getBalance().add(entity.getSn_balance()).setScale(2).equals(new BigDecimal(0).setScale(2))) {
             if (IsmartvActivator.getInstance().isLogin()) {
                 userInfo.setNextFocusRightId(R.id.exit_account);
             } else {
@@ -275,7 +275,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
         if (showChargeSuccessPop) {
             showChargeSuccessPop = false;
-            showChargeSuccessPop(entity.getBalance().add(entity.getSn_balance()).setScale(1));
+            showChargeSuccessPop(entity.getBalance().add(entity.getSn_balance()).setScale(2));
         }
     }
 
