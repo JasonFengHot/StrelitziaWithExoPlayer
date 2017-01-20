@@ -96,18 +96,23 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         fromPage=getIntent().getStringExtra("fromPage");
         homepage_template=getIntent().getStringExtra("homepage_template");
         if(fromPage!=null) {
-            String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
-            String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
-            String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
-            CallaPlay callaPlay = new CallaPlay();
-            callaPlay.app_start(SimpleRestClient.sn_token,
-                    VodUserAgent.getModelName(), "0",
-                    android.os.Build.VERSION.RELEASE,
-                    SimpleRestClient.appVersion,
-                    SystemFileUtil.getSdCardTotal(this),
-                    SystemFileUtil.getSdCardAvalible(this),
-                    IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(this),
-                    SimpleRestClient.app, this.getPackageName());
+            final String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
+            final String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
+            final String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
+            final CallaPlay callaPlay = new CallaPlay();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
+                            VodUserAgent.getModelName(), "0",
+                            android.os.Build.VERSION.RELEASE,
+                            SimpleRestClient.appVersion,
+                            SystemFileUtil.getSdCardTotal(PackageListDetailActivity.this),
+                            SystemFileUtil.getSdCardAvalible(PackageListDetailActivity.this),
+                            IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(PackageListDetailActivity.this),
+                            SimpleRestClient.app, PackageListDetailActivity.this.getPackageName());
+                }
+            }).start();
             callaPlay.launcher_vod_click(
                     "section", -1, homepage_template, -1
             );
