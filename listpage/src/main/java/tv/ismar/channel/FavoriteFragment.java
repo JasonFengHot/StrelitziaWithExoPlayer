@@ -613,12 +613,11 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			} else {
 				intent.toPlayPage(getActivity(),pk,0, Source.FAVORITE);
 			}
-			HashMap<String, Object> properties = new HashMap<String, Object>();
-			properties.put("to_title",tvHome.getObjects().get(position).getTitle());
-			properties.put("to_item",pk);
-			properties.put("to_subitem",0);
-			properties.put("position",0);
-			new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_HISTORY_OUT, properties);
+			mDataCollectionProperties = new HashMap<String, Object>();
+			mDataCollectionProperties.put("to_title",tvHome.getObjects().get(position).getTitle());
+			mDataCollectionProperties.put("to_item",pk);
+			mDataCollectionProperties.put("to_subitem",0);
+			mDataCollectionProperties.put("position",0);
 		}
 	}
 	@Override
