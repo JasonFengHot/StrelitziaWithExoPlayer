@@ -604,12 +604,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		if (i == R.id.h_grid_view) {
 			Item item = mHGridAdapter.getItem(position);
 			getClikItem(item);
-			HashMap<String, Object> properties = new HashMap<String, Object>();
-			properties.put("to_title",item.title);
-			properties.put("to_item",item.pk);
-			properties.put("to_subitem",0);
-			properties.put("position",item.position);
-			new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_HISTORY_OUT, properties);
 		} else if (i == R.id.recommend_gridview) {
 			boolean[] isSubItem = new boolean[1];
 			int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
