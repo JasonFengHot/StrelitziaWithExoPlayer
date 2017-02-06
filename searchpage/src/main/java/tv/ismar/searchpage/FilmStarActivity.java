@@ -155,8 +155,8 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         indicatorArrowRight.setOnHoverListener(this);
         contentArrowRight.setOnHoverListener(this);
         contentArrowLeft.setOnHoverListener(this);
-        horizontalScrollView.setCoverOffset(getResources().getDimensionPixelOffset(R.dimen.indicator_ll_mt));
-        vodHorizontalScrollView.setCoverOffset(getResources().getDimensionPixelOffset(R.dimen.indicator_ll_mt));
+        horizontalScrollView.setCoverOffset(25);
+        vodHorizontalScrollView.setCoverOffset(25);
         horizontalScrollView.setLeftArrow(indicatorArrowLeft);
         horizontalScrollView.setRightArrow(indicatorArrowRight);
         vodHorizontalScrollView.setLeftArrow(contentArrowLeft);
