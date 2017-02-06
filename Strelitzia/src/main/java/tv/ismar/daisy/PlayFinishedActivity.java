@@ -202,6 +202,7 @@ public class PlayFinishedActivity extends BaseActivity implements OnFocusChangeL
                 intent.setAction("tv.ismar.daisy.PFileItem");
                 intent.putExtra("title", "电影");
                 intent.putExtra("url", items[position].item_url);
+                intent.putExtra("fromPage", "related");
             } else {
                 intent.setAction("tv.ismar.daisy.Item");
                 intent.putExtra("url", items[position].item_url);
