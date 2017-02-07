@@ -208,28 +208,38 @@ public class IsmartvActivator {
             return null;
         }
     }
-
+    private boolean isactive=false;
     public ResultEntity active() {
         Log.d(TAG, "active");
         String sign = "ismartv=201415&kind=" + kind + "&sn=" + sn;
         String rsaEncryptResult = encryptWithPublic(sign);
-        try {
-            Response<ResultEntity> resultResponse = SKY_Retrofit.create(HttpService.class).
-                    trustSecurityActive(sn, manufacture, kind, version, rsaEncryptResult,
-                            fingerprint, "v3_0", getAndroidDevicesInfo())
-                    .execute();
-            if (resultResponse.errorBody() == null) {
-                mResult = resultResponse.body();
-                saveAccountInfo(mResult);
-                return mResult;
-            } else {
+        if(isactive==false) {
+            try {
+                isactive = true;
+                Response<ResultEntity> resultResponse = SKY_Retrofit.create(HttpService.class).
+                        trustSecurityActive(sn, manufacture, kind, version, rsaEncryptResult,
+                                fingerprint, "v3_0", getAndroidDevicesInfo())
+                        .execute();
+                if (resultResponse.errorBody() == null) {
+                    mResult = resultResponse.body();
+                    saveAccountInfo(mResult);
+                    return mResult;
+                } else {
+                    isactive=false;
+                    return null;
+                }
+
+            } catch (IOException e) {
+                isactive=false;
+                e.printStackTrace();
+                Log.e(TAG, "active error!!!");
                 return null;
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, "active error!!!");
+        }
+        if(mResult==null){
             return null;
+        }else{
+            return mResult;
         }
     }
 

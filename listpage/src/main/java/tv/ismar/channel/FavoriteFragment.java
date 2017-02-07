@@ -446,7 +446,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		BaseActivity.baseChannel="";
 		BaseActivity.baseSection="";
 		((ChannelListActivity)getActivity()).registerOnMenuToggleListener(this);
-		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_COLLECT_IN);
 		if(!IsmartvActivator.getInstance().isLogin()){
 					getFavoriteTask = new GetFavoriteTask();
 					getFavoriteTask.execute();
