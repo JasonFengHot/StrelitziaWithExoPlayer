@@ -297,7 +297,7 @@
 
 <dimen name="full_keyboard_v_spacing">28.00dp</dimen>
 
-<dimen name="filmStar_item_horizontal_space">13.33dp</dimen>
+<dimen name="filmStar_item_horizontal_space">13.5dp</dimen>
 <dimen name="filmStar_item_vertical_space">20.00dp</dimen>
 <dimen name="filmStar_item_top_space">21.33dp</dimen>
 

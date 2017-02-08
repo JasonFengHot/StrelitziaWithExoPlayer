@@ -12,7 +12,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +72,11 @@ public class IsmartvActivator {
 
     public static IsmartvActivator getInstance() {
         if (mInstance == null) {
-            mInstance = new IsmartvActivator();
+            synchronized (IsmartvActivator.class) {
+                if (mInstance == null) {
+                    mInstance = new IsmartvActivator();
+                }
+            }
         }
         return mInstance;
     }
@@ -152,7 +157,7 @@ public class IsmartvActivator {
 
             resultEntity = new ResultEntity();
         }
-
+        saveAccountInfo(resultEntity);
         return resultEntity;
     }
 
@@ -185,7 +190,7 @@ public class IsmartvActivator {
 
 
     private ResultEntity getLicence() {
-        Log.d(TAG, "getLicence");
+        Logger.d("getLicence");
         try {
             Response<ResponseBody> response = SKY_Retrofit.create(HttpService.class).trustGetlicence(fingerprint, sn, manufacture, "1")
                     .execute();
@@ -203,28 +208,38 @@ public class IsmartvActivator {
             return null;
         }
     }
-
+    private boolean isactive=false;
     public ResultEntity active() {
         Log.d(TAG, "active");
         String sign = "ismartv=201415&kind=" + kind + "&sn=" + sn;
         String rsaEncryptResult = encryptWithPublic(sign);
-        try {
-            Response<ResultEntity> resultResponse = SKY_Retrofit.create(HttpService.class).
-                    trustSecurityActive(sn, manufacture, kind, version, rsaEncryptResult,
-                            fingerprint, "v3_0", getAndroidDevicesInfo())
-                    .execute();
-            if (resultResponse.errorBody() == null) {
-                mResult = resultResponse.body();
-                saveAccountInfo(mResult);
-                return mResult;
-            } else {
+        if(isactive==false) {
+            try {
+                isactive = true;
+                Response<ResultEntity> resultResponse = SKY_Retrofit.create(HttpService.class).
+                        trustSecurityActive(sn, manufacture, kind, version, rsaEncryptResult,
+                                fingerprint, "v3_0", getAndroidDevicesInfo())
+                        .execute();
+                if (resultResponse.errorBody() == null) {
+                    mResult = resultResponse.body();
+                    saveAccountInfo(mResult);
+                    return mResult;
+                } else {
+                    isactive=false;
+                    return null;
+                }
+
+            } catch (IOException e) {
+                isactive=false;
+                e.printStackTrace();
+                Log.e(TAG, "active error!!!");
                 return null;
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, "active error!!!");
+        }
+        if(mResult==null){
             return null;
+        }else{
+            return mResult;
         }
     }
 
@@ -372,7 +387,7 @@ public class IsmartvActivator {
         if (TextUtils.isEmpty(snToken)) {
             ResultEntity resultEntity = execute();
             saveAccountInfo(resultEntity);
-            return resultEntity.getDevice_token();
+            return resultEntity.getSn_Token();
         } else {
             return snToken;
         }
@@ -495,7 +510,7 @@ public class IsmartvActivator {
         Log.d(TAG, "stringFromJNI: " + mysn);
         if ("noaddress".equals(mysn)) {
             mysn = Md5.md5(getDeviceId() + Build.SERIAL);
-        }else {
+        } else {
             mysn = Md5.md5(mysn);
         }
         Log.d(TAG, "sn: " + mysn);

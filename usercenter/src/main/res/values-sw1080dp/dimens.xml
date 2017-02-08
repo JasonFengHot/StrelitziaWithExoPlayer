@@ -80,7 +80,7 @@
     <dimen name="weather_city_layout_spac">60dp</dimen>
 
     <dimen name="usercenter_header_height">100dp</dimen>
-    <dimen name="product_recycler_mt">24dp</dimen>
+    <dimen name="product_recycler_mt">10dp</dimen>
     <dimen name="product_recycler_item_spacing">-4dp</dimen>
     <dimen name="product_item_mt">-6dp</dimen>
     <dimen name="userinfo_layout_pb">60dp</dimen>
@@ -124,12 +124,12 @@
     <dimen name="usercenter_vertical_divider_line_mt">15dp</dimen>
     <dimen name="prompt_layout_mb">150dp</dimen>
     <dimen name="prompt_layout_mt">442dp</dimen>
-    <dimen name="product_gridview_bp">-35dp</dimen>
+    <dimen name="product_gridview_bp">-36dp</dimen>
     <dimen name="product_gridview_lp">22dp</dimen>
     <dimen name="product_gridview_rp">21dp</dimen>
     <dimen name="product_gridview_tp">22dp</dimen>
     <dimen name="product_gridview_vertical_space">-5dp</dimen>
-    <dimen name="product_gridview_ml">14dp</dimen>
+    <dimen name="product_gridview_ml">1dp</dimen>
     <dimen name="usercenter_fragment_indicator_mt">4dp</dimen>
     <dimen name="today_weather_info_mt">-10dp</dimen>
     <dimen name="weather_icon">60dp</dimen>
@@ -159,5 +159,5 @@
     <dimen name="product_gridview_horizontal_space">-1dp</dimen>
     <dimen name="privilege_item_scroll">80dp</dimen>
     <dimen name="privilege_recycler_layout_mb">51dp</dimen>
-    <dimen name="usercenter_storefragment_packagelist_gridview_P">5dip</dimen>
+    <dimen name="usercenter_storefragment_packagelist_gridview_P">16dip</dimen>
 </resources>

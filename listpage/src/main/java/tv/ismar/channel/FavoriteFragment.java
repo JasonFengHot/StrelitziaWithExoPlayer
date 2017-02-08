@@ -446,7 +446,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		BaseActivity.baseChannel="";
 		BaseActivity.baseSection="";
 		((ChannelListActivity)getActivity()).registerOnMenuToggleListener(this);
-		new NetworkUtils.DataCollectionTask().execute(NetworkUtils.VIDEO_COLLECT_IN);
 		if(!IsmartvActivator.getInstance().isLogin()){
 					getFavoriteTask = new GetFavoriteTask();
 					getFavoriteTask.execute();
@@ -604,7 +603,6 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 		if (i == R.id.h_grid_view) {
 			Item item = mHGridAdapter.getItem(position);
 			getClikItem(item);
-
 		} else if (i == R.id.recommend_gridview) {
 			boolean[] isSubItem = new boolean[1];
 			int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
@@ -614,7 +612,11 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 			} else {
 				intent.toPlayPage(getActivity(),pk,0, Source.FAVORITE);
 			}
-
+			mDataCollectionProperties = new HashMap<String, Object>();
+			mDataCollectionProperties.put("to_title",tvHome.getObjects().get(position).getTitle());
+			mDataCollectionProperties.put("to_item",pk);
+			mDataCollectionProperties.put("to_subitem",0);
+			mDataCollectionProperties.put("position",0);
 		}
 	}
 	@Override

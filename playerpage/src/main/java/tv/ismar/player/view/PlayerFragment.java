@@ -1965,7 +1965,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
                 case KeyEvent.KEYCODE_FORWARD:
                 case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-                    mHandler.sendEmptyMessageDelayed(MSG_SEK_ACTION, 1000);
+                    if(mIsmartvPlayer != null){
+                        mHandler.sendEmptyMessageDelayed(MSG_SEK_ACTION, 1000);
+                    }
                     return true;
             }
         }

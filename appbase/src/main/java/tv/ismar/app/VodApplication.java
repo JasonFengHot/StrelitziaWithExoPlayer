@@ -1,16 +1,14 @@
 package tv.ismar.app;
-import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.squareup.picasso.Cache;
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -28,6 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;
@@ -42,9 +41,7 @@ import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
-import tv.ismar.app.exception.CrashHandler;
 import tv.ismar.app.network.HttpCacheInterceptor;
-import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -78,6 +75,7 @@ public class VodApplication extends Application {
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
         Log.i("LH/", "applicationOnCreate:" + TrueTime.now().getTime());
+        initLogger();
         SPUtils.init(this);
         appInstance = this;
         ActiveAndroid.initialize(this);
@@ -135,8 +133,8 @@ public class VodApplication extends Application {
         return mHttpParamsInterceptor;
     }
 
-    public HttpCacheInterceptor getCacheInterceptor(){
-        if(mHttpCacheInterceptor == null){
+    public HttpCacheInterceptor getCacheInterceptor() {
+        if (mHttpCacheInterceptor == null) {
             mHttpCacheInterceptor = new HttpCacheInterceptor(this);
         }
         return mHttpCacheInterceptor;
@@ -153,8 +151,8 @@ public class VodApplication extends Application {
             Set<String> cached_log = mPreferences.getStringSet(CACHED_LOG, null);
             mEditor.remove(CACHED_LOG).commit();
 //            if (!isFinish) {
-                new Thread(mUpLoadLogRunnable).start();
-                isFinish = true;
+            new Thread(mUpLoadLogRunnable).start();
+            isFinish = true;
 //            }
             if (cached_log != null) {
                 Iterator<String> it = cached_log.iterator();
@@ -369,5 +367,13 @@ public class VodApplication extends Application {
         Log.i("LH/", "attachBaseContext:" + TrueTime.now().getTime());
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    private void initLogger() {
+        Logger
+                .init("VOD_APPLICATION")                 // default PRETTYLOGGER or use just init()
+                .methodCount(10)                 // default 2
+                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
+                .methodOffset(2);      // default 0
     }
 }

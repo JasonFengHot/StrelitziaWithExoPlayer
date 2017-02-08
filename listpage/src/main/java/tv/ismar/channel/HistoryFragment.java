@@ -754,7 +754,6 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		if (i == R.id.h_grid_view) {
 			Item item = mHGridAdapter.getItem(position);
 			getClicItem(item);
-
 		} else if (i == R.id.recommend_gridview) {
 			boolean[] isSubItem = new boolean[1];
 			int pk=SimpleRestClient.getItemId(tvHome.getObjects().get(position).getItem_url(),isSubItem);
@@ -764,7 +763,13 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 			} else {
 				intent.toPlayPage(getActivity(),pk,0, Source.HISTORY);
 			}
+			mDataCollectionProperties = new HashMap<String, Object>();
+			mDataCollectionProperties.put("to_title",tvHome.getObjects().get(position).getTitle());
+			mDataCollectionProperties.put("to_item",pk);
+			mDataCollectionProperties.put("to_subitem",0);
+			mDataCollectionProperties.put("position",0);
 		}
+
 	}
 	private void setTvHome(VideoEntity videoEntity) {
 		tvHome=videoEntity;

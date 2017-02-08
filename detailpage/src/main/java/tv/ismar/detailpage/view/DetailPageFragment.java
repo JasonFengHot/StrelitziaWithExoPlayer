@@ -221,8 +221,8 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void onStop() {
-        String sn = IsmartvActivator.getInstance().getSnToken();
-        Log.i("LH/", "sn:" + sn);
+//        String sn = IsmartvActivator.getInstance().getSnToken();
+//        Log.i("LH/", "sn:" + sn);
         super.onStop();
     }
 
