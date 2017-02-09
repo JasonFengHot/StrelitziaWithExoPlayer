@@ -5,22 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
 import rx.android.schedulers.AndroidSchedulers;
@@ -31,16 +29,15 @@ import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
 import tv.ismar.app.models.ActorRelateRequestParams;
 import tv.ismar.app.models.AttributesEntity;
-import tv.ismar.app.models.Expense;
 import tv.ismar.app.models.PersonEntitiy;
-import tv.ismar.app.models.Section;
+import tv.ismar.app.models.SearchItemCollection;
 import tv.ismar.app.models.SemanticSearchResponseEntity;
 import tv.ismar.app.models.SemantichObjectEntity;
+import tv.ismar.app.ui.HGridView;
+import tv.ismar.app.ui.adapter.HGridSearchAdapterImpl;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.searchpage.utils.JasmineUtil;
 import tv.ismar.searchpage.weight.MyDialog;
-import tv.ismar.searchpage.weight.ReflectionTransformationBuilder;
-import tv.ismar.searchpage.weight.RotateTextView;
 
 /**
  * Created by huaijie on 2/22/16.
@@ -52,8 +49,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     private long pk;
     private TextView filmStartitle;
     private LinearLayout indicatorListLayout;
-    private LinearLayout vodListView;
-    private TvHorizontalScrollView vodHorizontalScrollView;
+    private HGridView vodHorizontalScrollView;
 
     private ImageView contentArrowLeft;
     private ImageView contentArrowRight;
@@ -80,6 +76,10 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     private ImageView mContentBackgroundView;
     private MyDialog errorDialog;
     private String title;
+    private HGridSearchAdapterImpl searchAdapter;
+    private ArrayList<SemantichObjectEntity> vodList;
+    private boolean mIsBusy = false;
+    private ArrayList<SearchItemCollection> mItemCollections;
 
 
     @Override
@@ -106,6 +106,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     @Override
     protected void onResume() {
         super.onResume();
+        mIsBusy = false;
         if (vodItemClickedView != null) {
             vodItemClickedView.requestFocusFromTouch();
             vodItemClickedView.requestFocus();
@@ -143,8 +144,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         indicatorArrowLeft = (ImageView) findViewById(R.id.indicator_left_new);
         indicatorArrowRight = (ImageView) findViewById(R.id.indicator_right_new);
         horizontalScrollView = (TvHorizontalScrollView) findViewById(R.id.scrollview_new);
-        vodListView = (LinearLayout) findViewById(R.id.vod_list_view_new);
-        vodHorizontalScrollView = (TvHorizontalScrollView) findViewById(R.id.vod_scrollview_new);
+        vodHorizontalScrollView = (HGridView) findViewById(R.id.vod_scrollview_new);
         dividerLine = (ImageView) findViewById(R.id.divider_line_new);
         mContentBackgroundView = (ImageView) findViewById(R.id.content_bg_new);
         contentArrowRight.setOnFocusChangeListener(this);
@@ -156,13 +156,11 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         contentArrowRight.setOnHoverListener(this);
         contentArrowLeft.setOnHoverListener(this);
         horizontalScrollView.setCoverOffset(25);
-        vodHorizontalScrollView.setCoverOffset(25);
         horizontalScrollView.setLeftArrow(indicatorArrowLeft);
         horizontalScrollView.setRightArrow(indicatorArrowRight);
-        vodHorizontalScrollView.setLeftArrow(contentArrowLeft);
-        vodHorizontalScrollView.setRightArrow(contentArrowRight);
-//        horizontalScrollView.setOnNothingSeleted(this);
-//        vodHorizontalScrollView.setOnNothingSeleted(this);
+        indicatorListLayout.setNextFocusDownId(R.id.vod_scrollview_new);
+        vodHorizontalScrollView.leftbtn=contentArrowLeft;
+        vodHorizontalScrollView.rightbtn=contentArrowRight;
 
         indicatorArrowLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,6 +183,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         contentArrowRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                vodHorizontalScrollView.setSelection(vodHorizontalScrollView.getFirstPosition()+4);
                 vodHorizontalScrollView.pageScroll(View.FOCUS_RIGHT);
             }
         });
@@ -194,10 +193,89 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                 return true;
             }
         });
-        vodHorizontalScrollView.setOnTouchListener(new View.OnTouchListener() {
+        vodHorizontalScrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    PageIntent pageIntent=new PageIntent();
+                    SemantichObjectEntity semantichObjectEntity= vodList.get(position);
+                    String contentModel =semantichObjectEntity.getContent_model();
+                    String itemTitle=semantichObjectEntity.getTitle();
+                    long pk=Long.valueOf(semantichObjectEntity.getPk());
+                    if(contentModel.equals("music")||(contentModel.equals("sport")&&semantichObjectEntity.getExpense()==null)||contentModel.equals("game")){
+                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,0,Source.SEARCH);
+                    }else if("person".equals(contentModel)){
+                        pageIntent.toFilmStar(FilmStarActivity.this,itemTitle,pk);
+                    }else{
+                        pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk);
+                    }
+                    baseSection="";
+                    baseChannel=contentModel.equals("person")?"star":contentModel;
+                    JasmineUtil.video_search_arrive(title,contentModel.equals("person")?"star":contentModel, (int) pk,0,itemTitle);
+            }
+        });
+
+        vodHorizontalScrollView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    SemantichObjectEntity entity =vodList.get(position);
+                    AttributesEntity attributesEntity = entity.getAttributes();
+                    String description = entity.getDescription();
+                    setFilmAttr(attributesEntity, description);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        vodHorizontalScrollView.setOnScrollListener(new HGridView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(HGridView view, int scrollState) {
+                if(scrollState== HGridView.OnScrollListener.SCROLL_STATE_FOCUS_MOVING) {
+                    mIsBusy = true;
+                } else if(scrollState == HGridView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    mIsBusy = false;
+                }
+            }
+
+            @Override
+            public void onScroll(HGridView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(!mIsBusy) {
+                    // We put the composed index which need to loading to this list. and check with
+                    // mCurrentLoadingTask soon after
+                    ArrayList<Integer> needToLoadComposedIndex = new ArrayList<Integer>();
+                    // The index of child in HGridView
+                    int index = 0;
+                    int sectionIndex = searchAdapter.getSectionIndex(firstVisibleItem);
+                    int itemCount = 0;
+                    for(int i=0; i < sectionIndex;i++) {
+                        itemCount += searchAdapter.getSectionCount(i);
+                    }
+                    // The index of current section.
+                    int indexOfSection = firstVisibleItem - itemCount;
+
+                    while(index < visibleItemCount) {
+                        final SearchItemCollection itemCollection = mItemCollections.get(sectionIndex);
+                        int num_pages = itemCollection.num_pages;
+                        int page = indexOfSection / SearchItemCollection.NUM_PER_PAGE;
+                        if(!itemCollection.isItemReady(indexOfSection)) {
+                            int composedIndex = getIndexFromSectionAndPage(sectionIndex, page);
+                            needToLoadComposedIndex.add(composedIndex);
+                        }
+
+                        if(page<num_pages - 1) {
+                            // Go to next page of this section.
+                            index += (page+1) * SearchItemCollection.NUM_PER_PAGE - indexOfSection;
+                            indexOfSection = (page + 1) * SearchItemCollection.NUM_PER_PAGE;
+                        } else {
+                            // This page is already the last page of current section.
+                            index += searchAdapter.getSectionCount(sectionIndex) - indexOfSection;
+                            indexOfSection = 0;
+                            sectionIndex++;
+                        }
+                    }
+                }
             }
         });
 
@@ -307,10 +385,6 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                 });
     }
 
-    private void fillVodIndicator() {
-
-    }
-
 
     private void fetchActorRelateByType(final long pk, final String type) {
         ActorRelateRequestParams params = new ActorRelateRequestParams();
@@ -334,7 +408,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                             return;
                         }
                             SemanticSearchResponseEntity entity = semanticSearchResponseEntity;
-                            fillVodList(entity.getFacet().get(0).getObjects());
+                            fillVodList((ArrayList<SemantichObjectEntity>) entity.getFacet().get(0).getObjects());
                     }
 
                     @Override
@@ -346,114 +420,19 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
 
     }
 
-    private void fillVodList(List<SemantichObjectEntity> list) {
-        vodListView.removeAllViews();
-        vodHorizontalScrollView.scrollTo(0, 0);
-        for (int i = 0; i < list.size(); i++) {
-            LinearLayout itemView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.item_vod_star, null);
-            itemView.setOnHoverListener(FilmStarActivity.this);
-            itemView.setOnFocusChangeListener(new OnVodItemFocusedListener());
-            TextView itemVodTitle = (TextView) itemView.findViewById(R.id.item_vod_title_new);
-            ImageView itemVodImage = (ImageView) itemView.findViewById(R.id.item_vod_image_new);
-            TextView ItemBeanScore = (TextView) itemView.findViewById(R.id.ItemBeanScore);
-            RotateTextView expense_txt = (RotateTextView) itemView.findViewById(R.id.expense_txt);
-            TextView itemFocus = (TextView) itemView.findViewById(R.id.item_vod_focus_new);
-            expense_txt.setDegrees(315);
-            itemVodTitle.setText(list.get(i).getTitle());
-            Transformation mTransformation = new ReflectionTransformationBuilder()
-                    .setIsHorizontal(true)
-                    .build();
-            String verticalUrl = list.get(i).getVertical_url();
-            String horizontalUrl = list.get(i).getPoster_url();
-            String scoreValue = list.get(i).getBean_score();
-            Expense expense = list.get(i).getExpense();
-            String focusValue = list.get(i).getFocus();
+    private void fillVodList(ArrayList<SemantichObjectEntity> list) {
+        vodList = list;
+        mItemCollections = new ArrayList<>();
+        int num_pages = (int) Math.ceil((float)list.size() / SearchItemCollection.NUM_PER_PAGE);
+        SearchItemCollection searchItemCollection=new SearchItemCollection(num_pages, list.size(), "1");
+        mItemCollections.add(searchItemCollection);
+        searchAdapter = new HGridSearchAdapterImpl(this, mItemCollections,false);
+        searchAdapter.setList(mItemCollections);
+        vodHorizontalScrollView.setAdapter(searchAdapter);
+        vodHorizontalScrollView.setFocusable(true);
+        mItemCollections.get(0).fillItems(0, list);
+        searchAdapter.setList(mItemCollections);
 
-            if (!TextUtils.isEmpty(verticalUrl)) {
-                if (!TextUtils.isEmpty(scoreValue)) {
-                    ItemBeanScore.setVisibility(View.VISIBLE);
-                    ItemBeanScore.setText(scoreValue);
-                }
-                if(expense!=null){
-                    if(expense.cptitle!=null){
-                        expense_txt.setText(expense.cptitle);
-                        expense_txt.setVisibility(View.VISIBLE);
-                        if(expense.pay_type==1){
-                            expense_txt.setBackgroundResource(R.drawable.list_single_buy_selector);
-                        }else if((expense.cpname).startsWith("ismar")){
-                            expense_txt.setBackgroundResource(R.drawable.list_ismar_selector);
-                        }else if("iqiyi".equals(expense.cpname)){
-                            expense_txt.setBackgroundResource(R.drawable.list_lizhi_selector);
-                        }
-                    } else {
-                        expense_txt.setVisibility(View.GONE);
-                    }
-
-                }
-                if (!TextUtils.isEmpty(focusValue)) {
-                    itemFocus.setVisibility(View.VISIBLE);
-                    itemFocus.setText(focusValue);
-                }
-                Picasso.with(this)
-                        .load(verticalUrl)
-                        .memoryPolicy(MemoryPolicy.NO_STORE)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE)
-                        .error(R.drawable.vertical_preview_bg)
-                        .placeholder(R.drawable.vertical_preview_bg)
-                        .transform(mTransformation)
-                        .into(itemVodImage);
-            } else {
-                Picasso.with(this)
-                        .load(horizontalUrl)
-                        .memoryPolicy(MemoryPolicy.NO_STORE)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE)
-                        .error(R.drawable.vertical_preview_bg)
-                        .placeholder(R.drawable.vertical_preview_bg)
-                        .transform(mTransformation)
-                        .into(itemVodImage);
-            }
-
-            itemView.setTag(list.get(i));
-            itemView.setTag(R.layout.item_vod_star, i);
-            itemView.setNextFocusUpId(focusTranslate.getId());
-            if (i == list.size() - 1) {
-                itemView.setNextFocusRightId(itemView.getId());
-            }
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    vodItemClickedView = v;
-                    PageIntent pageIntent=new PageIntent();
-                    SemantichObjectEntity semantichObjectEntity= (SemantichObjectEntity) v.getTag();
-                    String contentModel =semantichObjectEntity.getContent_model();
-                    String itemTitle=semantichObjectEntity.getTitle();
-                    long pk=Long.valueOf(semantichObjectEntity.getPk());
-                    if(contentModel.equals("music")||(contentModel.equals("sport")&&semantichObjectEntity.getExpense()==null)||contentModel.equals("game")){
-                        pageIntent.toPlayPage(FilmStarActivity.this, (int) pk,0,Source.SEARCH);
-                    }else if("person".equals(contentModel)){
-                        pageIntent.toFilmStar(FilmStarActivity.this,itemTitle,pk);
-                    }else{
-                        pageIntent.toDetailPage(FilmStarActivity.this, Source.SEARCH.getValue(), (int) pk);
-                    }
-                    baseSection="";
-                    baseChannel=contentModel.equals("person")?"star":contentModel;
-                    JasmineUtil.video_search_arrive(title,contentModel.equals("person")?"star":contentModel, (int) pk,0,itemTitle);
-                }
-            });
-
-            int padding = (int) getResources().getDimension(R.dimen.filmStar_item_horizontal_space);
-            int verticalPadding = (int) getResources().getDimension(R.dimen.filmStar_item_vertical_space);
-            int topPadding = (int) getResources().getDimension(R.dimen.filmStar_item_top_space);
-
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.gravity = Gravity.CENTER;
-            layoutParams.setMargins(padding, topPadding, padding, verticalPadding);
-            itemView.setNextFocusDownId(itemView.getId());
-            vodListView.addView(itemView, layoutParams);
-        }
-        vodListView.getChildAt(0).requestFocus();
     }
 
     @Override
@@ -571,6 +550,8 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE:
                 if (!v.isFocused()) {
+                    if(v.getId()==R.id.content_arrow_left_new||v.getId()==R.id.content_arrow_right_new)
+                        v.setFocusable(true);
                     v.requestFocusFromTouch();
                     v.requestFocus();
                 }
@@ -582,40 +563,6 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
         return true;
     }
 
-//    @Override
-//    public void onTheFirst() {
-////        dividerLine.requestFocus();
-//    }
-//
-//    @Override
-//    public void onTheLast() {
-////        dividerLine.requestFocus();
-//    }
-
-
-    class OnVodItemFocusedListener implements OnFocusChangeListener {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            View imageLayout = v.findViewById(R.id.item_vod_image_layout_new);
-            View vodTitle = v.findViewById(R.id.item_vod_title_new);
-            if (hasFocus) {
-                SemantichObjectEntity entity = (SemantichObjectEntity) v.getTag();
-                AttributesEntity attributesEntity = entity.getAttributes();
-                String description = entity.getDescription();
-                setFilmAttr(attributesEntity, description);
-                vodTitle.setSelected(true);
-                JasmineUtil.scaleOut1(v);
-            } else {
-                vodTitle.setSelected(false);
-                JasmineUtil.scaleIn1(v);
-            }
-            if (hasFocus) {
-                imageLayout.setSelected(true);
-            } else {
-                imageLayout.setSelected(false);
-            }
-        }
-    }
 
     class OnIndicatorItemFocusedListener implements OnFocusChangeListener {
         @Override
@@ -648,9 +595,18 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     }
 
     @Override
+    protected void onPause() {
+        mIsBusy = true;
+        super.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
         baseChannel="";
         baseSection="";
         super.onDestroy();
+    }
+    private int getIndexFromSectionAndPage(int sectionIndex, int page) {
+        return sectionIndex * 10000 + page;
     }
 }

@@ -224,8 +224,8 @@
 <dimen name="edittext_divider_margin_top">76.44dp</dimen>
 <dimen name="edittext_divider_margin_left">21.33dp</dimen>
 
-<dimen name="full_keyboard_width">230.22dp</dimen>
-<dimen name="full_keyboard_height">306.67dp</dimen>
+<dimen name="full_keyboard_width">252.00dp</dimen>
+<dimen name="full_keyboard_height">408.89dp</dimen>
 <dimen name="full_keyboard_margin_left">21.78dp</dimen>
 <dimen name="full_keyboard_margin_top">102.22dp</dimen>
 <dimen name="full_keyboard_vertival_spacing">10.67dp</dimen>
@@ -236,8 +236,8 @@
 <dimen name="key_width">26.67dp</dimen>
 <dimen name="key_0_margin_left">14.22dp</dimen>
 
-<dimen name="t9_keyboard_width">232.00dp</dimen>
-<dimen name="t9_keyboard_height">216.00dp</dimen>
+<dimen name="t9_keyboard_width">252.44dp</dimen>
+<dimen name="t9_keyboard_height">318.22dp</dimen>
 <dimen name="t9_keyboard_margin_left">20.44dp</dimen>
 <dimen name="t9_keyboard_margin_top">102.22dp</dimen>
 <dimen name="t9_keyboard_v_spacing">24.00dp</dimen>
@@ -343,4 +343,14 @@
 <dimen name="dimention_12">840.00dp</dimen>
 <dimen name="dimention_left">602.22dp</dimen>
 <dimen name="dimention_right">843.11dp</dimen>
+
+<dimen name="vod_scrollview_new_w">728.89dp</dimen>
+<dimen name="vod_scrollview_new_ml">73.33dp</dimen>
+<dimen name="vod_scrollview_new_hs">35.56dp</dimen>
+<dimen name="vod_scrollview_new_lp">17.78dp</dimen>
+<dimen name="vod_scrollview_new_tp">23.11dp</dimen>
+<dimen name="vod_scrollview_new_rp">17.78dp</dimen>
+<dimen name="vod_scrollview_new_bp">-2.22dp</dimen>
+<dimen name="vod_scrollview_new_pt">53.33dp</dimen>
+<dimen name="vod_scrollview_new_pl">17.78dp</dimen>
 </resources>
