@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,7 +71,6 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     private ImageView dividerLine;
     private ImageView focusTranslate;
 
-    private View vodItemClickedView;
 //    private View currentFocuedIndicatorView;
 
     private ImageView mContentBackgroundView;
@@ -107,10 +107,6 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
     protected void onResume() {
         super.onResume();
         mIsBusy = false;
-        if (vodItemClickedView != null) {
-            vodItemClickedView.requestFocusFromTouch();
-            vodItemClickedView.requestFocus();
-        }
     }
 
 
@@ -375,6 +371,7 @@ public class FilmStarActivity extends BaseActivity implements OnFocusChangeListe
                             }
 
                             fetchActorRelateByType(pk, entity.getFacet().get(0).getContent_type());
+                            indicatorListLayout.getChildAt(0).requestFocus();
                         }
 
                     @Override
