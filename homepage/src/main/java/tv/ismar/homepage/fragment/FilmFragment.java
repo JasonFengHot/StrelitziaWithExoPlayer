@@ -189,7 +189,10 @@ public class FilmFragment extends ChannelBaseFragment {
         playSubscription = null;
         dataSubscription = null;
         checkSubscription = null;
-
+        mSurfaceView.setOnFocusChangeListener(null);
+        mSurfaceView.setOnClickListener(null);
+        mSurfaceView = null;
+        itemFocusChangeListener = null;
         mHandler.removeMessages(START_PLAYBACK);
         mHandler.removeMessages(CAROUSEL_NEXT);
         film_post_layout.removeAllViews();
@@ -200,6 +203,9 @@ public class FilmFragment extends ChannelBaseFragment {
         film_carous_imageView3 = null;
         film_carous_imageView4 = null;
         film_carous_imageView5 = null;
+        film_lefttop_image = null;
+        mLeftBottomView = null;
+        mLeftTopView = null;
         film_post_layout = null;
         if (film_lefttop_image != null && film_lefttop_image.getDrawingCache() != null && !film_lefttop_image.getDrawingCache().isRecycled()) {
             film_lefttop_image.getDrawingCache().recycle();

@@ -150,10 +150,15 @@ public class GuideFragment extends ChannelBaseFragment {
         mHandler.removeMessages(START_PLAYBACK);
         guideRecommmendList.removeAllViews();
         guideRecommmendList = null;
+        mSurfaceView.setOnFocusChangeListener(null);
         mSurfaceView = null;
+        itemFocusChangeListener = null;
         toppage_carous_imageView1 = null;
         toppage_carous_imageView2 = null;
         toppage_carous_imageView3 = null;
+        videoPlayEndListener = null;
+        mVideoOnErrorListener = null;
+        mOnPreparedListener = null;
         if (linkedVideoLoadingImage != null && linkedVideoLoadingImage.getDrawingCache() != null && !linkedVideoLoadingImage.getDrawingCache().isRecycled()) {
             linkedVideoLoadingImage.getDrawingCache().recycle();
         }
