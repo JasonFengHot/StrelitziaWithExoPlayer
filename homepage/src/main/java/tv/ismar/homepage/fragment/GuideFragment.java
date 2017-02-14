@@ -80,7 +80,7 @@ public class GuideFragment extends ChannelBaseFragment {
     private ImageView linkedVideoLoadingImage;
     private HashMap<Integer, Integer> carouselMap;
     private Subscription homePageSub;
-
+    private boolean isDestroyed = false;
 
     @Override
     public void onAttach(Activity activity) {
@@ -146,8 +146,8 @@ public class GuideFragment extends ChannelBaseFragment {
 
     @Override
     public void onDestroyView() {
-        mHandler.removeMessages(CAROUSEL_NEXT);
-        mHandler.removeMessages(START_PLAYBACK);
+        isDestroyed = true;
+        mHandler.removeCallbacksAndMessages(null);
         guideRecommmendList.removeAllViews();
         guideRecommmendList = null;
         mSurfaceView.setOnFocusChangeListener(null);
@@ -159,6 +159,7 @@ public class GuideFragment extends ChannelBaseFragment {
         videoPlayEndListener = null;
         mVideoOnErrorListener = null;
         mOnPreparedListener = null;
+        lastpostview = null;
         if (linkedVideoLoadingImage != null && linkedVideoLoadingImage.getDrawingCache() != null && !linkedVideoLoadingImage.getDrawingCache().isRecycled()) {
             linkedVideoLoadingImage.getDrawingCache().recycle();
         }
@@ -228,6 +229,7 @@ public class GuideFragment extends ChannelBaseFragment {
                         if(homePagerEntity == null){
                             super.onError(new Exception("数据异常"));
                         } else {
+                            if(!isDestroyed)
                             fillLayout(homePagerEntity);
                         }
                     }
