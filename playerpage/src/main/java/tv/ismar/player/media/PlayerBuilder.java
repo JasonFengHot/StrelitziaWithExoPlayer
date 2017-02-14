@@ -130,6 +130,7 @@ public class PlayerBuilder {
         mPlayerMode = -1;
         mItemEntity = null;
         mContainer = null;
+        mDaisyVideoView = null;
         sInstance = null;
     }
 
