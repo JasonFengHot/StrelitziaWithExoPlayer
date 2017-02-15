@@ -24,10 +24,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -54,14 +52,12 @@ import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 import rx.Observable;
-import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.OfflineCheckManager;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemList;
-import tv.ismar.app.entity.Section;
 import tv.ismar.app.entity.SectionList;
 import tv.ismar.app.entity.VideoEntity;
 import tv.ismar.app.models.ActorRelateRequestParams;
@@ -78,17 +74,21 @@ import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.app.network.entity.AccountsLoginEntity;
 import tv.ismar.app.network.entity.AccountsOrdersEntity;
 import tv.ismar.app.network.entity.ActiveEntity;
+import tv.ismar.app.network.entity.AgreementEntity;
 import tv.ismar.app.network.entity.BindedCdnEntity;
 import tv.ismar.app.network.entity.ChatMsgEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.network.entity.DpiEntity;
 import tv.ismar.app.network.entity.Empty;
+import tv.ismar.app.network.entity.GoodsRenewStatusEntity;
 import tv.ismar.app.network.entity.IpLookUpEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.network.entity.OpenRenewEntity;
 import tv.ismar.app.network.entity.PayLayerEntity;
 import tv.ismar.app.network.entity.PayLayerPackageEntity;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
 import tv.ismar.app.network.entity.PayVerifyEntity;
+import tv.ismar.app.network.entity.PayWhStatusEntity;
 import tv.ismar.app.network.entity.ProblemEntity;
 import tv.ismar.app.network.entity.TeleEntity;
 import tv.ismar.app.network.entity.UpgradeRequestEntity;
@@ -394,13 +394,15 @@ public interface SkyService {
     );
 
     @FormUrlEncoded
-    @POST("api/order/create/")
+    @POST("api/order/{type}/")
     Observable<ResponseBody> apiOrderCreate(
+            @Path("type") String type,
             @Field("wares_id") String waresId,
             @Field("wares_type") String waresType,
             @Field("source") String source,
             @Field("timestamp") String timestamp,
-            @Field("sign") String sign
+            @Field("sign") String sign,
+            @Field("action") String action
     );
 
 
@@ -441,6 +443,17 @@ public interface SkyService {
     Observable<ResponseBody> download(
             @Url String url,
             @Header("RANGE") String range
+    );
+
+    @GET
+    @Streaming
+    Observable<ResponseBody> image(
+            @Url String url
+    );
+
+    @GET
+    Observable<ResponseBody> openRenew(
+            @Url String url
     );
 
     //
@@ -585,6 +598,30 @@ public interface SkyService {
             @Url String url
     );
 
+
+    @GET("accounts/pay_wh_status/")
+    Observable<PayWhStatusEntity> accountsPayWhStatus(
+            @Query("pay_type") String payType
+    );
+
+    @GET("accounts/goods_renew_status/")
+    Observable<GoodsRenewStatusEntity> accountsGoodsRenewStatus(
+            @Query("package_id") int packageId,
+            @Query("pay_type") String payType
+    );
+
+    @FormUrlEncoded
+    @POST("accounts/open_renew/")
+    Observable<OpenRenewEntity> accountsOpenRenew(
+            @Field("pay_type") String payType,
+            @Field("package_id") int packageId
+    );
+
+    @GET("api/agreement/")
+    Observable<AgreementEntity> agreement(
+            @Query("source") String source
+    );
+
     class ServiceManager {
         private volatile static ServiceManager serviceManager;
         private static final int DEFAULT_CONNECT_TIMEOUT = 6;
@@ -695,8 +732,8 @@ public interface SkyService {
             adSkyService = adRetrofit.create(SkyService.class);
 
             Retrofit upgradeRetrofit = new Retrofit.Builder()
-                  .baseUrl(appendProtocol(domain[2]))
-    //               .baseUrl(appendProtocol("http://124.42.65.66/"))
+                    .baseUrl(appendProtocol(domain[2]))
+                    //               .baseUrl(appendProtocol("http://124.42.65.66/"))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)

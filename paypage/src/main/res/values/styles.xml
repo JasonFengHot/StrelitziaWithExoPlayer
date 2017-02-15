@@ -5,5 +5,13 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">#012239</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
+
+    <style name="AgreementActivity" parent="@style/IsmartvAppTheme.Fullscreen">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

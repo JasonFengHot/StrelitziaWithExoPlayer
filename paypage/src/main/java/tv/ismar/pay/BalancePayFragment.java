@@ -148,6 +148,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         String source = "sky";
         String timestamp = null;
         String sign = null;
+
         {
             timestamp = TrueTime.now().getTime() + "";
             IsmartvActivator activator = IsmartvActivator.getInstance();
@@ -158,7 +159,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
             sign = activator.encryptWithPublic(encode);
         }
 
-        apiOrderCreateSub = activity.mSkyService.apiOrderCreate(waresId, waresType, source, timestamp, sign)
+        apiOrderCreateSub = activity.mSkyService.apiOrderCreate("create", waresId, waresType, source, timestamp, sign, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
