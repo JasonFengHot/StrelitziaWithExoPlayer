@@ -207,20 +207,11 @@ public class DaisyVideoView extends SurfaceView implements MediaPlayerControl {
 			player = null;
 			mCurrentState = STATE_IDLE;
 			mTargetState = STATE_IDLE;
-			mOnErrorListener = null;
-			mOnInfoListener = null;
-			mOnSeekCompleteListener = null;
-			mOnPreparedListener = null;
-			mOnCompletionListener = null;
-			mSizeChangedListener = null;
-			mCompletionListener = null;
-			mSizeChangedListener = null;
-			mSeekCompleteChangedListener = null;
-			mErrorListener = null;
-			mInfoChangedListener = null;
-			mSHCallback = null;
-			mBufferingUpdateListener = null;
-			mPreparedListener = null;
+//			mOnErrorListener = null;
+//			mOnInfoListener = null;
+//			mOnSeekCompleteListener = null;
+//			mOnPreparedListener = null;
+//			mOnCompletionListener = null;
 		}
 	}
 
@@ -248,11 +239,8 @@ public class DaisyVideoView extends SurfaceView implements MediaPlayerControl {
 			player.setOnVideoSizeChangedListener(mSizeChangedListener);
 			mDuration = -1;
 			player.setOnSeekCompleteListener(mSeekCompleteChangedListener);
-//			if (mOnCompletionListener != null)
-				player.setOnCompletionListener(mCompletionListener);
-//			else
-//				player.setOnCompletionListener(mCompletionListener);
-			player.setOnErrorListener(mOnErrorListener);
+			player.setOnCompletionListener(mCompletionListener);
+			player.setOnErrorListener(mErrorListener);
 			//player.setOnInfoListener(mInfoChangedListener);
 			player.setOnBufferingUpdateListener(mBufferingUpdateListener);
 			mCurrentBufferPercentage = 0;
@@ -566,15 +554,6 @@ public class DaisyVideoView extends SurfaceView implements MediaPlayerControl {
 			mOnSeekCompleteListener = null;
 			mOnPreparedListener = null;
 			mOnCompletionListener = null;
-			mSizeChangedListener = null;
-			mCompletionListener = null;
-			mSizeChangedListener = null;
-			mSeekCompleteChangedListener = null;
-			mErrorListener = null;
-			mInfoChangedListener = null;
-			mSHCallback = null;
-			mBufferingUpdateListener = null;
-			mPreparedListener = null;
 			if (cleartargetstate) {
 				mTargetState = STATE_IDLE;
 			}

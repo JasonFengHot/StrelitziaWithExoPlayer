@@ -106,9 +106,6 @@ public class GuideFragment extends ChannelBaseFragment {
         linkedVideoLoadingImage = (ImageView) mView.findViewById(R.id.linked_video_loading_image);
 
         mSurfaceView = (DaisyVideoView) mView.findViewById(R.id.linked_video);
-        mSurfaceView.setOnCompletionListener(videoPlayEndListener);
-        mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
-        mSurfaceView.setOnPreparedListener(mOnPreparedListener);
         mSurfaceView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
@@ -156,9 +153,6 @@ public class GuideFragment extends ChannelBaseFragment {
         toppage_carous_imageView1 = null;
         toppage_carous_imageView2 = null;
         toppage_carous_imageView3 = null;
-        videoPlayEndListener = null;
-        mVideoOnErrorListener = null;
-        mOnPreparedListener = null;
         lastpostview = null;
         if (linkedVideoLoadingImage != null && linkedVideoLoadingImage.getDrawingCache() != null && !linkedVideoLoadingImage.getDrawingCache().isRecycled()) {
             linkedVideoLoadingImage.getDrawingCache().recycle();
@@ -501,7 +495,8 @@ public class GuideFragment extends ChannelBaseFragment {
                 return;
             }
             linkedVideoLoadingImage.setVisibility(View.VISIBLE);
-//            stopPlayback();
+            stopPlayback();
+            initCallback();
             mSurfaceView.setVideoPath(videoPath);
 //            mSurfaceView.start();
             mSurfaceView.setFocusable(true);
@@ -555,40 +550,49 @@ public class GuideFragment extends ChannelBaseFragment {
     }
 
 
-    private MediaPlayer.OnCompletionListener videoPlayEndListener = new MediaPlayer.OnCompletionListener() {
+    private MediaPlayer.OnCompletionListener videoPlayEndListener;
 
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            stopPlayback();
-            mHandler.sendEmptyMessage(CAROUSEL_NEXT);
-        }
-    };
+    private MediaPlayer.OnErrorListener mVideoOnErrorListener;
 
+    private MediaPlayer.OnPreparedListener mOnPreparedListener;
 
-    private MediaPlayer.OnErrorListener mVideoOnErrorListener = new MediaPlayer.OnErrorListener() {
-        @Override
-        public boolean onError(MediaPlayer mp, int what, int extra) {
+    private void initCallback(){
+        videoPlayEndListener = new MediaPlayer.OnCompletionListener() {
 
-            Log.e(TAG, "play video error!!!");
-
-            return true;
-        }
-    };
-
-    private MediaPlayer.OnPreparedListener mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
-        @Override
-        public void onPrepared(MediaPlayer mp) {
-            if(mp != null && !mp.isPlaying()){
-                mp.start();
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlayback();
+                mHandler.sendEmptyMessage(CAROUSEL_NEXT);
             }
-            if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
-                bitmapDecoder.interrupt();
-            }
-            linkedVideoLoadingImage.setVisibility(View.GONE);
-        }
-    };
+        };
+        mVideoOnErrorListener = new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
 
+                Log.e(TAG, "play video error!!!");
+
+                return true;
+            }
+        };
+        mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                if(mp != null && !mp.isPlaying()){
+                    mp.start();
+                }
+                if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
+                    bitmapDecoder.interrupt();
+                }
+                linkedVideoLoadingImage.setVisibility(View.GONE);
+            }
+        };
+        mSurfaceView.setOnCompletionListener(videoPlayEndListener);
+        mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
+        mSurfaceView.setOnPreparedListener(mOnPreparedListener);
+    }
 }
+
+
 
 class Flag {
 
