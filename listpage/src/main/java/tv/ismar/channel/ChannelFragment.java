@@ -639,12 +639,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     class GetItemListTask extends AsyncTask<Object, Void, ItemList> {
 
-        private Integer index;
-        private String slug;
-        private  ItemList mItemList;
         @Override
         protected void onCancelled() {
-            mCurrentLoadingTask.remove(index);
             super.onCancelled();
         }
 
@@ -717,28 +713,23 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         super.onResume();
         if (isPause) {
             isPause = false;
-            if (mScrollableSectionList != null) {
-                if (mScrollableSectionList.mContainer != null) {
-
-                    View v = mScrollableSectionList.mContainer.getChildAt(mScrollableSectionList.getSelectPosition());
-                    if (v != null) {
-                        if (mScrollableSectionList.getSelectPosition() == 0) {
-
-                        // v.requestFocus();
-                            View vv = mScrollableSectionList.mContainer.getChildAt(1);
-                            if (vv != null) {
-
-
-                                mScrollableSectionList.sectionWhenGoto = (TextView) vv.findViewById(R.id.section_label);
-                                mHGridView.requestFocus();
-                                mHGridView.setSelection(0);
-                                mScrollableSectionList.setFilterBack(vv);
-//
-                            }
-                        }
-                    }
-                }
-            }
+//            if (mScrollableSectionList != null) {
+//                if (mScrollableSectionList.mContainer != null) {
+//                    View v = mScrollableSectionList.mContainer.getChildAt(mScrollableSectionList.getSelectPosition());
+//                    if (v != null) {
+//                        if (mScrollableSectionList.getSelectPosition() == 0) {
+//                        // v.requestFocus();
+//                            View vv = mScrollableSectionList.mContainer.getChildAt(1);
+//                            if (vv != null) {
+//                                mScrollableSectionList.sectionWhenGoto = (TextView) vv.findViewById(R.id.section_label);
+//                                mHGridView.requestFocus();
+//                                mHGridView.setSelection(0);
+//                                mScrollableSectionList.setFilterBack(vv);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 
@@ -759,12 +750,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }
-
-        final ConcurrentHashMap<Integer, GetItemListTask> currentLoadingTask = mCurrentLoadingTask;
-        for (Integer index : currentLoadingTask.keySet()) {
-            currentLoadingTask.get(index).cancel(true);
-        }
-//        ((ChannelListActivity) getActivity()).unregisterOnMenuToggleListener();
         super.onPause();
     }
 
@@ -777,6 +762,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         // Add data collection.
         if(getItemlistHandler!=null){
             getItemlistHandler.removeCallbacks(getItemlistRunnable);
+            getItemlistHandler=null;
         }
         try {
             HashMap<String, Object> properties = new HashMap<String, Object>();

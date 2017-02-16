@@ -584,7 +584,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 							mDataCollectionProperties.put("to_subitem", sub_id);
 							for (Item subitem : item.subitems) {
 								if (sub_id == subitem.pk) {
-									mDataCollectionProperties.put("to_clip", subitem.clip.pk);
+								//	mDataCollectionProperties.put("to_clip", subitem.clip.pk);
 									break;
 								}
 							}
@@ -594,7 +594,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 						mDataCollectionProperties.put("to_title", item.title);
 						mDataCollectionProperties.put("position", history.last_position/1000);
 						String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
-						mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
+					//	mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
 						PageIntent intent = new PageIntent();
 						intent.toPlayPage(getActivity(), item.pk, 0, Source.HISTORY);
 					}

@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import tv.ismar.app.R;
@@ -209,7 +210,7 @@ public class LabelImageView extends FrameLayout {
                 imageView.setImageDrawable(livErrorDrawable);
             } else {
                 Picasso.with(mContext).load(livUrl)
-                        .placeholder(livErrorDrawable)
+                        .placeholder(livErrorDrawable).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE)
                         .error(livErrorDrawable)
                         .into(imageView);
             }
@@ -227,7 +228,7 @@ public class LabelImageView extends FrameLayout {
             }
             vipImageView.setLayoutParams(ltparams);
             vipImageView.setVisibility(View.VISIBLE);
-            Picasso.with(mContext).load(livVipUrl)
+            Picasso.with(mContext).load(livVipUrl).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE)
                     .into(vipImageView);
         }
     }

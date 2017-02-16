@@ -251,8 +251,9 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void loadItemRelate(ItemEntity[] itemEntities) {
         relateItems = itemEntities;
-        if (itemEntities.length < relViews) {
-            for (int i = itemEntities.length; i < relViews; i++) {
+        int length=itemEntities.length;
+        if (length< relViews) {
+            for (int i = length; i < relViews; i++) {
                 ((View) relRelImageViews[i].getParent()).setVisibility(View.INVISIBLE);
             }
             if(itemEntities.length>0) {
@@ -263,7 +264,7 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
             }
         }
 
-        for (int i = 0; i < itemEntities.length && i < relViews; i++) {
+        for (int i = 0; i < length && i < relViews; i++) {
             moreBtnView.setNextFocusLeftId(View.NO_ID);
             switch (mItemEntity.getContentModel()) {
                 case "movie":
