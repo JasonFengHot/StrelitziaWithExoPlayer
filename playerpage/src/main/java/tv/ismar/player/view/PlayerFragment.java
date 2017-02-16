@@ -353,7 +353,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 break;
             case EVENT_COMPLETE_BUY:
                 if(mIsmartvPlayer != null){
-                    mIsmartvPlayer.logVideoExit(mCurrentPosition);
+                    mIsmartvPlayer.logVideoExit(mCurrentPosition, source);
                 }
                 ItemEntity.Expense expense = mItemEntity.getExpense();
                 PageIntentInterface.ProductCategory mode = null;
@@ -661,7 +661,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         ItemEntity nextItem = subItems[i + 1];
                         if (nextItem != null && nextItem.getClip() != null) {
                             if (mIsmartvPlayer != null) {
-                                mIsmartvPlayer.logVideoExit(mCurrentPosition);
+                                mIsmartvPlayer.logVideoExit(mCurrentPosition, source);
                             }
                             // 菜单栏剧集切换
                             createMenu();
@@ -1413,7 +1413,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             for (ItemEntity subItem : mItemEntity.getSubitems()) {
                 if (subItem.getPk() == id) {
                     if (mIsmartvPlayer != null) {
-                        mIsmartvPlayer.logVideoExit(mCurrentPosition);
+                        mIsmartvPlayer.logVideoExit(mCurrentPosition, source);
                     }
                     mCurrentPosition = 0;
                     timerStop();
@@ -1591,7 +1591,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         isExit = true;
         cancelTimer();
         if (mIsmartvPlayer != null) {
-            mIsmartvPlayer.logVideoExit(mCurrentPosition);
+            mIsmartvPlayer.logVideoExit(mCurrentPosition, source);
         }
         if (mIsmartvPlayer != null) {
             mIsmartvPlayer.stopPlayBack();
@@ -1669,7 +1669,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 switch (popType) {
                     case POP_TYPE_PLAYER_ERROR:
                         if (mIsmartvPlayer != null) {
-                            mIsmartvPlayer.logVideoExit(mCurrentPosition);
+                            mIsmartvPlayer.logVideoExit(mCurrentPosition, source);
                         }
                         // 播放器异常情况,判断播放进度临界值,剩余时长8分钟为界,小于8分钟下次从头播放
                         int value = 8 * 1000 * 60;

@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -28,8 +29,18 @@ public class DeviceUtils {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
-        display.getSize(size);
+        display.getRealSize(size);
         return size;
+    }
+
+    public static String getScreenInch(Context context) {
+        Point point = getDisplayPixelSize(context);
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        double x1 = Math.pow(point.x / dm.xdpi, 2);
+        double y1 = Math.pow(point.y / dm.ydpi, 2);
+        BigDecimal bg = new BigDecimal(Math.sqrt(x1 + y1));
+        double inch= bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return String.valueOf(inch);
     }
 
     public static int getDisplayPixelWidth(Context context) {

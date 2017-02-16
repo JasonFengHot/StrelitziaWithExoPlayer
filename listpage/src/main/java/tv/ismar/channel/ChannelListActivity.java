@@ -141,7 +141,7 @@ public class ChannelListActivity extends BaseActivity {
 					String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
 					String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
 					callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
-							VodUserAgent.getModelName(), "0",
+							VodUserAgent.getModelName(), DeviceUtils.getScreenInch(ChannelListActivity.this),
 							android.os.Build.VERSION.RELEASE,
 							SimpleRestClient.appVersion,
 							SystemFileUtil.getSdCardTotal(ChannelListActivity.this),
