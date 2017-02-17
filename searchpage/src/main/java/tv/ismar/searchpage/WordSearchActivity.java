@@ -183,6 +183,14 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
     }
 
     public void appstart() {
+        String frompage= getIntent().getStringExtra("frompage");
+        if(frompage!=null&&frompage.equals("search")){
+            frompage="search";
+        }else{
+            frompage="launcher";
+        }
+        final String finalFrompage = frompage;
+        Log.e("frompage",frompage);
         new Thread() {
             @Override
             public void run() {
@@ -197,7 +205,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 JasmineUtil.app_start(sn, modelname, "0", android.os.Build.VERSION.RELEASE,
                         SystemFileUtil.getSdCardTotal(WordSearchActivity.this),
                         SystemFileUtil.getSdCardAvalible(WordSearchActivity.this),
-                        userId, province, city, isp, "search", macAddress, "text", "tv.ismar.searchpage", version);
+                        userId, province, city, isp, finalFrompage, macAddress, "text", "tv.ismar.searchpage", version);
             }
         }.start();
     }
