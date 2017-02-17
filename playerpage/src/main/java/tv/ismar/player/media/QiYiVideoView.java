@@ -178,6 +178,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
     }
 
     public int getAdCountDownTime() {
+        Log.d(TAG, "adCountTime:" + mPlayer.getAdCountDownTime());
         return mPlayer.getAdCountDownTime();
     }
 
