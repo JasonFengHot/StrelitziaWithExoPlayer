@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -104,7 +102,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     private Subscription bookmarksSub;
     private Subscription historySub;
-    private FragmentManager manager;
+
 
 
     @Override
@@ -202,226 +200,106 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     }
 
-    private void hideFragment(FragmentTransaction transaction2) {
-        // TODO Auto-generated method stub
-        if(mProductFragment != null){
-            transaction2.hide(mProductFragment);
+
+    private void selectProduct() {
+
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof ProductFragment) {
+            return;
         }
 
-        if(mUserInfoFragment != null){
-            transaction2.hide(mUserInfoFragment);
-        }
+        mProductFragment = ProductFragment.newInstance();
 
-        if(mLoginFragment != null){
-            transaction2.hide(mLoginFragment);
-        }
+        // Create the presenter
+        mProductPresenter = new ProductPresenter(mProductFragment);
 
-        if(mPurchaseHistoryFragment != null){
-            transaction2.hide(mPurchaseHistoryFragment);
-        }
-        if(mHelpFragment != null){
-            transaction2.hide(mHelpFragment);
-        }
-        if(mLocationFragment != null){
-            transaction2.hide(mLocationFragment);
-        }
-    }
-    private void setSelect(int i) {
-        manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        hideFragment(transaction);
-        switch (i) {
-            case 0:
-                if(mProductFragment == null){
-                    mProductFragment = ProductFragment.newInstance();
+        ProductViewModel productViewModel =
+                new ProductViewModel(getApplicationContext(), mProductPresenter);
 
-                    // Create the presenter
-                    mProductPresenter = new ProductPresenter(mProductFragment);
+        mProductFragment.setViewModel(productViewModel);
 
-                    ProductViewModel productViewModel =
-                            new ProductViewModel(getApplicationContext(), mProductPresenter);
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mProductFragment, R.id.user_center_container);
 
-                    mProductFragment.setViewModel(productViewModel);
-                    transaction.add(R.id.user_center_container,mProductFragment);
-                }else {
-                    transaction.show(mProductFragment);
-                }
-                break;
-            case 1:
-                if(mUserInfoFragment == null){
-                    mUserInfoFragment =  UserInfoFragment.newInstance();
-
-                    // Create the presenter
-                    mUserInfoPresenter = new UserInfoPresenter(mUserInfoFragment);
-
-                    UserInfoViewModel userInfoViewModel =
-                            new UserInfoViewModel(getApplicationContext(), mUserInfoPresenter);
-
-                    mUserInfoFragment.setViewModel(userInfoViewModel);
-                    transaction.add(R.id.user_center_container,mUserInfoFragment);
-                }else {
-                    transaction.show(mUserInfoFragment);
-                }
-                break;
-            case 2:
-                if(mLoginFragment == null){
-                    mLoginFragment =LoginFragment.newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("source", "usercenter");
-                    mLoginFragment.setArguments(bundle);
-                    mLoginFragment.setLoginCallback(this);
-                    transaction.add(R.id.user_center_container,mLoginFragment);
-                }else {
-                    transaction.show(mLoginFragment);
-                }
-                break;
-            case 3:
-                if(mPurchaseHistoryFragment == null){
-                    mPurchaseHistoryFragment =PurchaseHistoryFragment.newInstance();
-                    // Create the presenter
-                    mPurchaseHistoryPresenter = new PurchaseHistoryPresenter(mPurchaseHistoryFragment);
-
-                    PurchaseHistoryViewModel purchaseHistoryViewModel =
-                            new PurchaseHistoryViewModel(getApplicationContext(), mPurchaseHistoryPresenter);
-
-                    mPurchaseHistoryFragment.setViewModel(purchaseHistoryViewModel);
-                    transaction.add(R.id.user_center_container,mPurchaseHistoryFragment);
-                }else {
-                    transaction.show(mPurchaseHistoryFragment);
-                }
-                break;
-            case 4:
-                if(mHelpFragment == null){
-                    mHelpFragment =  HelpFragment.newInstance();
-                    // Create the presenter
-                    mHelpPresenter = new HelpPresenter(mHelpFragment);
-
-                    HelpViewModel helpViewModel =
-                            new HelpViewModel(getApplicationContext(), mHelpPresenter);
-
-                    mHelpFragment.setViewModel(helpViewModel);
-                    transaction.add(R.id.user_center_container,mHelpFragment);
-                }else {
-                    transaction.show(mHelpFragment);
-                }
-                break;
-            case 5:
-                if(mLocationFragment == null){
-                    mLocationFragment = LocationFragment.newInstance();
-                    // Create the presenter
-                    mLocationPresenter = new LocationPresenter(mLocationFragment);
-
-                    LocationViewModel locationViewModel =
-                            new LocationViewModel(getApplicationContext(), mLocationPresenter);
-
-                    mLocationFragment.setViewModel(locationViewModel);
-                    transaction.add(R.id.user_center_container,mLocationFragment);
-                }else {
-                    transaction.show(mLocationFragment);
-                }
-                break;
-            default:
-                break;
-        }
-        transaction.commit();
 
     }
-//    private void selectProduct() {
-//
-//        // Create the fragment
-//        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof ProductFragment) {
-//            return;
-//        }
-//            mProductFragment = ProductFragment.newInstance();
-//
-//            // Create the presenter
-//            mProductPresenter = new ProductPresenter(mProductFragment);
-//
-//            ProductViewModel productViewModel =
-//                    new ProductViewModel(getApplicationContext(), mProductPresenter);
-//
-//            mProductFragment.setViewModel(productViewModel);
-//
-//            ActivityUtils.addFragmentToActivity(
-//                    getSupportFragmentManager(), mProductFragment, R.id.user_center_container);
-//
-//
-//    }
 
-//    private void selectUserInfo() {
-//        // Create the fragment
-//        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof UserInfoFragment) {
-//            return;
-//        }
-//        // Create the fragment
-//            mUserInfoFragment = UserInfoFragment.newInstance();
-//
-//            // Create the presenter
-//            mUserInfoPresenter = new UserInfoPresenter(mUserInfoFragment);
-//
-//            UserInfoViewModel userInfoViewModel =
-//                    new UserInfoViewModel(getApplicationContext(), mUserInfoPresenter);
-//
-//            mUserInfoFragment.setViewModel(userInfoViewModel);
-//            ActivityUtils.addFragmentToActivity(
-//                    getSupportFragmentManager(), mUserInfoFragment, R.id.user_center_container);
-//
-//
-//    }
+    private void selectUserInfo() {
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof UserInfoFragment) {
+            return;
+        }
+        // Create the fragment
+        mUserInfoFragment = UserInfoFragment.newInstance();
 
-//    private void selectLogin() {
-//        // Create the fragment
-//        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LoginFragment) {
-//            return;
-//        }
-//        // Create the fragment
-//            mLoginFragment = LoginFragment.newInstance();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("source", "usercenter");
-//            mLoginFragment.setArguments(bundle);
-//            mLoginFragment.setLoginCallback(this);
-//            ActivityUtils.addFragmentToActivity(
-//                    getSupportFragmentManager(), mLoginFragment, R.id.user_center_container);
-//
-//    }
+        // Create the presenter
+        mUserInfoPresenter = new UserInfoPresenter(mUserInfoFragment);
 
-//    private void selectPurchaseHistory() {
-//        // Create the fragment
-//        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof PurchaseHistoryFragment) {
-//            return;
-//        }
-//        // Create the fragment
-//            mPurchaseHistoryFragment = PurchaseHistoryFragment.newInstance();
-//            // Create the presenter
-//            mPurchaseHistoryPresenter = new PurchaseHistoryPresenter(mPurchaseHistoryFragment);
-//
-//            PurchaseHistoryViewModel purchaseHistoryViewModel =
-//                    new PurchaseHistoryViewModel(getApplicationContext(), mPurchaseHistoryPresenter);
-//
-//            mPurchaseHistoryFragment.setViewModel(purchaseHistoryViewModel);
-//            ActivityUtils.addFragmentToActivity(
-//                    getSupportFragmentManager(), mPurchaseHistoryFragment, R.id.user_center_container);
-//
-//    }
-//
-//    private void selectHelp() {
-//        // Create the fragment
-//        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof HelpFragment) {
-//            return;
-//        }
-//        // Create the fragment
-//            mHelpFragment = HelpFragment.newInstance();
-//            // Create the presenter
-//            mHelpPresenter = new HelpPresenter(mHelpFragment);
-//
-//            HelpViewModel helpViewModel =
-//                    new HelpViewModel(getApplicationContext(), mHelpPresenter);
-//
-//            mHelpFragment.setViewModel(helpViewModel);
-//            ActivityUtils.addFragmentToActivity(
-//                    getSupportFragmentManager(), mHelpFragment, R.id.user_center_container);
-//
-//    }
+        UserInfoViewModel userInfoViewModel =
+                new UserInfoViewModel(getApplicationContext(), mUserInfoPresenter);
+
+        mUserInfoFragment.setViewModel(userInfoViewModel);
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mUserInfoFragment, R.id.user_center_container);
+
+
+    }
+
+    private void selectLogin() {
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LoginFragment) {
+            return;
+        }
+        // Create the fragment
+        if(mLoginFragment==null)
+        mLoginFragment = LoginFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("source", "usercenter");
+        mLoginFragment.setArguments(bundle);
+        mLoginFragment.setLoginCallback(this);
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mLoginFragment, R.id.user_center_container);
+
+    }
+
+    private void selectPurchaseHistory() {
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof PurchaseHistoryFragment) {
+            return;
+        }
+        // Create the fragment
+        mPurchaseHistoryFragment = PurchaseHistoryFragment.newInstance();
+        // Create the presenter
+        mPurchaseHistoryPresenter = new PurchaseHistoryPresenter(mPurchaseHistoryFragment);
+
+        PurchaseHistoryViewModel purchaseHistoryViewModel =
+                new PurchaseHistoryViewModel(getApplicationContext(), mPurchaseHistoryPresenter);
+
+        mPurchaseHistoryFragment.setViewModel(purchaseHistoryViewModel);
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mPurchaseHistoryFragment, R.id.user_center_container);
+
+
+    }
+
+    private void selectHelp() {
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof HelpFragment) {
+            return;
+        }
+        // Create the fragment
+        mHelpFragment = HelpFragment.newInstance();
+        // Create the presenter
+        mHelpPresenter = new HelpPresenter(mHelpFragment);
+
+        HelpViewModel helpViewModel =
+                new HelpViewModel(getApplicationContext(), mHelpPresenter);
+
+        mHelpFragment.setViewModel(helpViewModel);
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mHelpFragment, R.id.user_center_container);
+
+    }
 
     @Override
     protected void onResume() {
@@ -436,25 +314,26 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         }
     }
 
-//    private void selectLocation() {
-//        // Create the fragment
-//        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LocationFragment) {
-//            return;
-//        }
-//            mLocationFragment = LocationFragment.newInstance();
-//            // Create the presenter
-//            mLocationPresenter = new LocationPresenter(mLocationFragment);
-//
-//            LocationViewModel locationViewModel =
-//                    new LocationViewModel(getApplicationContext(), mLocationPresenter);
-//
-//            mLocationFragment.setViewModel(locationViewModel);
-//            // Create the fragment
-//
-//            ActivityUtils.addFragmentToActivity(
-//                    getSupportFragmentManager(), mLocationFragment, R.id.user_center_container);
-//
-//    }
+    private void selectLocation() {
+        // Create the fragment
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LocationFragment) {
+            return;
+        }
+        mLocationFragment = LocationFragment.newInstance();
+        // Create the presenter
+        mLocationPresenter = new LocationPresenter(mLocationFragment);
+
+        LocationViewModel locationViewModel =
+                new LocationViewModel(getApplicationContext(), mLocationPresenter);
+
+        mLocationFragment.setViewModel(locationViewModel);
+        // Create the fragment
+
+        ActivityUtils.addFragmentToActivity(
+                getSupportFragmentManager(), mLocationFragment, R.id.user_center_container);
+
+
+    }
 
     @Override
     public void onSuccess() {
@@ -500,17 +379,17 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
             int i = v.getId();
             if (i == R.id.usercenter_store) {
-                setSelect(0);
+                selectProduct();
             } else if (i == R.id.usercenter_userinfo) {
-                setSelect(1);
+                selectUserInfo();
             } else if (i == R.id.usercenter_login_register) {
-                setSelect(2);
+                selectLogin();
             } else if (i == R.id.usercenter_purchase_history) {
-                setSelect(3);
+                selectPurchaseHistory();
             } else if (i == R.id.usercenter_help) {
-                setSelect(4);
+                selectHelp();
             } else if (i == R.id.usercenter_location) {
-                setSelect(5);
+                selectLocation();
             }
             changeViewState(v, ViewState.Select);
 
@@ -675,7 +554,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 indicatorView.get(5).callOnClick();
                 indicatorView.get(5).requestFocus();
                 changeViewState(indicatorView.get(5), ViewState.Select);
-                setSelect(5);
+                selectLocation();
             }
         } else {
             indicatorView.get(0).callOnClick();
