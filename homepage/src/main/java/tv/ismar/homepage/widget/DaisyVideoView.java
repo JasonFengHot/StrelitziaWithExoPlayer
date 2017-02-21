@@ -207,11 +207,11 @@ public class DaisyVideoView extends SurfaceView implements MediaPlayerControl {
 			player = null;
 			mCurrentState = STATE_IDLE;
 			mTargetState = STATE_IDLE;
-//			mOnErrorListener = null;
-//			mOnInfoListener = null;
-//			mOnSeekCompleteListener = null;
-//			mOnPreparedListener = null;
-//			mOnCompletionListener = null;
+			mOnErrorListener = null;
+			mOnInfoListener = null;
+			mOnSeekCompleteListener = null;
+			mOnPreparedListener = null;
+			mOnCompletionListener = null;
 		}
 	}
 
