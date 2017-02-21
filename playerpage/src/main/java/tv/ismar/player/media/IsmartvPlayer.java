@@ -244,19 +244,21 @@ public abstract class IsmartvPlayer implements IPlayer {
                             public void onSuccess() {
                                 String zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
                                 String zuser_token = IsmartvActivator.getInstance().getZUserToken();
-                                if (!TextUtils.isEmpty(mUser)) {
+                                // 先判断是否为付费影片，如果是付费则判断mUser
+                                if(mItemEntity.getExpense() != null && !TextUtils.isEmpty(mUser)){
                                     if (mUser.equals("device")) {
                                         PlayerSdk.getInstance().login(zdevice_token);
                                     } else if (mUser.equals("account")) {
                                         PlayerSdk.getInstance().login(zuser_token);
                                     }
                                 } else {
-                                    if (!Utils.isEmptyText(zuser_token)) {
+                                    if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()) && !Utils.isEmptyText(zuser_token)) {
                                         PlayerSdk.getInstance().login(zuser_token);
-                                    } else if (!Utils.isEmptyText(zdevice_token)) {
+                                    } else {
                                         PlayerSdk.getInstance().login(zdevice_token);
                                     }
                                 }
+
                                 if (mClipEntity != null) {
                                     // 此为异步回调
                                     isQiyiSdkInit = true;
