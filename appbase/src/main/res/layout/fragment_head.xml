@@ -61,15 +61,24 @@
             android:textColor="@color/color_base_white"
             android:textSize="@dimen/text_size_24sp"/>
 
+        <ImageView
+            android:id="@+id/bestv_logo"
+            android:layout_width="@dimen/header_logo_w"
+            android:layout_height="@dimen/header_logo_h"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/header_logo_mt"
+            android:src="@drawable/bestv_logo"/>
 
         <LinearLayout
             android:id="@+id/indicator_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/header_indicator_mr"
+            android:layout_toLeftOf="@id/bestv_logo"
             android:layout_marginBottom="@dimen/header_fragment_padding_bottom1"
             android:orientation="horizontal"/>
+
 
     </RelativeLayout>
 
