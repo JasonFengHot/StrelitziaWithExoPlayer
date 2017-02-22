@@ -173,7 +173,7 @@ public class LabelImageView3 extends AsyncImageView {
                     bringToFront();
                 }
                 drawBorder = true;
-//                getParent().requestLayout();
+                getParent().requestLayout();
                 getRootView().requestLayout();
                 getRootView().invalidate();
             } else {
