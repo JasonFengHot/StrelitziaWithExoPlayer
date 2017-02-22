@@ -56,6 +56,8 @@ public class ExitToast {
         mDuration = 0;
         if (toast != null) {
             toast.cancel();
+            mHandler.removeCallbacks(showRunnable);
+            toast = null;
         }
     }
 
