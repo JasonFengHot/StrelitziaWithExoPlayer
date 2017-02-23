@@ -25,7 +25,7 @@
 <!-- 头部高度 -->
 <dimen name="header_fragment_h">88.89dp</dimen>
 <dimen name="header_fragment_padding_l">57.78dp</dimen>
-<dimen name="header_fragment_padding_r">72.89dp</dimen>
+<dimen name="header_fragment_padding_r">64.89dp</dimen>
 <dimen name="header_fragment_padding_bottom1">12.44dp</dimen>
 <dimen name="header_fragment_padding_bottom2">15.11dp</dimen>
 <dimen name="header_fragment_title_divider_w">44.44dp</dimen>
@@ -39,11 +39,15 @@
 <dimen name="usercenter_header_fragment_subtitle_ml">5.33dp</dimen>
 <dimen name="header_fragment_divider_mlr">30.22dp</dimen>
 <dimen name="header_fragment_btn_width">106.67dp</dimen>
-<dimen name="header_fragment_mine_space">28.44dp</dimen>
+<dimen name="header_fragment_mine_space">30.22dp</dimen>
 <dimen name="header_fragment_mine_indicator_h">3.56dp</dimen>
 <dimen name="header_fragment_mine_indicator_w">83.56dp</dimen>
 <dimen name="header_title_bottom">10.67dp</dimen>
 <dimen name="header_weather_bottom">15.11dp</dimen>
+<dimen name="header_logo_w">174.22dp</dimen>
+<dimen name="header_logo_h">25.78dp</dimen>
+<dimen name="header_logo_mt">45.33dp</dimen>
+<dimen name="header_indicator_mr">76.44dp</dimen>
 
 <dimen name="label_image_padding">14.67dp</dimen>
 <dimen name="loading_size">58.67dp</dimen>
