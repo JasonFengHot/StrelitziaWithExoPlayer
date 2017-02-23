@@ -124,8 +124,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private SeekBar player_seekBar;
     private PlayerMenu playerMenu;
     private ImageView player_logo_image;
-    private ImageView ad_vip_btn;
-    private TextView ad_count_text;
+    private TextView ad_count_text, ad_vip_text;
+    private View ad_vip_layout;
     private ListView player_menu;
     private LinearLayout player_buffer_layout;
     private ImageView player_buffer_img;
@@ -252,8 +252,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         panel_layout = (LinearLayout) contentView.findViewById(R.id.panel_layout);
         player_seekBar = (SeekBar) contentView.findViewById(R.id.player_seekBar);
         player_logo_image = (ImageView) contentView.findViewById(R.id.player_logo_image);
-        ad_vip_btn = (ImageView) contentView.findViewById(R.id.ad_vip_btn);
+        ad_vip_layout = contentView.findViewById(R.id.ad_vip_layout);
         ad_count_text = (TextView) contentView.findViewById(R.id.ad_count_text);
+        ad_vip_text = (TextView) contentView.findViewById(R.id.ad_vip_text);
         player_menu = (ListView) contentView.findViewById(R.id.player_menu);
         player_buffer_layout = (LinearLayout) contentView.findViewById(R.id.player_buffer_layout);
         player_buffer_img = (ImageView) contentView.findViewById(R.id.player_buffer_img);
@@ -274,18 +275,28 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         });
         player_buffer_img.setBackgroundResource(R.drawable.module_loading);
         animationDrawable = (AnimationDrawable) player_buffer_img.getBackground();
-        ad_vip_btn.setOnHoverListener(new View.OnHoverListener() {
+        ad_vip_text.setOnHoverListener(new View.OnHoverListener() {
             @Override
             public boolean onHover(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_HOVER_ENTER:
-                        ad_vip_btn.setImageResource(R.drawable.ad_vip_btn_focus);
+                        ad_vip_text.setTextColor(getResources().getColor(R.color.module_color_focus));
                         break;
                     case MotionEvent.ACTION_HOVER_EXIT:
-                        ad_vip_btn.setImageResource(R.drawable.ad_vip_btn_normal);
+                        ad_vip_text.setTextColor(getResources().getColor(R.color.module_color_white));
                         break;
                 }
                 return false;
+            }
+        });
+        ad_vip_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    ad_vip_text.setTextColor(getResources().getColor(R.color.module_color_focus));
+                } else {
+                    ad_vip_text.setTextColor(getResources().getColor(R.color.module_color_white));
+                }
             }
         });
 
@@ -447,8 +458,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             return;
         }
         mHandler.removeMessages(MSG_AD_COUNTDOWN);
-        ad_vip_btn.setVisibility(View.GONE);
-        ad_count_text.setVisibility(View.GONE);
+        ad_vip_layout.setVisibility(View.GONE);
         goOtherPage(EVENT_CLICK_VIP_BUY);
 
     }
@@ -526,8 +536,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsInAdDetail = false;
         sharpKeyDownNotResume = false;
         mIsPreview = false;
-        ad_vip_btn.setVisibility(View.GONE);
-        ad_count_text.setVisibility(View.GONE);
+        ad_vip_layout.setVisibility(View.GONE);
         hideMenu();
         hidePanel();
         fetchItemData();
@@ -537,10 +546,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public void onAdStart() {
         Log.i(TAG, "onAdStart");
         mIsPlayingAd = true;
-        ad_vip_btn.setVisibility(View.VISIBLE);
-        ad_count_text.setVisibility(View.VISIBLE);
-        ad_vip_btn.setFocusable(true);
-        ad_vip_btn.requestFocus();
+        ad_vip_layout.setVisibility(View.VISIBLE);
+        ad_vip_text.setFocusable(true);
+        ad_vip_text.requestFocus();
         mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
     }
 
@@ -548,8 +556,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public void onAdEnd() {
         Log.i(TAG, "onAdEnd");
         mIsPlayingAd = false;
-        ad_vip_btn.setVisibility(View.GONE);
-        ad_count_text.setVisibility(View.GONE);
+        ad_vip_layout.setVisibility(View.GONE);
         mHandler.removeMessages(MSG_AD_COUNTDOWN);
     }
 
@@ -557,10 +564,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public void onMiddleAdStart() {
         Log.i(TAG, "onMiddleAdStart");
         mIsPlayingAd = true;
-        ad_vip_btn.setVisibility(View.VISIBLE);
-        ad_count_text.setVisibility(View.VISIBLE);
-        ad_vip_btn.setFocusable(true);
-        ad_vip_btn.requestFocus();
+        ad_vip_layout.setVisibility(View.VISIBLE);
+        ad_vip_text.setFocusable(true);
+        ad_vip_text.requestFocus();
         mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
 
     }
@@ -569,8 +575,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     public void onMiddleAdEnd() {
         Log.i(TAG, "onMiddleAdEnd");
         mIsPlayingAd = false;
-        ad_vip_btn.setVisibility(View.GONE);
-        ad_count_text.setVisibility(View.GONE);
+        ad_vip_layout.setVisibility(View.GONE);
         mHandler.removeMessages(MSG_AD_COUNTDOWN);
 
     }
@@ -1870,8 +1875,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     Log.d(TAG, "From ad detail to player.");
                     mIsInAdDetail = false;
                     adController.hideAd(AdItem.AdType.CLICKTHROUGH);
-                    ad_vip_btn.setVisibility(View.VISIBLE);
-                    ad_count_text.setVisibility(View.VISIBLE);
+                    ad_vip_layout.setVisibility(View.VISIBLE);
+                    ad_vip_text.setFocusable(true);
+                    ad_vip_text.requestFocus();
                     return true;
                 }
                 if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
@@ -1929,8 +1935,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         if (adController != null && adController.isEnableClickThroughAd()) {
                             Log.d(TAG, "Jump to ad detail.");
                             mIsInAdDetail = true;
-                            ad_vip_btn.setVisibility(View.GONE);
-                            ad_count_text.setVisibility(View.GONE);
+                            ad_vip_layout.setVisibility(View.GONE);
                             adController.showAd(AdItem.AdType.CLICKTHROUGH);
                         }
                     }

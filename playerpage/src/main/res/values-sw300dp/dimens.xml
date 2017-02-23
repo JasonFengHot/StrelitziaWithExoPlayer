@@ -20,11 +20,13 @@
 <dimen name="player_menu_padding_tb">44.44dp</dimen>
 <dimen name="player_menu_padding_l">11.11dp</dimen>
 <dimen name="player_menu_item_h">33.33dp</dimen>
-<dimen name="player_logo_image_mt">8.89dp</dimen>
+<dimen name="player_logo_image_mt">8.06dp</dimen>
+<dimen name="player_logo_image_mr">11.94dp</dimen>
 
-<dimen name="qiyi_ad_width">96.39dp</dimen>
-<dimen name="qiyi_ad_height">20.00dp</dimen>
-<dimen name="ad_text_margin_left">5.28dp</dimen>
+<dimen name="qiyi_ad_width">82.78dp</dimen>
+<dimen name="qiyi_ad_height">13.89dp</dimen>
+<dimen name="ad_text_count_w">21.67dp</dimen>
+<dimen name="ad_text_vip_w">60.00dp</dimen>
 
 <dimen name="pause_ad_btn_wh">16.67dp</dimen>
 

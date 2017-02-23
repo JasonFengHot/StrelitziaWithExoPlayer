@@ -45,27 +45,41 @@
                 android:alpha="0.8"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/ad_vip_btn"
+            <RelativeLayout
+                android:id="@+id/ad_vip_layout"
                 android:layout_width="@dimen/qiyi_ad_width"
                 android:layout_height="@dimen/qiyi_ad_height"
-                android:focusable="true"
-                android:onClick="onBuyVip"
-                android:scaleType="centerInside"
-                android:src="@drawable/drawable_ad_btn"
-                android:visibility="gone" />
+                android:background="@drawable/ad_vip_btn_normal"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/ad_count_text"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/qiyi_ad_height"
-                android:layout_marginLeft="@dimen/ad_text_margin_left"
-                android:alpha="0.8"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@color/module_color_white"
-                android:textSize="@dimen/h1_size"
-                android:visibility="gone" />
+                <TextView
+                    android:id="@+id/ad_count_text"
+                    android:layout_width="@dimen/ad_text_count_w"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:text="112"
+                    android:textColor="@color/module_color_white"
+                    android:textSize="@dimen/text_size_36sp" />
+
+                <TextView
+                    android:id="@+id/ad_vip_text"
+                    android:layout_width="@dimen/ad_text_vip_w"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:nextFocusLeft="@id/ad_vip_text"
+                    android:nextFocusUp="@id/ad_vip_text"
+                    android:nextFocusRight="@id/ad_vip_text"
+                    android:nextFocusDown="@id/ad_vip_text"
+                    android:onClick="onBuyVip"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="@string/str_player_ad_vip"
+                    android:textColor="@color/module_color_white"
+                    android:textSize="@dimen/text_size_30sp" />
+
+            </RelativeLayout>
 
         </FrameLayout>
 
