@@ -295,6 +295,8 @@ public abstract class IsmartvPlayer implements IPlayer {
         mOnStateChangedListener = null;
         mOnInfoListener = null;
         isQiyiSdkInit = false;
+        mDaisyVideoView = null;
+        mContainer = null;
 
     }
 

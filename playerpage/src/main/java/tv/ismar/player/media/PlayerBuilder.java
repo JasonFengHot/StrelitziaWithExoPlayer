@@ -30,10 +30,8 @@ public class PlayerBuilder {
 
     private byte mPlayerMode = -1;
     private ItemEntity mItemEntity;
-    private FrameLayout mContainer;
     private int mStartPosition = 0;
     private boolean mIsPreview;
-    private DaisyVideoView mDaisyVideoView;
 
     // Removes the default public constructor
     private PlayerBuilder() {
@@ -68,11 +66,6 @@ public class PlayerBuilder {
         return this;
     }
 
-    public PlayerBuilder setContainer(FrameLayout container) {
-        mContainer = container;
-        return this;
-    }
-
     public PlayerBuilder setStartPosition(int startPosition) {
         mStartPosition = startPosition;
         return this;
@@ -80,11 +73,6 @@ public class PlayerBuilder {
 
     public PlayerBuilder setIsPreview(boolean isPreview) {
         mIsPreview = isPreview;
-        return this;
-    }
-
-    public PlayerBuilder setDaisyVideoview(DaisyVideoView daisyVideoview) {
-        mDaisyVideoView = daisyVideoview;
         return this;
     }
 
@@ -96,10 +84,6 @@ public class PlayerBuilder {
         if (mItemEntity == null) {
             Log.e(TAG, "Must call setItemEntity first.");
             throw new IllegalAccessError("Must call setItemEntity first.");
-        }
-        if (mContainer == null) {
-            Log.e(TAG, "Must call setContainer first.");
-            throw new IllegalAccessError("Must call setContainer first.");
         }
         IsmartvPlayer ismartvPlayer = null;
         switch (mPlayerMode) {
@@ -119,8 +103,6 @@ public class PlayerBuilder {
         }
         Log.e(TAG, "new IsmartvPlayer success.");
         ismartvPlayer.setItemEntity(mItemEntity);
-        ismartvPlayer.setContainer(mContainer);
-        ismartvPlayer.setDaisyVideoView(mDaisyVideoView);
         ismartvPlayer.setStartPosition(mStartPosition);
         ismartvPlayer.setIsPreview(mIsPreview);
         return ismartvPlayer;
@@ -129,8 +111,6 @@ public class PlayerBuilder {
     public void release() {
         mPlayerMode = -1;
         mItemEntity = null;
-        mContainer = null;
-        mDaisyVideoView = null;
         sInstance = null;
     }
 
