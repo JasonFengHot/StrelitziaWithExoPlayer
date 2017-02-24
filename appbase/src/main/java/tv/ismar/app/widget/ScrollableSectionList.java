@@ -81,8 +81,8 @@ public class ScrollableSectionList extends HorizontalScrollView {
     private boolean isPortrait = false;
     float rate;
     private int tabMargin;
-    public ImageView arrow_left;
-    public ImageView arrow_right;
+    public ImageView arrow_left,shade_arrow_left;
+    public ImageView arrow_right,shade_arrow_right;
     Animation scaleSmallAnimation;
     Animation scaleBigAnimation;
     private int initTab=1;
@@ -207,7 +207,6 @@ public class ScrollableSectionList extends HorizontalScrollView {
         FrameLayout sectionHolder = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.section_list_item, null);
         LinearLayout.LayoutParams layoutParams;
         layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//        sectionHolder.setPadding(tabSpace, 0, tabSpace, 0);
         sectionHolder.setLayoutParams(layoutParams);
         sectionHolder.setFocusable(true);
         TextView label = (TextView) sectionHolder.findViewById(R.id.section_label);
@@ -743,6 +742,8 @@ public class ScrollableSectionList extends HorizontalScrollView {
         if (currentPosition == 0) {
             if (arrow_left != null) {
                 arrow_left.setVisibility(View.INVISIBLE);
+                shade_arrow_left.setVisibility(View.INVISIBLE);
+                Log.i("tabarrow","invisible");
             }
             View currentView = mContainer.getChildAt(currentPosition);
             int[] currentPos = new int[2];
@@ -755,6 +756,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
         if (currentPosition == mContainer.getChildCount() - 1) {
             if (arrow_right != null) {
                 arrow_right.setVisibility(View.INVISIBLE);
+                shade_arrow_right.setVisibility(View.INVISIBLE);
             }
             View currentView = mContainer.getChildAt(currentPosition);
             int[] currentPos = new int[2];
@@ -783,16 +785,20 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 smoothScrollBy((nextPos[0] + nextWidth) - tabRightX, 0);
                 if (arrow_right != null) {
                     arrow_right.setVisibility(View.INVISIBLE);
+                    shade_arrow_right.setVisibility(View.INVISIBLE);
                     cancelTimer();
                 }
             } else {
                 smoothScrollBy(nextViewCenterX - tabRightX, 0);
                 if (arrow_right != null && arrow_right.getVisibility() != View.VISIBLE) {
                     arrow_right.setVisibility(View.VISIBLE);
+                    shade_arrow_right.setVisibility(View.VISIBLE);
                 }
             }
             if (arrow_left != null && arrow_left.getVisibility() != View.VISIBLE) {
                 arrow_left.setVisibility(View.VISIBLE);
+                shade_arrow_left.setVisibility(View.VISIBLE);
+                Log.i("tabarrow","visisble");
             }
         } else if (currentPos[0] <= tabMargin) {
             View frontView = mContainer.getChildAt(currentPosition - 1);
@@ -808,16 +814,19 @@ public class ScrollableSectionList extends HorizontalScrollView {
                 smoothScrollBy(frontPos[0] - tabMargin, 0);
                 if (arrow_left != null) {
                     arrow_left.setVisibility(View.INVISIBLE);
+                    shade_arrow_left.setVisibility(View.INVISIBLE);
                     cancelTimer();
                 }
             } else {
                 smoothScrollBy(frontViewCenterX - tabMargin, 0);
                 if (arrow_left != null && arrow_left.getVisibility() != View.VISIBLE) {
                     arrow_left.setVisibility(View.VISIBLE);
+                    shade_arrow_left.setVisibility(View.VISIBLE);
                 }
             }
             if (arrow_right != null && arrow_right.getVisibility() != View.VISIBLE) {
                 arrow_right.setVisibility(View.VISIBLE);
+                shade_arrow_right.setVisibility(View.VISIBLE);
             }
         }
 

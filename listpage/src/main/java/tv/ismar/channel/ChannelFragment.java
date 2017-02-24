@@ -106,8 +106,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     private HashMap<String, Object> mSectionProperties = new HashMap<String, Object>();
 
-    private ImageView arrow_left;
-    private ImageView arrow_right;
+    private ImageView arrow_left,shade_arrow_left;
+    private ImageView arrow_right,shade_arrow_right;
     //private Button btn_search;
     private View large_layout;
     private MenuFragment mMenuFragment;
@@ -145,6 +145,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         right_shadow = (Button) fragmentView.findViewById(R.id.right_shadow);
         arrow_left = (ImageView) fragmentView.findViewById(R.id.arrow_left);
         arrow_right = (ImageView) fragmentView.findViewById(R.id.arrow_right);
+        shade_arrow_left= (ImageView) fragmentView.findViewById(R.id.shade_left);
+        shade_arrow_right= (ImageView) fragmentView.findViewById(R.id.shade_arrow_right);
         arrow_left.setOnHoverListener(new View.OnHoverListener() {
 
 			@Override
@@ -297,6 +299,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         mScrollableSectionList.right_shadow = right_shadow;
         mScrollableSectionList.arrow_left = arrow_left;
         mScrollableSectionList.arrow_right = arrow_right;
+        mScrollableSectionList.shade_arrow_right=shade_arrow_right;
+        mScrollableSectionList.shade_arrow_left=shade_arrow_left;
         mHGridView.setOnItemClickListener(this);
         mHGridView.setOnItemSelectedListener(this);
         mHGridView.setOnScrollListener(this);
@@ -713,23 +717,23 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         super.onResume();
         if (isPause) {
             isPause = false;
-//            if (mScrollableSectionList != null) {
-//                if (mScrollableSectionList.mContainer != null) {
-//                    View v = mScrollableSectionList.mContainer.getChildAt(mScrollableSectionList.getSelectPosition());
-//                    if (v != null) {
-//                        if (mScrollableSectionList.getSelectPosition() == 0) {
-//                        // v.requestFocus();
-//                            View vv = mScrollableSectionList.mContainer.getChildAt(1);
-//                            if (vv != null) {
-//                                mScrollableSectionList.sectionWhenGoto = (TextView) vv.findViewById(R.id.section_label);
-//                                mHGridView.requestFocus();
-//                                mHGridView.setSelection(0);
-//                                mScrollableSectionList.setFilterBack(vv);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
+            if (mScrollableSectionList != null) {
+                if (mScrollableSectionList.mContainer != null) {
+                    View v = mScrollableSectionList.mContainer.getChildAt(mScrollableSectionList.getSelectPosition());
+                    if (v != null) {
+                        if (mScrollableSectionList.getSelectPosition() == 0) {
+                        // v.requestFocus();
+                            View vv = mScrollableSectionList.mContainer.getChildAt(1);
+                            if (vv != null) {
+                                mScrollableSectionList.sectionWhenGoto = (TextView) vv.findViewById(R.id.section_label);
+                                mHGridView.requestFocus();
+                                mHGridView.setSelection(0);
+                                mScrollableSectionList.setFilterBack(vv);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

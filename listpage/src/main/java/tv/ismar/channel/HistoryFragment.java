@@ -343,7 +343,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		initHistoryList();
 		createMenu();
 		mSectionList = new SectionList();
-	}
+    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
