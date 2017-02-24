@@ -90,6 +90,7 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
             return;
         }
         mDaisyVideoView.stopPlayback();
+        super.stopPlayBack();
     }
 
     @Override

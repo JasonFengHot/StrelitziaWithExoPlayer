@@ -143,6 +143,8 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
     public void release(boolean flag) {
         mCurrentState = STATE_IDLE;
+        mIsmartvPlayer = null;
+        mVideoOverlay = null;
         if (mPlayer != null) {
             mPlayer.stop();
             if (flag) {

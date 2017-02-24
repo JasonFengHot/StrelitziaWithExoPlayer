@@ -308,6 +308,8 @@ public class DaisyVideoView extends SurfaceView {
     }
 
     public void stopPlayback() {
+        mIsmartvPlayer = null;
+        mAdErrorListener = null;
         if (player != null) {
             mCurrentState = STATE_IDLE;
             mTargetState = STATE_IDLE;
