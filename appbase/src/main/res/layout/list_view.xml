@@ -31,11 +31,30 @@
         android:orientation="vertical"
         android:visibility="visible" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/listportait_section_tab_H"
-            android:orientation="horizontal"
             >
+            <tv.ismar.app.widget.ScrollableSectionList
+                android:id="@+id/section_tabs"
+                android:layout_width="@dimen/list_section_width"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/list_progressBar_margin"
+                android:layout_gravity="center"
+                android:fillViewport="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scrollbars="none" >
+            </tv.ismar.app.widget.ScrollableSectionList>
+            <ImageView
+                android:id="@+id/shade_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/list_progressBar_margin"
+                android:layout_gravity="left"
+                android:scaleType="fitCenter"
+                android:src="@drawable/shade_arrow_left"
+                android:visibility="invisible" />
             <ImageView
                 android:id="@+id/arrow_left"
                 android:layout_width="wrap_content"
@@ -45,31 +64,25 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/section_list_arrow_left"
                 android:visibility="invisible" />
-
-            <tv.ismar.app.widget.ScrollableSectionList
-                android:id="@+id/section_tabs"
-                android:layout_width="@dimen/list_section_width"
+            <ImageView
+                android:id="@+id/shade_arrow_right"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/list_section_tabSpace"
-                android:layout_gravity="center"
-                android:fillViewport="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:scrollbars="none" >
-            </tv.ismar.app.widget.ScrollableSectionList>
-
+                android:layout_marginRight="@dimen/list_progressBar_margin"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:scaleType="fitCenter"
+                android:src="@drawable/shade_arrow_right" />
             <ImageView
                 android:id="@+id/arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/list_progressBar_margin"
-                android:layout_marginLeft="@dimen/list_section_tabSpace"
-                android:layout_gravity="right"
+                android:layout_alignParentRight="true"
                 android:visibility="invisible"
                 android:scaleType="fitCenter"
                 android:src="@drawable/section_list_arrow_right" />
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/section_percentage"
