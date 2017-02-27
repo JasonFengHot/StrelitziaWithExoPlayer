@@ -165,7 +165,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private boolean sharpKeyDownNotResume = false; // 夏普电视设置按键Activity样式为Dialog样式
     public boolean mounted = false; // SD卡弹出后操作问题
-
+    private ImageView shadowview;
     public PlayerFragment() {
         // Required empty public constructor
     }
@@ -261,6 +261,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         player_buffer_text = (TextView) contentView.findViewById(R.id.player_buffer_text);
         previous = (ImageView) contentView.findViewById(R.id.previous);
         forward = (ImageView) contentView.findViewById(R.id.forward);
+        shadowview = (ImageView)contentView.findViewById(R.id.shadowview);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -508,6 +509,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         Log.i(TAG, "onPrepared:" + mCurrentPosition + " playingAd:" + mIsPlayingAd);
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
         hideBuffer();
+        shadowview.setVisibility(View.GONE);
         if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
             mIsmartvPlayer.start();
         }
