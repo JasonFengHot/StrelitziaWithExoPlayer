@@ -37,6 +37,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.Utils.LogUtils;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.adapter.RecommecdItemAdapter;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
@@ -502,6 +503,9 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 	@Override
 	public void onResume() {
+		AppConstant.purchase_referer = "history";
+		AppConstant.purchase_page = "history";
+		AppConstant.purchase_channel = "";
         BaseActivity.baseChannel="";
         BaseActivity.baseSection="";
 		if(IsmartvActivator.getInstance().isLogin()){

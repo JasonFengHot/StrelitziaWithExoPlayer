@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.usercenter.HelpContract;
@@ -107,6 +108,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
     @Override
     public void onResume() {
         super.onResume();
+        AppConstant.purchase_page = "customer";
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
 

@@ -108,39 +108,11 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
         int i = v.getId();
         if (i == R.id.card_balance_submit) {
             createOrder();
-            purchaseClickStatistics();
         } else if (i == R.id.card_balance_cancel) {
             activity.finish();
         }
     }
 
-    private void purchaseClickStatistics() {
-        int item = itemEntity.getItemPk();
-        String userId = IsmartvActivator.getInstance().getUsername();
-        String title = itemEntity.getTitle();
-        String clip = "";
-        if (itemEntity.getClip() != null) {
-            clip = String.valueOf(itemEntity.getClip().getPk());
-        }
-
-        String type = "ismartv";
-        new PurchaseStatistics().videoPurchaseClick(String.valueOf(item), userId, title, clip, type);
-    }
-
-    private void purchaseOkStatistics(String valid, float balance) {
-
-        String item = String.valueOf(itemEntity.getItemPk());
-        String account = String.valueOf(balance);
-        String price = String.valueOf(itemEntity.getExpense().getPrice());
-        String userId = IsmartvActivator.getInstance().getUsername();
-        String type = "ismartv";
-        String clip = "";
-        if (itemEntity.getClip() != null) {
-            clip = String.valueOf(itemEntity.getClip().getPk());
-        }
-        String title = itemEntity.getTitle();
-        new PurchaseStatistics().videoPurchaseOk(item, account, valid, price, userId, type, clip, title);
-    }
 
     public void createOrder() {
         String waresId = String.valueOf(activity.getPk());
@@ -159,7 +131,7 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
             sign = activator.encryptWithPublic(encode);
         }
 
-        apiOrderCreateSub = activity.mSkyService.apiOrderCreate("create", waresId, waresType, source, timestamp, sign, null)
+        apiOrderCreateSub = activity.mSkyService.apiOrderCreate("create", activity.getUuid(), waresId, waresType, source, timestamp, sign, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -182,7 +154,6 @@ public class BalancePayFragment extends Fragment implements View.OnClickListener
                             e.printStackTrace();
                         }
                         float result = new JsonParser().parse(json).getAsJsonObject().get("balance").getAsFloat();
-                        purchaseOkStatistics("", result);
                         activity.setResult(PaymentActivity.PAYMENT_SUCCESS_CODE);
                         Message message = new Message();
                         message.what = 0;

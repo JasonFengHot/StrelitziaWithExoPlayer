@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
@@ -70,6 +71,7 @@ import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.media.PlayerBuilder;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
+import tv.ismar.statistics.PurchaseStatistics;
 
 public class PlayerFragment extends Fragment implements PlayerPageContract.View, PlayerMenu.OnCreateMenuListener,
         IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener,
@@ -154,7 +156,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //    private List<AdElementEntity> tempAds;// 预加载时用到
     private boolean isExit = false;// 播放器退出release需要时间，此时的UI事件会导致ANR
     private boolean closePopup = false;// 网速由不正常到正常时判断，关闭弹窗后不做任何操作
-//    private boolean isFinishing;
+    //    private boolean isFinishing;
     private boolean isClickBufferLong;// 夏普s3相关适配，限速切换码率后，恢复网速，导致timerStart无法正常开启
 
     private FragmentPlayerBinding mBinding;
@@ -361,6 +363,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }, 400);
                 break;
             case EVENT_COMPLETE_BUY:
+                expenseVideoPreview("purchase");
                 if (mIsmartvPlayer != null) {
                     mIsmartvPlayer.logVideoExit(mCurrentPosition, "finish");
                 }
@@ -1883,6 +1886,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         };
                         quitTimer.schedule(task, 5000);
                     } else {
+                        if (mIsPreview){
+                            expenseVideoPreview("cancel");
+                        }
                         ExitToast.createToastConfig().dismiss();
                         exitPlayerWhilePlaying();
                     }
@@ -2041,5 +2047,24 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
         }
     }
+    public void expenseVideoPreview(String result){
+        try {
+            String player = mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER?"qiyi":"bestv";
+            new PurchaseStatistics().expenseVideoPreview(
+                    mItemEntity.getItemPk(),
+                    mItemEntity.getClip().getPk(),
+                    IsmartvActivator.getInstance().getUsername(),
+                    mItemEntity.getTitle(),
+                    mItemEntity.getVendor(),
+                    mItemEntity.getExpense().getPrice(),
+                    player,
+                    result,
+                    mIsmartvPlayer.getDuration(),
+                    TrueTime.now().getTime()
+            );
+        }catch (Exception e){
+            Log.e(TAG, "expenseVideoPreview: " + e.getMessage());
+        }
 
+    }
 }

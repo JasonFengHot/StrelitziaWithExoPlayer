@@ -44,7 +44,7 @@ public interface PageIntentInterface {
 
     void toPackageDetail(Context context, String source, String json);
 
-    void toPayment(Context context, String fromPage, PaymentInfo paymentInfo);
+//    void toPayment(Context context, String fromPage, PaymentInfo paymentInfo);
 
     void toPaymentForResult(Activity context, String fromPage, PaymentInfo paymentInfo);
 

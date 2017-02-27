@@ -56,6 +56,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.ad.AdsUpdateService;
@@ -1175,6 +1176,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     @Override
     protected void onResume() {
         super.onResume();
+        AppConstant.purchase_referer = "homepage";
         if (!isneedpause) {
             return;
         }

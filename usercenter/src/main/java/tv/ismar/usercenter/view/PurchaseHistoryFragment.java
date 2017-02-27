@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Util;
@@ -117,6 +118,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
     @Override
     public void onResume() {
         super.onResume();
+        AppConstant.purchase_page = "history";
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
 

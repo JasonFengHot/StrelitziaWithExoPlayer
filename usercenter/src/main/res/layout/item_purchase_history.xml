@@ -83,6 +83,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/orderlistitem_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +95,6 @@
                 android:id="@+id/orderlistitem_paychannel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/purchaseFragment_item_marginLeft"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/h4_text_size"
             />

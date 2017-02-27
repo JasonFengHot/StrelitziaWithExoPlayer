@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.ResponseBody;
@@ -44,6 +45,7 @@ import tv.ismar.app.network.entity.GoodsRenewStatusEntity;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PayWhStatusEntity;
 import tv.ismar.pay.LoginFragment.LoginCallback;
+import tv.ismar.statistics.PurchaseStatistics;
 
 import static tv.ismar.pay.PaymentActivity.OderType.alipay_renewal;
 
@@ -86,6 +88,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private Subscription accountsGoodsRenewStatusSub;
     public ImageView tmp;
 
+    public String uuid;
+
+    public String getUuid() {
+        uuid = UUID.randomUUID().toString().replace("-", "");
+        return uuid;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,19 +139,18 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                 mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
                 pk = mItemEntity.getPk();
                 purchaseCheck(CheckType.PlayCheck);
-                if (mItemEntity.isRenew_buy()){
+                if (mItemEntity.isRenew_buy()) {
                     aliPayBtn.setBackgroundResource(R.drawable.alipay_channel_selector);
-                }else {
+                } else {
                     aliPayBtn.setBackgroundResource(R.drawable.paychannel_btn_selector);
                 }
 
             } else {
-                    pk = intent.getIntExtra("pk", 0);
-                    movieId = intent.getIntExtra("movie_id", -1);
-                    fetchItem(pk, category);
+                pk = intent.getIntExtra("pk", 0);
+                movieId = intent.getIntExtra("movie_id", -1);
+                fetchItem(pk, category);
             }
         }
-
 
 
     }
@@ -209,10 +216,10 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
 
         if ("package".equalsIgnoreCase(category)) {
-            if (movieId != -1 && login_tag){
-                orderCheckLoop(checkType,String.valueOf(movieId), null,  null);
+            if (movieId != -1 && login_tag) {
+                orderCheckLoop(checkType, String.valueOf(movieId), null, null);
                 login_tag = false;
-            }else {
+            } else {
                 orderCheckLoop(checkType, null, String.valueOf(pk), null);
             }
         } else if ("subitem".equalsIgnoreCase(category)) {
@@ -306,11 +313,59 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(String responseBody) {
                         if (responseBody != null && !"0".equals(responseBody)) {
+
+                            if (!login_tag) {
+                                if (category.equals("package")) {
+                                    new PurchaseStatistics().expensePageExit("", "", IsmartvActivator.getInstance().getUsername(),
+                                            "package", String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(), "success", "", uuid);
+                                } else {
+                                    String type ="";
+                                    if (mItemEntity.getExpense().getPay_type() == 1){
+                                        type = "independent";
+                                    }else if (mItemEntity.getExpense().getPay_type() == 2){
+                                        type = "vip";
+                                    }
+                                    new PurchaseStatistics().expensePageExit(String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(), IsmartvActivator.getInstance().getUsername(),
+                                            type, "", "", "success", "", uuid);
+                                }
+                            } else {
+                                if (category.equals("package")) {
+                                    new PurchaseStatistics().expensePageExit("", "", IsmartvActivator.getInstance().getUsername(),
+                                            "", String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(), "allow", "", uuid);
+                                } else {
+                                    String type = "";
+                                    if (mItemEntity.getExpense().getPay_type() == 1){
+                                        type = "independent";
+                                    }else if (mItemEntity.getExpense().getPay_type() == 2){
+                                        type = "vip";
+                                    }
+                                    new PurchaseStatistics().expensePageExit(String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(), IsmartvActivator.getInstance().getUsername(),
+                                            type, "", "", "allow", "", uuid);
+                                }
+                            }
                             setResult(PAYMENT_SUCCESS_CODE);
                             finish();
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (category.equals("package")) {
+            new PurchaseStatistics().expensePageExit("", "", IsmartvActivator.getInstance().getUsername(),
+                    "package", String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(), "cancel", "", uuid);
+        } else {
+            String type = "";
+            if (mItemEntity.getExpense().getPay_type() == 1){
+                type = "independent";
+            }else if (mItemEntity.getExpense().getPay_type() == 2){
+                type = "vip";
+            }
+            new PurchaseStatistics().expensePageExit(String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(),
+                    IsmartvActivator.getInstance().getUsername(), type, "", "", "cancel", "", uuid);
+        }
+        super.onBackPressed();
     }
 
     public void createOrder(final OderType type, final QrcodeCallback callback) {
@@ -337,7 +392,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
 
 
-        apiOrderCreateSub = mSkyService.apiOrderCreate(apiType, waresId, waresType, source, timestamp, sign, null)
+        apiOrderCreateSub = mSkyService.apiOrderCreate(apiType, getUuid(), waresId, waresType, source, timestamp, sign, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -390,7 +445,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
         final String finalSource = source;
         final String finalAction = action;
-        apiOrderCreateSub = mSkyService.apiOrderCreate("chooseway", waresId, waresType, source, null, null, action)
+        apiOrderCreateSub = mSkyService.apiOrderCreate("chooseway", getUuid(), waresId, waresType, source, null, null, action)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -434,7 +489,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                                         alipayFragment4.setArguments(bundle4);
                                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_page, alipayFragment4).commit();
                                         fetchImage(choosewayEntity.getAgreement().getUrl(), type, alipayFragment4);
-                                    }else {
+                                    } else {
                                         AlipayYKTMMRenewalFragment yktRenewalFragment = new AlipayYKTMMRenewalFragment();
                                         Bundle bundle3 = new Bundle();
                                         bundle3.putString("url", choosewayEntity.getPay().getUrl());
@@ -522,9 +577,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(ItemEntity itemEntity) {
                         mItemEntity = itemEntity;
-                        if (mItemEntity.isRenew_buy()){
+                        if (mItemEntity.isRenew_buy()) {
                             aliPayBtn.setBackgroundResource(R.drawable.alipay_channel_selector);
-                        }else {
+                        } else {
                             aliPayBtn.setBackgroundResource(R.drawable.paychannel_btn_selector);
                         }
                         title.setText(itemEntity.getTitle());

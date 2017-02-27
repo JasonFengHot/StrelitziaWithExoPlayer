@@ -182,6 +182,12 @@ public class EntertainmentFragment extends ChannelBaseFragment {
                 }
             }
         });
+
+        View[] views = {vaiety_post,vaiety_card1_image,vaiety_card3_image,vaiety_card2_image,
+                vaiety_card4_image,vaiety_channel1_image,vaiety_channel2_image,vaiety_channel3_image,vaiety_channel4_image};
+        for (int i = 0; i < views.length; i++){
+            views[i].setTag(R.id.view_position_tag, i);
+        }
         return view;
     }
 

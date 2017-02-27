@@ -30,6 +30,7 @@ import java.util.List;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
@@ -180,6 +181,12 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
          * 上传app启动日志
          */
         appstart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConstant.purchase_referer = "search";
     }
 
     public void appstart() {
@@ -1338,6 +1345,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 } else {
                     top_tabs.getChildAt(selectedTab).requestFocus();
                 }
+
+                AppConstant.purchase_page = "filter";
             }
 
         } else if (VODSEARCH_CLASS == flag) {
@@ -1449,6 +1458,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 }
                 handler.sendEmptyMessageDelayed(1, 15000);
                 fetchRecommend();
+                AppConstant.purchase_page = "filter_empty";
             }
         }
 
