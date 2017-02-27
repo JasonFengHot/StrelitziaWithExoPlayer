@@ -383,8 +383,8 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnPreparedListenerUrl smartPreparedListenerUrl = new SmartPlayer.OnPreparedListenerUrl() {
         @Override
         public void onPrepared(SmartPlayer smartPlayer, String s) {
-            Log.i(TAG, "onPrepared state url ==" + s + " " + mIsmartvPlayer.mIsPlayingAdvertisement);
-            if (mSurfaceHolder == null) {
+            Log.i(TAG, "onPrepared state url ==" + s);
+            if (mSurfaceHolder == null || mIsmartvPlayer == null) {
                 return;
             }
             mCurrentState = STATE_PREPARED;
@@ -435,7 +435,7 @@ public class DaisyVideoView extends SurfaceView {
             Log.i(TAG, "outSize:" + Arrays.toString(outputSize));
             getHolder().setFixedSize(outputSize[0], outputSize[1]);
             smartPlayer.setDisplay(getHolder());
-            if (mIsmartvPlayer.mOnVideoSizeChangedListener != null) {
+            if (mIsmartvPlayer != null && mIsmartvPlayer.mOnVideoSizeChangedListener != null) {
                 mIsmartvPlayer.mOnVideoSizeChangedListener.onVideoSizeChanged(width, height);
             }
         }
@@ -449,7 +449,7 @@ public class DaisyVideoView extends SurfaceView {
             int currentIndex = smartPlayer.getCurrentPlayUrl();
             Log.i(TAG, "onCompletion state url index==" + currentIndex);
 
-            if (mIsmartvPlayer.mIsPlayingAdvertisement && !mIsmartvPlayer.mAdIdMap.isEmpty()) {
+            if (mIsmartvPlayer != null && mIsmartvPlayer.mIsPlayingAdvertisement && !mIsmartvPlayer.mAdIdMap.isEmpty()) {
                 mIsmartvPlayer.mMediaIp = getMediaIp(s);
                 mIsmartvPlayer.mMediaId = mIsmartvPlayer.mAdIdMap.get(s);
                 mIsmartvPlayer.mAdIdMap.remove(s);
@@ -493,7 +493,7 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public boolean onInfo(SmartPlayer smartPlayer, int i, int i1) {
             Log.v(TAG, "onInfo i=" + i + "<>j=" + i1);
-            if (player == null) {
+            if (player == null || mIsmartvPlayer == null) {
                 return false;
             }
             switch (i) {
@@ -533,7 +533,7 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnSeekCompleteListener smartSeekCompleteListener = new SmartPlayer.OnSeekCompleteListener() {
         @Override
         public void onSeekComplete(SmartPlayer smartPlayer) {
-            if (player == null) {
+            if (player == null || mIsmartvPlayer == null) {
                 return;
             }
             if (isFirstSeek) {
@@ -552,7 +552,7 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnTsInfoListener smartTsInfoListener = new SmartPlayer.OnTsInfoListener() {
         @Override
         public void onTsInfo(SmartPlayer smartPlayer, Map<String, String> map) {
-            if (player == null) {
+            if (player == null || mIsmartvPlayer == null) {
                 return;
             }
             String spd = map.get("TsDownLoadSpeed");
@@ -565,7 +565,7 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnM3u8IpListener smartM3u8IpListener = new SmartPlayer.OnM3u8IpListener() {
         @Override
         public void onM3u8TsInfo(SmartPlayer smartPlayer, String s) {
-            if (player == null) {
+            if (player == null || mIsmartvPlayer == null) {
                 return;
             }
             mIsmartvPlayer.mMediaIp = s;
@@ -576,6 +576,9 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public boolean onError(SmartPlayer smartPlayer, int i, int i1) {
             Log.i(TAG, "onError:" + i + " " + i1);
+            if(mIsmartvPlayer == null){
+                return true;
+            }
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
             mIsmartvPlayer.logVideoException(String.valueOf(i));
