@@ -308,7 +308,7 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void onStopped(IMediaPlayer iMediaPlayer) {
-            if (mPlayer != null && mIsmartvPlayer.mIsPreview) {
+            if (mPlayer != null && mIsmartvPlayer != null && mIsmartvPlayer.mIsPreview) {
                 mCurrentState = STATE_COMPLETED;
                 if (mIsmartvPlayer.mOnStateChangedListener != null) {
                     mIsmartvPlayer.mOnStateChangedListener.onCompleted();
