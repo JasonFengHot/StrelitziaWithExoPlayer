@@ -169,6 +169,7 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.putExtra("package_id", newVipPackage.getPackage_pk());
+                    intent.putExtra("movie_id", mItemId);
                     intent.setClass(PayActivity.this, PayLayerPackageActivity.class);
                     startActivityForResult(intent, PAYMENT_REQUEST_CODE);
                 }

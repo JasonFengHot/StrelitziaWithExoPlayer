@@ -64,6 +64,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     private ImageView dividerImage;
     private LinearLayout guideLayout;
     private List<View> indicatorTableList;
+    private ImageView bestv_logo;
 
 
     public HeadFragment() {
@@ -86,6 +87,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         weatherInfoTextView = (TextView) view.findViewById(R.id.weather_info);
         guideLayout = (LinearLayout) view.findViewById(R.id.indicator_layout);
         dividerImage = (ImageView) view.findViewById(R.id.divider);
+        bestv_logo = (ImageView) view.findViewById(R.id.bestv_logo);
 
         titleTextView.setText(R.string.app_name);
         subTitleTextView.setText(R.string.front_page);
@@ -144,6 +146,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                     break;
                 case HEADER_HOMEPAGE:
                     subTitleTextView.setText(bundle.getString("channel_name"));
+                    showLogo();
                     break;
                 case HEADER_FILTER:
                     titleTextView.setText(bundle.getString("channel_name"));
@@ -166,6 +169,10 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
         String geoId = hashMap.get("geo_id");
         fetchWeatherInfo(geoId);
+    }
+
+    private void showLogo() {
+        bestv_logo.setVisibility(View.VISIBLE);
     }
 
 

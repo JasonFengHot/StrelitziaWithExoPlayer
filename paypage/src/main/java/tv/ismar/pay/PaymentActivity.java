@@ -71,6 +71,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private Subscription accountsBalanceSub;
     private Subscription apiOrderCreateSub;
     private Subscription apiOptItemSub;
+    private int movieId;
+    private boolean login_tag = false;
 
 
     @Override
@@ -119,6 +121,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
                 } else {
                     pk = intent.getIntExtra("pk", 0);
+                    movieId = intent.getIntExtra("movie_id", -1);
                     fetchItem(pk, category);
                 }
             }
@@ -186,7 +189,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
 
         if ("package".equalsIgnoreCase(category)) {
-            orderCheckLoop(checkType, null, String.valueOf(pk), null);
+            if (movieId != -1 && login_tag){
+                orderCheckLoop(checkType,String.valueOf(movieId), null,  null);
+                login_tag = false;
+            }else {
+                orderCheckLoop(checkType, null, String.valueOf(pk), null);
+            }
         } else if ("subitem".equalsIgnoreCase(category)) {
             orderCheckLoop(checkType, null, null, String.valueOf(pk));
         } else {
@@ -196,6 +204,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onSuccess() {
+        login_tag = true;
         fetchAccountBalance();
         changeLoginStatus(true);
         purchaseCheck(PaymentActivity.CheckType.PlayCheck, true);

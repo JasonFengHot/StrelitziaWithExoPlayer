@@ -67,7 +67,8 @@
             android:layout_height="@dimen/header_logo_h"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/header_logo_mt"
-            android:src="@drawable/bestv_logo"/>
+            android:src="@drawable/bestv_logo"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/indicator_layout"
