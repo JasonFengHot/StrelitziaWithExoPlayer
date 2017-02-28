@@ -230,21 +230,14 @@ public class DaisyVideoView extends SurfaceView {
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             player.setScreenOnWhilePlaying(true);
 
-            if (mIsmartvPlayer.mOnDataSourceSetListener != null) {
+            if (mIsmartvPlayer != null && mIsmartvPlayer.mOnDataSourceSetListener != null) {
                 mIsmartvPlayer.mOnDataSourceSetListener.onSuccess();
             }
         } catch (IllegalArgumentException ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
-            if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                mIsmartvPlayer.mOnStateChangedListener.onError(ERROR_DEFAULT_MSG);
-            }
-        } catch (Exception ex) {
-            Log.w(TAG, "Unable to open content: " + mUri, ex);
-            mCurrentState = STATE_ERROR;
-            mTargetState = STATE_ERROR;
-            if (mIsmartvPlayer.mOnStateChangedListener != null) {
+            if (mIsmartvPlayer != null && mIsmartvPlayer.mOnStateChangedListener != null) {
                 mIsmartvPlayer.mOnStateChangedListener.onError(ERROR_DEFAULT_MSG);
             }
         }
