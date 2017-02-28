@@ -836,6 +836,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_SEK_ACTION:
+                    if(isExit || mIsmartvPlayer == null){
+                        return;
+                    }
                     Log.d(TAG, "MSG_SEK_ACTION seek to " + mCurrentPosition);
                     player_seekBar.setProgress(mCurrentPosition);
                     mIsmartvPlayer.seekTo(mCurrentPosition);
