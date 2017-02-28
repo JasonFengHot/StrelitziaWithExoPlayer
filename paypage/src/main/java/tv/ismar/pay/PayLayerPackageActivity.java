@@ -56,6 +56,8 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
     private int packageId;
     private Subscription paylayerPackageSub;
 
+    private int movieId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         initViews();
         Intent intent = getIntent();
         packageId = intent.getIntExtra("package_id", -1);
+        movieId = intent.getIntExtra("movie_id", -1);
         payLayerPackage(String.valueOf(packageId));
         orderCheck(String.valueOf(packageId));
     }
@@ -229,6 +232,7 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         intent.setAction("tv.ismar.pay.payment");
         intent.putExtra(PageIntent.EXTRA_PK, pk);
         intent.putExtra("model", "package");
+        intent.putExtra("movie_id", movieId);
         intent.putExtra(PageIntentInterface.EXTRA_PRODUCT_CATEGORY, PageIntentInterface.ProductCategory.Package.toString());
         startActivityForResult(intent, PAYMENT_REQUEST_CODE);
     }

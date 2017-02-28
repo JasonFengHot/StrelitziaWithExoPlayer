@@ -187,6 +187,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         intent.setClass(this, PaymentActivity.class);
         intent.putExtra(PageIntent.EXTRA_PK, pk);
         intent.putExtra(PageIntentInterface.EXTRA_PRODUCT_CATEGORY, PageIntentInterface.ProductCategory.Package.toString());
+        intent.putExtra("movie_id", itemId);
         startActivityForResult(intent, PaymentActivity.PAYMENT_REQUEST_CODE);
     }
 
