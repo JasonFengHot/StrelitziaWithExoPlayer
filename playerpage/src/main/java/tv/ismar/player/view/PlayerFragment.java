@@ -341,6 +341,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private void goOtherPage(int type) {
         hideMenu();
         hidePanel();
+        timerStop();
         if (mHandler.hasMessages(MSG_SEK_ACTION)) {
             mHandler.removeMessages(MSG_SEK_ACTION);
         }
@@ -424,7 +425,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             popDialog.dismiss();
             popDialog = null;
         }
-        if (!isNeedOnResume && !isClickKeFu && !mounted) {
+        if (!isNeedOnResume && !isClickKeFu && !mounted && mPresenter != null) {
             mPresenter.stop();
 //            if (mIsmartvPlayer != null) {
 //                mIsmartvPlayer.stopPlayBack();
@@ -508,22 +509,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         Log.i(TAG, "onPrepared:" + mCurrentPosition + " playingAd:" + mIsPlayingAd);
         mModel.setPanelData(mIsmartvPlayer, mItemEntity.getTitle());
-        hideBuffer();
-        shadowview.setVisibility(View.GONE);
         if (mIsmartvPlayer != null && !mIsmartvPlayer.isPlaying()) {
             mIsmartvPlayer.start();
         }
-//        if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
-//
-//        } else {
-//            if (mCurrentPosition > 0) {
-//                isSeeking = true;
-//                mIsmartvPlayer.seekTo(mCurrentPosition);
-//                mIsmartvPlayer.start();
-//            } else {
-//                mIsmartvPlayer.start();
-//            }
-//        }
 
     }
 
@@ -602,6 +590,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 });
 
             }
+            shadowview.setVisibility(View.GONE);
             player_seekBar.setMax(mIsmartvPlayer.getDuration());
             player_seekBar.setPadding(0, 0, 0, 0);
             isInit = true;
@@ -783,6 +772,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private Handler mTimerHandler = new Handler();
     private int historyPosition;// 人为操控断网，再连接网络进入播放器，可能导致进入播放器起播后，网络获取到的是未连接情况
+    private int videoBufferingCount;
 
     private Runnable timerRunnable = new Runnable() {
         public void run() {
@@ -801,8 +791,17 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         ((BaseActivity) getActivity()).showNoNetConnectDialog();
                         Log.e(TAG, "Network error on timer runnable.");
                         return;
+                    } else {
+                        if(videoBufferingCount > 4){
+                            showBuffer(null);
+                        } else {
+                            videoBufferingCount++;
+                        }
+                        mTimerHandler.postDelayed(timerRunnable, 500);
+                        return;
                     }
                 }
+                videoBufferingCount = 0;
                 // 播放过程中断网判断End
 
                 if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
@@ -822,6 +821,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (isSeeking) {// 奇艺视频seek结束后需要置为false
                     isSeeking = false;
+                    showPannelDelayOut();
                 }
                 if (isBufferShow()) {
                     hideBuffer();
@@ -1129,6 +1129,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         mIsOnPaused = false;
         isSeeking = false;
         isExit = false;
+        timerStop();
         // 每次进入创建播放器前先获取历史记录，历史播放位置，历史分辨率，手动切换剧集例外
         if (!isSwitchTelevision) {
             initHistory();
@@ -1165,14 +1166,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (Utils.isEmptyText(iqiyi)) {
             // 片源为视云
             playerMode = PlayerBuilder.MODE_SMART_PLAYER;
-            /**
-             * 在新的线程中，定时向底层查询数据，为解决播放过程中，网络限速至无法播放，视频卡住时需要显示正在加载中弹窗
-             */
-            if (mNeedBufferTimer == null) {
-                mNeedBufferTimer = new Timer();
-                mNeedBufferTask = new BufferingTask();
-                mNeedBufferTimer.schedule(mNeedBufferTask, 2 * 1000, 2 * 1000);
-            }
         } else {
             // 片源为爱奇艺
             playerMode = PlayerBuilder.MODE_QIYI_PLAYER;
@@ -1400,13 +1393,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 // 为空或者点击的码率和当前设置码率相同
                 return false;
             }
-            mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
-            mIsmartvPlayer.setStartPosition(mCurrentPosition);
-            mIsmartvPlayer.switchQuality(clickQuality);
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                 timerStop();
                 showBuffer(null);
             }
+            mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
+            mIsmartvPlayer.setStartPosition(mCurrentPosition);
+            mIsmartvPlayer.switchQuality(clickQuality);
+
             mCurrentQuality = clickQuality;
             mModel.updateQuality();
             // 写入数据库
@@ -1427,19 +1421,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     }
                     mCurrentPosition = 0;
                     timerStop();
-//                    if (isClickBufferLongSwitch && ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName()))) {
-//                        new Thread() {
-//                            @Override
-//                            public void run() {
-//                                mIsmartvPlayer.bufferOnSharpS3Release();
-//                                mIsmartvPlayer.stopPlayBack();
-//                                mIsmartvPlayer = null;
-//                                isClickBufferLongSwitch = false;
-//                            }
-//                        }.start();
-//                    } else {
-//
-//                    }
                     mIsmartvPlayer.stopPlayBack();
                     mIsmartvPlayer = null;
 
@@ -1502,19 +1483,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     }
 
     private void showBuffer(String msg) {
-        Log.d(TAG, "showBuffer:" + msg);
+        Log.d(TAG, "showBuffer:" + msg + " " + mIsmartvPlayer);
         if (mIsmartvPlayer != null) {// 只要显示buffer就开始计时
-            if(count > 2){
-                if(mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)){
-                    mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
-                }
-                mHandler.sendEmptyMessage(MSG_SHOW_BUFFERING_LONG);
-            } else {
-                if(mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)){
-                    mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
-                }
-                mHandler.sendEmptyMessageDelayed(MSG_SHOW_BUFFERING_LONG, 50 * 1000);
+            if (mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)) {
+                mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
             }
+            mHandler.sendEmptyMessageDelayed(MSG_SHOW_BUFFERING_LONG, 50 * 1000);
         }
 
         if (mIsOnPaused || isPopWindowShow()) {
@@ -1599,7 +1573,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     private void finishActivity(String to) {
         isExit = true;
-        cancelTimer();
+//        cancelTimer();
         if (mIsmartvPlayer != null) {
             mIsmartvPlayer.logVideoExit(mCurrentPosition, to);
         }
@@ -1640,11 +1614,16 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
         String message = getString(R.string.player_error);
         String cancelText = getString(R.string.player_pop_cancel);
+        String confirmText = getString(R.string.player_pop_ok);
         boolean hideCancel = false;
         switch (popType) {
             case POP_TYPE_BUFFERING_LONG:
                 timerStop();
+                if (mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)) {
+                    mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
+                }
                 message = getString(R.string.player_buffering_long);
+                confirmText = getString(R.string.player_pop_cancel);
                 cancelText = getString(R.string.player_pop_switch_quality);
                 break;
             case POP_TYPE_PLAYER_ERROR:
@@ -1655,7 +1634,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 break;
         }
         popDialog = new ModuleMessagePopWindow(getActivity());
-        popDialog.setConfirmBtn(getString(R.string.player_pop_ok));
+        popDialog.setConfirmBtn(confirmText);
         popDialog.setCancelBtn(cancelText);
         popDialog.setFirstMessage(message);
         if (hideCancel) {
@@ -1699,6 +1678,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         }
                         if (!isExit) {
                             if (!popDialog.isConfirmClick) {
+                                showBuffer(null);
 //                                isClickBufferLongSwitch = true;
                                 if (!isMenuShow()) {
                                     if (isPanelShow()) {
@@ -1715,27 +1695,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                                     }
                                 }
                             } else {
-                                // 重新加载，先存历史记录
-                                mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
-                                addHistory(mCurrentPosition, false, false);
-//                                if ("lcd_s3a01".equals(getModelName()) || "lcd_s3a_01".equals(getModelName())) {
-//                                    new Thread() {
-//                                        @Override
-//                                        public void run() {
-//                                            mIsmartvPlayer.bufferOnSharpS3Release();
-//                                            mIsmartvPlayer.stopPlayBack();
-//                                            mIsmartvPlayer = null;
-//                                        }
-//                                    }.start();
-//                                } else {
-//
-//                                }
-                                mIsmartvPlayer.stopPlayBack();
-                                mIsmartvPlayer = null;
-                                String sign = "";
-                                String code = "1";
-                                showBuffer(PlAYSTART + mItemEntity.getTitle());
-                                mPresenter.fetchMediaUrl(mItemEntity.getClip().getUrl(), sign, code);
+                                // 重新加载
+                                if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
+                                    timerStop();
+                                    showBuffer(null);
+                                }
+                                mIsmartvPlayer.setStartPosition(mCurrentPosition);
+                                mIsmartvPlayer.switchQuality(mCurrentQuality);
                             }
                         }
                         break;
@@ -1994,68 +1960,6 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             popDialog = null;
         }
 
-    }
-
-    /**
-     * 在新的线程中，定时向底层查询数据，为解决播放过程中，网络限速至无法播放，需要显示正在加载中弹窗
-     */
-
-    private Timer mNeedBufferTimer;
-    private BufferingTask mNeedBufferTask;
-
-    private void cancelTimer() {
-        needBufferPosition = 0;
-        if (mNeedBufferTask != null) {
-            mNeedBufferTask.cancel();
-            mNeedBufferTask = null;
-        }
-        if (mNeedBufferTimer != null) {
-            mNeedBufferTimer.cancel();
-            mNeedBufferTimer = null;
-            System.gc();
-        }
-
-    }
-
-    private int needBufferPosition = 0;
-    private int count = 0;
-
-    class BufferingTask extends TimerTask {
-
-        @Override
-        public void run() {
-            if (mIsmartvPlayer != null && !isExit && !isFinishing && !isPopWindowShow()) {
-                Log.i(TAG, "isDownError:" + mIsmartvPlayer.isDownloadError() + " needPosition:" + needBufferPosition + " count:" + count);
-                if (mIsmartvPlayer.isDownloadError() && !isBufferShow()) {
-                    if (needBufferPosition == mIsmartvPlayer.getCurrentPosition()) {
-                        count++;
-                    }
-                    if (needBufferPosition == 0) {
-                        needBufferPosition = mIsmartvPlayer.getCurrentPosition();
-                    }
-                    if (count > 2) {
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                showBuffer(null);
-                            }
-                        });
-                    }
-                } else if (!mIsmartvPlayer.isDownloadError()) {
-                    if (isBufferShow() && count > 0) {
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                hideBuffer();
-                            }
-                        });
-                    }
-                    needBufferPosition = 0;
-                    count = 0;
-                }
-            }
-
-        }
     }
 
 }

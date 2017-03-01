@@ -406,10 +406,12 @@ public class DaisyVideoView extends SurfaceView {
             }.start();
             mBufferStartTime = TrueTime.now().getTime();
             mSeekWhenPrepared = 0;
-            String sn = IsmartvActivator.getInstance().getSnToken();
-            String sid = Md5.md5(sn + TrueTime.now().getTime());
-            CallaPlay callaPlay = new CallaPlay();
-            callaPlay.videoPlaySeek(mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_SMART);
+            if (!isFirstSeek) {
+                String sn = IsmartvActivator.getInstance().getSnToken();
+                String sid = Md5.md5(sn + TrueTime.now().getTime());
+                CallaPlay callaPlay = new CallaPlay();
+                callaPlay.videoPlaySeek(mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_SMART);
+            }
         } else {
             mSeekWhenPrepared = msec;
         }
@@ -456,11 +458,11 @@ public class DaisyVideoView extends SurfaceView {
 
             long delayTime = 0;
             if (mStartPosition > 0 && !mIsPlayingAdvertisement) {
-                player.seekTo(mStartPosition);
-                delayTime = 500;
                 isFirstSeek = true;
+                seekTo(mStartPosition);
+                delayTime = 500;
             }
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (mSurfaceHolder == null) {
