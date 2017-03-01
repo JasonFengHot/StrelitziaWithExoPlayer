@@ -1,9 +1,11 @@
 package tv.ismar.player.media;
 
 import android.text.TextUtils;
-import android.view.View;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.entity.ClipEntity;
@@ -15,6 +17,8 @@ import tv.ismar.app.util.Utils;
 public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdErrorListener {
 
     private String[] mPaths;
+    private ClipEntity.Quality mQuality;
+    private List<ClipEntity.Quality> mQualities;
 
     public DaisyPlayer(byte mode) {
         super(mode);
@@ -22,32 +26,29 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
 
     @Override
     public boolean isDownloadError() {
-        if(mDaisyVideoView == null){
+        if (mDaisyVideoView == null) {
             return false;
         }
         return mDaisyVideoView.isDownloadError();
     }
 
     @Override
-    public void bufferOnSharpS3Release() {
-        if(mDaisyVideoView == null){
+    protected void setMedia(String[] urls) {
+        super.setMedia(urls);
+        if (mDaisyVideoView == null) {
             return;
         }
-        mDaisyVideoView.bufferOnSharpS3Release();
-        mDaisyVideoView = null;
+        mDaisyVideoView.setmOnDataSourceSetListener(mOnDataSourceSetListener);
+        mDaisyVideoView.setmOnVideoSizeChangedListener(mOnVideoSizeChangedListener);
+        mDaisyVideoView.setmOnBufferChangedListener(mOnBufferChangedListener);
+        mDaisyVideoView.setmOnStateChangedListener(mOnStateChangedListener);
+        mDaisyVideoView.setmOnInfoListener(mOnInfoListener);
 
-    }
-
-    @Override
-    protected void setMedia(String[] urls) {
         mPaths = urls;
-        mDaisyVideoView.setVisibility(View.VISIBLE);
-        mContainer.setVisibility(View.GONE);
         mDaisyVideoView.setSnToken(IsmartvActivator.getInstance().getSnToken());
         mDaisyVideoView.setAdErrorListener(this);
-        mDaisyVideoView.setVideoPaths(mPaths, this);
-        logVideoStart();
-        super.setMedia(urls);
+        mLogMedia.setQuality(getQualityIndex(mQuality));
+        mDaisyVideoView.setVideoPaths(mPaths, mStartPosition, mLogMedia, false);
 
     }
 
@@ -89,7 +90,7 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
         if (mDaisyVideoView == null) {
             return;
         }
-        mDaisyVideoView.stopPlayback();
+        mDaisyVideoView.stopPlayback(true);
         super.stopPlayBack();
     }
 
@@ -119,7 +120,7 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
 
     @Override
     public int getAdCountDownTime() {
-        if (mAdvertisementTime == null || !mIsPlayingAdvertisement || mDaisyVideoView == null) {
+        if (mAdvertisementTime == null || mDaisyVideoView == null || !mDaisyVideoView.ismIsPlayingAdvertisement()) {
             return 0;
         }
         int totalAdTime = 0;
@@ -151,10 +152,10 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
             mQuality = quality;
             mPaths = new String[]{mediaUrl};
 
+            mStartPosition = getCurrentPosition();
             mDaisyVideoView.release(true);
-            mDaisyVideoView.setVideoPaths(mPaths, this);
-
-            logVideoSwitchQuality();
+            mLogMedia.setQuality(getQualityIndex(mQuality));
+            mDaisyVideoView.setVideoPaths(mPaths, mStartPosition, mLogMedia, true);
         }
     }
 
@@ -170,6 +171,78 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
                     break;
                 }
             }
+        }
+    }
+
+    @Override
+    public ClipEntity.Quality getCurrentQuality() {
+        return mQuality;
+    }
+
+    @Override
+    public List<ClipEntity.Quality> getQulities() {
+        return mQualities;
+    }
+
+    protected String initSmartQuality(ClipEntity.Quality initQuality) {
+        if (mClipEntity == null) {
+            return null;
+        }
+        String defaultQualityUrl = null;
+        mQualities = new ArrayList<>();
+        String low = mClipEntity.getLow();
+        if (!Utils.isEmptyText(low)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_LOW);
+        }
+        String adaptive = mClipEntity.getAdaptive();
+        if (!Utils.isEmptyText(adaptive)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_ADAPTIVE);
+        }
+        String normal = mClipEntity.getNormal();
+        if (!Utils.isEmptyText(normal)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_NORMAL);
+        }
+        String medium = mClipEntity.getMedium();
+        if (!Utils.isEmptyText(medium)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_MEDIUM);
+        }
+        String high = mClipEntity.getHigh();
+        if (!Utils.isEmptyText(high)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_HIGH);
+        }
+        String ultra = mClipEntity.getUltra();
+        if (!Utils.isEmptyText(ultra)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_ULTRA);
+        }
+        String blueray = mClipEntity.getBlueray();
+        if (!Utils.isEmptyText(blueray)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_BLUERAY);
+        }
+        String _4k = mClipEntity.get_4k();
+        if (!Utils.isEmptyText(_4k)) {
+            mQualities.add(ClipEntity.Quality.QUALITY_4K);
+        }
+        if (!mQualities.isEmpty()) {
+            if (initQuality != null) {
+                mQuality = initQuality;
+            } else {
+                mQuality = mQualities.get(mQualities.size() - 1);
+            }
+            defaultQualityUrl = getSmartQualityUrl(mQuality);
+            Log.i(TAG, "initDefaultQualityUrl:" + defaultQualityUrl);
+            if (Utils.isEmptyText(defaultQualityUrl)) {
+                Log.i(TAG, "Get init quality error, use default quality.");
+                defaultQualityUrl = getSmartQualityUrl(mQualities.get(mQualities.size() - 1));
+                mQuality = mQualities.get(mQualities.size() - 1);
+            }
+        }
+        return defaultQualityUrl;
+    }
+
+    @Override
+    public void logVideoExit(int exitPosition, String source) {
+        if (mDaisyVideoView != null) {
+            mDaisyVideoView.logVideoExit(exitPosition, source);
         }
     }
 }

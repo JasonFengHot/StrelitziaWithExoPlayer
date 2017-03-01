@@ -1,11 +1,11 @@
 package tv.ismar.player.media;
 
-import android.view.View;
-
 import com.qiyi.sdk.player.IAdController;
 import com.qiyi.sdk.player.IMedia;
 import com.qiyi.sdk.player.IVideoOverlay;
 import com.qiyi.sdk.player.PlayerSdk;
+
+import java.util.List;
 
 import tv.ismar.app.network.entity.ClipEntity;
 
@@ -17,28 +17,30 @@ public class QiyiPlayer extends IsmartvPlayer {
     private QiYiVideoView videoSurfaceView;
 
     public QiyiPlayer() {
-        this(PlayerBuilder.MODE_QIYI_PLAYER);
-    }
-
-    public QiyiPlayer(byte mode) {
-        super(mode);
+        super(PlayerBuilder.MODE_QIYI_PLAYER);
     }
 
     @Override
     protected void setMedia(IMedia media) {
-        mDaisyVideoView.setVisibility(View.GONE);
-        mContainer.setVisibility(View.VISIBLE);
+        super.setMedia(media);
+        if (mContainer == null) {
+            return;
+        }
         //创建IVideoOverlay对象, 不支持实现IVideoOverlay接口，必须调用PlaySdk.getInstance().createVideoOverlay创建
         //创建IVideoOverlay对象, 不需创建SurfaceView, 直接传入父容器即可
         videoSurfaceView = new QiYiVideoView(mContext);
+        videoSurfaceView.setmOnDataSourceSetListener(mOnDataSourceSetListener);
+        videoSurfaceView.setmOnVideoSizeChangedListener(mOnVideoSizeChangedListener);
+        videoSurfaceView.setmOnBufferChangedListener(mOnBufferChangedListener);
+        videoSurfaceView.setmOnStateChangedListener(mOnStateChangedListener);
+        videoSurfaceView.setmOnInfoListener(mOnInfoListener);
+
         IVideoOverlay videoOverlay = PlayerSdk.getInstance().createVideoOverlay(mContainer, videoSurfaceView);
-        videoSurfaceView.setPlayer(media, videoOverlay, this);
+        videoSurfaceView.setPlayer(media, videoOverlay, mLogMedia, mIsPreview);
         //创建IVideoOverlay对象, 如需修改SurfaceView, 请继承VideoSurfaceView
         //mSurfaceView = new MyVideoSurfaceView(getApplicationContext());
         //mVideoOverlay = PlaySdk.getInstance().createVideoOverlay(mWindowedParent, mSurfaceView);
         //IMediaPlayer对象通过QiyiPlayerSdk.getInstance().createVideoPlayer()创建
-        logVideoStart();
-        super.setMedia(media);
 
     }
 
@@ -81,7 +83,7 @@ public class QiyiPlayer extends IsmartvPlayer {
         if (videoSurfaceView == null) {
             return;
         }
-        videoSurfaceView.release(false);
+        videoSurfaceView.release(true);
         videoSurfaceView = null;
         super.stopPlayBack();
     }
@@ -132,7 +134,6 @@ public class QiyiPlayer extends IsmartvPlayer {
             return;
         }
         videoSurfaceView.switchQuality(quality);
-        logVideoSwitchQuality();
     }
 
     @Override
@@ -141,5 +142,28 @@ public class QiyiPlayer extends IsmartvPlayer {
             return null;
         }
         return videoSurfaceView.getAdController();
+    }
+
+    @Override
+    public ClipEntity.Quality getCurrentQuality() {
+        if (videoSurfaceView == null) {
+            return null;
+        }
+        return videoSurfaceView.getmQuality();
+    }
+
+    @Override
+    public List<ClipEntity.Quality> getQulities() {
+        if (videoSurfaceView == null) {
+            return null;
+        }
+        return videoSurfaceView.getmQualities();
+    }
+
+    @Override
+    public void logVideoExit(int exitPosition, String source) {
+        if (videoSurfaceView != null) {
+            videoSurfaceView.logVideoExit(exitPosition, source);
+        }
     }
 }

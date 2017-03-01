@@ -1,12 +1,9 @@
 package tv.ismar.player.media;
 
-import cn.ismartv.truetime.TrueTime;
-
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,13 +13,16 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.VideoView;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
 import cn.ismartv.truetime.TrueTime;
+import tv.ismar.account.IsmartvActivator;
+import tv.ismar.account.core.Md5;
+import tv.ismar.app.player.CallaPlay;
+import tv.ismar.app.reporter.IsmartvMedia;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.player.SmartPlayer;
 
@@ -32,9 +32,7 @@ import tv.ismar.player.SmartPlayer;
 
 public class DaisyVideoView extends SurfaceView {
     private String TAG = "LH/DaisyVideoView";
-    private IsmartvPlayer mIsmartvPlayer;
     private String[] paths;
-    private Uri mUri;
     private int mDuration;
 
     private final String ERROR_DEFAULT_MSG = "播放器错误";
@@ -43,7 +41,7 @@ public class DaisyVideoView extends SurfaceView {
     private static final int STATE_PREPARING = 1;
     private static final int STATE_PREPARED = 2;
     private static final int STATE_PLAYING = 3;
-    public static final int STATE_PAUSED = 4;
+    private static final int STATE_PAUSED = 4;
     private static final int STATE_PLAYBACK_COMPLETED = 5;
     private int mCurrentState = STATE_IDLE;
     private int mTargetState = STATE_IDLE;
@@ -61,6 +59,49 @@ public class DaisyVideoView extends SurfaceView {
     private boolean isFirstSeek;
 
     private Context mContext;
+
+    private IPlayer.OnDataSourceSetListener mOnDataSourceSetListener;
+    private IPlayer.OnVideoSizeChangedListener mOnVideoSizeChangedListener;
+    private IPlayer.OnBufferChangedListener mOnBufferChangedListener;
+    private IPlayer.OnStateChangedListener mOnStateChangedListener;
+    private IPlayer.OnInfoListener mOnInfoListener;
+    private boolean mIsPlayingAdvertisement;
+    private int mStartPosition;
+
+    // log
+    private IsmartvMedia mLogMedia;
+    private static final String PLAYER_FLAG_SMART = "bestv";
+    // 日志上报相关
+    private int mSpeed = 0;
+    private String mMediaIp = "";
+    private int mMediaId = 0;
+    private long mPlayerOpenTime = 0;
+    private long mBufferStartTime;
+    private boolean mFirstOpen = true; // 进入播放器缓冲结束
+
+    public boolean ismIsPlayingAdvertisement() {
+        return mIsPlayingAdvertisement;
+    }
+
+    public void setmOnDataSourceSetListener(IPlayer.OnDataSourceSetListener mOnDataSourceSetListener) {
+        this.mOnDataSourceSetListener = mOnDataSourceSetListener;
+    }
+
+    public void setmOnVideoSizeChangedListener(IPlayer.OnVideoSizeChangedListener mOnVideoSizeChangedListener) {
+        this.mOnVideoSizeChangedListener = mOnVideoSizeChangedListener;
+    }
+
+    public void setmOnBufferChangedListener(IPlayer.OnBufferChangedListener mOnBufferChangedListener) {
+        this.mOnBufferChangedListener = mOnBufferChangedListener;
+    }
+
+    public void setmOnStateChangedListener(IPlayer.OnStateChangedListener mOnStateChangedListener) {
+        this.mOnStateChangedListener = mOnStateChangedListener;
+    }
+
+    public void setmOnInfoListener(IPlayer.OnInfoListener mOnInfoListener) {
+        this.mOnInfoListener = mOnInfoListener;
+    }
 
     // 日志上报相关
     private String mCurrentMediaUrl;
@@ -160,14 +201,35 @@ public class DaisyVideoView extends SurfaceView {
         mTargetState = STATE_IDLE;
     }
 
-    public void setVideoPaths(String[] paths, IsmartvPlayer player) {
+    public void setVideoPaths(String[] paths, int startPosition, IsmartvMedia logMedia, boolean isSwitchQuality) {
+        if (mFirstOpen) {
+            mPlayerOpenTime = TrueTime.now().getTime();
+            String sn = IsmartvActivator.getInstance().getSnToken();
+            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            CallaPlay callaPlay = new CallaPlay();
+            callaPlay.videoStart(mLogMedia, sn, mSpeed, sid, PLAYER_FLAG_SMART);
+        }
         this.paths = paths;
-        this.mIsmartvPlayer = player;
-        mUri = Uri.parse(paths[paths.length - 1]);
+        mLogMedia = logMedia;
+        if (paths.length > 1) {
+            mIsPlayingAdvertisement = true;
+        } else {
+            mIsPlayingAdvertisement = false;
+        }
+        mStartPosition = startPosition;
         mSeekWhenPrepared = 0;
         openVideo();
         requestLayout();
         invalidate();
+
+        if (isSwitchQuality) {
+            String sn = IsmartvActivator.getInstance().getSnToken();
+            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            CallaPlay callaPlay = new CallaPlay();
+            callaPlay.videoSwitchStream(mLogMedia, "manual",
+                    mSpeed, sn, mMediaIp, sid, PLAYER_FLAG_SMART);
+        }
+
     }
 
     public void playIndex(int index) {
@@ -200,7 +262,7 @@ public class DaisyVideoView extends SurfaceView {
     }
 
     private void openVideo() {
-        if (mUri == null || mSurfaceHolder == null) {
+        if (paths == null || mSurfaceHolder == null) {
             // not ready for playback just yet, will try again later
             return;
         }
@@ -230,30 +292,24 @@ public class DaisyVideoView extends SurfaceView {
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             player.setScreenOnWhilePlaying(true);
 
-            if (mIsmartvPlayer != null && mIsmartvPlayer.mOnDataSourceSetListener != null) {
-                mIsmartvPlayer.mOnDataSourceSetListener.onSuccess();
+            if (mOnDataSourceSetListener != null) {
+                mOnDataSourceSetListener.onSuccess();
             }
-        } catch (IllegalArgumentException ex) {
-            Log.w(TAG, "Unable to open content: " + mUri, ex);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
-            if (mIsmartvPlayer != null && mIsmartvPlayer.mOnStateChangedListener != null) {
-                mIsmartvPlayer.mOnStateChangedListener.onError(ERROR_DEFAULT_MSG);
+            if (mOnStateChangedListener != null) {
+                mOnStateChangedListener.onError(ERROR_DEFAULT_MSG);
             }
         }
     }
 
-    public boolean isDownloadError(){
-        if(player == null){
+    public boolean isDownloadError() {
+        if (player == null) {
             return false;
         }
         return player.IsDownloadError();
-    }
-
-    public void bufferOnSharpS3Release(){
-        mCurrentState = STATE_IDLE;
-        mTargetState = STATE_IDLE;
-        player = null;
     }
 
     public boolean isInPlaybackState() {
@@ -267,16 +323,19 @@ public class DaisyVideoView extends SurfaceView {
     }
 
     public void start() {
-        if (isInPlaybackState()) {
+        if (isInPlaybackState() && !player.isPlaying()) {
             player.start();
+            CallaPlay callaPlay = new CallaPlay();
             if (mCurrentState == STATE_PAUSED) {
-                mIsmartvPlayer.logVideoContinue();
+                String sn = IsmartvActivator.getInstance().getSnToken();
+                String sid = Md5.md5(sn + TrueTime.now().getTime());
+                callaPlay.videoPlayContinue(mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_SMART);
             } else {
-                mIsmartvPlayer.logVideoPlayStart();
+                callaPlay.videoPlayStart(mLogMedia, mSpeed, mMediaIp, PLAYER_FLAG_SMART);
             }
             mCurrentState = STATE_PLAYING;
-            if (!mIsmartvPlayer.mIsPlayingAdvertisement && mIsmartvPlayer.mOnStateChangedListener != null) {
-                mIsmartvPlayer.mOnStateChangedListener.onStarted();
+            if (!mIsPlayingAdvertisement && mOnStateChangedListener != null) {
+                mOnStateChangedListener.onStarted();
             }
         }
         mTargetState = STATE_PLAYING;
@@ -288,11 +347,14 @@ public class DaisyVideoView extends SurfaceView {
             if (player.isPlaying()) {
                 player.pause();
                 if (mCurrentState == STATE_PLAYING) {
-                    mIsmartvPlayer.logVideoPause();
+                    CallaPlay callaPlay = new CallaPlay();
+                    String sn = IsmartvActivator.getInstance().getSnToken();
+                    String sid = Md5.md5(sn + TrueTime.now().getTime());
+                    callaPlay.videoPlayPause(mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_SMART);
                 }
                 mCurrentState = STATE_PAUSED;
-                if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                    mIsmartvPlayer.mOnStateChangedListener.onPaused();
+                if (mOnStateChangedListener != null) {
+                    mOnStateChangedListener.onPaused();
                 }
 
             }
@@ -300,18 +362,22 @@ public class DaisyVideoView extends SurfaceView {
         mTargetState = STATE_PAUSED;
     }
 
-    public void stopPlayback() {
-        mIsmartvPlayer = null;
-        mAdErrorListener = null;
+    public void stopPlayback(boolean flag) {
         if (player != null) {
-            mCurrentState = STATE_IDLE;
-            mTargetState = STATE_IDLE;
             player.stop();
             player.release();
             player = null;
-
             PlayerBuilder.getInstance().release();
-
+        }
+        mCurrentState = STATE_IDLE;
+        mTargetState = STATE_IDLE;
+        if (flag) {
+            mAdErrorListener = null;
+            mOnDataSourceSetListener = null;
+            mOnVideoSizeChangedListener = null;
+            mOnBufferChangedListener = null;
+            mOnStateChangedListener = null;
+            mOnInfoListener = null;
         }
     }
 
@@ -338,9 +404,12 @@ public class DaisyVideoView extends SurfaceView {
                     player.seekTo(msec);
                 }
             }.start();
-            mIsmartvPlayer.mBufferStartTime = TrueTime.now().getTime();
+            mBufferStartTime = TrueTime.now().getTime();
             mSeekWhenPrepared = 0;
-            mIsmartvPlayer.logVideoSeek();
+            String sn = IsmartvActivator.getInstance().getSnToken();
+            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            CallaPlay callaPlay = new CallaPlay();
+            callaPlay.videoPlaySeek(mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_SMART);
         } else {
             mSeekWhenPrepared = msec;
         }
@@ -377,32 +446,38 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public void onPrepared(SmartPlayer smartPlayer, String s) {
             Log.i(TAG, "onPrepared state url ==" + s);
-            if (mSurfaceHolder == null || mIsmartvPlayer == null) {
+            if (mSurfaceHolder == null) {
                 return;
             }
             mCurrentState = STATE_PREPARED;
             player = smartPlayer;
             mCurrentMediaUrl = s;
-            mIsmartvPlayer.mMediaIp = getMediaIp(mCurrentMediaUrl);
+            mMediaIp = getMediaIp(mCurrentMediaUrl);
 
             long delayTime = 0;
-            if (mIsmartvPlayer.mStartPosition > 0 && !mIsmartvPlayer.mIsPlayingAdvertisement) {
-                player.seekTo(mIsmartvPlayer.mStartPosition);
+            if (mStartPosition > 0 && !mIsPlayingAdvertisement) {
+                player.seekTo(mStartPosition);
                 delayTime = 500;
                 isFirstSeek = true;
             }
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (mIsmartvPlayer == null || mSurfaceHolder == null) {
+                    if (mSurfaceHolder == null) {
                         return;
                     }
-                    if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                        mIsmartvPlayer.mOnStateChangedListener.onPrepared();
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onPrepared();
                     }
-                    if (mIsmartvPlayer.mIsPlayingAdvertisement && !mIsmartvPlayer.mAdIdMap.isEmpty()) {
-                        mIsmartvPlayer.mMediaId = mIsmartvPlayer.mAdIdMap.get(mCurrentMediaUrl);
-                        mIsmartvPlayer.logAdStart();
+                    if (mIsPlayingAdvertisement && mLogMedia != null && !mLogMedia.getAdIdMap().isEmpty()) {
+                        mMediaId = mLogMedia.getAdIdMap().get(mCurrentMediaUrl);
+                        CallaPlay callaPlay = new CallaPlay();
+                        callaPlay.ad_play_load(
+                                mLogMedia,
+                                (TrueTime.now().getTime() - mPlayerOpenTime),
+                                mMediaIp,
+                                mMediaId,
+                                PLAYER_FLAG_SMART);
                     }
                 }
             }, delayTime);
@@ -428,8 +503,8 @@ public class DaisyVideoView extends SurfaceView {
             Log.i(TAG, "outSize:" + Arrays.toString(outputSize));
             getHolder().setFixedSize(outputSize[0], outputSize[1]);
             smartPlayer.setDisplay(getHolder());
-            if (mIsmartvPlayer != null && mIsmartvPlayer.mOnVideoSizeChangedListener != null) {
-                mIsmartvPlayer.mOnVideoSizeChangedListener.onVideoSizeChanged(width, height);
+            if (mOnVideoSizeChangedListener != null) {
+                mOnVideoSizeChangedListener.onVideoSizeChanged(width, height);
             }
         }
     };
@@ -437,23 +512,29 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnCompletionListenerUrl smartCompletionListenerUrl = new SmartPlayer.OnCompletionListenerUrl() {
         @Override
         public void onCompletion(SmartPlayer smartPlayer, String s) {
-            Log.i(TAG, "onCompletion:" + s + " isPlayingAd:" + mIsmartvPlayer.mIsPlayingAdvertisement);
+            Log.i(TAG, "onCompletion:" + s + " isPlayingAd:" + mIsPlayingAdvertisement);
             player = smartPlayer;
             int currentIndex = smartPlayer.getCurrentPlayUrl();
             Log.i(TAG, "onCompletion state url index==" + currentIndex);
 
-            if (mIsmartvPlayer != null && mIsmartvPlayer.mIsPlayingAdvertisement && !mIsmartvPlayer.mAdIdMap.isEmpty()) {
-                mIsmartvPlayer.mMediaIp = getMediaIp(s);
-                mIsmartvPlayer.mMediaId = mIsmartvPlayer.mAdIdMap.get(s);
-                mIsmartvPlayer.mAdIdMap.remove(s);
-                if (mIsmartvPlayer.mIsPlayingAdvertisement) {
-                    mIsmartvPlayer.logAdExit();
+            if (mIsPlayingAdvertisement && mLogMedia != null && !mLogMedia.getAdIdMap().isEmpty()) {
+                mMediaIp = getMediaIp(s);
+                mMediaId = mLogMedia.getAdIdMap().get(s);
+                mLogMedia.getAdIdMap().remove(s);
+                if (mIsPlayingAdvertisement) {
+                    CallaPlay callaPlay = new CallaPlay();
+                    callaPlay.ad_play_exit(
+                            mLogMedia,
+                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            mMediaIp,
+                            mMediaId,
+                            PLAYER_FLAG_SMART);
                 }
-                if (mIsmartvPlayer.mAdIdMap.isEmpty()) {
-                    if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                        mIsmartvPlayer.mOnStateChangedListener.onAdEnd();
+                if (mLogMedia.getAdIdMap().isEmpty()) {
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onAdEnd();
                     }
-                    mIsmartvPlayer.mIsPlayingAdvertisement = false;
+                    mIsPlayingAdvertisement = false;
                 }
                 if (currentIndex >= 0 && currentIndex < paths.length - 1) { // 如果当前播放的为第一个影片的话，则准备播放第二个影片。
                     try {
@@ -468,15 +549,15 @@ public class DaisyVideoView extends SurfaceView {
                         } catch (IOException e1) {
                             e1.printStackTrace();
                             Log.e(TAG, "smartPlayer play next video IOException.");
-                            if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                                mIsmartvPlayer.mOnStateChangedListener.onError("播放器错误");
+                            if (mOnStateChangedListener != null) {
+                                mOnStateChangedListener.onError("播放器错误");
                             }
                         }
                     }
                 }
             } else {
-                if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                    mIsmartvPlayer.mOnStateChangedListener.onCompleted();
+                if (mOnStateChangedListener != null) {
+                    mOnStateChangedListener.onCompleted();
                 }
             }
         }
@@ -486,36 +567,50 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public boolean onInfo(SmartPlayer smartPlayer, int i, int i1) {
             Log.v(TAG, "onInfo i=" + i + "<>j=" + i1);
-            if (player == null || mIsmartvPlayer == null) {
+            if (player == null) {
                 return false;
             }
             switch (i) {
                 case SmartPlayer.MEDIA_INFO_BUFFERING_START:
                 case 809:
-                    if (mIsmartvPlayer.mOnBufferChangedListener != null) {
-                        mIsmartvPlayer.mOnBufferChangedListener.onBufferStart();
+                    if (mOnBufferChangedListener != null) {
+                        mOnBufferChangedListener.onBufferStart();
                     }
-                    mIsmartvPlayer.mBufferStartTime = TrueTime.now().getTime();
+                    mBufferStartTime = TrueTime.now().getTime();
                     break;
                 case SmartPlayer.MEDIA_INFO_BUFFERING_END:
                 case 3:
-                    if (mIsmartvPlayer.mOnBufferChangedListener != null) {
-                        mIsmartvPlayer.mOnBufferChangedListener.onBufferEnd();
+                    if (mOnBufferChangedListener != null) {
+                        mOnBufferChangedListener.onBufferEnd();
                     }
-                    if (mIsmartvPlayer.mFirstOpen) {
+                    CallaPlay callaPlay = new CallaPlay();
+                    if (mFirstOpen) {
                         // 第一次缓冲结束，播放器开始播放
-                        if (mIsmartvPlayer.mIsPlayingAdvertisement) {
+                        if (mIsPlayingAdvertisement) {
                             // 广告开始
-                            if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                                mIsmartvPlayer.mOnStateChangedListener.onAdStart();
+                            if (mOnStateChangedListener != null) {
+                                mOnStateChangedListener.onAdStart();
                             }
                         }
-                        mIsmartvPlayer.logVideoPlayLoading(mCurrentMediaUrl);
-                        mIsmartvPlayer.mFirstOpen = false;
-                    } else if (mIsmartvPlayer.mIsPlayingAdvertisement && !mIsmartvPlayer.mAdIdMap.isEmpty()) {
-                        mIsmartvPlayer.logAdBlockend();
+                        mFirstOpen = false;
+                        String sn = IsmartvActivator.getInstance().getSnToken();
+                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        callaPlay.videoPlayLoad(
+                                mLogMedia,
+                                (TrueTime.now().getTime() - mPlayerOpenTime),
+                                mSpeed, mMediaIp, sid, mCurrentMediaUrl, PLAYER_FLAG_SMART);
+                    } else if (mIsPlayingAdvertisement && mLogMedia != null && !mLogMedia.getAdIdMap().isEmpty()) {
+                        callaPlay.ad_play_blockend(
+                                mLogMedia,
+                                (TrueTime.now().getTime() - mBufferStartTime),
+                                mMediaIp, mMediaId, PLAYER_FLAG_SMART);
                     } else {
-                        mIsmartvPlayer.logVideoBufferEnd();
+                        String sn = IsmartvActivator.getInstance().getSnToken();
+                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        callaPlay.videoPlayBlockend(
+                                mLogMedia,
+                                mSpeed, getCurrentPosition(),
+                                mMediaIp, sid, PLAYER_FLAG_SMART);
                     }
                     break;
             }
@@ -526,7 +621,7 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnSeekCompleteListener smartSeekCompleteListener = new SmartPlayer.OnSeekCompleteListener() {
         @Override
         public void onSeekComplete(SmartPlayer smartPlayer) {
-            if (player == null || mIsmartvPlayer == null) {
+            if (player == null) {
                 return;
             }
             if (isFirstSeek) {
@@ -534,10 +629,18 @@ public class DaisyVideoView extends SurfaceView {
                 return;
             }
             if (isInPlaybackState()) {
-                mIsmartvPlayer.logVideoSeekComplete();
+                String sn = IsmartvActivator.getInstance().getSnToken();
+                String sid = Md5.md5(sn + TrueTime.now().getTime());
+                CallaPlay callaPlay = new CallaPlay();
+                callaPlay.videoPlaySeekBlockend(
+                        mLogMedia,
+                        mSpeed,
+                        getCurrentPosition(),
+                        (TrueTime.now().getTime() - mBufferStartTime),
+                        mMediaIp, sid, PLAYER_FLAG_SMART);
             }
-            if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                mIsmartvPlayer.mOnStateChangedListener.onSeekComplete();
+            if (mOnStateChangedListener != null) {
+                mOnStateChangedListener.onSeekComplete();
             }
         }
     };
@@ -545,23 +648,26 @@ public class DaisyVideoView extends SurfaceView {
     private SmartPlayer.OnTsInfoListener smartTsInfoListener = new SmartPlayer.OnTsInfoListener() {
         @Override
         public void onTsInfo(SmartPlayer smartPlayer, Map<String, String> map) {
-            if (player == null || mIsmartvPlayer == null) {
+            if (player == null) {
                 return;
             }
             String spd = map.get("TsDownLoadSpeed");
-            mIsmartvPlayer.mSpeed = Integer.parseInt(spd);
-            mIsmartvPlayer.mSpeed = mIsmartvPlayer.mSpeed / (1024 * 8);
-            mIsmartvPlayer.mMediaIp = map.get(SmartPlayer.DownLoadTsInfo.TsIpAddr);
+            try {
+                mSpeed = Integer.parseInt(spd) / (1024 * 8);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            mMediaIp = map.get(SmartPlayer.DownLoadTsInfo.TsIpAddr);
         }
     };
 
     private SmartPlayer.OnM3u8IpListener smartM3u8IpListener = new SmartPlayer.OnM3u8IpListener() {
         @Override
         public void onM3u8TsInfo(SmartPlayer smartPlayer, String s) {
-            if (player == null || mIsmartvPlayer == null) {
+            if (player == null) {
                 return;
             }
-            mIsmartvPlayer.mMediaIp = s;
+            mMediaIp = s;
         }
     };
 
@@ -569,14 +675,17 @@ public class DaisyVideoView extends SurfaceView {
         @Override
         public boolean onError(SmartPlayer smartPlayer, int i, int i1) {
             Log.i(TAG, "onError:" + i + " " + i1);
-            if(mIsmartvPlayer == null){
-                return true;
-            }
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
-            mIsmartvPlayer.logVideoException(String.valueOf(i));
+            String sn = IsmartvActivator.getInstance().getSnToken();
+            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            CallaPlay callaPlay = new CallaPlay();
+            callaPlay.videoExcept(
+                    "mediaexception", String.valueOf(i),
+                    mLogMedia, mSpeed, sid,
+                    getCurrentPosition(), PLAYER_FLAG_SMART);
 
-            if (mIsmartvPlayer.mIsPlayingAdvertisement && mAdErrorListener != null) {
+            if (mIsPlayingAdvertisement && mAdErrorListener != null) {
                 mAdErrorListener.onAdError(mCurrentMediaUrl);
                 return true;
             }
@@ -592,8 +701,8 @@ public class DaisyVideoView extends SurfaceView {
                     errorMsg = "网络错误";
                     break;
             }
-            if (mIsmartvPlayer.mOnStateChangedListener != null) {
-                mIsmartvPlayer.mOnStateChangedListener.onError(errorMsg);
+            if (mOnStateChangedListener != null) {
+                mOnStateChangedListener.onError(errorMsg);
             }
             return true;
         }
@@ -677,5 +786,19 @@ public class DaisyVideoView extends SurfaceView {
         size[0] = (int) Math.ceil(dw);
         size[1] = (int) Math.ceil(dh);
         return size;
+    }
+
+    public void logVideoExit(int exitPosition, String source) {
+        String sn = IsmartvActivator.getInstance().getSnToken();
+        String sid = Md5.md5(sn + TrueTime.now().getTime());
+        CallaPlay callaPlay = new CallaPlay();
+        callaPlay.videoExit(
+                mLogMedia,
+                mSpeed,
+                source,
+                exitPosition,
+                (TrueTime.now().getTime() - mPlayerOpenTime),
+                sid,
+                PLAYER_FLAG_SMART);
     }
 }
