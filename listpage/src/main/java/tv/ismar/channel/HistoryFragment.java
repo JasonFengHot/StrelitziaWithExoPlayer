@@ -393,6 +393,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 					@Override
 					public void onError(Throwable e) {
+						if(mLoadingDialog!=null)
 						mLoadingDialog.dismiss();
 						LogUtils.loadException("history ","history ","","",0,"","","server",e.toString());
 						super.onError(e);
@@ -607,6 +608,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 						}else {
 							super.onError(e);
 						}
+						if(mLoadingDialog!=null)
 						mLoadingDialog.dismiss();
 					}
 				});
@@ -795,6 +797,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 					@Override
 					public void onError(Throwable e) {
+						if(mLoadingDialog!=null)
 						mLoadingDialog.dismiss();
 						super.onError(e);
 					}

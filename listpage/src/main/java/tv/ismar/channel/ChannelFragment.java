@@ -595,7 +595,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                     percentage.setVisibility(View.VISIBLE);
 
                                         if (mSectionList != null) {
-                                            if (mSectionList.size() > 5) {
+                                            if (mSectionList.size() > 7) {
                                                 arrow_right.setVisibility(View.VISIBLE);
                                             }
 
