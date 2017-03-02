@@ -2,6 +2,7 @@ package tv.ismar.app.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -228,7 +229,7 @@ public class LabelImageView extends FrameLayout {
             }
             vipImageView.setLayoutParams(ltparams);
             vipImageView.setVisibility(View.VISIBLE);
-            Picasso.with(mContext).load(livVipUrl).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE)
+            Picasso.with(mContext).load(livVipUrl).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE).config(Bitmap.Config.RGB_565)
                     .into(vipImageView);
         }
     }
