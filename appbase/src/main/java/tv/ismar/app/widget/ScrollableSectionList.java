@@ -452,7 +452,8 @@ public class ScrollableSectionList extends HorizontalScrollView {
                     int[] currentPos = new int[2];
                     v.getLocationOnScreen(currentPos);
                     int currentWidth = v.getWidth();
-                    if (currentPos[0] + currentWidth > tabRightX || currentPos[0] + 1 < tabMargin) {
+                    Log.i("ScrollHover","currentPos[0]: "+currentPos[0]+"  currentWidth: "+currentWidth+"  tabRightx: "+tabRightX+"  index: "+index+" tabmarg: "+tabMargin);
+                    if (currentPos[0] + currentWidth > tabRightX+168 || currentPos[0] + 113 < tabMargin) {
                         if (index == 0 || index == mContainer.getChildCount() - 1) {
                            Log.i("LH/","currentPos:"+currentPos[0]+" tabMargin:"+tabMargin);
                             // TODO
