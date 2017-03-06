@@ -28,6 +28,8 @@ import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.AccessProxy;
 
+import static tv.ismar.app.network.entity.ClipEntity.Quality.QUALITY_LOW;
+
 /**
  * Created by longhai on 16-9-12.
  */
@@ -163,8 +165,12 @@ public abstract class IsmartvPlayer implements IPlayer {
                     mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken()));
                 }
 //                Log.d(TAG, mClipEntity.toString());
-
+                if (initQuality== null){
+                   initQuality = QUALITY_LOW;
+                }
                 String mediaUrl = initSmartQuality(initQuality);
+                mediaUrl = mClipEntity.getNormal();
+
                 if (!Utils.isEmptyText(mediaUrl)) {
                     String[] paths;
                     if (adList != null && !adList.isEmpty()) {
@@ -278,6 +284,9 @@ public abstract class IsmartvPlayer implements IPlayer {
 //            // Receiver not registered: com.qiyi.video.utils.NetWorkManager$NetWorkConnectionReceiver@44668530
 //            PlayerSdk.getInstance().release();
 //        }
+        stop();
+        release();
+
         isQiyiSdkInit = false; // 考虑到用户登录
         mContext = null;
         mItemEntity = null;

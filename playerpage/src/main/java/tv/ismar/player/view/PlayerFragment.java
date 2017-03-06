@@ -75,7 +75,7 @@ import tv.ismar.statistics.PurchaseStatistics;
 
 public class PlayerFragment extends Fragment implements PlayerPageContract.View, PlayerMenu.OnCreateMenuListener,
         IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener,
-        IPlayer.OnInfoListener, Advertisement.OnVideoPlayAdListener {
+        IPlayer.OnInfoListener, Advertisement.OnVideoPlayAdListener{
 
     private final String TAG = "LH/PlayerFragment";
     private static final String PLAYER_VERSION = "2.0";
@@ -459,6 +459,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         super.onStop();
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -740,6 +741,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            Log.i(TAG, "onProgressChanged");
             if (mItemEntity == null || mItemEntity.getLiveVideo() || mModel == null || mIsmartvPlayer == null) {
                 return;
             }
@@ -1599,6 +1601,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            player_seekBar.setMax(mIsmartvPlayer.getDuration());
+            Log.d(TAG, "screen click");
+            Log.d(TAG, "screen click (mIsmartvPlayer == null) " + (mIsmartvPlayer == null));
+            Log.d(TAG, "screen click (isPopWindowShow() " + (isPopWindowShow()));
+            Log.d(TAG, "screen click (mIsPlayingAd) " + (mIsPlayingAd));
+            Log.d(TAG, "screen click (!mIsmartvPlayer.isInPlaybackState() " + (!mIsmartvPlayer.isInPlaybackState()));
+            Log.d(TAG, "screen click (isBufferShow() " + (isBufferShow()));
+            Log.d(TAG, "screen click (isExit) " + (isExit));
             if (mIsmartvPlayer == null || isPopWindowShow() ||
                     mIsPlayingAd || !mIsmartvPlayer.isInPlaybackState()
                     || isBufferShow() || isExit) {
@@ -2030,19 +2040,24 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         }
     }
 
+
     public class ConnectionChangeReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!isExit) {
+                BaseActivity baseActivity = ((BaseActivity) getActivity());
+                if (baseActivity == null) {
+                    return;
+                }
                 if (NetworkUtils.isConnected(context)) {
-                    ((BaseActivity) getActivity()).dismissNoNetConnectDialog();
+                    baseActivity.dismissNoNetConnectDialog();
                     timerStart(0);
                 } else if (isBufferShow() && !isPopWindowShow()) {
                     hideBuffer();
                     hidePanel();
                     timerStop();
                     addHistory(mCurrentPosition, true, false);
-                    ((BaseActivity) getActivity()).showNoNetConnectDialog();
+                    baseActivity.showNoNetConnectDialog();
                 }
             }
         }

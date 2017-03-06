@@ -79,6 +79,16 @@ public class QiyiPlayer extends IsmartvPlayer {
     }
 
     @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public void release() {
+
+    }
+
+    @Override
     public void stopPlayBack() {
         if (videoSurfaceView == null) {
             return;

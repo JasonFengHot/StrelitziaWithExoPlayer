@@ -20,8 +20,11 @@ package cn.ismartv.exoplayer.vp9;
  */
 public class VpxDecoderException extends Exception {
 
-    /* package */ VpxDecoderException(String message) {
-      super(message);
-    }
+  /* package */ VpxDecoderException(String message) {
+    super(message);
+  }
 
+  /* package */ VpxDecoderException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

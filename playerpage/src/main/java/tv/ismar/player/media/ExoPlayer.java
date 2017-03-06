@@ -2,24 +2,23 @@ package tv.ismar.player.media;
 
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer.EventListener;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
-import com.google.android.exoplayer2.trackselection.MappingTrackSelector.MappedTrackInfo;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelections;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -58,7 +57,7 @@ import tv.ismar.app.network.entity.ClipEntity;
  */
 
 
-public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSelector.EventListener<MappedTrackInfo> {
+public class ExoPlayer extends IsmartvPlayer implements com.google.android.exoplayer2.ExoPlayer.EventListener{
     private static final String TAG = "ExoPlayer";
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
     private SimpleExoPlayer player;
@@ -134,8 +133,20 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     }
 
     @Override
-    public void seekTo(int position) {
+    public void stop() {
+        player.stop();
+    }
 
+    @Override
+    public void release() {
+        player.release();
+    }
+
+
+    @Override
+    public void seekTo(int position) {
+        Log.d(TAG, "seekTo: " + position);
+        player.seekTo(position);
     }
 
     @Override
@@ -145,7 +156,8 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
 
     @Override
     public int getDuration() {
-        return 0;
+        Log.d(TAG, "duration: " + player.getDuration());
+        return (int) player.getDuration();
     }
 
     @Override
@@ -166,23 +178,21 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
 
     @Override
     public boolean isInPlaybackState() {
-        return false;
+        return true;
     }
 
     private void initializePlayer() {
         if (player == null) {
-            eventLogger = new EventLogger();
             TrackSelection.Factory videoTrackSelectionFactory =
                     new AdaptiveVideoTrackSelection.Factory(BANDWIDTH_METER);
-            trackSelector = new DefaultTrackSelector(mainHandler, videoTrackSelectionFactory);
-            trackSelector.addListener(this);
-            trackSelector.addListener(eventLogger);
+            trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
             player = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector, new DefaultLoadControl());
             player.addListener(this);
+            eventLogger = new EventLogger(trackSelector);
             player.addListener(eventLogger);
             player.setAudioDebugListener(eventLogger);
             player.setVideoDebugListener(eventLogger);
-            player.setId3Output(eventLogger);
+            player.setMetadataOutput(eventLogger);
             mDaisyVideoView.setVisibility(View.VISIBLE);
             player.setVideoSurfaceView(mDaisyVideoView);
 
@@ -254,6 +264,11 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
     }
 
     @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+
+    }
+
+    @Override
     public void onPlayerError(ExoPlaybackException e) {
 
     }
@@ -263,10 +278,6 @@ public class ExoPlayer extends IsmartvPlayer implements EventListener, TrackSele
 
     }
 
-    @Override
-    public void onTrackSelectionsChanged(TrackSelections<? extends MappedTrackInfo> trackSelections) {
-
-    }
 
     private void fetchM3u8(List<String> uris) {
 

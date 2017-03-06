@@ -31,9 +31,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':appbase')
-    compile project(':exoplayer_library')
     compile project(path: ':exoplayer')
     compile project(path: ':statistics')
+
 }
 
 tasks.withType(JavaCompile) {

@@ -27,6 +27,10 @@ public interface IPlayer {
 
     void pause();
 
+    void stop();
+
+    void release();
+
     void seekTo(int position);
 
     void stopPlayBack();

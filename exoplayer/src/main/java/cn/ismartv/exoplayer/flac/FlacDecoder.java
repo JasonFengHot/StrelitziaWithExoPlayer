@@ -28,7 +28,7 @@ import java.util.List;
  * Flac decoder.
  */
 /* package */ final class FlacDecoder extends
-    SimpleDecoder<DecoderInputBuffer, SimpleOutputBuffer, FlacDecoderException> {
+        SimpleDecoder<DecoderInputBuffer, SimpleOutputBuffer, FlacDecoderException> {
 
   private final int maxOutputBufferSize;
   private final FlacDecoderJni decoderJni;
@@ -82,7 +82,7 @@ import java.util.List;
 
   @Override
   public FlacDecoderException decode(DecoderInputBuffer inputBuffer,
-      SimpleOutputBuffer outputBuffer, boolean reset) {
+                                     SimpleOutputBuffer outputBuffer, boolean reset) {
     if (reset) {
       decoderJni.flush();
     }

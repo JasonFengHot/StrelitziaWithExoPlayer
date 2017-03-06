@@ -29,6 +29,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':exoplayer_library')
     compile project(':appbase')
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
 }
