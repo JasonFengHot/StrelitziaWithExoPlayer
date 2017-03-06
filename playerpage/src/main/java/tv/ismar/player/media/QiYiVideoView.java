@@ -3,7 +3,6 @@ package tv.ismar.player.media;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.SurfaceHolder;
 
 import com.qiyi.sdk.player.BitStream;
 import com.qiyi.sdk.player.IAdController;
@@ -27,13 +26,12 @@ import tv.ismar.app.reporter.IsmartvMedia;
 /**
  * Created by longhai on 16-10-12.
  */
-public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Callback {
+public class QiYiVideoView extends VideoSurfaceView {
 
     private final String TAG = "LH/QiYiVideoView";
     private IMediaPlayer mPlayer;
     private IMedia mMedia;
     private IVideoOverlay mVideoOverlay;
-    private SurfaceHolder mHolder;
     private List<BitStream> bitStreamList;
     private int previewLength;
 
@@ -118,32 +116,15 @@ public class QiYiVideoView extends VideoSurfaceView implements SurfaceHolder.Cal
         mVideoOverlay = videoOverlay;
         mLogMedia = logMedia;
         mIsPreview = isPreview;
-        mHolder = getHolder();
-        mHolder.addCallback(this);
 
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
         CallaPlay callaPlay = new CallaPlay();
         callaPlay.videoStart(mLogMedia, sn, mSpeed, sid, PLAYER_FLAG_QIYI);
-    }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        Log.i("LH/", "surfaceCreatedQiYi");
-        mHolder = holder;
         openVideo();
         requestLayout();
         invalidate();
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.i("LH/", "surfaceChangedQiYi:" + width + " " + height);
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        mHolder = null;
     }
 
     private void openVideo() {
