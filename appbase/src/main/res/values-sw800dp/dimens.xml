@@ -7,8 +7,10 @@
 <dimen name="text_size_60sp">44.44dp</dimen>
 <dimen name="text_size_30sp">22.22dp</dimen>
 <dimen name="text_size_32sp">23.70dp</dimen>
+<dimen name="text_size_34sp">25.19dp</dimen>
 <dimen name="text_size_40sp">29.63dp</dimen>
 <dimen name="text_size_18sp">13.33dp</dimen>
+<dimen name="text_size_28sp">20.74dp</dimen>
 <dimen name="focus_padding">15.56dp</dimen>
 
 <dimen name="text_size_48sp_height">49.63dp</dimen>

@@ -64,6 +64,15 @@ public class ItemEntity {
     private Preview preview;
 
     private String subtitle;
+    private boolean renew_buy;
+
+    public boolean isRenew_buy() {
+        return renew_buy;
+    }
+
+    public void setRenew_buy(boolean renew_buy) {
+        this.renew_buy = renew_buy;
+    }
 
     public Date getStartTime() {
         return startTime;
@@ -561,6 +570,24 @@ public class ItemEntity {
         public String cplogo;
         public boolean sale_subitem;
         public int jump_to;
+        public float renew_price;
+        public float nominal_price;
+
+        public float getRenew_price() {
+            return renew_price;
+        }
+
+        public void setRenew_price(float renew_price) {
+            this.renew_price = renew_price;
+        }
+
+        public float getNominal_price() {
+            return nominal_price;
+        }
+
+        public void setNominal_price(float nominal_price) {
+            this.nominal_price = nominal_price;
+        }
 
         public float getPrice() {
             return price;

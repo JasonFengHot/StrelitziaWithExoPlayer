@@ -2,12 +2,13 @@
           package="tv.ismar.pay">
 
     <application
-    >
+        >
         <activity
             android:name=".PaymentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/ActivityDialog">
+            android:theme="@style/ActivityDialog"
+            >
             <intent-filter>
                 <action android:name="tv.ismar.pay.payment"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -20,7 +21,7 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen"
 
-        >
+            >
             <intent-filter>
                 <action android:name="tv.ismar.pay.pay"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -33,7 +34,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen"
-        >
+            >
             <intent-filter>
                 <action android:name="tv.ismar.pay.payvip"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -45,9 +46,21 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen"
-        >
+            >
             <intent-filter>
                 <action android:name="tv.ismar.pay.paypackage"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:theme="@style/AgreementActivity"
+            android:name=".RenewalAgreementActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            >
+            <intent-filter>
+                <action android:name="cn.ismar.daisy.agreement"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

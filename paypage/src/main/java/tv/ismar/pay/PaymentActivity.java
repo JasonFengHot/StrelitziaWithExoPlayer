@@ -5,6 +5,7 @@ import cn.ismartv.truetime.TrueTime;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,14 +16,17 @@ import android.view.View;
 import android.view.View.OnHoverListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Observer;
@@ -35,8 +39,13 @@ import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.network.entity.AccountBalanceEntity;
+import tv.ismar.app.network.entity.ChoosewayEntity;
+import tv.ismar.app.network.entity.GoodsRenewStatusEntity;
 import tv.ismar.app.network.entity.ItemEntity;
+import tv.ismar.app.network.entity.PayWhStatusEntity;
 import tv.ismar.pay.LoginFragment.LoginCallback;
+
+import static tv.ismar.pay.PaymentActivity.OderType.alipay_renewal;
 
 /**
  * Created by huibin on 9/13/16.
@@ -50,7 +59,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private Fragment balanceFragment;
 
     private Button weixinPayBtn;
-    private Button aliPayBtn;
+    public Button aliPayBtn;
     private Button cardPayBtn;
     private Button balancePayBtn;
     private ViewGroup payTypeLayout;
@@ -73,6 +82,9 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
     private Subscription apiOptItemSub;
     private int movieId;
     private boolean login_tag = false;
+    private Subscription accountsPayWhStatusSub;
+    private Subscription accountsGoodsRenewStatusSub;
+    public ImageView tmp;
 
 
     @Override
@@ -82,6 +94,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         category = intent.getStringExtra(PageIntentInterface.EXTRA_PRODUCT_CATEGORY);
         setContentView(R.layout.activity_payment);
 
+        tmp = (ImageView) findViewById(R.id.tmp);
         weixinPayBtn = (Button) findViewById(R.id.weixin);
         aliPayBtn = (Button) findViewById(R.id.alipay);
         cardPayBtn = (Button) findViewById(R.id.videocard);
@@ -106,25 +119,32 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         alipayFragment = new AlipayFragment();
         cardpayFragment = new CardPayFragment();
         balanceFragment = new BalancePayFragment();
-        if(category==null){
-            category="";
+        if (category == null) {
+            category = "";
         }
-            if (category.equals(PageIntentInterface.ProductCategory.charge.name())) {
-                changeChagrgeStatus();
-                title.setText("充值");
-            } else {
-                String itemJson = intent.getStringExtra(PageIntent.EXTRA_ITEM_JSON);
-                if (!TextUtils.isEmpty(itemJson)) {
-                    mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
-                    pk = mItemEntity.getPk();
-                    purchaseCheck(CheckType.PlayCheck);
+        if (category.equals(PageIntentInterface.ProductCategory.charge.name())) {
+            changeChagrgeStatus();
+            title.setText("充值");
+        } else {
+            String itemJson = intent.getStringExtra(PageIntent.EXTRA_ITEM_JSON);
+            if (!TextUtils.isEmpty(itemJson)) {
+                mItemEntity = new Gson().fromJson(itemJson, ItemEntity.class);
+                pk = mItemEntity.getPk();
+                purchaseCheck(CheckType.PlayCheck);
+                if (mItemEntity.isRenew_buy()){
+                    aliPayBtn.setBackgroundResource(R.drawable.alipay_channel_selector);
+                }else {
+                    aliPayBtn.setBackgroundResource(R.drawable.paychannel_btn_selector);
+                }
 
-                } else {
+            } else {
                     pk = intent.getIntExtra("pk", 0);
                     movieId = intent.getIntExtra("movie_id", -1);
                     fetchItem(pk, category);
-                }
             }
+        }
+
+
 
     }
 
@@ -141,7 +161,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         if (i == R.id.weixin) {
             transaction.replace(R.id.fragment_page, weixinFragment).commit();
         } else if (i == R.id.alipay) {
-            transaction.replace(R.id.fragment_page, alipayFragment).commit();
+            alipayClick();
         } else if (i == R.id.videocard) {
             transaction.replace(R.id.fragment_page, cardpayFragment).commit();
         } else if (i == R.id.balance_pay) {
@@ -299,7 +319,12 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         String source = type.name();
         String timestamp = null;
         String sign = null;
+        String apiType = "create";
 
+        if (type == alipay_renewal) {
+            source = "alipay_wh";
+            apiType = "chooseway";
+        }
 
         if (type == OderType.sky) {
             timestamp = TrueTime.now().getTime() + "";
@@ -312,7 +337,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         }
 
 
-        apiOrderCreateSub = mSkyService.apiOrderCreate(waresId, waresType, source, timestamp, sign)
+        apiOrderCreateSub = mSkyService.apiOrderCreate(apiType, waresId, waresType, source, timestamp, sign, null)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResponseBody>() {
@@ -323,6 +348,124 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
                     @Override
                     public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        switch (type) {
+                            case alipay_renewal:
+                                ChoosewayEntity choosewayEntity = new Gson().fromJson(responseBody.charStream(), ChoosewayEntity.class);
+                                fetchImage(choosewayEntity.getAgreement().getUrl(), type, callback);
+                                break;
+                            default:
+                                BitmapFactory.Options opt = new BitmapFactory.Options();
+                                opt.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                                opt.inPurgeable = true;
+                                opt.inInputShareable = true;
+                                switch (type) {
+                                    case alipay:
+                                        opt.inSampleSize = 2;
+                                        break;
+                                }
+                                callback.onBitmap(BitmapFactory.decodeStream(responseBody.byteStream(), null, opt));
+
+                        }
+
+                    }
+                });
+
+    }
+
+
+    public void alipayChooseWay(final OderType type) {
+        String waresId = String.valueOf(pk);
+        String waresType = category;
+        String action = "";
+        String source = type.name();
+        if (type == alipay_renewal) {
+            action = "new";
+            source = "alipay_wh";
+        }
+
+        final String finalSource = source;
+        final String finalAction = action;
+        apiOrderCreateSub = mSkyService.apiOrderCreate("chooseway", waresId, waresType, source, null, null, action)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        ChoosewayEntity choosewayEntity = new Gson().fromJson(responseBody.charStream(), ChoosewayEntity.class);
+                        switch (finalSource) {
+                            case "alipay_renewal":
+                                AlipayFragment alipayFragment1 = new AlipayFragment();
+                                Bundle bundle1 = new Bundle();
+                                bundle1.putString("type", "alipay_renewal");
+                                alipayFragment1.setArguments(bundle1);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_page, alipayFragment1).commit();
+                                fetchImage(choosewayEntity.getAgreement().getUrl(), type, alipayFragment1);
+                                break;
+                            case "alipay":
+                                AlipayFragment alipayFragment2 = new AlipayFragment();
+                                Bundle bundle2 = new Bundle();
+                                bundle2.putString("type", "alipay_normal");
+                                alipayFragment2.setArguments(bundle2);
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_page, alipayFragment2).commit();
+
+                                fetchImage(choosewayEntity.getQrcode().getUrl(), type, alipayFragment2);
+                                break;
+                            case "alipay_wh":
+                                if (finalAction.equals("new")) {
+                                    if (null != choosewayEntity.getAgreement()) {
+                                        AlipayFragment alipayFragment4 = new AlipayFragment();
+                                        Bundle bundle4 = new Bundle();
+                                        bundle4.putString("type", "alipay_renewal");
+                                        alipayFragment4.setArguments(bundle4);
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_page, alipayFragment4).commit();
+                                        fetchImage(choosewayEntity.getAgreement().getUrl(), type, alipayFragment4);
+                                    }else {
+                                        AlipayYKTMMRenewalFragment yktRenewalFragment = new AlipayYKTMMRenewalFragment();
+                                        Bundle bundle3 = new Bundle();
+                                        bundle3.putString("url", choosewayEntity.getPay().getUrl());
+                                        yktRenewalFragment.setArguments(bundle3);
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_page, yktRenewalFragment).commit();
+                                    }
+                                } else {
+                                    AlipayYKTMMRenewalFragment yktRenewalFragment = new AlipayYKTMMRenewalFragment();
+                                    Bundle bundle3 = new Bundle();
+                                    bundle3.putString("url", choosewayEntity.getPay().getUrl());
+                                    yktRenewalFragment.setArguments(bundle3);
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_page, yktRenewalFragment).commit();
+                                }
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void fetchImage(String url, final OderType type, final QrcodeCallback callback) {
+        mSkyService.image(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
 
                     }
 
@@ -340,14 +483,15 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                         callback.onBitmap(BitmapFactory.decodeStream(responseBody.byteStream(), null, opt));
                     }
                 });
-
     }
 
 
     enum OderType {
         weixin,
         alipay,
-        sky
+        sky,
+        alipay_renewal,
+        alipay_wh
     }
 
     interface QrcodeCallback {
@@ -378,6 +522,11 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onNext(ItemEntity itemEntity) {
                         mItemEntity = itemEntity;
+                        if (mItemEntity.isRenew_buy()){
+                            aliPayBtn.setBackgroundResource(R.drawable.alipay_channel_selector);
+                        }else {
+                            aliPayBtn.setBackgroundResource(R.drawable.paychannel_btn_selector);
+                        }
                         title.setText(itemEntity.getTitle());
                         purchaseCheck(CheckType.PlayCheck);
                         if (TextUtils.isEmpty(IsmartvActivator.getInstance().getAuthToken())) {
@@ -473,6 +622,64 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
         if (apiOrderCreateSub != null && apiOrderCreateSub.isUnsubscribed()) {
             apiOrderCreateSub.unsubscribe();
         }
+
+        if (accountsPayWhStatusSub != null && accountsPayWhStatusSub.isUnsubscribed()) {
+            accountsPayWhStatusSub.unsubscribe();
+        }
+
+        if (accountsGoodsRenewStatusSub != null && accountsGoodsRenewStatusSub.isUnsubscribed()) {
+            accountsGoodsRenewStatusSub.unsubscribe();
+        }
+
         super.onPause();
+    }
+
+    private void alipayClick() {
+        if (mItemEntity.isRenew_buy()) {
+            goodsRenewStatus(pk, PayWhStatusEntity.PayType.ALIPAY.getValue());
+        } else {
+            AlipayFragment alipayFragment = new AlipayFragment();
+            createOrder(OderType.alipay, alipayFragment);
+            Bundle bundle = new Bundle();
+            bundle.putString("type", "alipay");
+            alipayFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_page, alipayFragment).commit();
+        }
+    }
+
+    private void goodsRenewStatus(int packageId, String payType) {
+        accountsGoodsRenewStatusSub = mSkyService.accountsGoodsRenewStatus(packageId, payType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<GoodsRenewStatusEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(GoodsRenewStatusEntity goodsRenewStatusEntity) {
+                        int code = goodsRenewStatusEntity.getInfo().getStatus();
+                        switch (code) {
+                            //已开通续订购
+                            case GoodsRenewStatusEntity.Status.OPEN:
+                                AlipayYKTRenewalFragment yktRenewalFragment = new AlipayYKTRenewalFragment();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_page, yktRenewalFragment).commit();
+                                break;
+                            //未开通续订购
+                            case GoodsRenewStatusEntity.Status.WITHOUT_OPEN:
+                                alipayChooseWay(OderType.alipay_renewal);
+                                break;
+                        }
+                    }
+                });
+    }
+
+    public void changeNormalAlipay() {
+        alipayChooseWay(OderType.alipay);
+    }
+
+    public void changeRenewalAlipay() {
+        alipayChooseWay(OderType.alipay_renewal);
     }
 }
