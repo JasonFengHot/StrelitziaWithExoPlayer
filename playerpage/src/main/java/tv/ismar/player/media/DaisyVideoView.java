@@ -68,6 +68,9 @@ public class DaisyVideoView extends SurfaceView {
     private boolean mIsPlayingAdvertisement;
     private int mStartPosition;
 
+    // s3设备
+    boolean isSeekBuffer = false;
+
     // log
     private IsmartvMedia mLogMedia;
     private static final String PLAYER_FLAG_SMART = "bestv";
@@ -404,6 +407,7 @@ public class DaisyVideoView extends SurfaceView {
                     player.seekTo(msec);
                 }
             }.start();
+            isSeekBuffer = true;
             mBufferStartTime = TrueTime.now().getTime();
             mSeekWhenPrepared = 0;
             if (!isFirstSeek) {
@@ -579,6 +583,14 @@ public class DaisyVideoView extends SurfaceView {
                         mOnBufferChangedListener.onBufferStart();
                     }
                     mBufferStartTime = TrueTime.now().getTime();
+                    break;
+                case 1002:
+                    if(isSeekBuffer){
+                        isSeekBuffer = false;
+                        if (mOnBufferChangedListener != null) {
+                            mOnBufferChangedListener.onBufferEnd();
+                        }
+                    }
                     break;
                 case SmartPlayer.MEDIA_INFO_BUFFERING_END:
                 case 3:

@@ -206,6 +206,7 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection> implements As
 										.error(R.drawable.list_item_ppreview_bg)
 										.placeholder(R.drawable.list_item_ppreview_bg)
 										.transform(mTransformation)
+										.config(Bitmap.Config.RGB_565)
 										.into(holder.previewImage);
 
 							}else {
@@ -218,6 +219,7 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection> implements As
 										.error(R.drawable.list_item_ppreview_bg)
 										.placeholder(R.drawable.list_item_ppreview_bg)
 										.transform(mTransformation)
+										.config(Bitmap.Config.RGB_565)
 										.into(holder.previewImage);
 							}else {
 								holder.previewImage.setUrl(item.adlet_url);

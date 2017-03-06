@@ -274,6 +274,10 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     public void stopPlayBack() {
+//        if (mPlayerMode == PlayerBuilder.MODE_QIYI_PLAYER) {
+//            // Receiver not registered: com.qiyi.video.utils.NetWorkManager$NetWorkConnectionReceiver@44668530
+//            PlayerSdk.getInstance().release();
+//        }
         isQiyiSdkInit = false; // 考虑到用户登录
         mContext = null;
         mItemEntity = null;
