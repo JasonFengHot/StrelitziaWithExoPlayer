@@ -2028,15 +2028,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!isExit) {
+                BaseActivity baseActivity = ((BaseActivity) getActivity());
+                if (baseActivity == null) {
+                    return;
+                }
                 if (NetworkUtils.isConnected(context)) {
-                    ((BaseActivity) getActivity()).dismissNoNetConnectDialog();
+                    baseActivity.dismissNoNetConnectDialog();
                     timerStart(0);
                 } else if (isBufferShow() && !isPopWindowShow()) {
                     hideBuffer();
                     hidePanel();
                     timerStop();
                     addHistory(mCurrentPosition, true, false);
-                    ((BaseActivity) getActivity()).showNoNetConnectDialog();
+                    baseActivity.showNoNetConnectDialog();
                 }
             }
         }

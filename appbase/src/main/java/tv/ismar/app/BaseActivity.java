@@ -97,6 +97,8 @@ public class BaseActivity extends AppCompatActivity {
         mSpeedCallaService = SkyService.ServiceManager.getSpeedCallaService();
         mLilyHostService = SkyService.ServiceManager.getLilyHostService();
         app_start_time = TrueTime.now().getTime();
+
+        registerNoNetReceiver();
     }
 
     @Override
@@ -107,8 +109,6 @@ public class BaseActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         registerUpdateReceiver();
-        registerNoNetReceiver();
-
 
         //checkout update
         if (isCheckoutUpdate) {
@@ -154,7 +154,6 @@ public class BaseActivity extends AppCompatActivity {
             updatePopupWindow = null;
         }
         try {
-            unregisterReceiver(onNetConnectReceiver);
             unregisterReceiver(mUpdateReceiver);
         } catch (Exception e) {
             e.printStackTrace();
@@ -473,6 +472,11 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (updateHandler != null) {
             updateHandler.removeCallbacks(updateRunnable);
+        }
+        try {
+            unregisterReceiver(onNetConnectReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         super.onDestroy();
 
