@@ -594,6 +594,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onStarted() {
         Log.i(TAG, "onStarted");
+        if (mIsmartvPlayer == null || mItemEntity == null) {
+            return;
+        }
         if (!isInit) {
             String logo = mItemEntity.getLogo();
             Log.i(TAG, "clipLength:" + mIsmartvPlayer.getDuration() + " logo:" + logo);
@@ -608,13 +611,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     public void onError() {
                     }
                 });
-                if (mItemEntity != null && mItemEntity.getLiveVideo()) {
-                    hideBuffer();
-                }
             }
             shadowview.setVisibility(View.GONE);
-            player_seekBar.setMax(mIsmartvPlayer.getDuration());
-            player_seekBar.setPadding(0, 0, 0, 0);
+            if (mItemEntity.getLiveVideo()) {
+                hideBuffer();
+            } else {
+                player_seekBar.setMax(mIsmartvPlayer.getDuration());
+                player_seekBar.setPadding(0, 0, 0, 0);
+            }
             isInit = true;
         }
         if (!mIsPlayingAd) {
