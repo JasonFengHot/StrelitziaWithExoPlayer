@@ -152,7 +152,9 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
             mQuality = quality;
             mPaths = new String[]{mediaUrl};
 
-            mStartPosition = getCurrentPosition();
+            if (mItemEntity != null && !mItemEntity.getLiveVideo()) {
+                mStartPosition = getCurrentPosition();
+            }
             mDaisyVideoView.release(true);
             mLogMedia.setQuality(getQualityIndex(mQuality));
             mDaisyVideoView.setVideoPaths(mPaths, mStartPosition, mLogMedia, true);

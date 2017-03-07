@@ -613,13 +613,12 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 });
             }
             shadowview.setVisibility(View.GONE);
-            if (mItemEntity.getLiveVideo()) {
-                hideBuffer();
-            } else {
-                player_seekBar.setMax(mIsmartvPlayer.getDuration());
-                player_seekBar.setPadding(0, 0, 0, 0);
-            }
+            player_seekBar.setMax(mIsmartvPlayer.getDuration());
+            player_seekBar.setPadding(0, 0, 0, 0);
             isInit = true;
+        }
+        if (mItemEntity.getLiveVideo()) {
+            hideBuffer();
         }
         if (!mIsPlayingAd) {
             mModel.updatePlayerPause();
@@ -1434,8 +1433,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 timerStop();
                 showBuffer(null);
             }
-            mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
-            mIsmartvPlayer.setStartPosition(mCurrentPosition);
+            if (!mItemEntity.getLiveVideo()) {
+                mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
+                mIsmartvPlayer.setStartPosition(mCurrentPosition);
+            }
             mIsmartvPlayer.switchQuality(clickQuality);
 
             mCurrentQuality = clickQuality;
@@ -1564,7 +1565,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         // buffer消失，就需要remove50秒延时消息
         removeBufferingLongTime();
 
-        if (player_buffer_layout.getVisibility() == View.VISIBLE) {
+        if (player_buffer_layout != null && player_buffer_layout.getVisibility() == View.VISIBLE) {
             player_buffer_layout.setVisibility(View.GONE);
             player_buffer_text.setText(getString(R.string.loading_text));
             if (animationDrawable != null && animationDrawable.isRunning()) {
