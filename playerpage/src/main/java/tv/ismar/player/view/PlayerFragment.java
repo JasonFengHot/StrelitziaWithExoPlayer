@@ -154,7 +154,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 //    private List<AdElementEntity> tempAds;// 预加载时用到
     private boolean isExit = false;// 播放器退出release需要时间，此时的UI事件会导致ANR
     private boolean closePopup = false;// 网速由不正常到正常时判断，关闭弹窗后不做任何操作
-//    private boolean isFinishing;
+    //    private boolean isFinishing;
     private boolean isClickBufferLong;// 夏普s3相关适配，限速切换码率后，恢复网速，导致timerStart无法正常开启
 
     private FragmentPlayerBinding mBinding;
@@ -608,7 +608,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     public void onError() {
                     }
                 });
-
+                if (mItemEntity != null && mItemEntity.getLiveVideo()) {
+                    hideBuffer();
+                }
             }
             shadowview.setVisibility(View.GONE);
             player_seekBar.setMax(mIsmartvPlayer.getDuration());
@@ -728,7 +730,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onVideoSizeChanged(int videoWidth, int videoHeight) {
-        if(!isExit && isClickBufferLong){
+        if (!isExit && isClickBufferLong) {
             isClickBufferLong = false;
             timerStart(0);
         }
@@ -817,7 +819,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         // 画面卡住不动，显示loading,由于网速恢复后timerRunnable需要继续显示,故此处需要不断postDelayed
                         // 由于部分机型，画面停止后，多次调用getCurrentPosition会导致onError回调，故时间间隔尽可能长
                         // 还应注意不能一直显示，让buffering的handler清除计时消息
-                        if(!isBufferShow()){
+                        if (!isBufferShow()) {
                             showBuffer(null);
                         }
                         mTimerHandler.postDelayed(timerRunnable, 2000);
@@ -831,7 +833,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     hideBuffer();
                 }
                 // 显示切换画质提示框后，恢复网络，弹窗需要消失
-                if(isPopWindowShow()){
+                if (isPopWindowShow()) {
                     removeBufferingLongTime();
                 }
 
@@ -1584,7 +1586,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             int what = event.getAction();
             switch (what) {
                 case MotionEvent.ACTION_HOVER_MOVE:
-                    if (!mIsPlayingAd && isInit) {
+                    if (!mIsPlayingAd && isInit && mItemEntity != null && !mItemEntity.getLiveVideo()) {
                         showPannelDelayOut();
                     }
                     break;
@@ -1725,6 +1727,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         }
                         if (!isExit) {
                             isClickBufferLong = true;
+                            if (mCurrentQuality == null) {
+                                Log.e(TAG, "mCurrentQuality:" + mCurrentQuality);
+                                return;
+                            }
                             if (!popDialog.isConfirmClick) {
                                 showBuffer(null);
 //                                isClickBufferLongSwitch = true;
