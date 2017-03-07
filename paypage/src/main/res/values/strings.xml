@@ -18,10 +18,16 @@
     <string name="card_balance_cancel">取消</string>
     <string name="pay_shiyuncard_account_label">持有实体视云观影卡的用户，请输入16位观影卡密码充值</string>
     <string name="pay_shiyuncard_submit_label">提交</string>
-    <string name="pay_payinfo_price_label">价格 : %1$.2f</string>
-    <string name="pay_payinfo_exprice_label">有效期 : %1$d天</string>
-    <string name="pay_payinfo_introduce_label">购买后可以在有效期内观看</string>
+    <string name="pay_payinfo_price_label">·价格 : %1$.2f</string>
+    <string name="pay_payinfo_exprice_label">·有效期 : %1$d天</string>
+    <string name="pay_payinfo_introduce_label">·购买后可以在有效期内观看</string>
     <string name="welocome_tip">您好 : %1$s</string>
     <string name="paylayerpkg_purchase">购买</string>
     <string name="vip_des">会员介绍</string>
+    <string name="renew_price_text">·尊享超低价%1$.2f元/月（原</string>
+    <string name="renew_original_price_text">&#160;价%1$.2f元/月）</string>
+    <string name="ykt_renewal_price">·价格：%1$.2f元</string>
+    <string name="ykt_renewal_duration">·有效期：%1$d天</string>
+    <string name="yktmm_price">·尊享超低价%1$.2f元/月（原价%2$.2f元/月）</string>
+    <string name="alipay_renew_line2_text">&#160;自动延长1个月</string>
 </resources>

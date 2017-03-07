@@ -17,6 +17,7 @@
     <color name="color_gray">#808080</color>
     <color name="color_dark_gray">#646464</color>
     <color name="color_overlay_grey">#33ffffff</color>
+    <color name="color_player_bg">#292929</color>
 
     <color name="color_yellow">#fafd00</color>
     <color name="color_alpha_black">#B2000000</color>

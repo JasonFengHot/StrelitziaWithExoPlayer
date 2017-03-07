@@ -1,5 +1,6 @@
 package tv.ismar.detailpage;
 
+import android.app.Activity;
 import android.content.Context;
 
 import tv.ismar.app.BasePresenter;
@@ -20,7 +21,7 @@ public interface DetailPageContract {
 
         void notifyBookmark(boolean mark, boolean isSuccess);
 
-        Context getContext();
+        Activity getActivity();
 
         void onError();
     }

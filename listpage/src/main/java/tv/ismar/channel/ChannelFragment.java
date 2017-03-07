@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.Utils.LogUtils;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
@@ -106,8 +107,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     private HashMap<String, Object> mSectionProperties = new HashMap<String, Object>();
 
-    private ImageView arrow_left;
-    private ImageView arrow_right;
+    private ImageView arrow_left,shade_arrow_left;
+    private ImageView arrow_right,shade_arrow_right;
     //private Button btn_search;
     private View large_layout;
     private MenuFragment mMenuFragment;
@@ -145,6 +146,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         right_shadow = (Button) fragmentView.findViewById(R.id.right_shadow);
         arrow_left = (ImageView) fragmentView.findViewById(R.id.arrow_left);
         arrow_right = (ImageView) fragmentView.findViewById(R.id.arrow_right);
+        shade_arrow_left= (ImageView) fragmentView.findViewById(R.id.shade_left);
+        shade_arrow_right= (ImageView) fragmentView.findViewById(R.id.shade_arrow_right);
         arrow_left.setOnHoverListener(new View.OnHoverListener() {
 
 			@Override
@@ -297,6 +300,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         mScrollableSectionList.right_shadow = right_shadow;
         mScrollableSectionList.arrow_left = arrow_left;
         mScrollableSectionList.arrow_right = arrow_right;
+        mScrollableSectionList.shade_arrow_right=shade_arrow_right;
+        mScrollableSectionList.shade_arrow_left=shade_arrow_left;
         mHGridView.setOnItemClickListener(this);
         mHGridView.setOnItemSelectedListener(this);
         mHGridView.setOnScrollListener(this);
@@ -591,7 +596,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                                     percentage.setVisibility(View.VISIBLE);
 
                                         if (mSectionList != null) {
-                                            if (mSectionList.size() > 5) {
+                                            if (mSectionList.size() > 7) {
                                                 arrow_right.setVisibility(View.VISIBLE);
                                             }
 
@@ -639,12 +644,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     class GetItemListTask extends AsyncTask<Object, Void, ItemList> {
 
-        private Integer index;
-        private String slug;
-        private  ItemList mItemList;
         @Override
         protected void onCancelled() {
-            mCurrentLoadingTask.remove(index);
             super.onCancelled();
         }
 
@@ -712,6 +713,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     @Override
     public void onResume() {
+        AppConstant.purchase_referer = "channel";
+        AppConstant.purchase_page = "list";
         mIsBusy = false;
 //        ((ChannelListActivity) getActivity()).registerOnMenuToggleListener(this);
         super.onResume();
@@ -719,21 +722,16 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
             isPause = false;
             if (mScrollableSectionList != null) {
                 if (mScrollableSectionList.mContainer != null) {
-
                     View v = mScrollableSectionList.mContainer.getChildAt(mScrollableSectionList.getSelectPosition());
                     if (v != null) {
                         if (mScrollableSectionList.getSelectPosition() == 0) {
-
                         // v.requestFocus();
                             View vv = mScrollableSectionList.mContainer.getChildAt(1);
                             if (vv != null) {
-
-
                                 mScrollableSectionList.sectionWhenGoto = (TextView) vv.findViewById(R.id.section_label);
                                 mHGridView.requestFocus();
                                 mHGridView.setSelection(0);
                                 mScrollableSectionList.setFilterBack(vv);
-//
                             }
                         }
                     }
@@ -759,12 +757,6 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }
-
-        final ConcurrentHashMap<Integer, GetItemListTask> currentLoadingTask = mCurrentLoadingTask;
-        for (Integer index : currentLoadingTask.keySet()) {
-            currentLoadingTask.get(index).cancel(true);
-        }
-//        ((ChannelListActivity) getActivity()).unregisterOnMenuToggleListener();
         super.onPause();
     }
 
@@ -777,6 +769,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
         // Add data collection.
         if(getItemlistHandler!=null){
             getItemlistHandler.removeCallbacks(getItemlistRunnable);
+            getItemlistHandler=null;
         }
         try {
             HashMap<String, Object> properties = new HashMap<String, Object>();
@@ -1010,6 +1003,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 newSection = mSectionList.get(newSectionIndex);
             mSectionProperties.put(EventProperty.SECTION, newSection.slug);
             mSectionProperties.put(EventProperty.TITLE, newSection.title);
+            AppConstant.purchase_tab = newSection.title;
             mSectionProperties.put(EventProperty.SOURCE,"list");
 
             BaseActivity.baseSection = newSection.slug;

@@ -37,6 +37,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.Utils.LogUtils;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.adapter.RecommecdItemAdapter;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.PageIntent;
@@ -343,7 +344,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 		initHistoryList();
 		createMenu();
 		mSectionList = new SectionList();
-	}
+    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -393,6 +394,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 					@Override
 					public void onError(Throwable e) {
+						if(mLoadingDialog!=null)
 						mLoadingDialog.dismiss();
 						LogUtils.loadException("history ","history ","","",0,"","","server",e.toString());
 						super.onError(e);
@@ -501,6 +503,9 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 	@Override
 	public void onResume() {
+		AppConstant.purchase_referer = "history";
+		AppConstant.purchase_page = "history";
+		AppConstant.purchase_channel = "";
         BaseActivity.baseChannel="";
         BaseActivity.baseSection="";
 		if(IsmartvActivator.getInstance().isLogin()){
@@ -584,7 +589,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 							mDataCollectionProperties.put("to_subitem", sub_id);
 							for (Item subitem : item.subitems) {
 								if (sub_id == subitem.pk) {
-									mDataCollectionProperties.put("to_clip", subitem.clip.pk);
+								//	mDataCollectionProperties.put("to_clip", subitem.clip.pk);
 									break;
 								}
 							}
@@ -594,7 +599,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 						mDataCollectionProperties.put("to_title", item.title);
 						mDataCollectionProperties.put("position", history.last_position/1000);
 						String[] qualitys = new String[]{"normal", "high", "ultra", "adaptive"};
-						mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
+					//	mDataCollectionProperties.put("quality", qualitys[(history.quality >= 0 && history.quality < qualitys.length) ? history.quality : 0]);
 						PageIntent intent = new PageIntent();
 						intent.toPlayPage(getActivity(), item.pk, 0, Source.HISTORY);
 					}
@@ -607,6 +612,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 						}else {
 							super.onError(e);
 						}
+						if(mLoadingDialog!=null)
 						mLoadingDialog.dismiss();
 					}
 				});
@@ -795,6 +801,7 @@ public class HistoryFragment extends Fragment implements ScrollableSectionList.O
 
 					@Override
 					public void onError(Throwable e) {
+						if(mLoadingDialog!=null)
 						mLoadingDialog.dismiss();
 						super.onError(e);
 					}

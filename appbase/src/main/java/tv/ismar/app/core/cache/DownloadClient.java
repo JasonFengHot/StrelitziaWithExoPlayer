@@ -117,7 +117,6 @@ public class DownloadClient implements Runnable {
             int count;
             while ((count = input.read(data)) != -1) {
                 total += count;
-                Log.d(TAG, "download: " + total);
                 outputStream.write(data, 0, count);
             }
             outputStream.flush();

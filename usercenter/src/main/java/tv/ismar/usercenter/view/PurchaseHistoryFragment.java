@@ -2,6 +2,7 @@ package tv.ismar.usercenter.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -24,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Util;
@@ -114,6 +118,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
     @Override
     public void onResume() {
         super.onResume();
+        AppConstant.purchase_page = "history";
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
 
@@ -232,7 +237,7 @@ public class PurchaseHistoryFragment extends BaseFragment implements PurchaseHis
             totalfee.setText(String.format(cost, item.getTotal_fee()));
             orderlistitem_paychannel.setText(String.format(paySource, getValueBySource(item.getSource())));
             if (!TextUtils.isEmpty(item.getThumb_url()))
-                Picasso.with(mUserCenterActivity).load(item.getThumb_url()).into(icon);
+                Picasso.with(mUserCenterActivity).load(item.getThumb_url()).memoryPolicy(MemoryPolicy.NO_STORE).config(Bitmap.Config.RGB_565).into(icon);
             if (!TextUtils.isEmpty(item.getInfo())) {
                 String account = item.getInfo().split("@")[0];
                 String mergedate = item.getInfo().split("@")[1];

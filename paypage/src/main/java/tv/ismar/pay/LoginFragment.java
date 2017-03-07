@@ -66,6 +66,8 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
     private Subscription accountsCombineSub;
     private Subscription verificationCodeSub;
     private Subscription accountsLoginSub;
+    private String phoneNumber;
+    private String verification;
 
 
     public static LoginFragment newInstance() {
@@ -135,7 +137,17 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
             edit_identifycode.setNextFocusLeftId(R.id.usercenter_login_register);
             btn_submit.setNextFocusLeftId(R.id.usercenter_login_register);
         }
+        if (savedInstanceState != null) {
+            phoneNumber = savedInstanceState.getString("phone_number", "");
+            verification = savedInstanceState.getString("verification_code", "");
+        }
 
+        if (phoneNumber != null) {
+            edit_mobile.setText(phoneNumber);
+        }
+        if (verification != null) {
+            edit_identifycode.setText(verification);
+        }
 
     }
 
@@ -354,6 +366,11 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
                         if (mLoginCallback != null) {
                             mLoginCallback.onSuccess();
                         }
+                        edit_mobile.setText("");
+                        edit_identifycode.setText("");
+                        if (countDownSubscription!=null && !countDownSubscription.isUnsubscribed()){
+                            countDownSubscription.unsubscribe();
+                        }
                         showLoginSuccessPopup();
 
                     }
@@ -447,14 +464,15 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
             accountsLoginSub.unsubscribe();
         }
 
-
-
-        if (countDownSubscription!=null && countDownSubscription.isUnsubscribed()){
-            countDownSubscription.unsubscribe();
-        }
         super.onPause();
     }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.e("login","onSaveInstanceState");
+        outState.putString("phone_number", edit_mobile.getText().toString());
+        outState.putString("verification_code", edit_identifycode.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
 
 }

@@ -25,6 +25,7 @@ import java.util.List;
 
 import cn.ismartv.injectdb.library.query.Select;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.db.location.CityTable;
 import tv.ismar.app.db.location.ProvinceTable;
@@ -137,6 +138,7 @@ public class LocationFragment extends BaseFragment implements LocationContract.V
     @Override
     public void onResume() {
         super.onResume();
+        AppConstant.purchase_page = "location";
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
         mPresenter.start();

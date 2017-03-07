@@ -224,8 +224,8 @@
 <dimen name="edittext_divider_margin_top">114.67dp</dimen>
 <dimen name="edittext_divider_margin_left">32.00dp</dimen>
 
-<dimen name="full_keyboard_width">378dp</dimen>
-<dimen name="full_keyboard_height">613.00dp</dimen>
+<dimen name="full_keyboard_width">378.00dp</dimen>
+<dimen name="full_keyboard_height">613.33dp</dimen>
 <dimen name="full_keyboard_margin_left">32.67dp</dimen>
 <dimen name="full_keyboard_margin_top">153.33dp</dimen>
 <dimen name="full_keyboard_vertival_spacing">16.00dp</dimen>
@@ -236,8 +236,8 @@
 <dimen name="key_width">40.00dp</dimen>
 <dimen name="key_0_margin_left">21.33dp</dimen>
 
-<dimen name="t9_keyboard_width">348.00dp</dimen>
-<dimen name="t9_keyboard_height">477.00dp</dimen>
+<dimen name="t9_keyboard_width">378.67dp</dimen>
+<dimen name="t9_keyboard_height">477.33dp</dimen>
 <dimen name="t9_keyboard_margin_left">30.67dp</dimen>
 <dimen name="t9_keyboard_margin_top">153.33dp</dimen>
 <dimen name="t9_keyboard_v_spacing">36.00dp</dimen>
@@ -297,7 +297,7 @@
 
 <dimen name="full_keyboard_v_spacing">28.00dp</dimen>
 
-<dimen name="filmStar_item_horizontal_space">13.5dp</dimen>
+<dimen name="filmStar_item_horizontal_space">13.33dp</dimen>
 <dimen name="filmStar_item_vertical_space">20.00dp</dimen>
 <dimen name="filmStar_item_top_space">21.33dp</dimen>
 
@@ -343,4 +343,14 @@
 <dimen name="dimention_12">1260.00dp</dimen>
 <dimen name="dimention_left">903.33dp</dimen>
 <dimen name="dimention_right">1264.67dp</dimen>
+
+<dimen name="vod_scrollview_new_w">1093.33dp</dimen>
+<dimen name="vod_scrollview_new_ml">110.00dp</dimen>
+<dimen name="vod_scrollview_new_hs">53.33dp</dimen>
+<dimen name="vod_scrollview_new_lp">26.67dp</dimen>
+<dimen name="vod_scrollview_new_tp">34.67dp</dimen>
+<dimen name="vod_scrollview_new_rp">26.67dp</dimen>
+<dimen name="vod_scrollview_new_bp">-3.33dp</dimen>
+<dimen name="vod_scrollview_new_pt">80.00dp</dimen>
+<dimen name="vod_scrollview_new_pl">26.67dp</dimen>
 </resources>

@@ -144,7 +144,6 @@ public class BaseActivity extends AppCompatActivity {
         if (noNetConnectHandler != null) {
             noNetConnectHandler.removeCallbacks(noNetConnectRunnable);
         }
-        unregisterReceiver(mUpdateReceiver);
         super.onPause();
     }
 
@@ -153,6 +152,12 @@ public class BaseActivity extends AppCompatActivity {
         if (updatePopupWindow != null) {
             updatePopupWindow.dismiss();
             updatePopupWindow = null;
+        }
+        try {
+            unregisterReceiver(onNetConnectReceiver);
+            unregisterReceiver(mUpdateReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         super.onStop();
     }
@@ -234,6 +239,12 @@ public class BaseActivity extends AppCompatActivity {
             exception.printStackTrace();
         }
 
+    }
+
+    public void dismissNoNetConnectDialog() {
+        if(dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     public void showNoNetConnectDialog() {
@@ -462,12 +473,6 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (updateHandler != null) {
             updateHandler.removeCallbacks(updateRunnable);
-        }
-        try {
-            unregisterReceiver(onNetConnectReceiver);
-            unregisterReceiver(mUpdateReceiver);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         super.onDestroy();
 

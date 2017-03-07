@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
@@ -126,14 +127,14 @@ public class DetailPageViewModel extends BaseObservable {
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
         Picasso.with(view.getContext())
-                .load(imageUrl)
+                .load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE)
                 .into(view);
     }
 
     @BindingAdapter({"vipMark"})
     public static void vipMark(ImageView view, String imageUrl) {
         Picasso.with(view.getContext())
-                .load(imageUrl)
+                .load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE)
                 .rotate(90)
                 .into(view);
     }

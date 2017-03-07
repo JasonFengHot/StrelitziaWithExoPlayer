@@ -7,8 +7,10 @@
 <dimen name="text_size_60sp">53.33dp</dimen>
 <dimen name="text_size_30sp">26.67dp</dimen>
 <dimen name="text_size_32sp">28.44dp</dimen>
+<dimen name="text_size_34sp">30.22dp</dimen>
 <dimen name="text_size_40sp">35.56dp</dimen>
 <dimen name="text_size_18sp">16.00dp</dimen>
+<dimen name="text_size_28sp">24.89dp</dimen>
 <dimen name="focus_padding">18.67dp</dimen>
 
 <dimen name="text_size_48sp_height">59.56dp</dimen>
@@ -25,7 +27,7 @@
 <!-- 头部高度 -->
 <dimen name="header_fragment_h">88.89dp</dimen>
 <dimen name="header_fragment_padding_l">57.78dp</dimen>
-<dimen name="header_fragment_padding_r">72.89dp</dimen>
+<dimen name="header_fragment_padding_r">64.89dp</dimen>
 <dimen name="header_fragment_padding_bottom1">12.44dp</dimen>
 <dimen name="header_fragment_padding_bottom2">15.11dp</dimen>
 <dimen name="header_fragment_title_divider_w">44.44dp</dimen>
@@ -39,11 +41,15 @@
 <dimen name="usercenter_header_fragment_subtitle_ml">5.33dp</dimen>
 <dimen name="header_fragment_divider_mlr">30.22dp</dimen>
 <dimen name="header_fragment_btn_width">106.67dp</dimen>
-<dimen name="header_fragment_mine_space">28.44dp</dimen>
+<dimen name="header_fragment_mine_space">30.22dp</dimen>
 <dimen name="header_fragment_mine_indicator_h">3.56dp</dimen>
 <dimen name="header_fragment_mine_indicator_w">83.56dp</dimen>
 <dimen name="header_title_bottom">10.67dp</dimen>
 <dimen name="header_weather_bottom">15.11dp</dimen>
+<dimen name="header_logo_w">174.22dp</dimen>
+<dimen name="header_logo_h">25.78dp</dimen>
+<dimen name="header_logo_mt">45.33dp</dimen>
+<dimen name="header_indicator_mr">76.44dp</dimen>
 
 <dimen name="label_image_padding">14.67dp</dimen>
 <dimen name="loading_size">58.67dp</dimen>
@@ -420,7 +426,7 @@
 <dimen name="list_section_tabSpace">30.22dp</dimen>
 <dimen name="list_section_tabSize">26.67sp</dimen>
 <dimen name="list_section_tabSize_big">32.00sp</dimen>
-<dimen name="list_section_width">1294.22dp</dimen>
+<dimen name="list_section_width">1505.78dp</dimen>
 <dimen name="list_head_H">88.89dp</dimen>
 <dimen name="list_head_paddingL">65.78dp</dimen>
 <dimen name="divider_blowhead_ML">30.22dp</dimen>

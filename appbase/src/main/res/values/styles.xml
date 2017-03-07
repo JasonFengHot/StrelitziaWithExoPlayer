@@ -111,6 +111,7 @@
         <attr name="selectionTopPadding" format="dimension" />
         <attr name="selectionRightPadding" format="dimension" />
         <attr name="selectionBottomPadding" format="dimension" />
+        <attr name="posterScaleSize" format="float"/>
     </declare-styleable>
     <declare-styleable name="ZGridView">
 

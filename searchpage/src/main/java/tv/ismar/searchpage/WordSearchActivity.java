@@ -30,6 +30,7 @@ import java.util.List;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
@@ -182,7 +183,21 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
         appstart();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConstant.purchase_referer = "search";
+    }
+
     public void appstart() {
+        String frompage= getIntent().getStringExtra("frompage");
+        if(frompage!=null&&frompage.equals("search")){
+            frompage="search";
+        }else{
+            frompage="launcher";
+        }
+        final String finalFrompage = frompage;
+        Log.e("frompage",frompage);
         new Thread() {
             @Override
             public void run() {
@@ -197,7 +212,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 JasmineUtil.app_start(sn, modelname, "0", android.os.Build.VERSION.RELEASE,
                         SystemFileUtil.getSdCardTotal(WordSearchActivity.this),
                         SystemFileUtil.getSdCardAvalible(WordSearchActivity.this),
-                        userId, province, city, isp, "search", macAddress, "text", "tv.ismar.searchpage", version);
+                        userId, province, city, isp, finalFrompage, macAddress, "text", "tv.ismar.searchpage", version);
             }
         }.start();
     }
@@ -1330,6 +1345,8 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 } else {
                     top_tabs.getChildAt(selectedTab).requestFocus();
                 }
+
+                AppConstant.purchase_page = "filter";
             }
 
         } else if (VODSEARCH_CLASS == flag) {
@@ -1441,6 +1458,7 @@ public class WordSearchActivity extends BaseActivity implements View.OnClickList
                 }
                 handler.sendEmptyMessageDelayed(1, 15000);
                 fetchRecommend();
+                AppConstant.purchase_page = "filter_empty";
             }
         }
 

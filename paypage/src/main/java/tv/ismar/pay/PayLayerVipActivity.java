@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import cn.ismartv.truetime.TrueTime;
 import cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView;
 import rx.Observer;
 import rx.Subscription;
@@ -26,6 +27,7 @@ import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.network.entity.PayLayerVipEntity;
 import tv.ismar.statistics.DetailPageStatistics;
+import tv.ismar.statistics.PurchaseStatistics;
 
 /**
  * Created by huaijie on 4/12/16.
@@ -145,6 +147,12 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
                 @Override
                 public void onClick(View v) {
                     buyVideo(vipList.getPk(), payLayerVipEntity.getType(), Float.parseFloat(vipList.getPrice()), Integer.parseInt(vipList.getDuration()), vipList.getTitle());
+                    new PurchaseStatistics().expensePacketChoose(
+                            vipList.getPk(),
+                            vipList.getTitle(),
+                            vipList.getPrice(),
+                            "enter",
+                            TrueTime.now().getTime());
                 }
             });
             scrollViewLayout.addView(itemView, layoutParams);
@@ -187,6 +195,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
         intent.setClass(this, PaymentActivity.class);
         intent.putExtra(PageIntent.EXTRA_PK, pk);
         intent.putExtra(PageIntentInterface.EXTRA_PRODUCT_CATEGORY, PageIntentInterface.ProductCategory.Package.toString());
+        intent.putExtra("movie_id", itemId);
         startActivityForResult(intent, PaymentActivity.PAYMENT_REQUEST_CODE);
     }
 
@@ -201,6 +210,12 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
 
     @Override
     public void onBackPressed() {
+        new PurchaseStatistics().expensePacketChoose(
+                0,
+                "",
+                "",
+                "cancel",
+                TrueTime.now().getTime());
         setResult(PaymentActivity.PAYMENT_FAILURE_CODE);
         super.onBackPressed();
     }

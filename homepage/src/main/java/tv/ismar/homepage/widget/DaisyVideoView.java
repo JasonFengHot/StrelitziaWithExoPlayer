@@ -207,6 +207,11 @@ public class DaisyVideoView extends SurfaceView implements MediaPlayerControl {
 			player = null;
 			mCurrentState = STATE_IDLE;
 			mTargetState = STATE_IDLE;
+			mOnErrorListener = null;
+			mOnInfoListener = null;
+			mOnSeekCompleteListener = null;
+			mOnPreparedListener = null;
+			mOnCompletionListener = null;
 		}
 	}
 
@@ -234,11 +239,8 @@ public class DaisyVideoView extends SurfaceView implements MediaPlayerControl {
 			player.setOnVideoSizeChangedListener(mSizeChangedListener);
 			mDuration = -1;
 			player.setOnSeekCompleteListener(mSeekCompleteChangedListener);
-//			if (mOnCompletionListener != null)
-				player.setOnCompletionListener(mCompletionListener);
-//			else
-//				player.setOnCompletionListener(mCompletionListener);
-			player.setOnErrorListener(mOnErrorListener);
+			player.setOnCompletionListener(mCompletionListener);
+			player.setOnErrorListener(mErrorListener);
 			//player.setOnInfoListener(mInfoChangedListener);
 			player.setOnBufferingUpdateListener(mBufferingUpdateListener);
 			mCurrentBufferPercentage = 0;
@@ -547,6 +549,11 @@ public class DaisyVideoView extends SurfaceView implements MediaPlayerControl {
 			player.release();
 			player = null;
 			mCurrentState = STATE_IDLE;
+			mOnErrorListener = null;
+			mOnInfoListener = null;
+			mOnSeekCompleteListener = null;
+			mOnPreparedListener = null;
+			mOnCompletionListener = null;
 			if (cleartargetstate) {
 				mTargetState = STATE_IDLE;
 			}

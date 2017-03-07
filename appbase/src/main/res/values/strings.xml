@@ -55,4 +55,5 @@
     <string name="product_offline">该产品已下线!</string>
     <string name="vod_loading">加载中请稍后</string>
     <string name="access_token_expire">当前账户正在其他设备上使用，您已退出登录！如非本人操作，请在个人中心重新登录！</string>
+    <item name="view_position_tag" type="id"/>
 </resources>

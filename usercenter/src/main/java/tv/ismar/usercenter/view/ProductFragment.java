@@ -24,11 +24,13 @@ import android.widget.TextView;
 
 import com.open.androidtvwidget.leanback.recycle.GridLayoutManagerTV;
 import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.util.List;
 
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.VipMark;
@@ -118,6 +120,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     @Override
     public void onResume() {
         super.onResume();
+        AppConstant.purchase_page = "expense";
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
         mPresenter.start();
@@ -224,7 +227,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
             if (mObjects.get(position).getPoster_url().trim().length() == 0) {
                 Picasso.with(mContext).load(R.drawable.list_item_preview_bg).into(productViewHolder.imageView);
             } else {
-                Picasso.with(mContext).load(mObjects.get(position).getPoster_url()).into(productViewHolder.imageView);
+                Picasso.with(mContext).load(mObjects.get(position).getPoster_url()).memoryPolicy(MemoryPolicy.NO_STORE).config(Bitmap.Config.RGB_565).into(productViewHolder.imageView);
             }
 
 

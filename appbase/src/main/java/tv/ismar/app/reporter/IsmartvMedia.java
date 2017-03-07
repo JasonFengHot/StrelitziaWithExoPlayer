@@ -1,6 +1,7 @@
 package tv.ismar.app.reporter;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * 日志上报相关
@@ -14,6 +15,8 @@ public class IsmartvMedia implements Serializable {
     private String channel = "";
     private String source = "";
     private String section = "";
+    private int quality;
+    private HashMap<String, Integer> adIdMap;
 
     public IsmartvMedia(int pk, int subItemPk) {
         this.pk = pk;
@@ -74,5 +77,21 @@ public class IsmartvMedia implements Serializable {
 
     public void setSubItemPk(int subItemPk) {
         this.subItemPk = subItemPk;
+    }
+
+    public int getQuality() {
+        return quality;
+    }
+
+    public void setQuality(int quality) {
+        this.quality = quality;
+    }
+
+    public HashMap<String, Integer> getAdIdMap() {
+        return adIdMap;
+    }
+
+    public void setAdIdMap(HashMap<String, Integer> adIdMap) {
+        this.adIdMap = adIdMap;
     }
 }

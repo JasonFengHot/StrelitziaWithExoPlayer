@@ -35,6 +35,7 @@ import cn.ismartv.injectdb.library.query.Select;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.cache.CacheManager;
 import tv.ismar.app.core.cache.DownloadClient;
@@ -80,7 +81,7 @@ public class GuideFragment extends ChannelBaseFragment {
     private ImageView linkedVideoLoadingImage;
     private HashMap<Integer, Integer> carouselMap;
     private Subscription homePageSub;
-
+    private boolean isDestroyed = false;
 
     @Override
     public void onAttach(Activity activity) {
@@ -94,6 +95,7 @@ public class GuideFragment extends ChannelBaseFragment {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -106,9 +108,6 @@ public class GuideFragment extends ChannelBaseFragment {
         linkedVideoLoadingImage = (ImageView) mView.findViewById(R.id.linked_video_loading_image);
 
         mSurfaceView = (DaisyVideoView) mView.findViewById(R.id.linked_video);
-        mSurfaceView.setOnCompletionListener(videoPlayEndListener);
-        mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
-        mSurfaceView.setOnPreparedListener(mOnPreparedListener);
         mSurfaceView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
@@ -124,6 +123,7 @@ public class GuideFragment extends ChannelBaseFragment {
                 film_post_layout.performClick();
             }
         });
+        film_post_layout.setTag(R.id.view_position_tag, 1);
         film_post_layout.setOnClickListener(ItemClickListener);
 
         mLeftTopView = mSurfaceView;
@@ -136,6 +136,7 @@ public class GuideFragment extends ChannelBaseFragment {
                 linkedVideoLoadingImage.setBackgroundDrawable(bitmapDrawable);
             }
         });
+
         return mView;
     }
 
@@ -146,14 +147,17 @@ public class GuideFragment extends ChannelBaseFragment {
 
     @Override
     public void onDestroyView() {
-        mHandler.removeMessages(CAROUSEL_NEXT);
-        mHandler.removeMessages(START_PLAYBACK);
+        isDestroyed = true;
+        mHandler.removeCallbacksAndMessages(null);
         guideRecommmendList.removeAllViews();
         guideRecommmendList = null;
+        mSurfaceView.setOnFocusChangeListener(null);
         mSurfaceView = null;
+        itemFocusChangeListener = null;
         toppage_carous_imageView1 = null;
         toppage_carous_imageView2 = null;
         toppage_carous_imageView3 = null;
+        lastpostview = null;
         if (linkedVideoLoadingImage != null && linkedVideoLoadingImage.getDrawingCache() != null && !linkedVideoLoadingImage.getDrawingCache().isRecycled()) {
             linkedVideoLoadingImage.getDrawingCache().recycle();
         }
@@ -170,6 +174,8 @@ public class GuideFragment extends ChannelBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        AppConstant.purchase_channel = "homepage";
+        AppConstant.purchase_page = "homepage";
         if (mCarousels == null) {
             fetchHomePage();
         } else {
@@ -223,6 +229,7 @@ public class GuideFragment extends ChannelBaseFragment {
                         if(homePagerEntity == null){
                             super.onError(new Exception("数据异常"));
                         } else {
+                            if(!isDestroyed)
                             fillLayout(homePagerEntity);
                         }
                     }
@@ -292,6 +299,7 @@ public class GuideFragment extends ChannelBaseFragment {
             frameLayout.setFocusable(true);
             frameLayout.setClickable(true);
             textView.setOnClickListener(ItemClickListener);
+            frameLayout.setTag(R.id.view_position_tag, i + 5);
             frameLayout.setOnClickListener(ItemClickListener);
             textView.setTag(R.id.poster_title, i);
             textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -378,6 +386,10 @@ public class GuideFragment extends ChannelBaseFragment {
             allItem.add(toppage_carous_imageView1);
             allItem.add(toppage_carous_imageView2);
             allItem.add(toppage_carous_imageView3);
+            toppage_carous_imageView1.setTag(R.id.view_position_tag, 2);
+            toppage_carous_imageView2.setTag(R.id.view_position_tag, 3);
+            toppage_carous_imageView3.setTag(R.id.view_position_tag, 4);
+
             allVideoUrl.add(carousels.get(0).getVideo_url());
             if (carousels.size() > 1) {
                 allVideoUrl.add(carousels.get(1).getVideo_url());
@@ -494,7 +506,8 @@ public class GuideFragment extends ChannelBaseFragment {
                 return;
             }
             linkedVideoLoadingImage.setVisibility(View.VISIBLE);
-//            stopPlayback();
+            stopPlayback();
+            initCallback();
             mSurfaceView.setVideoPath(videoPath);
 //            mSurfaceView.start();
             mSurfaceView.setFocusable(true);
@@ -548,40 +561,49 @@ public class GuideFragment extends ChannelBaseFragment {
     }
 
 
-    private MediaPlayer.OnCompletionListener videoPlayEndListener = new MediaPlayer.OnCompletionListener() {
+    private MediaPlayer.OnCompletionListener videoPlayEndListener;
 
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            stopPlayback();
-            mHandler.sendEmptyMessage(CAROUSEL_NEXT);
-        }
-    };
+    private MediaPlayer.OnErrorListener mVideoOnErrorListener;
 
+    private MediaPlayer.OnPreparedListener mOnPreparedListener;
 
-    private MediaPlayer.OnErrorListener mVideoOnErrorListener = new MediaPlayer.OnErrorListener() {
-        @Override
-        public boolean onError(MediaPlayer mp, int what, int extra) {
+    private void initCallback(){
+        videoPlayEndListener = new MediaPlayer.OnCompletionListener() {
 
-            Log.e(TAG, "play video error!!!");
-
-            return true;
-        }
-    };
-
-    private MediaPlayer.OnPreparedListener mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
-        @Override
-        public void onPrepared(MediaPlayer mp) {
-            if(mp != null && !mp.isPlaying()){
-                mp.start();
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlayback();
+                mHandler.sendEmptyMessage(CAROUSEL_NEXT);
             }
-            if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
-                bitmapDecoder.interrupt();
-            }
-            linkedVideoLoadingImage.setVisibility(View.GONE);
-        }
-    };
+        };
+        mVideoOnErrorListener = new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
 
+                Log.e(TAG, "play video error!!!");
+
+                return true;
+            }
+        };
+        mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                if(mp != null && !mp.isPlaying()){
+                    mp.start();
+                }
+                if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
+                    bitmapDecoder.interrupt();
+                }
+                linkedVideoLoadingImage.setVisibility(View.GONE);
+            }
+        };
+        mSurfaceView.setOnCompletionListener(videoPlayEndListener);
+        mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
+        mSurfaceView.setOnPreparedListener(mOnPreparedListener);
+    }
 }
+
+
 
 class Flag {
 

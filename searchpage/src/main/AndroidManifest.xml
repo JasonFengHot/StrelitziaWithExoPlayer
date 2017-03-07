@@ -15,6 +15,10 @@
                 <action android:name="tv.ismar.searchpage.search"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="cn.ismartv.jasmine.wordsearchactivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".FilmStarActivity"

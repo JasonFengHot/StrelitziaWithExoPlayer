@@ -23,14 +23,16 @@
             android:id="@+id/payinfo_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/pay_qrcode_pay_payinfo_price_textsize"/>
+            android:textSize="@dimen/text_size_28sp"
+            />
 
         <TextView
             android:id="@+id/payinfo_exprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/payinfo_price"
-            android:textSize="@dimen/pay_qrcode_pay_payinfo_exprice_textsize"/>
+            android:textSize="@dimen/text_size_28sp"
+            />
 
         <TextView
             android:id="@+id/payinfo_introduce"
@@ -38,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/payinfo_exprice"
             android:text="@string/pay_payinfo_introduce_label"
-            android:textSize="@dimen/pay_qrcode_pay_payinfo_introduce_textsize"/>
+            android:textSize="@dimen/text_size_28sp"
+            />
     </RelativeLayout>
 </LinearLayout>
 

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.Subscription;
@@ -68,7 +69,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     @Override
     public void start() {
-        mSkyService = ((BaseActivity) mDetailView.getContext()).mSkyService;
+        mSkyService = ((BaseActivity) mDetailView.getActivity()).mSkyService;
     }
 
     @Override
@@ -280,8 +281,8 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (mItemEntity.getClip() != null) {
             clip = String.valueOf(mItemEntity.getClip().getPk());
         }
-        new PurchaseStatistics().videoExpenseClick(String.valueOf(pk), userName, title, clip);
-        new PageIntent().toPayment(mDetailView.getContext(), unknown.name(), paymentInfo);
+        new PurchaseStatistics().expenseVideoClick(String.valueOf(pk), userName, title, clip, String.valueOf(TrueTime.now().getTime()));
+        new PageIntent().toPaymentForResult(mDetailView.getActivity(), unknown.name(), paymentInfo);
     }
 
 
@@ -293,7 +294,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         }
         intent.putExtra("item_json", new Gson().toJson(mItemEntity));
         intent.setAction("tv.ismar.daisy.relateditem");
-        mDetailView.getContext().startActivity(intent);
+        mDetailView.getActivity().startActivity(intent);
     }
 
     @Override
@@ -302,7 +303,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         intent.setAction("tv.ismar.daisy.episode");
         intent.putExtra(EXTRA_ITEM_JSON, new Gson().toJson(mItemEntity));
         intent.putExtra(EXTRA_SOURCE, "detail");
-        mDetailView.getContext().startActivity(intent);
+        mDetailView.getActivity().startActivity(intent);
 
     }
 
@@ -344,7 +345,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             } else {
                 favorite.isnet = "no";
             }
-            ArrayList<Favorite> favorites = DaisyUtils.getFavoriteManager(mDetailView.getContext()).getAllFavorites("no");
+            ArrayList<Favorite> favorites = DaisyUtils.getFavoriteManager(mDetailView.getActivity()).getAllFavorites("no");
             if (favorites.size() > 49) {
                 favoriteManager.deleteFavoriteByUrl(favorites.get(favorites.size() - 1).url, "no");
 

@@ -71,7 +71,7 @@ public class FilmFragment extends ChannelBaseFragment {
     private static final int CAROUSEL_NEXT = 0x0010;
 
     private LinearLayout guideRecommmendList;
-//    private RelativeLayout carouselLayout;
+    //    private RelativeLayout carouselLayout;
     private HomeItemContainer film_post_layout;
     private LabelImageView3 film_carous_imageView1;
     private LabelImageView3 film_carous_imageView2;
@@ -104,7 +104,7 @@ public class FilmFragment extends ChannelBaseFragment {
 
     private HashMap<Integer, Integer> carouselMap;
     private boolean externalStorageIsEnable = false;
-
+    private boolean isDestroyed = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,11 +125,15 @@ public class FilmFragment extends ChannelBaseFragment {
         film_carous_imageView3 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView3);
         film_carous_imageView4 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView4);
         film_carous_imageView5 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView5);
+
+        film_carous_imageView1.setTag(R.id.view_position_tag, 3);
+        film_carous_imageView2.setTag(R.id.view_position_tag, 4);
+        film_carous_imageView3.setTag(R.id.view_position_tag, 5);
+        film_carous_imageView4.setTag(R.id.view_position_tag, 6);
+        film_carous_imageView5.setTag(R.id.view_position_tag, 7);
+
         mRightTopView = film_carous_imageView1;
         mSurfaceView = (DaisyVideoView) mView.findViewById(R.id.film_linked_video);
-        mSurfaceView.setOnCompletionListener(mOnCompletionListener);
-        mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
-        mSurfaceView.setOnPreparedListener(mOnPreparedListener);
 
         film_lefttop_image = (LabelImageView3) mView.findViewById(R.id.film_lefttop_image);
         film_post_layout = (HomeItemContainer) mView.findViewById(R.id.film_post_layout);
@@ -137,6 +141,7 @@ public class FilmFragment extends ChannelBaseFragment {
         film_linked_title = (TextView) mView.findViewById(R.id.film_linked_title);
         film_post_layout.setNextFocusRightId(R.id.filmfragment_firstcarousel);
         film_post_layout.setOnClickListener(ItemClickListener);
+        film_post_layout.setTag(R.id.view_position_tag, 2);
         mSurfaceView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
@@ -174,6 +179,7 @@ public class FilmFragment extends ChannelBaseFragment {
 
     @Override
     public void onDestroyView() {
+        isDestroyed = true;
         if (playSubscription != null && !playSubscription.isUnsubscribed()) {
             playSubscription.unsubscribe();
         }
@@ -189,9 +195,11 @@ public class FilmFragment extends ChannelBaseFragment {
         playSubscription = null;
         dataSubscription = null;
         checkSubscription = null;
-
-        mHandler.removeMessages(START_PLAYBACK);
-        mHandler.removeMessages(CAROUSEL_NEXT);
+        mSurfaceView.setOnFocusChangeListener(null);
+        mSurfaceView.setOnClickListener(null);
+        mSurfaceView = null;
+        itemFocusChangeListener = null;
+        mHandler.removeCallbacksAndMessages(null);
         film_post_layout.removeAllViews();
         guideRecommmendList.removeAllViews();
         guideRecommmendList = null;
@@ -200,6 +208,9 @@ public class FilmFragment extends ChannelBaseFragment {
         film_carous_imageView3 = null;
         film_carous_imageView4 = null;
         film_carous_imageView5 = null;
+        film_lefttop_image = null;
+        mLeftBottomView = null;
+        mLeftTopView = null;
         film_post_layout = null;
         if (film_lefttop_image != null && film_lefttop_image.getDrawingCache() != null && !film_lefttop_image.getDrawingCache().isRecycled()) {
             film_lefttop_image.getDrawingCache().recycle();
@@ -269,7 +280,8 @@ public class FilmFragment extends ChannelBaseFragment {
                         if(homePagerEntity == null){
                             super.onError(new Exception("数据异常"));
                         } else {
-                            fillLayout(homePagerEntity);
+                            if(!isDestroyed)
+                                fillLayout(homePagerEntity);
                         }
                     }
                 });
@@ -377,6 +389,7 @@ public class FilmFragment extends ChannelBaseFragment {
                 });
                 textView.setOnClickListener(ItemClickListener);
                 textView.setTag(posters.get(i));
+                frameLayout.setTag(R.id.view_position_tag, i + 7);
                 frameLayout.setOnClickListener(ItemClickListener);
                 Picasso.with(mContext).load(posters.get(i).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(postitemView);
                 frameLayout.setTag(posters.get(i));
@@ -403,7 +416,9 @@ public class FilmFragment extends ChannelBaseFragment {
                         null);
                 morelayout.setLayoutParams(params);
                 View view = morelayout.findViewById(R.id.listmore);
+                view.setTag(R.id.view_position_tag, i + 7);
                 view.setOnClickListener(ItemClickListener);
+
 
                 mRightBottomView = morelayout;
                 guideRecommmendList.addView(morelayout);
@@ -422,7 +437,7 @@ public class FilmFragment extends ChannelBaseFragment {
 
     private void initCarousel( ArrayList<HomePagerEntity.Carousel> carousels) {
         allItem = new ArrayList<LabelImageView3>();
-		carousels = new ArrayList<>(carousels.subList(0,5));
+        carousels = new ArrayList<>(carousels.subList(0,5));
         mCarousels = carousels;
         carouselMap =new HashMap<>();
 
@@ -496,7 +511,6 @@ public class FilmFragment extends ChannelBaseFragment {
         if (mSurfaceView.isPlaying() &&mSurfaceView.getDataSource().equals(videoPath)) {
             return;
         }
-        stopPlayback();
         linkedVideoImage.setImageResource(R.drawable.guide_video_loading);
         if (mContext != null)
             new BitmapDecoder().decode(mContext, R.drawable.guide_video_loading, new BitmapDecoder.Callback() {
@@ -506,7 +520,8 @@ public class FilmFragment extends ChannelBaseFragment {
                 }
             });
         linkedVideoImage.setVisibility(View.VISIBLE);
-
+        stopPlayback();
+        initCallback();
         mSurfaceView.setVideoPath(videoPath);
         mSurfaceView.start();
         mSurfaceView.setFocusable(true);
@@ -514,7 +529,6 @@ public class FilmFragment extends ChannelBaseFragment {
     }
 
     private void stopPlayback() {
-        mSurfaceView.pause();
         mSurfaceView.stopPlayback();
     }
 
@@ -735,33 +749,45 @@ public class FilmFragment extends ChannelBaseFragment {
         }
     };
 
-    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            stopPlayback();
-            mHandler.sendEmptyMessage(CAROUSEL_NEXT);
-        }
-    };
+    private MediaPlayer.OnCompletionListener mOnCompletionListener;
 
-    private MediaPlayer.OnErrorListener mVideoOnErrorListener = new MediaPlayer.OnErrorListener() {
-        @Override
-        public boolean onError(MediaPlayer mp, int what, int extra) {
+    private MediaPlayer.OnErrorListener mVideoOnErrorListener;
 
-            Log.e(TAG, "play video error!!!");
+    private MediaPlayer.OnPreparedListener mOnPreparedListener;
 
-            return true;
-        }
-    };
-
-    private MediaPlayer.OnPreparedListener mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
-        @Override
-        public void onPrepared(MediaPlayer mp) {
-            if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
-                bitmapDecoder.interrupt();
+    private void initCallback(){
+        mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlayback();
+                mHandler.sendEmptyMessage(CAROUSEL_NEXT);
             }
-            linkedVideoImage.setVisibility(View.GONE);
-        }
-    };
+        };
+        mVideoOnErrorListener = new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+
+                Log.e(TAG, "play video error!!!");
+
+                return true;
+            }
+        };
+        mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                if(mp != null && !mp.isPlaying()){
+                    mp.start();
+                }
+                if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
+                    bitmapDecoder.interrupt();
+                }
+                linkedVideoImage.setVisibility(View.GONE);
+            }
+        };
+        mSurfaceView.setOnCompletionListener(mOnCompletionListener);
+        mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
+        mSurfaceView.setOnPreparedListener(mOnPreparedListener);
+    }
 
     public void refreshData() {
         checkExternalIsEnable();

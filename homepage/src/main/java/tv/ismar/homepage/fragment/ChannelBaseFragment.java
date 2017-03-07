@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
@@ -49,6 +50,8 @@ public class ChannelBaseFragment extends Fragment {
 
     public void setChannelEntity(ChannelEntity channelEntity) {
         this.channelEntity = channelEntity;
+        AppConstant.purchase_page = "homepage";
+        AppConstant.purchase_channel = channelEntity.getChannel();
     }
 
     @Override
@@ -76,6 +79,13 @@ public class ChannelBaseFragment extends Fragment {
     protected View.OnClickListener ItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Object o = view.getTag(R.id.view_position_tag);
+            if (o !=null){
+                int viewPosition = (int) o;
+                AppConstant.purchase_tab = String.valueOf(viewPosition);
+            }
+
+
             String url = null;
             String contentMode = null;
             String title = null;

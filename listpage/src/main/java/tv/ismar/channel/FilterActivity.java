@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
@@ -51,6 +52,13 @@ public class FilterActivity extends BaseActivity implements BackHandledInterface
       //  DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
         mRestClient = new SimpleRestClient();
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConstant.purchase_referer = "channel";
+        AppConstant.purchase_page = "result";
     }
 
     private void initView() {

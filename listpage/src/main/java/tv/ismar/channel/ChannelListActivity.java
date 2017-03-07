@@ -30,13 +30,8 @@ import tv.ismar.listpage.R;
 
 public class ChannelListActivity extends BaseActivity {
 	
-	private final static String TAG = "ChannelListActivity";
-	
 	private OnMenuToggleListener mOnMenuToggleListener;
     private ChannelFragment channelFragment;
-    private View filter;
-    private HGridView mHgridView;
-    private BitmapDecoder bitmapDecoder;
 	private HeadFragment headFragment;
 	private FrameLayout head;
 	private VipMark dip;
@@ -44,14 +39,6 @@ public class ChannelListActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.channel_layout);
-//        final View vv = findViewById(R.id.large_layout);
-//        bitmapDecoder = new BitmapDecoder();
-//        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-//            @Override
-//            public void onSuccess(BitmapDrawable bitmapDrawable) {
-//                vv.setBackgroundDrawable(bitmapDrawable);
-//            }
-//        });
 		head= (FrameLayout) findViewById(R.id.head_layout);
 		dip=VipMark.getInstance();
 		Intent intent = getIntent();
@@ -141,7 +128,7 @@ public class ChannelListActivity extends BaseActivity {
 					String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
 					String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
 					callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
-							VodUserAgent.getModelName(), "0",
+							VodUserAgent.getModelName(), DeviceUtils.getScreenInch(ChannelListActivity.this),
 							android.os.Build.VERSION.RELEASE,
 							SimpleRestClient.appVersion,
 							SystemFileUtil.getSdCardTotal(ChannelListActivity.this),
@@ -234,10 +221,8 @@ public class ChannelListActivity extends BaseActivity {
 	 }
 	@Override
 	protected void onDestroy() {
-//		System.exit(0);
-		if(bitmapDecoder != null && bitmapDecoder.isAlive())
-			bitmapDecoder.interrupt();
-	//	DaisyUtils.getVodApplication(this).removeActivtyFromPool(this.toString());
+		channelFragment=null;
+		headFragment=null;
 		super.onDestroy();
 	}
 

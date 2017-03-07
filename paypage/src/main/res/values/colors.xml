@@ -2,4 +2,7 @@
 <resources>
     <color name="paychannel_button_disable">#3f3f3f</color>
     <drawable name="pop_bg_drawable">#CC000000</drawable>
+    <color name="_7fff9c3c">#7fff9c3c</color>
+    <color name="_7fffffff">#7fffffff</color>
+
 </resources>

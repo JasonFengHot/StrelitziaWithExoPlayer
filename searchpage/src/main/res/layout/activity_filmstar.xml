@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:sakura="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/content_bg_new"
@@ -101,7 +101,9 @@
         <RelativeLayout
             android:id="@+id/film_scroll_list_new"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/film_scroll_list_new_h">
+            android:layout_height="@dimen/film_scroll_list_new_h"
+            android:clipToPadding="false"
+            android:clipChildren="false">
 
             <ImageView
                 android:id="@+id/content_arrow_left_new"
@@ -112,32 +114,33 @@
                 android:layout_marginLeft="@dimen/gridview_padding"
                 android:background="@drawable/arrow_left_selector_dearch"
                 android:clickable="true"
-                android:focusable="true"
                 android:nextFocusDown="@id/content_arrow_left_new"
                 android:visibility="invisible"/>
 
-
-            <cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView
+            <tv.ismar.app.ui.HGridView
                 android:id="@+id/vod_scrollview_new"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/update_dialog_btn1_margin_left"
-                android:layout_marginRight="@dimen/update_dialog_btn1_margin_left"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:id="@+id/vod_list_view_new"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:nextFocusLeft="@id/vod_list_view_new"
-                    android:nextFocusRight="@id/vod_list_view_new"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
-
-            </cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView>
+                android:layout_width="@dimen/vod_scrollview_new_w"
+                android:layout_height="match_parent"
+                sakura:horizontalSpacing="@dimen/vod_scrollview_new_hs"
+                sakura:numRows="1"
+                sakura:rowHeight="@dimen/filter_portraitresult_filter_grid_rowHeight"
+                sakura:selectorDrawable="@drawable/vod_gv_selector"
+                sakura:verticalSpacing="0dip"
+                sakura:selectionLeftPadding="@dimen/vod_scrollview_new_lp"
+                sakura:selectionTopPadding="@dimen/vod_scrollview_new_tp"
+                sakura:selectionRightPadding="@dimen/vod_scrollview_new_rp"
+                sakura:selectionBottomPadding="@dimen/vod_scrollview_new_bp"
+                sakura:posterScaleSize="1.15"
+                android:paddingTop="@dimen/vod_scrollview_new_pt"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:nextFocusLeft="@id/vod_scrollview_new"
+                android:nextFocusRight="@id/vod_scrollview_new"
+                android:nextFocusDown="@id/vod_scrollview_new"
+                android:layout_marginLeft="@dimen/vod_scrollview_new_ml"
+                android:layout_marginRight="@dimen/vod_scrollview_new_ml"
+             >
+            </tv.ismar.app.ui.HGridView>
 
             <ImageView
                 android:id="@+id/content_arrow_right_new"
@@ -148,7 +151,6 @@
                 android:layout_marginRight="@dimen/gridview_padding"
                 android:background="@drawable/arrow_right_selector_search"
                 android:clickable="true"
-                android:focusable="true"
                 android:nextFocusDown="@id/content_arrow_right_new"
                 android:visibility="invisible"/>
 

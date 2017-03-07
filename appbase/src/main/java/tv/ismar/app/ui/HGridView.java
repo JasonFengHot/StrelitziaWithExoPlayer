@@ -162,6 +162,8 @@ public class HGridView extends AdapterView<HGridAdapter> {
     public int pageCount = 12;
 	private boolean isGotoGrid = false;
 	public boolean portraitflg=true;
+	private float mScaleSize;
+	private boolean focus=false;
 	public void setGotoGrid(boolean gotoGrid){
 		isGotoGrid = gotoGrid;
 	}
@@ -206,6 +208,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 					(int) event.getY());
 			if (position1 >= 0) {
 				hover = true;
+				focus=true;
 				setFocusable(true);
 				setFocusableInTouchMode(true);
 				View childView = getChildAt(position1);
@@ -223,12 +226,18 @@ public class HGridView extends AdapterView<HGridAdapter> {
 					onhoverlistener.onHover(null, event,position1);
 				}
 				hover = false;
+				focus=false;
 				mSelectorRect.setEmpty();
 				invalidate();
+				if(xxxsele!=null){
+					xxxsele.setScaleX(1.0f);
+					xxxsele.setScaleY(1.0f);
+				}
 			}
 			break;
 		case MotionEvent.ACTION_HOVER_EXIT:
 			hover = false;
+			focus=false;
 			break;
 		}
 		return false;
@@ -372,6 +381,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 				R.styleable.HGridView_selectionRightPadding, 0);// 24;
 		mSelectionBottomPadding = a.getDimensionPixelOffset(
 				R.styleable.HGridView_selectionBottomPadding, 0);
+		mScaleSize = a.getFloat(R.styleable.HGridView_posterScaleSize,1.0f);
 		if (d != null) {
 			setSelector(d);
 		}
@@ -1103,6 +1113,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 		isInLayout = false;
 	}
 
+	private View xxxsele;
 	protected void layoutChildren() {
 
 		try {
@@ -1236,11 +1247,19 @@ public class HGridView extends AdapterView<HGridAdapter> {
 			}
 
 			recycleBin.scrapActiveViews();
-
+			if(xxxsele != null){
+				xxxsele.setScaleX(1.0f);
+				xxxsele.setScaleY(1.0f);
+			}
 			if (sel != null) {
                 if(mLayoutMode != LAYOUT_SPECIFIC){
 				    positionSelector(sel);
 				    sel.requestFocus();
+					if(focus) {
+						sel.setScaleX(mScaleSize);
+						sel.setScaleY(mScaleSize);
+						xxxsele = sel;
+					}
                 }else{
                     mSelectorRect.setEmpty();
                 }
@@ -1518,6 +1537,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 	 *         arrow scroll.
 	 */
 	public boolean arrowScroll(int direction) {
+		focus=true;
 		int nextSelectedPosition = lookForSelectablePositionOnScreen(direction);
 		// Log.d(TAG,
 		// "mSelectedPosition="+mSelectedPosition+" nextSelectedPosition=" +
@@ -1840,6 +1860,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 	protected void onFocusChanged(boolean gainFocus, int direction,
 			Rect previouslyFocusedRect) {
 		super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+		focus=true;
 		int closestChildIndex = -1;
 		if (gainFocus && previouslyFocusedRect != null) {
 			// previouslyFocusedRect.offset(mScrollX, mScrollY);
@@ -1865,6 +1886,9 @@ public class HGridView extends AdapterView<HGridAdapter> {
 			if(isGotoGrid){
 				isGotoGrid = false;
 			}
+		}
+		if(!gainFocus){
+			focus = false;
 		}
 		if (closestChildIndex >= 0) {
 			setSelection(closestChildIndex + mFirstPosition);
@@ -2647,6 +2671,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
 			nextPage = Math.min(positionRange[0], positionRange[1]);
 		} else {
 			int firstVisibilePosition = mFirstPosition;
+			Log.e("first",mFirstPosition+"");
 			for(int i = 0; i < count; i++) {
 				View v = getChildAt(i);
 				if(v.getLeft() > leftEdge) {
@@ -2709,4 +2734,10 @@ public int getSelectedItemPosition(){
 	return mNextSelectedPosition;
 }
 
+
+	public int getFirstPosition(){
+		return mFirstPosition;
+	}
+
 }
+

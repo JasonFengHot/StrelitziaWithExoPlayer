@@ -343,4 +343,14 @@
     <dimen name="dimention_12">1890dp</dimen>
     <dimen name="dimention_left">1355dp</dimen>
     <dimen name="dimention_right">1897dp</dimen>
+
+    <dimen name="vod_scrollview_new_w">1640dp</dimen>
+    <dimen name="vod_scrollview_new_ml">165dp</dimen>
+    <dimen name="vod_scrollview_new_hs">80dp</dimen>
+    <dimen name="vod_scrollview_new_lp">40dp</dimen>
+    <dimen name="vod_scrollview_new_tp">52dp</dimen>
+    <dimen name="vod_scrollview_new_rp">40dp</dimen>
+    <dimen name="vod_scrollview_new_bp">-5dp</dimen>
+    <dimen name="vod_scrollview_new_pt">120dp</dimen>
+    <dimen name="vod_scrollview_new_pl">40dp</dimen>
 </resources>
