@@ -597,6 +597,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     @Override
     public void onStarted() {
         Log.i(TAG, "onStarted");
+        if (mIsmartvPlayer == null || mItemEntity == null) {
+            return;
+        }
         if (!isInit) {
             String logo = mItemEntity.getLogo();
             Log.i(TAG, "clipLength:" + mIsmartvPlayer.getDuration() + " logo:" + logo);
@@ -611,12 +614,14 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     public void onError() {
                     }
                 });
-
             }
             shadowview.setVisibility(View.GONE);
             player_seekBar.setMax(mIsmartvPlayer.getDuration());
             player_seekBar.setPadding(0, 0, 0, 0);
             isInit = true;
+        }
+        if (mItemEntity.getLiveVideo()) {
+            hideBuffer();
         }
         if (!mIsPlayingAd) {
             mModel.updatePlayerPause();
@@ -731,7 +736,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
     @Override
     public void onVideoSizeChanged(int videoWidth, int videoHeight) {
-        if(!isExit && isClickBufferLong){
+        if (!isExit && isClickBufferLong) {
             isClickBufferLong = false;
             timerStart(0);
         }
@@ -820,7 +825,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         // 画面卡住不动，显示loading,由于网速恢复后timerRunnable需要继续显示,故此处需要不断postDelayed
                         // 由于部分机型，画面停止后，多次调用getCurrentPosition会导致onError回调，故时间间隔尽可能长
                         // 还应注意不能一直显示，让buffering的handler清除计时消息
-                        if(!isBufferShow()){
+                        if (!isBufferShow()) {
                             showBuffer(null);
                         }
                         mTimerHandler.postDelayed(timerRunnable, 2000);
@@ -834,7 +839,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                     hideBuffer();
                 }
                 // 显示切换画质提示框后，恢复网络，弹窗需要消失
-                if(isPopWindowShow()){
+                if (isPopWindowShow()) {
                     removeBufferingLongTime();
                 }
 
@@ -1431,8 +1436,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 timerStop();
                 showBuffer(null);
             }
-            mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
-            mIsmartvPlayer.setStartPosition(mCurrentPosition);
+            if (!mItemEntity.getLiveVideo()) {
+                mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
+                mIsmartvPlayer.setStartPosition(mCurrentPosition);
+            }
             mIsmartvPlayer.switchQuality(clickQuality);
 
             mCurrentQuality = clickQuality;
@@ -1561,7 +1568,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         // buffer消失，就需要remove50秒延时消息
         removeBufferingLongTime();
 
-        if (player_buffer_layout.getVisibility() == View.VISIBLE) {
+        if (player_buffer_layout != null && player_buffer_layout.getVisibility() == View.VISIBLE) {
             player_buffer_layout.setVisibility(View.GONE);
             player_buffer_text.setText(getString(R.string.loading_text));
             if (animationDrawable != null && animationDrawable.isRunning()) {
@@ -1587,7 +1594,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             int what = event.getAction();
             switch (what) {
                 case MotionEvent.ACTION_HOVER_MOVE:
-                    if (!mIsPlayingAd && isInit) {
+                    if (!mIsPlayingAd && isInit && mItemEntity != null && !mItemEntity.getLiveVideo()) {
                         showPannelDelayOut();
                     }
                     break;
@@ -1728,6 +1735,10 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         }
                         if (!isExit) {
                             isClickBufferLong = true;
+                            if (mCurrentQuality == null) {
+                                Log.e(TAG, "mCurrentQuality:" + mCurrentQuality);
+                                return;
+                            }
                             if (!popDialog.isConfirmClick) {
                                 showBuffer(null);
 //                                isClickBufferLongSwitch = true;
@@ -2034,15 +2045,19 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!isExit) {
+                BaseActivity baseActivity = ((BaseActivity) getActivity());
+                if (baseActivity == null) {
+                    return;
+                }
                 if (NetworkUtils.isConnected(context)) {
-                    ((BaseActivity) getActivity()).dismissNoNetConnectDialog();
+                    baseActivity.dismissNoNetConnectDialog();
                     timerStart(0);
                 } else if (isBufferShow() && !isPopWindowShow()) {
                     hideBuffer();
                     hidePanel();
                     timerStop();
                     addHistory(mCurrentPosition, true, false);
-                    ((BaseActivity) getActivity()).showNoNetConnectDialog();
+                    baseActivity.showNoNetConnectDialog();
                 }
             }
         }
