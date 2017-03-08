@@ -1,5 +1,7 @@
 package tv.ismar.app.network.entity;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -215,5 +217,25 @@ public class ClipEntity {
                 + "\niqiyi_4_0:" + iqiyi_4_0
                 + "\nis_vip:" + is_vip
                 + "\nis_drm:" + is_drm;
+    }
+
+    public String getHighest() {
+        String[] strs = {low, normal, medium, high, ultra, blueray, _4k};
+        for (int i = strs.length - 1; i >= 0; i--) {
+            if (!TextUtils.isEmpty(strs[i])) {
+                return strs[i];
+            }
+        }
+        return "";
+    }
+
+    public String getLowest() {
+        String[] strs = {low, normal, medium, high, ultra, blueray, _4k};
+        for (int i = 0; i < strs.length - 1; i++) {
+            if (!TextUtils.isEmpty(strs[i])) {
+                return strs[i];
+            }
+        }
+        return "";
     }
 }

@@ -623,6 +623,12 @@ public interface SkyService {
             @Query("source") String source
     );
 
+    @GET
+    @Streaming
+    Call<ResponseBody> m3u8(
+            @Url String url
+    );
+
     class ServiceManager {
         private volatile static ServiceManager serviceManager;
         private static final int DEFAULT_CONNECT_TIMEOUT = 6;

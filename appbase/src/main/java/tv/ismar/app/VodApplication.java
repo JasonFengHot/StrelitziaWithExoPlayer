@@ -7,6 +7,12 @@ import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.upstream.HttpDataSource;
+import com.google.android.exoplayer2.util.Util;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
@@ -69,6 +75,8 @@ public class VodApplication extends Application {
     public static final String PREFERENCE_FILE_NAME = "Daisy";
     private boolean isFinish = true;
 
+    protected String userAgent;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -101,6 +109,8 @@ public class VodApplication extends Application {
             new Thread(new InitializeProcess(this)).start();
         }
         Log.i("LH/", "applicationOnCreateEnd:" + TrueTime.now().getTime());
+
+        userAgent = Util.getUserAgent(this, "ExoPlayerDemo");
     }
 
 
@@ -375,5 +385,18 @@ public class VodApplication extends Application {
                 .methodCount(10)                 // default 2
                 .logLevel(LogLevel.FULL)        // default LogLevel.FULL
                 .methodOffset(2);      // default 0
+    }
+
+    public DataSource.Factory buildDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
+        return new DefaultDataSourceFactory(this, bandwidthMeter,
+                buildHttpDataSourceFactory(bandwidthMeter));
+    }
+
+    public HttpDataSource.Factory buildHttpDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
+        return new DefaultHttpDataSourceFactory(userAgent, bandwidthMeter);
+    }
+
+    public boolean useExtensionRenderers() {
+        return BuildConfig.FLAVOR.equals("withExtensions");
     }
 }

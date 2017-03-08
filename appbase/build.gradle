@@ -40,6 +40,7 @@ dependencies {
     compile dependencies.appCompat
     compile dependencies.recyclerView
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
 }
 
 tasks.withType(JavaCompile) {

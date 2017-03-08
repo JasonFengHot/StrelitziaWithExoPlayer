@@ -21,6 +21,7 @@ import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
+import tv.ismar.app.core.Source;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
@@ -36,7 +37,7 @@ import static tv.ismar.app.core.PageIntentInterface.EXTRA_TYPE;
 /**
  * Created by huibin on 8/18/16.
  */
-public class DetailPageActivity extends BaseActivity{
+public class DetailPageActivity extends BaseActivity {
     private static final String TAG = "DetailPageActivity";
 
 
@@ -48,10 +49,10 @@ public class DetailPageActivity extends BaseActivity{
     private PackageDetailFragment mPackageDetailFragment;
     public LoadingDialog mLoadingDialog;
     private int itemPK;
-    private Handler handler=new Handler(new Handler.Callback() {
+    private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if(mLoadingDialog.isShowing()) {
+            if (mLoadingDialog.isShowing()) {
                 mLoadingDialog.dismiss();
                 showNetWorkErrorDialog(new TimeoutException());
             }
@@ -82,7 +83,7 @@ public class DetailPageActivity extends BaseActivity{
 
         //解析来至launcher的参数
         if (!TextUtils.isEmpty(url)) {
-            Log.e("launcher_url",url);
+            Log.e("launcher_url", url);
             String[] arrayTmp = url.split("/");
             itemPK = Integer.parseInt(arrayTmp[arrayTmp.length - 1]);
             switch (arrayTmp[arrayTmp.length - 2]) {
@@ -93,7 +94,7 @@ public class DetailPageActivity extends BaseActivity{
                     type = DETAIL_TYPE_PKG;
                     break;
             }
-            Log.e("launcher_type",type+"");
+            Log.e("launcher_type", type + "");
         }
 
         if (!TextUtils.isEmpty(itemJson)) {
@@ -108,30 +109,32 @@ public class DetailPageActivity extends BaseActivity{
     public void goPlayer() {
         // TODO 进入播放器界面
 //        isClickPlay = true;
-        Intent intent = new Intent();
-        intent.setAction("tv.ismar.daisy.Player");
-        intent.putExtra(PageIntentInterface.EXTRA_PK, mItemEntity.getPk());
-//        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, mSubItemPk);
-        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
+//        Intent intent = new Intent();
+//        intent.setAction("tv.ismar.daisy.Player");
+//        intent.putExtra(PageIntentInterface.EXTRA_PK, mItemEntity.getPk());
+////        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, mSubItemPk);
+//        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source);
+//
+////        // 只有在预加载成功的情况下进入播放器无需重新getItem, playCheck等
+////        if (mHasPreLoad && mItemEntity != null && mClipEntity != null) {
+////            String itemJson = new Gson().toJson(mItemEntity);
+////            String clipJson = new Gson().toJson(mClipEntity);
+////            intent.putExtra(PlayerActivity.DETAIL_PAGE_ITEM, itemJson);
+////            intent.putExtra(PlayerActivity.DETAIL_PAGE_CLIP, clipJson);
+////            intent.putExtra(PlayerActivity.HISTORY_POSITION, historyPosition);
+////            if (historyQuality != null) {
+////                intent.putExtra(PlayerActivity.HISTORY_QUALITY, historyQuality.getValue());
+////            }
+////            intent.putExtra(PlayerActivity.DETAIL_PAGE_PATHS, mPaths);
+////            if (mAdList != null && !mAdList.isEmpty()) {
+////                String adLists = new Gson().toJson(mAdList);
+////                Log.i("LH/", "adLists:" + adLists);
+////                intent.putExtra(PlayerActivity.DETAIL_PAGE_AD_LISTS, adLists);
+////            }
+////        }
+//        startActivity(intent);
 
-//        // 只有在预加载成功的情况下进入播放器无需重新getItem, playCheck等
-//        if (mHasPreLoad && mItemEntity != null && mClipEntity != null) {
-//            String itemJson = new Gson().toJson(mItemEntity);
-//            String clipJson = new Gson().toJson(mClipEntity);
-//            intent.putExtra(PlayerActivity.DETAIL_PAGE_ITEM, itemJson);
-//            intent.putExtra(PlayerActivity.DETAIL_PAGE_CLIP, clipJson);
-//            intent.putExtra(PlayerActivity.HISTORY_POSITION, historyPosition);
-//            if (historyQuality != null) {
-//                intent.putExtra(PlayerActivity.HISTORY_QUALITY, historyQuality.getValue());
-//            }
-//            intent.putExtra(PlayerActivity.DETAIL_PAGE_PATHS, mPaths);
-//            if (mAdList != null && !mAdList.isEmpty()) {
-//                String adLists = new Gson().toJson(mAdList);
-//                Log.i("LH/", "adLists:" + adLists);
-//                intent.putExtra(PlayerActivity.DETAIL_PAGE_AD_LISTS, adLists);
-//            }
-//        }
-        startActivity(intent);
+        new PageIntent().toPlayPage(this, mItemEntity.getPk(), 0, Source.FAVORITE);
 
     }
 
@@ -159,11 +162,11 @@ public class DetailPageActivity extends BaseActivity{
 
                     @Override
                     public void onError(Throwable e) {
-                        if(mLoadingDialog!=null)
-                        mLoadingDialog.dismiss();
-                        if (e instanceof HttpException&&((HttpException)e).code() == 404) {
+                        if (mLoadingDialog != null)
+                            mLoadingDialog.dismiss();
+                        if (e instanceof HttpException && ((HttpException) e).code() == 404) {
                             showItemOffLinePop();
-                        }else{
+                        } else {
                             super.onError(e);
                         }
                     }
@@ -196,8 +199,8 @@ public class DetailPageActivity extends BaseActivity{
     }
 
     public void showDialog() {
-        handler.sendEmptyMessageDelayed(0,15000);
-        start_time=System.currentTimeMillis();
+        handler.sendEmptyMessageDelayed(0, 15000);
+        start_time = System.currentTimeMillis();
         mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         mLoadingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
@@ -517,11 +520,11 @@ public class DetailPageActivity extends BaseActivity{
 
     @Override
     protected void onDestroy() {
-        Intent intent=new Intent();
-        intent.putExtra("pk",itemPK);
-        setResult(1,intent);
+        Intent intent = new Intent();
+        intent.putExtra("pk", itemPK);
+        setResult(1, intent);
         handler.removeMessages(0);
-        handler=null;
+        handler = null;
         super.onDestroy();
     }
 }
