@@ -75,30 +75,30 @@ public class PageIntent implements PageIntentInterface {
     }
 
 
-    @Override
-    public void toPayment(Context context, String fromPage, PaymentInfo paymentInfo) {
-        Intent intent = new Intent();
-        switch (paymentInfo.getJumpTo()) {
-            //直接支付
-            case PAYMENT:
-                intent.setAction("tv.ismar.pay.payment");
-                intent.putExtra(EXTRA_PK, paymentInfo.getPk());
-                intent.putExtra(EXTRA_PRODUCT_CATEGORY, paymentInfo.getCategory().toString());
-                break;
-            case PAY:
-                intent.setAction("tv.ismar.pay.pay");
-                intent.putExtra("item_id", paymentInfo.getPk());
-                break;
-            case PAYVIP:
-                intent.setAction("tv.ismar.pay.payvip");
-                intent.putExtra("cpid", paymentInfo.getCpid());
-                intent.putExtra("item_id", paymentInfo.getPk());
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-        context.startActivity(intent);
-    }
+//    @Override
+//    public void toPayment(Context context, String fromPage, PaymentInfo paymentInfo) {
+//        Intent intent = new Intent();
+//        switch (paymentInfo.getJumpTo()) {
+//            //直接支付
+//            case PAYMENT:
+//                intent.setAction("tv.ismar.pay.payment");
+//                intent.putExtra(EXTRA_PK, paymentInfo.getPk());
+//                intent.putExtra(EXTRA_PRODUCT_CATEGORY, paymentInfo.getCategory().toString());
+//                break;
+//            case PAY:
+//                intent.setAction("tv.ismar.pay.pay");
+//                intent.putExtra("item_id", paymentInfo.getPk());
+//                break;
+//            case PAYVIP:
+//                intent.setAction("tv.ismar.pay.payvip");
+//                intent.putExtra("cpid", paymentInfo.getCpid());
+//                intent.putExtra("item_id", paymentInfo.getPk());
+//                break;
+//            default:
+//                throw new IllegalArgumentException();
+//        }
+//        context.startActivity(intent);
+//    }
 
     @Override
     public void toPaymentForResult(Activity activity, String fromPage, PaymentInfo paymentInfo) {

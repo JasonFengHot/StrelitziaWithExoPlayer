@@ -24,6 +24,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
@@ -143,8 +144,11 @@ public class SportFragment extends ChannelBaseFragment {
                  test.sendMessage(msg);
 			}
 		});
+        sports_live1.setTag(R.id.view_position_tag, 3);
         sports_live1.setOnClickListener(arrowClickListener);
+        sports_live1.setTag(R.id.view_position_tag, 5);
         sports_live2.setOnClickListener(arrowClickListener);
+        sports_live1.setTag(R.id.view_position_tag, 7);
         sports_live3.setOnClickListener(arrowClickListener);
         sports_live1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -363,6 +367,15 @@ public class SportFragment extends ChannelBaseFragment {
             sportCards[i].setOnFocusChangeListener(ItemOnFocusListener);
             sportCards[i].setOnClickListener(ItemClickListener);
             looppost.add(carousels.get(i));
+
+            if (i == 0){
+                sportCards[i].setTag(R.id.view_position_tag, 1);
+            }else if (i ==1){
+                sportCards[i].setTag(R.id.view_position_tag, 4);
+            }else if (i ==2){
+                sportCards[i].setTag(R.id.view_position_tag, 6);
+            }
+
         }
         imageswitch.sendEmptyMessage(IMAGE_SWITCH_KEY);
 
@@ -376,10 +389,21 @@ public class SportFragment extends ChannelBaseFragment {
             sportChannelImages[i].setTag(postlist.get(i));
             sportChannelImages[i].setOnClickListener(ItemClickListener);
 
+            if (i == 0){
+                sportChannelImages[i].setTag(R.id.view_position_tag, 8);
+            }else if (i ==1){
+                sportChannelImages[i].setTag(R.id.view_position_tag, 9);
+            }else if (i == 2){
+                sportChannelImages[i].setTag(R.id.view_position_tag, 10);
+            }else if (i == 3){
+                sportChannelImages[i].setTag(R.id.view_position_tag, 11);
+            }
+
         }
 
         sport_channel5.setOnClickListener(ItemClickListener);
         sportspost.setOnClickListener(ItemClickListener);
+        sportspost.setTag(R.id.view_position_tag, 2);
 
         sportspost.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -495,6 +519,12 @@ public class SportFragment extends ChannelBaseFragment {
 
         @Override
         public void onClick(View arg0) {
+            Object o = arg0.getTag(R.id.view_position_tag);
+            if (o !=null){
+                int viewPosition = (int) o;
+                AppConstant.purchase_tab = String.valueOf(viewPosition);
+            }
+
             SportGame data = (SportGame) arg0.getTag();
             if(data == null)
             	return;
@@ -553,6 +583,7 @@ public class SportFragment extends ChannelBaseFragment {
                         sports_live1.setModeType(6);
                     }
                     sports_live1.setTitle(games.get(position).getName());
+                    sports_live1.setTag(R.id.view_position_tag, 3);
                     break;
                 case 1:
                     PicassoUtils.load(mContext, games.get(position).getPoster_url(), sports_live2);
@@ -563,6 +594,7 @@ public class SportFragment extends ChannelBaseFragment {
                         sports_live2.setModeType(6);
                     }
                     sports_live2.setTitle(games.get(position).getName());
+                    sports_live1.setTag(R.id.view_position_tag, 5);
                     break;
                 case 2:
                     PicassoUtils.load(mContext, games.get(position).getPoster_url(), sports_live3);
@@ -574,6 +606,7 @@ public class SportFragment extends ChannelBaseFragment {
                         sports_live3.setModeType(6);
                     }
                     sports_live3.setTitle(games.get(position).getName());
+                    sports_live1.setTag(R.id.view_position_tag, 7);
                     break;
             }
         }

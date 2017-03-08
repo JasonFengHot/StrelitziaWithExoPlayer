@@ -17,12 +17,14 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
+import tv.ismar.pay.PaymentActivity;
 
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_ITEM;
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_PKG;
@@ -56,6 +58,7 @@ public class DetailPageActivity extends BaseActivity{
             return false;
         }
     });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +215,8 @@ public class DetailPageActivity extends BaseActivity{
 //        isActivityStoped = false;
 //        mHasPreLoad = false;
         super.onResume();
+        AppConstant.purchase_referer = "video";
+        AppConstant.purchase_page = "detail";
 
     }
 
@@ -504,6 +509,11 @@ public class DetailPageActivity extends BaseActivity{
 //        return qualityUrl;
 //    }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     @Override
     protected void onDestroy() {

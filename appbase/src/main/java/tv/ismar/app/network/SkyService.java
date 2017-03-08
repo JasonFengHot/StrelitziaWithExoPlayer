@@ -397,6 +397,7 @@ public interface SkyService {
     @POST("api/order/{type}/")
     Observable<ResponseBody> apiOrderCreate(
             @Path("type") String type,
+            @Field("event_id") String  eventId,
             @Field("wares_id") String waresId,
             @Field("wares_type") String waresType,
             @Field("source") String source,

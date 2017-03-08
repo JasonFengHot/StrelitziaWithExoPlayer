@@ -26,6 +26,7 @@ import rx.schedulers.Schedulers;
 import tv.ismar.Utils.LogUtils;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.adapter.RecommecdItemAdapter;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.DaisyUtils;
@@ -443,6 +444,9 @@ public class FavoriteFragment extends Fragment implements ScrollableSectionList.
 	}
 	@Override
 	public void onResume() {
+		AppConstant.purchase_referer = "favorite";
+		AppConstant.purchase_page = "favorite";
+		AppConstant.purchase_channel = "";
 		BaseActivity.baseChannel="";
 		BaseActivity.baseSection="";
 		((ChannelListActivity)getActivity()).registerOnMenuToggleListener(this);

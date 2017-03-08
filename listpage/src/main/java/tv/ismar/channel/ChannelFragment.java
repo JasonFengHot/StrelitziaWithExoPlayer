@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.Utils.LogUtils;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
@@ -712,6 +713,8 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
 
     @Override
     public void onResume() {
+        AppConstant.purchase_referer = "channel";
+        AppConstant.purchase_page = "list";
         mIsBusy = false;
 //        ((ChannelListActivity) getActivity()).registerOnMenuToggleListener(this);
         super.onResume();
@@ -1000,6 +1003,7 @@ public class ChannelFragment extends Fragment implements OnItemSelectedListener,
                 newSection = mSectionList.get(newSectionIndex);
             mSectionProperties.put(EventProperty.SECTION, newSection.slug);
             mSectionProperties.put(EventProperty.TITLE, newSection.title);
+            AppConstant.purchase_tab = newSection.title;
             mSectionProperties.put(EventProperty.SOURCE,"list");
 
             BaseActivity.baseSection = newSection.slug;

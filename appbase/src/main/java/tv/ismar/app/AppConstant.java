@@ -15,4 +15,8 @@ public class AppConstant {
     public static final boolean DEBUG = true;
 
 
+    public static String purchase_referer = "launcher";
+    public static String purchase_page = "launcher";
+    public static String purchase_channel;
+    public static String purchase_tab;
 }

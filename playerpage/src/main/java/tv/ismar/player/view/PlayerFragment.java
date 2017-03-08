@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
@@ -70,6 +71,7 @@ import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.media.PlayerBuilder;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 import tv.ismar.player.viewmodel.PlayerPageViewModel;
+import tv.ismar.statistics.PurchaseStatistics;
 
 public class PlayerFragment extends Fragment implements PlayerPageContract.View, PlayerMenu.OnCreateMenuListener,
         IPlayer.OnVideoSizeChangedListener, IPlayer.OnStateChangedListener, IPlayer.OnBufferChangedListener,
@@ -361,6 +363,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }, 400);
                 break;
             case EVENT_COMPLETE_BUY:
+                expenseVideoPreview("purchase");
                 if (mIsmartvPlayer != null) {
                     mIsmartvPlayer.logVideoExit(mCurrentPosition, "finish");
                 }
@@ -1894,6 +1897,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         };
                         quitTimer.schedule(task, 5000);
                     } else {
+                        if (mIsPreview){
+                            expenseVideoPreview("cancel");
+                        }
                         ExitToast.createToastConfig().dismiss();
                         exitPlayerWhilePlaying();
                     }
@@ -2056,5 +2062,24 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             }
         }
     }
+    public void expenseVideoPreview(String result){
+        try {
+            String player = mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER?"qiyi":"bestv";
+            new PurchaseStatistics().expenseVideoPreview(
+                    mItemEntity.getItemPk(),
+                    mItemEntity.getClip().getPk(),
+                    IsmartvActivator.getInstance().getUsername(),
+                    mItemEntity.getTitle(),
+                    mItemEntity.getVendor(),
+                    mItemEntity.getExpense().getPrice(),
+                    player,
+                    result,
+                    mIsmartvPlayer.getDuration(),
+                    TrueTime.now().getTime()
+            );
+        }catch (Exception e){
+            Log.e(TAG, "expenseVideoPreview: " + e.getMessage());
+        }
 
+    }
 }

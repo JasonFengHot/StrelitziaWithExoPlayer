@@ -125,6 +125,13 @@ public class FilmFragment extends ChannelBaseFragment {
         film_carous_imageView3 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView3);
         film_carous_imageView4 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView4);
         film_carous_imageView5 = (LabelImageView3) mView.findViewById(R.id.film_carous_imageView5);
+
+        film_carous_imageView1.setTag(R.id.view_position_tag, 3);
+        film_carous_imageView2.setTag(R.id.view_position_tag, 4);
+        film_carous_imageView3.setTag(R.id.view_position_tag, 5);
+        film_carous_imageView4.setTag(R.id.view_position_tag, 6);
+        film_carous_imageView5.setTag(R.id.view_position_tag, 7);
+
         mRightTopView = film_carous_imageView1;
         mSurfaceView = (DaisyVideoView) mView.findViewById(R.id.film_linked_video);
 
@@ -134,6 +141,7 @@ public class FilmFragment extends ChannelBaseFragment {
         film_linked_title = (TextView) mView.findViewById(R.id.film_linked_title);
         film_post_layout.setNextFocusRightId(R.id.filmfragment_firstcarousel);
         film_post_layout.setOnClickListener(ItemClickListener);
+        film_post_layout.setTag(R.id.view_position_tag, 2);
         mSurfaceView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View arg0, boolean arg1) {
@@ -381,6 +389,7 @@ public class FilmFragment extends ChannelBaseFragment {
                 });
                 textView.setOnClickListener(ItemClickListener);
                 textView.setTag(posters.get(i));
+                frameLayout.setTag(R.id.view_position_tag, i + 7);
                 frameLayout.setOnClickListener(ItemClickListener);
                 Picasso.with(mContext).load(posters.get(i).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(postitemView);
                 frameLayout.setTag(posters.get(i));
@@ -407,7 +416,9 @@ public class FilmFragment extends ChannelBaseFragment {
                         null);
                 morelayout.setLayoutParams(params);
                 View view = morelayout.findViewById(R.id.listmore);
+                view.setTag(R.id.view_position_tag, i + 7);
                 view.setOnClickListener(ItemClickListener);
+
 
                 mRightBottomView = morelayout;
                 guideRecommmendList.addView(morelayout);

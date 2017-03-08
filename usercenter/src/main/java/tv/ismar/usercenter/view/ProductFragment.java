@@ -30,6 +30,7 @@ import com.squareup.picasso.Picasso;
 import java.io.InputStream;
 import java.util.List;
 
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.VipMark;
@@ -119,6 +120,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     @Override
     public void onResume() {
         super.onResume();
+        AppConstant.purchase_page = "expense";
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
         mPresenter.start();

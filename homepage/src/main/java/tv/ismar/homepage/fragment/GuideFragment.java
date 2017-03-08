@@ -35,6 +35,7 @@ import cn.ismartv.injectdb.library.query.Select;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import tv.ismar.app.AppConstant;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.cache.CacheManager;
 import tv.ismar.app.core.cache.DownloadClient;
@@ -94,6 +95,7 @@ public class GuideFragment extends ChannelBaseFragment {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -121,6 +123,7 @@ public class GuideFragment extends ChannelBaseFragment {
                 film_post_layout.performClick();
             }
         });
+        film_post_layout.setTag(R.id.view_position_tag, 1);
         film_post_layout.setOnClickListener(ItemClickListener);
 
         mLeftTopView = mSurfaceView;
@@ -133,6 +136,7 @@ public class GuideFragment extends ChannelBaseFragment {
                 linkedVideoLoadingImage.setBackgroundDrawable(bitmapDrawable);
             }
         });
+
         return mView;
     }
 
@@ -170,6 +174,8 @@ public class GuideFragment extends ChannelBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        AppConstant.purchase_channel = "homepage";
+        AppConstant.purchase_page = "homepage";
         if (mCarousels == null) {
             fetchHomePage();
         } else {
@@ -293,6 +299,7 @@ public class GuideFragment extends ChannelBaseFragment {
             frameLayout.setFocusable(true);
             frameLayout.setClickable(true);
             textView.setOnClickListener(ItemClickListener);
+            frameLayout.setTag(R.id.view_position_tag, i + 5);
             frameLayout.setOnClickListener(ItemClickListener);
             textView.setTag(R.id.poster_title, i);
             textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -379,6 +386,10 @@ public class GuideFragment extends ChannelBaseFragment {
             allItem.add(toppage_carous_imageView1);
             allItem.add(toppage_carous_imageView2);
             allItem.add(toppage_carous_imageView3);
+            toppage_carous_imageView1.setTag(R.id.view_position_tag, 2);
+            toppage_carous_imageView2.setTag(R.id.view_position_tag, 3);
+            toppage_carous_imageView3.setTag(R.id.view_position_tag, 4);
+
             allVideoUrl.add(carousels.get(0).getVideo_url());
             if (carousels.size() > 1) {
                 allVideoUrl.add(carousels.get(1).getVideo_url());
