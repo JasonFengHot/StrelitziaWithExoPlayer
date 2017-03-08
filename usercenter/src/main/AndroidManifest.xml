@@ -6,6 +6,7 @@
     >
 
         <activity android:name=".view.UserCenterActivity"
+                  android:screenOrientation="landscape"
                   android:hardwareAccelerated="true"
                   android:launchMode="singleTop"
         >
