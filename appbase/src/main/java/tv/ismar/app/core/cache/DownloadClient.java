@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -107,11 +108,12 @@ public class DownloadClient implements Runnable {
 //                fileOutputStream.flush();
 //            }
             URL url = new URL(urlStr);
-            URLConnection conexion = url.openConnection();
-            conexion.connect();
-            int lenghtOfFile = conexion.getContentLength();
+            HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+            httpUrlConnection.setRequestMethod("POST");
+            httpUrlConnection.connect();
+            int lenghtOfFile = httpUrlConnection.getContentLength();
             Log.d(TAG, "Lenght of file: " + lenghtOfFile);
-            input = new BufferedInputStream(url.openStream());
+            input = new BufferedInputStream(httpUrlConnection.getInputStream());
             byte data[] = new byte[1024];
             long total = 0;
             int count;
@@ -139,10 +141,10 @@ public class DownloadClient implements Runnable {
         }
         if(isDownload){
             downloadTable.download_path = downloadFile.getAbsolutePath();
-            downloadTable.download_state = DownloadState.complete.name();
             downloadTable.local_md5 = HardwareUtils.getMd5ByFile(downloadFile);
-            downloadTable.save();
         }
+        downloadTable.download_state = DownloadState.complete.name();
+        downloadTable.save();
         Log.d(TAG, "url is: " + urlStr + " mStoreType:" + mStoreType);
         Log.d(TAG, "server md5 is: " + mServerMD5);
         Log.d(TAG, "local md5 is: " + downloadTable.local_md5);

@@ -305,6 +305,6 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         if (paylayerPackageSub != null && paylayerPackageSub.isUnsubscribed()) {
             paylayerPackageSub.unsubscribe();
         }
-        super.onStop();
+        super.onPause();
     }
 }
