@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -68,6 +69,7 @@ import tv.ismar.player.TrackSelectionHelper;
 
 public class PlayerActivity extends Activity implements View.OnClickListener, ExoPlayer.EventListener,
         PlaybackControlView.VisibilityListener {
+    private static final String TAG = "PlayerActivity";
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -403,6 +405,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
 
     @Override
     public void onLoadingChanged(boolean isLoading) {
+        Log.d(TAG, "onLoadingChanged");
         // Do nothing.
     }
 
@@ -427,6 +430,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Ex
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
         // Do nothing.
+        Log.d(TAG, "onTimelineChanged");
     }
 
     @Override

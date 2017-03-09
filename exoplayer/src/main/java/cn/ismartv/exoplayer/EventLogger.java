@@ -276,11 +276,13 @@ public class EventLogger implements ExoPlayer.EventListener,
     public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
                                    float pixelWidthHeightRatio) {
         // Do nothing.
+        Log.d(TAG, "onVideoSizeChanged");
     }
 
     @Override
     public void onRenderedFirstFrame(Surface surface) {
         // Do nothing.
+        Log.d(TAG, "onRenderedFirstFrame");
     }
 
     // DefaultDrmSessionManager.EventListener
@@ -319,6 +321,7 @@ public class EventLogger implements ExoPlayer.EventListener,
                               int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs,
                               long mediaEndTimeMs, long elapsedRealtimeMs) {
         // Do nothing.
+        Log.d(TAG, "onLoadStarted");
     }
 
     @Override
@@ -334,6 +337,7 @@ public class EventLogger implements ExoPlayer.EventListener,
                                int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs,
                                long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded) {
         // Do nothing.
+        Log.d(TAG, "onLoadCanceled");
     }
 
     @Override
@@ -341,17 +345,20 @@ public class EventLogger implements ExoPlayer.EventListener,
                                 int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs,
                                 long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded) {
         // Do nothing.
+        Log.d(TAG, "onLoadCompleted");
     }
 
     @Override
     public void onUpstreamDiscarded(int trackType, long mediaStartTimeMs, long mediaEndTimeMs) {
         // Do nothing.
+        Log.d(TAG, "onUpstreamDiscarded");
     }
 
     @Override
     public void onDownstreamFormatChanged(int trackType, Format trackFormat, int trackSelectionReason,
                                           Object trackSelectionData, long mediaTimeMs) {
         // Do nothing.
+        Log.d(TAG, "onDownstreamFormatChanged");
     }
 
     // Internal methods
