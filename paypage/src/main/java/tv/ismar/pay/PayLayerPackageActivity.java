@@ -198,6 +198,11 @@ public class PayLayerPackageActivity extends BaseActivity implements View.OnHove
         if (!purchaseBtn.isFocusable()) {
             scrollViewLayout.getChildAt(0).findViewById(R.id.pay_layer_item).requestFocus();
         }
+
+        if (scrollViewLayout.getChildCount() <= 4) {
+            mTvHorizontalScrollView.setLeftArrow(new ImageView(this));
+            mTvHorizontalScrollView.setRightArrow(new ImageView(this));
+        }
     }
 
     @Override
