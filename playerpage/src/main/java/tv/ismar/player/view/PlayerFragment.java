@@ -502,10 +502,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
             hideBuffer();
         } else {
-            if (mIsmartvPlayer == null || !mIsmartvPlayer.isPlaying()) {
-                return;
-            }
-            if (!isSeeking) {
+            if (mIsPlayingAd || (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying() && !isSeeking)) {
                 hideBuffer();
             }
         }
@@ -907,7 +904,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                             Log.e(TAG, "Network error on MSG_SHOW_BUFFERING_LONG.");
                             return;
                         }
-                        if(mIsmartvPlayer != null && mCurrentQuality != null){
+                        Log.i(TAG, "Show buffering long time:" + mIsmartvPlayer);
+                        if (mIsmartvPlayer != null && mCurrentQuality != null) {
                             showExitPopup(POP_TYPE_BUFFERING_LONG);
                         } else {
                             showExitPopup(POP_TYPE_PLAYER_NET_ERROR);
@@ -1559,12 +1557,11 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             return;
         }
 
-        if (mIsmartvPlayer != null) {// 只要显示buffer就开始计时
-            if (mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)) {
-                mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
-            }
-            mHandler.sendEmptyMessageDelayed(MSG_SHOW_BUFFERING_LONG, 50 * 1000);
+        // 只要显示buffer就开始计时
+        if (mHandler.hasMessages(MSG_SHOW_BUFFERING_LONG)) {
+            mHandler.removeMessages(MSG_SHOW_BUFFERING_LONG);
         }
+        mHandler.sendEmptyMessageDelayed(MSG_SHOW_BUFFERING_LONG, 50 * 1000);
 
         if (mIsOnPaused || isPopWindowShow()) {
             return;
