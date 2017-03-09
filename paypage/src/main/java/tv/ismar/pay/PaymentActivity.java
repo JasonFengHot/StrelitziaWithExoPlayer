@@ -658,6 +658,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             mOrderCheckLoopSubscription.unsubscribe();
         }
         mOrderCheckLoopSubscription = null;
+        loginFragment.setLoginCallback(null);
+        loginFragment = null;
         super.onStop();
     }
 
