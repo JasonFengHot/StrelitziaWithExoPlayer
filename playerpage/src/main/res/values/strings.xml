@@ -6,10 +6,13 @@
     <string name="player_menu_restart">从头播放</string>
     <string name="player_buffering_long">当前网速过慢，建议您切换为流畅画质</string>
     <string name="player_error">视频加载失败，请退出后重试</string>
+    <string name="player_net_data_error">网络连接失败，请重试!</string>
 
     <string name="player_pop_ok">确定</string>
     <string name="player_pop_cancel">取消</string>
     <string name="player_pop_switch_quality">切换画质</string>
+    <string name="player_pop_set_net">设置网络</string>
+    <string name="player_pop_back">返回</string>
     <string name="str_player_ad_vip">会员去广告</string>
 
     <!-- TODO: Remove or change this placeholder text -->

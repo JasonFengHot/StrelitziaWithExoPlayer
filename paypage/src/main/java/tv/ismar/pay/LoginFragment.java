@@ -464,6 +464,13 @@ public class LoginFragment extends BaseFragment implements View.OnHoverListener 
             accountsLoginSub.unsubscribe();
         }
 
+        btn_submit.setOnHoverListener(null);
+        identifyCodeBtn.setOnHoverListener(null);
+        edit_mobile.setOnEditorActionListener(null);
+        btn_submit.setOnClickListener(null);
+        identifyCodeBtn.setOnClickListener(null);
+        onHoverListener = null;
+
         super.onPause();
     }
 

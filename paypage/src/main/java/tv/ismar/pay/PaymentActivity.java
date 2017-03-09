@@ -352,18 +352,20 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onBackPressed() {
-        if (category.equals("package")) {
-            new PurchaseStatistics().expensePageExit("", "", IsmartvActivator.getInstance().getUsername(),
-                    "package", String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(), "cancel", "", uuid);
-        } else {
-            String type = "";
-            if (mItemEntity.getExpense().getPay_type() == 1){
-                type = "independent";
-            }else if (mItemEntity.getExpense().getPay_type() == 2){
-                type = "vip";
+        if (mItemEntity!=null) {
+            if (category.equals("package")) {
+                new PurchaseStatistics().expensePageExit("", "", IsmartvActivator.getInstance().getUsername(),
+                        "package", String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(), "cancel", "", uuid);
+            } else {
+                String type = "";
+                if (mItemEntity.getExpense().getPay_type() == 1) {
+                    type = "independent";
+                } else if (mItemEntity.getExpense().getPay_type() == 2) {
+                    type = "vip";
+                }
+                new PurchaseStatistics().expensePageExit(String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(),
+                        IsmartvActivator.getInstance().getUsername(), type, "", "", "cancel", "", uuid);
             }
-            new PurchaseStatistics().expensePageExit(String.valueOf(mItemEntity.getPk()), mItemEntity.getTitle(),
-                    IsmartvActivator.getInstance().getUsername(), type, "", "", "cancel", "", uuid);
         }
         super.onBackPressed();
     }
@@ -656,6 +658,8 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
             mOrderCheckLoopSubscription.unsubscribe();
         }
         mOrderCheckLoopSubscription = null;
+        loginFragment.setLoginCallback(null);
+        loginFragment = null;
         super.onStop();
     }
 

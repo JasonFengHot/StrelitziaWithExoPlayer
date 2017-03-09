@@ -73,6 +73,7 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
     private ImageView arrowUp;
     private ImageView arrowDown;
     private SkyService skyService;
+    private ImageView tmpImageView;
 
     private String snCode = TextUtils.isEmpty(IsmartvActivator.getInstance().getSnToken()) ? "sn is null" : IsmartvActivator.getInstance().getSnToken();
 
@@ -122,12 +123,15 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
         submitButton.setOnClickListener(this);
         phoneNumberText = (SakuraEditText) view.findViewById(R.id.phone_number_edit);
         descriptioinText = (SakuraEditText) view.findViewById(R.id.description_edit);
+        tmpImageView = (ImageView)view.findViewById(R.id.tmp);
 
         arrowUp = (ImageView) view.findViewById(R.id.arrow_up);
         arrowDown = (ImageView) view.findViewById(R.id.arrow_down);
 
         arrowUp.setOnClickListener(this);
         arrowDown.setOnClickListener(this);
+        arrowUp.setOnHoverListener(this);
+        arrowDown.setOnHoverListener(this);
         createProblemsRadio(FeedbackProblem.getInstance().getCache());
     }
 
@@ -358,7 +362,7 @@ public class FeedbackFragment extends Fragment implements RadioGroup.OnCheckedCh
                 int i = v.getId();
                 if (i == R.id.phone_number_edit || i == R.id.description_edit) {
                 } else {
-                //    tmpImageView.requestFocus();
+                    tmpImageView.requestFocus();
 
                 }
                 break;

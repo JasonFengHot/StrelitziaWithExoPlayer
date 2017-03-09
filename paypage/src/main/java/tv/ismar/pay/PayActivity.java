@@ -233,6 +233,6 @@ public class PayActivity extends BaseActivity implements View.OnHoverListener, V
         if (paylayerSub != null && paylayerSub.isUnsubscribed()) {
             paylayerSub.unsubscribe();
         }
-        super.onStop();
+        super.onPause();
     }
 }
