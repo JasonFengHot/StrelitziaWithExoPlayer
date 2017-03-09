@@ -74,6 +74,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
+        mPresenter.start();
     }
 
 
@@ -123,7 +124,7 @@ public class ProductFragment extends BaseFragment implements ProductContract.Vie
         AppConstant.purchase_page = "expense";
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
-        mPresenter.start();
+
 
 
     }
