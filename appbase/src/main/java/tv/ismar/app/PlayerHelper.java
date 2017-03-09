@@ -89,21 +89,6 @@ public class PlayerHelper {
 
                     @Override
                     public void onNext(ClipEntity clipEntity) {
-                        fetchM3u8(clipEntity);
-                    }
-                });
-
-    }
-
-
-    private void fetchM3u8(ClipEntity entity) {
-
-        Observable.just(entity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .map(new Func1<ClipEntity, ClipEntity>() {
-                    @Override
-                    public ClipEntity call(ClipEntity clipEntity) {
                         String normal = clipEntity.getNormal();
                         String medium = clipEntity.getMedium();
                         String high = clipEntity.getHigh();
@@ -111,60 +96,27 @@ public class PlayerHelper {
                         String blueray = clipEntity.getBlueray();
                         String _4k = clipEntity.get_4k();
                         if (!Utils.isEmptyText(normal)) {
-                            clipEntity.setNormal(download(AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken())));
+                            clipEntity.setNormal((AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken())));
                         }
                         if (!Utils.isEmptyText(medium)) {
-                            clipEntity.setMedium(download(AccessProxy.AESDecrypt(medium, IsmartvActivator.getInstance().getDeviceToken())));
+                            clipEntity.setMedium((AccessProxy.AESDecrypt(medium, IsmartvActivator.getInstance().getDeviceToken())));
                         }
                         if (!Utils.isEmptyText(high)) {
-                            clipEntity.setHigh(download(AccessProxy.AESDecrypt(high, IsmartvActivator.getInstance().getDeviceToken())));
+                            clipEntity.setHigh((AccessProxy.AESDecrypt(high, IsmartvActivator.getInstance().getDeviceToken())));
                         }
                         if (!Utils.isEmptyText(ultra)) {
-                            clipEntity.setUltra(download(AccessProxy.AESDecrypt(ultra, IsmartvActivator.getInstance().getDeviceToken())));
+                            clipEntity.setUltra((AccessProxy.AESDecrypt(ultra, IsmartvActivator.getInstance().getDeviceToken())));
                         }
                         if (!Utils.isEmptyText(blueray)) {
-                            clipEntity.setBlueray(download(AccessProxy.AESDecrypt(blueray, IsmartvActivator.getInstance().getDeviceToken())));
+                            clipEntity.setBlueray((AccessProxy.AESDecrypt(blueray, IsmartvActivator.getInstance().getDeviceToken())));
                         }
                         if (!Utils.isEmptyText(_4k)) {
-                            clipEntity.set_4k(download(AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken())));
+                            clipEntity.set_4k((AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken())));
                         }
-                        return clipEntity;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ClipEntity>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onNext(ClipEntity clipEntity) {
-                        Logger.d(clipEntity);
+                        Log.d(TAG, "url: " + clipEntity.getHighest());
                         callback.success(clipEntity);
                     }
                 });
-    }
-
-
-    public String download(String uri) {
-        try {
-            Response<ResponseBody> response = SkyService.ServiceManager.getService().m3u8(uri).execute();
-            File file = File.createTempFile("video_", ".m3u8");
-            BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
-            bufferedSink.writeAll(response.body().source());
-            bufferedSink.close();
-            return file.getAbsolutePath();
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-
-        }
-        return "";
     }
 
     public interface Callback {

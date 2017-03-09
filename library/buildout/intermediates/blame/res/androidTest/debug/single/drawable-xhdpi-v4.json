@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/home/huibin/ExoPlayer/library/buildout/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/exo_controls_next.png",
+        "source": "/home/huibin/ExoPlayer/library/buildout/intermediates/bundles/debug/res/drawable-xhdpi-v4/exo_controls_next.png"
+    },
+    {
+        "merged": "/home/huibin/ExoPlayer/library/buildout/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/exo_controls_play.png",
+        "source": "/home/huibin/ExoPlayer/library/buildout/intermediates/bundles/debug/res/drawable-xhdpi-v4/exo_controls_play.png"
+    },
+    {
+        "merged": "/home/huibin/ExoPlayer/library/buildout/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/exo_controls_pause.png",
+        "source": "/home/huibin/ExoPlayer/library/buildout/intermediates/bundles/debug/res/drawable-xhdpi-v4/exo_controls_pause.png"
+    },
+    {
+        "merged": "/home/huibin/ExoPlayer/library/buildout/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/exo_controls_fastforward.png",
+        "source": "/home/huibin/ExoPlayer/library/buildout/intermediates/bundles/debug/res/drawable-xhdpi-v4/exo_controls_fastforward.png"
+    },
+    {
+        "merged": "/home/huibin/ExoPlayer/library/buildout/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/exo_controls_rewind.png",
+        "source": "/home/huibin/ExoPlayer/library/buildout/intermediates/bundles/debug/res/drawable-xhdpi-v4/exo_controls_rewind.png"
+    },
+    {
+        "merged": "/home/huibin/ExoPlayer/library/buildout/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/exo_controls_previous.png",
+        "source": "/home/huibin/ExoPlayer/library/buildout/intermediates/bundles/debug/res/drawable-xhdpi-v4/exo_controls_previous.png"
+    }
+]

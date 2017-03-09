@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'cn.ismartv.plugin:plugin:1.0.3'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -24,10 +24,10 @@ task clean(type: Delete) {
 }
 
 ext {
-    androidCompileSdkVersion = 23
-    androidBuildToolsVersion = '23.0.2'
+    androidCompileSdkVersion = 24
+    androidBuildToolsVersion = '25.0.2'
     androidMinSdkVersion = 17
-    androidTargetSdkVersion = 22
+    androidTargetSdkVersion = 24
     supportLibraryVersion = '23.0.0'
 
     dependencies = [
