@@ -6,17 +6,11 @@ import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import okio.BufferedSink;
 import okio.Okio;
-import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.http.GET;
-import retrofit2.http.Streaming;
-import retrofit2.http.Url;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
