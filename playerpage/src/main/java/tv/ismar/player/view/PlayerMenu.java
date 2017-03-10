@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.player.R;
 
 public class PlayerMenu extends PlayerMenuItem {
@@ -192,11 +193,13 @@ public class PlayerMenu extends PlayerMenuItem {
                             loadMenu(item, true, -1);
                         } else {
                             Log.d(TAG, "click " + item.title);
-                            for (PlayerMenuItem sub : curr.subItems) {
-                                if (sub.id == item.id) {
-                                    sub.selected = true;
-                                } else {
-                                    sub.selected = false;
+                            if (NetworkUtils.isConnected(context)) {
+                                for (PlayerMenuItem sub : curr.subItems) {
+                                    if (sub.id == item.id) {
+                                        sub.selected = true;
+                                    } else {
+                                        sub.selected = false;
+                                    }
                                 }
                             }
                             if (onCreateMenuListener != null &&

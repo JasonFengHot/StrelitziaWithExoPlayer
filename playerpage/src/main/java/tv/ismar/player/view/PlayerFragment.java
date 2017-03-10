@@ -470,6 +470,8 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             mIsmartvPlayer = null;
         }
         mModel = null;
+        player_container = null;
+        player_surface = null;
     }
 
     public void buyVipOnShowAd() {
@@ -2077,9 +2079,13 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                 }
                 if (NetworkUtils.isConnected(context)) {
                     baseActivity.dismissNoNetConnectDialog();
-                    timerStart(0);
-                    if(mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState() && !mIsmartvPlayer.isPlaying()){
-                        mIsmartvPlayer.start();
+                    if (mItemEntity == null || mClipEntity == null) {
+                        fetchItemData();
+                    } else {
+                        timerStart(0);
+                        if(mIsmartvPlayer != null && mIsmartvPlayer.isInPlaybackState() && !mIsmartvPlayer.isPlaying() && !isSeeking){
+                            mIsmartvPlayer.start();
+                        }
                     }
                 } else if (isBufferShow() && !isPopWindowShow()) {
                     hideBuffer();
