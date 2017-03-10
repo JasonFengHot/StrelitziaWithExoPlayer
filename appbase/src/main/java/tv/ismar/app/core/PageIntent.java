@@ -154,7 +154,7 @@ public class PageIntent implements PageIntentInterface {
         new PlayerHelper(pk, new PlayerHelper.Callback() {
             @Override
             public void success(ClipEntity clipEntity) {
-                UriSample uriSample = new UriSample("test", null, null, null, false, clipEntity.getHighest(), null);
+                UriSample uriSample = new UriSample("test", null, null, null, false, clipEntity.getM3u8(), null);
                 context.startActivity(uriSample.buildIntent(context));
             }
         });

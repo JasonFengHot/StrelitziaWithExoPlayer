@@ -58,7 +58,7 @@ public class DownloadClient implements Runnable {
         switch (mStoreType) {
             case Internal:
                 try {
-                    outputStream = mContext.openFileOutput(mSaveName, Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
+                    outputStream = mContext.openFileOutput(mSaveName, Context.MODE_PRIVATE);
                 } catch (FileNotFoundException e) {
                     Log.e(TAG, e.getMessage());
                     return;

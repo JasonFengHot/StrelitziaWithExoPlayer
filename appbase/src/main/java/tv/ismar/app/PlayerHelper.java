@@ -95,29 +95,55 @@ public class PlayerHelper {
                         String ultra = clipEntity.getUltra();
                         String blueray = clipEntity.getBlueray();
                         String _4k = clipEntity.get_4k();
-                        if (!Utils.isEmptyText(normal)) {
-                            clipEntity.setNormal((AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken())));
-                        }
-                        if (!Utils.isEmptyText(medium)) {
-                            clipEntity.setMedium((AccessProxy.AESDecrypt(medium, IsmartvActivator.getInstance().getDeviceToken())));
-                        }
-                        if (!Utils.isEmptyText(high)) {
-                            clipEntity.setHigh((AccessProxy.AESDecrypt(high, IsmartvActivator.getInstance().getDeviceToken())));
-                        }
-                        if (!Utils.isEmptyText(ultra)) {
-                            clipEntity.setUltra((AccessProxy.AESDecrypt(ultra, IsmartvActivator.getInstance().getDeviceToken())));
-                        }
-                        if (!Utils.isEmptyText(blueray)) {
-                            clipEntity.setBlueray((AccessProxy.AESDecrypt(blueray, IsmartvActivator.getInstance().getDeviceToken())));
-                        }
-                        if (!Utils.isEmptyText(_4k)) {
-                            clipEntity.set_4k((AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken())));
+                        try {
+                            File file = File.createTempFile("video", ".m3u8");
+                            BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+
+                            bufferedSink.writeUtf8("#EXTM3U\n");
+
+
+                            if (!Utils.isEmptyText(normal)) {
+                                clipEntity.setNormal((AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken())));
+                                bufferedSink.writeUtf8("#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1000000\n");
+                                bufferedSink.writeUtf8(clipEntity.getNormal() + "\n");
+                            }
+                            if (!Utils.isEmptyText(medium)) {
+                                clipEntity.setMedium((AccessProxy.AESDecrypt(medium, IsmartvActivator.getInstance().getDeviceToken())));
+                                bufferedSink.writeUtf8("#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2000000\n");
+                                bufferedSink.writeUtf8(clipEntity.getMedium() + "\n");
+                            }
+                            if (!Utils.isEmptyText(high)) {
+                                clipEntity.setHigh((AccessProxy.AESDecrypt(high, IsmartvActivator.getInstance().getDeviceToken())));
+                                bufferedSink.writeUtf8("#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=3000000\n");
+                                bufferedSink.writeUtf8(clipEntity.getHigh() + "\n");
+                            }
+                            if (!Utils.isEmptyText(ultra)) {
+                                clipEntity.setUltra((AccessProxy.AESDecrypt(ultra, IsmartvActivator.getInstance().getDeviceToken())));
+                                bufferedSink.writeUtf8("#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=4000000\n");
+                                bufferedSink.writeUtf8(clipEntity.getUltra() + "\n");
+                            }
+                            if (!Utils.isEmptyText(blueray)) {
+                                clipEntity.setBlueray((AccessProxy.AESDecrypt(blueray, IsmartvActivator.getInstance().getDeviceToken())));
+                                bufferedSink.writeUtf8("#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=5000000\n");
+                                bufferedSink.writeUtf8(clipEntity.getBlueray() + "\n");
+                            }
+                            if (!Utils.isEmptyText(_4k)) {
+                                clipEntity.set_4k((AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken())));
+                                bufferedSink.writeUtf8("#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=6000000\n");
+                                bufferedSink.writeUtf8(clipEntity.get_4k() + "\n");
+                            }
+                            bufferedSink.close();
+                            clipEntity.setM3u8(file.getAbsolutePath());
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                         Log.d(TAG, "url: " + clipEntity.getHighest());
+                        Logger.d(clipEntity);
                         callback.success(clipEntity);
                     }
                 });
     }
+
 
     public interface Callback {
         void success(ClipEntity clipEntity);
