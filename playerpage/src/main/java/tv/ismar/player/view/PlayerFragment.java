@@ -1516,6 +1516,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             showPannelDelayOut();
             player_seekBar.setProgress(0);
             mIsmartvPlayer.seekTo(0);
+            isSeeking = true;
             mCurrentPosition = 0;
             showBuffer(null);
             ret = true;
