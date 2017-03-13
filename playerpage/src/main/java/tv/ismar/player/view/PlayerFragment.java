@@ -160,6 +160,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
     private boolean closePopup = false;// 网速由不正常到正常时判断，关闭弹窗后不做任何操作
     //    private boolean isFinishing;
     private boolean isClickBufferLong;// 夏普s3相关适配，限速切换码率后，恢复网速，导致timerStart无法正常开启
+    private boolean hasHistoryToStart = false; // 视云播放器onBufferEnd结束后，视频仍然未开始播放,不能使用isSeeking来替换
 
     private FragmentPlayerBinding mBinding;
     private PlayerPageViewModel mModel;
@@ -509,7 +510,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
         if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_QIYI_PLAYER) {
             hideBuffer();
         } else {
-            if (mIsPlayingAd || (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying() && !isSeeking)) {
+            if (mIsPlayingAd || (mIsmartvPlayer != null && mIsmartvPlayer.isPlaying() && !isSeeking && !hasHistoryToStart)) {
                 hideBuffer();
             }
         }
@@ -858,6 +859,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
                         showPannelDelayOut();
                         mTimerHandler.postDelayed(timerRunnable, 2000);
                         return;
+                    }
+                    if(hasHistoryToStart){
+                        hasHistoryToStart = false;
                     }
                 } else {
                     if (isSeeking) {// 奇艺视频seek结束后需要置为false
@@ -1228,6 +1232,9 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
 
         Log.i(TAG, "mCurrentPosition:" + mCurrentPosition);
         historyPosition = mCurrentPosition;
+        if (mCurrentPosition > 0 && playerMode == PlayerBuilder.MODE_SMART_PLAYER) {
+            hasHistoryToStart = true;
+        }
         mIsmartvPlayer = PlayerBuilder.getInstance()
                 .setPlayerMode(playerMode)
                 .setItemEntity(mItemEntity)
@@ -1452,6 +1459,7 @@ public class PlayerFragment extends Fragment implements PlayerPageContract.View,
             if (mIsmartvPlayer.getPlayerMode() == PlayerBuilder.MODE_SMART_PLAYER) {
                 timerStop();
                 showBuffer(null);
+                hasHistoryToStart = true;
             }
             if (!mItemEntity.getLiveVideo()) {
                 mCurrentPosition = mIsmartvPlayer.getCurrentPosition();
