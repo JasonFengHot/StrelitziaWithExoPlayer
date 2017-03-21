@@ -209,8 +209,7 @@ public class PackageDetailFragment extends BaseFragment {
                 mItemEntity.getPk(),
                 mItemEntity.getTitle(),
                 mItemEntity.getExpense().getPrice(),
-                "enter",
-                TrueTime.now().getTime());
+                "enter");
 
     }
 
@@ -524,8 +523,7 @@ public class PackageDetailFragment extends BaseFragment {
                 mItemEntity.getPk(),
                 mItemEntity.getTitle(),
                 mItemEntity.getExpense().getPrice(),
-                "cancel",
-                TrueTime.now().getTime());
+                "cancel");
     }
 
     private View.OnHoverListener onHoverListener = new View.OnHoverListener() {

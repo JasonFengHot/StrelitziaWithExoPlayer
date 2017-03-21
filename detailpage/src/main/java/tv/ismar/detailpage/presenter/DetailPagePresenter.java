@@ -281,7 +281,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (mItemEntity.getClip() != null) {
             clip = String.valueOf(mItemEntity.getClip().getPk());
         }
-        new PurchaseStatistics().expenseVideoClick(String.valueOf(pk), userName, title, clip, String.valueOf(TrueTime.now().getTime()));
+        new PurchaseStatistics().expenseVideoClick(String.valueOf(pk), userName, title, clip);
         new PageIntent().toPaymentForResult(mDetailView.getActivity(), unknown.name(), paymentInfo);
     }
 

@@ -151,8 +151,7 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
                             vipList.getPk(),
                             vipList.getTitle(),
                             vipList.getPrice(),
-                            "enter",
-                            TrueTime.now().getTime());
+                            "enter");
                 }
             });
             scrollViewLayout.addView(itemView, layoutParams);
@@ -214,8 +213,8 @@ public class PayLayerVipActivity extends BaseActivity implements OnHoverListener
                 0,
                 "",
                 "",
-                "cancel",
-                TrueTime.now().getTime());
+                "cancel"
+               );
         setResult(PaymentActivity.PAYMENT_FAILURE_CODE);
         super.onBackPressed();
     }

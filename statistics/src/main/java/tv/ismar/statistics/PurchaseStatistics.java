@@ -26,7 +26,7 @@ public class PurchaseStatistics {
      * @param time     事件发生的时间戳
      */
     public void expenseVideoPreview(int item, int clip, String userid, String title, String vendor,
-                                    float price, String player, String result, int duration, long time) {
+                                    float price, String player, String result, int duration) {
         HashMap<String, Object> dataCollectionProperties = new HashMap<>();
         dataCollectionProperties.put("item", item);
         dataCollectionProperties.put("clip", clip);
@@ -37,7 +37,7 @@ public class PurchaseStatistics {
         dataCollectionProperties.put("player", player);
         dataCollectionProperties.put("result", result);
         dataCollectionProperties.put("duration", duration);
-        dataCollectionProperties.put("time", time);
+        dataCollectionProperties.put("time", TrueTime.now().getTime()/1000);
         new NetworkUtils.DataCollectionTask().execute("expense_video_preview", dataCollectionProperties);
 
     }
@@ -50,13 +50,13 @@ public class PurchaseStatistics {
      * @param clip   视频id, 例如: 153976
      * @param time   事件发生的时间戳
      */
-    public void expenseVideoClick(String item, String userid, String title, String clip, String time) {
+    public void expenseVideoClick(String item, String userid, String title, String clip) {
         HashMap<String, Object> dataCollectionProperties = new HashMap<>();
         dataCollectionProperties.put("item", item);
         dataCollectionProperties.put("userid", userid);
         dataCollectionProperties.put("title", title);
         dataCollectionProperties.put("clip", clip);
-        dataCollectionProperties.put("time", time);
+        dataCollectionProperties.put("time", TrueTime.now().getTime()/1000);
         new NetworkUtils.DataCollectionTask().execute("expense_video_click", dataCollectionProperties);
     }
 
@@ -68,13 +68,13 @@ public class PurchaseStatistics {
      * @param time     时间戳
      * @param result   点击购买进入产品包购买页面，或者按返回退出 (enter|cancel)
      */
-    public void expensePacketDetail(int wares_id, String title, float price, String result, long time) {
+    public void expensePacketDetail(int wares_id, String title, float price, String result) {
         HashMap<String, Object> dataCollectionProperties = new HashMap<>();
         dataCollectionProperties.put("wares_id", wares_id);
         dataCollectionProperties.put("title", title);
         dataCollectionProperties.put("price", price);
         dataCollectionProperties.put("result", result);
-        dataCollectionProperties.put("time", time);
+        dataCollectionProperties.put("time", TrueTime.now().getTime()/1000);
         new NetworkUtils.DataCollectionTask().execute("expense_packet_detail", dataCollectionProperties);
     }
 
@@ -85,13 +85,13 @@ public class PurchaseStatistics {
      * @param result   点击购买进入产品包购买页面，或者按返回退出 (enter|cancel)
      * @param time     时间戳
      */
-    public void expensePacketChoose(int wares_id, String title, String price, String result, long time) {
+    public void expensePacketChoose(int wares_id, String title, String price, String result) {
         HashMap<String, Object> dataCollectionProperties = new HashMap<>();
         dataCollectionProperties.put("wares_id", wares_id);
         dataCollectionProperties.put("title", title);
         dataCollectionProperties.put("price", price);
         dataCollectionProperties.put("result", result);
-        dataCollectionProperties.put("time", time);
+        dataCollectionProperties.put("time", TrueTime.now().getTime()/1000);
         new NetworkUtils.DataCollectionTask().execute("expense_packet_choose", dataCollectionProperties);
 
     }
@@ -129,7 +129,7 @@ public class PurchaseStatistics {
         dataCollectionProperties.put("result", result);
         dataCollectionProperties.put("except", except);
         dataCollectionProperties.put("trade_no", trade_no);
-        dataCollectionProperties.put("time", TrueTime.now().getTime());
+        dataCollectionProperties.put("time", TrueTime.now().getTime()/1000);
         new NetworkUtils.DataCollectionTask().execute("expense_page_exit", dataCollectionProperties);
     }
 }
