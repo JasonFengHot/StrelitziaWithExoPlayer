@@ -205,7 +205,12 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken())) {
             isLogin = "yes";
         }
-        loadItem(mItemEntity);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                loadItem(mItemEntity);
+            }
+        }).start();
         mPageStatistics.videoDetailIn(mItemEntity, fromPage);
 
         mModel.notifyBookmark(true);

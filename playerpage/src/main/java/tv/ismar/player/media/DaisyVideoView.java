@@ -578,7 +578,6 @@ public class DaisyVideoView extends SurfaceView {
             }
             switch (i) {
                 case SmartPlayer.MEDIA_INFO_BUFFERING_START:
-                case 705:
                 case 809:
                     if (mOnBufferChangedListener != null) {
                         mOnBufferChangedListener.onBufferStart();
@@ -594,7 +593,6 @@ public class DaisyVideoView extends SurfaceView {
                     }
                     break;
                 case SmartPlayer.MEDIA_INFO_BUFFERING_END:
-                case 707:
                 case 3:
                     if (mOnBufferChangedListener != null) {
                         mOnBufferChangedListener.onBufferEnd();
