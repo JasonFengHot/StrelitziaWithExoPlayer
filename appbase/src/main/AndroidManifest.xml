@@ -27,6 +27,12 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".receiver.VoiceReceiver">
+            <intent-filter>
+                <action android:name="tv.ismar.daisy.VoiceReceiver" />
+            </intent-filter>
+
+        </receiver>
     </application>
 
 </manifest>
