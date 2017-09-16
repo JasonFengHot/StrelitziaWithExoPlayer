@@ -1,6 +1,5 @@
 <resources>
 
-    <dimen name="detail_text_mt1">6.33dp</dimen>
     <dimen name="detail_text_mt2">7.56dp</dimen>
     <dimen name="detail_text_mt3">11.11dp</dimen>
 
@@ -16,11 +15,9 @@
     <dimen name="movie_detail_button_space">22.22dp</dimen>
 
     <dimen name="movie_detail_relative_mt">8.89dp</dimen>
-    <dimen name="movie_detail_relative_text_mt">34.67dp</dimen>
     <dimen name="movie_detail_relative_text_ml">47.11dp</dimen>
     <dimen name="movie_detail_relative_img_ml">12.44dp</dimen>
     <dimen name="movie_detail_relative_img_mr">3.56dp</dimen>
-    <dimen name="movie_detail_label_image_w">109.33dp</dimen>
     <dimen name="movie_detail_label_image_h">157.78dp</dimen>
     <dimen name="movie_detail_relative_img_space">3.56dp</dimen>
     <dimen name="movie_detail_relative_img_space1">2.67dp</dimen>
@@ -28,12 +25,9 @@
 
     <dimen name="normal_detail_content_padding_pl">35.56dp</dimen>
     <dimen name="normal_detail_content_padding_pr">73.78dp</dimen>
-    <dimen name="normal_detail_content_padding_t">28.00dp</dimen>
     <dimen name="normal_detail_content_w">558.22dp</dimen>
     <dimen name="normal_detail_text_w">258.67dp</dimen>
     <dimen name="normal_detail_text_h">195.56dp</dimen>
-    <dimen name="normal_detail_text_mt1">13.67dp</dimen>
-    <dimen name="normal_detail_text_mt2">14.33dp</dimen>
     <dimen name="normal_detail_preview_img_w">213.67dp</dimen>
     <dimen name="normal_detail_preview_img_h">120.00dp</dimen>
     <dimen name="normal_detail_button1_w">80.44dp</dimen>
@@ -50,15 +44,12 @@
     <dimen name="normal_detail_label_image_w">88.44dp</dimen>
     <dimen name="normal_detail_label_image_ml">10.67dp</dimen>
     <dimen name="normal_detail_label_image_h">49.78dp</dimen>
-    <dimen name="normal_detail_img_mt1">11.11dp</dimen>
     <dimen name="normal_detail_img_mt2">2.67dp</dimen>
     <dimen name="normal_detail_relative_text_ml">5.78dp</dimen>
-    <dimen name="normal_detail_relative_text_mt">6.67dp</dimen>
     <dimen name="normal_detail_relative_button_mt">23.56dp</dimen>
     <dimen name="normal_detail_relative_button_ml">76.89dp</dimen>
     <dimen name="normal_detail_relative_button_w">109.78dp</dimen>
     <dimen name="normal_detail_relative_button_h">40.89dp</dimen>
-    <dimen name="normal_detail_button_padding_r">23.67dp</dimen>
 
     <dimen name="entertainment_detail_content_h">151.56dp</dimen>
     <dimen name="entertainment_detail_content_item_w">176.89dp</dimen>
@@ -67,7 +58,6 @@
     <dimen name="entertainment_detail_preview_img_w">213.33dp</dimen>
     <dimen name="entertainment_detail_preview_img_h">120.00dp</dimen>
     <dimen name="entertainment_detail_preview_img_mt">10.67dp</dimen>
-    <dimen name="entertainment_detail_text_mt1">4.33dp</dimen>
     <dimen name="entertainment_detail_text_mt2">8.44dp</dimen>
     <dimen name="entertainment_detail_text_h">40.44dp</dimen>
     <dimen name="entertainment_detail_text_space">11.56dp</dimen>
@@ -83,7 +73,6 @@
 
     <dimen name="entertainment_detail_relative_text_mt">27.11dp</dimen>
     <dimen name="entertainment_detail_label_image_mt">15.11dp</dimen>
-    <dimen name="entertainment_detail_label_image_w">149.67dp</dimen>
     <dimen name="entertainment_detail_label_image_h">84.00dp</dimen>
     <!-- 103px -->
     <dimen name="entertainment_detail_label_image_space1">36.00dp</dimen>
@@ -91,7 +80,6 @@
     <dimen name="entertainment_detail_label_image_space2">32.89dp</dimen>
     <dimen name="entertainment_detail_label_text_mt">7.56dp</dimen>
     <dimen name="entertainment_detail_more_w">54.67dp</dimen>
-    <dimen name="entertainment_detail_button_padding_r">16.33dp</dimen>
 
     <dimen name="detailpage_duration_txt_w">103.11dp</dimen>
     <dimen name="detailpage_duration_txt_h">14.67dp</dimen>
@@ -104,9 +92,7 @@
     <dimen name="movie_detail_button_padding_left">20.44dp</dimen>
     <dimen name="normal_detail_button_padding_left">21.33dp</dimen>
     <dimen name="entertainment_detail_button_padding_left">20.89dp</dimen>
-    <dimen name="item_title_padding_top">4.44dp</dimen>
     <dimen name="preview_margin_top">28.44dp</dimen>
-    <dimen name="attr_margin_left">35.56dp</dimen>
     <dimen name="preview_img_margin_right">73.78dp</dimen>
 
     <!-- Toast -->
@@ -114,7 +100,6 @@
     <dimen name="toast_layout_H">76.44dip</dimen>
     <dimen name="toast_textsize">17.78sp</dimen>
     <dimen name="toast_padding">17.78dip</dimen>
-    <dimen name="movie_relate_width">453.33dp</dimen>
     <dimen name="normal_linespacingextra">7.56dp</dimen>
     <dimen name="detail_text_mt4">8.89dp</dimen>
     <dimen name="detail_header_height">44.44dp</dimen>
@@ -176,14 +161,12 @@
     <dimen name="vod_payment_packageDescribe_content_MT">6.67dip</dimen>
     <dimen name="ZGridView_packagedetail_selectorBottom">-11.11dip</dimen>
     <dimen name="ZGridView_packagedetail_selectorTopPadding">0.00dip</dimen>
-    <dimen name="vod_payment_item_of_package_container_horizontalSpace">8.89dip</dimen>
     <dimen name="package_detail_divider_H">0.44dip</dimen>
     <dimen name="filter_divider_mt">2.22dip</dimen>
     <dimen name="vod_payment_packageDescribe_content_ls">1.33dip</dimen>
 
 
     <dimen name="related_item_image_quality_W">21.33dip</dimen>
-    <dimen name="related_item_image_margintop">10.22dip</dimen>
     <dimen name="list_view_item_expense_txt_h">12.00dip</dimen>
     <dimen name="related_item_image_paddingright">0.44dip</dimen>
     <dimen name="related_item_title_marginbottom">15.11dip</dimen>
@@ -196,7 +179,6 @@
     <dimen name="bottom_tag_txt_size">8.00sp</dimen>
     <dimen name="related_item_title_w">153.33dip</dimen>
     <dimen name="related_item_focus_textsize">11.11sp</dimen>
-    <dimen name="related_item_image_marginbottom">10.22dip</dimen>
     <dimen name="related_item_related_price_txt_size">11.11sp</dimen>
     <dimen name="related_item_layout_marginleft">0.89dip</dimen>
     <dimen name="related_item_related_price_txt_marginleft">2.67dip</dimen>
@@ -222,25 +204,16 @@
 
     <dimen name="drama_main_image_daram_label_MR">-1.33dp</dimen>
     <dimen name="drama_main_tv_daram_textsize">13.33sp</dimen>
-    <dimen name="drama_main_image_daram_back_marginleft">0.44dp</dimen>
     <dimen name="drama_main_image_daram_label_MT">-1.33dp</dimen>
     <dimen name="drama_main_layout_PR">135.11dp</dimen>
     <dimen name="drama_main_image_daram_back_W">212.44dp</dimen>
-    <dimen name="drama_main_tv_drama_name_textsize">24.44sp</dimen>
     <dimen name="drama_main_tv_daram_marginleft">8.89dp</dimen>
     <dimen name="drama_main_image_daram_back_H">119.56dp</dimen>
     <dimen name="drama_main_sub_content_layout_MT">19.11dp</dimen>
     <dimen name="drama_main_layout_PL">135.11dp</dimen>
-    <dimen name="drama_main_image_daram_back_margintop">0.44dp</dimen>
-    <dimen name="drama_main_img_layout_marginleft">4.44dp</dimen>
-    <dimen name="drama_main_layout_PB">44.44dp</dimen>
     <dimen name="drama_main_img_layout_W">212.44dp</dimen>
     <dimen name="drama_main_content_layout_ML">31.11dp</dimen>
-    <dimen name="pay_shiyuncard_submit_textsize">15.56sp</dimen>
-    <dimen name="drama_main_layout_PT">44.44dp</dimen>
 
-    <dimen name="episode_item_horizontal_space">10.44dp</dimen>
-    <dimen name="episode_item_vertical_space">8.22dp</dimen>
     <dimen name="epsisode_recycler_height">181.78dp</dimen>
     <dimen name="epsisode_recycler_mt">4.89dp</dimen>
     <dimen name="epsisode_recycler_ml">135.11dp</dimen>
@@ -248,7 +221,6 @@
     <dimen name="epsisode_recycler_hs">20.89dp</dimen>
     <dimen name="epsisode_recycler_vs">16.44dp</dimen>
     <dimen name="episode_header_height">119.56dp</dimen>
-    <dimen name="episode_layout_mb">8.89dp</dimen>
     <dimen name="usercenter_horizontal_divider_line_height">0.44dp</dimen>
     <dimen name="horizontal_divider_ml">11.56dp</dimen>
     <dimen name="horizontal_divider_mr">11.56dp</dimen>
@@ -256,7 +228,6 @@
     <dimen name="related_item_layout_width">246.22dp</dimen>
     <dimen name="related__layout_h">288.89dp</dimen>
     <dimen name="related__layout_view_mt">3.56dp</dimen>
-    <dimen name="related__layout_mt">15.56dp</dimen>
     <dimen name="related__layout_item_title_w">129.78dp</dimen>
     <dimen name="related__layout_item_title_mt">4.89dp</dimen>
     <dimen name="episode_arrow_up_w">60.00dp</dimen>
