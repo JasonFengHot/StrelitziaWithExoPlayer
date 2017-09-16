@@ -14,7 +14,6 @@
     <style name="IsmartvAppTheme.Widget" />
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="fontPath">DroidSansFallback.ttf</item>
     </style>
 
     <style name="AppTheme.Widget.EditText" parent="android:Widget.Holo.Light.EditText">

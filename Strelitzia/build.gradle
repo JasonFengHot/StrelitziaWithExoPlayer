@@ -4,8 +4,11 @@ apply plugin: 'plugin.transfer'
 android {
 
     dexOptions {
-        preDexLibraries = false
         javaMaxHeapSize "4g"
+        //是否支持大工程模式
+        jumboMode = true
+        //预编译
+        preDexLibraries = false
     }
 
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -58,7 +61,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':usercenter')
     compile project(':detailpage')
     compile project(':account')
     compile project(':playerpage')

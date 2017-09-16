@@ -28,7 +28,6 @@ import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.DetailPageContract;
 import tv.ismar.detailpage.view.DetailPageActivity;
-import tv.ismar.statistics.PurchaseStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
@@ -281,7 +280,6 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (mItemEntity.getClip() != null) {
             clip = String.valueOf(mItemEntity.getClip().getPk());
         }
-        new PurchaseStatistics().expenseVideoClick(String.valueOf(pk), userName, title, clip);
         new PageIntent().toPaymentForResult(mDetailView.getActivity(), unknown.name(), paymentInfo);
     }
 

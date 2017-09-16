@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <drawable name="ispcolor">#b2000000</drawable>
-    <color name="white">#FFFFFF</color>
-    <color name="blue">#00A2FF</color>
-    <color name="main_bg">#336699</color>
-</resources>

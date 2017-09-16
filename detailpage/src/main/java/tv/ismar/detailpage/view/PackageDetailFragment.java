@@ -27,7 +27,6 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -37,7 +36,6 @@ import tv.ismar.app.BaseFragment;
 import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
-import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VodUserAgent;
@@ -50,9 +48,6 @@ import tv.ismar.app.util.SPUtils;
 import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.app.util.Utils;
 import tv.ismar.detailpage.R;
-import tv.ismar.pay.PaymentActivity;
-import tv.ismar.statistics.DetailPageStatistics;
-import tv.ismar.statistics.PurchaseStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
@@ -94,7 +89,6 @@ public class PackageDetailFragment extends BaseFragment {
 
     private DetailPageActivity mActivity;
 
-    private DetailPageStatistics mPageStatistics;
 
     private List<ItemEntity> itemEntities;
 
@@ -119,7 +113,6 @@ public class PackageDetailFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPageStatistics = new DetailPageStatistics();
         Bundle bundle = getArguments();
         mItemEntity = new Gson().fromJson(bundle.getString(EXTRA_ITEM_JSON), ItemEntity.class);
         source = bundle.getString(EXTRA_SOURCE);
@@ -204,12 +197,6 @@ public class PackageDetailFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         requestPlayCheck(String.valueOf(mItemEntity.getPk()));
-        mPageStatistics.packageDetailIn(mItemEntity.getPk()+"", source==null?frompage:source);
-        new PurchaseStatistics().expensePacketDetail(
-                mItemEntity.getPk(),
-                mItemEntity.getTitle(),
-                mItemEntity.getExpense().getPrice(),
-                "enter");
 
     }
 
@@ -398,7 +385,6 @@ public class PackageDetailFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             ItemEntity itemEntity = (ItemEntity) v.getTag();
-            mPageStatistics.videoRelateClick(mItemEntity.getPk(), itemEntity);
             PageIntent pageIntent = new PageIntent();
             pageIntent.toPackageDetail(getContext(), "package", itemEntity.getPk());
 
@@ -519,11 +505,6 @@ public class PackageDetailFragment extends BaseFragment {
     public void onPause() {
         firstIn=false;
         super.onPause();
-        new PurchaseStatistics().expensePacketDetail(
-                mItemEntity.getPk(),
-                mItemEntity.getTitle(),
-                mItemEntity.getExpense().getPrice(),
-                "cancel");
     }
 
     private View.OnHoverListener onHoverListener = new View.OnHoverListener() {

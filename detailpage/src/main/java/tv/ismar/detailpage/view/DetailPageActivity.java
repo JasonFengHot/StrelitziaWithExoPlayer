@@ -25,7 +25,6 @@ import tv.ismar.app.core.Source;
 import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.detailpage.R;
-import tv.ismar.pay.PaymentActivity;
 
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_ITEM;
 import static tv.ismar.app.core.PageIntentInterface.DETAIL_TYPE_PKG;

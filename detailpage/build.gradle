@@ -31,10 +31,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':appbase')
-    compile project(':paypage')
     compile project(':playerpage')
     compile project(':listpage')
-    compile project(':statistics')
 }
 
 tasks.withType(JavaCompile) {

@@ -12,7 +12,6 @@ import tv.ismar.app.core.PageIntentInterface;
 import tv.ismar.detailpage.view.DetailPageActivity;
 import tv.ismar.homepage.view.HomePageActivity;
 import tv.ismar.player.view.PlayerActivity;
-import tv.ismar.usercenter.view.UserCenterActivity;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_MODEL;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PK;
@@ -173,8 +172,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public void userCenter(View view) {
-        Intent intent = new Intent(this, UserCenterActivity.class);
-        startActivity(intent);
     }
 
     public void onAdClick(View view){

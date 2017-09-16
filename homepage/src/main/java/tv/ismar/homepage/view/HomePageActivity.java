@@ -75,7 +75,6 @@ import tv.ismar.app.network.SkyService;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.service.TrueTimeService;
 import tv.ismar.app.ui.HeadFragment;
-import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.NetworkUtils;
@@ -341,11 +340,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         startTrueTimeService();
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
-        if (UpdateService.installAppLoading) {
-            getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new UpdateSlienceLoading()).commit();
-            return;
-        }
-//
         fragmentSwitch = new FragmentSwitchHandler(this);
         homepage_template = getIntent().getStringExtra("homepage_template");
         homepage_url = getIntent().getStringExtra("homepage_url");

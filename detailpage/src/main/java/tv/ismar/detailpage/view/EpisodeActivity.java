@@ -33,7 +33,6 @@ import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ZGridView;
 import tv.ismar.detailpage.R;
-import tv.ismar.statistics.EpisodePageStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
@@ -65,7 +64,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
     private View tmp;
 
-    private EpisodePageStatistics mPageStatistics;
     private Button episode_arrow_up;
     private Button episode_arrow_down;
     private ZGridView episode_zgridview;
@@ -74,7 +72,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episode);
-        mPageStatistics = new EpisodePageStatistics();
         final View vv = findViewById(R.id.large_layout);
 
         initViews();
@@ -115,7 +112,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
     @Override
     public void onResume() {
         super.onResume();
-        mPageStatistics.videoEpisodeIn(mItemEntity);
     }
 
 
@@ -191,7 +187,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
     @Override
     protected void onPause() {
-        mPageStatistics.videoEpisodeOut(mItemEntity,subitem,to);
         if (loadDialog != null && loadDialog.isShowing()) {
             loadDialog.dismiss();
         }

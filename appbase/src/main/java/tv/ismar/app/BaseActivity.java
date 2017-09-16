@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
-
 import java.util.Stack;
 
 import cn.ismartv.truetime.TrueTime;
@@ -25,7 +24,6 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
-import tv.ismar.app.update.UpdateService;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.widget.ExpireAccessTokenPop;
 import tv.ismar.app.widget.ItemOffLinePopWindow;
@@ -33,12 +31,9 @@ import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.NetErrorPopWindow;
 import tv.ismar.app.widget.NoNetConnectDialog;
-import tv.ismar.app.widget.NoNetConnectWindow;
 import tv.ismar.app.widget.NoNetModuleMessagePop;
 import tv.ismar.app.widget.UpdatePopupWindow;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static tv.ismar.app.update.UpdateService.APP_UPDATE_ACTION;
 
 /**
  * Created by beaver on 16-8-19.
@@ -167,39 +162,6 @@ public class BaseActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    protected <T extends View> T findView(int resId) {
-        return (T) (findViewById(resId));
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    public void showDialog(String msg) {
-        if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
-        }
-        if (msg != null) {
-            mLoadingDialog.setTvText(msg);
-        }
-        mLoadingDialog.showDialog();
-    }
-
-    public void dismissDialog() {
-        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-            mLoadingDialog.dismiss();
-            mLoadingDialog.setTvText(getString(R.string.loading_text));
-        }
-    }
-
-    public boolean isDialogShow() {
-        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
-            return true;
-        }
-        return false;
-    }
-
     public View getRootView() {
         return ((ViewGroup) (getWindow().getDecorView().findViewById(android.R.id.content))).getChildAt(0);
     }
@@ -254,28 +216,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showNoNetConnectDialog() {
         Log.i("onNoNet", "showNet!!!");
-//        noNetConnectWindow = new NoNetConnectWindow(this);
-//        noNetConnectWindow.setFirstMessage(getString(R.string.no_connectNet));
-//        noNetConnectWindow.setConfirmBtn(getString(R.string.setting_network));
-//        noNetConnectWindow.setCancelBtn(getString(R.string.exit_app));
-//        noNetConnectWindow.showAtLocation(getRootView(), Gravity.CENTER, 0, 0, new ModuleMessagePopWindow.ConfirmListener() {
-//                    @Override
-//                    public void confirmClick(View view) {
-//                        noNetConnectWindow.dismiss();
-//                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
-//                        startActivity(intent);
-//
-//                    }
-//                },
-//                new ModuleMessagePopWindow.CancelListener() {
-//                    @Override
-//                    public void cancelClick(View view) {
-//                        noNetConnectWindow.dismiss();
-//                        Intent intent = new Intent();
-//                        intent.setAction(NO_NET_CONNECT_ACTION);
-//                        sendBroadcast(intent);
-//                    }
-//                });
         if(dialog==null) {
             dialog = new NoNetConnectDialog(this, R.style.NoNetDialog);
             dialog.setFirstMessage(getString(R.string.no_connectNet));
@@ -450,9 +390,6 @@ public class BaseActivity extends AppCompatActivity {
 
 
     private void registerUpdateReceiver() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(APP_UPDATE_ACTION);
-        registerReceiver(mUpdateReceiver, intentFilter);
     }
 
     private void showUpdatePopup(final View view, final Stack<Bundle> stack) {
@@ -476,9 +413,6 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (updateHandler != null) {
-            updateHandler.removeCallbacks(updateRunnable);
-        }
         try {
             unregisterReceiver(onNetConnectReceiver);
         } catch (Exception e) {
@@ -492,18 +426,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private void checkUpgrade() {
-        updateHandler = new Handler();
-        updateHandler.postDelayed(updateRunnable, (1000 * 3) + totalAdsMills);
-    }
-
-    Runnable updateRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Intent intent = new Intent();
-            intent.setClass(getApplicationContext(), UpdateService.class);
-            intent.putExtra("install_type", 0);
-            startService(intent);
-        }
     };
 
     public String getCurrentActivityName(Context context) {

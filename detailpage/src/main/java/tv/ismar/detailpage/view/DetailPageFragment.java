@@ -55,7 +55,6 @@ import tv.ismar.detailpage.databinding.FragmentDetailpageMovieSharpBinding;
 import tv.ismar.detailpage.databinding.FragmentDetailpageNormalSharpBinding;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 import tv.ismar.detailpage.viewmodel.DetailPageViewModel;
-import tv.ismar.statistics.DetailPageStatistics;
 
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
@@ -105,7 +104,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     private View favoriteBtnView;
     private View moreBtnView;
 
-    private DetailPageStatistics mPageStatistics;
     private String isLogin = "no";
     private String to="";
     private int position;
@@ -128,7 +126,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPageStatistics = new DetailPageStatistics();
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             fromPage = bundle.getString(EXTRA_SOURCE);
@@ -211,7 +208,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
                 loadItem(mItemEntity);
             }
         }).start();
-        mPageStatistics.videoDetailIn(mItemEntity, fromPage);
 
         mModel.notifyBookmark(true);
     }
@@ -219,7 +215,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
     @Override
     public void onPause() {
         if(!to.equals(""))
-        mPageStatistics.videoDetailOut(mItemEntity,to);
         mPresenter.stop();
         super.onPause();
     }
@@ -233,7 +228,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
 
     @Override
     public void onDestroy() {
-        mPageStatistics.videoDetailOut(mItemEntity,fromPage);
         super.onDestroy();
     }
 
@@ -452,7 +446,6 @@ public class DetailPageFragment extends Fragment implements DetailPageContract.V
         @Override
         public void onClick(View v) {
             ItemEntity item = relateItems[(int) v.getTag()];
-            mPageStatistics.videoRelateClick(mItemEntity.getPk(), item);
             new PageIntent().toDetailPage(getContext(), Source.RELATED.getValue(), item.getPk());
             to="relate";
         }
