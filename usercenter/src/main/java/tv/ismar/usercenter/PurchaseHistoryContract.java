@@ -19,12 +19,10 @@ package tv.ismar.usercenter;
 import tv.ismar.app.network.entity.AccountsOrdersEntity;
 import tv.ismar.usercenter.presenter.BasePresenter;
 
-/**
- * This specifies the contract between the view and the presenter.
- */
+/** This specifies the contract between the view and the presenter. */
 public interface PurchaseHistoryContract {
 
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
         void loadAccountOrders(AccountsOrdersEntity accountsOrdersEntity);
     }
 

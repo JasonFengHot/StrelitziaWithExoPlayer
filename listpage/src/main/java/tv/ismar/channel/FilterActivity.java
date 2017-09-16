@@ -2,10 +2,8 @@ package tv.ismar.channel;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -15,7 +13,6 @@ import java.util.Iterator;
 
 import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
@@ -25,10 +22,7 @@ import tv.ismar.view.BackHandledFragment;
 import tv.ismar.view.BackHandledInterface;
 import tv.ismar.view.FilterFragment;
 
-
-/**
- * Created by zhangjiqiang on 15-6-18.
- */
+/** Created by zhangjiqiang on 15-6-18. */
 public class FilterActivity extends BaseActivity implements BackHandledInterface {
     private String mChannel;
     private SimpleRestClient mRestClient;
@@ -41,15 +35,15 @@ public class FilterActivity extends BaseActivity implements BackHandledInterface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_layout);
-//       final View vv = findViewById(R.id.large_layout);
-//        bitmapDecoder = new BitmapDecoder();
-//        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-//            @Override
-//            public void onSuccess(BitmapDrawable bitmapDrawable) {
-//                vv.setBackgroundDrawable(bitmapDrawable);
-//            }
-//        });
-      //  DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
+        //       final View vv = findViewById(R.id.large_layout);
+        //        bitmapDecoder = new BitmapDecoder();
+        //        bitmapDecoder.decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
+        //            @Override
+        //            public void onSuccess(BitmapDrawable bitmapDrawable) {
+        //                vv.setBackgroundDrawable(bitmapDrawable);
+        //            }
+        //        });
+        //  DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
         mRestClient = new SimpleRestClient();
         initView();
     }
@@ -93,44 +87,46 @@ public class FilterActivity extends BaseActivity implements BackHandledInterface
         // String url = "http://v2.sky.tvxio.com/v2_0/SKY/dto/api/tv/retrieval/" + mChannel + "/";
 
         String url = "http://cord.tvxio.com/v2_0/A21/dto/api/topic/8/";
-        mRestClient.doTopicRequest(url, "get", "", new SimpleRestClient.HttpPostRequestInterface() {
+        mRestClient.doTopicRequest(
+                url,
+                "get",
+                "",
+                new SimpleRestClient.HttpPostRequestInterface() {
 
-            @Override
-            public void onPrepare() {
-                Toast.makeText(FilterActivity.this, "11", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onSuccess(String info) {
-                try {
-                    JSONObject jsonObject = new JSONObject(info);
-                    JSONObject attributes = jsonObject.getJSONObject("attributes");
-                    Iterator it = attributes.keys();
-                    while (it.hasNext()) {
-                        String key = (String) it.next();
-                        Log.i("asdfgh", "jsonkey==" + key);
+                    @Override
+                    public void onPrepare() {
+                        Toast.makeText(FilterActivity.this, "11", Toast.LENGTH_SHORT).show();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
-                Toast.makeText(FilterActivity.this, "1312312", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onSuccess(String info) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(info);
+                            JSONObject attributes = jsonObject.getJSONObject("attributes");
+                            Iterator<String> it = attributes.keys();
+                            while (it.hasNext()) {
+                                String key = it.next();
+                                Log.i("asdfgh", "jsonkey==" + key);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
+                        Toast.makeText(FilterActivity.this, "1312312", Toast.LENGTH_SHORT).show();
+                    }
 
-            }
-
-            @Override
-            public void onFailed(String error) {
-                Toast.makeText(FilterActivity.this, "22", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onFailed(String error) {
+                        Toast.makeText(FilterActivity.this, "22", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
     protected void onDestroy() {
-      //  DaisyUtils.getVodApplication(this).removeActivtyFromPool(this.toString());
-        if(bitmapDecoder != null && bitmapDecoder.isAlive()){
-        	bitmapDecoder.interrupt();
+        //  DaisyUtils.getVodApplication(this).removeActivtyFromPool(this.toString());
+        if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
+            bitmapDecoder.interrupt();
         }
         super.onDestroy();
     }
@@ -143,7 +139,8 @@ public class FilterActivity extends BaseActivity implements BackHandledInterface
     @Override
     public void onBackPressed() {
         if (mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()) {
-            if (getFragmentManager().getBackStackEntryCount() == 0 || getFragmentManager().getBackStackEntryCount() == 1) {
+            if (getFragmentManager().getBackStackEntryCount() == 0
+                    || getFragmentManager().getBackStackEntryCount() == 1) {
                 finish();
             } else {
                 getFragmentManager().popBackStack();

@@ -22,9 +22,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
 
-/**
- * Created by huibin on 8/25/16.
- */
+/** Created by huibin on 8/25/16. */
 public class HttpParamsInterceptor implements Interceptor {
     private static final String TAG = "HttpParamsInterceptor";
     Map<String, String> queryParamsMap = new HashMap<>();
@@ -32,8 +30,18 @@ public class HttpParamsInterceptor implements Interceptor {
     Map<String, String> headerParamsMap = new HashMap<>();
     List<String> headerLinesList = new ArrayList<>();
 
-    private HttpParamsInterceptor() {
+    private HttpParamsInterceptor() {}
 
+    private static String bodyToString(final RequestBody request) {
+        try {
+            final RequestBody copy = request;
+            final Buffer buffer = new Buffer();
+            if (copy != null) copy.writeTo(buffer);
+            else return "";
+            return buffer.readUtf8();
+        } catch (final IOException e) {
+            return "did not work";
+        }
     }
 
     @Override
@@ -60,16 +68,14 @@ public class HttpParamsInterceptor implements Interceptor {
             paramsMap.put("access_token", accessToken);
         }
 
-
         // process header params inject
         Headers.Builder headerBuilder = request.headers().newBuilder();
 
-
         if (headerParamsMap.size() > 0) {
-            Iterator iterator = headerParamsMap.entrySet().iterator();
+            Iterator<Map.Entry<String, String>> iterator = headerParamsMap.entrySet().iterator();
             while (iterator.hasNext()) {
-                Map.Entry entry = (Map.Entry) iterator.next();
-                headerBuilder.add((String) entry.getKey(), (String) entry.getValue());
+                Map.Entry<String, String> entry = iterator.next();
+                headerBuilder.add(entry.getKey(), entry.getValue());
             }
         }
 
@@ -82,77 +88,125 @@ public class HttpParamsInterceptor implements Interceptor {
         requestBuilder.headers(headerBuilder.build());
         // process header params end
 
-
         // process queryParams inject whatever it's GET or POST
         if (queryParamsMap.size() > 0) {
             injectParamsIntoUrl(request, requestBuilder, queryParamsMap);
         }
         // process header params end
 
-
         // process post body inject
-        if (request.method().equals("POST") && request.body().contentType() != null
+        if (request.method().equals("POST")
+                && request.body().contentType() != null
                 && request.body().contentType().subtype().equals("x-www-form-urlencoded")) {
             FormBody.Builder formBodyBuilder = new FormBody.Builder();
             if (paramsMap.size() > 0) {
-                Iterator iterator = paramsMap.entrySet().iterator();
+                Iterator<Map.Entry<String, String>> iterator = paramsMap.entrySet().iterator();
                 while (iterator.hasNext()) {
-                    Map.Entry entry = (Map.Entry) iterator.next();
-                    formBodyBuilder.add((String) entry.getKey(), (String) entry.getValue());
+                    Map.Entry<String, String> entry = iterator.next();
+                    formBodyBuilder.add(entry.getKey(), entry.getValue());
                 }
             }
             RequestBody formBody = formBodyBuilder.build();
             String postBodyString = bodyToString(request.body());
             postBodyString += ((postBodyString.length() > 0) ? "&" : "") + bodyToString(formBody);
-            requestBuilder.post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), postBodyString));
-        } else {    // can't inject into body, then inject into url
+            requestBuilder.post(
+                    RequestBody.create(
+                            MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"),
+                            postBodyString));
+        } else { // can't inject into body, then inject into url
             injectParamsIntoUrl(request, requestBuilder, paramsMap);
         }
 
         request = requestBuilder.build();
-
 
         Response response;
         try {
             response = chain.proceed(request);
         } catch (Exception var27) {
             Log.e(TAG, "error: " + request.url() + " " + var27.getMessage());
-            response = new Response.Builder().code(500)
-                    .request(request)
-                    .protocol(Protocol.HTTP_1_1)
-                    .build();
+            response =
+                    new Response.Builder()
+                            .code(500)
+                            .request(request)
+                            .protocol(Protocol.HTTP_1_1)
+                            .build();
         }
         return response;
     }
 
     // func to inject params into url
-    private void injectParamsIntoUrl(Request request, Request.Builder requestBuilder, Map<String, String> paramsMap) {
+    private void injectParamsIntoUrl(
+            Request request, Request.Builder requestBuilder, Map<String, String> paramsMap) {
         HttpUrl.Builder httpUrlBuilder = request.url().newBuilder();
 
         refactorRequest(request, httpUrlBuilder);
 
         if (paramsMap.size() > 0) {
-            Iterator iterator = paramsMap.entrySet().iterator();
+            Iterator<Map.Entry<String, String>> iterator = paramsMap.entrySet().iterator();
             while (iterator.hasNext()) {
-                Map.Entry entry = (Map.Entry) iterator.next();
-                httpUrlBuilder.addQueryParameter((String) entry.getKey(), (String) entry.getValue());
+                Map.Entry<String, String> entry = iterator.next();
+                httpUrlBuilder.addQueryParameter(entry.getKey(), entry.getValue());
             }
         }
 
         requestBuilder.url(httpUrlBuilder.build());
     }
 
-    private static String bodyToString(final RequestBody request) {
-        try {
-            final RequestBody copy = request;
-            final Buffer buffer = new Buffer();
-            if (copy != null)
-                copy.writeTo(buffer);
-            else
-                return "";
-            return buffer.readUtf8();
-        } catch (final IOException e) {
-            return "did not work";
+    private String appendProtocol(String host) {
+        Uri uri = Uri.parse(host);
+        String url = uri.toString();
+        if (!uri.toString().startsWith("http://") && !uri.toString().startsWith("https://")) {
+            url = "http://" + host;
+        }
+
+        if (!url.endsWith("/")) {
+            url = url + "/";
+        }
+        return url;
+    }
+
+    public void refactorRequest(Request request, HttpUrl.Builder httpUrlBuilder) {
+        String domain;
+        switch (request.url().host()) {
+                // api domain
+            case "1.1.1.1":
+                domain = appendProtocol(IsmartvActivator.getInstance().getApiDomain());
+                break;
+                // advertisement domain
+            case "1.1.1.2":
+                domain = appendProtocol(IsmartvActivator.getInstance().getAdDomain());
+                break;
+                // upgrade domain
+            case "1.1.1.3":
+                domain = appendProtocol(IsmartvActivator.getInstance().getUpgradeDomain());
+                break;
+                // log domain
+            case "1.1.1.4":
+                domain = appendProtocol(IsmartvActivator.getInstance().getLogDomain());
+                break;
+            default:
+                return;
+        }
+
+        HttpUrl httpUrl = HttpUrl.parse(domain);
+
+        httpUrlBuilder.host(httpUrl.host());
+        httpUrlBuilder.port(httpUrl.port());
+
+        List<String> segments = httpUrl.pathSegments();
+
+        List<String> originalSegments = request.url().pathSegments();
+
+        List<String> requestSegments = new ArrayList<>();
+        requestSegments.addAll(segments);
+        requestSegments.addAll(originalSegments);
+
+        for (int i = 0; i < originalSegments.size(); i++) {
+            httpUrlBuilder.removePathSegment(originalSegments.size() - 1 - i);
+        }
+
+        for (String segment : requestSegments) {
+            httpUrlBuilder.addPathSegment(segment);
         }
     }
 
@@ -217,66 +271,5 @@ public class HttpParamsInterceptor implements Interceptor {
         public HttpParamsInterceptor build() {
             return interceptor;
         }
-
     }
-
-    private String appendProtocol(String host) {
-        Uri uri = Uri.parse(host);
-        String url = uri.toString();
-        if (!uri.toString().startsWith("http://") && !uri.toString().startsWith("https://")) {
-            url = "http://" + host;
-        }
-
-        if (!url.endsWith("/")) {
-            url = url + "/";
-        }
-        return url;
-    }
-
-
-    public void refactorRequest(Request request, HttpUrl.Builder httpUrlBuilder) {
-        String domain;
-        switch (request.url().host()) {
-            //api domain
-            case "1.1.1.1":
-                domain = appendProtocol(IsmartvActivator.getInstance().getApiDomain());
-                break;
-            //advertisement domain
-            case "1.1.1.2":
-                domain = appendProtocol(IsmartvActivator.getInstance().getAdDomain());
-                break;
-            //upgrade domain
-            case "1.1.1.3":
-                domain = appendProtocol(IsmartvActivator.getInstance().getUpgradeDomain());
-                break;
-            //log domain
-            case "1.1.1.4":
-                domain = appendProtocol(IsmartvActivator.getInstance().getLogDomain());
-                break;
-            default:
-                return;
-        }
-
-        HttpUrl httpUrl = HttpUrl.parse(domain);
-
-        httpUrlBuilder.host(httpUrl.host());
-        httpUrlBuilder.port(httpUrl.port());
-
-        List<String> segments = httpUrl.pathSegments();
-
-        List<String> originalSegments = request.url().pathSegments();
-
-        List<String> requestSegments = new ArrayList<>();
-        requestSegments.addAll(segments);
-        requestSegments.addAll(originalSegments);
-
-        for (int i = 0; i < originalSegments.size(); i++) {
-            httpUrlBuilder.removePathSegment(originalSegments.size() - 1 - i);
-        }
-
-        for (String segment : requestSegments) {
-            httpUrlBuilder.addPathSegment(segment);
-        }
-    }
-
 }

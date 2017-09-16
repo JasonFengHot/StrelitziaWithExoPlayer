@@ -33,52 +33,52 @@ import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.Utils;
 
 public class InitializeProcess implements Runnable {
-    private static final String TAG = "InitializeProcess";
-
-    private static final int[] PROVINCE_STRING_ARRAY_RES = {
-            R.array.china_north,
-            R.array.china_east,
-            R.array.china_south,
-            R.array.china_center,
-            R.array.china_southwest,
-            R.array.china_northwest,
-            R.array.china_northeast
-    };
-
     public static final String PROVINCE = "province";
     public static final String CITY = "city";
     public static final String PROVINCE_PY = "province_py";
     public static final String ISP = "isp";
     public static final String IP = "ip";
     public static final String GEO_ID = "geo_id";
-
+    private static final String TAG = "InitializeProcess";
+    private static final int[] PROVINCE_STRING_ARRAY_RES = {
+        R.array.china_north,
+        R.array.china_east,
+        R.array.china_south,
+        R.array.china_center,
+        R.array.china_southwest,
+        R.array.china_northwest,
+        R.array.china_northeast
+    };
+    private final String[] mDistrictArray;
+    private final String[] mIspArray;
+    Interceptor mHeaderInterceptor =
+            new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request originalRequest = chain.request();
+                    Request authorised =
+                            originalRequest
+                                    .newBuilder()
+                                    .addHeader("Accept", "application/json")
+                                    .build();
+                    return chain.proceed(authorised);
+                }
+            };
     private Context mContext;
     private SharedPreferences mSharedPreferences;
     private OkHttpClient mOkHttpClient;
-    private final String[] mDistrictArray;
-    private final String[] mIspArray;
-
-    Interceptor mHeaderInterceptor = new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request originalRequest = chain.request();
-            Request authorised = originalRequest.newBuilder()
-                    .addHeader("Accept", "application/json")
-                    .build();
-            return chain.proceed(authorised);
-        }
-    };
 
     public InitializeProcess(Context context) {
         this.mContext = context;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mDistrictArray = mContext.getResources().getStringArray(R.array.district);
         mIspArray = mContext.getResources().getStringArray(R.array.isp);
-        mOkHttpClient = new OkHttpClient.Builder()
-                .retryOnConnectionFailure(true)
-                .connectTimeout(3000, TimeUnit.MILLISECONDS)
-                .addNetworkInterceptor(mHeaderInterceptor)
-                .build();
+        mOkHttpClient =
+                new OkHttpClient.Builder()
+                        .retryOnConnectionFailure(true)
+                        .connectTimeout(3000, TimeUnit.MILLISECONDS)
+                        .addNetworkInterceptor(mHeaderInterceptor)
+                        .build();
     }
 
     @Override
@@ -92,9 +92,7 @@ public class InitializeProcess implements Runnable {
         if (Utils.isEmptyText(city)) {
             fetchLocationByIP();
         }
-
     }
-
 
     private void initializeDistrict() {
         if (new Select().from(DistrictTable.class).executeSingle() == null) {
@@ -120,7 +118,8 @@ public class InitializeProcess implements Runnable {
             ActiveAndroid.beginTransaction();
             try {
                 for (int i = 0; i < mDistrictArray.length; i++) {
-                    String[] provinceArray = mContext.getResources().getStringArray(PROVINCE_STRING_ARRAY_RES[i]);
+                    String[] provinceArray =
+                            mContext.getResources().getStringArray(PROVINCE_STRING_ARRAY_RES[i]);
                     for (String province : provinceArray) {
                         ProvinceTable provinceTable = new ProvinceTable();
                         String[] strs = province.split(",");
@@ -147,7 +146,8 @@ public class InitializeProcess implements Runnable {
             ActiveAndroid.beginTransaction();
             try {
                 InputStream inputStream = mContext.getResources().getAssets().open("location.txt");
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                BufferedReader bufferedReader =
+                        new BufferedReader(new InputStreamReader(inputStream));
                 String s;
                 while ((s = bufferedReader.readLine()) != null) {
                     if (null != s && !s.equals("")) {
@@ -176,7 +176,6 @@ public class InitializeProcess implements Runnable {
         }
     }
 
-
     private void initializeIsp() {
         if (new Select().from(IspTable.class).executeSingle() == null) {
             ActiveAndroid.beginTransaction();
@@ -195,13 +194,14 @@ public class InitializeProcess implements Runnable {
     }
 
     private void fetchCdnList() {
-        if(!NetworkUtils.isConnected(mContext)){// 断开网络做如下请求时出错
+        if (!NetworkUtils.isConnected(mContext)) { // 断开网络做如下请求时出错
             return;
         }
         String resultString = null;
-        Request request = new Request.Builder()
-                .url("http://wx.api.tvxio.com/shipinkefu/getCdninfo?actiontype=getcdnlist")
-                .build();
+        Request request =
+                new Request.Builder()
+                        .url("http://wx.api.tvxio.com/shipinkefu/getCdninfo?actiontype=getcdnlist")
+                        .build();
         Call call = mOkHttpClient.newCall(request);
         try {
             Response response = call.execute();
@@ -242,13 +242,11 @@ public class InitializeProcess implements Runnable {
     }
 
     private void fetchLocationByIP() {
-        if(!NetworkUtils.isConnected(mContext)){// 断开网络做如下请求时出错
+        if (!NetworkUtils.isConnected(mContext)) { // 断开网络做如下请求时出错
             return;
         }
         String resultString = null;
-        Request request = new Request.Builder()
-                .url("http://lily.tvxio.com/iplookup/")
-                .build();
+        Request request = new Request.Builder().url("http://lily.tvxio.com/iplookup/").build();
         Call call = mOkHttpClient.newCall(request);
         try {
             Response response = call.execute();
@@ -265,15 +263,26 @@ public class InitializeProcess implements Runnable {
     }
 
     private void initializeLocation(IpLookUpEntity ipLookUpEntity) {
-        CityTable cityTable = new Select().from(CityTable.class).where(CityTable.CITY + " = ?", ipLookUpEntity.getCity() == null ? "" : ipLookUpEntity.getCity()).executeSingle();
+        CityTable cityTable =
+                new Select()
+                        .from(CityTable.class)
+                        .where(
+                                CityTable.CITY + " = ?",
+                                ipLookUpEntity.getCity() == null ? "" : ipLookUpEntity.getCity())
+                        .executeSingle();
         IsmartvActivator activator = IsmartvActivator.getInstance();
         activator.setIp(ipLookUpEntity.getIp());
         activator.setIsp(ipLookUpEntity.getIsp());
         if (cityTable != null) {
             activator.setCity(ipLookUpEntity.getCity(), String.valueOf(cityTable.geo_id));
         }
-        ProvinceTable provinceTable = new Select().from(ProvinceTable.class)
-                .where(ProvinceTable.PROVINCE_NAME + " = ?", ipLookUpEntity.getProv() == null ? "" : ipLookUpEntity.getProv()).executeSingle();
+        ProvinceTable provinceTable =
+                new Select()
+                        .from(ProvinceTable.class)
+                        .where(
+                                ProvinceTable.PROVINCE_NAME + " = ?",
+                                ipLookUpEntity.getProv() == null ? "" : ipLookUpEntity.getProv())
+                        .executeSingle();
         if (provinceTable != null) {
             activator.setProvince(ipLookUpEntity.getProv(), provinceTable.pinyin);
         }

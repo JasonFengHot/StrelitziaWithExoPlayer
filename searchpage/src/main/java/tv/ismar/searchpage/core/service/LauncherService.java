@@ -9,11 +9,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-/**
- * Created by huaijie on 2/23/16.
- */
+/** Created by huaijie on 2/23/16. */
 public class LauncherService extends Service {
-    private static final String LAUNCHER_ACTIVITY_NAME = "cn.ismartv.voice.ui.activity.HomeActivity";
+    private static final String LAUNCHER_ACTIVITY_NAME =
+            "cn.ismartv.voice.ui.activity.HomeActivity";
     private static final String TAG = "LauncherService";
 
     @Nullable
@@ -42,5 +41,4 @@ public class LauncherService extends Service {
         Log.i(TAG, "getCurrentActivityName : cls ---> " + cn.getClassName());
         return cn.getClassName();
     }
-
 }

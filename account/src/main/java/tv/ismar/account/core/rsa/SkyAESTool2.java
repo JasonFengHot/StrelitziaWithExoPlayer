@@ -26,7 +26,7 @@ public class SkyAESTool2 {
             byte[] plain = cipher.doFinal(getPosByte(content, 16, content.length));
 
             String s = new String(plain);
-//			System.out.println(s);
+            //			System.out.println(s);
 
             // 去除填充字符
             byte[] plainTemp = getPosByte(plain, plain.length - 1, plain.length);

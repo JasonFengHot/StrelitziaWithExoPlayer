@@ -7,10 +7,7 @@ import java.util.concurrent.Executors;
 
 import tv.ismar.app.db.DownloadTable;
 
-
-/**
- * Created by huaijie on 6/23/15.
- */
+/** Created by huaijie on 6/23/15. */
 public class DownloadThreadPool {
     private static final String TAG = "DownloadThreadPool";
     private static DownloadThreadPool instance;
@@ -32,7 +29,7 @@ public class DownloadThreadPool {
 
     public void add(DownloadClient client) {
         Log.i(TAG, "DownloadThreadPool add invoke...");
-        //database
+        // database
         DownloadTable downloadTable = new DownloadTable();
         downloadTable.file_name = client.getmSaveName();
         downloadTable.download_path = client.getDownloadFile().getAbsolutePath();

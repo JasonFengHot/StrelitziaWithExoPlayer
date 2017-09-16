@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/item_detail_related_H"
-                android:layout_marginLeft="@dimen/related_item_layout_marginleft"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/related_item_image_marginleft">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_detail_related_H"
+    android:layout_marginLeft="@dimen/related_item_layout_marginleft"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/related_item_image_marginleft">
 
     <ImageView
         android:id="@+id/related_preview_img"
@@ -19,8 +19,8 @@
         android:paddingLeft="@dimen/related_item_image_paddingleft"
         android:paddingRight="@dimen/related_item_image_paddingright"
         android:paddingTop="@dimen/related_item_image_paddingtop"
-        android:scaleType="fitXY"
-    />
+        android:scaleType="fitXY" />
+
     <TextView
         android:id="@+id/ItemBeanScore"
         android:layout_width="wrap_content"
@@ -32,8 +32,7 @@
         android:textColor="#ff9000"
         android:textSize="@dimen/bottom_tag_txt_size"
         android:textStyle="bold"
-        android:visibility="gone"
-    />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/expense_txt"
@@ -42,8 +41,8 @@
         android:layout_alignLeft="@id/related_preview_img"
         android:layout_alignTop="@id/related_preview_img"
         android:gravity="center"
-        android:visibility="gone">
-    </ImageView>
+        android:visibility="gone"></ImageView>
+
     <ImageView
         android:id="@+id/related_quality_label"
         android:layout_width="@dimen/related_item_image_quality_W"
@@ -52,7 +51,8 @@
         android:layout_alignTop="@id/related_preview_img"
         android:layout_marginRight="@dimen/related_item_image_quality_marginright"
         android:layout_marginTop="@dimen/related_item_image_quality_margintop"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/related_price_txt"
         android:layout_width="@dimen/list_view_item_expense_txt_w"
@@ -65,7 +65,8 @@
         android:gravity="center"
         android:singleLine="true"
         android:textSize="@dimen/related_item_related_price_txt_size"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/related_title"
         android:layout_width="@dimen/related_item_title_w"
@@ -78,8 +79,8 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textColor="#FFF8F8FF"
-        android:textSize="@dimen/related_item_title_textsize"
-    />
+        android:textSize="@dimen/related_item_title_textsize" />
+
     <TextView
         android:id="@+id/related_focus"
         android:layout_width="@dimen/related_focus_text_width"
@@ -91,6 +92,6 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textColor="#FFF8F8FF"
-        android:textSize="@dimen/related_item_focus_textsize"/>
+        android:textSize="@dimen/related_item_focus_textsize" />
 
 </RelativeLayout>

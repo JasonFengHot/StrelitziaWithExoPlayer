@@ -2,13 +2,10 @@ package tv.ismar.usercenter.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-
-import tv.ismar.account.IsmartvActivator;
 
 public class LocationProvider extends ContentProvider {
     private static final String AUTOR = "cn.ismartv.daisy.provider.location";
@@ -19,13 +16,19 @@ public class LocationProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(
+            Uri uri,
+            String[] projection,
+            String selection,
+            String[] selectionArgs,
+            String sortOrder) {
         return null;
     }
 
     @Override
     public String getType(Uri uri) {
-        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences mSharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(getContext());
         return mSharedPreferences.getString("geo_id", "");
     }
 

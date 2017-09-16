@@ -2,7 +2,6 @@ package tv.ismar.channel;
 
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -14,7 +13,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import com.blankj.utilcode.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -23,11 +21,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.core.DaisyUtils;
 import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
-import tv.ismar.app.core.Source;
 import tv.ismar.app.core.VipMark;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.entity.Item;
@@ -38,7 +34,6 @@ import tv.ismar.app.network.SkyService;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.adapter.HGridAdapterImpl;
-import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.SPUtils;
 import tv.ismar.app.util.SystemFileUtil;
@@ -46,8 +41,8 @@ import tv.ismar.app.widget.LoadingDialog;
 import tv.ismar.app.widget.ScrollableSectionList;
 import tv.ismar.listpage.R;
 
-
-public class PackageListDetailActivity extends BaseActivity implements OnItemSelectedListener, OnItemClickListener, HGridView.OnScrollListener {
+public class PackageListDetailActivity extends BaseActivity
+        implements OnItemSelectedListener, OnItemClickListener, HGridView.OnScrollListener {
 
     private SectionList mSectionList;
 
@@ -69,59 +64,82 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
     private Button right_shadow;
     private SkyService skyService;
     private TextView clear_history;
-    private String fromPage=null;
-    private String homepage_template=null;
+    private String fromPage = null;
+    private String homepage_template = null;
+    private OnCancelListener mLoadingCancelListener =
+            new OnCancelListener() {
+
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    finish();
+                    dialog.dismiss();
+                }
+            };
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historycollectlist_view);
-//        final View background = findViewById(R.id.large_layout);
-//        new BitmapDecoder().decode(this, R.drawable.main_bg, new BitmapDecoder.Callback() {
-//            @Override
-//            public void onSuccess(BitmapDrawable bitmapDrawable) {
-//                background.setBackgroundDrawable(bitmapDrawable);
-//            }
-//        });
-        skyService=SkyService.ServiceManager.getService();
+        //        final View background = findViewById(R.id.large_layout);
+        //        new BitmapDecoder().decode(this, R.drawable.main_bg, new BitmapDecoder.Callback()
+        // {
+        //            @Override
+        //            public void onSuccess(BitmapDrawable bitmapDrawable) {
+        //                background.setBackgroundDrawable(bitmapDrawable);
+        //            }
+        //        });
+        skyService = SkyService.ServiceManager.getService();
         mLoadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         mLoadingDialog.setTvText(getResources().getString(R.string.loading));
         mLoadingDialog.setOnCancelListener(mLoadingCancelListener);
-       // DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
+        // DaisyUtils.getVodApplication(this).addActivityToPool(this.toString(), this);
         itemlistUrl = getIntent().getStringExtra("itemlistUrl");
         lableString = getIntent().getStringExtra("lableString");
         initView();
         getData();
-        fromPage=getIntent().getStringExtra("fromPage");
-        homepage_template=getIntent().getStringExtra("homepage_template");
-        if(fromPage!=null) {
+        fromPage = getIntent().getStringExtra("fromPage");
+        homepage_template = getIntent().getStringExtra("homepage_template");
+        if (fromPage != null) {
             final String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
             final String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
             final String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
             final CallaPlay callaPlay = new CallaPlay();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    callaPlay.app_start(IsmartvActivator.getInstance().getSnToken(),
-                            VodUserAgent.getModelName(), DeviceUtils.getScreenInch(PackageListDetailActivity.this),
-                            android.os.Build.VERSION.RELEASE,
-                            SimpleRestClient.appVersion,
-                            SystemFileUtil.getSdCardTotal(PackageListDetailActivity.this),
-                            SystemFileUtil.getSdCardAvalible(PackageListDetailActivity.this),
-                            IsmartvActivator.getInstance().getUsername(), province, city, isp, fromPage, DeviceUtils.getLocalMacAddress(PackageListDetailActivity.this),
-                            SimpleRestClient.app, PackageListDetailActivity.this.getPackageName());
-                }
-            }).start();
-            callaPlay.launcher_vod_click(
-                    "section", -1, homepage_template, -1
-            );
+            new Thread(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    callaPlay.app_start(
+                                            IsmartvActivator.getInstance().getSnToken(),
+                                            VodUserAgent.getModelName(),
+                                            DeviceUtils.getScreenInch(
+                                                    PackageListDetailActivity.this),
+                                            android.os.Build.VERSION.RELEASE,
+                                            SimpleRestClient.appVersion,
+                                            SystemFileUtil.getSdCardTotal(
+                                                    PackageListDetailActivity.this),
+                                            SystemFileUtil.getSdCardAvalible(
+                                                    PackageListDetailActivity.this),
+                                            IsmartvActivator.getInstance().getUsername(),
+                                            province,
+                                            city,
+                                            isp,
+                                            fromPage,
+                                            DeviceUtils.getLocalMacAddress(
+                                                    PackageListDetailActivity.this),
+                                            SimpleRestClient.app,
+                                            PackageListDetailActivity.this.getPackageName());
+                                }
+                            })
+                    .start();
+            callaPlay.launcher_vod_click("section", -1, homepage_template, -1);
         }
     }
 
     @Override
     protected void onDestroy() {
-     //   DaisyUtils.getVodApplication(this).removeActivtyFromPool(this.toString());
+        //   DaisyUtils.getVodApplication(this).removeActivtyFromPool(this.toString());
         super.onDestroy();
     }
 
@@ -132,7 +150,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         } else {
             channel_label.setText("礼包内容");
         }
-        clear_history= (TextView) findViewById(R.id.clear_history);
+        clear_history = (TextView) findViewById(R.id.clear_history);
         clear_history.setVisibility(View.GONE);
         section_tabs = (ScrollableSectionList) findViewById(R.id.section_tabs);
         section_tabs.setVisibility(View.GONE);
@@ -144,62 +162,67 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         mHGridView.setOnScrollListener(this);
         mHGridView.leftbtn = left_shadow;
         mHGridView.rightbtn = right_shadow;
-        mHGridView.list_offset=21;
-        left_shadow.setOnHoverListener(new View.OnHoverListener() {
+        mHGridView.list_offset = 21;
+        left_shadow.setOnHoverListener(
+                new View.OnHoverListener() {
 
-			@Override
-			public boolean onHover(View arg0, MotionEvent arg1) {
-				if(arg1.getAction() == MotionEvent.ACTION_HOVER_ENTER || arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE){
-					arg0.setFocusable(true);
-					arg0.setFocusableInTouchMode(true);
-					arg0.requestFocusFromTouch();
-				}
-				return false;
-			}
-		});
+                    @Override
+                    public boolean onHover(View arg0, MotionEvent arg1) {
+                        if (arg1.getAction() == MotionEvent.ACTION_HOVER_ENTER
+                                || arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+                            arg0.setFocusable(true);
+                            arg0.setFocusableInTouchMode(true);
+                            arg0.requestFocusFromTouch();
+                        }
+                        return false;
+                    }
+                });
 
-		right_shadow.setOnHoverListener(new View.OnHoverListener() {
+        right_shadow.setOnHoverListener(
+                new View.OnHoverListener() {
 
-			@Override
-			public boolean onHover(View arg0, MotionEvent arg1) {
-				if (arg1.getAction() == MotionEvent.ACTION_HOVER_ENTER
-						|| arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-					arg0.setFocusable(true);
-					arg0.setFocusableInTouchMode(true);
-					arg0.requestFocusFromTouch();
-				}
-				return false;
-			}
-		});
-		left_shadow.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public boolean onHover(View arg0, MotionEvent arg1) {
+                        if (arg1.getAction() == MotionEvent.ACTION_HOVER_ENTER
+                                || arg1.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+                            arg0.setFocusable(true);
+                            arg0.setFocusableInTouchMode(true);
+                            arg0.requestFocusFromTouch();
+                        }
+                        return false;
+                    }
+                });
+        left_shadow.setOnClickListener(
+                new OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				mHGridView.pageScroll(View.FOCUS_LEFT);
-                mHGridView.setFocusableInTouchMode(true);
-                mHGridView.setFocusable(true);
-			}
-		});
-		right_shadow.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				mHGridView.pageScroll(View.FOCUS_RIGHT);
-				 left_shadow.setVisibility(View.VISIBLE);
-                mHGridView.setFocusableInTouchMode(true);
-                mHGridView.setFocusable(true);
-			}
-		});
-//        btn_search = (Button) findViewById(R.id.list_view_search);
-//        btn_search.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                PageIntent intent=new PageIntent();
-//                intent.toSearch(PackageListDetailActivity.this);
-//            }
-//        });
+                    @Override
+                    public void onClick(View arg0) {
+                        mHGridView.pageScroll(View.FOCUS_LEFT);
+                        mHGridView.setFocusableInTouchMode(true);
+                        mHGridView.setFocusable(true);
+                    }
+                });
+        right_shadow.setOnClickListener(
+                new OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        mHGridView.pageScroll(View.FOCUS_RIGHT);
+                        left_shadow.setVisibility(View.VISIBLE);
+                        mHGridView.setFocusableInTouchMode(true);
+                        mHGridView.setFocusable(true);
+                    }
+                });
+        //        btn_search = (Button) findViewById(R.id.list_view_search);
+        //        btn_search.setOnClickListener(new OnClickListener() {
+        //
+        //            @Override
+        //            public void onClick(View v) {
+        //                // TODO Auto-generated method stub
+        //                PageIntent intent=new PageIntent();
+        //                intent.toSearch(PackageListDetailActivity.this);
+        //            }
+        //        });
     }
 
     private void getData() {
@@ -209,83 +232,95 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         getPackageList();
     }
 
-    private OnCancelListener mLoadingCancelListener = new OnCancelListener() {
-
-        @Override
-        public void onCancel(DialogInterface dialog) {
-            finish();
-            dialog.dismiss();
-        }
-    };
-    private void getPackageList(){
+    private void getPackageList() {
         if (StringUtils.isEmpty(itemlistUrl)) {
-            itemlistUrl= "http://"+IsmartvActivator.getInstance().getApiDomain()+ "/api/package/list/" + pk + "/";
+            itemlistUrl =
+                    "http://"
+                            + IsmartvActivator.getInstance().getApiDomain()
+                            + "/api/package/list/"
+                            + pk
+                            + "/";
         }
-        skyService.getPackageList(itemlistUrl).subscribeOn(Schedulers.io())
+        skyService
+                .getPackageList(itemlistUrl)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<ItemList>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(
+                        new BaseObserver<ItemList>() {
+                            @Override
+                            public void onCompleted() {}
 
-                    }
+                            @Override
+                            public void onNext(ItemList itemList) {
+                                if (itemList != null) {
+                                    mLoadingDialog.dismiss();
+                                    mItemCollections = new ArrayList<ItemCollection>();
+                                    int num_pages =
+                                            (int)
+                                                    Math.ceil(
+                                                            (float) itemList.count
+                                                                    / (float)
+                                                                            ItemCollection
+                                                                                    .NUM_PER_PAGE);
+                                    ItemCollection itemCollection =
+                                            new ItemCollection(num_pages, itemList.count, "1", "1");
+                                    mItemCollections.add(itemCollection);
 
-                    @Override
-                    public void onNext(ItemList itemList) {
-                        if (itemList != null) {
-                            mLoadingDialog.dismiss();
-                            mItemCollections = new ArrayList<ItemCollection>();
-                            int num_pages = (int) Math.ceil((float) itemList.count / (float) ItemCollection.NUM_PER_PAGE);
-                            ItemCollection itemCollection = new ItemCollection(num_pages, itemList.count, "1", "1");
-                            mItemCollections.add(itemCollection);
-
-                            mHGridAdapter = new HGridAdapterImpl(PackageListDetailActivity.this, mItemCollections, false);
-                            mHGridAdapter.setList(mItemCollections);
-                            if (mHGridAdapter.getCount() > 0) {
-                                mHGridView.setAdapter(mHGridAdapter);
-                                mHGridView.setFocusable(true);
-                                mHGridView.requestFocus();
-                                mItemCollections.get(0).fillItems(0, itemList.objects);
-                                mHGridAdapter.setList(mItemCollections);
+                                    mHGridAdapter =
+                                            new HGridAdapterImpl(
+                                                    PackageListDetailActivity.this,
+                                                    mItemCollections,
+                                                    false);
+                                    mHGridAdapter.setList(mItemCollections);
+                                    if (mHGridAdapter.getCount() > 0) {
+                                        mHGridView.setAdapter(mHGridAdapter);
+                                        mHGridView.setFocusable(true);
+                                        mHGridView.requestFocus();
+                                        mItemCollections.get(0).fillItems(0, itemList.objects);
+                                        mHGridAdapter.setList(mItemCollections);
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mLoadingDialog.dismiss();
-                        super.onError(e);
-                    }
-                });
+                            @Override
+                            public void onError(Throwable e) {
+                                mLoadingDialog.dismiss();
+                                super.onError(e);
+                            }
+                        });
     }
-    private int index;
-    private void getPackageListItem(int composedIndex){
-        index=composedIndex;
+
+    private void getPackageListItem(int composedIndex) {
+        index = composedIndex;
         int[] sectionAndPage = getSectionAndPageFromIndex(index);
         int page = sectionAndPage[1] + 1;
-        String url=itemlistUrl+page+"/";
-        skyService.getPackageListItem(url).subscribeOn(Schedulers.io())
+        String url = itemlistUrl + page + "/";
+        skyService
+                .getPackageListItem(url)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<ItemList>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(
+                        new BaseObserver<ItemList>() {
+                            @Override
+                            public void onCompleted() {}
 
-                    }
+                            @Override
+                            public void onNext(ItemList itemList) {
+                                if (itemList != null && itemList.objects != null) {
+                                    int sectionIndex = getSectionAndPageFromIndex(index)[0];
+                                    int page = getSectionAndPageFromIndex(index)[1];
+                                    ItemCollection itemCollection =
+                                            mItemCollections.get(sectionIndex);
+                                    itemCollection.fillItems(page, itemList.objects);
+                                    mHGridAdapter.setList(mItemCollections);
+                                }
+                            }
 
-                    @Override
-                    public void onNext(ItemList itemList) {
-                        if (itemList != null && itemList.objects != null) {
-                            int sectionIndex = getSectionAndPageFromIndex(index)[0];
-                            int page = getSectionAndPageFromIndex(index)[1];
-                            ItemCollection itemCollection = mItemCollections.get(sectionIndex);
-                            itemCollection.fillItems(page, itemList.objects);
-                            mHGridAdapter.setList(mItemCollections);
-                        }
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                    }
-                });
+                            @Override
+                            public void onError(Throwable e) {
+                                super.onError(e);
+                            }
+                        });
     }
 
     private int getIndexFromSectionAndPage(int sectionIndex, int page) {
@@ -298,6 +333,7 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
         sectionAndPage[1] = index - index / 10000 * 10000;
         return sectionAndPage;
     }
+
     @Override
     public void onScrollStateChanged(HGridView view, int scrollState) {
         // TODO Auto-generated method stub
@@ -309,8 +345,8 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
     }
 
     @Override
-    public void onScroll(HGridView view, int firstVisibleItem,
-                         int visibleItemCount, int totalItemCount) {
+    public void onScroll(
+            HGridView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // TODO Auto-generated method stub
         if (!mIsBusy) {
             // We put the composed index which need to loading to this list. and check with
@@ -350,16 +386,18 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
                 return;
             }
 
-            // Check the composedIndex in mCurrentLoadingTask if it existed do nothing, else start a task.
+            // Check the composedIndex in mCurrentLoadingTask if it existed do nothing, else start a
+            // task.
             // cancel other task that not in needToLoadComposedIndex list.
-//            final ConcurrentHashMap<Integer, GetItemListTask> currentLoadingTask = mCurrentLoadingTask;
-//
-//            for (Integer i : currentLoadingTask.keySet()) {
-//                if (!needToLoadComposedIndex.contains(i)) {
-//                    currentLoadingTask.get(i).cancel(true);
-//                }
-//            }
-//
+            //            final ConcurrentHashMap<Integer, GetItemListTask> currentLoadingTask =
+            // mCurrentLoadingTask;
+            //
+            //            for (Integer i : currentLoadingTask.keySet()) {
+            //                if (!needToLoadComposedIndex.contains(i)) {
+            //                    currentLoadingTask.get(i).cancel(true);
+            //                }
+            //            }
+            //
             for (int i = 0; i < needToLoadComposedIndex.size(); i++) {
                 int composedIndex = needToLoadComposedIndex.get(i);
                 getPackageListItem(composedIndex);
@@ -368,19 +406,17 @@ public class PackageListDetailActivity extends BaseActivity implements OnItemSel
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // TODO Auto-generated method stub
         Item item = mHGridAdapter.getItem(position);
         if (item != null) {
-                PageIntent intent=new PageIntent();
-                intent.toDetailPage(this,"package",item.pk);
+            PageIntent intent = new PageIntent();
+            intent.toDetailPage(this, "package", item.pk);
         }
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-                               long arg3) {
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
         // TODO Auto-generated method stub
 
     }

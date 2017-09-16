@@ -1,7 +1,4 @@
 package tv.ismar.app.db;
-import cn.ismartv.truetime.TrueTime;
-
-import cn.ismartv.truetime.TrueTime;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,6 +7,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.db.DBHelper.DBFields;
 import tv.ismar.app.entity.DBQuality;
@@ -18,19 +16,16 @@ import tv.ismar.app.player.CallaPlay;
 
 public class LocalHistoryManager implements HistoryManager {
 
-    /**
-     * store history records.
-     */
+    /** store history records. */
     private ArrayList<History> mHistories;
 
     private DBHelper mDBHelper;
+    private int mTotalEntriesLimit = 50;
 
     public LocalHistoryManager(Context context) {
         mDBHelper = VodApplication.getModuleAppContext().getModuleDBHelper();
         mHistories = mDBHelper.getAllHistories("no");
     }
-
-    private int mTotalEntriesLimit = 50;
 
     @Override
     public void addHistory(String title, String url, long currentPosition, String isnet) {
@@ -95,7 +90,10 @@ public class LocalHistoryManager implements HistoryManager {
 
     @Override
     public void addHistory(History history, String isnet, int completePosition) {
-        if (history == null || history.title == null || history.content_model == null || history.url == null) {
+        if (history == null
+                || history.title == null
+                || history.content_model == null
+                || history.url == null) {
             throw new RuntimeException("history or history's field should not be null");
         }
 
@@ -138,10 +136,11 @@ public class LocalHistoryManager implements HistoryManager {
             cv.put(DBFields.FavoriteTable.CPNAME, history.cpname);
             cv.put(DBFields.FavoriteTable.CPTITLE, history.cptitle);
             cv.put(DBFields.FavoriteTable.PAYTYPE, history.paytype);
-            long result = mDBHelper.insert(cv, DBFields.HistroyTable.TABLE_NAME, mTotalEntriesLimit);
+            long result =
+                    mDBHelper.insert(cv, DBFields.HistroyTable.TABLE_NAME, mTotalEntriesLimit);
             mHistories = mDBHelper.getAllHistories(isnet);
         }
-        if(completePosition > 0){
+        if (completePosition > 0) {
             history.last_position = completePosition;
         }
         new DataCollectionTask().execute(history);
@@ -176,7 +175,6 @@ public class LocalHistoryManager implements HistoryManager {
             cv.put(DBFields.QualityTable.QUALITY, quality.quality);
             mDBHelper.insert(cv, DBFields.QualityTable.TABLE_NAME, 1);
         }
-
     }
 
     @Override
@@ -195,7 +193,5 @@ public class LocalHistoryManager implements HistoryManager {
             }
             return null;
         }
-
     }
-
 }

@@ -18,32 +18,24 @@ import tv.ismar.usercenter.R;
 import tv.ismar.usercenter.databinding.FragmentHelpBinding;
 import tv.ismar.usercenter.viewmodel.HelpViewModel;
 
-/**
- * Created by huibin on 10/27/16.
- */
-
-public class HelpFragment extends BaseFragment implements HelpContract.View, View.OnHoverListener,View.OnFocusChangeListener{
+/** Created by huibin on 10/27/16. */
+public class HelpFragment extends BaseFragment
+        implements HelpContract.View, View.OnHoverListener, View.OnFocusChangeListener {
     private static final String TAG = HelpFragment.class.getSimpleName();
-
-
+    FragmentHelpBinding helpBinding;
     private HelpContract.Presenter mPresenter;
     private HelpViewModel mViewModel;
     private ImageView ismartv_icon;
+    private boolean fragmentIsPause = false;
 
     public static HelpFragment newInstance() {
         return new HelpFragment();
     }
 
-    FragmentHelpBinding helpBinding;
-
-    private boolean fragmentIsPause = false;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach");
-
-
     }
 
     @Override
@@ -52,10 +44,12 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         Log.d(TAG, "onCreate");
     }
 
-
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
 
         helpBinding = FragmentHelpBinding.inflate(inflater, container, false);
@@ -63,13 +57,14 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         helpBinding.setActionHandler(mPresenter);
         View root = helpBinding.getRoot();
         ismartv_icon = (ImageView) root.findViewById(R.id.ismartv_icon);
-        ismartv_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PageIntent pageIntent = new PageIntent();
-                pageIntent.toHelpPage(HelpFragment.this.getContext());
-            }
-        });
+        ismartv_icon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PageIntent pageIntent = new PageIntent();
+                        pageIntent.toHelpPage(HelpFragment.this.getContext());
+                    }
+                });
         return root;
     }
 
@@ -79,24 +74,24 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         super.onViewCreated(view, savedInstanceState);
         helpBinding.ismartvIcon.setOnHoverListener(this);
         helpBinding.tmp.setNextFocusLeftId(R.id.usercenter_help);
-        helpBinding.getRoot().setOnHoverListener(new View.OnHoverListener() {
-            @Override
-            public boolean onHover(View v, MotionEvent event) {
-                helpBinding.tmp.requestFocus();
-                return false;
-            }
-        });
+        helpBinding
+                .getRoot()
+                .setOnHoverListener(
+                        new View.OnHoverListener() {
+                            @Override
+                            public boolean onHover(View v, MotionEvent event) {
+                                helpBinding.tmp.requestFocus();
+                                return false;
+                            }
+                        });
         helpBinding.ismartvIcon.setNextFocusLeftId(R.id.usercenter_help);
         helpBinding.ismartvIcon.setOnFocusChangeListener(this);
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated");
-
-
     }
 
     @Override
@@ -111,7 +106,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
         AppConstant.purchase_page = "customer";
         fragmentIsPause = false;
         Log.d(TAG, "onResume");
-
     }
 
     @Override
@@ -137,7 +131,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View, Vie
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
-
     }
 
     @Override

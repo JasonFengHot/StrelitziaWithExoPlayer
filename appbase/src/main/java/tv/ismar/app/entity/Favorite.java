@@ -27,8 +27,19 @@ public class Favorite implements Serializable {
         super();
     }
 
-    public Favorite(long id, String title, String url, String adlet_url,
-                    int quality, boolean is_complex, String content_model, String isNet, int cpid, String cpname, String cptitle, int paytype) {
+    public Favorite(
+            long id,
+            String title,
+            String url,
+            String adlet_url,
+            int quality,
+            boolean is_complex,
+            String content_model,
+            String isNet,
+            int cpid,
+            String cpname,
+            String cptitle,
+            int paytype) {
         super();
         this.id = id;
         this.title = title;
@@ -44,14 +55,14 @@ public class Favorite implements Serializable {
         this.paytype = paytype;
     }
 
-
     public Favorite(Cursor c) {
         id = c.getLong(c.getColumnIndex(DBFields.FavoriteTable._ID));
         title = c.getString(c.getColumnIndex(DBFields.FavoriteTable.TITLE));
         url = c.getString(c.getColumnIndex(DBFields.FavoriteTable.URL));
         adlet_url = c.getString(c.getColumnIndex(DBFields.FavoriteTable.ADLET_URL));
         quality = c.getInt(c.getColumnIndex(DBFields.FavoriteTable.QUALITY));
-        is_complex = c.getInt(c.getColumnIndex(DBFields.FavoriteTable.IS_COMPLEX)) == 0 ? false : true;
+        is_complex =
+                c.getInt(c.getColumnIndex(DBFields.FavoriteTable.IS_COMPLEX)) == 0 ? false : true;
         content_model = c.getString(c.getColumnIndex(DBFields.FavoriteTable.CONTENT_MODEL));
         isnet = c.getString(c.getColumnIndex(DBFields.FavoriteTable.ISNET));
         cpid = c.getInt(c.getColumnIndex(DBFields.FavoriteTable.CPID));
@@ -59,5 +70,4 @@ public class Favorite implements Serializable {
         cptitle = c.getString(c.getColumnIndex(DBFields.FavoriteTable.CPTITLE));
         paytype = c.getInt(c.getColumnIndex(DBFields.FavoriteTable.PAYTYPE));
     }
-
 }

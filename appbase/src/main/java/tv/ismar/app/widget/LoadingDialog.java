@@ -22,7 +22,7 @@ public class LoadingDialog extends Dialog implements DialogInterface.OnDismissLi
         setContentView(R.layout.layout_loading);
         setCanceledOnTouchOutside(false);
         setCancelable(true);
-        tipTextView = (TextView) findViewById(R.id.tipTextView);// 提示文字
+        tipTextView = (TextView) findViewById(R.id.tipTextView); // 提示文字
 
         dialog_back_img = (ImageView) findViewById(R.id.dialog_back_img);
         dialog_back_img.setBackgroundResource(R.drawable.module_loading);

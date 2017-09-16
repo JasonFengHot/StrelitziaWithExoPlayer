@@ -14,15 +14,12 @@ import tv.ismar.player.R;
 import tv.ismar.player.media.IsmartvPlayer;
 import tv.ismar.player.presenter.PlayerPagePresenter;
 
-/**
- * Created by longhai on 16-9-8.
- */
+/** Created by longhai on 16-9-8. */
 public class PlayerPageViewModel extends BaseObservable {
 
+    public ObservableField<String> itemTitle;
     private Context mContext;
     private PlayerPagePresenter mPresenter;
-    public ObservableField<String> itemTitle;
-
     private IsmartvPlayer mIsmartvPlayer;
     private int mCurrentPosition = 0;
     private int mClipLength = 0;
@@ -58,8 +55,7 @@ public class PlayerPageViewModel extends BaseObservable {
 
     @Bindable
     public String getTimer() {
-        String text = getTimeString(mCurrentPosition) + "/"
-                + getTimeString(mClipLength);
+        String text = getTimeString(mCurrentPosition) + "/" + getTimeString(mClipLength);
         return text;
     }
 
@@ -69,16 +65,16 @@ public class PlayerPageViewModel extends BaseObservable {
             return "";
         }
         switch (mIsmartvPlayer.getCurrentQuality()) {
-            case QUALITY_LOW:// 已弃用
+            case QUALITY_LOW: // 已弃用
                 return ClipEntity.Quality.getString(ClipEntity.Quality.QUALITY_LOW);
-            case QUALITY_ADAPTIVE:// 自适应
+            case QUALITY_ADAPTIVE: // 自适应
                 return ClipEntity.Quality.getString(ClipEntity.Quality.QUALITY_ADAPTIVE);
-            case QUALITY_NORMAL:// 流畅
-            case QUALITY_MEDIUM:// 高清
-            case QUALITY_HIGH:// 超清
-            case QUALITY_ULTRA:// 1080P
-            case QUALITY_BLUERAY:// 蓝光
-            case QUALITY_4K:// 4K
+            case QUALITY_NORMAL: // 流畅
+            case QUALITY_MEDIUM: // 高清
+            case QUALITY_HIGH: // 超清
+            case QUALITY_ULTRA: // 1080P
+            case QUALITY_BLUERAY: // 蓝光
+            case QUALITY_4K: // 4K
             default:
                 return "";
         }
@@ -91,21 +87,21 @@ public class PlayerPageViewModel extends BaseObservable {
         }
         Log.i("LH/", "quality:" + mIsmartvPlayer.getCurrentQuality());
         switch (mIsmartvPlayer.getCurrentQuality()) {
-            case QUALITY_LOW:// 已弃用
+            case QUALITY_LOW: // 已弃用
                 return mContext.getResources().getDrawable(R.drawable.player_quality_back);
-            case QUALITY_ADAPTIVE:// 自适应
+            case QUALITY_ADAPTIVE: // 自适应
                 return mContext.getResources().getDrawable(R.drawable.player_quality_back);
-            case QUALITY_NORMAL:// 流畅
+            case QUALITY_NORMAL: // 流畅
                 return mContext.getResources().getDrawable(R.drawable.player_stream_normal);
-            case QUALITY_MEDIUM:// 高清
+            case QUALITY_MEDIUM: // 高清
                 return mContext.getResources().getDrawable(R.drawable.player_stream_high);
-            case QUALITY_HIGH:// 超清
+            case QUALITY_HIGH: // 超清
                 return mContext.getResources().getDrawable(R.drawable.player_stream_super);
-            case QUALITY_ULTRA:// 1080P
+            case QUALITY_ULTRA: // 1080P
                 return mContext.getResources().getDrawable(R.drawable.player_stream_1080p);
-            case QUALITY_BLUERAY:// 蓝光
+            case QUALITY_BLUERAY: // 蓝光
                 return mContext.getResources().getDrawable(R.drawable.player_stream_blueray);
-            case QUALITY_4K:// 4K
+            case QUALITY_4K: // 4K
                 return mContext.getResources().getDrawable(R.drawable.player_stream_4k);
             default:
                 return mContext.getResources().getDrawable(R.drawable.player_quality_back);
@@ -132,7 +128,6 @@ public class PlayerPageViewModel extends BaseObservable {
                 mIsmartvPlayer.start();
             }
         }
-
     }
 
     private String getTimeString(int ms) {
@@ -144,5 +139,4 @@ public class PlayerPageViewModel extends BaseObservable {
         int sec = left / 1000;
         return String.format("%1$02d:%2$02d:%3$02d", hour, min, sec);
     }
-
 }

@@ -1,8 +1,6 @@
 package tv.ismar.app.entity;
 
-/**
- * Created by <huaijiefeng@gmail.com> on 9/2/14.
- */
+/** Created by <huaijiefeng@gmail.com> on 9/2/14. */
 public class ChannelEntity {
     private String name;
     private String url;
@@ -14,33 +12,32 @@ public class ChannelEntity {
     private String homepage_template;
     private String homepage_url;
     private int style;
-    
 
-	public int getStyle() {
-		return style;
-	}
+    public int getStyle() {
+        return style;
+    }
 
-	public void setStyle(int style) {
-		this.style = style;
-	}
+    public void setStyle(int style) {
+        this.style = style;
+    }
 
-	public String getHomepage_template() {
-		return homepage_template;
-	}
+    public String getHomepage_template() {
+        return homepage_template;
+    }
 
-	public void setHomepage_template(String homepage_template) {
-		this.homepage_template = homepage_template;
-	}
+    public void setHomepage_template(String homepage_template) {
+        this.homepage_template = homepage_template;
+    }
 
-	public String getHomepage_url() {
-		return homepage_url;
-	}
+    public String getHomepage_url() {
+        return homepage_url;
+    }
 
-	public void setHomepage_url(String homepage_url) {
-		this.homepage_url = homepage_url;
-	}
+    public void setHomepage_url(String homepage_url) {
+        this.homepage_url = homepage_url;
+    }
 
-	public String getName() {
+    public String getName() {
         return name;
     }
 

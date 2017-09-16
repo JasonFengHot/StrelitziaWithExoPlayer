@@ -1,5 +1,4 @@
 package tv.ismar.usercenter.presenter;
-import cn.ismartv.truetime.TrueTime;
 
 import cn.ismartv.truetime.TrueTime;
 import rx.Subscription;
@@ -12,10 +11,7 @@ import tv.ismar.usercenter.PurchaseHistoryContract;
 import tv.ismar.usercenter.view.PurchaseHistoryFragment;
 import tv.ismar.usercenter.view.UserCenterActivity;
 
-/**
- * Created by huibin on 10/28/16.
- */
-
+/** Created by huibin on 10/28/16. */
 public class PurchaseHistoryPresenter implements PurchaseHistoryContract.Presenter {
     private PurchaseHistoryFragment mFragment;
 
@@ -26,7 +22,6 @@ public class PurchaseHistoryPresenter implements PurchaseHistoryContract.Present
     public PurchaseHistoryPresenter(PurchaseHistoryFragment purchaseHistoryFragment) {
         purchaseHistoryFragment.setPresenter(this);
         mFragment = purchaseHistoryFragment;
-
     }
 
     @Override
@@ -47,21 +42,24 @@ public class PurchaseHistoryPresenter implements PurchaseHistoryContract.Present
     public void fetchAccountsOrders() {
         String timestamp = String.valueOf(TrueTime.now().getTime());
         IsmartvActivator activator = IsmartvActivator.getInstance();
-        String sign = activator.encryptWithPublic("sn=" + activator.getSnToken() + "&timestamp=" + timestamp);
+        String sign =
+                activator.encryptWithPublic(
+                        "sn=" + activator.getSnToken() + "&timestamp=" + timestamp);
 
-        accountsOrdersSub = mSkyService.accountsOrders(timestamp, sign)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<AccountsOrdersEntity>() {
-                    @Override
-                    public void onCompleted() {
+        accountsOrdersSub =
+                mSkyService
+                        .accountsOrders(timestamp, sign)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                mActivity.new BaseObserver<AccountsOrdersEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
-
-                    @Override
-                    public void onNext(AccountsOrdersEntity accountsOrdersEntity) {
-                        mFragment.loadAccountOrders(accountsOrdersEntity);
-                    }
-                });
+                                    @Override
+                                    public void onNext(AccountsOrdersEntity accountsOrdersEntity) {
+                                        mFragment.loadAccountOrders(accountsOrdersEntity);
+                                    }
+                                });
     }
 }

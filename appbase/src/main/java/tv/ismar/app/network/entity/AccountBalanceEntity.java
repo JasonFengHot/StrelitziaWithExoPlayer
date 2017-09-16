@@ -2,13 +2,10 @@ package tv.ismar.app.network.entity;
 
 import java.math.BigDecimal;
 
-/**
- * Created by huibin on 2016/9/14.
- */
+/** Created by huibin on 2016/9/14. */
 public class AccountBalanceEntity {
     private BigDecimal balance;
     private BigDecimal sn_balance;
-
 
     public BigDecimal getBalance() {
         return balance;

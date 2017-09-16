@@ -14,9 +14,30 @@ import tv.ismar.app.db.location.ProvinceTable;
 public class SPUtils {
 
     private static SPUtils helper;
+    private static SharedPreferences.OnSharedPreferenceChangeListener
+            sharedPreferenceChangeListener =
+                    new SharedPreferences.OnSharedPreferenceChangeListener() {
+                        @Override
+                        public void onSharedPreferenceChanged(
+                                SharedPreferences sharedPreferences, String key) {
+                            if (key.equals(InitializeProcess.PROVINCE)) {
+                                changeProvincePY(
+                                        sharedPreferences.getString(
+                                                InitializeProcess.PROVINCE, ""));
+                            }
+                        }
+                    };
     private SharedPreferences mSharedPreferences = null;
     private Context ctx;
     private SharedPreferences.Editor editor;
+
+    private SPUtils(Context context) {
+        this.ctx = context;
+        this.mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        this.mSharedPreferences.registerOnSharedPreferenceChangeListener(
+                sharedPreferenceChangeListener);
+        this.editor = mSharedPreferences.edit();
+    }
 
     public static void init(Context context) {
         if (helper == null) {
@@ -29,13 +50,6 @@ public class SPUtils {
             throw new NullPointerException("NOT INIT sphelper,please call init in app first");
         }
         return helper;
-    }
-
-    private SPUtils(Context context) {
-        this.ctx = context;
-        this.mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
-        this.mSharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
-        this.editor = mSharedPreferences.edit();
     }
 
     public static void putValue(String key, Object value) {
@@ -53,7 +67,6 @@ public class SPUtils {
             getInstance().editor.putString(key, value.toString());
         }
         getInstance().editor.commit();
-
     }
 
     public static Object getValue(String key, Object defaultKey) {
@@ -86,8 +99,7 @@ public class SPUtils {
             try {
                 JSONArray json = new JSONArray(s);
                 array = new float[json.length()];
-                for (int i = 0; i < array.length; i++)
-                    array[i] = (float) json.getDouble(i);
+                for (int i = 0; i < array.length; i++) array[i] = (float) json.getDouble(i);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -98,29 +110,21 @@ public class SPUtils {
     public static void putFloatArray(SharedPreferences.Editor editor, String key, float[] array) {
         try {
             JSONArray json = new JSONArray();
-            for (float f : array)
-                json.put(f);
+            for (float f : array) json.put(f);
             editor.putString(key, json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private static SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals(InitializeProcess.PROVINCE)) {
-                changeProvincePY(sharedPreferences.getString(InitializeProcess.PROVINCE, ""));
-            }
-        }
-    };
-
     private static void changeProvincePY(String provinceName) {
-        ProvinceTable provinceTable = new Select().from(ProvinceTable.class)
-                .where(ProvinceTable.PROVINCE_NAME + " = ?", provinceName).executeSingle();
+        ProvinceTable provinceTable =
+                new Select()
+                        .from(ProvinceTable.class)
+                        .where(ProvinceTable.PROVINCE_NAME + " = ?", provinceName)
+                        .executeSingle();
         if (provinceTable != null) {
             putValue(InitializeProcess.PROVINCE_PY, provinceTable.pinyin);
         }
     }
-
 }

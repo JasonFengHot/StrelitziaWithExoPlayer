@@ -9,9 +9,7 @@ import java.util.List;
 
 import tv.ismar.app.network.entity.ClipEntity;
 
-/**
- * Created by longhai on 16-9-12.
- */
+/** Created by longhai on 16-9-12. */
 public class QiyiPlayer extends IsmartvPlayer {
 
     private QiYiVideoView videoSurfaceView;
@@ -26,8 +24,8 @@ public class QiyiPlayer extends IsmartvPlayer {
         if (mContainer == null) {
             return;
         }
-        //创建IVideoOverlay对象, 不支持实现IVideoOverlay接口，必须调用PlaySdk.getInstance().createVideoOverlay创建
-        //创建IVideoOverlay对象, 不需创建SurfaceView, 直接传入父容器即可
+        // 创建IVideoOverlay对象, 不支持实现IVideoOverlay接口，必须调用PlaySdk.getInstance().createVideoOverlay创建
+        // 创建IVideoOverlay对象, 不需创建SurfaceView, 直接传入父容器即可
         videoSurfaceView = new QiYiVideoView(mContext);
         videoSurfaceView.setmOnDataSourceSetListener(mOnDataSourceSetListener);
         videoSurfaceView.setmOnVideoSizeChangedListener(mOnVideoSizeChangedListener);
@@ -35,12 +33,13 @@ public class QiyiPlayer extends IsmartvPlayer {
         videoSurfaceView.setmOnStateChangedListener(mOnStateChangedListener);
         videoSurfaceView.setmOnInfoListener(mOnInfoListener);
 
-        IVideoOverlay videoOverlay = PlayerSdk.getInstance().createVideoOverlay(mContainer, videoSurfaceView);
+        IVideoOverlay videoOverlay =
+                PlayerSdk.getInstance().createVideoOverlay(mContainer, videoSurfaceView);
         videoSurfaceView.setPlayer(media, videoOverlay, mLogMedia, mIsPreview);
-        //创建IVideoOverlay对象, 如需修改SurfaceView, 请继承VideoSurfaceView
-        //mSurfaceView = new MyVideoSurfaceView(getApplicationContext());
-        //mVideoOverlay = PlaySdk.getInstance().createVideoOverlay(mWindowedParent, mSurfaceView);
-        //IMediaPlayer对象通过QiyiPlayerSdk.getInstance().createVideoPlayer()创建
+        // 创建IVideoOverlay对象, 如需修改SurfaceView, 请继承VideoSurfaceView
+        // mSurfaceView = new MyVideoSurfaceView(getApplicationContext());
+        // mVideoOverlay = PlaySdk.getInstance().createVideoOverlay(mWindowedParent, mSurfaceView);
+        // IMediaPlayer对象通过QiyiPlayerSdk.getInstance().createVideoPlayer()创建
 
     }
 
@@ -54,13 +53,12 @@ public class QiyiPlayer extends IsmartvPlayer {
 
     @Override
     public void prepareAsync() {
-        //调用prepareAsync, 播放器开始准备, 必须调用
+        // 调用prepareAsync, 播放器开始准备, 必须调用
         if (videoSurfaceView == null) {
             return;
         }
         videoSurfaceView.prepareAsync();
     }
-
 
     @Override
     public void start() {
@@ -79,14 +77,10 @@ public class QiyiPlayer extends IsmartvPlayer {
     }
 
     @Override
-    public void stop() {
-
-    }
+    public void stop() {}
 
     @Override
-    public void release() {
-
-    }
+    public void release() {}
 
     @Override
     public void stopPlayBack() {

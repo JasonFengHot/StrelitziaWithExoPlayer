@@ -1,12 +1,9 @@
 package tv.ismar.app.network.entity;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by huaijie on 2015/4/9.
- */
+/** Created by huaijie on 2015/4/9. */
 public class CdnListEntity {
     private ArrayList<CdnEntity> cdn_list;
     private String retcode;
@@ -42,7 +39,6 @@ public class CdnListEntity {
         private String name;
         private int route_trace;
         private String url;
-
 
         public int getCdnID() {
             return cdnID;
@@ -89,5 +85,4 @@ public class CdnListEntity {
             return name.replace("|", "-").split("-")[1];
         }
     }
-
 }

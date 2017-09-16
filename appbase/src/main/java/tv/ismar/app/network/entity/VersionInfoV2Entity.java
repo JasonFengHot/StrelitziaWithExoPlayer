@@ -3,9 +3,7 @@ package tv.ismar.app.network.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by huaijie on 10/22/15.
- */
+/** Created by huaijie on 10/22/15. */
 public class VersionInfoV2Entity {
     private List<ApplicationEntity> upgrades;
     private String version;

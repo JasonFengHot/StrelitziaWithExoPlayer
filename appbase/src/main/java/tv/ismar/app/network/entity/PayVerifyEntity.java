@@ -1,8 +1,6 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huibin on 2016/9/17.
- */
+/** Created by huibin on 2016/9/17. */
 public class PayVerifyEntity {
     private String status;
     private String err_desc;

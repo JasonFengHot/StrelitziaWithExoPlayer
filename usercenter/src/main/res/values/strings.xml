@@ -2,7 +2,8 @@
     <string name="usercenter_store">购卡充值</string>
     <string name="usercenter_userinfo">个人信息</string>
     <string name="usercenter_login">登&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;录</string>
-    <string name="usercenter_login_register">登&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;录</string>
+    <string name="usercenter_login_register">登&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;录
+    </string>
     <string name="usercenter_purchase_history">购买记录</string>
     <string name="usercenter_help">客服中心</string>
     <string name="usercenter_location">定&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;位</string>

@@ -3,9 +3,7 @@ package tv.ismar.homepage.adapter;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by mac on 15/11/3.
- */
+/** Created by mac on 15/11/3. */
 public interface OnItemActionListener {
 
     void onItemHoverListener(View v, MotionEvent event, int position);
@@ -15,5 +13,4 @@ public interface OnItemActionListener {
     void onItemClickListener(View v, int position);
 
     void onItemSelectedListener(int position);
-
 }

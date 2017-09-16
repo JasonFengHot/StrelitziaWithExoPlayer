@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,35 +43,27 @@ import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_PRODUCT_CATEGORY;
 import static tv.ismar.app.network.entity.AccountPlayAuthEntity.PlayAuth;
 
-/**
- * Created by huibin on 10/27/16.
- */
-
-public class UserInfoFragment extends BaseFragment implements UserInfoContract.View,
-        IsmartvActivator.AccountChangeCallback, View.OnHoverListener,
-        OnFocusChangeListener, LinearLayoutManagerTV.FocusSearchFailedListener {
+/** Created by huibin on 10/27/16. */
+public class UserInfoFragment extends BaseFragment
+        implements UserInfoContract.View,
+                IsmartvActivator.AccountChangeCallback,
+                View.OnHoverListener,
+                OnFocusChangeListener,
+                LinearLayoutManagerTV.FocusSearchFailedListener {
+    public static final int REQUEST_CHARGE = 0xAC45;
     private static final String TAG = UserInfoFragment.class.getSimpleName();
     private UserInfoViewModel mViewModel;
     private UserInfoContract.Presenter mPresenter;
-
-    public static final int REQUEST_CHARGE = 0xAC45;
-
-
     private RecyclerViewTV privilegeRecyclerView;
     private boolean showChargeSuccessPop = false;
-
+    private FragmentUserinfoBinding userinfoBinding;
+    private List<View> privilegeView;
+    private boolean framgentIsPause = false;
+    private UserCenterActivity mUserCenterActivity;
 
     public static UserInfoFragment newInstance() {
         return new UserInfoFragment();
     }
-
-    private FragmentUserinfoBinding userinfoBinding;
-
-    private List<View> privilegeView;
-
-    private boolean framgentIsPause = false;
-
-    private UserCenterActivity mUserCenterActivity;
 
     @Override
     public void onAttach(Context context) {
@@ -93,26 +84,32 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         IsmartvActivator.getInstance().addAccountChangeListener(this);
     }
 
-
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
         userinfoBinding = FragmentUserinfoBinding.inflate(inflater, container, false);
         userinfoBinding.setTasks(mViewModel);
         userinfoBinding.setActionHandler(mPresenter);
-//        userinfoBinding.fragmentContainer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (userinfoBinding.exitAccount.getVisibility() == View.VISIBLE) {
-//                    userinfoBinding.exitAccount.requestFocus();
-//                }
-//            }
-//        });
+        //        userinfoBinding.fragmentContainer.setOnFocusChangeListener(new
+        // View.OnFocusChangeListener() {
+        //            @Override
+        //            public void onFocusChange(View v, boolean hasFocus) {
+        //                if (userinfoBinding.exitAccount.getVisibility() == View.VISIBLE) {
+        //                    userinfoBinding.exitAccount.requestFocus();
+        //                }
+        //            }
+        //        });
 
         privilegeRecyclerView = userinfoBinding.privilegeRecycler;
         privilegeRecyclerView.setSelectedItemAtCentered(false);
-        privilegeRecyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelSize(R.dimen.privilege_item_margin_bottom)));
+        privilegeRecyclerView.addItemDecoration(
+                new SpacesItemDecoration(
+                        getResources()
+                                .getDimensionPixelSize(R.dimen.privilege_item_margin_bottom)));
         View root = userinfoBinding.getRoot();
         return root;
     }
@@ -130,28 +127,29 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         userinfoBinding.chargeMoney.setNextFocusUpId(R.id.exit_account);
         userinfoBinding.chargeMoney.setNextFocusRightId(R.id.exit_account);
         userinfoBinding.chargeMoney.setNextFocusDownId(R.id.btn);
-        userinfoBinding.chargeMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction("tv.ismar.pay.payment");
-                intent.putExtra(EXTRA_PRODUCT_CATEGORY, PageIntentInterface.ProductCategory.charge.name());
-                startActivityForResult(intent, REQUEST_CHARGE);
-            }
-        });
+        userinfoBinding.chargeMoney.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction("tv.ismar.pay.payment");
+                        intent.putExtra(
+                                EXTRA_PRODUCT_CATEGORY,
+                                PageIntentInterface.ProductCategory.charge.name());
+                        startActivityForResult(intent, REQUEST_CHARGE);
+                    }
+                });
 
         userinfoBinding.tmp.setNextFocusLeftId(R.id.usercenter_userinfo);
         mPresenter.start();
         userinfoBinding.exitAccount.setOnFocusChangeListener(this);
         userinfoBinding.chargeMoney.setOnFocusChangeListener(this);
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated");
-
     }
 
     @Override
@@ -169,8 +167,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         mUserCenterActivity.changeUserInfoSelectStatus();
         mPresenter.fetchPrivilege();
         mPresenter.fetchBalance();
-
-
     }
 
     @Override
@@ -198,7 +194,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         IsmartvActivator.getInstance().removeAccountChangeListener(this);
         super.onDestroy();
         Log.d(TAG, "onDestroy");
-
     }
 
     @Override
@@ -229,26 +224,26 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         privilegeRecyclerView.setLayoutManager(linearLayoutManagerTV);
         boolean flag = false;
         for (AccountPlayAuthEntity.PlayAuth element : playAuths) {
-            if (element.getAction() == AccountPlayAuthEntity.Action.watch || element.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
+            if (element.getAction() == AccountPlayAuthEntity.Action.watch
+                    || element.getAction() == AccountPlayAuthEntity.Action.repeat_buy) {
                 flag = true;
                 break;
             }
         }
-        if (!flag)
-            userinfoBinding.chargeMoney.setNextFocusDownId(R.id.charge_money);
+        if (!flag) userinfoBinding.chargeMoney.setNextFocusDownId(R.id.charge_money);
         PrivilegeAdapter privilegeAdapter = new PrivilegeAdapter(getContext(), playAuths);
         privilegeRecyclerView.setAdapter(privilegeAdapter);
-
-
-
     }
 
     @Override
     public void loadBalance(AccountBalanceEntity entity) {
-//        UserCenterActivity userCenterActivity = (UserCenterActivity) getActivity();
+        //        UserCenterActivity userCenterActivity = (UserCenterActivity) getActivity();
         View userInfo = mUserCenterActivity.findViewById(R.id.usercenter_userinfo);
 
-        if (entity.getBalance().add(entity.getSn_balance()).setScale(2).equals(new BigDecimal(0).setScale(2))) {
+        if (entity.getBalance()
+                .add(entity.getSn_balance())
+                .setScale(2)
+                .equals(new BigDecimal(0).setScale(2))) {
             if (IsmartvActivator.getInstance().isLogin()) {
                 userInfo.setNextFocusRightId(R.id.exit_account);
             } else {
@@ -279,15 +274,18 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         }
     }
 
-
     public void showExitAccountConfirmPop() {
-        final MessageDialogFragment dialog = new MessageDialogFragment(getContext(), getString(R.string.confirm_exit_account_text), null);
-        dialog.showAtLocation(getView(), Gravity.CENTER, new MessageDialogFragment.ConfirmListener() {
+        final MessageDialogFragment dialog =
+                new MessageDialogFragment(
+                        getContext(), getString(R.string.confirm_exit_account_text), null);
+        dialog.showAtLocation(
+                getView(),
+                Gravity.CENTER,
+                new MessageDialogFragment.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
                         dialog.dismiss();
                         IsmartvActivator.getInstance().removeUserInfo();
-
                     }
                 },
                 new MessageDialogFragment.CancelListener() {
@@ -295,24 +293,23 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                     public void cancelClick(View view) {
                         dialog.dismiss();
                     }
-                }
-
-        );
-
-
+                });
     }
 
     private void showExitAccountMessagePop() {
-        final MessageDialogFragment dialog = new MessageDialogFragment(getContext(), getString(R.string.exit_account_message_text), null);
-        dialog.showAtLocation(getView(), Gravity.CENTER, new MessageDialogFragment.ConfirmListener() {
+        final MessageDialogFragment dialog =
+                new MessageDialogFragment(
+                        getContext(), getString(R.string.exit_account_message_text), null);
+        dialog.showAtLocation(
+                getView(),
+                Gravity.CENTER,
+                new MessageDialogFragment.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
                         dialog.dismiss();
-
                     }
                 },
-                null
-        );
+                null);
     }
 
     @Override
@@ -356,16 +353,23 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     }
 
     @Override
-    public View onFocusSearchFailed(View view, int focusDirection, RecyclerView.Recycler recycler, RecyclerView.State state) {
+    public View onFocusSearchFailed(
+            View view,
+            int focusDirection,
+            RecyclerView.Recycler recycler,
+            RecyclerView.State state) {
         if (focusDirection == View.FOCUS_DOWN) {
-            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_item_scroll));
+            privilegeRecyclerView.smoothScrollBy(
+                    0, getResources().getDimensionPixelSize(R.dimen.privilege_item_scroll));
         }
         if (focusDirection == View.FOCUS_UP) {
-            if (!privilegeRecyclerView.canScrollVertically(-1)){
+            if (!privilegeRecyclerView.canScrollVertically(-1)) {
                 return null;
             }
-            privilegeRecyclerView.smoothScrollBy(0, getResources().getDimensionPixelSize(R.dimen.privilege_item_scroll) * -1);
-            if (privilegeRecyclerView.getChildAt(0).findViewById(R.id.btn) == view&&!privilegeRecyclerView.canScrollVertically(-1)) {
+            privilegeRecyclerView.smoothScrollBy(
+                    0, getResources().getDimensionPixelSize(R.dimen.privilege_item_scroll) * -1);
+            if (privilegeRecyclerView.getChildAt(0).findViewById(R.id.btn) == view
+                    && !privilegeRecyclerView.canScrollVertically(-1)) {
                 return null;
             }
         }
@@ -373,23 +377,26 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
     }
 
     public void showChargeSuccessPop(BigDecimal balance) {
-        final MessageDialogFragment dialog = new MessageDialogFragment(getContext(), "当前账户余额" + balance + "元", null);
-        dialog.showAtLocation(getView(), Gravity.CENTER, new MessageDialogFragment.ConfirmListener() {
+        final MessageDialogFragment dialog =
+                new MessageDialogFragment(getContext(), "当前账户余额" + balance + "元", null);
+        dialog.showAtLocation(
+                getView(),
+                Gravity.CENTER,
+                new MessageDialogFragment.ConfirmListener() {
                     @Override
                     public void confirmClick(View view) {
                         dialog.dismiss();
                     }
                 },
-                null
-        );
+                null);
     }
 
     public void setShowChargeSuccessPop(boolean showChargeSuccessPop) {
         this.showChargeSuccessPop = showChargeSuccessPop;
     }
 
-
-    private class PrivilegeAdapter extends RecyclerView.Adapter<PrivilegeViewHolder> implements View.OnClickListener {
+    private class PrivilegeAdapter extends RecyclerView.Adapter<PrivilegeViewHolder>
+            implements View.OnClickListener {
         private Context mContext;
 
         private List<AccountPlayAuthEntity.PlayAuth> mPlayAuths;
@@ -402,7 +409,9 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
 
         @Override
         public PrivilegeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.privilege_listview_item, parent, false);
+            View view =
+                    LayoutInflater.from(getContext())
+                            .inflate(R.layout.privilege_listview_item, parent, false);
             PrivilegeViewHolder holder = new PrivilegeViewHolder(view);
             return holder;
         }
@@ -410,7 +419,9 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         @Override
         public void onBindViewHolder(PrivilegeViewHolder holder, int position) {
             PlayAuth playAuth = mPlayAuths.get(position);
-            String remainday = mContext.getResources().getString(R.string.personcenter_orderlist_item_remainday);
+            String remainday =
+                    mContext.getResources()
+                            .getString(R.string.personcenter_orderlist_item_remainday);
             holder.date.setText(String.format(remainday, remaindDay(playAuth.getExpiry_date())));
             holder.title.setText(playAuth.getTitle());
             if (playAuth.getAction() == null) {
@@ -486,7 +497,7 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
                         Toast.makeText(mContext, "因版权限制，此产品无法在当前设备查看", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                //other type
+                // other type
             }
         }
     }
@@ -497,7 +508,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         private TextView date;
         private Button mButton;
 
-
         public PrivilegeViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title_txt);
@@ -507,7 +517,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         }
     }
 
-
     private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
@@ -516,8 +525,8 @@ public class UserInfoFragment extends BaseFragment implements UserInfoContract.V
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(
+                Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
             // Add top margin only for the first item to avoid double space between items
             int position = parent.getChildAdapterPosition(view);

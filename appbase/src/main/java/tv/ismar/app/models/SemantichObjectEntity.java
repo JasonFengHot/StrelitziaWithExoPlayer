@@ -1,8 +1,6 @@
 package tv.ismar.app.models;
 
-/**
- * Created by huaijie on 1/20/16.
- */
+/** Created by huaijie on 1/20/16. */
 public class SemantichObjectEntity {
     private String title;
     private String poster_url;
@@ -103,6 +101,4 @@ public class SemantichObjectEntity {
     public void setPk(String pk) {
         this.pk = pk;
     }
-
-
 }

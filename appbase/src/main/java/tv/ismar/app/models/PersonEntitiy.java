@@ -1,14 +1,11 @@
 package tv.ismar.app.models;
 
-/**
- * Created by huaijie on 4/18/16.
- */
+/** Created by huaijie on 4/18/16. */
 public class PersonEntitiy {
     private String image;
     private String poster_url;
     private String description;
     private String title;
-
 
     public String getImage() {
         return image;

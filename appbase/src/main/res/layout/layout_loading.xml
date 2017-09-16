@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="@dimen/loading_min_width"
-              android:layout_height="@dimen/loading_min_height"
-              android:background="@drawable/toast_loading_small"
-              android:gravity="center"
-              android:orientation="horizontal">
+    android:layout_width="@dimen/loading_min_width"
+    android:layout_height="@dimen/loading_min_height"
+    android:background="@drawable/toast_loading_small"
+    android:gravity="center"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/dialog_back_img"
         android:layout_width="@dimen/loading_size"
         android:layout_height="@dimen/loading_size"
-        android:contentDescription="@null"/>
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/tipTextView"

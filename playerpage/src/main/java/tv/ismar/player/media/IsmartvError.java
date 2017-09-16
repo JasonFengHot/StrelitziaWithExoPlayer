@@ -1,8 +1,6 @@
 package tv.ismar.player.media;
 
-/**
- * Created by Beaver on 2016/6/2.
- */
+/** Created by Beaver on 2016/6/2. */
 public class IsmartvError {
 
     private int errorCode;

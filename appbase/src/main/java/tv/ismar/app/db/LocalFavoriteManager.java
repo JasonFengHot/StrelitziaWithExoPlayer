@@ -101,7 +101,10 @@ public class LocalFavoriteManager implements FavoriteManager {
 
     @Override
     public void addFavorite(Favorite favorite, String isnet) {
-        if (favorite == null || favorite.url == null || favorite.title == null || favorite.content_model == null) {
+        if (favorite == null
+                || favorite.url == null
+                || favorite.title == null
+                || favorite.content_model == null) {
             throw new RuntimeException("favorite or favorite fields cannot be null");
         }
         Favorite f = getFavoriteByUrl(favorite.url, isnet);
@@ -150,13 +153,15 @@ public class LocalFavoriteManager implements FavoriteManager {
                 HashMap<String, Object> properties = new HashMap<String, Object>();
                 properties.put(EventProperty.ITEM, id);
                 properties.put(EventProperty.TITLE, title);
-                properties.put("userid", TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername()) ?IsmartvActivator.getInstance().getDeviceToken():IsmartvActivator.getInstance().getUsername());
+                properties.put(
+                        "userid",
+                        TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername())
+                                ? IsmartvActivator.getInstance().getDeviceToken()
+                                : IsmartvActivator.getInstance().getUsername());
 
                 NetworkUtils.SaveLogToLocal(NetworkUtils.VIDEO_COLLECT, properties);
             }
             return null;
         }
-
     }
-
 }

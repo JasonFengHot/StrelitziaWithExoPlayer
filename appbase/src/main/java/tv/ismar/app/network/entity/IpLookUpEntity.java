@@ -65,5 +65,4 @@ public class IpLookUpEntity {
     public void setIp_end(String ip_end) {
         this.ip_end = ip_end;
     }
-
 }

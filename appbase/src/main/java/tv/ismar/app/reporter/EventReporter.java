@@ -1,40 +1,39 @@
-//package tv.ismar.app.reporter;
-import cn.ismartv.truetime.TrueTime;
+// package tv.ismar.app.reporter;
 //
-//import android.text.TextUtils;
-//import android.util.Base64;
-//import android.util.Log;
+// import android.text.TextUtils;
+// import android.util.Base64;
+// import android.util.Log;
 //
-//import org.json.JSONArray;
-//import org.json.JSONException;
-//import org.json.JSONObject;
+// import org.json.JSONArray;
+// import org.json.JSONException;
+// import org.json.JSONObject;
 //
-//import java.io.IOException;
-//import java.net.URLEncoder;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Set;
+// import java.io.IOException;
+// import java.net.URLEncoder;
+// import java.util.ArrayList;
+// import java.util.HashMap;
+// import java.util.List;
+// import java.util.Set;
 //
-//import cn.ismartv.truetime.TrueTime;
-//import okhttp3.ResponseBody;
-//import rx.Observer;
-//import rx.Subscription;
-//import rx.android.schedulers.AndroidSchedulers;
-//import rx.schedulers.Schedulers;
-//import tv.ismar.account.IsmartvActivator;
-//import tv.ismar.app.VodApplication;
-//import tv.ismar.app.entity.History;
-//import tv.ismar.app.network.SkyService;
-//import tv.ismar.app.network.entity.EventProperty;
-//import tv.ismar.app.util.DeviceUtils;
-//import tv.ismar.app.util.Utils;
+// import cn.ismartv.truetime.TrueTime;
+// import okhttp3.ResponseBody;
+// import rx.Observer;
+// import rx.Subscription;
+// import rx.android.schedulers.AndroidSchedulers;
+// import rx.schedulers.Schedulers;
+// import tv.ismar.account.IsmartvActivator;
+// import tv.ismar.app.VodApplication;
+// import tv.ismar.app.entity.History;
+// import tv.ismar.app.network.SkyService;
+// import tv.ismar.app.network.entity.EventProperty;
+// import tv.ismar.app.util.DeviceUtils;
+// import tv.ismar.app.util.Utils;
 //
-///**
+/// **
 // * Created by longhai on 2016/6/2.
 // */
 //
-//public class EventReporter implements Runnable {
+// public class EventReporter implements Runnable {
 //
 //    private static final String TAG = "LH/PlayerSync";
 //
@@ -133,7 +132,8 @@ import cn.ismartv.truetime.TrueTime;
 //
 //    public static final String BOOT_AD_EXCEPT = "boot_ad_except";
 //
-//    private HashMap<String, Object> getPublicParams(IsmartvMedia media, Integer quality, Integer speed, String sid, String playerFlag) {
+//    private HashMap<String, Object> getPublicParams(IsmartvMedia media, Integer quality, Integer
+// speed, String sid, String playerFlag) {
 //        HashMap<String, Object> tempMap = new HashMap<>();
 //        tempMap.put(EventProperty.ITEM, media.getPk());
 //        if (media.getSubItemPk() > 0 && media.getPk() != media.getSubItemPk()) {
@@ -158,7 +158,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @param speed   (网速, 单位KB/s) INTEGER
 //     * @return HashMap
 //     */
-//    public HashMap<String, Object> videoStart(IsmartvMedia media, Integer quality, String userId, Integer speed, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoStart(IsmartvMedia media, Integer quality, String userId,
+// Integer speed, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -175,14 +176,16 @@ import cn.ismartv.truetime.TrueTime;
 //     * 开始播放缓冲结束 video_play_load
 //     *
 //     * @param media    (媒体)Item
-//     * @param quality  (视频清晰度)normal |  medium | high | ultra | adaptive | adaptive_norma l | adaptive_medium | adaptive_high | adaptive_ultra) STRING
+//     * @param quality  (视频清晰度)normal |  medium | high | ultra | adaptive | adaptive_norma l |
+// adaptive_medium | adaptive_high | adaptive_ultra) STRING
 //     * @param duration (缓存时间,单位s)INTEGER
 //     * @param speed    (网速,单位KB/s)INTEGER
 //     * @param mediaIP  (媒体IP)STRING
 //     * @return HashMap
 //     */
 //    public HashMap<String, Object> videoPlayLoad(IsmartvMedia media, Integer quality,
-//                                                 long duration, Integer speed, String mediaIP, String sid, String playerUrl, String playerFlag) {
+//                                                 long duration, Integer speed, String mediaIP,
+// String sid, String playerUrl, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -206,7 +209,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @return HashMap
 //     */
 //
-//    public HashMap<String, Object> videoPlayStart(IsmartvMedia media, Integer quality, Integer speed, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoPlayStart(IsmartvMedia media, Integer quality, Integer
+// speed, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -226,7 +230,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @param speed    (网速, 单位KB/s) INTEGER
 //     * @return HashMap
 //     */
-//    public HashMap<String, Object> videoPlayPause(IsmartvMedia media, Integer quality, Integer speed, Integer position, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoPlayPause(IsmartvMedia media, Integer quality, Integer
+// speed, Integer position, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -248,7 +253,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @return HashMap
 //     */
 //
-//    public HashMap<String, Object> videoPlayContinue(IsmartvMedia media, Integer quality, Integer speed, Integer position, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoPlayContinue(IsmartvMedia media, Integer quality, Integer
+// speed, Integer position, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -270,7 +276,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @return HashMap
 //     */
 //
-//    public HashMap<String, Object> videoPlaySeek(IsmartvMedia media, Integer quality, Integer speed, Integer position, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoPlaySeek(IsmartvMedia media, Integer quality, Integer
+// speed, Integer position, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -286,7 +293,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * 播放快进/快退缓冲结束 video_play_seek_blockend
 //     *
 //     * @param media    (媒体) Item
-//     * @param quality  (视频清晰度:      normal |  medium | high | ultra | adaptive | adaptive_norma l | adaptive_medium | adaptive_high | adaptive_ultra) STRING
+//     * @param quality  (视频清晰度:      normal |  medium | high | ultra | adaptive | adaptive_norma l
+// | adaptive_medium | adaptive_high | adaptive_ultra) STRING
 //     * @param position (缓冲位置，单位s)  INTEGER
 //     * @param speed    (网速, 单位KB/s) INTEGER
 //     * @param duration (缓存时间,单位s)  INTEGER
@@ -294,7 +302,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @return HashMap
 //     */
 //
-//    public HashMap<String, Object> videoPlaySeekBlockend(IsmartvMedia media, Integer quality, Integer speed, Integer position, long duration, String mediaIP, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoPlaySeekBlockend(IsmartvMedia media, Integer quality,
+// Integer speed, Integer position, long duration, String mediaIP, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -312,13 +321,15 @@ import cn.ismartv.truetime.TrueTime;
 //     * 播放缓冲结束 video_play_blockend
 //     *
 //     * @param media    (媒体) Item
-//     * @param quality  (视频清晰度:      normal |  medium | high | ultra | adaptive | adaptive_normal | adaptive_medium | adaptive_high | adaptive_ultra) STRING
+//     * @param quality  (视频清晰度:      normal |  medium | high | ultra | adaptive | adaptive_normal |
+// adaptive_medium | adaptive_high | adaptive_ultra) STRING
 //     * @param speed    (网速, 单位KB/s) INTEGER
 //     * @param duration (缓存时间,单位s)  INTEGER
 //     * @param mediaIP  (媒体IP)STRING
 //     * @return HashMap
 //     */
-//    public HashMap<String, Object> videoPlayBlockend(IsmartvMedia media, Integer quality, Integer speed, long duration, String mediaIP, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoPlayBlockend(IsmartvMedia media, Integer quality, Integer
+// speed, long duration, String mediaIP, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -342,7 +353,8 @@ import cn.ismartv.truetime.TrueTime;
 //     */
 //
 //
-//    public HashMap<String, Object> videoPlaySpeed(IsmartvMedia media, Integer quality, Integer speed, String mediaIP, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoPlaySpeed(IsmartvMedia media, Integer quality, Integer
+// speed, String mediaIP, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -364,7 +376,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @return HashMap
 //     */
 //
-//    public HashMap<String, Object> videoLowSpeed(IsmartvMedia media, Integer quality, Integer speed, String mediaIP, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoLowSpeed(IsmartvMedia media, Integer quality, Integer
+// speed, String mediaIP, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -386,7 +399,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @return HashMap
 //     */
 //
-//    public HashMap<String, Object> videoExit(IsmartvMedia media, Integer quality, Integer speed, String to, Integer position, long duration, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoExit(IsmartvMedia media, Integer quality, Integer speed,
+// String to, Integer position, long duration, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -405,15 +419,19 @@ import cn.ismartv.truetime.TrueTime;
 //    /**
 //     * 播放器异常 videoExcept
 //     *
-//     * @param code     (异常码servertimeout|servertimeout|noplayaddress|mediaexception|mediatimeout|filenotfound|nodetail|debuggingexception|noextras) STRING
-//     * @param content  (异常内容)                                                                                                                    STRING
+//     * @param code
+// (异常码servertimeout|servertimeout|noplayaddress|mediaexception|mediatimeout|filenotfound|nodetail|debuggingexception|noextras) STRING
+//     * @param content  (异常内容)
+//                                               STRING
 //     * @param media    (媒体) INTEGER
-//     * @param quality  (视频清晰度:     normal |  medium | high | ultra | adaptive | adaptive_normal | adaptive_medium | adaptive_high | adaptive_ultra) STRING
+//     * @param quality  (视频清晰度:     normal |  medium | high | ultra | adaptive | adaptive_normal |
+// adaptive_medium | adaptive_high | adaptive_ultra) STRING
 //     * @param position (播放位置，单位s) INTEGER
 //     * @return HashMap
 //     */
 //
-//    public HashMap<String, Object> videoExcept(String code, String content, IsmartvMedia media, Integer speed, String sid, Integer quality, Integer position, String playerFlag) {
+//    public HashMap<String, Object> videoExcept(String code, String content, IsmartvMedia media,
+// Integer speed, String sid, Integer quality, Integer position, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -441,7 +459,8 @@ import cn.ismartv.truetime.TrueTime;
 //     * @return HashMap
 //     */
 //
-//    public HashMap<String, Object> videoSwitchStream(IsmartvMedia media, Integer quality, String mode, Integer speed, String userid, String mediaip, String sid, String playerFlag) {
+//    public HashMap<String, Object> videoSwitchStream(IsmartvMedia media, Integer quality, String
+// mode, Integer speed, String userid, String mediaip, String sid, String playerFlag) {
 //        if (media == null) {
 //            return null;
 //        }
@@ -456,7 +475,8 @@ import cn.ismartv.truetime.TrueTime;
 //
 //    }
 //
-//    public void ad_play_load(IsmartvMedia media, long duration, String mediaip, int ad_id, String mediaflag) {
+//    public void ad_play_load(IsmartvMedia media, long duration, String mediaip, int ad_id, String
+// mediaflag) {
 //        if (media == null) {
 //            return;
 //        }
@@ -473,7 +493,8 @@ import cn.ismartv.truetime.TrueTime;
 //        addMessageList(eventName, tempMap);
 //    }
 //
-//    public void ad_play_blockend(IsmartvMedia media, long duration, String mediaip, int ad_id, String mediaflag) {
+//    public void ad_play_blockend(IsmartvMedia media, long duration, String mediaip, int ad_id,
+// String mediaflag) {
 //        if (media == null) {
 //            return;
 //        }
@@ -490,7 +511,8 @@ import cn.ismartv.truetime.TrueTime;
 //        addMessageList(eventName, tempMap);
 //    }
 //
-//    public void ad_play_exit(IsmartvMedia media, long duration, String mediaip, int ad_id, String mediaflag) {
+//    public void ad_play_exit(IsmartvMedia media, long duration, String mediaip, int ad_id, String
+// mediaflag) {
 //        if (media == null) {
 //            return;
 //        }
@@ -507,7 +529,8 @@ import cn.ismartv.truetime.TrueTime;
 //        addMessageList(eventName, tempMap);
 //    }
 //
-//    public void pause_ad_play(String title, int media_id, String media_url, long duration, String mediaflag) {
+//    public void pause_ad_play(String title, int media_id, String media_url, long duration, String
+// mediaflag) {
 //        HashMap<String, Object> tempMap = new HashMap<String, Object>();
 //        tempMap.put(EventProperty.TITLE, title);
 //        tempMap.put(EventProperty.MEDIA_ID, media_id);
@@ -518,7 +541,8 @@ import cn.ismartv.truetime.TrueTime;
 //        addMessageList(eventName, tempMap);
 //    }
 //
-//    public void pause_ad_download(String title, int media_id, String media_url, String mediaflag) {
+//    public void pause_ad_download(String title, int media_id, String media_url, String mediaflag)
+// {
 //        HashMap<String, Object> tempMap = new HashMap<String, Object>();
 //        tempMap.put(EventProperty.TITLE, title);
 //        tempMap.put(EventProperty.MEDIA_ID, media_id);
@@ -552,7 +576,9 @@ import cn.ismartv.truetime.TrueTime;
 //
 //    }
 //
-////    public void app_start(String sn, String device, String size, String os_version, long sd_size, long sd_free_size, String userid, String province, String city, String isp, String source, String Mac) {
+////    public void app_start(String sn, String device, String size, String os_version, long
+// sd_size, long sd_free_size, String userid, String province, String city, String isp, String
+// source, String Mac) {
 ////        HashMap<String, Object> tempMap = new HashMap<String, Object>();
 ////        tempMap.put(EventProperty.SN, sn);
 ////        tempMap.put(EventProperty.DEVICE, device);
@@ -754,4 +780,4 @@ import cn.ismartv.truetime.TrueTime;
 //        }
 //
 //    }
-//}
+// }

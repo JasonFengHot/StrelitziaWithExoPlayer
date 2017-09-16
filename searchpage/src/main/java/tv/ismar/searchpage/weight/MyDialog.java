@@ -10,23 +10,17 @@ import android.widget.TextView;
 
 import tv.ismar.searchpage.R;
 
-
-/**
- * Created by admin on 2016/2/26.
- */
-public class MyDialog extends Dialog implements
-        View.OnClickListener, View.OnHoverListener {
-    private String text;
+/** Created by admin on 2016/2/26. */
+public class MyDialog extends Dialog implements View.OnClickListener, View.OnHoverListener {
     public static Button confirm;
+    private String text;
     private Context context;
-
 
     public MyDialog(Context context, String text) {
         super(context, R.style.MyDialog);
         this.text = text;
-        this.context=context;
+        this.context = context;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +37,7 @@ public class MyDialog extends Dialog implements
             confirm.setOnClickListener(this);
             confirm.setOnHoverListener(this);
         }
-
     }
-
 
     @Override
     public void onClick(View v) {
@@ -54,7 +46,6 @@ public class MyDialog extends Dialog implements
             System.exit(0);
         }
     }
-
 
     @Override
     public boolean onHover(View v, MotionEvent event) {
@@ -66,7 +57,6 @@ public class MyDialog extends Dialog implements
                 break;
             case MotionEvent.ACTION_HOVER_EXIT:
                 break;
-
         }
         return false;
     }

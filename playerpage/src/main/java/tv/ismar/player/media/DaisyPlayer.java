@@ -11,9 +11,7 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.util.Utils;
 
-/**
- * Created by longhai on 16-9-12.
- */
+/** Created by longhai on 16-9-12. */
 public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdErrorListener {
 
     private String[] mPaths;
@@ -49,7 +47,6 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
         mDaisyVideoView.setAdErrorListener(this);
         mLogMedia.setQuality(getQualityIndex(mQuality));
         mDaisyVideoView.setVideoPaths(mPaths, mStartPosition, mLogMedia, false);
-
     }
 
     @Override
@@ -62,7 +59,7 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
 
     @Override
     public void prepareAsync() {
-        //调用prepareAsync, 播放器开始准备, 必须调用
+        // 调用prepareAsync, 播放器开始准备, 必须调用
         if (mDaisyVideoView == null) {
             return;
         }
@@ -86,14 +83,10 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
     }
 
     @Override
-    public void stop() {
-
-    }
+    public void stop() {}
 
     @Override
-    public void release() {
-
-    }
+    public void release() {}
 
     @Override
     public void stopPlayBack() {
@@ -130,7 +123,9 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
 
     @Override
     public int getAdCountDownTime() {
-        if (mAdvertisementTime == null || mDaisyVideoView == null || !mDaisyVideoView.ismIsPlayingAdvertisement()) {
+        if (mAdvertisementTime == null
+                || mDaisyVideoView == null
+                || !mDaisyVideoView.ismIsPlayingAdvertisement()) {
             return 0;
         }
         int totalAdTime = 0;
@@ -160,7 +155,7 @@ public class DaisyPlayer extends IsmartvPlayer implements DaisyVideoView.AdError
         String mediaUrl = getSmartQualityUrl(quality);
         if (!Utils.isEmptyText(mediaUrl)) {
             mQuality = quality;
-            mPaths = new String[]{mediaUrl};
+            mPaths = new String[] {mediaUrl};
 
             if (mItemEntity != null && !mItemEntity.getLiveVideo()) {
                 mStartPosition = getCurrentPosition();

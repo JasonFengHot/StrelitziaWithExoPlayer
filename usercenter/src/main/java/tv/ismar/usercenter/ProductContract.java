@@ -19,12 +19,10 @@ package tv.ismar.usercenter;
 import tv.ismar.app.network.entity.YouHuiDingGouEntity;
 import tv.ismar.usercenter.presenter.BasePresenter;
 
-/**
- * This specifies the contract between the view and the presenter.
- */
+/** This specifies the contract between the view and the presenter. */
 public interface ProductContract {
 
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {
         void loadProductItem(YouHuiDingGouEntity entity);
     }
 
@@ -32,6 +30,5 @@ public interface ProductContract {
         void fetchProduct();
 
         void stop();
-
     }
 }

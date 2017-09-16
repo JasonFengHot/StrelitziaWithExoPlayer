@@ -1,9 +1,6 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huibin on 17-2-16.
- */
-
+/** Created by huibin on 17-2-16. */
 public class AgreementEntity extends BaseEntity {
     private Info[] info;
 
@@ -13,6 +10,20 @@ public class AgreementEntity extends BaseEntity {
 
     public void setInfo(Info[] info) {
         this.info = info;
+    }
+
+    public enum RenewalType {
+        ALIPAY_RENEWAL("renew");
+
+        private String value;
+
+        RenewalType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
     public static class Info {
@@ -33,21 +44,6 @@ public class AgreementEntity extends BaseEntity {
 
         public void setContent(String content) {
             this.content = content;
-        }
-    }
-
-    public enum RenewalType {
-
-        ALIPAY_RENEWAL("renew");
-
-        private String value;
-
-        RenewalType(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
         }
     }
 }

@@ -26,13 +26,13 @@ import com.squareup.picasso.Picasso;
 
 import tv.ismar.app.R;
 
-/**
- * Created by beaver on 16-8-23.
- */
+/** Created by beaver on 16-8-23. */
 public class LabelImageView extends FrameLayout {
 
+    public static final int LEFTTOP = 0;
+    public static final int RIGHTTOP = 1;
+    public static final int GONE = -1;
     private final String TAG = "LH/LabelImageView";
-
     private String livUrl;
     private NinePatchDrawable livSelectorDrawable;
     private Drawable livErrorDrawable;
@@ -47,13 +47,8 @@ public class LabelImageView extends FrameLayout {
     private float livRate;
     private int livRateColor;
     private int livRateSize;
-
     private ImageView imageView, vipImageView;
     private TextView textView, rateTextView;
-
-    public static final int LEFTTOP = 0;
-    public static final int RIGHTTOP = 1;
-    public static final int GONE = -1;
     private Animation scaleSmallAnimation;
     private Animation scaleBigAnimation;
     private Rect mBound;
@@ -75,19 +70,32 @@ public class LabelImageView extends FrameLayout {
         mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LabelImageView);
         livUrl = typedArray.getString(R.styleable.LabelImageView_livUrl);
-        livSelectorDrawable = (NinePatchDrawable) typedArray.getDrawable(R.styleable.LabelImageView_livSelectorDrawable);
+        livSelectorDrawable =
+                (NinePatchDrawable)
+                        typedArray.getDrawable(R.styleable.LabelImageView_livSelectorDrawable);
         livErrorDrawable = typedArray.getDrawable(R.styleable.LabelImageView_livErrorDrawable);
-        livContentPadding = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livContentPadding, dp2px(5));
+        livContentPadding =
+                typedArray.getDimensionPixelSize(
+                        R.styleable.LabelImageView_livContentPadding, dp2px(5));
         livLabelText = typedArray.getString(R.styleable.LabelImageView_livLabelText);
         livLabelColor = typedArray.getColor(R.styleable.LabelImageView_livLabelColor, Color.WHITE);
-        livLabelSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livLabelSize, dp2px(10));
-        livLabelBackColor = typedArray.getColor(R.styleable.LabelImageView_livLabelBackColor, Color.parseColor("#33000000"));
+        livLabelSize =
+                typedArray.getDimensionPixelSize(
+                        R.styleable.LabelImageView_livLabelSize, dp2px(10));
+        livLabelBackColor =
+                typedArray.getColor(
+                        R.styleable.LabelImageView_livLabelBackColor,
+                        Color.parseColor("#33000000"));
         livVipPosition = typedArray.getInt(R.styleable.LabelImageView_livVipPosition, GONE);
         livVipUrl = typedArray.getString(R.styleable.LabelImageView_livVipUrl);
-        livVipSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livVipSize, dp2px(40));
+        livVipSize =
+                typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livVipSize, dp2px(40));
         livRate = typedArray.getFloat(R.styleable.LabelImageView_livRate, 0);
-        livRateColor = typedArray.getColor(R.styleable.LabelImageView_livRateColor, Color.parseColor("#ff9000"));
-        livRateSize = typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateSize, sp2px(14));
+        livRateColor =
+                typedArray.getColor(
+                        R.styleable.LabelImageView_livRateColor, Color.parseColor("#ff9000"));
+        livRateSize =
+                typedArray.getDimensionPixelSize(R.styleable.LabelImageView_livRateSize, sp2px(14));
         typedArray.recycle();
         setWillNotDraw(false);
         setFocusable(true);
@@ -96,17 +104,18 @@ public class LabelImageView extends FrameLayout {
         mBound = new Rect();
 
         initView();
-
     }
 
     private void initView() {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams layoutParams =
+                new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         imageView = new ImageView(mContext);
         imageView.setLayoutParams(layoutParams);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         addView(imageView);
 
-        FrameLayout.LayoutParams ltparams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams ltparams =
+                new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         ltparams.gravity = Gravity.LEFT | Gravity.TOP;
         vipImageView = new ImageView(mContext);
         vipImageView.setLayoutParams(ltparams);
@@ -115,7 +124,8 @@ public class LabelImageView extends FrameLayout {
         addView(vipImageView);
 
         int livLabelHeight = (int) (livLabelSize * 1.5f);
-        FrameLayout.LayoutParams labelParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, livLabelHeight);
+        FrameLayout.LayoutParams labelParams =
+                new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, livLabelHeight);
         labelParams.gravity = Gravity.BOTTOM;
         textView = new TextView(mContext);
         textView.setLayoutParams(labelParams);
@@ -128,7 +138,8 @@ public class LabelImageView extends FrameLayout {
         textView.setVisibility(View.INVISIBLE);
         addView(textView);
 
-        FrameLayout.LayoutParams rateParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams rateParams =
+                new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         rateParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
         rateParams.bottomMargin = livLabelHeight + livLabelHeight / 10;
         rateParams.rightMargin = livLabelHeight / 4;
@@ -139,17 +150,20 @@ public class LabelImageView extends FrameLayout {
         rateTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, livRateSize);
         rateTextView.setVisibility(View.INVISIBLE);
         addView(rateTextView);
-
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         super.getDrawingRect(mRect);
-        Log.v(TAG,"on draw");
-        int padding=getResources().getDimensionPixelOffset(R.dimen.focus_padding);
+        Log.v(TAG, "on draw");
+        int padding = getResources().getDimensionPixelOffset(R.dimen.focus_padding);
         if (drawBorder && livSelectorDrawable != null) {
-            mBound.set(-padding+ mRect.left, -padding + mRect.top, padding + mRect.right, padding + mRect.bottom);
+            mBound.set(
+                    -padding + mRect.left,
+                    -padding + mRect.top,
+                    padding + mRect.right,
+                    padding + mRect.bottom);
             livSelectorDrawable.setBounds(mBound);
             canvas.save();
             livSelectorDrawable.draw(canvas);
@@ -185,9 +199,9 @@ public class LabelImageView extends FrameLayout {
         Log.i(TAG, "onHoverChanged:" + hovered);
         if (hovered) {
             requestFocus();
-//            setBackgroundBorder(true);
+            //            setBackgroundBorder(true);
         } else {
-//            setBackgroundBorder(false);
+            //            setBackgroundBorder(false);
         }
     }
 
@@ -205,13 +219,16 @@ public class LabelImageView extends FrameLayout {
     }
 
     private void asyncLoadImage() {
-//        Log.i(TAG, "asyncLoadImage:" + livUrl);
+        //        Log.i(TAG, "asyncLoadImage:" + livUrl);
         if (imageView != null) {
             if (TextUtils.isEmpty(livUrl)) {
                 imageView.setImageDrawable(livErrorDrawable);
             } else {
-                Picasso.with(mContext).load(livUrl)
-                        .placeholder(livErrorDrawable).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE)
+                Picasso.with(mContext)
+                        .load(livUrl)
+                        .placeholder(livErrorDrawable)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .memoryPolicy(MemoryPolicy.NO_STORE)
                         .error(livErrorDrawable)
                         .into(imageView);
             }
@@ -221,7 +238,9 @@ public class LabelImageView extends FrameLayout {
     private void asyncLoadVipImage() {
         Log.i(TAG, "asyncLoadVipImage:" + livVipUrl);
         if (vipImageView != null && !TextUtils.isEmpty(livVipUrl)) {
-            FrameLayout.LayoutParams ltparams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            FrameLayout.LayoutParams ltparams =
+                    new FrameLayout.LayoutParams(
+                            LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             if (livVipPosition == LEFTTOP) {
                 ltparams.gravity = Gravity.LEFT | Gravity.TOP;
             } else if (livVipPosition == RIGHTTOP) {
@@ -229,7 +248,11 @@ public class LabelImageView extends FrameLayout {
             }
             vipImageView.setLayoutParams(ltparams);
             vipImageView.setVisibility(View.VISIBLE);
-            Picasso.with(mContext).load(livVipUrl).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE).config(Bitmap.Config.RGB_565)
+            Picasso.with(mContext)
+                    .load(livVipUrl)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_STORE)
+                    .config(Bitmap.Config.RGB_565)
                     .into(vipImageView);
         }
     }
@@ -353,25 +376,28 @@ public class LabelImageView extends FrameLayout {
     }
 
     private int dp2px(float dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+        return (int)
+                TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
 
     private int sp2px(float sp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, getResources().getDisplayMetrics());
+        return (int)
+                TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_SP, sp, getResources().getDisplayMetrics());
     }
 
     private void zoomIn() {
         if (scaleSmallAnimation == null) {
-            scaleSmallAnimation = AnimationUtils.loadAnimation(getContext(),
-                    R.anim.anim_scale_small);
+            scaleSmallAnimation =
+                    AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_small);
         }
         startAnimation(scaleSmallAnimation);
     }
 
     private void zoomOut() {
         if (scaleBigAnimation == null) {
-            scaleBigAnimation = AnimationUtils.loadAnimation(getContext(),
-                    R.anim.anim_scale_big);
+            scaleBigAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_big);
         }
         startAnimation(scaleBigAnimation);
     }

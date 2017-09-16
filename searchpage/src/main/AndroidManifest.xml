@@ -1,23 +1,28 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="tv.ismar.searchpage">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tv.ismar.searchpage">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <application android:allowBackup="true" android:label="@string/app_name"
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
         android:supportsRtl="true">
-        <activity android:name=".WordSearchActivity"
+        <activity
+            android:name=".WordSearchActivity"
+            android:label="@string/app_name"
             android:screenOrientation="landscape"
-            android:theme="@style/IsmartvAppTheme.Fullscreen"
-            android:label="@string/app_name">
+            android:theme="@style/IsmartvAppTheme.Fullscreen">
             <intent-filter>
-                <action android:name="tv.ismar.searchpage.search"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.searchpage.search" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="cn.ismartv.jasmine.wordsearchactivity"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="cn.ismartv.jasmine.wordsearchactivity" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -25,8 +30,8 @@
             android:screenOrientation="landscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen">
             <intent-filter>
-                <action android:name="tv.ismar.searchpage.filmstar"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.searchpage.filmstar" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

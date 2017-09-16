@@ -1,13 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="tv.ismar.account">
+    package="tv.ismar.account">
 
 
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <application android:allowBackup="true"
-                 android:supportsRtl="true"
-    >
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true">
 
         <!-- ContentProvider to store feed data.
 
@@ -20,20 +21,22 @@
         <provider
             android:name=".provider.FeedProvider"
             android:authorities="tv.ismar.account"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- This service implements our SyncAdapter. It needs to be exported, so that the system
         sync framework can access it. -->
-        <service android:name=".SyncService"
-                 android:exported="true">
+        <service
+            android:name=".SyncService"
+            android:exported="true">
             <!-- This intent filter is required. It allows the system to launch our sync service
             as needed. -->
             <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
+                <action android:name="android.content.SyncAdapter" />
             </intent-filter>
             <!-- This points to a required XML file which describes our SyncAdapter. -->
-            <meta-data android:name="android.content.SyncAdapter"
-                       android:resource="@xml/syncadapter"/>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
         </service>
 
         <!-- This implements the account we'll use as an attachment point for our SyncAdapter. Since
@@ -45,13 +48,14 @@
         <service android:name=".GenericAccountService">
             <!-- Required filter used by the system to launch our account service. -->
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <!-- This points to an XMLf ile which describes our account service. -->
-            <meta-data android:name="android.accounts.AccountAuthenticator"
-                       android:resource="@xml/authenticator"/>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
         </service>
-        <service android:name=".ActiveService"/>
+        <service android:name=".ActiveService" />
 
 
     </application>

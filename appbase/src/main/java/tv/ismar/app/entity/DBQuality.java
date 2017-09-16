@@ -8,7 +8,6 @@ import tv.ismar.app.db.DBHelper.DBFields;
 
 public class DBQuality implements Serializable {
 
-
     private static final long serialVersionUID = -4711625124872482152L;
     public long id;
     public String url;
@@ -23,7 +22,6 @@ public class DBQuality implements Serializable {
         this.id = id;
         this.url = url;
         this.quality = quality;
-
     }
 
     public DBQuality(Cursor c) {
@@ -31,5 +29,4 @@ public class DBQuality implements Serializable {
         url = c.getString(c.getColumnIndex(DBFields.QualityTable.URL));
         quality = c.getInt(c.getColumnIndex(DBFields.QualityTable.QUALITY));
     }
-
 }

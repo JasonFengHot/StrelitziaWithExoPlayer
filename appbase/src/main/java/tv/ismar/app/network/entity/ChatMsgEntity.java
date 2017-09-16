@@ -31,8 +31,7 @@ public class ChatMsgEntity {
         private String submit_time;
 
         public String getReply() {
-            if (null == reply)
-                return "";
+            if (null == reply) return "";
             return reply;
         }
 
@@ -41,8 +40,7 @@ public class ChatMsgEntity {
         }
 
         public String getCommont() {
-            if (null == commont)
-                return "";
+            if (null == commont) return "";
             return commont;
         }
 
@@ -51,8 +49,7 @@ public class ChatMsgEntity {
         }
 
         public String getReply_time() {
-            if (null == reply_time)
-                return "";
+            if (null == reply_time) return "";
             return reply_time;
         }
 
@@ -61,8 +58,7 @@ public class ChatMsgEntity {
         }
 
         public String getSubmit_time() {
-            if (null == submit_time)
-                return "";
+            if (null == submit_time) return "";
             return submit_time;
         }
 

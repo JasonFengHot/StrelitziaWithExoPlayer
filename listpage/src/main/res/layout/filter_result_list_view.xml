@@ -4,207 +4,214 @@
     android:id="@+id/large_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-<LinearLayout
-        android:visibility="visible"
-        android:orientation="vertical"
-        android:id="@+id/result_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/top_layout"
+        android:id="@+id/result_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gridview_channel_panel_height"
-        android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/list_progressBar_margin">
-    <TextView
-        android:text="筛选结果 :"
-        android:id="@+id/filter_result_txt"
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/filter_Hgride_protra_PT"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/h1_text_size" />
+        android:orientation="vertical"
+        android:visibility="visible">
 
-     <LinearLayout
-        android:orientation="horizontal"
-         android:layout_marginLeft="@dimen/filter_port_Hgride_textMarg"
-         android:id="@+id/filter_condition_layout"
-        android:layout_width="match_parent"
-         android:layout_marginTop="@dimen/filter_text_MT"
-         android:layout_height="match_parent"
-        >
+
+        <LinearLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/gridview_channel_panel_height"
+            android:layout_marginLeft="@dimen/list_progressBar_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/filter_result_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/filter_Hgride_protra_PT"
+                android:text="筛选结果 :"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/h1_text_size" />
+
+            <LinearLayout
+                android:id="@+id/filter_condition_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/filter_port_Hgride_textMarg"
+                android:layout_marginTop="@dimen/filter_text_MT"
+                android:orientation="horizontal">
+
+            </LinearLayout>
 
         </LinearLayout>
 
-</LinearLayout>
-    <ProgressBar
+        <ProgressBar
             android:id="@+id/filter_percentage"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/filter_portraitresult_filter_percentage_h"
-            android:progressDrawable="@drawable/progressbg"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:indeterminate="false"
-            android:visibility="visible"
             android:layout_marginLeft="@dimen/list_progressBar_margin"
-            android:layout_marginRight="@dimen/list_progressBar_margin"/>
-    <RelativeLayout
+            android:layout_marginRight="@dimen/list_progressBar_margin"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/progressbg"
+            android:visibility="visible" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <Button
-                android:visibility="invisible"
-                android:clickable="true"
-                android:layout_alignParentLeft="true"
+
+            <Button
                 android:id="@+id/left_shadow"
                 android:layout_width="@dimen/filter_portraitresult_shadow_w"
                 android:layout_height="@dimen/filter_portraitresult_shadow_h"
-                android:background="@drawable/channel_arrow_left"
+                android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/filter_portraitresult_filter_grid_pt"
                 android:layout_marginTop="@dimen/filter_portraitresult_button_mt"
-                />
-        <Button
-                android:visibility="invisible"
-                android:layout_alignParentRight="true"
+                android:background="@drawable/channel_arrow_left"
+                android:clickable="true"
+                android:visibility="invisible" />
+
+            <Button
                 android:id="@+id/right_shadow"
                 android:layout_width="@dimen/filter_portraitresult_shadow_w"
                 android:layout_height="@dimen/filter_portraitresult_shadow_h"
-                android:background="@drawable/channel_arrow_right"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/filter_portraitresult_filter_grid_pt"
                 android:layout_marginTop="@dimen/filter_portraitresult_button_mt"
-                android:layout_marginRight="@dimen/filter_portraitresult_filter_grid_pt"/>
-        <tv.ismar.app.ui.HGridView
-                android:layout_toLeftOf="@id/right_shadow"
-                android:layout_toRightOf="@id/left_shadow"
+                android:background="@drawable/channel_arrow_right"
+                android:visibility="invisible" />
+
+            <tv.ismar.app.ui.HGridView
                 android:id="@+id/filter_grid"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
+                android:layout_marginLeft="@dimen/listview_Hgride_ml"
+                android:layout_marginRight="@dimen/filmitem_portrait_middle_btn_ml"
+                android:layout_marginTop="@dimen/filter_Hgride_MT"
+                android:layout_toLeftOf="@id/right_shadow"
+                android:layout_toRightOf="@id/left_shadow"
+                android:paddingLeft="@dimen/listportait_Hgride_pl"
+                android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
+                android:paddingTop="@dimen/filter_Hgride_PT"
                 sakura:horizontalSpacing="@dimen/listview_hgride_horSpace"
                 sakura:numRows="3"
                 sakura:rowHeight="@dimen/listview_hgride_rowHeight"
-                sakura:selectorDrawable="@drawable/vod_gv_selector"
-                sakura:verticalSpacing="0dip"
-                sakura:selectionLeftPadding="@dimen/filter_Hgride_select_padding"
-                sakura:selectionTopPadding="@dimen/filter_Hgride_select_padding"
-                sakura:selectionRightPadding="@dimen/filter_Hgride_select_padding"
                 sakura:selectionBottomPadding="@dimen/HGridView_related_selectionBottomPadding"
-                android:paddingTop="@dimen/filter_Hgride_PT"
-                android:layout_marginTop="@dimen/filter_Hgride_MT"
-                android:layout_marginLeft="@dimen/listview_Hgride_ml"
-                android:layout_marginRight="@dimen/filmitem_portrait_middle_btn_ml"
-                android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
-                android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
-                android:paddingLeft="@dimen/listportait_Hgride_pl">
-        </tv.ismar.app.ui.HGridView>
-    </RelativeLayout>
+                sakura:selectionLeftPadding="@dimen/filter_Hgride_select_padding"
+                sakura:selectionRightPadding="@dimen/filter_Hgride_select_padding"
+                sakura:selectionTopPadding="@dimen/filter_Hgride_select_padding"
+                sakura:selectorDrawable="@drawable/vod_gv_selector"
+                sakura:verticalSpacing="0dip"></tv.ismar.app.ui.HGridView>
+        </RelativeLayout>
 
-</LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/noresult_layout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/noresult_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <LinearLayout
-                android:id="@+id/nofilter_top_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/filter_noresult_layout_h"
-                android:orientation="vertical"
-                >
+            android:id="@+id/nofilter_top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/filter_noresult_layout_h"
+            android:orientation="vertical">
+
             <TextView
-                    android:layout_marginTop="@dimen/listpage_portrait_detail_title_mt"
-                    android:text="抱歉,没有找到匹配的内容"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/text_size_48sp_height"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_48sp" />
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_size_48sp_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/listpage_portrait_detail_title_mt"
+                android:gravity="center"
+                android:text="抱歉,没有找到匹配的内容"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_48sp" />
 
             <Button
-                    android:layout_marginTop="@dimen/filter_norestult_buton_mt"
-                    android:layout_gravity="center_horizontal"
-                    android:text="重新筛选"
-                    android:textSize="@dimen/text_size_36sp"
-                    android:gravity="center"
-                    android:id="@+id/refilter_btn"
-                    android:layout_width="@dimen/filter_noresult_button_W"
-                    android:layout_height="@dimen/filter_noresult_button_H"
-                    android:background="@drawable/filter_btn_selector"
-                    android:textColor="@android:color/white">
-            </Button>
+                android:id="@+id/refilter_btn"
+                android:layout_width="@dimen/filter_noresult_button_W"
+                android:layout_height="@dimen/filter_noresult_button_H"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/filter_norestult_buton_mt"
+                android:background="@drawable/filter_btn_selector"
+                android:gravity="center"
+                android:text="重新筛选"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_36sp"></Button>
+
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/text_size_36sp_height"
-                    android:layout_marginLeft="@dimen/filter_noresult_text_ML"
-                    android:layout_marginTop="@dimen/filter_noresult_text_mt"
-                    android:textSize="@dimen/h2_text_size"
-                    android:textColor="@android:color/white"
-                    android:gravity="center"
-                    android:text="当前大家正在看"/>
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/text_size_36sp_height"
+                android:layout_marginLeft="@dimen/filter_noresult_text_ML"
+                android:layout_marginTop="@dimen/filter_noresult_text_mt"
+                android:gravity="center"
+                android:text="当前大家正在看"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/h2_text_size" />
         </LinearLayout>
+
         <ProgressBar
-                android:id="@+id/recommend_filter_percentage"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/filter_portraitresult_filter_percentage_h"
-                android:progressDrawable="@drawable/progressbg"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:indeterminate="false"
-                android:visibility="visible"
-                android:layout_marginLeft="@dimen/list_progressBar_margin"
-                android:layout_marginRight="@dimen/list_progressBar_margin"/>
+            android:id="@+id/recommend_filter_percentage"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/filter_portraitresult_filter_percentage_h"
+            android:layout_marginLeft="@dimen/list_progressBar_margin"
+            android:layout_marginRight="@dimen/list_progressBar_margin"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/progressbg"
+            android:visibility="visible" />
+
         <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <Button
-                    android:visibility="invisible"
-                    android:clickable="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentBottom="true"
-                    android:id="@+id/recommend_left_shadow"
-                    android:layout_width="@dimen/filter_portraitresult_shadow_w"
-                    android:layout_height="@dimen/filter_portraitresult_shadow_h"
-                    android:background="@drawable/channel_arrow_left"
-                    android:layout_marginLeft="@dimen/listportait_button_ml"
-                    android:layout_marginBottom="@dimen/filter_noresult_arrow_Mb"
-                    />
+                android:id="@+id/recommend_left_shadow"
+                android:layout_width="@dimen/filter_portraitresult_shadow_w"
+                android:layout_height="@dimen/filter_portraitresult_shadow_h"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="@dimen/filter_noresult_arrow_Mb"
+                android:layout_marginLeft="@dimen/listportait_button_ml"
+                android:background="@drawable/channel_arrow_left"
+                android:clickable="true"
+                android:visibility="invisible" />
+
             <Button
-                    android:visibility="invisible"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:id="@+id/recommend_right_shadow"
-                    android:layout_width="@dimen/filter_portraitresult_shadow_w"
-                    android:layout_height="@dimen/filter_portraitresult_shadow_h"
-                    android:background="@drawable/channel_arrow_right"
-                    android:layout_marginRight="@dimen/listportait_button_ml"
-                    android:layout_marginBottom="@dimen/filter_noresult_arrow_Mb"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    />
+                android:id="@+id/recommend_right_shadow"
+                android:layout_width="@dimen/filter_portraitresult_shadow_w"
+                android:layout_height="@dimen/filter_portraitresult_shadow_h"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/filter_noresult_arrow_Mb"
+                android:layout_marginRight="@dimen/listportait_button_ml"
+                android:background="@drawable/channel_arrow_right"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:visibility="invisible" />
+
             <tv.ismar.app.ui.HGridView
-                    android:layout_toLeftOf="@id/recommend_right_shadow"
-                    android:layout_toRightOf="@id/recommend_left_shadow"
-                    android:id="@+id/recommend_filter_grid"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    sakura:horizontalSpacing="@dimen/filter_noresult_Gride_horizontalSpacing"
-                    sakura:numRows="2"
-                    sakura:rowHeight="@dimen/filter_noresult_Gride_rowHeight"
-                    sakura:selectorDrawable="@drawable/vod_gv_selector"
-                    sakura:verticalSpacing="0dp"
-                    sakura:selectionLeftPadding="@dimen/filter_Hgride_select_padding"
-                    sakura:selectionTopPadding="@dimen/filter_Hgride_select_padding"
-                    sakura:selectionRightPadding="@dimen/filter_Hgride_select_padding"
-                    sakura:selectionBottomPadding="@dimen/filter_Hgride_select_paddingBttom"
-                   android:paddingTop="@dimen/filter_Hgride_noresult_PT"
-                android:layout_marginTop="@dimen/filter_Hgride_noresult_MT"
+                android:id="@+id/recommend_filter_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/filter_noresult_Gride_MB"
                 android:layout_marginLeft="@dimen/filter_Hgride_noresult_ML"
                 android:layout_marginRight="@dimen/filter_noresult_Gride_ML"
-                android:layout_marginBottom="@dimen/filter_noresult_Gride_MB"
+                android:layout_marginTop="@dimen/filter_Hgride_noresult_MT"
+                android:layout_toLeftOf="@id/recommend_right_shadow"
+                android:layout_toRightOf="@id/recommend_left_shadow"
+                android:paddingLeft="@dimen/filter_Hgride_noresult_PL"
                 android:paddingRight="@dimen/filter_result_list_filter_grid_pr"
-                android:paddingLeft="@dimen/filter_Hgride_noresult_PL">
-            </tv.ismar.app.ui.HGridView>
+                android:paddingTop="@dimen/filter_Hgride_noresult_PT"
+                sakura:horizontalSpacing="@dimen/filter_noresult_Gride_horizontalSpacing"
+                sakura:numRows="2"
+                sakura:rowHeight="@dimen/filter_noresult_Gride_rowHeight"
+                sakura:selectionBottomPadding="@dimen/filter_Hgride_select_paddingBttom"
+                sakura:selectionLeftPadding="@dimen/filter_Hgride_select_padding"
+                sakura:selectionRightPadding="@dimen/filter_Hgride_select_padding"
+                sakura:selectionTopPadding="@dimen/filter_Hgride_select_padding"
+                sakura:selectorDrawable="@drawable/vod_gv_selector"
+                sakura:verticalSpacing="0dp"></tv.ismar.app.ui.HGridView>
         </RelativeLayout>
-  </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

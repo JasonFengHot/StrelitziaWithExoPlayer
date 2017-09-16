@@ -38,7 +38,70 @@ public class AdvertisementActivity extends BaseActivity {
     private boolean isStartImageCountDown = false;
     private boolean isPlayingVideo = false;
     private int playIndex;
-
+    private Handler mHandler =
+            new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(Message msg) {
+                    switch (msg.what) {
+                        case MSG_AD_COUNTDOWN:
+                            if (ad_timer == null) {
+                                return;
+                            }
+                            if (!isPlayingVideo && countAdTime == 0) {
+                                mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                                goNextPage();
+                                return;
+                            }
+                            if (ad_timer.getVisibility() != View.VISIBLE) {
+                                ad_timer.setVisibility(View.VISIBLE);
+                            }
+                            ad_timer.setText(String.valueOf(countAdTime));
+                            int refreshTime;
+                            if (!isPlayingVideo) {
+                                refreshTime = 1000;
+                                if (currentImageAdCountDown == 0 && !isStartImageCountDown) {
+                                    currentImageAdCountDown = launchAds.get(playIndex).duration;
+                                    isStartImageCountDown = true;
+                                } else {
+                                    if (currentImageAdCountDown == 0) {
+                                        playLaunchAd(playIndex++);
+                                        isStartImageCountDown = false;
+                                    } else {
+                                        currentImageAdCountDown--;
+                                    }
+                                }
+                                countAdTime--;
+                            } else {
+                                refreshTime = 500;
+                                countAdTime = getAdCountDownTime();
+                            }
+                            sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, refreshTime);
+                            break;
+                    }
+                }
+            };
+    private MediaPlayer.OnPreparedListener onPreparedListener =
+            new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    ad_video.start();
+                    if (playIndex == 0) {
+                        mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+                    }
+                }
+            };
+    private MediaPlayer.OnCompletionListener onCompletionListener =
+            new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if (playIndex == launchAds.size() - 1) {
+                        mHandler.removeMessages(MSG_AD_COUNTDOWN);
+                        goNextPage();
+                        return;
+                    }
+                    playLaunchAd(playIndex++);
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +118,6 @@ public class AdvertisementActivity extends BaseActivity {
             countAdTime += duration;
         }
         playLaunchAd(0);
-
     }
 
     private void playLaunchAd(final int index) {
@@ -80,89 +142,28 @@ public class AdvertisementActivity extends BaseActivity {
                     .load(launchAds.get(index).location)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
-                    .into(ad_pic, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            if (playIndex == 0) {
-                                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
-                            }
-                        }
+                    .into(
+                            ad_pic,
+                            new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    if (playIndex == 0) {
+                                        mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+                                    }
+                                }
 
-                        @Override
-                        public void onError() {
-                            ad_pic.setImageBitmap(Utils.getImgFromAssets(AdvertisementActivity.this, "poster.png"));
-                            if (playIndex == 0) {
-                                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
-                            }
-                        }
-                    });
+                                @Override
+                                public void onError() {
+                                    ad_pic.setImageBitmap(
+                                            Utils.getImgFromAssets(
+                                                    AdvertisementActivity.this, "poster.png"));
+                                    if (playIndex == 0) {
+                                        mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
+                                    }
+                                }
+                            });
         }
-
     }
-
-    private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
-        @Override
-        public void onPrepared(MediaPlayer mp) {
-            ad_video.start();
-            if (playIndex == 0) {
-                mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
-            }
-        }
-    };
-
-    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            if (playIndex == launchAds.size() - 1) {
-                mHandler.removeMessages(MSG_AD_COUNTDOWN);
-                goNextPage();
-                return;
-            }
-            playLaunchAd(playIndex++);
-        }
-    };
-
-    private Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_AD_COUNTDOWN:
-                    if (ad_timer == null) {
-                        return;
-                    }
-                    if (!isPlayingVideo && countAdTime == 0) {
-                        mHandler.removeMessages(MSG_AD_COUNTDOWN);
-                        goNextPage();
-                        return;
-                    }
-                    if (ad_timer.getVisibility() != View.VISIBLE) {
-                        ad_timer.setVisibility(View.VISIBLE);
-                    }
-                    ad_timer.setText(String.valueOf(countAdTime));
-                    int refreshTime;
-                    if (!isPlayingVideo) {
-                        refreshTime = 1000;
-                        if (currentImageAdCountDown == 0 && !isStartImageCountDown) {
-                            currentImageAdCountDown = launchAds.get(playIndex).duration;
-                            isStartImageCountDown = true;
-                        } else {
-                            if (currentImageAdCountDown == 0) {
-                                playLaunchAd(playIndex++);
-                                isStartImageCountDown = false;
-                            } else {
-                                currentImageAdCountDown--;
-                            }
-                        }
-                        countAdTime--;
-                    } else {
-                        refreshTime = 500;
-                        countAdTime = getAdCountDownTime();
-                    }
-                    sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, refreshTime);
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onStop() {

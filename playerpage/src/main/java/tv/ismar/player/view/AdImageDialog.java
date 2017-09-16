@@ -1,5 +1,4 @@
 package tv.ismar.player.view;
-import cn.ismartv.truetime.TrueTime;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -20,14 +19,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.ismartv.truetime.TrueTime;
 import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.player.R;
 
-/**
- * Created by Beaver on 2016/6/16.
- */
+/** Created by Beaver on 2016/6/16. */
 public class AdImageDialog extends Dialog {
 
     private static final String TAG = "LH/AdImageDialog";
@@ -35,12 +31,15 @@ public class AdImageDialog extends Dialog {
     private Context mContext;
     private int width;
     private int height;
-//    private long mDuration;
+    //    private long mDuration;
     private List<AdElementEntity> mAdElementEntityList;
     private int mCurrentAdIndex = 0;
     private ImageView imageView;
     private Button button;
     private CallaPlay callaPlay = new CallaPlay();
+    // 定时器
+    private Timer sensorTimer;
+    private MyTimerTask myTimerTask;
 
     public AdImageDialog(Context context, int theme, List<AdElementEntity> adElementEntityList) {
         super(context, theme);
@@ -49,7 +48,6 @@ public class AdImageDialog extends Dialog {
         width = wm.getDefaultDisplay().getWidth();
         height = wm.getDefaultDisplay().getHeight();
         mAdElementEntityList = adElementEntityList;
-
     }
 
     @Override
@@ -61,7 +59,7 @@ public class AdImageDialog extends Dialog {
         button = (Button) findViewById(R.id.player_pause_close);
         button.setVisibility(View.GONE);
 
-//        mDuration = TrueTime.now().getTime();
+        //        mDuration = TrueTime.now().getTime();
 
         if (sensorTimer == null) {
             sensorTimer = new Timer();
@@ -75,67 +73,14 @@ public class AdImageDialog extends Dialog {
         lp.height = ((int) (height * 0.53));
         lp.gravity = Gravity.CENTER;
         button.requestFocus();
-        button.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(
+                new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
-    }
-
-    // 定时器
-    private Timer sensorTimer;
-    private MyTimerTask myTimerTask;
-
-    class MyTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    if (imageView != null && button != null) {
-                        AdElementEntity element = mAdElementEntityList.get(mCurrentAdIndex);
-                        callaPlay.pause_ad_download(element.getTitle(), element.getMedia_id(), element.getMedia_url(), "bestv");
-
-                        Picasso.with(mContext).load(element.getMedia_url())
-                                .into(imageView, new com.squareup.picasso.Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        button.setVisibility(View.VISIBLE);
-                                        button.requestFocus();
-
-//                                        mDuration = TrueTime.now().getTime() - mDuration;
-                                        callaPlay.pause_ad_play(
-                                                mAdElementEntityList.get(mCurrentAdIndex).getTitle(),
-                                                mAdElementEntityList.get(mCurrentAdIndex).getMedia_id(),
-                                                mAdElementEntityList.get(mCurrentAdIndex).getMedia_url(),
-                                                6000, "bestv");
-
-//                                        mDuration = TrueTime.now().getTime();
-                                    }
-
-                                    @Override
-                                    public void onError() {
-                                        callaPlay.pause_ad_except(0, "Load error");
-                                    }
-                                });
-                        if (mAdElementEntityList.size() == 1) {
-                            // 只有一条广告时
-                            cancelTimer();
-                        }
-                        if (mCurrentAdIndex == mAdElementEntityList.size() - 1) {
-                            mCurrentAdIndex = 0;
-                        } else {
-                            mCurrentAdIndex++;
-                        }
+                    @Override
+                    public void onClick(View v) {
+                        dismiss();
                     }
-                }
-            });
-        }
-
+                });
     }
 
     private void cancelTimer() {
@@ -148,7 +93,6 @@ public class AdImageDialog extends Dialog {
             sensorTimer = null;
         }
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -172,4 +116,77 @@ public class AdImageDialog extends Dialog {
         super.onBackPressed();
     }
 
+    class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            new Handler(Looper.getMainLooper())
+                    .post(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (imageView != null && button != null) {
+                                        AdElementEntity element =
+                                                mAdElementEntityList.get(mCurrentAdIndex);
+                                        callaPlay.pause_ad_download(
+                                                element.getTitle(),
+                                                element.getMedia_id(),
+                                                element.getMedia_url(),
+                                                "bestv");
+
+                                        Picasso.with(mContext)
+                                                .load(element.getMedia_url())
+                                                .into(
+                                                        imageView,
+                                                        new com.squareup.picasso.Callback() {
+                                                            @Override
+                                                            public void onSuccess() {
+                                                                button.setVisibility(View.VISIBLE);
+                                                                button.requestFocus();
+
+                                                                //
+                                                                //      mDuration =
+                                                                // TrueTime.now().getTime() -
+                                                                // mDuration;
+                                                                callaPlay.pause_ad_play(
+                                                                        mAdElementEntityList
+                                                                                .get(
+                                                                                        mCurrentAdIndex)
+                                                                                .getTitle(),
+                                                                        mAdElementEntityList
+                                                                                .get(
+                                                                                        mCurrentAdIndex)
+                                                                                .getMedia_id(),
+                                                                        mAdElementEntityList
+                                                                                .get(
+                                                                                        mCurrentAdIndex)
+                                                                                .getMedia_url(),
+                                                                        6000,
+                                                                        "bestv");
+
+                                                                //
+                                                                //      mDuration =
+                                                                // TrueTime.now().getTime();
+                                                            }
+
+                                                            @Override
+                                                            public void onError() {
+                                                                callaPlay.pause_ad_except(
+                                                                        0, "Load error");
+                                                            }
+                                                        });
+                                        if (mAdElementEntityList.size() == 1) {
+                                            // 只有一条广告时
+                                            cancelTimer();
+                                        }
+                                        if (mCurrentAdIndex == mAdElementEntityList.size() - 1) {
+                                            mCurrentAdIndex = 0;
+                                        } else {
+                                            mCurrentAdIndex++;
+                                        }
+                                    }
+                                }
+                            });
+        }
+    }
 }

@@ -27,19 +27,17 @@ import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.view.AsyncImageView;
 import tv.ismar.app.ui.view.LabelImageView;
 
+public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection>
+        implements AsyncImageView.OnImageViewLoadListener {
 
-public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection> implements AsyncImageView.OnImageViewLoadListener {
-
-
+    public HGridView hg;
     private Context mContext;
     private boolean mHasSection = true;
     private int mSize = 0;
-    public HGridView hg;
     private HashSet<AsyncImageView> mOnLoadingImageQueue = new HashSet<AsyncImageView>();
     private HashSet<RelativeLayout> mOnLoadinglayoutQueue = new HashSet<RelativeLayout>();
-    private Transformation mTransformation = new ReflectionTransformationBuilder()
-            .setIsHorizontal(true)
-            .build();
+    private Transformation mTransformation =
+            new ReflectionTransformationBuilder().setIsHorizontal(true).build();
 
     public HGridSearchAdapterImpl(Context context, ArrayList<SearchItemCollection> list) {
         mContext = context;
@@ -49,10 +47,10 @@ public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection> i
                 mSize += list.get(i).count;
             }
         }
-
     }
 
-    public HGridSearchAdapterImpl(Context context, ArrayList<SearchItemCollection> list, boolean hasSection) {
+    public HGridSearchAdapterImpl(
+            Context context, ArrayList<SearchItemCollection> list, boolean hasSection) {
         mContext = context;
         if (list != null && list.size() > 0) {
             mList = list;
@@ -102,10 +100,13 @@ public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection> i
     public View getView(final int position, View convertView, ViewGroup parent) {
         Holder holder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.filter_portraitlist_view_item, null);
+            convertView =
+                    LayoutInflater.from(mContext)
+                            .inflate(R.layout.filter_portraitlist_view_item, null);
             holder = new Holder();
             holder.title = (TextView) convertView.findViewById(R.id.filter_list_item_title);
-            holder.previewImage = (AsyncImageView) convertView.findViewById(R.id.filter_list_item_preview_img);
+            holder.previewImage =
+                    (AsyncImageView) convertView.findViewById(R.id.filter_list_item_preview_img);
             holder.ItemBeanScore = (TextView) convertView.findViewById(R.id.ItemBeanScore);
             holder.expense_txt = (ImageView) convertView.findViewById(R.id.expense_txt);
             convertView.setTag(holder);
@@ -128,29 +129,31 @@ public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection> i
         // This ItemCollection's currentIndex has been filled.
         if (mList.size() > 0) {
             if (mList.get(sectionIndex).isItemReady(indexOfCurrentSection)) {
-                final SemantichObjectEntity item = mList.get(sectionIndex).objects.get(indexOfCurrentSection);
+                final SemantichObjectEntity item =
+                        mList.get(sectionIndex).objects.get(indexOfCurrentSection);
                 if (item != null) {
                     if (!TextUtils.isEmpty(item.getVertical_url())) {
-                Picasso.with(mContext)
-                        .load(item.getVertical_url())
-                        .memoryPolicy(MemoryPolicy.NO_STORE)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE)
-                        .error(R.drawable.list_item_ppreview_bg)
-                        .placeholder(R.drawable.list_item_ppreview_bg)
-                        .transform(mTransformation)
-                        .into(holder.previewImage);
-                } else {
-                Picasso.with(mContext)
-                        .load(item.getPoster_url())
-                        .memoryPolicy(MemoryPolicy.NO_STORE)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE)
-                        .error(R.drawable.list_item_ppreview_bg)
-                        .placeholder(R.drawable.list_item_ppreview_bg)
-                        .transform(mTransformation)
-                        .into(holder.previewImage);
-            }
+                        Picasso.with(mContext)
+                                .load(item.getVertical_url())
+                                .memoryPolicy(MemoryPolicy.NO_STORE)
+                                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                                .error(R.drawable.list_item_ppreview_bg)
+                                .placeholder(R.drawable.list_item_ppreview_bg)
+                                .transform(mTransformation)
+                                .into(holder.previewImage);
+                    } else {
+                        Picasso.with(mContext)
+                                .load(item.getPoster_url())
+                                .memoryPolicy(MemoryPolicy.NO_STORE)
+                                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                                .error(R.drawable.list_item_ppreview_bg)
+                                .placeholder(R.drawable.list_item_ppreview_bg)
+                                .transform(mTransformation)
+                                .into(holder.previewImage);
+                    }
                     holder.title.setText(item.getTitle());
-                    if (Float.valueOf(item.getBean_score()==null?"0":item.getBean_score()) > 0) {
+                    if (Float.valueOf(item.getBean_score() == null ? "0" : item.getBean_score())
+                            > 0) {
                         holder.ItemBeanScore.setText(item.getBean_score());
                         holder.ItemBeanScore.setVisibility(View.VISIBLE);
                     }
@@ -158,7 +161,12 @@ public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection> i
                         if (item.getExpense().cptitle != null) {
                             holder.expense_txt.setVisibility(View.VISIBLE);
 
-                            String imageUrl = VipMark.getInstance().getImage((Activity) mContext, item.getExpense().pay_type, item.getExpense().cpid);
+                            String imageUrl =
+                                    VipMark.getInstance()
+                                            .getImage(
+                                                    (Activity) mContext,
+                                                    item.getExpense().pay_type,
+                                                    item.getExpense().cpid);
                             Picasso.with(mContext).load(imageUrl).into(holder.expense_txt);
                         }
                     }
@@ -170,17 +178,9 @@ public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection> i
                 // Show the default info.
                 holder.title.setText(mContext.getResources().getString(R.string.onload));
                 holder.previewImage.setUrl(null);
-
             }
         }
         return convertView;
-    }
-
-    static class Holder {
-        AsyncImageView previewImage;
-        TextView title;
-        TextView ItemBeanScore;
-        ImageView expense_txt;
     }
 
     @Override
@@ -197,26 +197,20 @@ public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection> i
 
     @Override
     public boolean hasSection() {
-        if (this.mHasSection)
-            return true;
-        else
-            return false;
+        if (this.mHasSection) return true;
+        else return false;
     }
 
     @Override
     public int getSectionCount(int sectionIndex) {
-        if (mList.size() > 0)
-            return mList.get(sectionIndex).count;
-        else
-            return 0;
+        if (mList.size() > 0) return mList.get(sectionIndex).count;
+        else return 0;
     }
 
     @Override
     public String getLabelText(int sectionIndex) {
-        if (this.mHasSection)
-            return mList.get(sectionIndex).title;
-        else
-            return " ";
+        if (this.mHasSection) return mList.get(sectionIndex).title;
+        else return " ";
     }
 
     public void cancel() {
@@ -239,5 +233,12 @@ public class HGridSearchAdapterImpl extends HGridAdapter<SearchItemCollection> i
     @Override
     public void onLoadingFailed(AsyncImageView imageView, Throwable throwable) {
         mOnLoadingImageQueue.remove(imageView);
+    }
+
+    static class Holder {
+        AsyncImageView previewImage;
+        TextView title;
+        TextView ItemBeanScore;
+        ImageView expense_txt;
     }
 }

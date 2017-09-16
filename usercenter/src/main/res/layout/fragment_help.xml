@@ -5,170 +5,115 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="tasks"
-            type="tv.ismar.usercenter.viewmodel.HelpViewModel" />
+        <variable name="tasks" type="tv.ismar.usercenter.viewmodel.HelpViewModel" />
 
-        <variable
-            name="actionHandler"
-            type="tv.ismar.usercenter.HelpContract.Presenter" />
+        <variable name="actionHandler" type="tv.ismar.usercenter.HelpContract.Presenter" />
     </data>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="@dimen/usercenter_help_introduce_w"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <LinearLayout android:layout_width="@dimen/usercenter_help_introduce_w"
+            android:layout_height="match_parent" android:orientation="vertical">
 
-            <ImageView
-                android:layout_marginLeft="@dimen/usercenter_help_ismartv_icon_ml"
-                android:layout_width="@dimen/help_title_icon_w"
+            <ImageView android:layout_width="@dimen/help_title_icon_w"
                 android:layout_height="@dimen/help_title_icon_h"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/usercenter_help_ismartv_icon_ml"
                 android:layout_marginTop="@dimen/usercenter_fragment_help_ismartv_icon_margin_top"
-                android:focusable="false"
-                android:src="@drawable/usercenter_help_ismartv_icon" />
+                android:focusable="false" android:src="@drawable/usercenter_help_ismartv_icon" />
 
             <TextView
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/usercenter_fragment_help_ismartv_introduction_margin_left"
                 android:layout_marginRight="@dimen/usercenter_fragment_help_ismartv_introduction_margin_right"
                 android:layout_marginTop="@dimen/usercenter_fragment_help_ismartv_introduction_margin_top"
                 android:lineSpacingExtra="@dimen/usercenter_line_spacing"
-                android:text="@string/usercenter_help_introduction"
-                android:textColor="#FFFFFF"
+                android:text="@string/usercenter_help_introduction" android:textColor="#FFFFFF"
                 android:textSize="@dimen/text_size_27sp" />
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:focusable="false"
-            android:src="@drawable/vertical_divider_line" />
+        <ImageView android:layout_width="1dp" android:layout_height="match_parent"
+            android:focusable="false" android:src="@drawable/vertical_divider_line" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+        <LinearLayout android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/help_center_text_ml"
                 android:layout_marginTop="@dimen/usercenter_help_helpcenter_text_margin_top"
-                android:text="@string/help_center"
-                android:textColor="#FFFFFF"
+                android:text="@string/help_center" android:textColor="#FFFFFF"
                 android:textSize="@dimen/text_size_36sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_help_contact_margin_left"
                 android:layout_marginTop="@dimen/helpcenter_hotline_mt"
-                android:text="@string/help_tel"
-                android:textColor="#FFFFFF"
+                android:text="@string/help_tel" android:textColor="#FFFFFF"
                 android:textSize="@dimen/text_size_27sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_help_contact_margin_left"
                 android:layout_marginTop="@dimen/usercenter_fragment_help_ismartv_introduction_lineSpacingExtra"
-                android:text="@string/help_mail"
-                android:textColor="#FFFFFF"
+                android:text="@string/help_mail" android:textColor="#FFFFFF"
                 android:textSize="@dimen/text_size_27sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_help_contact_margin_left"
-                android:layout_marginTop="@dimen/helpcenter_qq_mt"
-                android:text="@string/help_qq"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/text_size_27sp" />
+                android:layout_marginTop="@dimen/helpcenter_qq_mt" android:text="@string/help_qq"
+                android:textColor="#FFFFFF" android:textSize="@dimen/text_size_27sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_help_contact_margin_left"
-                android:layout_marginTop="@dimen/helpcenter_wx_mt"
-                android:text="@string/help_wx"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/text_size_27sp" />
+                android:layout_marginTop="@dimen/helpcenter_wx_mt" android:text="@string/help_wx"
+                android:textColor="#FFFFFF" android:textSize="@dimen/text_size_27sp" />
 
-            <TextView
-                android:id="@+id/apk_version"
-                android:layout_width="wrap_content"
+            <TextView android:id="@+id/apk_version" android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/usercenter_help_contact_margin_left"
                 android:layout_marginTop="@dimen/helpcenter_version_mt"
-                android:text="@{tasks.versionCode}"
-                android:textColor="#FFFFFF"
+                android:text="@{tasks.versionCode}" android:textColor="#FFFFFF"
                 android:textSize="@dimen/text_size_27sp" />
 
             <LinearLayout
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/usercenter_help_icon_margin_top"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:gravity="center_horizontal" android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/ismartv_icon"
+                <ImageView android:id="@+id/ismartv_icon"
                     android:layout_width="@dimen/ismartv_icon_w"
                     android:layout_height="@dimen/ismartv_icon_w"
                     android:layout_marginLeft="@dimen/ismartv_icon_ml"
-                    android:background="@drawable/launcher_selector"
-                    android:focusable="true"
-                    android:nextFocusRight="@id/ismartv_icon"
-                    android:nextFocusUp="@id/ismartv_icon"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ismartv_icon" />
+                    android:background="@drawable/launcher_selector" android:focusable="true"
+                    android:nextFocusRight="@id/ismartv_icon" android:nextFocusUp="@id/ismartv_icon"
+                    android:scaleType="fitXY" android:src="@drawable/ismartv_icon" />
 
-                <ImageView
-                    android:id="@+id/tmp"
-                    android:layout_width="wrap_content"
+                <ImageView android:id="@+id/tmp" android:layout_width="wrap_content"
                     android:layout_height="@dimen/ismartv_icon_w"
-                    android:layout_gravity="center_vertical"
-                    android:focusable="true" />
+                    android:layout_gravity="center_vertical" android:focusable="true" />
             </LinearLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/ismartv_icon_text_ml"
                 android:layout_marginTop="@dimen/usercenter_help_shipinkefu_margin_top"
-                android:text="@string/shipinkefu"
-                android:textColor="#ff0000"
+                android:text="@string/shipinkefu" android:textColor="#ff0000"
                 android:textSize="@dimen/text_size_27sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/ismartv_icon_text_ml"
                 android:layout_marginTop="@dimen/ismartv_copyright_mt"
-                android:text="@string/ismartv_copyright"
-                android:textSize="@dimen/text_size_27sp" />
+                android:text="@string/ismartv_copyright" android:textSize="@dimen/text_size_27sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/ismartv_icon_text_ml"
                 android:layout_marginTop="@dimen/ismartv_copyright_english_mt"

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="purchase_history_list_first_id"/>
-    <item type="id" name="userinfo_palyauth_list_first_id"/>
-    <item type="id" name="userinfo_palyauth_list_last_id"/>
-    <item type="id" name="guidefragment_firstpost"/>
-    <item type="id" name="guidefragment_lastpost"/>
-    <item type="id" name="filmfragment_firstpost"/>
-    <item type="id" name="filmfragment_secondpost"/>
-    <item type="id" name="filmfragment_thirdpost"/>
-    <item type="id" name="filmfragment_firstcarousel"/>
-    <item type="id" name="filmfragment_filmmore"/>
-    <item type="id" name="childfragment_lefttop"/>
-    <item type="id" name="childfragment_leftbottom"/>
-    <item type="id" name="childfragment_righttop"/>
+    <item name="purchase_history_list_first_id" type="id" />
+    <item name="userinfo_palyauth_list_first_id" type="id" />
+    <item name="userinfo_palyauth_list_last_id" type="id" />
+    <item name="guidefragment_firstpost" type="id" />
+    <item name="guidefragment_lastpost" type="id" />
+    <item name="filmfragment_firstpost" type="id" />
+    <item name="filmfragment_secondpost" type="id" />
+    <item name="filmfragment_thirdpost" type="id" />
+    <item name="filmfragment_firstcarousel" type="id" />
+    <item name="filmfragment_filmmore" type="id" />
+    <item name="childfragment_lefttop" type="id" />
+    <item name="childfragment_leftbottom" type="id" />
+    <item name="childfragment_righttop" type="id" />
 </resources>

@@ -16,11 +16,47 @@ import java.util.concurrent.Future;
 
 public class ImageLoader {
 
-	private static final String TAG = "ImageLoader";
-	
-	/**
-     * @author Cyril Mottier
-     */
+    private static final String TAG = "ImageLoader";
+    private static final int ON_START = 0x100;
+    private static final int ON_FAIL = 0x101;
+    private static final int ON_END = 0x102;
+    private static ExecutorService sExecutor;
+    private static BitmapFactory.Options sDefaultOptions;
+    private static ImageCache sImageCache;
+    public ImageLoader(Context context) {
+        if (sImageCache == null) {
+            sImageCache = DaisyUtils.getImageCache(context);
+        }
+        if (sExecutor == null) {
+            sExecutor = DaisyUtils.getExecutor(context);
+        }
+        if (sDefaultOptions == null) {
+            sDefaultOptions = new BitmapFactory.Options();
+            sDefaultOptions.inDither = true;
+            sDefaultOptions.inScaled = true;
+            sDefaultOptions.inDensity = DisplayMetrics.DENSITY_MEDIUM;
+            sDefaultOptions.inTargetDensity = context.getResources().getDisplayMetrics().densityDpi;
+        }
+    }
+
+    public Future<?> loadImage(String url, ImageLoaderCallback callback) {
+        return loadImage(url, callback, null);
+    }
+
+    public Future<?> loadImage(
+            String url, ImageLoaderCallback callback, ImageProcessor bitmapProcessor) {
+        return loadImage(url, callback, bitmapProcessor, null);
+    }
+
+    public Future<?> loadImage(
+            String url,
+            ImageLoaderCallback callback,
+            ImageProcessor bitmapProcessor,
+            BitmapFactory.Options options) {
+        return sExecutor.submit(new ImageFetcher(url, callback, bitmapProcessor, options));
+    }
+
+    /** @author Cyril Mottier */
     public static interface ImageLoaderCallback {
 
         void onImageLoadingStarted(ImageLoader loader);
@@ -29,43 +65,7 @@ public class ImageLoader {
 
         void onImageLoadingFailed(ImageLoader loader, Throwable exception);
     }
-    
-    private static final int ON_START = 0x100;
-    private static final int ON_FAIL = 0x101;
-    private static final int ON_END = 0x102;
-    
-    private static ExecutorService sExecutor;
-    private static BitmapFactory.Options sDefaultOptions;
-    private static ImageCache sImageCache;
-    
-    public ImageLoader(Context context) {
-    	if (sImageCache == null) {
-            sImageCache = DaisyUtils.getImageCache(context);
-        }
-        if (sExecutor == null) {
-            sExecutor = DaisyUtils.getExecutor(context);
-        }
-        if (sDefaultOptions == null) {
-        	sDefaultOptions = new BitmapFactory.Options();
-        	sDefaultOptions.inDither = true;
-        	sDefaultOptions.inScaled = true;
-        	sDefaultOptions.inDensity = DisplayMetrics.DENSITY_MEDIUM;
-        	sDefaultOptions.inTargetDensity = context.getResources().getDisplayMetrics().densityDpi;
-        }
-    }
-    
-    public Future<?> loadImage(String url, ImageLoaderCallback callback) {
-        return loadImage(url, callback, null);
-    }
 
-    public Future<?> loadImage(String url, ImageLoaderCallback callback, ImageProcessor bitmapProcessor) {
-        return loadImage(url, callback, bitmapProcessor, null);
-    }
-    
-    public Future<?> loadImage(String url, ImageLoaderCallback callback, ImageProcessor bitmapProcessor, BitmapFactory.Options options) {
-        return sExecutor.submit(new ImageFetcher(url, callback, bitmapProcessor, options));
-    }
-    
     private class ImageFetcher implements Runnable {
 
         private String mUrl;
@@ -73,7 +73,11 @@ public class ImageLoader {
         private ImageProcessor mBitmapProcessor;
         private BitmapFactory.Options mOptions;
 
-        public ImageFetcher(String url, ImageLoaderCallback callback, ImageProcessor bitmapProcessor, BitmapFactory.Options options) {
+        public ImageFetcher(
+                String url,
+                ImageLoaderCallback callback,
+                ImageProcessor bitmapProcessor,
+                BitmapFactory.Options options) {
             mUrl = url;
             mHandler = new ImageHandler(url, callback);
             mBitmapProcessor = bitmapProcessor;
@@ -95,14 +99,16 @@ public class ImageLoader {
                 if (TextUtils.isEmpty(mUrl)) {
                     throw new Exception("The given URL cannot be null or empty");
                 }
-                
+
                 InputStream inputStream = null;
-                
+
                 inputStream = new URL(mUrl).openStream();
 
                 // TODO Cyril: Use a AndroidHttpClient?
-                bitmap = BitmapFactory.decodeStream(inputStream, null, (mOptions == null) ? sDefaultOptions : mOptions);
-                
+                bitmap =
+                        BitmapFactory.decodeStream(
+                                inputStream, null, (mOptions == null) ? sDefaultOptions : mOptions);
+
                 if (mBitmapProcessor != null && bitmap != null) {
                     final Bitmap processedBitmap = mBitmapProcessor.processImage(bitmap);
                     if (processedBitmap != null) {
@@ -112,7 +118,7 @@ public class ImageLoader {
 
             } catch (Exception e) {
                 // An error occured while retrieving the image
-            	e.printStackTrace();
+                e.printStackTrace();
                 throwable = e;
             }
 
@@ -128,7 +134,7 @@ public class ImageLoader {
             }
         }
     }
-    
+
     private class ImageHandler extends Handler {
 
         private String mUrl;
@@ -143,7 +149,6 @@ public class ImageLoader {
         public void handleMessage(Message msg) {
 
             switch (msg.what) {
-
                 case ON_START:
                     if (mCallback != null) {
                         mCallback.onImageLoadingStarted(ImageLoader.this);
@@ -157,7 +162,6 @@ public class ImageLoader {
                     break;
 
                 case ON_END:
-
                     final Bitmap bitmap = (Bitmap) msg.obj;
                     sImageCache.put(mUrl, bitmap);
 

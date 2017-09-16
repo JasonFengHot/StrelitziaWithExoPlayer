@@ -9,11 +9,7 @@ import android.widget.RelativeLayout;
 
 import tv.ismar.searchpage.R;
 
-/**
- * Created by coco on 2016/2/16.
- */
-
-
+/** Created by coco on 2016/2/16. */
 public class ItemContainer extends RelativeLayout {
 
     private Rect mBound;
@@ -26,10 +22,6 @@ public class ItemContainer extends RelativeLayout {
         init();
     }
 
-    public void setDrawBorder(boolean isDrawBorder) {
-        this.isDrawBorder = isDrawBorder;
-    }
-
     public ItemContainer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
@@ -40,11 +32,18 @@ public class ItemContainer extends RelativeLayout {
         init();
     }
 
+    public void setDrawBorder(boolean isDrawBorder) {
+        this.isDrawBorder = isDrawBorder;
+    }
+
     protected void init() {
         setWillNotDraw(false);
         mRect = new Rect();
         mBound = new Rect();
-        mDrawable = (NinePatchDrawable) getResources().getDrawable(R.drawable.key_focus);//nav_focused_2,poster_shadow_4
+        mDrawable =
+                (NinePatchDrawable)
+                        getResources()
+                                .getDrawable(R.drawable.key_focus); // nav_focused_2,poster_shadow_4
         setChildrenDrawingOrderEnabled(true);
     }
 
@@ -63,31 +62,36 @@ public class ItemContainer extends RelativeLayout {
         if (isDrawBorder) {
             System.out.println("HomeItemContainer focus : true ");
             super.getDrawingRect(mRect);
-            int margin= (int) getResources().getDimension(R.dimen.focus_rect);
-            mBound.set(-margin + mRect.left, -margin + mRect.top, margin+ mRect.right, mRect.bottom + margin);
+            int margin = (int) getResources().getDimension(R.dimen.focus_rect);
+            mBound.set(
+                    -margin + mRect.left,
+                    -margin + mRect.top,
+                    margin + mRect.right,
+                    mRect.bottom + margin);
             mDrawable.setBounds(mBound);
             canvas.save();
             mDrawable.draw(canvas);
             canvas.restore();
         }
-            getRootView().requestLayout();
-			getRootView().invalidate();
+        getRootView().requestLayout();
+        getRootView().invalidate();
         super.onDraw(canvas);
     }
 
-//    @Override
-//    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
-//        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-//        if (gainFocus) {
-//            isDrawBorder = true;
-////			bringToFront();
-////			getRootView().requestLayout();
-////			getRootView().invalidate();
-////			zoomOut();
-//        } else {
-//            isDrawBorder = false;
-////			zoomIn();
-//        }
-//    }
+    //    @Override
+    //    protected void onFocusChanged(boolean gainFocus, int direction, Rect
+    // previouslyFocusedRect) {
+    //        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+    //        if (gainFocus) {
+    //            isDrawBorder = true;
+    ////			bringToFront();
+    ////			getRootView().requestLayout();
+    ////			getRootView().invalidate();
+    ////			zoomOut();
+    //        } else {
+    //            isDrawBorder = false;
+    ////			zoomIn();
+    //        }
+    //    }
 
 }

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:bind="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
 
->
+    >
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="tasks"
-            type="tv.ismar.detailpage.viewmodel.DetailPageViewModel"/>
+            type="tv.ismar.detailpage.viewmodel.DetailPageViewModel" />
 
         <variable
             name="actionHandler"
-            type="tv.ismar.detailpage.DetailPageContract.Presenter"/>
+            type="tv.ismar.detailpage.DetailPageContract.Presenter" />
     </data>
 
     <LinearLayout
@@ -30,8 +30,7 @@
         <FrameLayout
             android:id="@+id/detail_head"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/detail_header_height"
-        />
+            android:layout_height="@dimen/detail_header_height" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +61,7 @@
                             android:layout_width="@dimen/movie_detail_preview_img_w"
                             android:layout_height="@dimen/movie_detail_preview_img_h"
                             android:scaleType="centerCrop"
-                            app:imageUrl="@{tasks.itemPostUrl}"/>
+                            app:imageUrl="@{tasks.itemPostUrl}" />
 
                         <ImageView
                             android:id="@+id/detail_right_top_corner"
@@ -71,8 +70,7 @@
                             android:layout_gravity="right|top"
                             android:scaleType="centerCrop"
                             android:visibility="@{tasks.vipMarkVisibility}"
-                            app:vipMark="@{tasks.vipMarkUrl}"
-                        />
+                            app:vipMark="@{tasks.vipMarkUrl}" />
 
                     </FrameLayout>
 
@@ -88,13 +86,13 @@
                             android:id="@+id/detail_title"
                             android:layout_width="@dimen/movie_detail_text_w"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="-4dp"
                             android:ellipsize="end"
                             android:includeFontPadding="false"
                             android:singleLine="true"
                             android:text="@{tasks.itemTitle}"
                             android:textColor="@color/module_color_white"
-                            android:layout_marginTop="-4dp"
-                            android:textSize="@dimen/text_size_48sp"/>
+                            android:textSize="@dimen/text_size_48sp" />
 
                         <LinearLayout
                             android:layout_width="@dimen/movie_detail_text_w"
@@ -109,8 +107,7 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_type"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -120,8 +117,7 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.genre}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                         </LinearLayout>
 
@@ -138,8 +134,7 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_level"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -149,8 +144,7 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.classification}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                         </LinearLayout>
 
@@ -167,8 +161,7 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_area"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -178,8 +171,7 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.area}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                         </LinearLayout>
 
@@ -196,8 +188,7 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_time"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -207,8 +198,7 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.airDate}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                         </LinearLayout>
 
@@ -225,8 +215,7 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_director"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -236,8 +225,7 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.director}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                         </LinearLayout>
 
@@ -254,8 +242,7 @@
                                 android:includeFontPadding="false"
                                 android:text="@string/detail_page_actor"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -265,8 +252,7 @@
                                 android:singleLine="true"
                                 android:text="@{tasks.actor}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                         </LinearLayout>
 
@@ -285,26 +271,25 @@
                                 android:maxLines="3"
                                 android:text="@{tasks.description}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_24sp"
-                            />
+                                android:textSize="@dimen/text_size_24sp" />
 
                         </LinearLayout>
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="1dp"
-                        android:orientation="vertical"
-                    >
+                        android:orientation="vertical">
+
                         <LinearLayout
                             android:id="@+id/detail_btn_linear"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:visibility="invisible"
-                            >
+                            android:visibility="invisible">
 
                             <Button
                                 android:id="@+id/detail_btn_play"
@@ -316,7 +301,7 @@
                                 android:paddingLeft="@dimen/movie_detail_button_padding_left"
                                 android:text="@{tasks.playText}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_32sp"/>
+                                android:textSize="@dimen/text_size_32sp" />
 
                             <Button
                                 android:id="@+id/detail_btn_buy"
@@ -330,7 +315,7 @@
                                 android:text="@string/video_buy"
                                 android:textColor="@color/module_color_white"
                                 android:textSize="@dimen/text_size_32sp"
-                                android:visibility="@{tasks.purchaseVisibility}"/>
+                                android:visibility="@{tasks.purchaseVisibility}" />
 
                             <Button
                                 android:id="@+id/detail_btn_collect"
@@ -343,32 +328,31 @@
                                 android:paddingLeft="@dimen/movie_detail_button_padding_left"
                                 android:text="@{tasks.bookmarkText}"
                                 android:textColor="@color/module_color_white"
-                                android:textSize="@dimen/text_size_32sp"
-                            />
+                                android:textSize="@dimen/text_size_32sp" />
 
                         </LinearLayout>
 
                     </LinearLayout>
+
                     <ImageView
                         android:id="@+id/source"
                         android:layout_width="@dimen/source_tag_w"
                         android:layout_height="@dimen/source_tag_h"
-                        android:layout_marginTop="@dimen/source_tag_movie_detail_mt"
-                        android:layout_marginRight="@dimen/source_tag_movie_detail_mr"
                         android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/source_tag_movie_detail_mr"
+                        android:layout_marginTop="@dimen/source_tag_movie_detail_mt"
                         android:visibility="@{tasks.cpLogoVisibility}"
-                        app:imageUrl="@{tasks.cpLogoUrl}"
-                        />
+                        app:imageUrl="@{tasks.cpLogoUrl}" />
 
                 </RelativeLayout>
 
                 <include
-                    bind:tasks="@{tasks}"
                     layout="@layout/detailpage_preview_corner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginLeft="@dimen/detailpage_movie_corner_ml"/>
+                    android:layout_marginLeft="@dimen/detailpage_movie_corner_ml"
+                    bind:tasks="@{tasks}" />
 
             </FrameLayout>
 
@@ -384,17 +368,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/movie_detail_label_image_h"
                     android:layout_marginLeft="@dimen/movie_detail_relative_text_ml"
-                    android:gravity="center"
                     android:ems="1"
+                    android:gravity="center"
                     android:text="@string/recommend_str"
                     android:textColor="@color/module_color_white"
-                    android:textSize="@dimen/text_size_36sp"/>
+                    android:textSize="@dimen/text_size_36sp" />
 
                 <Button
                     android:id="@+id/detail_relative_button"
                     android:layout_width="@dimen/movie_detail_more_w"
                     android:layout_height="@dimen/movie_detail_label_image_h"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/movie_detail_content_padding_pr"
                     android:background="@drawable/s_button_color"
                     android:ems="1"
                     android:gravity="center"
@@ -402,9 +387,7 @@
                     android:onClick="@{() -> actionHandler.handleMoreRelate()}"
                     android:text="@string/movie_more_movie"
                     android:textColor="@color/module_color_white"
-                    android:textSize="@dimen/text_size_36sp"
-                    android:layout_marginRight="@dimen/movie_detail_content_padding_pr"
-                />
+                    android:textSize="@dimen/text_size_36sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -413,9 +396,9 @@
                     android:layout_toRightOf="@id/detail_relative_tv"
                     android:clipChildren="false"
                     android:clipToPadding="false"
+                    android:orientation="horizontal"
                     android:paddingLeft="@dimen/movie_detail_relative_img_ml"
-                    android:paddingRight="@dimen/movie_detail_relative_img_mr"
-                    android:orientation="horizontal">
+                    android:paddingRight="@dimen/movie_detail_relative_img_mr">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -443,7 +426,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl=""/>
+                            app:livVipUrl="" />
 
                         <TextView
                             android:id="@+id/rel_1_text"
@@ -455,7 +438,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_36sp"/>
+                            android:textSize="@dimen/text_size_36sp" />
 
                     </LinearLayout>
 
@@ -486,7 +469,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl=""/>
+                            app:livVipUrl="" />
 
                         <TextView
                             android:id="@+id/rel_2_text"
@@ -498,8 +481,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_36sp"
-                        />
+                            android:textSize="@dimen/text_size_36sp" />
 
                     </LinearLayout>
 
@@ -530,7 +512,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl=""/>
+                            app:livVipUrl="" />
 
                         <TextView
                             android:id="@+id/rel_3_text"
@@ -542,8 +524,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_36sp"
-                        />
+                            android:textSize="@dimen/text_size_36sp" />
 
                     </LinearLayout>
 
@@ -574,7 +555,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl=""/>
+                            app:livVipUrl="" />
 
                         <TextView
                             android:id="@+id/rel_4_text"
@@ -586,8 +567,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_36sp"
-                        />
+                            android:textSize="@dimen/text_size_36sp" />
 
                     </LinearLayout>
 
@@ -618,7 +598,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl=""/>
+                            app:livVipUrl="" />
 
                         <TextView
                             android:id="@+id/rel_5_text"
@@ -630,8 +610,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_36sp"
-                        />
+                            android:textSize="@dimen/text_size_36sp" />
 
                     </LinearLayout>
 
@@ -662,7 +641,7 @@
                             app:livUrl=""
                             app:livVipPosition="gone"
                             app:livVipSize="0dp"
-                            app:livVipUrl=""/>
+                            app:livVipUrl="" />
 
                         <TextView
                             android:id="@+id/rel_6_text"
@@ -674,8 +653,7 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/module_color_white"
-                            android:textSize="@dimen/text_size_36sp"
-                        />
+                            android:textSize="@dimen/text_size_36sp" />
 
                     </LinearLayout>
 
@@ -684,10 +662,11 @@
             </RelativeLayout>
 
         </LinearLayout>
+
         <ImageView
             android:id="@+id/tmp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"/>
+            android:focusable="true" />
     </LinearLayout>
 </layout>

@@ -29,6 +29,8 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
     private static final String TAG = "LH/AdsUpdateService";
 
     private Advertisement mAdvertisement;
+    private Timer mTimer;
+    private MyTimerTask myTimerTask;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -71,7 +73,8 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
         if (adList != null && !adList.isEmpty()) {
             Log.d(TAG, "loadAppStartAd:" + adList.size());
             List<AdElementEntity> needDownloadAds = new ArrayList<>();
-            List<AdvertiseTable> advertisementTables = new Select().from(AdvertiseTable.class).execute();
+            List<AdvertiseTable> advertisementTables =
+                    new Select().from(AdvertiseTable.class).execute();
             if (advertisementTables == null || advertisementTables.isEmpty()) {
                 needDownloadAds.addAll(adList);
             } else {
@@ -86,12 +89,16 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                     Log.i(TAG, "LocalAd:" + mediaUrl);
                     if (!adMaps.containsKey(mediaUrl)) {
                         // 接口返回数据没有,数据库有,需要删除
-                        File file = new File(
-                                getFilesDir() + "/" + AdvertiseManager.AD_DIR + "/" +
-                                        FileUtils.getFileByUrl(adTables.media_url)
-                        );
+                        File file =
+                                new File(
+                                        getFilesDir()
+                                                + "/"
+                                                + AdvertiseManager.AD_DIR
+                                                + "/"
+                                                + FileUtils.getFileByUrl(adTables.media_url));
                         if (file.exists() && file.delete()) {
-                            new Delete().from(AdvertiseTable.class)
+                            new Delete()
+                                    .from(AdvertiseTable.class)
                                     .where(AdvertiseTable.MEDIA_URL + "=?", mediaUrl)
                                     .execute();
                         }
@@ -110,8 +117,12 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                         AdElementEntity adElementEntity = adMaps.get(mediaUrl);
                         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-                        String start_date = adElementEntity.getStart_date() + " " + adElementEntity.getStart_time();
-                        String end_date = adElementEntity.getEnd_date() + " " + adElementEntity.getEnd_time();
+                        String start_date =
+                                adElementEntity.getStart_date()
+                                        + " "
+                                        + adElementEntity.getStart_time();
+                        String end_date =
+                                adElementEntity.getEnd_date() + " " + adElementEntity.getEnd_time();
                         long adStartDate = 0, adEndDate = 0;
                         try {
                             adStartDate = dateFormat.parse(start_date).getTime();
@@ -126,21 +137,47 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                         String adMd5 = adElementEntity.getMd5();
                         String adMedia_id = String.valueOf(adElementEntity.getMedia_id());
 
-                        boolean isEqual = tabelTitle.equals(adTitle) && tabelStartDate == adStartDate
-                                && tabelEndDate == adEndDate && tabelMediaId.equals(adMedia_id)
-                                && tabelMediaType.equals(adMedia_type) && tabelMediaUrl.equals(adMedia_url)
-                                && tabelDuration == adDuration && tabelMd5.equals(adMd5);
-                        Log.i(TAG, "isEqual:" + isEqual + " " + tabelStartDate + " " + tabelEndDate + " " + tabelDuration
-                                + "\n" + tabelMediaUrl + "\n" + tabelMediaId + " " + " " + tabelMediaType + " " + tabelMd5);
+                        boolean isEqual =
+                                tabelTitle.equals(adTitle)
+                                        && tabelStartDate == adStartDate
+                                        && tabelEndDate == adEndDate
+                                        && tabelMediaId.equals(adMedia_id)
+                                        && tabelMediaType.equals(adMedia_type)
+                                        && tabelMediaUrl.equals(adMedia_url)
+                                        && tabelDuration == adDuration
+                                        && tabelMd5.equals(adMd5);
+                        Log.i(
+                                TAG,
+                                "isEqual:"
+                                        + isEqual
+                                        + " "
+                                        + tabelStartDate
+                                        + " "
+                                        + tabelEndDate
+                                        + " "
+                                        + tabelDuration
+                                        + "\n"
+                                        + tabelMediaUrl
+                                        + "\n"
+                                        + tabelMediaId
+                                        + " "
+                                        + " "
+                                        + tabelMediaType
+                                        + " "
+                                        + tabelMd5);
                         if (isEqual) {
                             adMaps.remove(mediaUrl);
                         } else {
-                            File file = new File(
-                                    getFilesDir() + "/" + AdvertiseManager.AD_DIR + "/" +
-                                            FileUtils.getFileByUrl(adTables.media_url)
-                            );
+                            File file =
+                                    new File(
+                                            getFilesDir()
+                                                    + "/"
+                                                    + AdvertiseManager.AD_DIR
+                                                    + "/"
+                                                    + FileUtils.getFileByUrl(adTables.media_url));
                             if (file.exists() && file.delete()) {
-                                new Delete().from(AdvertiseTable.class)
+                                new Delete()
+                                        .from(AdvertiseTable.class)
                                         .where(AdvertiseTable.MEDIA_URL + "=?", mediaUrl)
                                         .execute();
                             }
@@ -167,25 +204,6 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
                 Log.e(TAG, "delete ads file exception");
             }
         }
-
-    }
-
-    private Timer mTimer;
-    private MyTimerTask myTimerTask;
-
-    class MyTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-            mAdvertisement.fetchAppStartAd(Advertisement.AD_MODE_APPSTART);
-//            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                }
-//            });
-        }
-
     }
 
     private void cancelTimer() {
@@ -200,4 +218,17 @@ public class AdsUpdateService extends Service implements Advertisement.OnAppStar
         }
     }
 
+    class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            mAdvertisement.fetchAppStartAd(Advertisement.AD_MODE_APPSTART);
+            //            new Handler(Looper.getMainLooper()).post(new Runnable() {
+            //                @Override
+            //                public void run() {
+            //
+            //                }
+            //            });
+        }
+    }
 }

@@ -12,10 +12,7 @@ import com.blankj.utilcode.utils.ShellUtils;
 
 import tv.ismar.usercenter.R;
 
-/**
- * Created by huibin on 1/10/2017.
- */
-
+/** Created by huibin on 1/10/2017. */
 public class ShellTestActivity extends Activity {
 
     private EditText withoutRootShellEdit;
@@ -47,9 +44,7 @@ public class ShellTestActivity extends Activity {
             failedText.setText("failed msg: " + commandResult.errorMsg);
             resultText.setText("result code: " + commandResult.result);
         }
-
     }
-
 
     public void rootShell(View view) {
         String shell = rootShellEdit.getText().toString();

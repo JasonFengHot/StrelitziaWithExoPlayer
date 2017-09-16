@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<dimen name="linked_video_width">725.93dp</dimen>
-<dimen name="linked_video_height">245.93dp</dimen>
-<dimen name="linked_video_mt">11.85dp</dimen>
+    <dimen name="linked_video_width">725.93dp</dimen>
+    <dimen name="linked_video_height">245.93dp</dimen>
+    <dimen name="linked_video_mt">11.85dp</dimen>
 
-<!-- play_finished -->
-<dimen name="play_finished_head_h">74.07dp</dimen>
-<dimen name="play_finished_head_pl">54.81dp</dimen>
-<dimen name="play_finished_head_pb">10.37dp</dimen>
-<dimen name="play_finished_head_img_mlr">25.19dp</dimen>
-<dimen name="play_finished_left_ml">124.44dp</dimen>
-<dimen name="play_finished_left_w">355.56dp</dimen>
-<dimen name="play_finished_img_h">200.00dp</dimen>
-<dimen name="play_finished_img_mt">153.33dp</dimen>
-<dimen name="play_finished_title_mt">19.26dp</dimen>
-<dimen name="play_finished_img_corner_mr">-2.22dp</dimen>
-<dimen name="play_finished_button_mt">25.19dp</dimen>
-<dimen name="play_finished_btn_w">152.59dp</dimen>
-<dimen name="play_finished_btn_h">53.33dp</dimen>
-<dimen name="play_finished_fav_ml">50.37dp</dimen>
-<dimen name="play_finished_btn_pl">71.85dp</dimen>
-<dimen name="play_finished_btn_fav_pl">58.52dp</dimen>
-<dimen name="play_finished_view_ml">123.70dp</dimen>
-<dimen name="play_finished_view_mt">13.33dp</dimen>
-<dimen name="play_finished_right_ml">39.26dp</dimen>
-<dimen name="play_finished_right_layout_mt">38.52dp</dimen>
-<dimen name="play_finished_right_tv_ml">48.89dp</dimen>
-<dimen name="play_finished_gridview_w">734.81dp</dimen>
-<dimen name="play_finished_right_zgrid_mt">36.30dp</dimen>
-<dimen name="play_finished_right_zgrid_mb">96.30dp</dimen>
-<dimen name="play_finished_right_zgrid_column_w">210.37dp</dimen>
-<dimen name="play_finished_right_zgrid_space_h">51.85dp</dimen>
-<dimen name="play_finished_right_zgrid_space_v">16.30dp</dimen>
-<dimen name="play_finished_right_zgrid_selectorLeftPadding">17.04dip</dimen>
-<dimen name="play_finished_right_zgrid_selectorTopPadding">16.30dip</dimen>
-<dimen name="play_finished_right_zgrid_selectorRightPadding">16.30dip</dimen>
-<dimen name="play_finished_right_zgrid_selectorBottomPadding">-28.15dip</dimen>
-<dimen name="play_finished_tv_releted_margintop">74.07dip</dimen>
-<dimen name="play_finished_image_vodie_backgroud_W">210.37dip</dimen>
-<dimen name="play_finished_image_vodie_backgroud_H">118.52dip</dimen>
+    <!-- play_finished -->
+    <dimen name="play_finished_head_h">74.07dp</dimen>
+    <dimen name="play_finished_head_pl">54.81dp</dimen>
+    <dimen name="play_finished_head_pb">10.37dp</dimen>
+    <dimen name="play_finished_head_img_mlr">25.19dp</dimen>
+    <dimen name="play_finished_left_ml">124.44dp</dimen>
+    <dimen name="play_finished_left_w">355.56dp</dimen>
+    <dimen name="play_finished_img_h">200.00dp</dimen>
+    <dimen name="play_finished_img_mt">153.33dp</dimen>
+    <dimen name="play_finished_title_mt">19.26dp</dimen>
+    <dimen name="play_finished_img_corner_mr">-2.22dp</dimen>
+    <dimen name="play_finished_button_mt">25.19dp</dimen>
+    <dimen name="play_finished_btn_w">152.59dp</dimen>
+    <dimen name="play_finished_btn_h">53.33dp</dimen>
+    <dimen name="play_finished_fav_ml">50.37dp</dimen>
+    <dimen name="play_finished_btn_pl">71.85dp</dimen>
+    <dimen name="play_finished_btn_fav_pl">58.52dp</dimen>
+    <dimen name="play_finished_view_ml">123.70dp</dimen>
+    <dimen name="play_finished_view_mt">13.33dp</dimen>
+    <dimen name="play_finished_right_ml">39.26dp</dimen>
+    <dimen name="play_finished_right_layout_mt">38.52dp</dimen>
+    <dimen name="play_finished_right_tv_ml">48.89dp</dimen>
+    <dimen name="play_finished_gridview_w">734.81dp</dimen>
+    <dimen name="play_finished_right_zgrid_mt">36.30dp</dimen>
+    <dimen name="play_finished_right_zgrid_mb">96.30dp</dimen>
+    <dimen name="play_finished_right_zgrid_column_w">210.37dp</dimen>
+    <dimen name="play_finished_right_zgrid_space_h">51.85dp</dimen>
+    <dimen name="play_finished_right_zgrid_space_v">16.30dp</dimen>
+    <dimen name="play_finished_right_zgrid_selectorLeftPadding">17.04dip</dimen>
+    <dimen name="play_finished_right_zgrid_selectorTopPadding">16.30dip</dimen>
+    <dimen name="play_finished_right_zgrid_selectorRightPadding">16.30dip</dimen>
+    <dimen name="play_finished_right_zgrid_selectorBottomPadding">-28.15dip</dimen>
+    <dimen name="play_finished_tv_releted_margintop">74.07dip</dimen>
+    <dimen name="play_finished_image_vodie_backgroud_W">210.37dip</dimen>
+    <dimen name="play_finished_image_vodie_backgroud_H">118.52dip</dimen>
 
-<!-- playfinish_gridview_item -->
-<dimen name="playfinish_gridview_item_linearimage_W">210.37dip</dimen>
-<dimen name="playfinish_gridview_item_linearimage_H">118.52dip</dimen>
-<dimen name="playfinish_gridview_item_text_margintop">17.78dip</dimen>
-<dimen name="playfinish_gridview_iv_label_W">52.59dip</dimen>
-<dimen name="playfinish_gridview_iv_label_H">52.59dip</dimen>
+    <!-- playfinish_gridview_item -->
+    <dimen name="playfinish_gridview_item_linearimage_W">210.37dip</dimen>
+    <dimen name="playfinish_gridview_item_linearimage_H">118.52dip</dimen>
+    <dimen name="playfinish_gridview_item_text_margintop">17.78dip</dimen>
+    <dimen name="playfinish_gridview_iv_label_W">52.59dip</dimen>
+    <dimen name="playfinish_gridview_iv_label_H">52.59dip</dimen>
 
-<!--<dimen name="playfinish_gridview_item_marginleft">15dip</dimen>-->
-<!--<dimen name="playfinish_gridview_item_margintop">5dip</dimen>-->
-<!--<dimen name="playfinish_gridview_item_marginright">15dip</dimen>-->
-<!--<dimen name="playfinish_gridview_item_marginbottom">20dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_marginleft">15dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_margintop">5dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_marginright">15dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_marginbottom">20dip</dimen>-->
 
-<!--<dimen name="playfinish_gridview_item_itemImage_PL">1dip</dimen>-->
-<!--<dimen name="playfinish_gridview_item_itemText_marginleft">6dip</dimen>-->
-<!--<dimen name="playfinish_gridview_item_itemText_marginright">6dip</dimen>-->
-<!--<dimen name="playfinish_gridview_item_itemText_textsize">30sp</dimen>-->
-<!--<dimen name="playfinish_gridview_item_iv_label_marginright">16dip</dimen>-->
-<!--<dimen name="playfinish_gridview_item_iv_label_margintop">3dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_itemImage_PL">1dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_itemText_marginleft">6dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_itemText_marginright">6dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_itemText_textsize">30sp</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_iv_label_marginright">16dip</dimen>-->
+    <!--<dimen name="playfinish_gridview_item_iv_label_margintop">3dip</dimen>-->
 
 </resources>

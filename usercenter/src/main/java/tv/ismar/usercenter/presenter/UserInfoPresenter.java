@@ -1,5 +1,4 @@
 package tv.ismar.usercenter.presenter;
-import cn.ismartv.truetime.TrueTime;
 
 import java.math.BigDecimal;
 
@@ -15,10 +14,7 @@ import tv.ismar.usercenter.UserInfoContract;
 import tv.ismar.usercenter.view.UserCenterActivity;
 import tv.ismar.usercenter.view.UserInfoFragment;
 
-/**
- * Created by huibin on 10/28/16.
- */
-
+/** Created by huibin on 10/28/16. */
 public class UserInfoPresenter implements UserInfoContract.Presenter {
 
     private SkyService mSkyService;
@@ -31,6 +27,10 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
     private Subscription balanceSub;
     private Subscription privilegeSub;
 
+    public UserInfoPresenter(UserInfoFragment userInfoFragment) {
+        userInfoFragment.setPresenter(this);
+        mFragment = userInfoFragment;
+    }
 
     public AccountPlayAuthEntity getAccountPlayAuthEntity() {
         return mAccountPlayAuthEntity;
@@ -40,17 +40,10 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
         return balance;
     }
 
-    public UserInfoPresenter(UserInfoFragment userInfoFragment) {
-        userInfoFragment.setPresenter(this);
-        mFragment = userInfoFragment;
-
-    }
-
     @Override
     public void start() {
         mActivity = (UserCenterActivity) mFragment.getActivity();
         mSkyService = mActivity.mSkyService;
-
     }
 
     @Override
@@ -64,52 +57,58 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
         }
     }
 
-
     @Override
     public void fetchBalance() {
-        balanceSub = mSkyService.accountsBalance()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<AccountBalanceEntity>() {
-                    @Override
-                    public void onCompleted() {
+        balanceSub =
+                mSkyService
+                        .accountsBalance()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                mActivity.new BaseObserver<AccountBalanceEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
-
-                    @Override
-                    public void onNext(AccountBalanceEntity accountBalanceEntity) {
-                        balance = accountBalanceEntity.getBalance().add(accountBalanceEntity.getSn_balance());
-                        mFragment.loadBalance(accountBalanceEntity);
-                    }
-                });
+                                    @Override
+                                    public void onNext(AccountBalanceEntity accountBalanceEntity) {
+                                        balance =
+                                                accountBalanceEntity
+                                                        .getBalance()
+                                                        .add(accountBalanceEntity.getSn_balance());
+                                        mFragment.loadBalance(accountBalanceEntity);
+                                    }
+                                });
     }
 
     @Override
     public void fetchPrivilege() {
         String timestamp = String.valueOf(TrueTime.now().getTime());
         IsmartvActivator activator = IsmartvActivator.getInstance();
-        String sign = activator.encryptWithPublic("sn=" + activator.getSnToken() + "&timestamp=" + timestamp);
+        String sign =
+                activator.encryptWithPublic(
+                        "sn=" + activator.getSnToken() + "&timestamp=" + timestamp);
 
-        privilegeSub = mSkyService.accountsPlayauths(timestamp, sign)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<AccountPlayAuthEntity>() {
-                    @Override
-                    public void onCompleted() {
+        privilegeSub =
+                mSkyService
+                        .accountsPlayauths(timestamp, sign)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                mActivity.new BaseObserver<AccountPlayAuthEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
-
-                    @Override
-                    public void onNext(AccountPlayAuthEntity accountPlayAuthEntity) {
-                        mAccountPlayAuthEntity = accountPlayAuthEntity;
-                        mFragment.loadPrivilege(accountPlayAuthEntity);
-                    }
-                });
+                                    @Override
+                                    public void onNext(
+                                            AccountPlayAuthEntity accountPlayAuthEntity) {
+                                        mAccountPlayAuthEntity = accountPlayAuthEntity;
+                                        mFragment.loadPrivilege(accountPlayAuthEntity);
+                                    }
+                                });
     }
 
     @Override
     public void exitAccount() {
         mFragment.showExitAccountConfirmPop();
     }
-
 }

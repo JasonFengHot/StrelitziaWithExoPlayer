@@ -1,7 +1,6 @@
 package tv.ismar.app.core;
 
 import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -15,14 +14,10 @@ import java.util.UUID;
 import tv.ismar.app.PlayerHelper;
 import tv.ismar.app.R;
 import tv.ismar.app.network.entity.ClipEntity;
-import tv.ismar.app.network.entity.FeedBackEntity;
 import tv.ismar.app.ui.MessageDialogFragment;
 
-/**
- * Created by huibin on 9/13/16.
- */
+/** Created by huibin on 9/13/16. */
 public class PageIntent implements PageIntentInterface {
-
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -37,6 +32,23 @@ public class PageIntent implements PageIntentInterface {
     public static final String URI_LIST_EXTRA = "uri_list";
     public static final String EXTENSION_LIST_EXTRA = "extension_list";
 
+    private static void showNetErrorPopup(Context context, String message) {
+        View rootView = ((Activity) context).getWindow().getDecorView();
+        final MessageDialogFragment dialog = new MessageDialogFragment(context, message, null);
+
+        dialog.setButtonText(context.getString(R.string.vod_i_know), null);
+        dialog.showAtLocation(
+                rootView,
+                Gravity.CENTER,
+                new MessageDialogFragment.ConfirmListener() {
+                    @Override
+                    public void confirmClick(View view) {
+                        dialog.dismiss();
+                    }
+                },
+                null);
+    }
+
     @Override
     public void toDetailPage(final Context context, final String source, final int pk) {
 
@@ -50,10 +62,7 @@ public class PageIntent implements PageIntentInterface {
         } else {
             context.startActivity(intent);
         }
-
-
     }
-
 
     @Override
     public void toDetailPage(Context context, String source, String json) {
@@ -78,8 +87,32 @@ public class PageIntent implements PageIntentInterface {
         } else {
             context.startActivity(intent);
         }
-
     }
+
+    //    @Override
+    //    public void toPayment(Context context, String fromPage, PaymentInfo paymentInfo) {
+    //        Intent intent = new Intent();
+    //        switch (paymentInfo.getJumpTo()) {
+    //            //直接支付
+    //            case PAYMENT:
+    //                intent.setAction("tv.ismar.pay.payment");
+    //                intent.putExtra(EXTRA_PK, paymentInfo.getPk());
+    //                intent.putExtra(EXTRA_PRODUCT_CATEGORY, paymentInfo.getCategory().toString());
+    //                break;
+    //            case PAY:
+    //                intent.setAction("tv.ismar.pay.pay");
+    //                intent.putExtra("item_id", paymentInfo.getPk());
+    //                break;
+    //            case PAYVIP:
+    //                intent.setAction("tv.ismar.pay.payvip");
+    //                intent.putExtra("cpid", paymentInfo.getCpid());
+    //                intent.putExtra("item_id", paymentInfo.getPk());
+    //                break;
+    //            default:
+    //                throw new IllegalArgumentException();
+    //        }
+    //        context.startActivity(intent);
+    //    }
 
     @Override
     public void toPackageDetail(Context context, String source, String json) {
@@ -91,32 +124,6 @@ public class PageIntent implements PageIntentInterface {
         intent.putExtra(EXTRA_TYPE, DETAIL_TYPE_PKG);
         context.startActivity(intent);
     }
-
-
-//    @Override
-//    public void toPayment(Context context, String fromPage, PaymentInfo paymentInfo) {
-//        Intent intent = new Intent();
-//        switch (paymentInfo.getJumpTo()) {
-//            //直接支付
-//            case PAYMENT:
-//                intent.setAction("tv.ismar.pay.payment");
-//                intent.putExtra(EXTRA_PK, paymentInfo.getPk());
-//                intent.putExtra(EXTRA_PRODUCT_CATEGORY, paymentInfo.getCategory().toString());
-//                break;
-//            case PAY:
-//                intent.setAction("tv.ismar.pay.pay");
-//                intent.putExtra("item_id", paymentInfo.getPk());
-//                break;
-//            case PAYVIP:
-//                intent.setAction("tv.ismar.pay.payvip");
-//                intent.putExtra("cpid", paymentInfo.getCpid());
-//                intent.putExtra("item_id", paymentInfo.getPk());
-//                break;
-//            default:
-//                throw new IllegalArgumentException();
-//        }
-//        context.startActivity(intent);
-//    }
 
     @Override
     public void toPaymentForResult(Activity activity, String fromPage, PaymentInfo paymentInfo) {
@@ -142,23 +149,31 @@ public class PageIntent implements PageIntentInterface {
         activity.startActivityForResult(intent, PAYMENT_REQUEST_CODE);
     }
 
-
     public void toPlayPage(final Context context, int pk, int sub_item_pk, Source source) {
         Log.i("toPlayPage", "startpalyer");
-//        Intent intent = new Intent();
-//        intent.setAction("tv.ismar.daisy.Player");
-//        intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
-//        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, sub_item_pk);
-//        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source.getValue());
-//        context.startActivity(intent);
-        new PlayerHelper(pk, new PlayerHelper.Callback() {
-            @Override
-            public void success(ClipEntity clipEntity) {
-                UriSample uriSample = new UriSample("test", null, null, null, false, clipEntity.getM3u8(), null);
-                context.startActivity(uriSample.buildIntent(context));
-            }
-        });
-
+        //        Intent intent = new Intent();
+        //        intent.setAction("tv.ismar.daisy.Player");
+        //        intent.putExtra(PageIntentInterface.EXTRA_PK, pk);
+        //        intent.putExtra(PageIntentInterface.EXTRA_SUBITEM_PK, sub_item_pk);
+        //        intent.putExtra(PageIntentInterface.EXTRA_SOURCE, source.getValue());
+        //        context.startActivity(intent);
+        new PlayerHelper(
+                pk,
+                new PlayerHelper.Callback() {
+                    @Override
+                    public void success(ClipEntity clipEntity) {
+                        UriSample uriSample =
+                                new UriSample(
+                                        "test",
+                                        null,
+                                        null,
+                                        null,
+                                        false,
+                                        clipEntity.getM3u8(),
+                                        null);
+                        context.startActivity(uriSample.buildIntent(context));
+                    }
+                });
     }
 
     @Override
@@ -169,9 +184,7 @@ public class PageIntent implements PageIntentInterface {
     }
 
     @Override
-    public void toUserCenterLocation(Context context) {
-
-    }
+    public void toUserCenterLocation(Context context) {}
 
     @Override
     public void toPackageList(Context context, String source, int pk) {
@@ -232,21 +245,6 @@ public class PageIntent implements PageIntentInterface {
         }
     }
 
-    private static void showNetErrorPopup(Context context, String message) {
-        View rootView = ((Activity) context).getWindow().getDecorView();
-        final MessageDialogFragment dialog = new MessageDialogFragment(context, message, null);
-
-        dialog.setButtonText(context.getString(R.string.vod_i_know), null);
-        dialog.showAtLocation(rootView, Gravity.CENTER,
-                new MessageDialogFragment.ConfirmListener() {
-                    @Override
-                    public void confirmClick(View view) {
-                        dialog.dismiss();
-                    }
-                }, null);
-
-    }
-
     private abstract static class Sample {
 
         public final String name;
@@ -255,8 +253,12 @@ public class PageIntent implements PageIntentInterface {
         public final String drmLicenseUrl;
         public final String[] drmKeyRequestProperties;
 
-        public Sample(String name, UUID drmSchemeUuid, String drmLicenseUrl,
-                      String[] drmKeyRequestProperties, boolean preferExtensionDecoders) {
+        public Sample(
+                String name,
+                UUID drmSchemeUuid,
+                String drmLicenseUrl,
+                String[] drmKeyRequestProperties,
+                boolean preferExtensionDecoders) {
             this.name = name;
             this.drmSchemeUuid = drmSchemeUuid;
             this.drmLicenseUrl = drmLicenseUrl;
@@ -275,7 +277,6 @@ public class PageIntent implements PageIntentInterface {
             }
             return intent;
         }
-
     }
 
     private static final class UriSample extends Sample {
@@ -283,10 +284,20 @@ public class PageIntent implements PageIntentInterface {
         public final String uri;
         public final String extension;
 
-        public UriSample(String name, UUID drmSchemeUuid, String drmLicenseUrl,
-                         String[] drmKeyRequestProperties, boolean preferExtensionDecoders, String uri,
-                         String extension) {
-            super(name, drmSchemeUuid, drmLicenseUrl, drmKeyRequestProperties, preferExtensionDecoders);
+        public UriSample(
+                String name,
+                UUID drmSchemeUuid,
+                String drmLicenseUrl,
+                String[] drmKeyRequestProperties,
+                boolean preferExtensionDecoders,
+                String uri,
+                String extension) {
+            super(
+                    name,
+                    drmSchemeUuid,
+                    drmLicenseUrl,
+                    drmKeyRequestProperties,
+                    preferExtensionDecoders);
             this.uri = uri;
             this.extension = extension;
         }
@@ -298,17 +309,25 @@ public class PageIntent implements PageIntentInterface {
                     .putExtra(EXTENSION_EXTRA, extension)
                     .setAction(ACTION_VIEW);
         }
-
     }
 
     private static final class PlaylistSample extends Sample {
 
         public final UriSample[] children;
 
-        public PlaylistSample(String name, UUID drmSchemeUuid, String drmLicenseUrl,
-                              String[] drmKeyRequestProperties, boolean preferExtensionDecoders,
-                              UriSample... children) {
-            super(name, drmSchemeUuid, drmLicenseUrl, drmKeyRequestProperties, preferExtensionDecoders);
+        public PlaylistSample(
+                String name,
+                UUID drmSchemeUuid,
+                String drmLicenseUrl,
+                String[] drmKeyRequestProperties,
+                boolean preferExtensionDecoders,
+                UriSample... children) {
+            super(
+                    name,
+                    drmSchemeUuid,
+                    drmLicenseUrl,
+                    drmKeyRequestProperties,
+                    preferExtensionDecoders);
             this.children = children;
         }
 
@@ -325,7 +344,5 @@ public class PageIntent implements PageIntentInterface {
                     .putExtra(EXTENSION_LIST_EXTRA, extensions)
                     .setAction(ACTION_VIEW_LIST);
         }
-
     }
-
 }

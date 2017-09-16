@@ -15,8 +15,8 @@
             </intent-filter>
 
             <intent-filter>
-                <action android:name="tv.ismar.daisy.tvguide"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.daisy.tvguide" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

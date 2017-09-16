@@ -9,17 +9,15 @@ import java.io.FileInputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
-/**
- * Created by huibin on 6/2/16.
- */
+/** Created by huibin on 6/2/16. */
 public class Md5 {
     public static String md5(String string) {
         return EncryptUtils.encryptMD5ToString(string).toLowerCase();
     }
 
-//    public static String md5File(File file) {
-//       return EncryptUtils.encryptMD5File2String(file).toLowerCase();
-//    }
+    //    public static String md5File(File file) {
+    //       return EncryptUtils.encryptMD5File2String(file).toLowerCase();
+    //    }
 
     public static String md5File(File file) {
         String value;

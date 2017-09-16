@@ -7,9 +7,7 @@ import android.widget.ImageView;
 
 import tv.ismar.homepage.R;
 
-/**
- * Created by huaijie on 6/29/15.
- */
+/** Created by huaijie on 6/29/15. */
 public class ChildThumbImageView extends ImageView {
     public boolean isZoom;
 
@@ -17,32 +15,32 @@ public class ChildThumbImageView extends ImageView {
         super(context, attrs);
     }
 
-    //放大
+    // 放大
     public void zoomInImage() {
-    	 setPadding(0, 0, 0, 0);
-//        this.isZoom = true;
-//        AnimationSet animationSet = new AnimationSet(true);
-//        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1, 1, 1.53f,
-//                Animation.RELATIVE_TO_SELF, 0.5f,
-//                Animation.RELATIVE_TO_SELF, 1f);
-//        scaleAnimation.setDuration(200);
-//        animationSet.addAnimation(scaleAnimation);
-//        animationSet.setFillAfter(true);
-//        startAnimation(animationSet);
+        setPadding(0, 0, 0, 0);
+        //        this.isZoom = true;
+        //        AnimationSet animationSet = new AnimationSet(true);
+        //        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1, 1, 1.53f,
+        //                Animation.RELATIVE_TO_SELF, 0.5f,
+        //                Animation.RELATIVE_TO_SELF, 1f);
+        //        scaleAnimation.setDuration(200);
+        //        animationSet.addAnimation(scaleAnimation);
+        //        animationSet.setFillAfter(true);
+        //        startAnimation(animationSet);
     }
 
     public void zoomNormalImage() {
         int padding = getResources().getDimensionPixelOffset(R.dimen.child_thumb_h2);
-    	  setPadding(0, padding / 2, 0, -padding / 2);
-//        this.isZoom = false;
-//        AnimationSet animationSet = new AnimationSet(true);
-//        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1f, 1.53f, 1f,
-//                Animation.RELATIVE_TO_SELF, 0.5f,
-//                Animation.RELATIVE_TO_SELF, 1f);
-//        scaleAnimation.setDuration(200);
-//        animationSet.addAnimation(scaleAnimation);
-//        animationSet.setFillAfter(true);
-//        startAnimation(animationSet);
+        setPadding(0, padding / 2, 0, -padding / 2);
+        //        this.isZoom = false;
+        //        AnimationSet animationSet = new AnimationSet(true);
+        //        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1f, 1.53f, 1f,
+        //                Animation.RELATIVE_TO_SELF, 0.5f,
+        //                Animation.RELATIVE_TO_SELF, 1f);
+        //        scaleAnimation.setDuration(200);
+        //        animationSet.addAnimation(scaleAnimation);
+        //        animationSet.setFillAfter(true);
+        //        startAnimation(animationSet);
     }
 
     @Override
@@ -54,5 +52,4 @@ public class ChildThumbImageView extends ImageView {
             zoomNormalImage();
         }
     }
-
 }

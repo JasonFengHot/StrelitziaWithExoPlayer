@@ -14,9 +14,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 
-/**
- * Created by huaijie on 3/19/15.
- */
+/** Created by huaijie on 3/19/15. */
 public class AppUtils {
     public static Bitmap getBitmapFromAssetsFile(Context context, String fileName) {
         Bitmap image = null;
@@ -36,7 +34,8 @@ public class AppUtils {
         FileInputStream in = null;
         try {
             in = new FileInputStream(file);
-            MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+            MappedByteBuffer byteBuffer =
+                    in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             md5.update(byteBuffer);
             BigInteger bi = new BigInteger(1, md5.digest());

@@ -11,9 +11,7 @@ import java.util.List;
 import tv.ismar.searchpage.R;
 import tv.ismar.searchpage.model.NineTKey;
 
-/**
- * Created by admin on 2015/12/30.
- */
+/** Created by admin on 2015/12/30. */
 public class T9KeyboardAdapter extends BaseAdapter {
 
     private Context mContext;
@@ -48,6 +46,5 @@ public class T9KeyboardAdapter extends BaseAdapter {
         T9_key_num.setText(mDatas.get(i).num);
         T9_key_letter.setText(mDatas.get(i).letter);
         return view;
-
     }
 }

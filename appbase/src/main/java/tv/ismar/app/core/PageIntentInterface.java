@@ -3,9 +3,7 @@ package tv.ismar.app.core;
 import android.app.Activity;
 import android.content.Context;
 
-/**
- * Created by huibin on 9/8/16.
- */
+/** Created by huibin on 9/8/16. */
 public interface PageIntentInterface {
     String EXTRA_MODEL = "content_model";
     String EXTRA_PK = "pk";
@@ -14,17 +12,16 @@ public interface PageIntentInterface {
     String EXTRA_SUBITEM_PK = "sub_item_pk";
     String EXTRA_SOURCE = "fromPage";
     String EXTRA_TYPE = "type";
-    String EXTRA_TITLE= "title";
-    String EXTRA_START_TIME= "time";
-    String POSITION= "position";
-    String TYPE= "type";
+    String EXTRA_TITLE = "title";
+    String EXTRA_START_TIME = "time";
+    String POSITION = "position";
+    String TYPE = "type";
 
     String EXTRA_PRODUCT_CATEGORY = "product_category";
 
     int PAYMENT_REQUEST_CODE = 0xd6;
     int PAYMENT_SUCCESS_CODE = 0x5c;
     int PAYMENT_FAILURE_CODE = 0xd2;
-
 
     int DETAIL_TYPE_PKG = 0x8a;
     int DETAIL_TYPE_ITEM = 0x37;
@@ -33,18 +30,15 @@ public interface PageIntentInterface {
     int PAY = 0;
     int PAYVIP = 2;
 
-
     void toDetailPage(Context context, String source, int pk);
-
 
     void toDetailPage(Context context, String source, String json);
 
     void toPackageDetail(Context context, String source, int pk);
 
-
     void toPackageDetail(Context context, String source, String json);
 
-//    void toPayment(Context context, String fromPage, PaymentInfo paymentInfo);
+    //    void toPayment(Context context, String fromPage, PaymentInfo paymentInfo);
 
     void toPaymentForResult(Activity context, String fromPage, PaymentInfo paymentInfo);
 
@@ -54,7 +48,6 @@ public interface PageIntentInterface {
 
     void toUserCenterLocation(Context context);
 
-
     void toPackageList(Context context, String source, int pk);
 
     void toFilmStar(Context context, String title, long pk);
@@ -62,6 +55,22 @@ public interface PageIntentInterface {
     void toEpisodePage(Context context, String source, String itemJson);
 
     void toHelpPage(Context context);
+
+    enum FromPage {
+        unknown
+    }
+
+    enum ProductCategory {
+        item,
+        Package,
+        charge,
+        subitem;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
+    }
 
     class PaymentInfo {
         private ProductCategory category;
@@ -104,22 +113,4 @@ public interface PageIntentInterface {
             return cpid;
         }
     }
-
-
-    enum FromPage {
-        unknown
-    }
-
-    enum ProductCategory {
-        item,
-        Package,
-        charge,
-        subitem;
-
-        @Override
-        public String toString() {
-            return super.toString().toLowerCase();
-        }
-    }
-
 }

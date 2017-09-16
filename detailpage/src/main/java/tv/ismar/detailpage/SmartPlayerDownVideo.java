@@ -1,43 +1,43 @@
-//package tv.ismar.detailpage;
+// package tv.ismar.detailpage;
 //
-//import android.content.Context;
-//import android.util.Base64;
-//import android.util.Log;
+// import android.content.Context;
+// import android.util.Base64;
+// import android.util.Log;
 //
-//import org.json.JSONArray;
-//import org.json.JSONException;
-//import org.json.JSONObject;
+// import org.json.JSONArray;
+// import org.json.JSONException;
+// import org.json.JSONObject;
 //
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.Comparator;
-//import java.util.HashMap;
-//import java.util.List;
+// import java.io.IOException;
+// import java.util.ArrayList;
+// import java.util.Collections;
+// import java.util.Comparator;
+// import java.util.HashMap;
+// import java.util.List;
 //
-//import okhttp3.ResponseBody;
-//import rx.Observer;
-//import rx.Subscription;
-//import rx.android.schedulers.AndroidSchedulers;
-//import rx.schedulers.Schedulers;
-//import tv.ismar.account.IsmartvActivator;
-//import tv.ismar.app.VodApplication;
-//import tv.ismar.app.core.PlayCheckManager;
-//import tv.ismar.app.db.HistoryManager;
-//import tv.ismar.app.entity.History;
-//import tv.ismar.app.network.SkyService;
-//import tv.ismar.app.network.entity.AdElementEntity;
-//import tv.ismar.app.network.entity.ClipEntity;
-//import tv.ismar.app.network.entity.ItemEntity;
-//import tv.ismar.app.util.DeviceUtils;
-//import tv.ismar.app.util.Utils;
-//import tv.ismar.player.AccessProxy;
-//import tv.ismar.player.SmartPlayer;
+// import okhttp3.ResponseBody;
+// import rx.Observer;
+// import rx.Subscription;
+// import rx.android.schedulers.AndroidSchedulers;
+// import rx.schedulers.Schedulers;
+// import tv.ismar.account.IsmartvActivator;
+// import tv.ismar.app.VodApplication;
+// import tv.ismar.app.core.PlayCheckManager;
+// import tv.ismar.app.db.HistoryManager;
+// import tv.ismar.app.entity.History;
+// import tv.ismar.app.network.SkyService;
+// import tv.ismar.app.network.entity.AdElementEntity;
+// import tv.ismar.app.network.entity.ClipEntity;
+// import tv.ismar.app.network.entity.ItemEntity;
+// import tv.ismar.app.util.DeviceUtils;
+// import tv.ismar.app.util.Utils;
+// import tv.ismar.player.AccessProxy;
+// import tv.ismar.player.SmartPlayer;
 //
-///**
+/// **
 // * Created by longhai on 16-9-28.
 // */
-//public class SmartPlayerDownVideo {
+// public class SmartPlayerDownVideo {
 //
 //    private static final String TAG = "LH/SmartPlayerDownVideo";
 //
@@ -175,25 +175,32 @@
 //        String _4k = clipEntity.get_4k();
 //        mClipEntity = new ClipEntity();
 //        if (!Utils.isEmptyText(adaptive)) {
-//            mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive, IsmartvActivator.getInstance().getDeviceToken()));
+//            mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive,
+// IsmartvActivator.getInstance().getDeviceToken()));
 //        }
 //        if (!Utils.isEmptyText(normal)) {
-//            mClipEntity.setNormal(AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken()));
+//            mClipEntity.setNormal(AccessProxy.AESDecrypt(normal,
+// IsmartvActivator.getInstance().getDeviceToken()));
 //        }
 //        if (!Utils.isEmptyText(medium)) {
-//            mClipEntity.setMedium(AccessProxy.AESDecrypt(medium, IsmartvActivator.getInstance().getDeviceToken()));
+//            mClipEntity.setMedium(AccessProxy.AESDecrypt(medium,
+// IsmartvActivator.getInstance().getDeviceToken()));
 //        }
 //        if (!Utils.isEmptyText(high)) {
-//            mClipEntity.setHigh(AccessProxy.AESDecrypt(high, IsmartvActivator.getInstance().getDeviceToken()));
+//            mClipEntity.setHigh(AccessProxy.AESDecrypt(high,
+// IsmartvActivator.getInstance().getDeviceToken()));
 //        }
 //        if (!Utils.isEmptyText(ultra)) {
-//            mClipEntity.setUltra(AccessProxy.AESDecrypt(ultra, IsmartvActivator.getInstance().getDeviceToken()));
+//            mClipEntity.setUltra(AccessProxy.AESDecrypt(ultra,
+// IsmartvActivator.getInstance().getDeviceToken()));
 //        }
 //        if (!Utils.isEmptyText(blueray)) {
-//            mClipEntity.setBlueray(AccessProxy.AESDecrypt(blueray, IsmartvActivator.getInstance().getDeviceToken()));
+//            mClipEntity.setBlueray(AccessProxy.AESDecrypt(blueray,
+// IsmartvActivator.getInstance().getDeviceToken()));
 //        }
 //        if (!Utils.isEmptyText(_4k)) {
-//            mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken()));
+//            mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k,
+// IsmartvActivator.getInstance().getDeviceToken()));
 //        }
 ////                Log.d(TAG, mClipEntity.toString());
 //        SkyService skyService = SkyService.ServiceManager.getAdService();
@@ -220,7 +227,8 @@
 //                        List<String> adPaths = new ArrayList<String>();
 //                        try {
 //                            String result = responseBody.string();
-//                            List<AdElementEntity> adElementEntityList = getAdInfo(result, "qiantiepian");
+//                            List<AdElementEntity> adElementEntityList = getAdInfo(result,
+// "qiantiepian");
 //                            if (adElementEntityList != null && !adElementEntityList.isEmpty()) {
 //                                for (AdElementEntity element : adElementEntityList) {
 //                                    if ("video".equals(element.getMedia_type())) {
@@ -245,7 +253,8 @@
 //                                mPaths = new String[]{mediaUrl};
 //                            }
 //                            mSmartPlayer = new SmartPlayer(true);
-//                            mSmartPlayer.startDownload(IsmartvActivator.getInstance().getSnToken(), mPaths, historyPosition);
+//
+// mSmartPlayer.startDownload(IsmartvActivator.getInstance().getSnToken(), mPaths, historyPosition);
 //                        } else {
 //                            Log.e(TAG, "Video address error.");
 //                        }
@@ -304,7 +313,8 @@
 //        adParams.put("province", "SH");
 //        adParams.put("city", "SH");
 //        adParams.put("app", "sky");
-//        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," + DeviceUtils.getDisplayPixelHeight(mContext));
+//        adParams.put("resolution", DeviceUtils.getDisplayPixelWidth(mContext) + "," +
+// DeviceUtils.getDisplayPixelHeight(mContext));
 //        adParams.put("dpi", String.valueOf(DeviceUtils.getDensity(mContext)));
 //
 //        StringBuffer directorsBuffer = new StringBuffer();
@@ -451,4 +461,4 @@
 //        return qualityUrl;
 //    }
 //
-//}
+// }

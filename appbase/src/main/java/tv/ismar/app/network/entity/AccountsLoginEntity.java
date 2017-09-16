@@ -1,8 +1,6 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huibin on 2016/9/14.
- */
+/** Created by huibin on 2016/9/14. */
 public class AccountsLoginEntity {
     private String auth_token;
     private String zuser_token;

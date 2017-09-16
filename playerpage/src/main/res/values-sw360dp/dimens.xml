@@ -1,36 +1,36 @@
 <resources>
 
-<dimen name="player_seekBar_max_h">6.33dp</dimen>
-<dimen name="player_seekBar_thumbOffset">10.00dp</dimen>
-<dimen name="player_controller_margin_lr">16.67dp</dimen>
-<dimen name="player_controller_padding_bottom">2.67dp</dimen>
-<dimen name="player_controller_left_w">200.00dp</dimen>
-<dimen name="player_timetext_h">15.00dp</dimen>
-<dimen name="player_timetext_mt">3.33dp</dimen>
-<dimen name="player_qualitytext_w">32.33dp</dimen>
-<dimen name="player_qualitytext_h">16.00dp</dimen>
-<dimen name="player_qualitytext_mt">4.00dp</dimen>
-<dimen name="player_qualitytext_back_corner">5.00dp</dimen>
-<dimen name="player_titletext_h">18.00dp</dimen>
-<dimen name="player_titletext_mt">5.33dp</dimen>
-<dimen name="player_icon_w">24.00dp</dimen>
-<dimen name="player_icon_h">23.67dp</dimen>
-<dimen name="player_icon_ml">6.33dp</dimen>
-<dimen name="player_menu_w">173.33dp</dimen>
-<dimen name="player_menu_padding_tb">53.33dp</dimen>
-<dimen name="player_menu_padding_l">13.33dp</dimen>
-<dimen name="player_menu_item_h">40.00dp</dimen>
-<dimen name="player_logo_image_mt">9.67dp</dimen>
-<dimen name="player_logo_image_mr">14.33dp</dimen>
+    <dimen name="player_seekBar_max_h">6.33dp</dimen>
+    <dimen name="player_seekBar_thumbOffset">10.00dp</dimen>
+    <dimen name="player_controller_margin_lr">16.67dp</dimen>
+    <dimen name="player_controller_padding_bottom">2.67dp</dimen>
+    <dimen name="player_controller_left_w">200.00dp</dimen>
+    <dimen name="player_timetext_h">15.00dp</dimen>
+    <dimen name="player_timetext_mt">3.33dp</dimen>
+    <dimen name="player_qualitytext_w">32.33dp</dimen>
+    <dimen name="player_qualitytext_h">16.00dp</dimen>
+    <dimen name="player_qualitytext_mt">4.00dp</dimen>
+    <dimen name="player_qualitytext_back_corner">5.00dp</dimen>
+    <dimen name="player_titletext_h">18.00dp</dimen>
+    <dimen name="player_titletext_mt">5.33dp</dimen>
+    <dimen name="player_icon_w">24.00dp</dimen>
+    <dimen name="player_icon_h">23.67dp</dimen>
+    <dimen name="player_icon_ml">6.33dp</dimen>
+    <dimen name="player_menu_w">173.33dp</dimen>
+    <dimen name="player_menu_padding_tb">53.33dp</dimen>
+    <dimen name="player_menu_padding_l">13.33dp</dimen>
+    <dimen name="player_menu_item_h">40.00dp</dimen>
+    <dimen name="player_logo_image_mt">9.67dp</dimen>
+    <dimen name="player_logo_image_mr">14.33dp</dimen>
 
-<dimen name="qiyi_ad_width">99.33dp</dimen>
-<dimen name="qiyi_ad_height">16.67dp</dimen>
-<dimen name="ad_text_count_w">26.00dp</dimen>
-<dimen name="ad_text_vip_w">72.00dp</dimen>
+    <dimen name="qiyi_ad_width">99.33dp</dimen>
+    <dimen name="qiyi_ad_height">16.67dp</dimen>
+    <dimen name="ad_text_count_w">26.00dp</dimen>
+    <dimen name="ad_text_vip_w">72.00dp</dimen>
 
-<dimen name="pause_ad_btn_wh">20.00dp</dimen>
+    <dimen name="pause_ad_btn_wh">20.00dp</dimen>
 
-<dimen name="player_toast_w">207.33dp</dimen>
-<dimen name="player_toast_h">24.33dp</dimen>
+    <dimen name="player_toast_w">207.33dp</dimen>
+    <dimen name="player_toast_h">24.33dp</dimen>
 
 </resources>

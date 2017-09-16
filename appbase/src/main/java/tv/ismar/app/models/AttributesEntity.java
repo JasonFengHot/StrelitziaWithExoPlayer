@@ -1,14 +1,11 @@
 package tv.ismar.app.models;
 
-/**
- * Created by huaijie on 2/22/16.
- */
+/** Created by huaijie on 2/22/16. */
 public class AttributesEntity {
     private Object[][] actor;
     private Object[][] director;
     private Object[] area;
     private Object[][] attendee;
-
 
     public Object[][] getActor() {
         return actor;

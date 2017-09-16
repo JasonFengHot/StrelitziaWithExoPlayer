@@ -1,15 +1,12 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huaijie on 1/22/15.
- */
+/** Created by huaijie on 1/22/15. */
 public class SpeedLogEntity {
     private String speed;
     private String isp;
     private String cdn_id;
     private String cdn_name;
     private String location;
-
 
     public String getSpeed() {
         return speed;

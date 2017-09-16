@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_focused="true" android:drawable="@drawable/episode_arrow_down_focus"/>
-    <item android:state_hovered="true" android:drawable="@drawable/episode_arrow_down_focus"/>
-    <item android:drawable="@drawable/episode_arrow_down_nomal"/>
+    <item android:drawable="@drawable/episode_arrow_down_focus" android:state_focused="true" />
+    <item android:drawable="@drawable/episode_arrow_down_focus" android:state_hovered="true" />
+    <item android:drawable="@drawable/episode_arrow_down_nomal" />
 </selector>

@@ -115,7 +115,8 @@ public class FeedParser {
                 // Example: <title>Article title</title>
                 title = readTag(parser, TAG_TITLE);
             } else if (name.equals("link")) {
-                // Example: <link rel="alternate" type="text/html" href="http://example.com/article/1234"/>
+                // Example: <link rel="alternate" type="text/html"
+                // href="http://example.com/article/1234"/>
                 //
                 // Multiple link types can be included. readAlternateLink() will only return
                 // non-null when reading an "alternate"-type link. Ignore other responses.

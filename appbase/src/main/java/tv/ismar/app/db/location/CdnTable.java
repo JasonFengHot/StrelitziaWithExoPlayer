@@ -1,14 +1,10 @@
 package tv.ismar.app.db.location;
 
-
 import cn.ismartv.injectdb.library.Model;
 import cn.ismartv.injectdb.library.annotation.Column;
 import cn.ismartv.injectdb.library.annotation.Table;
 
-/**
- * Created by huaijie on 8/3/15.
- */
-
+/** Created by huaijie on 8/3/15. */
 @Table(name = "app_cdn", id = "_id")
 public class CdnTable extends Model {
     public static final String CDN_ID = "cdn_id";
@@ -22,36 +18,24 @@ public class CdnTable extends Model {
     public static final String SPEED = "speed";
     public static final String CHECKED = "checked";
 
-
     @Column(unique = true, onUniqueConflict = Column.ConflictAction.IGNORE)
     public long cdn_id;
 
-    @Column
-    public String cdn_name;
+    @Column public String cdn_name;
 
-    @Column
-    public String cdn_nick;
+    @Column public String cdn_nick;
 
-    @Column
-    public int cdn_flag;
+    @Column public int cdn_flag;
 
-    @Column
-    public String cdn_ip;
+    @Column public String cdn_ip;
 
-    @Column
-    public String district_id;
+    @Column public String district_id;
 
-    @Column
-    public String isp_id;
+    @Column public String isp_id;
 
-    @Column
-    public int route_trace;
+    @Column public int route_trace;
 
-    @Column
-    public int speed;
+    @Column public int speed;
 
-    @Column
-    public boolean checked;
-
-
+    @Column public boolean checked;
 }

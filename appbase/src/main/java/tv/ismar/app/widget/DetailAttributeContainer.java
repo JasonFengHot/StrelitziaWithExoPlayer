@@ -14,17 +14,14 @@ import java.util.LinkedHashMap;
 import tv.ismar.app.R;
 import tv.ismar.app.util.Utils;
 
-/**
- * Created by beaver on 16-8-22.
- */
+/** Created by beaver on 16-8-22. */
 public class DetailAttributeContainer extends LinearLayout {
 
     private static final String TAG = "LH/DetailAttribute";
-
-    private LinkedHashMap<String, String> mAttrName; // 设置详情页影片信息
-    private LinkedHashMap<String, String> mAttrValue;// 设置详情页影片信息
     private final int defaultTextSize = 18;
     private final int defaultSpace = 16;
+    private LinkedHashMap<String, String> mAttrName; // 设置详情页影片信息
+    private LinkedHashMap<String, String> mAttrValue; // 设置详情页影片信息
     private Context mContext;
 
     private int textSize;
@@ -43,21 +40,30 @@ public class DetailAttributeContainer extends LinearLayout {
         super(context, attrs, defStyleAttr);
         mContext = context;
         setOrientation(LinearLayout.VERTICAL);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DetailAttributeContainer);
-        textSize = typedArray.getDimensionPixelSize(R.styleable.DetailAttributeContainer_dac_textSize, defaultTextSize);
-        textColor = typedArray.getColor(R.styleable.DetailAttributeContainer_dac_textColor, Color.WHITE);
-        space = typedArray.getDimensionPixelSize(R.styleable.DetailAttributeContainer_dac_space, defaultSpace);
+        TypedArray typedArray =
+                context.obtainStyledAttributes(attrs, R.styleable.DetailAttributeContainer);
+        textSize =
+                typedArray.getDimensionPixelSize(
+                        R.styleable.DetailAttributeContainer_dac_textSize, defaultTextSize);
+        textColor =
+                typedArray.getColor(
+                        R.styleable.DetailAttributeContainer_dac_textColor, Color.WHITE);
+        space =
+                typedArray.getDimensionPixelSize(
+                        R.styleable.DetailAttributeContainer_dac_space, defaultSpace);
         typedArray.recycle();
     }
 
-    public void showAttributes(LinkedHashMap<String, String> attrName, LinkedHashMap<String, String> attrValue) {
-        Iterator iter = attrValue.entrySet().iterator();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(getWidth(), LayoutParams.WRAP_CONTENT);
+    public void showAttributes(
+            LinkedHashMap<String, String> attrName, LinkedHashMap<String, String> attrValue) {
+        Iterator<java.util.Map.Entry<String, String>> iter = attrValue.entrySet().iterator();
+        LinearLayout.LayoutParams layoutParams =
+                new LinearLayout.LayoutParams(getWidth(), LayoutParams.WRAP_CONTENT);
         layoutParams.topMargin = space;
         while (iter.hasNext()) {
-            LinkedHashMap.Entry entry = (LinkedHashMap.Entry) iter.next();
-            String key = (String) entry.getKey();
-            String value = (String) entry.getValue();
+            java.util.Map.Entry<String, String> entry = iter.next();
+            String key = entry.getKey();
+            String value = entry.getValue();
             if (Utils.isEmptyText(value) || Utils.isEmptyText(key)) {
                 continue;
             }
@@ -74,7 +80,5 @@ public class DetailAttributeContainer extends LinearLayout {
 
             addView(nameValue);
         }
-
     }
-
 }

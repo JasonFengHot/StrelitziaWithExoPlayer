@@ -1,22 +1,22 @@
-//package tv.ismar.app.network;
+// package tv.ismar.app.network;
 //
-//import android.content.Context;
+// import android.content.Context;
 //
-//import java.io.IOException;
+// import java.io.IOException;
 //
-//import okhttp3.Interceptor;
-//import okhttp3.Protocol;
-//import okhttp3.Request;
-//import okhttp3.Response;
-//import tv.ismar.app.VodApplication;
-//import tv.ismar.app.network.exception.OnlyMobileException;
-//import tv.ismar.app.network.exception.OnlyWifiException;
-//import tv.ismar.app.util.NetworkUtils;
+// import okhttp3.Interceptor;
+// import okhttp3.Protocol;
+// import okhttp3.Request;
+// import okhttp3.Response;
+// import tv.ismar.app.VodApplication;
+// import tv.ismar.app.network.exception.OnlyMobileException;
+// import tv.ismar.app.network.exception.OnlyWifiException;
+// import tv.ismar.app.util.NetworkUtils;
 //
-///**
+/// **
 // * Created by huibin on 8/19/16.
 // */
-//public class HttpTrafficInterceptor implements Interceptor {
+// public class HttpTrafficInterceptor implements Interceptor {
 //    private TrafficType mTrafficType = TrafficType.UNLIMITED;
 //    private Context mContext;
 //
@@ -62,4 +62,4 @@
 //        ONLY_WIFI,
 //        ONLY_MOBILE
 //    }
-//}
+// }

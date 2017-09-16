@@ -13,118 +13,125 @@ import android.widget.LinearLayout;
 import tv.ismar.homepage.R;
 
 public class LinerLayoutContainer extends LinearLayout {
-	
-	private Rect mBound;
-	private NinePatchDrawable mDrawable;
-	private Rect mRect;
-	private Animation scaleSmallAnimation;
-	private Animation scaleBigAnimation;
-	private boolean isDrawBorder = false;
-	public LinerLayoutContainer(Context context) {
-		super(context);
-		init();
-	}
 
-	public void setDrawBorder(boolean isDrawBorder) {
-		this.isDrawBorder = isDrawBorder;
-	}
+    private Rect mBound;
+    private NinePatchDrawable mDrawable;
+    private Rect mRect;
+    private Animation scaleSmallAnimation;
+    private Animation scaleBigAnimation;
+    private boolean isDrawBorder = false;
 
-	public LinerLayoutContainer(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init();
-	}
+    public LinerLayoutContainer(Context context) {
+        super(context);
+        init();
+    }
 
-	public LinerLayoutContainer(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init();
-	}
-	
-	protected void init() {
-		setWillNotDraw(false);
-		mRect = new Rect();
-		mBound = new Rect();
-		mDrawable = (NinePatchDrawable)getResources().getDrawable(R.drawable.vod_gv_selector);//nav_focused_2,poster_shadow_4
-		setChildrenDrawingOrderEnabled(true);
-	}
+    public LinerLayoutContainer(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
 
-	@Override
-	protected boolean dispatchHoverEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_HOVER_ENTER:
-			isDrawBorder = true;
-			requestFocus();
-			invalidate();
-			break;
-		case MotionEvent.ACTION_HOVER_MOVE:
-			isDrawBorder = true;
-			requestFocus();
-			invalidate();
-			break;
-		case MotionEvent.ACTION_HOVER_EXIT:
-			isDrawBorder = false;
-			invalidate();
-			break;
-		}
-		return false;
-	}
+    public LinerLayoutContainer(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
 
-	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-	}
-	
-	@Override
-	public void draw(Canvas canvas) {
-		super.draw(canvas);
-	}
+    public void setDrawBorder(boolean isDrawBorder) {
+        this.isDrawBorder = isDrawBorder;
+    }
 
-	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-		if (isDrawBorder) {
-			System.out.println("HomeItemContainer focus : true ");
-			super.getDrawingRect(mRect);
-			mBound.set(-21+mRect.left, -21+mRect.top, 21+mRect.right, mRect.bottom+21);
-			mDrawable.setBounds(mBound);
-			canvas.save();
-			mDrawable.draw(canvas);
-			canvas.restore();
-		}else{
-			mBound.setEmpty();
-			mDrawable.setBounds(mBound);
-			mDrawable.draw(canvas);
-		}
-		getRootView().requestLayout();
-		getRootView().invalidate();
-	}
+    protected void init() {
+        setWillNotDraw(false);
+        mRect = new Rect();
+        mBound = new Rect();
+        mDrawable =
+                (NinePatchDrawable)
+                        getResources()
+                                .getDrawable(
+                                        R.drawable
+                                                .vod_gv_selector); // nav_focused_2,poster_shadow_4
+        setChildrenDrawingOrderEnabled(true);
+    }
 
-	@Override
-	protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
-		super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-		if (gainFocus) {
-			isDrawBorder = true;
-			bringToFront();
-			getRootView().requestLayout();
-			getRootView().invalidate();
-			zoomOut();
-		} else {
-			isDrawBorder = false;
-			zoomIn();
-		}
-	}
+    @Override
+    protected boolean dispatchHoverEvent(MotionEvent event) {
+        // TODO Auto-generated method stub
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_HOVER_ENTER:
+                isDrawBorder = true;
+                requestFocus();
+                invalidate();
+                break;
+            case MotionEvent.ACTION_HOVER_MOVE:
+                isDrawBorder = true;
+                requestFocus();
+                invalidate();
+                break;
+            case MotionEvent.ACTION_HOVER_EXIT:
+                isDrawBorder = false;
+                invalidate();
+                break;
+        }
+        return false;
+    }
 
-	private void zoomIn() {
-		if (scaleSmallAnimation == null) {
-			scaleSmallAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_small);
-		}
-		startAnimation(scaleSmallAnimation);
-	}
-	
-	private void zoomOut() {
-		if (scaleBigAnimation == null) {
-			scaleBigAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_big);
-		}
-		startAnimation(scaleBigAnimation);
-	}
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (isDrawBorder) {
+            System.out.println("HomeItemContainer focus : true ");
+            super.getDrawingRect(mRect);
+            mBound.set(-21 + mRect.left, -21 + mRect.top, 21 + mRect.right, mRect.bottom + 21);
+            mDrawable.setBounds(mBound);
+            canvas.save();
+            mDrawable.draw(canvas);
+            canvas.restore();
+        } else {
+            mBound.setEmpty();
+            mDrawable.setBounds(mBound);
+            mDrawable.draw(canvas);
+        }
+        getRootView().requestLayout();
+        getRootView().invalidate();
+    }
+
+    @Override
+    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+        if (gainFocus) {
+            isDrawBorder = true;
+            bringToFront();
+            getRootView().requestLayout();
+            getRootView().invalidate();
+            zoomOut();
+        } else {
+            isDrawBorder = false;
+            zoomIn();
+        }
+    }
+
+    private void zoomIn() {
+        if (scaleSmallAnimation == null) {
+            scaleSmallAnimation =
+                    AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_small);
+        }
+        startAnimation(scaleSmallAnimation);
+    }
+
+    private void zoomOut() {
+        if (scaleBigAnimation == null) {
+            scaleBigAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale_big);
+        }
+        startAnimation(scaleBigAnimation);
+    }
 }

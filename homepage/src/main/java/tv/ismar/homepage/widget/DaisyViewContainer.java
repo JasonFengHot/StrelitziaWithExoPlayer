@@ -12,9 +12,7 @@ import java.util.ArrayList;
 
 import tv.ismar.homepage.R;
 
-/**
- * Created by huaijie on 7/2/15.
- */
+/** Created by huaijie on 7/2/15. */
 public class DaisyViewContainer extends LinearLayout {
     private static final String TAG = "DaisyViewContainer";
     private float horizontalSpacing;
@@ -32,10 +30,16 @@ public class DaisyViewContainer extends LinearLayout {
         int densityDpi = metric.densityDpi;
         rate = (float) densityDpi / (float) 160;
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DaisyViewContainer);
-        horizontalSpacing = typedArray.getDimensionPixelSize(R.styleable.DaisyViewContainer_horizontal_spacing, 0);
-        verticalSpacing = typedArray.getDimensionPixelSize(R.styleable.DaisyViewContainer_vertical_spacing, 0);
-        itemHeight = typedArray.getDimensionPixelSize(R.styleable.DaisyViewContainer_item_height, 0);
+        TypedArray typedArray =
+                context.obtainStyledAttributes(attrs, R.styleable.DaisyViewContainer);
+        horizontalSpacing =
+                typedArray.getDimensionPixelSize(
+                        R.styleable.DaisyViewContainer_horizontal_spacing, 0);
+        verticalSpacing =
+                typedArray.getDimensionPixelSize(
+                        R.styleable.DaisyViewContainer_vertical_spacing, 0);
+        itemHeight =
+                typedArray.getDimensionPixelSize(R.styleable.DaisyViewContainer_item_height, 0);
         itemWidth = typedArray.getDimensionPixelSize(R.styleable.DaisyViewContainer_item_width, 0);
         typedArray.recycle();
     }
@@ -45,12 +49,14 @@ public class DaisyViewContainer extends LinearLayout {
             case HORIZONTAL:
                 for (int i = 0; i < allViews.size(); i++) {
                     if (i != 0) {
-                        LayoutParams layoutParams = new LayoutParams((int) itemWidth, (int) itemHeight);
+                        LayoutParams layoutParams =
+                                new LayoutParams((int) itemWidth, (int) itemHeight);
                         layoutParams.setMargins((int) horizontalSpacing, 0, 0, 0);
                         allViews.get(i).setLayoutParams(layoutParams);
                         addView(allViews.get(i));
                     } else {
-                        LayoutParams layoutParams = new LayoutParams((int) itemWidth, (int) itemHeight);
+                        LayoutParams layoutParams =
+                                new LayoutParams((int) itemWidth, (int) itemHeight);
                         addView(allViews.get(i), layoutParams);
                     }
                 }

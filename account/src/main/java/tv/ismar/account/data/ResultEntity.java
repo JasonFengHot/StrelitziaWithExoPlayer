@@ -1,6 +1,5 @@
 package tv.ismar.account.data;
 
-
 public class ResultEntity {
     private String device_token = "";
     private String domain = "1.1.1.1";
@@ -10,7 +9,6 @@ public class ResultEntity {
     private String upgrade_domain = "1.1.1.3";
     private String zdevice_token = "";
     private String carnation = "1.1.1.1";
-
 
     public String getCarnation() {
         return carnation;

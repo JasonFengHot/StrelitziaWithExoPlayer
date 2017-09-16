@@ -1,8 +1,6 @@
 package tv.ismar.homepage.widget;
 
-/**
- * Created by huaijie on 7/2/15.
- */
+/** Created by huaijie on 7/2/15. */
 public class Position {
 
     private PositioinChangeCallback changeCallback;

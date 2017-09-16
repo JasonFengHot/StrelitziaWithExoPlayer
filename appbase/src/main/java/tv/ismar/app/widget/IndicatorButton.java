@@ -17,25 +17,43 @@ import android.widget.TextView;
 
 import tv.ismar.app.R;
 
-/**
- * Created by beaver on 16-8-19.
- */
+/** Created by beaver on 16-8-19. */
 public class IndicatorButton extends FrameLayout {
 
     private static final String TAG = "LH/IndicatorButton";
-
+    private final String TAG_IMG = "INDICATOR_IMAGE";
+    private final String TAG_TXT = "INDICATOR_TEXT";
     private ImageView indicatorImage;
     private TextView indicatorText;
-
     private Drawable indicatorDrawable;
     private int textSize;
     private int textColor;
     private String content;
     private boolean wrapContent;
-
     private int defaultTextSize = 18;
-    private final String TAG_IMG = "INDICATOR_IMAGE";
-    private final String TAG_TXT = "INDICATOR_TEXT";
+
+    public IndicatorButton(Context context) {
+        this(context, null);
+    }
+
+    public IndicatorButton(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public IndicatorButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.IndicatorButton);
+        indicatorDrawable = typedArray.getDrawable(R.styleable.IndicatorButton_ib_drawable);
+        textSize =
+                typedArray.getDimensionPixelSize(
+                        R.styleable.IndicatorButton_ib_textSize, defaultTextSize);
+        textColor = typedArray.getColor(R.styleable.IndicatorButton_ib_textColor, Color.WHITE);
+        content = typedArray.getString(R.styleable.IndicatorButton_ib_text);
+        wrapContent = typedArray.getBoolean(R.styleable.IndicatorButton_ib_wrapContent, false);
+        typedArray.recycle();
+
+        initChildView(context);
+    }
 
     public void setIndicatorDrawable(Drawable drawable) {
         indicatorDrawable = drawable;
@@ -57,30 +75,9 @@ public class IndicatorButton extends FrameLayout {
         wrapContent = flag;
     }
 
-    public IndicatorButton(Context context) {
-        this(context, null);
-    }
-
-    public IndicatorButton(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public IndicatorButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.IndicatorButton);
-        indicatorDrawable = typedArray.getDrawable(R.styleable.IndicatorButton_ib_drawable);
-        textSize = typedArray.getDimensionPixelSize(R.styleable.IndicatorButton_ib_textSize, defaultTextSize);
-        textColor = typedArray.getColor(R.styleable.IndicatorButton_ib_textColor, Color.WHITE);
-        content = typedArray.getString(R.styleable.IndicatorButton_ib_text);
-        wrapContent = typedArray.getBoolean(R.styleable.IndicatorButton_ib_wrapContent, false);
-        typedArray.recycle();
-
-        initChildView(context);
-
-    }
-
     private void initChildView(Context context) {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams layoutParams =
+                new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         layoutParams.gravity = Gravity.CENTER;
 
         // show background indicator
@@ -103,9 +100,7 @@ public class IndicatorButton extends FrameLayout {
         indicatorText.setTextColor(textColor);
         indicatorText.setText(content);
         addView(indicatorText);
-
     }
-
 
     @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {

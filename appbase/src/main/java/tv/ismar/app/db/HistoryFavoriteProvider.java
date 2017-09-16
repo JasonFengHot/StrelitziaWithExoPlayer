@@ -10,9 +10,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-/**
- * Created by beaver on 16-9-6.
- */
+/** Created by beaver on 16-9-6. */
 public class HistoryFavoriteProvider extends ContentProvider {
 
     public static final String AUTHORITY = "tv.ismar.daisy.provider.hf";
@@ -26,7 +24,6 @@ public class HistoryFavoriteProvider extends ContentProvider {
     private static final int QUALITIES = 5;
     private static final int QUALITIES_ID = 6;
     private static final UriMatcher sUriMatcher;
-    private DBHelper mOpenHelper;
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -39,8 +36,9 @@ public class HistoryFavoriteProvider extends ContentProvider {
         // 这里要增加另一张表的匹配项
         sUriMatcher.addURI(AUTHORITY, "qualities", QUALITIES);
         sUriMatcher.addURI(AUTHORITY, "qualities/#", QUALITIES_ID);
-
     }
+
+    private DBHelper mOpenHelper;
 
     @Override
     public boolean onCreate() {
@@ -50,7 +48,12 @@ public class HistoryFavoriteProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(
+            Uri uri,
+            String[] projection,
+            String selection,
+            String[] selectionArgs,
+            String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         String orderBy;
         // 这里要对不同表的匹配结果做不同处理
@@ -68,7 +71,8 @@ public class HistoryFavoriteProvider extends ContentProvider {
                 }
                 break;
             case FAVORITES_ID:
-                qb.appendWhere(DBHelper.DBFields.FavoriteTable._ID + "=" + uri.getLastPathSegment());
+                qb.appendWhere(
+                        DBHelper.DBFields.FavoriteTable._ID + "=" + uri.getLastPathSegment());
             case FAVORITES:
                 qb.setTables(DBHelper.DBFields.FavoriteTable.TABLE_NAME);
                 // If no sort order is specified use the default

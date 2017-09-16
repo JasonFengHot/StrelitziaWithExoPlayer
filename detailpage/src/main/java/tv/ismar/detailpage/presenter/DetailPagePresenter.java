@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import cn.ismartv.truetime.TrueTime;
 import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.Subscription;
@@ -35,9 +34,7 @@ import static tv.ismar.app.core.PageIntentInterface.FromPage.unknown;
 import static tv.ismar.app.core.PageIntentInterface.PaymentInfo;
 import static tv.ismar.app.core.PageIntentInterface.ProductCategory.item;
 
-/**
- * Created by huibin on 8/19/16.
- */
+/** Created by huibin on 8/19/16. */
 public class DetailPagePresenter implements DetailPageContract.Presenter {
     private static final String TAG = DetailPagePresenter.class.getSimpleName();
     private final DetailPageContract.View mDetailView;
@@ -54,8 +51,8 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
 
     private DetailPageActivity detailPageActivity;
 
-
-    public DetailPagePresenter(DetailPageActivity activity, DetailPageContract.View detailView, String contentModel) {
+    public DetailPagePresenter(
+            DetailPageActivity activity, DetailPageContract.View detailView, String contentModel) {
         detailPageActivity = activity;
         mContentModel = contentModel;
         mDetailView = detailView;
@@ -77,55 +74,53 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             apiItemSubsc.unsubscribe();
         }
 
-        apiItemSubsc = mSkyService.apiItem(pk)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(detailPageActivity.new BaseObserver<ItemEntity>() {
-                    @Override
-                    public void onCompleted() {
+        apiItemSubsc =
+                mSkyService
+                        .apiItem(pk)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                detailPageActivity.new BaseObserver<ItemEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        mDetailView.onError();
+                                        super.onError(e);
+                                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mDetailView.onError();
-                        super.onError(e);
-
-                    }
-
-                    @Override
-                    public void onNext(ItemEntity itemEntity) {
-                        mItemEntity = itemEntity;
-                        mDetailView.loadItem(itemEntity);
-                    }
-                });
+                                    @Override
+                                    public void onNext(ItemEntity itemEntity) {
+                                        mItemEntity = itemEntity;
+                                        mDetailView.loadItem(itemEntity);
+                                    }
+                                });
     }
-
 
     @Override
     public void createBookmarks(String pk) {
         if (bookmarksSubsc != null && !bookmarksSubsc.isUnsubscribed()) {
             bookmarksSubsc.unsubscribe();
         }
-        bookmarksSubsc = mSkyService.apiBookmarksCreate(pk)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(detailPageActivity.new BaseObserver<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
+        bookmarksSubsc =
+                mSkyService
+                        .apiBookmarksCreate(pk)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                detailPageActivity.new BaseObserver<ResponseBody>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        mDetailView.notifyBookmark(true, false);
+                                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mDetailView.notifyBookmark(true, false);
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-
-                    }
-                });
+                                    @Override
+                                    public void onNext(ResponseBody responseBody) {}
+                                });
     }
 
     @Override
@@ -133,26 +128,25 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (removeBookmarksSubsc != null && !removeBookmarksSubsc.isUnsubscribed()) {
             removeBookmarksSubsc.unsubscribe();
         }
-        removeBookmarksSubsc = mSkyService.apiBookmarksRemove(pk)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
+        removeBookmarksSubsc =
+                mSkyService
+                        .apiBookmarksRemove(pk)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                new Observer<ResponseBody>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        mDetailView.notifyBookmark(false, false);
+                                        e.printStackTrace();
+                                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mDetailView.notifyBookmark(false, false);
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-
-                    }
-                });
+                                    @Override
+                                    public void onNext(ResponseBody responseBody) {}
+                                });
     }
 
     @Override
@@ -161,27 +155,28 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             playCheckSubsc.unsubscribe();
         }
 
-        playCheckSubsc = mSkyService.apiPlayCheck(itemPk, null, null)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(detailPageActivity.new BaseObserver<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
+        playCheckSubsc =
+                mSkyService
+                        .apiPlayCheck(itemPk, null, null)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                detailPageActivity.new BaseObserver<ResponseBody>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        try {
-                            PlayCheckEntity playCheckEntity = calculateRemainDay(responseBody.string());
-                            mDetailView.notifyPlayCheck(playCheckEntity);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                                    @Override
+                                    public void onNext(ResponseBody responseBody) {
+                                        try {
+                                            PlayCheckEntity playCheckEntity =
+                                                    calculateRemainDay(responseBody.string());
+                                            mDetailView.notifyPlayCheck(playCheckEntity);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
     }
-
 
     private PlayCheckEntity calculateRemainDay(String info) {
         PlayCheckEntity playCheckEntity;
@@ -194,7 +189,9 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
                 playCheckEntity = new Gson().fromJson(info, PlayCheckEntity.class);
                 int remainDay;
                 try {
-                    remainDay = Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date()) + 1;
+                    remainDay =
+                            Utils.daysBetween(Utils.getTime(), playCheckEntity.getExpiry_date())
+                                    + 1;
                 } catch (ParseException e) {
                     remainDay = 0;
                 }
@@ -209,29 +206,29 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (itemRelateSubsc != null && !itemRelateSubsc.isUnsubscribed()) {
             itemRelateSubsc.unsubscribe();
         }
-        itemRelateSubsc = mSkyService.apiTvRelate(pk)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(detailPageActivity.new BaseObserver<ItemEntity[]>() {
-                    @Override
-                    public void onCompleted() {
+        itemRelateSubsc =
+                mSkyService
+                        .apiTvRelate(pk)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                detailPageActivity.new BaseObserver<ItemEntity[]>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        mDetailView.onError();
+                                        super.onError(e);
+                                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mDetailView.onError();
-                        super.onError(e);
-                    }
-
-                    @Override
-                    public void onNext(ItemEntity[] itemEntities) {
-                        relatedItemList = itemEntities;
-                        mDetailView.loadItemRelate(itemEntities);
-                    }
-                });
+                                    @Override
+                                    public void onNext(ItemEntity[] itemEntities) {
+                                        relatedItemList = itemEntities;
+                                        mDetailView.loadItemRelate(itemEntities);
+                                    }
+                                });
     }
-
 
     @Override
     public void stop() {
@@ -262,9 +259,7 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         if (detailPageActivity != null) {
             detailPageActivity.goPlayer();
         }
-
     }
-
 
     @Override
     public void handlePurchase() {
@@ -282,7 +277,6 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         }
         new PageIntent().toPaymentForResult(mDetailView.getActivity(), unknown.name(), paymentInfo);
     }
-
 
     @Override
     public void handleMoreRelate() {
@@ -302,7 +296,6 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         intent.putExtra(EXTRA_ITEM_JSON, new Gson().toJson(mItemEntity));
         intent.putExtra(EXTRA_SOURCE, "detail");
         mDetailView.getActivity().startActivity(intent);
-
     }
 
     private void addFavorite() {
@@ -310,7 +303,11 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
         FavoriteManager favoriteManager = vodApplication.getModuleFavoriteManager();
         String url = mItemEntity.getItem_url();
         if (TextUtils.isEmpty(url)) {
-            url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getPk() + "/";
+            url =
+                    IsmartvActivator.getInstance().getApiDomain()
+                            + "/api/item/"
+                            + mItemEntity.getPk()
+                            + "/";
         }
         if (isFavorite()) {
             String isnet = "";
@@ -343,23 +340,26 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             } else {
                 favorite.isnet = "no";
             }
-            ArrayList<Favorite> favorites = DaisyUtils.getFavoriteManager(mDetailView.getActivity()).getAllFavorites("no");
+            ArrayList<Favorite> favorites =
+                    DaisyUtils.getFavoriteManager(mDetailView.getActivity()).getAllFavorites("no");
             if (favorites.size() > 49) {
                 favoriteManager.deleteFavoriteByUrl(favorites.get(favorites.size() - 1).url, "no");
-
             }
             favoriteManager.addFavorite(favorite, favorite.isnet);
             mDetailView.notifyBookmark(true, true);
         }
     }
 
-
     public boolean isFavorite() {
         VodApplication vodApplication = (VodApplication) detailPageActivity.getApplicationContext();
         FavoriteManager favoriteManager = vodApplication.getModuleFavoriteManager();
         String url = mItemEntity.getItem_url();
         if (TextUtils.isEmpty(url)) {
-            url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItemEntity.getPk() + "/";
+            url =
+                    IsmartvActivator.getInstance().getApiDomain()
+                            + "/api/item/"
+                            + mItemEntity.getPk()
+                            + "/";
         }
         Favorite favorite;
         if (isLogin()) {

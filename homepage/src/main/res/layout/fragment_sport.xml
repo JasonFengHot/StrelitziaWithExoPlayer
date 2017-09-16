@@ -97,8 +97,8 @@
             android:id="@+id/sport_right_top_layout"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/sport_top_h"
-            android:layout_marginLeft="@dimen/sport_top_space1"
             android:layout_alignTop="@id/sportspost"
+            android:layout_marginLeft="@dimen/sport_top_space1"
             android:layout_toRightOf="@+id/sportspost"
             android:clipChildren="false"
             android:clipToPadding="false">

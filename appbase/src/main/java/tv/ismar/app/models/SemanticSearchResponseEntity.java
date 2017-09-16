@@ -2,9 +2,7 @@ package tv.ismar.app.models;
 
 import java.util.List;
 
-/**
- * Created by huaijie on 1/20/16.
- */
+/** Created by huaijie on 1/20/16. */
 public class SemanticSearchResponseEntity {
     private List<Facet> facet;
 
@@ -63,5 +61,4 @@ public class SemanticSearchResponseEntity {
             this.content_type = content_type;
         }
     }
-
 }

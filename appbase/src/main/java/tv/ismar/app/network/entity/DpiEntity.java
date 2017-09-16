@@ -1,8 +1,6 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huibin on 8/11/16.
- */
+/** Created by huibin on 8/11/16. */
 public class DpiEntity {
     private int pay_type;
     private String image;

@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/menu_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFFFF"
-        android:textSize="@dimen/menu_item_text_size"
         android:gravity="center"
+        android:paddingBottom="@dimen/menu_item_PaddingTB"
         android:paddingTop="@dimen/menu_item_PaddingTB"
-        android:paddingBottom="@dimen/menu_item_PaddingTB"/>
+        android:textColor="#FFFFFFFF"
+        android:textSize="@dimen/menu_item_text_size" />
 
 </LinearLayout>

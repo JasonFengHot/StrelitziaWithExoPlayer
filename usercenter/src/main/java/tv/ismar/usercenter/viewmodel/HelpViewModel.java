@@ -8,16 +8,12 @@ import android.databinding.Bindable;
 
 import tv.ismar.usercenter.presenter.HelpPresenter;
 
-/**
- * Created by huibin on 10/28/16.
- */
-
+/** Created by huibin on 10/28/16. */
 public class HelpViewModel extends BaseObservable {
     private Context mContext;
 
     public HelpViewModel(Context applicationContext, HelpPresenter helpPresenter) {
         mContext = applicationContext;
-
     }
 
     @Bindable

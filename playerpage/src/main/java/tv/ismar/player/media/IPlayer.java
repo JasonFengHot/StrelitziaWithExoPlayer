@@ -6,9 +6,7 @@ import tv.ismar.app.network.entity.AdElementEntity;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.reporter.IsmartvMedia;
 
-/**
- * Created by longhai on 16-9-12.
- */
+/** Created by longhai on 16-9-12. */
 public interface IPlayer {
 
     /**
@@ -16,11 +14,14 @@ public interface IPlayer {
      *
      * @param clipEntity 媒体播放地址
      */
-    void setDataSource(IsmartvMedia media, ClipEntity clipEntity, ClipEntity.Quality initQuality, List<AdElementEntity> adList, OnDataSourceSetListener onDataSourceSetListener);
+    void setDataSource(
+            IsmartvMedia media,
+            ClipEntity clipEntity,
+            ClipEntity.Quality initQuality,
+            List<AdElementEntity> adList,
+            OnDataSourceSetListener onDataSourceSetListener);
 
-    /**
-     * 播放器准备
-     */
+    /** 播放器准备 */
     void prepareAsync();
 
     void start();
@@ -49,14 +50,13 @@ public interface IPlayer {
 
     void switchQuality(ClipEntity.Quality quality);
 
-    /**
-     * 是否处在可以播放状态
-     */
+    /** 是否处在可以播放状态 */
     boolean isInPlaybackState();
 
     void setOnBufferChangedListener(IsmartvPlayer.OnBufferChangedListener onBufferChangedListener);
 
-    void setOnVideoSizeChangedListener(IsmartvPlayer.OnVideoSizeChangedListener onVideoSizeChangedListener);
+    void setOnVideoSizeChangedListener(
+            IsmartvPlayer.OnVideoSizeChangedListener onVideoSizeChangedListener);
 
     void setOnStateChangedListener(OnStateChangedListener onStateChangedListener);
 
@@ -103,7 +103,5 @@ public interface IPlayer {
         void onSuccess();
 
         void onFailed(String message);
-
     }
-
 }

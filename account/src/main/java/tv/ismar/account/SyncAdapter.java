@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 
-
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
@@ -57,7 +56,12 @@ import tv.ismar.account.provider.FeedContract;
  */
 class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String TAG = "SyncAdapter";
-
+    // Constants representing column positions from PROJECTION.
+    public static final int COLUMN_ID = 0;
+    public static final int COLUMN_ENTRY_ID = 1;
+    public static final int COLUMN_TITLE = 2;
+    public static final int COLUMN_LINK = 3;
+    public static final int COLUMN_PUBLISHED = 4;
     /**
      * URL to fetch content from during a sync.
      *
@@ -65,50 +69,29 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
      * Android Developer Blog to stay up to date on the latest Android platform developments!)
      */
     private static final String FEED_URL = "http://android-developers.blogspot.com/atom.xml";
-
-    /**
-     * Network connection timeout, in milliseconds.
-     */
-    private static final int NET_CONNECT_TIMEOUT_MILLIS = 15000;  // 15 seconds
-
-    /**
-     * Network read timeout, in milliseconds.
-     */
-    private static final int NET_READ_TIMEOUT_MILLIS = 10000;  // 10 seconds
-
-    /**
-     * Content resolver, for performing database operations.
-     */
+    /** Network connection timeout, in milliseconds. */
+    private static final int NET_CONNECT_TIMEOUT_MILLIS = 15000; // 15 seconds
+    /** Network read timeout, in milliseconds. */
+    private static final int NET_READ_TIMEOUT_MILLIS = 10000; // 10 seconds
+    /** Project used when querying content provider. Returns all known fields. */
+    private static final String[] PROJECTION =
+            new String[] {
+                FeedContract.Entry._ID,
+                FeedContract.Entry.COLUMN_NAME_ENTRY_ID,
+                FeedContract.Entry.COLUMN_NAME_TITLE,
+                FeedContract.Entry.COLUMN_NAME_LINK,
+                FeedContract.Entry.COLUMN_NAME_PUBLISHED
+            };
+    /** Content resolver, for performing database operations. */
     private final ContentResolver mContentResolver;
 
-    /**
-     * Project used when querying content provider. Returns all known fields.
-     */
-    private static final String[] PROJECTION = new String[] {
-            FeedContract.Entry._ID,
-            FeedContract.Entry.COLUMN_NAME_ENTRY_ID,
-            FeedContract.Entry.COLUMN_NAME_TITLE,
-            FeedContract.Entry.COLUMN_NAME_LINK,
-            FeedContract.Entry.COLUMN_NAME_PUBLISHED};
-
-    // Constants representing column positions from PROJECTION.
-    public static final int COLUMN_ID = 0;
-    public static final int COLUMN_ENTRY_ID = 1;
-    public static final int COLUMN_TITLE = 2;
-    public static final int COLUMN_LINK = 3;
-    public static final int COLUMN_PUBLISHED = 4;
-
-    /**
-     * Constructor. Obtains handle to content resolver for later use.
-     */
+    /** Constructor. Obtains handle to content resolver for later use. */
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         mContentResolver = context.getContentResolver();
     }
 
-    /**
-     * Constructor. Obtains handle to content resolver for later use.
-     */
+    /** Constructor. Obtains handle to content resolver for later use. */
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
         mContentResolver = context.getContentResolver();
@@ -119,19 +102,22 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
      * required to read data from the network, parse it, and store it in the content provider is
      * done here. Extending AbstractThreadedSyncAdapter ensures that all methods within SyncAdapter
      * run on a background thread. For this reason, blocking I/O and other long-running tasks can be
-     * run <em>in situ</em>, and you don't have to set up a separate thread for them.
-     .
+     * run <em>in situ</em>, and you don't have to set up a separate thread for them. .
      *
-     * <p>This is where we actually perform any work required to perform a sync.
-     * {@link AbstractThreadedSyncAdapter} guarantees that this will be called on a non-UI thread,
-     * so it is safe to peform blocking I/O here.
+     * <p>This is where we actually perform any work required to perform a sync. {@link
+     * AbstractThreadedSyncAdapter} guarantees that this will be called on a non-UI thread, so it is
+     * safe to peform blocking I/O here.
      *
      * <p>The syncResult argument allows you to pass information back to the method that triggered
      * the sync.
      */
     @Override
-    public void onPerformSync(Account account, Bundle extras, String authority,
-                              ContentProviderClient provider, SyncResult syncResult) {
+    public void onPerformSync(
+            Account account,
+            Bundle extras,
+            String authority,
+            ContentProviderClient provider,
+            SyncResult syncResult) {
         Log.i(TAG, "Beginning network synchronization");
         try {
             final URL location = new URL(FEED_URL);
@@ -187,25 +173,23 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
      * <p>As an additional optimization, we use a batch operation to perform all database writes at
      * once.
      *
-     * <p>Merge strategy:
-     * 1. Get cursor to all items in feed<br/>
-     * 2. For each item, check if it's in the incoming data.<br/>
-     *    a. YES: Remove from "incoming" list. Check if data has mutated, if so, perform
-     *            database UPDATE.<br/>
-     *    b. NO: Schedule DELETE from database.<br/>
-     * (At this point, incoming database only contains missing items.)<br/>
+     * <p>Merge strategy: 1. Get cursor to all items in feed<br>
+     * 2. For each item, check if it's in the incoming data.<br>
+     * a. YES: Remove from "incoming" list. Check if data has mutated, if so, perform database
+     * UPDATE.<br>
+     * b. NO: Schedule DELETE from database.<br>
+     * (At this point, incoming database only contains missing items.)<br>
      * 3. For any items remaining in incoming list, ADD to database.
      */
     public void updateLocalFeedData(final InputStream stream, final SyncResult syncResult)
             throws IOException, XmlPullParserException, RemoteException,
-            OperationApplicationException, ParseException {
+                    OperationApplicationException, ParseException {
         final FeedParser feedParser = new FeedParser();
         final ContentResolver contentResolver = getContext().getContentResolver();
 
         Log.i(TAG, "Parsing stream as Atom feed");
         final List<FeedParser.Entry> entries = feedParser.parse(stream);
         Log.i(TAG, "Parsing complete. Found " + entries.size() + " entries");
-
 
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
 
@@ -240,26 +224,33 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
                 // Entry exists. Remove from entry map to prevent insert later.
                 entryMap.remove(entryId);
                 // Check to see if the entry needs to be updated
-                Uri existingUri = FeedContract.Entry.CONTENT_URI.buildUpon()
-                        .appendPath(Integer.toString(id)).build();
-                if ((match.title != null && !match.title.equals(title)) ||
-                        (match.link != null && !match.link.equals(link)) ||
-                        (match.published != published)) {
+                Uri existingUri =
+                        FeedContract.Entry.CONTENT_URI
+                                .buildUpon()
+                                .appendPath(Integer.toString(id))
+                                .build();
+                if ((match.title != null && !match.title.equals(title))
+                        || (match.link != null && !match.link.equals(link))
+                        || (match.published != published)) {
                     // Update existing record
                     Log.i(TAG, "Scheduling update: " + existingUri);
-                    batch.add(ContentProviderOperation.newUpdate(existingUri)
-                            .withValue(FeedContract.Entry.COLUMN_NAME_TITLE, title)
-                            .withValue(FeedContract.Entry.COLUMN_NAME_LINK, link)
-                            .withValue(FeedContract.Entry.COLUMN_NAME_PUBLISHED, published)
-                            .build());
+                    batch.add(
+                            ContentProviderOperation.newUpdate(existingUri)
+                                    .withValue(FeedContract.Entry.COLUMN_NAME_TITLE, title)
+                                    .withValue(FeedContract.Entry.COLUMN_NAME_LINK, link)
+                                    .withValue(FeedContract.Entry.COLUMN_NAME_PUBLISHED, published)
+                                    .build());
                     syncResult.stats.numUpdates++;
                 } else {
                     Log.i(TAG, "No action: " + existingUri);
                 }
             } else {
                 // Entry doesn't exist. Remove it from the database.
-                Uri deleteUri = FeedContract.Entry.CONTENT_URI.buildUpon()
-                        .appendPath(Integer.toString(id)).build();
+                Uri deleteUri =
+                        FeedContract.Entry.CONTENT_URI
+                                .buildUpon()
+                                .appendPath(Integer.toString(id))
+                                .build();
                 Log.i(TAG, "Scheduling delete: " + deleteUri);
                 batch.add(ContentProviderOperation.newDelete(deleteUri).build());
                 syncResult.stats.numDeletes++;
@@ -270,27 +261,26 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         // Add new items
         for (FeedParser.Entry e : entryMap.values()) {
             Log.i(TAG, "Scheduling insert: entry_id=" + e.id);
-            batch.add(ContentProviderOperation.newInsert(FeedContract.Entry.CONTENT_URI)
-                    .withValue(FeedContract.Entry.COLUMN_NAME_ENTRY_ID, e.id)
-                    .withValue(FeedContract.Entry.COLUMN_NAME_TITLE, e.title)
-                    .withValue(FeedContract.Entry.COLUMN_NAME_LINK, e.link)
-                    .withValue(FeedContract.Entry.COLUMN_NAME_PUBLISHED, e.published)
-                    .build());
+            batch.add(
+                    ContentProviderOperation.newInsert(FeedContract.Entry.CONTENT_URI)
+                            .withValue(FeedContract.Entry.COLUMN_NAME_ENTRY_ID, e.id)
+                            .withValue(FeedContract.Entry.COLUMN_NAME_TITLE, e.title)
+                            .withValue(FeedContract.Entry.COLUMN_NAME_LINK, e.link)
+                            .withValue(FeedContract.Entry.COLUMN_NAME_PUBLISHED, e.published)
+                            .build());
             syncResult.stats.numInserts++;
         }
         Log.i(TAG, "Merge solution ready. Applying batch update");
         mContentResolver.applyBatch(FeedContract.CONTENT_AUTHORITY, batch);
         mContentResolver.notifyChange(
                 FeedContract.Entry.CONTENT_URI, // URI where data was modified
-                null,                           // No local observer
-                false);                         // IMPORTANT: Do not sync to network
+                null, // No local observer
+                false); // IMPORTANT: Do not sync to network
         // This sample doesn't support uploads, but if *your* code does, make sure you set
         // syncToNetwork=false in the line above to prevent duplicate syncs.
     }
 
-    /**
-     * Given a string representation of a URL, sets up a connection and gets an input stream.
-     */
+    /** Given a string representation of a URL, sets up a connection and gets an input stream. */
     private InputStream downloadUrl(final URL url) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(NET_READ_TIMEOUT_MILLIS /* milliseconds */);

@@ -1,13 +1,10 @@
 package tv.ismar.app.db;
 
-
 import cn.ismartv.injectdb.library.Model;
 import cn.ismartv.injectdb.library.annotation.Column;
 import cn.ismartv.injectdb.library.annotation.Table;
 
-/**
- * Created by huaijie on 7/31/15.
- */
+/** Created by huaijie on 7/31/15. */
 @Table(name = "smart_advertisement", id = "_id")
 public class AdvertiseTable extends Model {
 
@@ -22,37 +19,25 @@ public class AdvertiseTable extends Model {
     public static final String TYPE = "type";
     public static final String URL = "url";
 
-    @Column
-    public String title;
+    @Column public String title;
 
-    @Column
-    public long start_date;
+    @Column public long start_date;
 
-    @Column
-    public long end_date;
+    @Column public long end_date;
 
-    @Column
-    public String media_id;
+    @Column public String media_id;
 
-    @Column
-    public String media_url;
+    @Column public String media_url;
 
-    @Column
-    public String media_type;
+    @Column public String media_type;
 
-    @Column
-    public int duration;
+    @Column public int duration;
 
-    @Column
-    public String md5;
+    @Column public String md5;
 
-    @Column
-    public String location;
+    @Column public String location;
 
-    @Column
-    public String type;
+    @Column public String type;
 
-    @Column
-    public String url;
-
+    @Column public String url;
 }

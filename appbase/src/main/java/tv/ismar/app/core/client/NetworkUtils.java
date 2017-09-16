@@ -1,5 +1,4 @@
 package tv.ismar.app.core.client;
-import cn.ismartv.truetime.TrueTime;
 
 import android.content.Context;
 import android.net.Uri;
@@ -44,7 +43,6 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.VodUserAgent;
-import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.entity.AdElement;
 import tv.ismar.app.exception.ItemOfflineException;
 import tv.ismar.app.exception.NetworkException;
@@ -53,17 +51,142 @@ import tv.ismar.app.util.MyX509TrustManager;
 import tv.ismar.app.util.SystemFileUtil;
 
 public class NetworkUtils {
-    private static String UA = "A11/V1 Unknown";
-
-    private static final String TAG = "NetworkUtils";
-
-    private static final String URL = "http://127.0.0.1:21098/log/track/";
-
-    private static final int BUFFERSIZE = 1024;
-    DataCollectionTask mDataCollectionTask;
     public static final int CONNET_TIME_OUT = 3000;
     public static final int READ_TIME_OUT = 10000;
-    
+    /** 设备启动 */
+    public static final String SYSTEM_ON = "system_on";
+    /** 播放器打开 */
+    public static final String VIDEO_START = "video_start";
+    /** 开始播放缓冲结束 */
+    public static final String VIDEO_PLAY_LOAD = "video_play_load";
+    /** 切换码流 */
+    public static final String VIDEO_SWITCH_STREAM = "video_switch_stream";
+    /** 开始播放 */
+    public static final String VIDEO_PLAY_START = "video_play_start";
+    /** 播放暂停 */
+    public static final String VIDEO_PLAY_PAUSE = "video_play_pause";
+    /** 播放继续 */
+    public static final String VIDEO_PLAY_CONTINUE = "video_play_continue";
+    /** 播放快进/快退 */
+    public static final String VIDEO_PLAY_SEEK = "video_play_seek";
+    /** 播放快进/快退缓冲结束 */
+    public static final String VIDEO_PLAY_SEEK_BLOCKEND = "video_play_seek_blockend";
+    /** 播放缓冲结束 */
+    public static final String VIDEO_PLAY_BLOCKEND = "video_play_blockend";
+    /** 播放时网速 */
+    public static final String VIDEO_PLAY_SPEED = "video_play_speed";
+    /** 播放时下载速度慢 */
+    public static final String VIDEO_LOW_SPEED = "video_low_speed";
+    /** 播放器退出 */
+    public static final String VIDEO_EXIT = "video_exit";
+    /** 视频收藏 */
+    public static final String VIDEO_COLLECT = "video_collect";
+    /** 进入收藏界面 */
+    public static final String VIDEO_COLLECT_IN = "video_collect_in";
+    /** 退出收藏界面 */
+    public static final String VIDEO_COLLECT_OUT = "video_collect_out";
+    /** 视频存入历史 */
+    public static final String VIDEO_HISTORY = "video_history";
+    /** 进入播放历史界面 */
+    public static final String VIDEO_HISTORY_IN = "video_history_in";
+    /** 退出播放历史界面 */
+    public static final String VIDEO_HISTORY_OUT = "video_history_out";
+    /** 视频评分 */
+    public static final String VIDEO_SCORE = "video_score";
+    /** 视频评论 */
+    public static final String VIDEO_COMMENT = "video_comment";
+    /** 启动某视频频道 */
+    public static final String VIDEO_CHANNEL_IN = "video_channel_in";
+    /** 退出某视频频道 */
+    public static final String VIDEO_CHANNEL_OUT = "video_channel_out";
+    /** 进入分类浏览 */
+    public static final String VIDEO_CATEGORY_IN = "video_category_in";
+    /** 退出分类浏览 */
+    public static final String VIDEO_CATEGORY_OUT = "video_category_out";
+    /** 进入媒体详情页 */
+    public static final String VIDEO_DETAIL_IN = "video_detail_in";
+    /** 退出媒体详情页 */
+    public static final String VIDEO_DETAIL_OUT = "video_detail_out";
+    /** 在详情页进入关联 */
+    public static final String VIDEO_RELATE = "video_relate";
+    /** 进入关联界面 */
+    public static final String VIDEO_RELATE_IN = "video_relate_in";
+    /** 退出关联界面 */
+    public static final String VIDEO_RELATE_OUT = "video_relate_out";
+    /** 进入专题浏览 */
+    public static final String VIDEO_TOPIC_IN = "video_topic_in";
+    /** 退出专题浏览 */
+    public static final String VIDEO_TOPIC_OUT = "video_topic_out";
+    /** 视频预约 */
+    public static final String VIDEO_NOTIFY = "video_notify";
+    /** 点击视频购买 */
+    public static final String VIDEO_EXPENSE_CLICK = "video_expense_click";
+    /** 视频购买 */
+    public static final String VIDEO_EXPENSE = "video_expense";
+    /** 搜索 */
+    public static final String VIDEO_SEARCH = "video_search";
+    /** 搜索结果命中 */
+    public static final String VIDEO_SEARCH_ARRIVE = "video_search_arrive";
+    /** 播放器异常 */
+    public static final String VIDEO_EXCEPT = "video_except";
+    /** 栏目页异常 */
+    public static final String CATEGORY_EXCEPT = "category_except";
+    /** 详情页异常 */
+    public static final String DETAIL_EXCEPT = "detail_except";
+    /** 用户点击某个推荐影片 */
+    public static final String LAUNCHER_VOD_CLICK = "launcher_vod_click";
+    /** 预告片播放 */
+    public static final String LAUNCHER_VOD_TRAILER_PLAY = "launcher_vod_trailer_play";
+    /** 用户登录 */
+    public static final String USER_LOGIN = "user_login";
+    /** 进入筛选界面 */
+    public static final String VIDEO_FILTER_IN = "video_filter_in";
+    /** 退出筛选界面 */
+    public static final String VIDEO_FILTER_OUT = "video_filter_out";
+    /** 使用筛选 */
+    public static final String VIDEO_FILTER = "video_filter";
+    /** 进入我的频道 */
+    public static final String VIDEO_MYCHANNEL_IN = "video_mychannel_in";
+    /** 退出我的频道 */
+    public static final String VIDEO_MYCHANNEL_OUT = "video_mychannel_out";
+    /** 进入剧集列表界面 */
+    public static final String VIDEO_DRAMALIST_IN = "video_dramalist_in";
+    /** 退出剧集列表界面 */
+    public static final String VIDEO_DRAMALIST_OUT = "video_dramalist_out";
+    public static final String FRONT_PAGE_VIDEO = "frontpagevideo";
+    /** 用户点击推荐影片 */
+    public static final String HOMEPAGE_VOD_CLICK = "homepage_vod_click";
+    /** 广告播放缓冲结束 */
+    public static final String AD_PLAY_LOAD = "ad_play_load";
+    /** 广告播放卡顿 */
+    public static final String AD_PLAY_BLOCKEND = "ad_play_blockend";
+    /** 广告播放结束 */
+    public static final String AD_PLAY_EXIT = "ad_play_exit";
+    /** 暂停广告播放 */
+    public static final String PAUSE_AD_PLAY = "pause_ad_play";
+    /** 暂停广告下载 */
+    public static final String PAUSE_AD_DOWNLOAD = "pause_ad_download";
+    /** 暂停广告异常 */
+    public static final String PAUSE_AD_EXCEPT = "pause_ad_except";
+    /** 应用启动 */
+    public static final String APP_START = "app_start";
+    /** 应用退出 */
+    public static final String APP_EXIT = "app_exit";
+    public static final String BOOT_AD_PLAY = "boot_ad_play";
+    public static final String BOOT_AD_DOWNLOAD = "boot_ad_download";
+    public static final String BOOT_AD_EXCEPT = "boot_ad_except";
+    public static final String HOMEPAGE_VOD_TRAILER_PLAY = "homepage_vod_trailer_play";
+    public static final String EXCEPTION_EXIT = "epg_except";
+    /** 进入包详情 */
+    public static final String PACKAGE_DETAIL_IN = "package_detail_in";
+    /** 详情页缓冲完成 */
+    public static final String DETAIL_PLAY_LOAD = "detail_play_load";
+    private static final String TAG = "NetworkUtils";
+    private static final String URL = "http://127.0.0.1:21098/log/track/";
+    private static final int BUFFERSIZE = 1024;
+    private static String UA = "A11/V1 Unknown";
+    DataCollectionTask mDataCollectionTask;
+
     public static String getJsonStr(String target, String values)
             throws ItemOfflineException, NetworkException {
         String urlStr = target;
@@ -71,21 +194,28 @@ public class NetworkUtils {
             if (SimpleRestClient.device_token == null || "".equals(SimpleRestClient.device_token)) {
                 VodApplication.setDevice_Token();
             }
-            URL url = new URL(urlStr + "?device_token="
-                    + SimpleRestClient.device_token + "&access_token="
-                    + IsmartvActivator.getInstance().getAuthToken() + values);
+            URL url =
+                    new URL(
+                            urlStr
+                                    + "?device_token="
+                                    + SimpleRestClient.device_token
+                                    + "&access_token="
+                                    + IsmartvActivator.getInstance().getAuthToken()
+                                    + values);
             Log.v("NetworkUtils", "url=" + url.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             StringBuffer sb = new StringBuffer();
             // conn.addRequestProperty("User-Agent",
-            // "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36");
+            // "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)
+            // Chrome/37.0.2062.94 Safari/537.36");
             // conn.addRequestProperty("Accept", "*/*");
             // conn.addRequestProperty("Content-Type",
             // "application/x-www-form-urlencoded");
             conn.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
-            //conn.addRequestProperty("User-Agent", Build.MODEL+"/"+SimpleRestClient.appVersion+" "+SimpleRestClient.sn_token);
-//            conn.setIfModifiedSince(TrueTime.now().getTime());
+            // conn.addRequestProperty("User-Agent", Build.MODEL+"/"+SimpleRestClient.appVersion+"
+            // "+SimpleRestClient.sn_token);
+            //            conn.setIfModifiedSince(TrueTime.now().getTime());
             conn.setConnectTimeout(CONNET_TIME_OUT);
             conn.setReadTimeout(READ_TIME_OUT);
             // conn.setUseCaches(false);
@@ -94,12 +224,14 @@ public class NetworkUtils {
             GZIPInputStream is = null;
             BufferedReader buff;
             String encoding = conn.getContentEncoding();
-            if (encoding != null && encoding.contains("gzip")) {// 首先判断服务器返回的数据是否支持gzip压缩，
+            if (encoding != null && encoding.contains("gzip")) { // 首先判断服务器返回的数据是否支持gzip压缩，
                 is = new GZIPInputStream(conn.getInputStream());
-                buff = new BufferedReader(new InputStreamReader(is, "UTF-8")); // 如果支持则应该使用GZIPInputStream解压，否则会出现乱码无效数据
+                buff =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        is, "UTF-8")); // 如果支持则应该使用GZIPInputStream解压，否则会出现乱码无效数据
             } else {
-                buff = new BufferedReader(new InputStreamReader(
-                        conn.getInputStream(), "UTF-8"));
+                buff = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             }
             // buff = new BufferedReader(new
             // InputStreamReader(conn.getInputStream(),"UTF-8"));
@@ -165,25 +297,22 @@ public class NetworkUtils {
         StringBuffer response = new StringBuffer();
         try {
             URL postUrl = new URL(url);
-            Log.v("NetworkUtils","postUrl="+postUrl+"<><>values = "+values);
-            HttpURLConnection connection = (HttpURLConnection) postUrl
-                    .openConnection();
+            Log.v("NetworkUtils", "postUrl=" + postUrl + "<><>values = " + values);
+            HttpURLConnection connection = (HttpURLConnection) postUrl.openConnection();
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setRequestMethod("POST");
             // connection.setUseCaches(false);
-            connection.addRequestProperty("Accept-Encoding",
-                    "gzip,deflate,sdch");
+            connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.setInstanceFollowRedirects(true);
             connection.setConnectTimeout(CONNET_TIME_OUT);
             connection.setReadTimeout(READ_TIME_OUT);
-            connection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("Accept", "application/json");
-            //connection.addRequestProperty("User-Agent", Build.MODEL+"/"+SimpleRestClient.appVersion+" "+SimpleRestClient.sn_token);
+            // connection.addRequestProperty("User-Agent",
+            // Build.MODEL+"/"+SimpleRestClient.appVersion+" "+SimpleRestClient.sn_token);
             connection.connect();
-            DataOutputStream out = new DataOutputStream(
-                    connection.getOutputStream());
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             // OutputStreamWriter out = new
             // OutputStreamWriter(connection.getOutputStream(), "utf-8");
             out.writeBytes(values);
@@ -193,12 +322,16 @@ public class NetworkUtils {
             GZIPInputStream is = null;
             String encoding = connection.getContentEncoding();
             BufferedReader buff;
-            if (encoding != null && encoding.contains("gzip")) {// 首先判断服务器返回的数据是否支持gzip压缩，
+            if (encoding != null && encoding.contains("gzip")) { // 首先判断服务器返回的数据是否支持gzip压缩，
                 is = new GZIPInputStream(connection.getInputStream());
-                buff = new BufferedReader(new InputStreamReader(is, "UTF-8")); // 如果支持则应该使用GZIPInputStream解压，否则会出现乱码无效数据
+                buff =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        is, "UTF-8")); // 如果支持则应该使用GZIPInputStream解压，否则会出现乱码无效数据
             } else {
-                buff = new BufferedReader(new InputStreamReader(
-                        connection.getInputStream(), "UTF-8"));
+                buff =
+                        new BufferedReader(
+                                new InputStreamReader(connection.getInputStream(), "UTF-8"));
             }
             if (status == 200) {
                 // BufferedReader reader = new BufferedReader(new
@@ -239,43 +372,58 @@ public class NetworkUtils {
                 throw (NetworkException) e;
             }
         }
-        Log.v("NetworkUtils","response.toString()="+response.toString());
+        Log.v("NetworkUtils", "response.toString()=" + response.toString());
         return response.toString();
     }
 
     public static ArrayList<AdElement> getAdByPost(String adpid, String values, String province) {
         StringBuffer response = new StringBuffer();
         ArrayList<AdElement> result = new ArrayList<AdElement>();
-        String baseparams = "sn=" + SimpleRestClient.sn_token + "&modelName="
-                + VodUserAgent.getModelName() + "&version="
-                + SimpleRestClient.appVersion + "&accessToken="
-                + IsmartvActivator.getInstance().getAuthToken() + "&deviceToken="
-                + SimpleRestClient.device_token + "&province=" + province
-                + "&city=" + "" + "&app=" + "sky"
-                + "&resolution=" + SimpleRestClient.screenWidth + ","
-                + SimpleRestClient.screenHeight + "&dpi="
-                + SimpleRestClient.densityDpi + "&adpid=" + "['" + adpid + "']";
+        String baseparams =
+                "sn="
+                        + SimpleRestClient.sn_token
+                        + "&modelName="
+                        + VodUserAgent.getModelName()
+                        + "&version="
+                        + SimpleRestClient.appVersion
+                        + "&accessToken="
+                        + IsmartvActivator.getInstance().getAuthToken()
+                        + "&deviceToken="
+                        + SimpleRestClient.device_token
+                        + "&province="
+                        + province
+                        + "&city="
+                        + ""
+                        + "&app="
+                        + "sky"
+                        + "&resolution="
+                        + SimpleRestClient.screenWidth
+                        + ","
+                        + SimpleRestClient.screenHeight
+                        + "&dpi="
+                        + SimpleRestClient.densityDpi
+                        + "&adpid="
+                        + "['"
+                        + adpid
+                        + "']";
         int status = 500;
         try {
             URL postUrl = new URL(SimpleRestClient.ad_domain + "/api/get/ad/ ");
-            HttpURLConnection connection = (HttpURLConnection) postUrl
-                    .openConnection();
+            HttpURLConnection connection = (HttpURLConnection) postUrl.openConnection();
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
-            connection.addRequestProperty("Accept-Encoding",
-                    "gzip,deflate,sdch");
+            connection.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             connection.setInstanceFollowRedirects(true);
             connection.setConnectTimeout(CONNET_TIME_OUT);
             connection.setReadTimeout(READ_TIME_OUT);
-            connection.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestProperty("Accept", "application/json");
-            //connection.addRequestProperty("User-Agent", Build.MODEL+"/"+SimpleRestClient.appVersion+" "+SimpleRestClient.sn_token);
+            // connection.addRequestProperty("User-Agent",
+            // Build.MODEL+"/"+SimpleRestClient.appVersion+" "+SimpleRestClient.sn_token);
             connection.connect();
-            DataOutputStream out = new DataOutputStream(
-                    connection.getOutputStream());
+            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
             out.writeBytes(baseparams + "&" + values);
             out.flush();
             out.close();
@@ -283,12 +431,16 @@ public class NetworkUtils {
             GZIPInputStream is = null;
             String encoding = connection.getContentEncoding();
             BufferedReader buff;
-            if (encoding != null && encoding.contains("gzip")) {// 首先判断服务器返回的数据是否支持gzip压缩，
+            if (encoding != null && encoding.contains("gzip")) { // 首先判断服务器返回的数据是否支持gzip压缩，
                 is = new GZIPInputStream(connection.getInputStream());
-                buff = new BufferedReader(new InputStreamReader(is, "UTF-8")); // 如果支持则应该使用GZIPInputStream解压，否则会出现乱码无效数据
+                buff =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        is, "UTF-8")); // 如果支持则应该使用GZIPInputStream解压，否则会出现乱码无效数据
             } else {
-                buff = new BufferedReader(new InputStreamReader(
-                        connection.getInputStream(), "UTF-8"));
+                buff =
+                        new BufferedReader(
+                                new InputStreamReader(connection.getInputStream(), "UTF-8"));
             }
             if (status == 200) {
                 String line;
@@ -323,12 +475,14 @@ public class NetworkUtils {
                         ad.setReport_url(element.getString("report_url"));
                         result.add(ad);
                     }
-                    Collections.sort(result, new Comparator<AdElement>() {
-                        @Override
-                        public int compare(AdElement lhs, AdElement rhs) {
-                            return rhs.getSerial() > lhs.getSerial() ? 1 : -1;
-                        }
-                    });
+                    Collections.sort(
+                            result,
+                            new Comparator<AdElement>() {
+                                @Override
+                                public int compare(AdElement lhs, AdElement rhs) {
+                                    return rhs.getSerial() > lhs.getSerial() ? 1 : -1;
+                                }
+                            });
                 } else {
                     AdElement ad = new AdElement();
                     ad.setRoot_retcode(retcode);
@@ -367,9 +521,7 @@ public class NetworkUtils {
         return null;
     }
 
-    /**
-     * 记录日志信息到本地
-     */
+    /** 记录日志信息到本地 */
     // public static boolean SaveLogToLocal(String
     // eventName,HashMap<String,Object> propertiesMap){
     // try {
@@ -383,20 +535,18 @@ public class NetworkUtils {
     // }
     //
     // }
-    public static boolean SaveLogToLocal(String eventName,
-                                         HashMap<String, Object> propertiesMap) {
+    public static boolean SaveLogToLocal(String eventName, HashMap<String, Object> propertiesMap) {
         try {
             String jsonContent = getContentJson(eventName, propertiesMap);
-//            synchronized (MessageQueue.async) {
-                MessageQueue.addQueue(jsonContent);
-//            }
+            //            synchronized (MessageQueue.async) {
+            MessageQueue.addQueue(jsonContent);
+            //            }
             return true;
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
-
     }
 
     /**
@@ -407,12 +557,11 @@ public class NetworkUtils {
     public static Boolean LogSender(String Content) {
         try {
             String jsonContent = base64Code(Content);
-//            String url = "http://ismartv.calla.tvxio.com/log";
-//            String url = "http://192.168.1.119:8099/m3u8parse/parseM3u8";
+            //            String url = "http://ismartv.calla.tvxio.com/log";
+            //            String url = "http://192.168.1.119:8099/m3u8parse/parseM3u8";
             String url = appendProtocol(IsmartvActivator.getInstance().getLogDomain()) + "log";
             java.net.URL connURL = new URL(url);
-            HttpURLConnection httpConn = (HttpURLConnection) connURL
-                    .openConnection();
+            HttpURLConnection httpConn = (HttpURLConnection) connURL.openConnection();
             httpConn.setRequestMethod("POST");
             httpConn.setConnectTimeout(CONNET_TIME_OUT);
             httpConn.setReadTimeout(READ_TIME_OUT);
@@ -420,35 +569,38 @@ public class NetworkUtils {
 
             httpConn.setDoInput(true);
             httpConn.setRequestProperty("Accept", "*/*");
-            httpConn.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
-//            httpConn.setRequestProperty("Host", host);
+            httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            //            httpConn.setRequestProperty("Host", host);
             httpConn.setRequestProperty("Connection", "Keep-Alive");
             // httpConn.setRequestProperty("User-Agent",
             // "ideatv_A21/S0054.38 TD04007053");
-            httpConn.setRequestProperty("User-Agent",
-                    VodUserAgent.getHttpUserAgent());
+            httpConn.setRequestProperty("User-Agent", VodUserAgent.getHttpUserAgent());
             httpConn.setRequestProperty("Pragma:", "no-cache");
             httpConn.setRequestProperty("Cache-Control", "no-cache");
             httpConn.setRequestProperty("Content-Encoding", "gzip");
             httpConn.setUseCaches(false);
             httpConn.connect();
-            DataOutputStream out = new DataOutputStream(
-                    httpConn.getOutputStream());
+            DataOutputStream out = new DataOutputStream(httpConn.getOutputStream());
 
-            String content = "sn=" + IsmartvActivator.getInstance().getSnToken() + "&modelname="
-                    + VodUserAgent.getModelName() + "&data="
-                    + URLEncoder.encode(jsonContent, "UTF-8") + "&deviceToken="
-                    + IsmartvActivator.getInstance().getDeviceToken() + "&acessToken="
-                    + IsmartvActivator.getInstance().getAuthToken();
-            Log.i("logsender",IsmartvActivator.getInstance().getSnToken()+"");
+            String content =
+                    "sn="
+                            + IsmartvActivator.getInstance().getSnToken()
+                            + "&modelname="
+                            + VodUserAgent.getModelName()
+                            + "&data="
+                            + URLEncoder.encode(jsonContent, "UTF-8")
+                            + "&deviceToken="
+                            + IsmartvActivator.getInstance().getDeviceToken()
+                            + "&acessToken="
+                            + IsmartvActivator.getInstance().getAuthToken();
+            Log.i("logsender", IsmartvActivator.getInstance().getSnToken() + "");
             out.writeBytes(content);
             // ///gzip
             // out.write(MessageGZIP.compressToByte(content));
             out.flush();
             out.close(); // flush and close
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    httpConn.getInputStream(), "UTF-8"));
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(httpConn.getInputStream(), "UTF-8"));
             String line;
             int code = httpConn.getResponseCode();
             Log.i("LogSender", "LogSender code==" + code);
@@ -469,7 +621,6 @@ public class NetworkUtils {
             Log.e(TAG, "" + " Exception " + e.toString());
             return false;
         }
-
     }
 
     private static String appendProtocol(String host) {
@@ -507,8 +658,7 @@ public class NetworkUtils {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
-            if (httpConn != null)
-                httpConn.disconnect();
+            if (httpConn != null) httpConn.disconnect();
         }
         return isSupport;
     }
@@ -537,14 +687,12 @@ public class NetworkUtils {
 
             httpConn.setDoInput(true);
             httpConn.setRequestProperty("Accept", "*/*");
-            httpConn.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
+            httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             // httpConn.setRequestProperty("Host", "a21.calla.tvxio.com");
             httpConn.setRequestProperty("Connection", "Keep-Alive");
             // httpConn.setRequestProperty("User-Agent",
             // "ideatv_A21/S0054.38 TD04007053");
-            httpConn.setRequestProperty("User-Agent",
-                    VodUserAgent.getHttpUserAgent());
+            httpConn.setRequestProperty("User-Agent", VodUserAgent.getHttpUserAgent());
             httpConn.setRequestProperty("Pragma:", "no-cache");
             httpConn.setRequestProperty("Cache-Control", "no-cache");
             // boolean isSupport = isSupportGzip();
@@ -555,19 +703,23 @@ public class NetworkUtils {
             // Log.i("zjq", "gzip1=="+gzip1);
             httpConn.connect();
 
-            DataOutputStream out = new DataOutputStream(
-                    httpConn.getOutputStream());
-            String content = "sn=" + SimpleRestClient.sn_token + "&modelname="
-                    + VodUserAgent.getModelName() + "&data="
-                    + URLEncoder.encode(jsonContent, "UTF-8") + "&deviceToken="
-                    + SimpleRestClient.device_token + "&acessToken="
-                    + IsmartvActivator.getInstance().getAuthToken();
+            DataOutputStream out = new DataOutputStream(httpConn.getOutputStream());
+            String content =
+                    "sn="
+                            + SimpleRestClient.sn_token
+                            + "&modelname="
+                            + VodUserAgent.getModelName()
+                            + "&data="
+                            + URLEncoder.encode(jsonContent, "UTF-8")
+                            + "&deviceToken="
+                            + SimpleRestClient.device_token
+                            + "&acessToken="
+                            + IsmartvActivator.getInstance().getAuthToken();
             Log.d(TAG, content);
             byte[] datas = content.getBytes();
 
             byte[] b = new byte[BUFFERSIZE * BUFFERSIZE];
-            if (datas.length <= b.length)
-                out.writeBytes(content);
+            if (datas.length <= b.length) out.writeBytes(content);
             else {
                 // out.write(buffer, offset, count)
                 int mod = datas.length % b.length;
@@ -576,16 +728,15 @@ public class NetworkUtils {
                 for (i = 1; i <= count; i++) {
                     // byte[] c = new byte[1024*1024];
                     // System.arraycopy(datas, (i-1)*1024*1024, c, 0, c.length);
-                    out.write(datas, (i - 1) * BUFFERSIZE * BUFFERSIZE,
-                            BUFFERSIZE * BUFFERSIZE);
+                    out.write(datas, (i - 1) * BUFFERSIZE * BUFFERSIZE, BUFFERSIZE * BUFFERSIZE);
                 }
                 out.write(datas, (i - 1) * BUFFERSIZE * BUFFERSIZE, mod);
             }
 
             out.flush();
             out.close(); // flush and close
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    httpConn.getInputStream(), "UTF-8"));
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(httpConn.getInputStream(), "UTF-8"));
             String line;
             int code = httpConn.getResponseCode();
             String response = httpConn.getResponseMessage();
@@ -600,22 +751,18 @@ public class NetworkUtils {
             return true;
         } catch (MalformedURLException e) {
             Log.e(TAG, "event" + " MalformedURLException " + e.toString());
-            if (httpConn != null)
-                httpConn.disconnect();
+            if (httpConn != null) httpConn.disconnect();
             return false;
         } catch (IOException e) {
             Log.e(TAG, "event" + " IOException " + e.toString());
-            if (httpConn != null)
-                httpConn.disconnect();
+            if (httpConn != null) httpConn.disconnect();
             return false;
         } catch (Exception e) {
             e.printStackTrace();
-            if (httpConn != null)
-                httpConn.disconnect();
+            if (httpConn != null) httpConn.disconnect();
             Log.e(TAG, "event" + " Exception " + e.toString());
             return false;
         }
-
     }
 
     // 把文件转换成字节数组
@@ -632,12 +779,11 @@ public class NetworkUtils {
             in.close();
             byte[] content = out.toByteArray();
             return new String(content, 0, content.length);
-        } else
-            return null;
+        } else return null;
     }
 
-    public static String getContentJson(String eventName,
-                                         HashMap<String, Object> propertiesMap) throws JSONException {
+    public static String getContentJson(String eventName, HashMap<String, Object> propertiesMap)
+            throws JSONException {
         JSONObject propertiesJson = new JSONObject();
         propertiesJson.put("time", TrueTime.now().getTime() / 1000);
         if (propertiesMap != null) {
@@ -649,7 +795,7 @@ public class NetworkUtils {
         JSONObject logJson = new JSONObject();
         logJson.put("event", eventName);
         logJson.put("properties", propertiesJson);
-//        Log.d(TAG, " Log data For Test === " + logJson.toString());
+        //        Log.d(TAG, " Log data For Test === " + logJson.toString());
         return logJson.toString();
     }
 
@@ -657,8 +803,7 @@ public class NetworkUtils {
         try {
             // return
             // Base64.encodeToString(date.getBytes("UTF-8"),Base64.NO_PADDING|Base64.NO_WRAP);
-            return Base64
-                    .encodeToString(date.getBytes("UTF-8"), Base64.URL_SAFE);
+            return Base64.encodeToString(date.getBytes("UTF-8"), Base64.URL_SAFE);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return null;
@@ -674,38 +819,10 @@ public class NetworkUtils {
         return url.substring(start, url.length());
     }
 
-    public static class DataCollectionTask extends
-            AsyncTask<Object, Void, Void> {
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected Void doInBackground(Object... params) {
-            if (params != null && params.length > 0) {
-                String eventName = (String) params[0];
-                HashMap<String, Object> properties = null;
-                if (params.length > 1 && params[1] != null) {
-                    properties = (HashMap<String, Object>) params[1];
-                }
-
-                String jsonContent;
-                try {
-                    jsonContent = getContentJson(eventName, properties);
-//                    synchronized (MessageQueue.async) {
-                        MessageQueue.addQueue(jsonContent);
-//                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-    }
-
     public static String httpsRequestHttps(String requestUrl, String outputStr) {
         String str = null;
         StringBuffer buffer = new StringBuffer();
-        Log.v("NetworkUtils","requestUrl="+requestUrl);
+        Log.v("NetworkUtils", "requestUrl=" + requestUrl);
         try {
             // 创建SSLContext对象，并使用我们指定的信任管理器初始化
             TrustManager[] tm = {new MyX509TrustManager()};
@@ -732,10 +849,8 @@ public class NetworkUtils {
 
             // 从输入流读取返回内容
             InputStream inputStream = conn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(
-                    inputStream, "utf-8");
-            BufferedReader bufferedReader = new BufferedReader(
-                    inputStreamReader);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             while ((str = bufferedReader.readLine()) != null) {
                 buffer.append(str);
             }
@@ -752,265 +867,29 @@ public class NetworkUtils {
         return str;
     }
 
-    /**
-     * 设备启动
-     */
-    public static final String SYSTEM_ON = "system_on";
-    /**
-     * 播放器打开
-     */
-    public static final String VIDEO_START = "video_start";
-    /**
-     * 开始播放缓冲结束
-     */
-    public static final String VIDEO_PLAY_LOAD = "video_play_load";
-    /**
-     * 切换码流
-     */
-    public static final String VIDEO_SWITCH_STREAM = "video_switch_stream";
-    /**
-     * 开始播放
-     */
-    public static final String VIDEO_PLAY_START = "video_play_start";
-    /**
-     * 播放暂停
-     */
-    public static final String VIDEO_PLAY_PAUSE = "video_play_pause";
-    /**
-     * 播放继续
-     */
-    public static final String VIDEO_PLAY_CONTINUE = "video_play_continue";
-    /**
-     * 播放快进/快退
-     */
-    public static final String VIDEO_PLAY_SEEK = "video_play_seek";
-    /**
-     * 播放快进/快退缓冲结束
-     */
-    public static final String VIDEO_PLAY_SEEK_BLOCKEND = "video_play_seek_blockend";
-    /**
-     * 播放缓冲结束
-     */
-    public static final String VIDEO_PLAY_BLOCKEND = "video_play_blockend";
-    /**
-     * 播放时网速
-     */
-    public static final String VIDEO_PLAY_SPEED = "video_play_speed";
-    /**
-     * 播放时下载速度慢
-     */
-    public static final String VIDEO_LOW_SPEED = "video_low_speed";
-    /**
-     * 播放器退出
-     */
-    public static final String VIDEO_EXIT = "video_exit";
-    /**
-     * 视频收藏
-     */
-    public static final String VIDEO_COLLECT = "video_collect";
-    /**
-     * 进入收藏界面
-     */
-    public static final String VIDEO_COLLECT_IN = "video_collect_in";
-    /**
-     * 退出收藏界面
-     */
-    public static final String VIDEO_COLLECT_OUT = "video_collect_out";
-    /**
-     * 视频存入历史
-     */
-    public static final String VIDEO_HISTORY = "video_history";
-    /**
-     * 进入播放历史界面
-     */
-    public static final String VIDEO_HISTORY_IN = "video_history_in";
-    /**
-     * 退出播放历史界面
-     */
-    public static final String VIDEO_HISTORY_OUT = "video_history_out";
-    /**
-     * 视频评分
-     */
-    public static final String VIDEO_SCORE = "video_score";
-    /**
-     * 视频评论
-     */
-    public static final String VIDEO_COMMENT = "video_comment";
+    public static class DataCollectionTask extends AsyncTask<Object, Void, Void> {
 
-    /**
-     * 启动某视频频道
-     */
-    public static final String VIDEO_CHANNEL_IN = "video_channel_in";
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Void doInBackground(Object... params) {
+            if (params != null && params.length > 0) {
+                String eventName = (String) params[0];
+                HashMap<String, Object> properties = null;
+                if (params.length > 1 && params[1] != null) {
+                    properties = (HashMap<String, Object>) params[1];
+                }
 
-    /**
-     * 退出某视频频道
-     */
-    public static final String VIDEO_CHANNEL_OUT = "video_channel_out";
-
-    /**
-     * 进入分类浏览
-     */
-    public static final String VIDEO_CATEGORY_IN = "video_category_in";
-
-    /**
-     * 退出分类浏览
-     */
-    public static final String VIDEO_CATEGORY_OUT = "video_category_out";
-
-    /**
-     * 进入媒体详情页
-     */
-    public static final String VIDEO_DETAIL_IN = "video_detail_in";
-
-    /**
-     * 退出媒体详情页
-     */
-    public static final String VIDEO_DETAIL_OUT = "video_detail_out";
-    /**
-     * 在详情页进入关联
-     */
-    public static final String VIDEO_RELATE = "video_relate";
-
-    /**
-     * 进入关联界面
-     */
-    public static final String VIDEO_RELATE_IN = "video_relate_in";
-    /**
-     * 退出关联界面
-     */
-    public static final String VIDEO_RELATE_OUT = "video_relate_out";
-    /**
-     * 进入专题浏览
-     */
-    public static final String VIDEO_TOPIC_IN = "video_topic_in";
-    /**
-     * 退出专题浏览
-     */
-    public static final String VIDEO_TOPIC_OUT = "video_topic_out";
-    /**
-     * 视频预约
-     */
-    public static final String VIDEO_NOTIFY = "video_notify";
-    /**
-     * 点击视频购买
-     */
-    public static final String VIDEO_EXPENSE_CLICK = "video_expense_click";
-    /**
-     * 视频购买
-     */
-    public static final String VIDEO_EXPENSE = "video_expense";
-    /**
-     * 搜索
-     */
-    public static final String VIDEO_SEARCH = "video_search";
-    /**
-     * 搜索结果命中
-     */
-    public static final String VIDEO_SEARCH_ARRIVE = "video_search_arrive";
-    /**
-     * 播放器异常
-     */
-    public static final String VIDEO_EXCEPT = "video_except";
-    /**
-     * 栏目页异常
-     */
-    public static final String CATEGORY_EXCEPT = "category_except";
-    /**
-     * 详情页异常
-     */
-    public static final String DETAIL_EXCEPT = "detail_except";
-    /**
-     * 用户点击某个推荐影片
-     */
-    public static final String LAUNCHER_VOD_CLICK = "launcher_vod_click";
-    /**
-     * 预告片播放
-     */
-    public static final String LAUNCHER_VOD_TRAILER_PLAY = "launcher_vod_trailer_play";
-    /**
-     * 用户登录
-     */
-    public static final String USER_LOGIN = "user_login";
-    /**
-     * 进入筛选界面
-     */
-    public static final String VIDEO_FILTER_IN = "video_filter_in";
-    /**
-     * 退出筛选界面
-     */
-    public static final String VIDEO_FILTER_OUT = "video_filter_out";
-    /**
-     * 使用筛选
-     */
-    public static final String VIDEO_FILTER = "video_filter";
-    /**
-     * 进入我的频道
-     */
-    public static final String VIDEO_MYCHANNEL_IN = "video_mychannel_in";
-    /**
-     * 退出我的频道
-     */
-    public static final String VIDEO_MYCHANNEL_OUT = "video_mychannel_out";
-    /**
-     * 进入剧集列表界面
-     */
-    public static final String VIDEO_DRAMALIST_IN = "video_dramalist_in";
-    /**
-     * 退出剧集列表界面
-     */
-    public static final String VIDEO_DRAMALIST_OUT = "video_dramalist_out";
-
-    public static final String FRONT_PAGE_VIDEO = "frontpagevideo";
-    /**
-     * 用户点击推荐影片
-     */
-    public static final String HOMEPAGE_VOD_CLICK = "homepage_vod_click";
-    /**
-     * 广告播放缓冲结束
-     */
-    public static final String AD_PLAY_LOAD = "ad_play_load";
-    /**
-     * 广告播放卡顿
-     */
-    public static final String AD_PLAY_BLOCKEND = "ad_play_blockend";
-    /**
-     * 广告播放结束
-     */
-    public static final String AD_PLAY_EXIT = "ad_play_exit";
-    /**
-     * 暂停广告播放
-     */
-    public static final String PAUSE_AD_PLAY = "pause_ad_play";
-    /**
-     * 暂停广告下载
-     */
-    public static final String PAUSE_AD_DOWNLOAD = "pause_ad_download";
-    /**
-     * 暂停广告异常
-     */
-    public static final String PAUSE_AD_EXCEPT = "pause_ad_except";
-    /**
-     * 应用启动
-     */
-    public static final String APP_START = "app_start";
-    /**
-     * 应用退出
-     */
-    public static final String APP_EXIT = "app_exit";
-
-    public static final String BOOT_AD_PLAY = "boot_ad_play";
-
-    public static final String BOOT_AD_DOWNLOAD = "boot_ad_download";
-
-    public static final String BOOT_AD_EXCEPT = "boot_ad_except";
-    public static final String HOMEPAGE_VOD_TRAILER_PLAY = "homepage_vod_trailer_play";
-    public static final String EXCEPTION_EXIT = "epg_except";
-    /**
-     * 进入包详情
-     */
-    public static final String PACKAGE_DETAIL_IN = "package_detail_in";
-    /**
-     * 详情页缓冲完成
-     */
-    public static final String DETAIL_PLAY_LOAD = "detail_play_load";
+                String jsonContent;
+                try {
+                    jsonContent = getContentJson(eventName, properties);
+                    //                    synchronized (MessageQueue.async) {
+                    MessageQueue.addQueue(jsonContent);
+                    //                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
 }

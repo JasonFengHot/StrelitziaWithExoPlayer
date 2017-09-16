@@ -3,9 +3,7 @@ package tv.ismar.app.reporter;
 import java.io.Serializable;
 import java.util.HashMap;
 
-/**
- * 日志上报相关
- */
+/** 日志上报相关 */
 public class IsmartvMedia implements Serializable {
 
     private String title = "";

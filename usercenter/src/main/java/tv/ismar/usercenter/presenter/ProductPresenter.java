@@ -9,10 +9,7 @@ import tv.ismar.usercenter.ProductContract;
 import tv.ismar.usercenter.view.ProductFragment;
 import tv.ismar.usercenter.view.UserCenterActivity;
 
-/**
- * Created by huibin on 10/28/16.
- */
-
+/** Created by huibin on 10/28/16. */
 public class ProductPresenter implements ProductContract.Presenter {
     private SkyService mSkyService;
     private UserCenterActivity mActivity;
@@ -24,7 +21,6 @@ public class ProductPresenter implements ProductContract.Presenter {
         productFragment.setPresenter(this);
         mFragment = productFragment;
     }
-
 
     @Override
     public void start() {
@@ -42,20 +38,20 @@ public class ProductPresenter implements ProductContract.Presenter {
 
     @Override
     public void fetchProduct() {
-        youhuidinggouSubscription = mSkyService.apiYouhuidinggou()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<YouHuiDingGouEntity>() {
-                    @Override
-                    public void onCompleted() {
+        youhuidinggouSubscription =
+                mSkyService
+                        .apiYouhuidinggou()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                mActivity.new BaseObserver<YouHuiDingGouEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
-
-                    @Override
-                    public void onNext(YouHuiDingGouEntity entity) {
-                        mFragment.loadProductItem(entity);
-                    }
-                });
-
+                                    @Override
+                                    public void onNext(YouHuiDingGouEntity entity) {
+                                        mFragment.loadProductItem(entity);
+                                    }
+                                });
     }
 }

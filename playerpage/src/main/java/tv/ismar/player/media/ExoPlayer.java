@@ -52,25 +52,17 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.network.entity.ClipEntity;
 
-/**
- * Created by huibin on 11/23/16.
- */
-
-
-public class ExoPlayer extends IsmartvPlayer implements com.google.android.exoplayer2.ExoPlayer.EventListener{
+/** Created by huibin on 11/23/16. */
+public class ExoPlayer extends IsmartvPlayer
+        implements com.google.android.exoplayer2.ExoPlayer.EventListener {
     private static final String TAG = "ExoPlayer";
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
+    protected String userAgent;
     private SimpleExoPlayer player;
     private EventLogger eventLogger;
     private MappingTrackSelector trackSelector;
-
     private Handler mainHandler;
-
     private DataSource.Factory mediaDataSourceFactory;
-
-    protected String userAgent;
-
-
     private String[] videoPaths;
     private String path;
     private MediaSource mediaSource;
@@ -78,25 +70,23 @@ public class ExoPlayer extends IsmartvPlayer implements com.google.android.exopl
     private M3U8Service mM3U8Service;
     private Subscription mM3U8Sub;
 
-
     public ExoPlayer() {
         this(PlayerBuilder.MODE_SMART_PLAYER);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.baidu.com/")
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+        Retrofit retrofit =
+                new Retrofit.Builder()
+                        .baseUrl("http://www.baidu.com/")
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                        .build();
         mM3U8Service = retrofit.create(M3U8Service.class);
 
-        Logger.init(TAG)                 // default PRETTYLOGGER or use just init()
-                .methodCount(3)                 // default 2
-                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
+        Logger.init(TAG) // default PRETTYLOGGER or use just init()
+                .methodCount(3) // default 2
+                .logLevel(LogLevel.FULL) // default LogLevel.FULL
                 .methodOffset(2);
-
 
         // default 0
     }
-
 
     public ExoPlayer(byte mode) {
         super(mode);
@@ -105,14 +95,12 @@ public class ExoPlayer extends IsmartvPlayer implements com.google.android.exopl
         userAgent = "ExoPlayerDemo";
     }
 
-
     @Override
     protected void setMedia(String[] urls) {
         super.setMedia(urls);
         Logger.d(urls);
         fetchM3u8(Arrays.asList(urls));
     }
-
 
     @Override
     public void prepareAsync() {
@@ -122,14 +110,12 @@ public class ExoPlayer extends IsmartvPlayer implements com.google.android.exopl
     @Override
     public void start() {
         player.setPlayWhenReady(true);
-
     }
 
     @Override
     public void pause() {
         mOnStateChangedListener.onPaused();
         player.setPlayWhenReady(false);
-
     }
 
     @Override
@@ -141,7 +127,6 @@ public class ExoPlayer extends IsmartvPlayer implements com.google.android.exopl
     public void release() {
         player.release();
     }
-
 
     @Override
     public void seekTo(int position) {
@@ -168,13 +153,10 @@ public class ExoPlayer extends IsmartvPlayer implements com.google.android.exopl
     @Override
     public boolean isPlaying() {
         return player.getPlayWhenReady();
-
     }
 
     @Override
-    public void switchQuality(ClipEntity.Quality quality) {
-
-    }
+    public void switchQuality(ClipEntity.Quality quality) {}
 
     @Override
     public boolean isInPlaybackState() {
@@ -186,7 +168,9 @@ public class ExoPlayer extends IsmartvPlayer implements com.google.android.exopl
             TrackSelection.Factory videoTrackSelectionFactory =
                     new AdaptiveVideoTrackSelection.Factory(BANDWIDTH_METER);
             trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-            player = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector, new DefaultLoadControl());
+            player =
+                    ExoPlayerFactory.newSimpleInstance(
+                            mContext, trackSelector, new DefaultLoadControl());
             player.addListener(this);
             eventLogger = new EventLogger(trackSelector);
             player.addListener(eventLogger);
@@ -196,140 +180,128 @@ public class ExoPlayer extends IsmartvPlayer implements com.google.android.exopl
             mDaisyVideoView.setVisibility(View.VISIBLE);
             player.setVideoSurfaceView(mDaisyVideoView);
 
-
             player.setPlayWhenReady(true);
 
-
-//            MediaSource[] mediaSources = new MediaSource[uris.length];
-//            mediaSources[0] = buildMediaSource(uris[0]);
-//
-//            mediaSource = mediaSources[0];
+            //            MediaSource[] mediaSources = new MediaSource[uris.length];
+            //            mediaSources[0] = buildMediaSource(uris[0]);
+            //
+            //            mediaSource = mediaSources[0];
 
             List<MediaSource> mediaSourceList = new ArrayList<>();
 
-//            return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
+            //            return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler,
+            // eventLogger);
 
             for (String path : videoPaths) {
-                mediaSourceList.add(new HlsMediaSource(Uri.parse(path), mediaDataSourceFactory, mainHandler, eventLogger));
+                mediaSourceList.add(
+                        new HlsMediaSource(
+                                Uri.parse(path), mediaDataSourceFactory, mainHandler, eventLogger));
             }
 
-//            MediaSource secondSource = new ExtractorMediaSource(secondVideoUri,...);
+            //            MediaSource secondSource = new ExtractorMediaSource(secondVideoUri,...);
             // Plays the first video, then the second video.
             ConcatenatingMediaSource concatenatedSource =
-                    new ConcatenatingMediaSource(mediaSourceList.toArray(new MediaSource[mediaSourceList.size()]));
+                    new ConcatenatingMediaSource(
+                            mediaSourceList.toArray(new MediaSource[mediaSourceList.size()]));
             player.prepare(concatenatedSource);
             mOnStateChangedListener.onStarted();
         }
     }
 
     private MediaSource buildMediaSource(Uri uri) {
-//        int type = Util.inferContentType(!TextUtils.isEmpty(overrideExtension) ? "." + overrideExtension
-//                : uri.getLastPathSegment());
+        //        int type = Util.inferContentType(!TextUtils.isEmpty(overrideExtension) ? "." +
+        // overrideExtension
+        //                : uri.getLastPathSegment());
         return new HlsMediaSource(uri, mediaDataSourceFactory, mainHandler, eventLogger);
     }
-
 
     private DataSource.Factory buildDataSourceFactory(boolean useBandwidthMeter) {
         return buildDataSourceFactory(useBandwidthMeter ? BANDWIDTH_METER : null);
     }
 
-
     DataSource.Factory buildDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
-        return new DefaultDataSourceFactory(mContext, bandwidthMeter, buildHttpDataSourceFactory(bandwidthMeter));
+        return new DefaultDataSourceFactory(
+                mContext, bandwidthMeter, buildHttpDataSourceFactory(bandwidthMeter));
     }
 
     HttpDataSource.Factory buildHttpDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
         return new DefaultHttpDataSourceFactory(userAgent, bandwidthMeter);
     }
 
-    //ExoPlayer
+    // ExoPlayer
     @Override
     public void onLoadingChanged(boolean isLoading) {
-//        if (isLoading) {
-//            mOnBufferChangedListener.onBufferStart();
-//        } else {
-//            mOnBufferChangedListener.onBufferEnd();
-//
-//        }
+        //        if (isLoading) {
+        //            mOnBufferChangedListener.onBufferStart();
+        //        } else {
+        //            mOnBufferChangedListener.onBufferEnd();
+        //
+        //        }
     }
 
     @Override
-    public void onPlayerStateChanged(boolean b, int i) {
-
-    }
+    public void onPlayerStateChanged(boolean b, int i) {}
 
     @Override
-    public void onTimelineChanged(Timeline timeline, Object o) {
-
-    }
+    public void onTimelineChanged(Timeline timeline, Object o) {}
 
     @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
-    }
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {}
 
     @Override
-    public void onPlayerError(ExoPlaybackException e) {
-
-    }
+    public void onPlayerError(ExoPlaybackException e) {}
 
     @Override
-    public void onPositionDiscontinuity() {
-
-    }
-
+    public void onPositionDiscontinuity() {}
 
     private void fetchM3u8(List<String> uris) {
 
         Observable.just(uris)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .map(new Func1<List<String>, List<String>>() {
-                    @Override
-                    public List<String> call(List<String> strings) {
-                        List<String> m3u8s = new ArrayList<>();
-                        for (String s : strings) {
-                            try {
-                                Response<ResponseBody> response = mM3U8Service.m3u8(s).execute();
-                                File file = File.createTempFile("video", ".m3u8");
-                                BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
-                                bufferedSink.writeAll(response.body().source());
-                                bufferedSink.close();
-                                m3u8s.add(file.getAbsolutePath());
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                .map(
+                        new Func1<List<String>, List<String>>() {
+                            @Override
+                            public List<String> call(List<String> strings) {
+                                List<String> m3u8s = new ArrayList<>();
+                                for (String s : strings) {
+                                    try {
+                                        Response<ResponseBody> response =
+                                                mM3U8Service.m3u8(s).execute();
+                                        File file = File.createTempFile("video", ".m3u8");
+                                        BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+                                        bufferedSink.writeAll(response.body().source());
+                                        bufferedSink.close();
+                                        m3u8s.add(file.getAbsolutePath());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                return m3u8s;
                             }
-                        }
-                        return m3u8s;
-                    }
-                })
+                        })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<String>>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(
+                        new Observer<List<String>>() {
+                            @Override
+                            public void onCompleted() {}
 
-                    }
+                            @Override
+                            public void onError(Throwable throwable) {}
 
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<String> strings) {
-                        Logger.d(strings);
-                        videoPaths = strings.toArray(new String[strings.size()]);
-                        mediaDataSourceFactory = buildDataSourceFactory(true);
-                        initializePlayer();
-                    }
-                });
+                            @Override
+                            public void onNext(List<String> strings) {
+                                Logger.d(strings);
+                                videoPaths = strings.toArray(new String[strings.size()]);
+                                mediaDataSourceFactory = buildDataSourceFactory(true);
+                                initializePlayer();
+                            }
+                        });
     }
 
     private interface M3U8Service {
         @GET
         @Streaming
-        Call<ResponseBody> m3u8(
-                @Url String url
-        );
+        Call<ResponseBody> m3u8(@Url String url);
     }
 }

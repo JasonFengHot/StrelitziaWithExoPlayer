@@ -3,10 +3,7 @@ package tv.ismar.app.network.entity;
 import org.simpleframework.xml.Default;
 import org.simpleframework.xml.DefaultType;
 
-/**
- * Created by <huaijiefeng@gmail.com> on 9/15/14.
- */
-
+/** Created by <huaijiefeng@gmail.com> on 9/15/14. */
 @Default(DefaultType.PROPERTY)
 public class WeatherEntity {
     private String updated;
@@ -14,7 +11,6 @@ public class WeatherEntity {
 
     private WeatherDetail today;
     private WeatherDetail tomorrow;
-
 
     public String getUpdated() {
         return updated;
@@ -55,7 +51,6 @@ public class WeatherEntity {
         private String templow;
         private String image_url;
 
-
         public String getCondition() {
             return condition;
         }
@@ -87,6 +82,5 @@ public class WeatherEntity {
         public void setImage_url(String image_url) {
             this.image_url = image_url;
         }
-
     }
 }

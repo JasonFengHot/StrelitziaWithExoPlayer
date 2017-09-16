@@ -9,54 +9,80 @@ public class ItemEntity {
 
     private Clip clip;
     private String focus;
+
     @SerializedName("subitem_show")
     private String subitemShow;
+
     @SerializedName("is_3d")
     private boolean is3d;
+
     @SerializedName("content_model")
     private String contentModel;
+
     private String logo;
+
     @SerializedName("detail_url")
     private String detailUrl;
+
     private int quality;
+
     @SerializedName("rating_count")
     private int ratingCount;
+
     private String source;
     private String vendor;
+
     @SerializedName("adlet_url")
     private String adletUrl;
+
     @SerializedName("bean_score")
     private String beanScore;
+
     @SerializedName("poster_url")
     private String posterUrl;
+
     private int pk;
+
     @SerializedName("vertical_url")
     private String verticalUrl;
+
     private String description;
     private List<String> tags;
+
     @SerializedName("rating_average")
     private String ratingAverage;
+
     private ItemEntity[] subitems;
     private boolean finished;
+
     @SerializedName("live_video")
     private boolean liveVideo;
+
     @SerializedName("thumb_url")
     private String thumbUrl;
+
     @SerializedName("counting_count")
     private int countingCount;
+
     @SerializedName("logo_3d")
     private String logo3d;
+
     private int episode;
     private String title;
     private String caption;
     private List<Point> points;
+
     @SerializedName("publish_date")
     private String publishDate;
+
     @SerializedName("is_complex")
     private boolean isComplex;
+
     private Attributes attributes;
+
     @SerializedName("item_pk")
     private int itemPk;
+
     private String list_url;
     private String item_url;
     private Expense expense;
@@ -65,6 +91,9 @@ public class ItemEntity {
 
     private String subtitle;
     private boolean renew_buy;
+    @SerializedName("start_time")
+    private Date startTime;
+    private List<ItemEntity> items;
 
     public boolean isRenew_buy() {
         return renew_buy;
@@ -82,10 +111,6 @@ public class ItemEntity {
         this.startTime = startTime;
     }
 
-    @SerializedName("start_time")
-    private Date startTime;
-
-
     public String getSubtitle() {
         return subtitle;
     }
@@ -93,8 +118,6 @@ public class ItemEntity {
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
     }
-
-    private List<ItemEntity> items;
 
     public List<ItemEntity> getItems() {
         return items;
@@ -437,11 +460,18 @@ public class ItemEntity {
         public void setLength(String length) {
             this.length = length;
         }
-
     }
 
     public class Attributes {
         private String classification;
+        private String[][] director;
+        private String[][] genre;
+        private String[][] actor;
+        private String[][] guest;
+        private String[][] emcee;
+        @SerializedName("air_date")
+        private String airDate;
+        private String[] area;
 
         public String getClassification() {
             return classification;
@@ -450,12 +480,6 @@ public class ItemEntity {
         public void setClassification(String classification) {
             this.classification = classification;
         }
-
-        private String[][] director;
-        private String[][] genre;
-        private String[][] actor;
-        private String[][] guest;
-        private String[][] emcee;
 
         public String[][] getGuest() {
             return guest;
@@ -472,10 +496,6 @@ public class ItemEntity {
         public void setEmcee(String[][] emcee) {
             this.emcee = emcee;
         }
-
-        @SerializedName("air_date")
-        private String airDate;
-        private String[] area;
 
         public String[] getArea() {
             return area;
@@ -516,9 +536,7 @@ public class ItemEntity {
         public void setAirDate(String airDate) {
             this.airDate = airDate;
         }
-
     }
-
 
     public class Point {
         private String image;

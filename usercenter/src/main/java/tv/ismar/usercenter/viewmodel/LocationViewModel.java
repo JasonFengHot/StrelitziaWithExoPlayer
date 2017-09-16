@@ -15,10 +15,7 @@ import tv.ismar.app.network.entity.WeatherEntity;
 import tv.ismar.usercenter.BR;
 import tv.ismar.usercenter.presenter.LocationPresenter;
 
-/**
- * Created by huibin on 10/28/16.
- */
-
+/** Created by huibin on 10/28/16. */
 public class LocationViewModel extends BaseObservable {
     private Context mContext;
     private LocationPresenter mLocationPresenter;
@@ -26,14 +23,14 @@ public class LocationViewModel extends BaseObservable {
 
     private String selectedCity;
 
-    public void setSelectedCity(String selectedCity) {
-        this.selectedCity = selectedCity;
-    }
-
     public LocationViewModel(Context applicationContext, LocationPresenter locationPresenter) {
         mContext = applicationContext;
         mLocationPresenter = locationPresenter;
+    }
 
+    @BindingAdapter({"weatherIcon"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        Picasso.with(view.getContext()).load(imageUrl).into(view);
     }
 
     public void loadWeather(WeatherEntity weatherEntity) {
@@ -48,8 +45,8 @@ public class LocationViewModel extends BaseObservable {
     }
 
     @Bindable
-    public int getSelectedCityVisibility(){
-        return TextUtils.isEmpty(selectedCity) ? View.INVISIBLE: View.VISIBLE;
+    public int getSelectedCityVisibility() {
+        return TextUtils.isEmpty(selectedCity) ? View.INVISIBLE : View.VISIBLE;
     }
 
     public void loadselectedCity() {
@@ -62,20 +59,28 @@ public class LocationViewModel extends BaseObservable {
         return IsmartvActivator.getInstance().getCity().get("city");
     }
 
-
     @Bindable
     public String getSelectedCity() {
         return selectedCity;
     }
 
+    public void setSelectedCity(String selectedCity) {
+        this.selectedCity = selectedCity;
+    }
 
     @Bindable
     public String getTodayTemp() {
         try {
-            if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
+            if (weatherEntity
+                    .getToday()
+                    .getTemplow()
+                    .equals(weatherEntity.getToday().getTemphigh())) {
                 return weatherEntity.getToday().getTemplow() + "℃ ";
             } else {
-                return weatherEntity.getToday().getTemplow() + "℃ ~ " + weatherEntity.getToday().getTemphigh() + "℃";
+                return weatherEntity.getToday().getTemplow()
+                        + "℃ ~ "
+                        + weatherEntity.getToday().getTemphigh()
+                        + "℃";
             }
         } catch (NullPointerException e) {
             return "";
@@ -85,16 +90,21 @@ public class LocationViewModel extends BaseObservable {
     @Bindable
     public String getTomorrowTemp() {
         try {
-            if (weatherEntity.getTomorrow().getTemplow().equals(weatherEntity.getTomorrow().getTemphigh())) {
+            if (weatherEntity
+                    .getTomorrow()
+                    .getTemplow()
+                    .equals(weatherEntity.getTomorrow().getTemphigh())) {
                 return weatherEntity.getTomorrow().getTemplow() + "℃ ";
             } else {
-                return weatherEntity.getTomorrow().getTemplow() + "℃ ~ " + weatherEntity.getTomorrow().getTemphigh() + "℃";
+                return weatherEntity.getTomorrow().getTemplow()
+                        + "℃ ~ "
+                        + weatherEntity.getTomorrow().getTemphigh()
+                        + "℃";
             }
         } catch (NullPointerException e) {
             return "";
         }
     }
-
 
     @Bindable
     public String getTodayCondition() {
@@ -114,13 +124,6 @@ public class LocationViewModel extends BaseObservable {
         }
     }
 
-    @BindingAdapter({"weatherIcon"})
-    public static void loadImage(ImageView view, String imageUrl) {
-        Picasso.with(view.getContext())
-                .load(imageUrl)
-                .into(view);
-    }
-
     @Bindable
     public String getTodayWeatherIcon() {
         try {
@@ -129,7 +132,6 @@ public class LocationViewModel extends BaseObservable {
             return "url";
         }
     }
-
 
     @Bindable
     public String getTomorrowWeatherIcon() {

@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:labelimage="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:id="@+id/list_item_layout"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:orientation="vertical">
 
     <tv.ismar.app.ui.view.LabelImageView
+        android:id="@+id/list_item_preview_img"
         android:layout_width="@dimen/filter_list_item_title_w"
         android:layout_height="@dimen/filter_list_item_preview_img_h"
-        android:id="@+id/list_item_preview_img"
-        android:background="@drawable/list_item_preview_bg"
         android:layout_alignParentTop="true"
-        android:paddingTop="@dimen/gridview_item_image_PaddingT"
+        android:background="@drawable/list_item_preview_bg"
         android:paddingBottom="@dimen/gridview_item_image_PaddingB"
         android:paddingLeft="@dimen/gridview_item_image_PaddingL"
         android:paddingRight="@dimen/gridview_item_image_PaddingR"
+        android:paddingTop="@dimen/gridview_item_image_PaddingT"
+        labelimage:focusbackground="#b3303030"
         labelimage:focuspaddingtop="0.87"
         labelimage:focustextpaddingtop="0.98"
         labelimage:focustextsize="@dimen/variety_dramalist_focustextsize"
-        labelimage:maxfocustitle="10"
-        labelimage:focusbackground="#b3303030"
-        />
+        labelimage:maxfocustitle="10" />
 
     <TextView
+        android:id="@+id/list_item_title"
         android:layout_width="@dimen/filter_list_item_title_w"
         android:layout_height="match_parent"
-        android:singleLine="true"
+        android:layout_below="@id/list_item_preview_img"
+        android:layout_centerHorizontal="true"
         android:ellipsize="marquee"
         android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/list_item_preview_img"
-        android:textSize="@dimen/gridview_item_ItemBeanScore_textsize"
-        android:id="@+id/list_item_title"
+        android:singleLine="true"
         android:textColor="#FFF8F8FF"
-        />
+        android:textSize="@dimen/gridview_item_ItemBeanScore_textsize" />
 
     <ImageView
+        android:id="@+id/list_item_quality_label"
         android:layout_width="@dimen/gridview_item_quality_img_H"
         android:layout_height="@dimen/gridview_item_quality_img_W"
-        android:layout_alignTop="@id/list_item_preview_img"
         android:layout_alignRight="@id/list_item_preview_img"
-        android:layout_marginTop="@dimen/gridview_item_quality_img_marginT"
+        android:layout_alignTop="@id/list_item_preview_img"
         android:layout_marginRight="@dimen/gridview_item_quality_img_marginR"
-        android:id="@+id/list_item_quality_label"
-        android:visibility="gone"/>
+        android:layout_marginTop="@dimen/gridview_item_quality_img_marginT"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/ItemBeanScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/list_item_preview_img"
         android:layout_alignRight="@id/list_item_preview_img"
+        android:layout_alignTop="@id/list_item_preview_img"
         android:layout_marginRight="@dimen/gridview_item_ItemBeanScore_MR"
         android:layout_marginTop="@dimen/gridview_item_ItemBeanScore_MT"
         android:background="@drawable/bean_score"
@@ -61,16 +59,15 @@
         android:paddingTop="@dimen/gridview_item_ItemBeanScore_PT"
         android:textColor="#ffffffff"
         android:textSize="@dimen/gridview_item_ItemBeanScore_textsize"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/expense_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_alignBottom="@id/list_item_preview_img"
         android:layout_alignParentLeft="true"
-        android:visibility="gone">
-    </ImageView>
+        android:gravity="center"
+        android:visibility="gone"></ImageView>
 
 </RelativeLayout>

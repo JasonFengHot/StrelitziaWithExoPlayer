@@ -21,65 +21,26 @@ import android.graphics.BitmapFactory;
 
 import java.util.concurrent.Future;
 
-
 /**
- * An {@link ImageRequest} may be used to request an image from the network. The
- * process of requesting for an image is done in three steps:
+ * An {@link ImageRequest} may be used to request an image from the network. The process of
+ * requesting for an image is done in three steps:
+ *
  * <ul>
- * <li>Instantiate a new {@link ImageRequest}</li>
- * <li>Call {@link #load(Context)} to start loading the image</li>
- * <li>Listen to loading state changes using a {@link ImageRequestCallback}</li>
+ *   <li>Instantiate a new {@link ImageRequest}
+ *   <li>Call {@link #load(Context)} to start loading the image
+ *   <li>Listen to loading state changes using a {@link ImageRequestCallback}
  * </ul>
- * 
+ *
  * @author Cyril Mottier
  */
 public class ImageRequest {
 
-    /**
-     * @author Cyril Mottier
-     */
-    public static interface ImageRequestCallback {
-
-        /**
-         * Callback to be invoked when the request processing started.
-         * 
-         * @param request The ImageRequest that started
-         */
-        void onImageRequestStarted(ImageRequest request);
-
-        /**
-         * Callback to be invoked when the request processing failed.
-         * 
-         * @param request ImageRequest that failed
-         * @param throwable The Throwable that occurs
-         */
-        void onImageRequestFailed(ImageRequest request, Throwable throwable);
-
-        /**
-         * Callback to be invoked when the request processing ended.
-         * 
-         * @param request ImageRequest that ended
-         * @param image The resulting Bitmap
-         */
-        void onImageRequestEnded(ImageRequest request, Bitmap image);
-
-        /**
-         * Callback to be invoked when the request processing has been
-         * cancelled.
-         * 
-         * @param request ImageRequest that has been cancelled
-         */
-        void onImageRequestCancelled(ImageRequest request);
-    }
-
     private static ImageLoader sImageLoader;
-
     private Future<?> mFuture;
     private String mUrl;
     private ImageRequestCallback mCallback;
     private ImageProcessor mBitmapProcessor;
     private BitmapFactory.Options mOptions;
-
     public ImageRequest(String url, ImageRequestCallback callback) {
         this(url, callback, null);
     }
@@ -88,7 +49,11 @@ public class ImageRequest {
         this(url, callback, bitmapProcessor, null);
     }
 
-    public ImageRequest(String url, ImageRequestCallback callback, ImageProcessor bitmapProcessor, BitmapFactory.Options options) {
+    public ImageRequest(
+            String url,
+            ImageRequestCallback callback,
+            ImageProcessor bitmapProcessor,
+            BitmapFactory.Options options) {
         mUrl = url;
         mCallback = callback;
         mBitmapProcessor = bitmapProcessor;
@@ -127,6 +92,40 @@ public class ImageRequest {
         return mFuture.isCancelled();
     }
 
+    /** @author Cyril Mottier */
+    public static interface ImageRequestCallback {
+
+        /**
+         * Callback to be invoked when the request processing started.
+         *
+         * @param request The ImageRequest that started
+         */
+        void onImageRequestStarted(ImageRequest request);
+
+        /**
+         * Callback to be invoked when the request processing failed.
+         *
+         * @param request ImageRequest that failed
+         * @param throwable The Throwable that occurs
+         */
+        void onImageRequestFailed(ImageRequest request, Throwable throwable);
+
+        /**
+         * Callback to be invoked when the request processing ended.
+         *
+         * @param request ImageRequest that ended
+         * @param image The resulting Bitmap
+         */
+        void onImageRequestEnded(ImageRequest request, Bitmap image);
+
+        /**
+         * Callback to be invoked when the request processing has been cancelled.
+         *
+         * @param request ImageRequest that has been cancelled
+         */
+        void onImageRequestCancelled(ImageRequest request);
+    }
+
     private class InnerCallback implements ImageLoader.ImageLoaderCallback {
 
         public void onImageLoadingStarted(ImageLoader loader) {
@@ -149,5 +148,4 @@ public class ImageRequest {
             mFuture = null;
         }
     }
-
 }

@@ -1,6 +1,5 @@
 package tv.ismar.app.network.entity;
 
-
 public class ActiveEntity {
     private String device_token;
     private String domain;
@@ -22,6 +21,7 @@ public class ActiveEntity {
     public String getZdevice_token() {
         return zdevice_token;
     }
+
     public void setZdevice_token(String zdevice_token) {
         this.zdevice_token = zdevice_token;
     }

@@ -1,44 +1,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="tv.ismar.detailpage">
+    package="tv.ismar.detailpage">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
-    <application
-    >
+    <application>
 
         <activity
             android:name=".view.DetailPageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
-                <action android:name="tv.ismar.daisy.detailpage"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.daisy.detailpage" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <intent-filter>
-                <action android:name="tv.ismar.daisy.packageitem"/>
+                <action android:name="tv.ismar.daisy.packageitem" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <intent-filter>
-                <action android:name="tv.ismar.daisy.Item"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.daisy.Item" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="tv.ismar.daisy.PFileItem"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.daisy.PFileItem" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="tv.ismar.daisy.EntertainmentItem"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.daisy.EntertainmentItem" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity android:name=".view.EpisodeActivity">
             <intent-filter>
-                <action android:name="tv.ismar.daisy.episode"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.daisy.episode" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

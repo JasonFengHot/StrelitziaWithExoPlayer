@@ -35,10 +35,25 @@ public class History implements Serializable, Comparable<History> {
         super();
     }
 
-
-    public History(long id, String title, String url, String adlet_url,
-                   String content_model, int quality, int last_quality,
-                   boolean is_complex, boolean is_continue, long last_played_time, long last_position, String sub_url, String isNet, int price, int cpid, String cpname, String cptitle, int paytype) {
+    public History(
+            long id,
+            String title,
+            String url,
+            String adlet_url,
+            String content_model,
+            int quality,
+            int last_quality,
+            boolean is_complex,
+            boolean is_continue,
+            long last_played_time,
+            long last_position,
+            String sub_url,
+            String isNet,
+            int price,
+            int cpid,
+            String cpname,
+            String cptitle,
+            int paytype) {
         super();
         this.id = id;
         this.userid = IsmartvActivator.getInstance().getDeviceToken();
@@ -61,7 +76,6 @@ public class History implements Serializable, Comparable<History> {
         this.paytype = paytype;
     }
 
-
     public History(Cursor c) {
         id = c.getLong(c.getColumnIndex(DBFields.HistroyTable._ID));
         title = c.getString(c.getColumnIndex(DBFields.HistroyTable.TITLE));
@@ -70,8 +84,10 @@ public class History implements Serializable, Comparable<History> {
         content_model = c.getString(c.getColumnIndex(DBFields.HistroyTable.CONTENT_MODEL));
         quality = c.getInt(c.getColumnIndex(DBFields.HistroyTable.QUALITY));
         last_quality = c.getInt(c.getColumnIndex(DBFields.HistroyTable.LAST_QUALITY));
-        is_complex = c.getInt(c.getColumnIndex(DBFields.HistroyTable.IS_COMPLEX)) == 0 ? false : true;
-        is_continue = c.getInt(c.getColumnIndex(DBFields.HistroyTable.IS_CONTINUE)) == 0 ? false : true;
+        is_complex =
+                c.getInt(c.getColumnIndex(DBFields.HistroyTable.IS_COMPLEX)) == 0 ? false : true;
+        is_continue =
+                c.getInt(c.getColumnIndex(DBFields.HistroyTable.IS_CONTINUE)) == 0 ? false : true;
         last_played_time = c.getLong(c.getColumnIndex(DBFields.HistroyTable.LAST_PLAY_TIME));
         last_position = c.getLong(c.getColumnIndex(DBFields.HistroyTable.LAST_POSITION));
         sub_url = c.getString(c.getColumnIndex(DBFields.HistroyTable.SUB_URL));
@@ -83,14 +99,9 @@ public class History implements Serializable, Comparable<History> {
         paytype = c.getInt(c.getColumnIndex(DBFields.HistroyTable.PAYTYPE));
     }
 
-
-    /**
-     * This is reverse order
-     */
+    /** This is reverse order */
     @Override
     public int compareTo(History another) {
         return (int) (another.last_played_time - this.last_played_time);
     }
-
-
 }

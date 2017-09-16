@@ -1,9 +1,6 @@
 package tv.ismar.app.models;
 
-/**
- * Created by admin on 2016/10/27.
- */
-
+/** Created by admin on 2016/10/27. */
 public class SportGame {
 
     private String name;
@@ -67,7 +64,7 @@ public class SportGame {
     }
 
     public String getPoster_url() {
-        return poster_url==null?image:poster_url;
+        return poster_url == null ? image : poster_url;
     }
 
     public void setPoster_url(String poster_url) {
@@ -89,6 +86,7 @@ public class SportGame {
     public void setModel_name(String model_name) {
         this.model_name = model_name;
     }
+
     public int getPosition() {
         return position;
     }
@@ -96,6 +94,7 @@ public class SportGame {
     public void setPosition(int position) {
         this.position = position;
     }
+
     public String getImage() {
         return image;
     }
@@ -103,5 +102,4 @@ public class SportGame {
     public void setImage(String image) {
         this.image = image;
     }
-
 }

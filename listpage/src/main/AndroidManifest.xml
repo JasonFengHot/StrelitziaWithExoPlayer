@@ -1,16 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="tv.ismar.listpage">
+    package="tv.ismar.listpage">
 
-    <application
-    >
+    <application>
         <activity
             android:name="tv.ismar.channel.FilterActivity"
             android:screenOrientation="landscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
-                <action android:name="tv.ismar.daisy.Filter"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="tv.ismar.daisy.Filter" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -19,9 +18,9 @@
             android:screenOrientation="landscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen">
             <intent-filter>
-                <action android:name="tv.ismar.daisy.Channel"/>
+                <action android:name="tv.ismar.daisy.Channel" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -30,19 +29,20 @@
             android:screenOrientation="landscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen">
             <intent-filter>
-                <action android:name="tv.ismar.daisy.relateditem"/>
+                <action android:name="tv.ismar.daisy.relateditem" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="tv.ismar.channel.PackageListDetailActivity"
+        <activity
+            android:name="tv.ismar.channel.PackageListDetailActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="landscape"
             android:theme="@style/IsmartvAppTheme.Fullscreen">
             <intent-filter>
-                <action android:name="tv.ismar.daisy.packagelist"/>
+                <action android:name="tv.ismar.daisy.packagelist" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>

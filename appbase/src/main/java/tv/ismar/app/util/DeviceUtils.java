@@ -16,9 +16,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-/**
- * Created by longhai on 16-9-12.
- */
+/** Created by longhai on 16-9-12. */
 public class DeviceUtils {
 
     public static String getModelName() {
@@ -39,7 +37,7 @@ public class DeviceUtils {
         double x1 = Math.pow(point.x / dm.xdpi, 2);
         double y1 = Math.pow(point.y / dm.ydpi, 2);
         BigDecimal bg = new BigDecimal(Math.sqrt(x1 + y1));
-        double inch= bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        double inch = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return String.valueOf(inch);
     }
 
@@ -72,8 +70,11 @@ public class DeviceUtils {
     }
 
     public static int dpToPx(Context context, float dp) {
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                context.getResources().getDisplayMetrics());
+        float px =
+                TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        dp,
+                        context.getResources().getDisplayMetrics());
         return (int) px;
     }
 
@@ -108,10 +109,8 @@ public class DeviceUtils {
                 Enumeration<InetAddress> en_ip = ni.getInetAddresses();
                 while (en_ip.hasMoreElements()) {
                     ip = en_ip.nextElement();
-                    if (!ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1)
-                        break;
-                    else
-                        ip = null;
+                    if (!ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) break;
+                    else ip = null;
                 }
                 if (ip != null) {
                     break;

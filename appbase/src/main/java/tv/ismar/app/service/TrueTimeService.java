@@ -18,10 +18,7 @@ import rx.Subscription;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by huibin on 12/9/16.
- */
-
+/** Created by huibin on 12/9/16. */
 public class TrueTimeService extends Service {
     private Subscription mSubscription;
 
@@ -49,25 +46,54 @@ public class TrueTimeService extends Service {
 
     private void initTrueTime(final Context context) {
         final List<String> ntpHosts = Arrays.asList("http://sky.tvxio.com/api/currenttime/");
-        mSubscription = Observable.interval(0, 1, TimeUnit.HOURS)
-                .observeOn(Schedulers.io())
-                .map(new Func1<Long, Object>() {
-                    @Override
-                    public Object call(Long aLong) {
-                        TrueTimeRx.clearCachedInfo(context);
-                        TrueTimeRx.build()
-                                .withConnectionTimeout(31_428)
-//                                .withRetryCount(100)
-                                .withSharedPreferences(context)
-                                .withLoggingEnabled(true)
-                                .initialize(ntpHosts)
-                                .subscribe(new Observer<Date>() {
+        mSubscription =
+                Observable.interval(0, 1, TimeUnit.HOURS)
+                        .observeOn(Schedulers.io())
+                        .map(
+                                new Func1<Long, Object>() {
                                     @Override
-                                    public void onCompleted() {
-                                        Intent intent = new Intent();
-                                        intent.setAction("cn.ismartv.truetime.sync");
-                                        sendBroadcast(intent);
+                                    public Object call(Long aLong) {
+                                        TrueTimeRx.clearCachedInfo(context);
+                                        TrueTimeRx.build()
+                                                .withConnectionTimeout(31_428)
+                                                //
+                                                // .withRetryCount(100)
+                                                .withSharedPreferences(context)
+                                                .withLoggingEnabled(true)
+                                                .initialize(ntpHosts)
+                                                .subscribe(
+                                                        new Observer<Date>() {
+                                                            @Override
+                                                            public void onCompleted() {
+                                                                Intent intent = new Intent();
+                                                                intent.setAction(
+                                                                        "cn.ismartv.truetime.sync");
+                                                                sendBroadcast(intent);
+                                                            }
+
+                                                            @Override
+                                                            public void onError(
+                                                                    Throwable throwable) {
+                                                                throwable.printStackTrace();
+                                                            }
+
+                                                            @Override
+                                                            public void onNext(Date date) {}
+                                                        });
+                                        return null;
                                     }
+                                })
+                        .takeUntil(
+                                new Func1<Object, Boolean>() {
+                                    @Override
+                                    public Boolean call(Object o) {
+                                        return false;
+                                    }
+                                })
+                        .subscribe(
+                                new Observer<Object>() {
+                                    @Override
+                                    public void onCompleted() {}
 
                                     @Override
                                     public void onError(Throwable throwable) {
@@ -75,34 +101,7 @@ public class TrueTimeService extends Service {
                                     }
 
                                     @Override
-                                    public void onNext(Date date) {
-
-                                    }
+                                    public void onNext(Object o) {}
                                 });
-                        return null;
-                    }
-                })
-                .takeUntil(new Func1<Object, Boolean>() {
-                    @Override
-                    public Boolean call(Object o) {
-                        return false;
-                    }
-                })
-                .subscribe(new Observer<Object>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Object o) {
-
-                    }
-                });
     }
 }

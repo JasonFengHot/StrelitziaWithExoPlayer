@@ -2,9 +2,7 @@ package tv.ismar.app.entity;
 
 import java.util.List;
 
-/**
- * Created by <huaijiefeng@gmail.com> on 9/2/14.
- */
+/** Created by <huaijiefeng@gmail.com> on 9/2/14. */
 public class VideoEntity {
     private int count;
     private List<Objects> objects;
@@ -41,21 +39,23 @@ public class VideoEntity {
         private boolean is_complex;
         private String content_model;
 
-        public String getContent_model(){
+        public String getContent_model() {
             return content_model;
         }
-        public void setContent_model(String content_model){
+
+        public void setContent_model(String content_model) {
             this.content_model = content_model;
         }
+
         public boolean isIs_complex() {
-			return is_complex;
-		}
+            return is_complex;
+        }
 
-		public void setIs_complex(boolean is_complex) {
-			this.is_complex = is_complex;
-		}
+        public void setIs_complex(boolean is_complex) {
+            this.is_complex = is_complex;
+        }
 
-		public String getItem_url() {
+        public String getItem_url() {
             return item_url;
         }
 

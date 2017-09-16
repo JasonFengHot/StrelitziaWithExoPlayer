@@ -3,26 +3,24 @@ package tv.ismar.app.network.entity;
 import java.io.Serializable;
 import java.util.HashMap;
 
-/**
- * Created by longhai on 16-9-12.
- */
+/** Created by longhai on 16-9-12. */
 public class AdElementEntity implements Serializable {
 
     private int retcode;
     private String retmsg;
-    private String title;//广告标题
-    private int media_id;//展示的投放活动id
-    private String description;//广告描述信息
-    private String media_url;//视频或图片资源地址
-    private String tag;//对于非打点标签类广告，tag值为空, 对于打点标签类广告，tag不为空，"00:05:28"  为打点广告在clip中弹出的时间点；
-    private HashMap<String, String> coordinate;//打点标签在播放器中的坐标位置
-    private String report_url;//客户端广告曝光上报地址
-    private String md5;//
-    private String media_type;//video,img,html  广告视频，图片，网页
-    private int serial;//第几个展示，从0开始表示第一个
-    private int start;//第几秒开始
-    private int end;//第几秒结束
-    private int duration;//一共展示时长多少
+    private String title; // 广告标题
+    private int media_id; // 展示的投放活动id
+    private String description; // 广告描述信息
+    private String media_url; // 视频或图片资源地址
+    private String tag; // 对于非打点标签类广告，tag值为空, 对于打点标签类广告，tag不为空，"00:05:28"  为打点广告在clip中弹出的时间点；
+    private HashMap<String, String> coordinate; // 打点标签在播放器中的坐标位置
+    private String report_url; // 客户端广告曝光上报地址
+    private String md5; //
+    private String media_type; // video,img,html  广告视频，图片，网页
+    private int serial; // 第几个展示，从0开始表示第一个
+    private int start; // 第几秒开始
+    private int end; // 第几秒结束
+    private int duration; // 一共展示时长多少
     private String start_date;
     private String end_date;
     private String start_time;

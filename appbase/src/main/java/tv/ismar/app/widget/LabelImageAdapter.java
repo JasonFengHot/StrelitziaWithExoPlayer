@@ -12,9 +12,7 @@ import java.util.List;
 import tv.ismar.app.R;
 import tv.ismar.app.network.entity.ItemEntity;
 
-/**
- * Created by beaver on 16-8-23.
- */
+/** Created by beaver on 16-8-23. */
 public class LabelImageAdapter extends RecyclerView.Adapter<LabelImageAdapter.ViewHolder> {
 
     private Context mContext;
@@ -25,15 +23,16 @@ public class LabelImageAdapter extends RecyclerView.Adapter<LabelImageAdapter.Vi
     private int mSelectedPosition;
     private OnItemActionListener mOnItemActionListener;
 
-    public void setOnItemActionListener(OnItemActionListener onItemActionListener) {
-        this.mOnItemActionListener = onItemActionListener;
-    }
-
-    public LabelImageAdapter(Context context, RecyclerView recyclerView, List<ItemEntity> itemList) {
+    public LabelImageAdapter(
+            Context context, RecyclerView recyclerView, List<ItemEntity> itemList) {
         mContext = context;
         mRecyclerView = recyclerView;
         itemEntityList = itemList;
         mInflater = LayoutInflater.from(context);
+    }
+
+    public void setOnItemActionListener(OnItemActionListener onItemActionListener) {
+        this.mOnItemActionListener = onItemActionListener;
     }
 
     @Override
@@ -46,22 +45,22 @@ public class LabelImageAdapter extends RecyclerView.Adapter<LabelImageAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mOnItemActionListener != null) {
-                    mOnItemActionListener.onItemClickListener(v, holder.getAdapterPosition());
-                }
-            }
-        });
+        holder.itemView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mOnItemActionListener != null) {
+                            mOnItemActionListener.onItemClickListener(
+                                    v, holder.getAdapterPosition());
+                        }
+                    }
+                });
 
-        holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-            }
-        });
-
+        holder.itemView.setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {}
+                });
     }
 
     @Override

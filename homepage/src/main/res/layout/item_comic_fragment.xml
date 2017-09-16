@@ -22,8 +22,8 @@
             android:id="@+id/item_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/child_img_small_text_h"
-            android:background="@color/color_alpha_black"
             android:layout_alignParentBottom="true"
+            android:background="@color/color_alpha_black"
             android:gravity="center"
             android:textColor="@color/color_base_white"
             android:textSize="@dimen/text_size_24sp" />

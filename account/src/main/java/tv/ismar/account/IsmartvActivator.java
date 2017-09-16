@@ -40,35 +40,59 @@ import tv.ismar.account.core.rsa.RSACoder;
 import tv.ismar.account.core.rsa.SkyAESTool2;
 import tv.ismar.account.data.ResultEntity;
 
-/**
- * Created by huaijie on 5/17/16.
- */
+/** Created by huaijie on 5/17/16. */
 public class IsmartvActivator {
-    static {
-        System.loadLibrary("native-lib");
-    }
-
     private static final String TAG = "IsmartvActivator";
     private static final String SKY_HOST = "http://sky.tvxio.com";
     private static final String SKY_HOST_TEST = "http://peachtest.tvxio.com";
     private static final String SIGN_FILE_NAME = "sign1";
     private static final int DEFAULT_CONNECT_TIMEOUT = 2;
     private static final int DEFAULT_READ_TIMEOUT = 2;
+    private static Context mContext;
+    private static IsmartvActivator mInstance;
+
+    static {
+        System.loadLibrary("native-lib");
+    }
 
     private ResultEntity mResult;
-
-
     private String manufacture;
     private String kind;
     private String version;
     private String location;
     private String sn;
-    private static Context mContext;
     private String fingerprint;
     private Retrofit SKY_Retrofit;
     private String deviceId;
+    private SharedPreferences mSharedPreferences;
+    private boolean isactive = false;
+    private List<AccountChangeCallback> mAccountChangeCallbacks = new ArrayList<>();
 
-    private static IsmartvActivator mInstance;
+    private IsmartvActivator() {
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        manufacture = Build.BRAND.replace(" ", "_");
+        kind = Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
+        version = String.valueOf(getAppVersionCode());
+        deviceId = getDeviceId();
+        sn = generateSn();
+        fingerprint = Md5.md5(sn);
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client =
+                new OkHttpClient.Builder()
+                        .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                        .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
+                        .addInterceptor(interceptor)
+                        .build();
+
+        SKY_Retrofit =
+                new Retrofit.Builder()
+                        .client(client)
+                        .baseUrl(SKY_HOST)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+    }
 
     public static IsmartvActivator getInstance() {
         if (mInstance == null) {
@@ -81,7 +105,9 @@ public class IsmartvActivator {
         return mInstance;
     }
 
-    private SharedPreferences mSharedPreferences;
+    public static void initialize(Context context) {
+        mContext = context;
+    }
 
     public void setManufacture(String manufacture) {
         this.manufacture = manufacture;
@@ -99,38 +125,11 @@ public class IsmartvActivator {
         this.location = location;
     }
 
-    public static void initialize(Context context) {
-        mContext = context;
-    }
-
-    private IsmartvActivator() {
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        manufacture = Build.BRAND.replace(" ", "_");
-        kind = Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
-        version = String.valueOf(getAppVersionCode());
-        deviceId = getDeviceId();
-        sn = generateSn();
-        fingerprint = Md5.md5(sn);
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(interceptor)
-                .build();
-
-        SKY_Retrofit = new Retrofit.Builder()
-                .client(client)
-                .baseUrl(SKY_HOST)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
     private String getDeviceId() {
         String deviceId = "test";
         try {
-            TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager tm =
+                    (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
             deviceId = tm.getDeviceId();
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,13 +146,16 @@ public class IsmartvActivator {
         }
 
         if (resultEntity == null) {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Log.e(TAG, "激活失败!!!");
-//                    Toast.makeText(mContext, "激活失败！", Toast.LENGTH_SHORT).show();
-                }
-            });
+            new Handler(Looper.getMainLooper())
+                    .post(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.e(TAG, "激活失败!!!");
+                                    //                    Toast.makeText(mContext, "激活失败！",
+                                    // Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
             resultEntity = new ResultEntity();
         }
@@ -188,12 +190,13 @@ public class IsmartvActivator {
         return mContext.getFileStreamPath(SIGN_FILE_NAME).exists();
     }
 
-
     private ResultEntity getLicence() {
         Logger.d("getLicence");
         try {
-            Response<ResponseBody> response = SKY_Retrofit.create(HttpService.class).trustGetlicence(fingerprint, sn, manufacture, "1")
-                    .execute();
+            Response<ResponseBody> response =
+                    SKY_Retrofit.create(HttpService.class)
+                            .trustGetlicence(fingerprint, sn, manufacture, "1")
+                            .execute();
             if (response.errorBody() == null) {
                 String result = response.body().string();
                 writeToSign(result.getBytes());
@@ -208,41 +211,48 @@ public class IsmartvActivator {
             return null;
         }
     }
-    private boolean isactive=false;
+
     public ResultEntity active() {
         Log.d(TAG, "active");
         String sign = "ismartv=201415&kind=" + kind + "&sn=" + sn;
         String rsaEncryptResult = encryptWithPublic(sign);
-        if(isactive==false) {
+        if (isactive == false) {
             try {
                 isactive = true;
-                Response<ResultEntity> resultResponse = SKY_Retrofit.create(HttpService.class).
-                        trustSecurityActive(sn, manufacture, kind, version, rsaEncryptResult,
-                                fingerprint, "v3_0", getAndroidDevicesInfo())
-                        .execute();
+                Response<ResultEntity> resultResponse =
+                        SKY_Retrofit.create(HttpService.class)
+                                .trustSecurityActive(
+                                        sn,
+                                        manufacture,
+                                        kind,
+                                        version,
+                                        rsaEncryptResult,
+                                        fingerprint,
+                                        "v3_0",
+                                        getAndroidDevicesInfo())
+                                .execute();
                 if (resultResponse.errorBody() == null) {
                     mResult = resultResponse.body();
                     saveAccountInfo(mResult);
                     return mResult;
                 } else {
-                    isactive=false;
+                    isactive = false;
                     return null;
                 }
 
             } catch (IOException e) {
-                isactive=false;
+                isactive = false;
                 e.printStackTrace();
                 Log.e(TAG, "active error!!!");
                 return null;
             }
         }
-        if(mResult==null){
+        if (mResult == null) {
             return null;
-        }else{
+        } else {
             return mResult;
         }
     }
-
 
     private String getAndroidDevicesInfo() {
         try {
@@ -287,14 +297,15 @@ public class IsmartvActivator {
                 byte[] bytes = new byte[count];
                 fileInputStream.read(bytes);
                 fileInputStream.close();
-                decryptResult = SkyAESTool2.decrypt(key.substring(0, 16), Base64.decode(bytes, Base64.URL_SAFE));
+                decryptResult =
+                        SkyAESTool2.decrypt(
+                                key.substring(0, 16), Base64.decode(bytes, Base64.URL_SAFE));
             } catch (Exception e) {
                 file.delete();
             }
         }
         return decryptResult;
     }
-
 
     public String encryptWithPublic(String string) {
         String signPath = mContext.getFileStreamPath(SIGN_FILE_NAME).getAbsolutePath();
@@ -310,7 +321,6 @@ public class IsmartvActivator {
         }
         return null;
     }
-
 
     public String getMacAddress() {
         return "mac_address";
@@ -351,7 +361,7 @@ public class IsmartvActivator {
 
     public String getAdDomain() {
         // 广告测试地址
-//        return "124.42.65.66:8082";
+        //        return "124.42.65.66:8082";
         String adDomain = mSharedPreferences.getString("ad_domain", "");
         if (TextUtils.isEmpty(adDomain) || adDomain.equals("1.1.1.3")) {
             ResultEntity resultEntity = execute();
@@ -375,7 +385,10 @@ public class IsmartvActivator {
 
     public String getAuthToken() {
         return mSharedPreferences.getString("auth_token", "");
+    }
 
+    private void setAuthToken(String authToken) {
+        mSharedPreferences.edit().putString("auth_token", authToken).commit();
     }
 
     public String getZUserToken() {
@@ -391,7 +404,6 @@ public class IsmartvActivator {
         } else {
             return snToken;
         }
-
     }
 
     public String getZDeviceToken() {
@@ -403,7 +415,6 @@ public class IsmartvActivator {
         } else {
             return zdeviceToken;
         }
-
     }
 
     public void saveAccountInfo(ResultEntity resultEntity) {
@@ -418,20 +429,9 @@ public class IsmartvActivator {
         editor.commit();
     }
 
-    private void setAuthToken(String authToken) {
-        mSharedPreferences.edit().putString("auth_token", authToken).commit();
-    }
-
-
     private void setzUserToken(String authToken) {
         mSharedPreferences.edit().putString("zuser_token", authToken).commit();
-
     }
-
-    private void setUsername(String username) {
-        mSharedPreferences.edit().putString("username", username).commit();
-    }
-
 
     public void saveUserInfo(String username, String authToken, String zUserhToken) {
         setUsername(username);
@@ -443,7 +443,6 @@ public class IsmartvActivator {
     public void setProvince(String name, String pinyin) {
         mSharedPreferences.edit().putString("province", name).commit();
         mSharedPreferences.edit().putString("province_py", pinyin).commit();
-
     }
 
     public HashMap<String, String> getProvince() {
@@ -465,21 +464,20 @@ public class IsmartvActivator {
         return hashMap;
     }
 
+    public String getIp() {
+        return mSharedPreferences.getString("ip", "");
+    }
 
     public void setIp(String ip) {
         mSharedPreferences.edit().putString("ip", ip).commit();
     }
 
-    public String getIp() {
-        return mSharedPreferences.getString("ip", "");
+    public String getIsp() {
+        return mSharedPreferences.getString("isp", "");
     }
 
     public void setIsp(String isp) {
         mSharedPreferences.edit().putString("isp", isp).commit();
-    }
-
-    public String getIsp() {
-        return mSharedPreferences.getString("isp", "");
     }
 
     public void removeUserInfo() {
@@ -494,6 +492,10 @@ public class IsmartvActivator {
 
     public String getUsername() {
         return mSharedPreferences.getString("username", "");
+    }
+
+    private void setUsername(String username) {
+        mSharedPreferences.edit().putString("username", username).commit();
     }
 
     public void setSn(String sn) {
@@ -519,14 +521,7 @@ public class IsmartvActivator {
 
     public native String stringFromJNI();
 
-
     public native String helloMd5(String str);
-
-    public interface AccountChangeCallback {
-        void onLogout();
-    }
-
-    private List<AccountChangeCallback> mAccountChangeCallbacks = new ArrayList<>();
 
     public void addAccountChangeListener(AccountChangeCallback callback) {
         mAccountChangeCallbacks.add(callback);
@@ -536,4 +531,7 @@ public class IsmartvActivator {
         mAccountChangeCallbacks.remove(callback);
     }
 
+    public interface AccountChangeCallback {
+        void onLogout();
+    }
 }

@@ -8,10 +8,9 @@ import java.util.HashMap;
 
 import tv.ismar.app.VodApplication;
 
-
 /**
  * A very basing implementation of an Bitmap cache
- * 
+ *
  * @author Cyril Mottier
  */
 public class ImageCache implements VodApplication.OnLowMemoryListener {

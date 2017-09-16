@@ -2,21 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/filter_condition_item_h"
-    android:orientation="horizontal"
-    >
-        <TextView
-                android:id="@+id/condition_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="类型"
-                android:textSize="@dimen/h1_text_size"
-                android:textColor="@android:color/white"/>
-        <tv.ismar.app.ui.view.MyViewGroup
-                android:layout_marginLeft="@dimen/filter_condition_item_linegroup_ml"
-                android:layout_marginTop="@dimen/filter_condition_item_linegroup_mt"
-                android:id="@+id/line_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-            >
-        </tv.ismar.app.ui.view.MyViewGroup>
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/condition_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="类型"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/h1_text_size" />
+
+    <tv.ismar.app.ui.view.MyViewGroup
+        android:id="@+id/line_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/filter_condition_item_linegroup_ml"
+        android:layout_marginTop="@dimen/filter_condition_item_linegroup_mt"></tv.ismar.app.ui.view.MyViewGroup>
 </RelativeLayout>

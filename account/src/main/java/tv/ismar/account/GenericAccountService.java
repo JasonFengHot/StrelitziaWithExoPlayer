@@ -27,19 +27,18 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-
 public class GenericAccountService extends Service {
+    public static final String ACCOUNT_NAME = "sync";
     private static final String TAG = "GenericAccountService";
     private static final String ACCOUNT_TYPE = "tv.ismar.account";
-    public static final String ACCOUNT_NAME = "sync";
     private Authenticator mAuthenticator;
-//    private SkyService mSkyService;
+    //    private SkyService mSkyService;
 
     /**
      * Obtain a handle to the {@link android.accounts.Account} used for sync in this application.
      *
      * @return Handle to application's account (not guaranteed to resolve unless CreateSyncAccount()
-     *         has been called)
+     *     has been called)
      */
     public static Account GetAccount() {
         // Note: Normally the account name is set to the user's identity (username or email
@@ -70,10 +69,7 @@ public class GenericAccountService extends Service {
         return mAuthenticator.getIBinder();
     }
 
-    private void getLicence(){
-
-
-    }
+    private void getLicence() {}
 
     public class Authenticator extends AbstractAccountAuthenticator {
         public Authenticator(Context context) {
@@ -81,29 +77,38 @@ public class GenericAccountService extends Service {
         }
 
         @Override
-        public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                     String s) {
+        public Bundle editProperties(
+                AccountAuthenticatorResponse accountAuthenticatorResponse, String s) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                 String s, String s2, String[] strings, Bundle bundle)
+        public Bundle addAccount(
+                AccountAuthenticatorResponse accountAuthenticatorResponse,
+                String s,
+                String s2,
+                String[] strings,
+                Bundle bundle)
                 throws NetworkErrorException {
             Log.i(TAG, "current thread: " + Thread.currentThread().getName());
             return null;
         }
 
         @Override
-        public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                         Account account, Bundle bundle)
+        public Bundle confirmCredentials(
+                AccountAuthenticatorResponse accountAuthenticatorResponse,
+                Account account,
+                Bundle bundle)
                 throws NetworkErrorException {
             return null;
         }
 
         @Override
-        public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                   Account account, String s, Bundle bundle)
+        public Bundle getAuthToken(
+                AccountAuthenticatorResponse accountAuthenticatorResponse,
+                Account account,
+                String s,
+                Bundle bundle)
                 throws NetworkErrorException {
             throw new UnsupportedOperationException();
         }
@@ -114,19 +119,22 @@ public class GenericAccountService extends Service {
         }
 
         @Override
-        public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                        Account account, String s, Bundle bundle)
+        public Bundle updateCredentials(
+                AccountAuthenticatorResponse accountAuthenticatorResponse,
+                Account account,
+                String s,
+                Bundle bundle)
                 throws NetworkErrorException {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                  Account account, String[] strings)
+        public Bundle hasFeatures(
+                AccountAuthenticatorResponse accountAuthenticatorResponse,
+                Account account,
+                String[] strings)
                 throws NetworkErrorException {
             throw new UnsupportedOperationException();
         }
     }
-
 }
-

@@ -1,17 +1,13 @@
 package tv.ismar.app.ui;
 
-import cn.ismartv.truetime.TrueTime;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,19 +39,19 @@ import tv.ismar.app.util.NetworkUtils;
 import static android.util.TypedValue.COMPLEX_UNIT_PX;
 import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
 
-public class HeadFragment extends Fragment implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
+public class HeadFragment extends Fragment
+        implements View.OnClickListener, View.OnHoverListener, View.OnFocusChangeListener {
     public static final String HEADER_USERCENTER = "usercenter";
     public static final String HEADER_DETAILPAGE = "detailpage";
     public static final String HEADER_HOMEPAGE = "homepage";
     public static final String HEADER_LISTPAGE = "listpage";
     public static final String HEADER_FILTER = "filter";
     private static final int[] INDICATOR_RES_LIST = {
-            R.string.vod_movielist_title_history,
-            R.string.guide_my_favorite,
-            R.string.guide_user_center,
-            R.string.guide_search
+        R.string.vod_movielist_title_history,
+        R.string.guide_my_favorite,
+        R.string.guide_user_center,
+        R.string.guide_search
     };
-
 
     private String mHeaderType;
     private TextView titleTextView;
@@ -65,16 +61,22 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     private LinearLayout guideLayout;
     private List<View> indicatorTableList;
     private ImageView bestv_logo;
+    private HeadItemClickListener mHeadItemClickListener;
+    private BroadcastReceiver mTimeSyncReceiver =
+            new BroadcastReceiver() {
+                @Override
+                public void onReceive(final Context context, Intent intent) {
+                    HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
+                    String geoId = hashMap.get("geo_id");
+                    fetchWeatherInfo(geoId);
+                }
+            };
 
-
-    public HeadFragment() {
-
-    }
-
+    public HeadFragment() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_head, container, false);
     }
 
@@ -92,10 +94,7 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         titleTextView.setText(R.string.app_name);
         subTitleTextView.setText(R.string.front_page);
 
-
         createGuideIndicator();
-
-
     }
 
     @Override
@@ -107,26 +106,38 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
             switch (mHeaderType) {
                 case HEADER_USERCENTER:
                     subTitleTextView.setText("个人中心");
-                    LinearMainLayout.LayoutParams layoutParams = (LinearMainLayout.LayoutParams) subTitleTextView.getLayoutParams();
+                    LinearMainLayout.LayoutParams layoutParams =
+                            (LinearMainLayout.LayoutParams) subTitleTextView.getLayoutParams();
                     layoutParams.setMargins(
-                            getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_subtitle_ml),
+                            getResources()
+                                    .getDimensionPixelSize(
+                                            R.dimen.usercenter_header_fragment_subtitle_ml),
                             0,
                             0,
-                            getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_subtitle_mb));
+                            getResources()
+                                    .getDimensionPixelSize(
+                                            R.dimen.usercenter_header_fragment_subtitle_mb));
                     subTitleTextView.setLayoutParams(layoutParams);
-                    RelativeLayout.LayoutParams weatherLayoutParams = (RelativeLayout.LayoutParams) weatherInfoTextView.getLayoutParams();
+                    RelativeLayout.LayoutParams weatherLayoutParams =
+                            (RelativeLayout.LayoutParams) weatherInfoTextView.getLayoutParams();
                     weatherLayoutParams.setMargins(
-                            getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_weather_ml),
+                            getResources()
+                                    .getDimensionPixelSize(
+                                            R.dimen.usercenter_header_fragment_weather_ml),
                             0,
                             0,
-                            getResources().getDimensionPixelSize(R.dimen.usercenter_header_fragment_weather_mb));
+                            getResources()
+                                    .getDimensionPixelSize(
+                                            R.dimen.usercenter_header_fragment_weather_mb));
                     weatherInfoTextView.setLayoutParams(weatherLayoutParams);
                     hideIndicatorTable();
                     hideTitle();
                     break;
                 case HEADER_DETAILPAGE:
                     subTitleTextView.setText(bundle.getString("channel_name"));
-                    subTitleTextView.setTextSize(COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.text_size_48sp));
+                    subTitleTextView.setTextSize(
+                            COMPLEX_UNIT_PX,
+                            getResources().getDimensionPixelSize(R.dimen.text_size_48sp));
                     hideWeather();
                     hideIndicatorTable();
                     hideTitle();
@@ -134,12 +145,26 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
 
                 case HEADER_LISTPAGE:
                     subTitleTextView.setText(bundle.getString("channel_name"));
-                    RelativeLayout.LayoutParams listlayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    listlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
+                    RelativeLayout.LayoutParams listlayoutParams =
+                            new RelativeLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                    listlayoutParams.setMargins(
+                            getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml),
+                            0,
+                            0,
+                            getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
                     listlayoutParams.addRule(ALIGN_PARENT_BOTTOM);
                     titleTextView.setLayoutParams(listlayoutParams);
-                    RelativeLayout.LayoutParams weatherParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    weatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.header_weather_bottom));
+                    RelativeLayout.LayoutParams weatherParams =
+                            new RelativeLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                    weatherParams.setMargins(
+                            getResources().getDimensionPixelSize(R.dimen.head_weather_ml),
+                            0,
+                            0,
+                            getResources().getDimensionPixelSize(R.dimen.header_weather_bottom));
                     weatherParams.addRule(ALIGN_PARENT_BOTTOM);
                     weatherInfoTextView.setLayoutParams(weatherParams);
                     hideIndicatorTable();
@@ -151,12 +176,26 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
                 case HEADER_FILTER:
                     titleTextView.setText(bundle.getString("channel_name"));
                     subTitleTextView.setText("筛选");
-                    RelativeLayout.LayoutParams filterlayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    filterlayoutParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
+                    RelativeLayout.LayoutParams filterlayoutParams =
+                            new RelativeLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                    filterlayoutParams.setMargins(
+                            getResources().getDimensionPixelSize(R.dimen.head_listpage_title_ml),
+                            0,
+                            0,
+                            getResources().getDimensionPixelSize(R.dimen.header_title_bottom));
                     filterlayoutParams.addRule(ALIGN_PARENT_BOTTOM);
                     titleTextView.setLayoutParams(filterlayoutParams);
-                    RelativeLayout.LayoutParams filterweatherParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    filterweatherParams.setMargins(getResources().getDimensionPixelSize(R.dimen.head_weather_ml), 0, 0, getResources().getDimensionPixelSize(R.dimen.header_weather_bottom));
+                    RelativeLayout.LayoutParams filterweatherParams =
+                            new RelativeLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                    filterweatherParams.setMargins(
+                            getResources().getDimensionPixelSize(R.dimen.head_weather_ml),
+                            0,
+                            0,
+                            getResources().getDimensionPixelSize(R.dimen.header_weather_bottom));
                     filterweatherParams.addRule(ALIGN_PARENT_BOTTOM);
                     weatherInfoTextView.setLayoutParams(filterweatherParams);
                     hideIndicatorTable();
@@ -175,7 +214,6 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         bestv_logo.setVisibility(View.VISIBLE);
     }
 
-
     @Override
     public void onPause() {
         getContext().unregisterReceiver(mTimeSyncReceiver);
@@ -187,12 +225,12 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         titleTextView.setText(title);
     }
 
-
     private void createGuideIndicator() {
         int i = 0;
         indicatorTableList.clear();
         for (int res : INDICATOR_RES_LIST) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_header_indicator, null);
+            View view =
+                    LayoutInflater.from(getContext()).inflate(R.layout.item_header_indicator, null);
             TextView textView = (TextView) view.findViewById(R.id.weather_indicator);
             view.setOnClickListener(this);
             view.setOnFocusChangeListener(this);
@@ -238,7 +276,6 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
     public void hideSubTiltle() {
         subTitleTextView.setVisibility(View.GONE);
         dividerImage.setVisibility(View.GONE);
-
     }
 
     private void hideTitle() {
@@ -256,31 +293,31 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         weatherInfoTextView.setVisibility(View.INVISIBLE);
     }
 
-
     public void fetchWeatherInfo(String geoId) {
-        if (!NetworkUtils.isConnected(getActivity())) {// 断开网络做如下请求时出错
+        if (!NetworkUtils.isConnected(getActivity())) { // 断开网络做如下请求时出错
             return;
         }
-        ((BaseActivity) getActivity()).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
+        ((BaseActivity) getActivity())
+                .mWeatherSkyService
+                .apifetchWeatherInfo(geoId)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<WeatherEntity>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(
+                        new Observer<WeatherEntity>() {
+                            @Override
+                            public void onCompleted() {}
 
-                    }
+                            @Override
+                            public void onError(Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(WeatherEntity weatherEntity) {
-                        parseXml(weatherEntity);
-                    }
-                });
+                            @Override
+                            public void onNext(WeatherEntity weatherEntity) {
+                                parseXml(weatherEntity);
+                            }
+                        });
     }
-
 
     private void parseXml(WeatherEntity weatherEntity) {
         Date now = TrueTime.now();
@@ -292,9 +329,14 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         weatherInfoTextView.append(todayTime + "   ");
         weatherInfoTextView.append(weatherEntity.getToday().getCondition() + "   ");
         if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
-            weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + getText(R.string.degree));
+            weatherInfoTextView.append(
+                    weatherEntity.getToday().getTemplow() + getText(R.string.degree));
         } else {
-            weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + " ~ " + weatherEntity.getToday().getTemphigh() + getText(R.string.degree));
+            weatherInfoTextView.append(
+                    weatherEntity.getToday().getTemplow()
+                            + " ~ "
+                            + weatherEntity.getToday().getTemphigh()
+                            + getText(R.string.degree));
         }
     }
 
@@ -347,6 +389,14 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
         return false;
     }
 
+    public void setHeadItemClickListener(HeadItemClickListener headItemClickListener) {
+        mHeadItemClickListener = headItemClickListener;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
     public interface HeadItemClickListener {
         void onUserCenterClick();
@@ -357,27 +407,4 @@ public class HeadFragment extends Fragment implements View.OnClickListener, View
 
         void onSearchClick();
     }
-
-    private HeadItemClickListener mHeadItemClickListener;
-
-
-    public void setHeadItemClickListener(HeadItemClickListener headItemClickListener) {
-        mHeadItemClickListener = headItemClickListener;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-
-    }
-
-    private BroadcastReceiver mTimeSyncReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, Intent intent) {
-            HashMap<String, String> hashMap = IsmartvActivator.getInstance().getCity();
-            String geoId = hashMap.get("geo_id");
-            fetchWeatherInfo(geoId);
-        }
-    };
 }

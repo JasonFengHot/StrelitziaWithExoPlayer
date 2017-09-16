@@ -13,8 +13,7 @@
 
     <style name="IsmartvAppTheme.Widget" />
 
-    <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
-    </style>
+    <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView"></style>
 
     <style name="AppTheme.Widget.EditText" parent="android:Widget.Holo.Light.EditText">
         <item name="android:textCursorDrawable">@drawable/edit_cursor_color</item>
@@ -110,7 +109,7 @@
         <attr name="selectionTopPadding" format="dimension" />
         <attr name="selectionRightPadding" format="dimension" />
         <attr name="selectionBottomPadding" format="dimension" />
-        <attr name="posterScaleSize" format="float"/>
+        <attr name="posterScaleSize" format="float" />
     </declare-styleable>
     <declare-styleable name="ZGridView">
 
@@ -212,6 +211,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
     </style>
+
     <style name="NoNetDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

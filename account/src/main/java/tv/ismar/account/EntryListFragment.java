@@ -1,4 +1,4 @@
-///*
+/// *
 // * Copyright 2013 The Android Open Source Project
 // *
 // * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,34 +14,34 @@
 // * limitations under the License.
 // */
 //
-//package tv.ismar.account;
+// package tv.ismar.account;
 //
-//import android.accounts.Account;
-//import android.app.Activity;
-//import android.content.ContentResolver;
-//import android.content.Intent;
-//import android.content.SyncStatusObserver;
-//import android.database.Cursor;
-//import android.net.Uri;
-//import android.os.Bundle;
-//import android.support.v4.app.ListFragment;
-//import android.support.v4.app.LoaderManager;
-//import android.support.v4.content.CursorLoader;
-//import android.support.v4.content.Loader;
-//import android.support.v4.widget.SimpleCursorAdapter;
-//import android.text.format.Time;
-//import android.util.Log;
-//import android.view.Menu;
-//import android.view.MenuInflater;
-//import android.view.MenuItem;
-//import android.view.View;
-//import android.widget.ListView;
-//import android.widget.TextView;
+// import android.accounts.Account;
+// import android.app.Activity;
+// import android.content.ContentResolver;
+// import android.content.Intent;
+// import android.content.SyncStatusObserver;
+// import android.database.Cursor;
+// import android.net.Uri;
+// import android.os.Bundle;
+// import android.support.v4.app.ListFragment;
+// import android.support.v4.app.LoaderManager;
+// import android.support.v4.content.CursorLoader;
+// import android.support.v4.content.Loader;
+// import android.support.v4.widget.SimpleCursorAdapter;
+// import android.text.format.Time;
+// import android.util.Log;
+// import android.view.Menu;
+// import android.view.MenuInflater;
+// import android.view.MenuItem;
+// import android.view.View;
+// import android.widget.ListView;
+// import android.widget.TextView;
 //
-//import tv.ismar.account.provider.FeedContract;
+// import tv.ismar.account.provider.FeedContract;
 //
 //
-///**
+/// **
 // * List fragment containing a list of Atom entry objects (articles) stored in the local database.
 // *
 // * <p>Database access is mediated by a content provider, specified in
@@ -51,7 +51,8 @@
 // *
 // * <p>Selecting an item from the displayed list displays the article in the default browser.
 // *
-// * <p>If the content provider doesn't return any data, then the first sync hasn't run yet. This sync
+// * <p>If the content provider doesn't return any data, then the first sync hasn't run yet. This
+// sync
 // * adapter assumes data exists in the provider once a sync has run. If your app doesn't work like
 // * this, you should add a flag that notes if a sync has run, so you can differentiate between "no
 // * available data" and "no initial sync", and display this in the UI.
@@ -60,7 +61,7 @@
 // * runs immediately. An indeterminate ProgressBar element is displayed, showing that the sync is
 // * occurring.
 // */
-//public class EntryListFragment extends ListFragment
+// public class EntryListFragment extends ListFragment
 //        implements LoaderManager.LoaderCallbacks<Cursor> {
 //
 //    private static final String TAG = "EntryListFragment";
@@ -219,7 +220,8 @@
 //    }
 //
 //    /**
-//     * Move the Cursor returned by the query into the ListView adapter. This refreshes the existing
+//     * Move the Cursor returned by the query into the ListView adapter. This refreshes the
+// existing
 //     * UI with the data in the Cursor.
 //     */
 //    @Override
@@ -229,7 +231,8 @@
 //
 //    /**
 //     * Called when the ContentObserver defined for the content provider detects that data has
-//     * changed. The ContentObserver resets the loader, and then re-runs the loader. In the adapter,
+//     * changed. The ContentObserver resets the loader, and then re-runs the loader. In the
+// adapter,
 //     * set the Cursor value to null. This removes the reference to the Cursor, allowing it to be
 //     * garbage-collected.
 //     */
@@ -270,7 +273,8 @@
 //        super.onListItemClick(listView, view, position, id);
 //
 //        // Get a URI for the selected item, then start an Activity that displays the URI. Any
-//        // Activity that filters for ACTION_VIEW and a URI can accept this. In most cases, this will
+//        // Activity that filters for ACTION_VIEW and a URI can accept this. In most cases, this
+// will
 //        // be a browser.
 //
 //        // Get the item at the selected position, in the form of a Cursor.
@@ -322,7 +326,8 @@
 //        public void onStatusChanged(int which) {
 //            getActivity().runOnUiThread(new Runnable() {
 //                /**
-//                 * The SyncAdapter runs on a background thread. To update the UI, onStatusChanged()
+//                 * The SyncAdapter runs on a background thread. To update the UI,
+// onStatusChanged()
 //                 * runs on the UI thread.
 //                 */
 //                @Override
@@ -350,4 +355,4 @@
 //        }
 //    };
 //
-//}
+// }

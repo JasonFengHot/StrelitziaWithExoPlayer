@@ -20,14 +20,17 @@ public interface HistoryManager {
     public void addHistory(History history, String isnet, int completePosition);
 
     /**
-     * Add a history. Called by player when user exits player.Note that url may be an field of ItemEntity.
-     * Both {@link tv.ismar.app.network.entity.ItemEntity} and {@link tv.ismar.app.network.entity.ItemEntity} is OK. This depends on the category of you ItemEntity object. Commonly, an subitem contains url field,
-     * but a item contains item_url field.
-     * This method guarantees if target url exists in history. it will auto update its status instead of adding a duplicated one.
+     * Add a history. Called by player when user exits player.Note that url may be an field of
+     * ItemEntity. Both {@link tv.ismar.app.network.entity.ItemEntity} and {@link
+     * tv.ismar.app.network.entity.ItemEntity} is OK. This depends on the category of you ItemEntity
+     * object. Commonly, an subitem contains url field, but a item contains item_url field. This
+     * method guarantees if target url exists in history. it will auto update its status instead of
+     * adding a duplicated one.
      *
-     * @param title           the title of current playing item.
-     * @param url             the url representing the item.
-     * @param currentPosition the played position when user exits player. if playback is finished. pass 0 instead of the played position.
+     * @param title the title of current playing item.
+     * @param url the url representing the item.
+     * @param currentPosition the played position when user exits player. if playback is finished.
+     *     pass 0 instead of the played position.
      */
     @Deprecated
     public void addHistory(String title, String url, long currentPosition, String isnet);
@@ -54,20 +57,12 @@ public interface HistoryManager {
      */
     public void deleteHistory(String url, String isnet);
 
-    /**
-     * Delete all histories in database
-     */
+    /** Delete all histories in database */
     public void deleteAll(String isnet);
 
-
-    /**
-     * Add or update only one DBQuality
-     */
+    /** Add or update only one DBQuality */
     public void addOrUpdateQuality(DBQuality quality);
 
-    /**
-     * get user DBQuality
-     */
+    /** get user DBQuality */
     public DBQuality getQuality();
-
 }

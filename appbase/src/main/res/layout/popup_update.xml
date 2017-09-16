@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/app_update_bg"
-    >
+        android:background="@drawable/app_update_bg">
 
         <TextView
             android:id="@+id/update_notice"
@@ -18,7 +17,7 @@
             android:layout_marginTop="@dimen/update_notice_margin_top"
             android:text="@string/update_notice"
             android:textColor="#ffffff"
-            android:textSize="@dimen/update_notice_textsize"/>
+            android:textSize="@dimen/update_notice_textsize" />
 
 
         <LinearLayout
@@ -26,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/update_notice"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
 
         <RelativeLayout
@@ -34,8 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/update_confirm_button_margin_bottom"
-        >
+            android:layout_marginBottom="@dimen/update_confirm_button_margin_bottom">
 
             <Button
                 android:id="@+id/update_now_bt"
@@ -51,7 +49,8 @@
                 android:nextFocusUp="@id/update_now_bt"
                 android:text="@string/update_now"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/update_msg_textsize"/>
+                android:textSize="@dimen/update_msg_textsize" />
+
             <Button
                 android:id="@+id/update_later_bt"
                 android:layout_width="@dimen/update_confirm_button_width"
@@ -67,7 +66,7 @@
                 android:nextFocusUp="@id/update_later_bt"
                 android:text="@string/update_later"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/update_msg_textsize"/>
+                android:textSize="@dimen/update_msg_textsize" />
 
         </RelativeLayout>
 
@@ -80,13 +79,12 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/app_update_text_marginBottom"
             android:text="@string/update_method"
-            android:textSize="@dimen/update_title_textsize"/>
+            android:textSize="@dimen/update_title_textsize" />
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/tmp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:focusable="true"
-    />
+        android:focusable="true" />
 </LinearLayout>

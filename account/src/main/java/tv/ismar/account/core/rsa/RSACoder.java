@@ -16,9 +16,7 @@ import java.util.Map;
 
 import javax.crypto.Cipher;
 
-/**
- * Created by Administrator on 2014/10/10.
- */
+/** Created by Administrator on 2014/10/10. */
 public class RSACoder extends Coder {
 
     public static final String KEY_ALGORITHM = "RSA";
@@ -30,7 +28,7 @@ public class RSACoder extends Coder {
     /**
      * 用私钥对信息生成数字签名
      *
-     * @param data       加密数据
+     * @param data 加密数据
      * @param privateKey 私钥
      * @return
      * @throws Exception
@@ -43,7 +41,7 @@ public class RSACoder extends Coder {
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
 
         // KEY_ALGORITHM 指定的加密算法
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM,"BC");
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM, "BC");
 
         // 取私钥匙对象
         PrivateKey priKey = keyFactory.generatePrivate(pkcs8KeySpec);
@@ -59,14 +57,13 @@ public class RSACoder extends Coder {
     /**
      * 校验数字签名
      *
-     * @param data      加密数据
+     * @param data 加密数据
      * @param publicKey 公钥
-     * @param sign      数字签名
+     * @param sign 数字签名
      * @return 校验成功返回true 失败返回false
      * @throws Exception
      */
-    public static boolean verify(byte[] data, String publicKey, String sign)
-            throws Exception {
+    public static boolean verify(byte[] data, String publicKey, String sign) throws Exception {
 
         // 解密由base64编码的公钥
         byte[] keyBytes = decryptBASE64(publicKey);
@@ -75,7 +72,7 @@ public class RSACoder extends Coder {
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
 
         // KEY_ALGORITHM 指定的加密算法
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM,"BC");
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM, "BC");
 
         // 取公钥匙对象
         PublicKey pubKey = keyFactory.generatePublic(keySpec);
@@ -97,14 +94,13 @@ public class RSACoder extends Coder {
      * @return
      * @throws Exception
      */
-    public static byte[] decryptByPrivateKey(byte[] data, String key)
-            throws Exception {
+    public static byte[] decryptByPrivateKey(byte[] data, String key) throws Exception {
         // 对密钥解密
         byte[] keyBytes = decryptBASE64(key);
 
         // 取得私钥
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM,"BC");
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM, "BC");
         Key privateKey = keyFactory.generatePrivate(pkcs8KeySpec);
 
         // 对数据解密
@@ -123,14 +119,13 @@ public class RSACoder extends Coder {
      * @return
      * @throws Exception
      */
-    public static byte[] decryptByPublicKey(byte[] data, String key)
-            throws Exception {
+    public static byte[] decryptByPublicKey(byte[] data, String key) throws Exception {
         // 对密钥解密
         byte[] keyBytes = decryptBASE64(key);
 
         // 取得公钥
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM,"BC");
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM, "BC");
         Key publicKey = keyFactory.generatePublic(x509KeySpec);
 
         // 对数据解密
@@ -149,14 +144,13 @@ public class RSACoder extends Coder {
      * @return
      * @throws Exception
      */
-    public static byte[] encryptByPublicKey(byte[] data, String key)
-            throws Exception {
+    public static byte[] encryptByPublicKey(byte[] data, String key) throws Exception {
         // 对公钥解密
         byte[] keyBytes = decryptBASE64(key);
 
         // 取得公钥
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM,"BC");
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM, "BC");
         Key publicKey = keyFactory.generatePublic(x509KeySpec);
 
         // 对数据加密
@@ -175,14 +169,13 @@ public class RSACoder extends Coder {
      * @return
      * @throws Exception
      */
-    public static byte[] encryptByPrivateKey(byte[] data, String key)
-            throws Exception {
+    public static byte[] encryptByPrivateKey(byte[] data, String key) throws Exception {
         // 对密钥解密
         byte[] keyBytes = decryptBASE64(key);
 
         // 取得私钥
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM,"BC");
+        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM, "BC");
         Key privateKey = keyFactory.generatePrivate(pkcs8KeySpec);
 
         // 对数据加密
@@ -199,8 +192,7 @@ public class RSACoder extends Coder {
      * @return
      * @throws Exception
      */
-    public static String getPrivateKey(Map<String, Object> keyMap)
-            throws Exception {
+    public static String getPrivateKey(Map<String, Object> keyMap) throws Exception {
         Key key = (Key) keyMap.get(PRIVATE_KEY);
 
         return encryptBASE64(key.getEncoded());
@@ -213,8 +205,7 @@ public class RSACoder extends Coder {
      * @return
      * @throws Exception
      */
-    public static String getPublicKey(Map<String, Object> keyMap)
-            throws Exception {
+    public static String getPublicKey(Map<String, Object> keyMap) throws Exception {
         Key key = (Key) keyMap.get(PUBLIC_KEY);
 
         return encryptBASE64(key.getEncoded());
@@ -227,8 +218,7 @@ public class RSACoder extends Coder {
      * @throws Exception
      */
     public static Map<String, Object> initKey() throws Exception {
-        KeyPairGenerator keyPairGen = KeyPairGenerator
-                .getInstance(KEY_ALGORITHM,"BC");
+        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(KEY_ALGORITHM, "BC");
         keyPairGen.initialize(1024);
 
         KeyPair keyPair = keyPairGen.generateKeyPair();

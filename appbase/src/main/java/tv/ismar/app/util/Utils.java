@@ -21,15 +21,12 @@ import java.util.regex.Pattern;
 import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 
-/**
- * Created by beaver on 16-8-22.
- */
+/** Created by beaver on 16-8-22. */
 public class Utils {
 
     public static boolean isEmptyText(String str) {
         return TextUtils.isEmpty(str) || str.equalsIgnoreCase("null");
     }
-
 
     public static int daysBetween(String startdate, String enddate) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -37,7 +34,7 @@ public class Utils {
         Calendar cal = Calendar.getInstance();
         cal.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         cal.setTime(sdf.parse(startdate));
-        long time1 = cal.getTimeInMillis()+2000;
+        long time1 = cal.getTimeInMillis() + 2000;
         cal.setTime(sdf.parse(enddate));
         long time2 = cal.getTimeInMillis();
         long remain = time2 - time1;
@@ -47,7 +44,6 @@ public class Utils {
             long between_days = (long) Math.floor((time2 - time1) / (1000 * 3600 * 24));
             return Integer.parseInt(String.valueOf(between_days));
         }
-
     }
 
     public static String getTime() {
@@ -90,8 +86,7 @@ public class Utils {
         } else {
             sec = "" + second;
         }
-        String strDate = year + "-" + month + "-" + day + " " + h + ":"
-                + min + ":" + sec;
+        String strDate = year + "-" + month + "-" + day + " " + h + ":" + min + ":" + sec;
         return strDate;
     }
 
@@ -160,6 +155,5 @@ public class Utils {
             e.printStackTrace();
         }
         return image;
-
     }
 }

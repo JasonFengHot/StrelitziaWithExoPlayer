@@ -1,9 +1,6 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huibin on 11/1/16.
- */
-
+/** Created by huibin on 11/1/16. */
 public class UpgradeRequestEntity {
 
     public String sn;

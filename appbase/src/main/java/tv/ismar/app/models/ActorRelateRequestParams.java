@@ -1,14 +1,11 @@
 package tv.ismar.app.models;
 
-/**
- * Created by huaijie on 2/22/16.
- */
+/** Created by huaijie on 2/22/16. */
 public class ActorRelateRequestParams {
     private long actor_id;
     private String content_type;
     private int page_no;
     private int page_count;
-
 
     public long getActor_id() {
         return actor_id;

@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Item implements Serializable {
-	
-	private static final long serialVersionUID = 5414782976396856671L;
+
+    private static final long serialVersionUID = 5414782976396856671L;
     public int subitem_show;
-	public float bean_score;
-	public String adlet_url;
+    public float bean_score;
+    public String adlet_url;
     public Attribute attributes;
     public String caption;
     public Clip clip;
-    public String content_model; //对应频道, 例如: documentary
+    public String content_model; // 对应频道, 例如: documentary
     public int counting_count;
     public String description;
     public int episode;
@@ -37,7 +37,7 @@ public class Item implements Serializable {
     public String vendor;
     public Point[] points;
     public int rated;
-    //These field below may be none, when get from non "media-detail" api.
+    // These field below may be none, when get from non "media-detail" api.
     public String model_name;
     public int item_pk;
     public String item_url;
@@ -46,7 +46,7 @@ public class Item implements Serializable {
     public boolean live_video;
     public ArrayList<Item> items;
     public boolean isPreview;
-    //used only for daram seria and expense page
+    // used only for daram seria and expense page
     public int remainDay;
     public int offset;
     public int month;
@@ -57,7 +57,7 @@ public class Item implements Serializable {
     public boolean ispayed;
     public String channel;
     public String slug;
-    public String fromPage="";
+    public String fromPage = "";
     public String start_time;
     public boolean repeat_buy;
 }

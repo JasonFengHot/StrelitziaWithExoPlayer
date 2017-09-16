@@ -1,9 +1,6 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huibin on 17-2-16.
- */
-
+/** Created by huibin on 17-2-16. */
 public class BaseEntity {
     private int code;
     private String msg;

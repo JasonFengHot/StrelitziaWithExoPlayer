@@ -1,18 +1,13 @@
 package tv.ismar.searchpage.weight;
 
-/**
- * Created by zhangjiqiang on 15-7-12.
- */
-
+/** Created by zhangjiqiang on 15-7-12. */
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.TextView;
 
-/**
- * Created by zhangjiqiang on 2015/7/12.
- */
+/** Created by zhangjiqiang on 2015/7/12. */
 public class RotateTextView extends TextView {
     private static final int DEFAULT_DEGREES = 45;
     private int mDegrees = DEFAULT_DEGREES;
@@ -25,7 +20,7 @@ public class RotateTextView extends TextView {
     public RotateTextView(Context context, AttributeSet attrs) {
         super(context, attrs, android.R.attr.textViewStyle);
         this.setGravity(Gravity.CENTER);
-//        rate = DaisyUtils.getVodApplication(getContext()).getRate(getContext());
+        //        rate = DaisyUtils.getVodApplication(getContext()).getRate(getContext());
     }
 
     @Override

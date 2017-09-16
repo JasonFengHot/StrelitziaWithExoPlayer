@@ -1,11 +1,8 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huibin on 17-2-21.
- */
-
+/** Created by huibin on 17-2-21. */
 public class ChoosewayEntity {
-    private  String type;
+    private String type;
     private Data agreement;
     private Data qrcode;
     private Data pay;
@@ -42,8 +39,7 @@ public class ChoosewayEntity {
         this.type = type;
     }
 
-
-    public static class Data{
+    public static class Data {
         private String url;
 
         public String getUrl() {

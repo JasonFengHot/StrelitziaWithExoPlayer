@@ -2,9 +2,7 @@ package tv.ismar.app.network.entity;
 
 import java.util.ArrayList;
 
-/**
- * Created by huaijie on 7/3/15.
- */
+/** Created by huaijie on 7/3/15. */
 public class AccountPlayAuthEntity {
 
     private ArrayList<PlayAuth> sn_playauth_list;
@@ -24,6 +22,11 @@ public class AccountPlayAuthEntity {
 
     public void setPlayauth_list(ArrayList<PlayAuth> playauth_list) {
         this.playauth_list = playauth_list;
+    }
+
+    public enum Action {
+        watch,
+        repeat_buy
     }
 
     public static class PlayAuth {
@@ -72,10 +75,5 @@ public class AccountPlayAuthEntity {
         public void setContentMode(String contentMode) {
             this.content_model = contentMode;
         }
-    }
-
-    public enum Action {
-        watch,
-        repeat_buy
     }
 }

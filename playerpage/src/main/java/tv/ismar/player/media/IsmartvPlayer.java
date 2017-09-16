@@ -30,37 +30,30 @@ import tv.ismar.player.AccessProxy;
 
 import static tv.ismar.app.network.entity.ClipEntity.Quality.QUALITY_LOW;
 
-/**
- * Created by longhai on 16-9-12.
- */
+/** Created by longhai on 16-9-12. */
 public abstract class IsmartvPlayer implements IPlayer {
 
     protected static final String TAG = "LH/IsmartvPlayer";
     protected byte mPlayerMode;
-    private int mDrmType;
-
     protected Activity mContext;
     protected ItemEntity mItemEntity;
     protected ClipEntity mClipEntity;
-
     // 视云
     protected int mAdvertisementTime[];
     protected IsmartvMedia mLogMedia;
-
     protected FrameLayout mContainer;
     protected DaisyVideoView mDaisyVideoView; // 夏普585某些机型退出时黑屏一下问题
     protected int mStartPosition;
     protected boolean mIsPreview;
-
-    // 奇艺播放器播放电视剧时,无需再次初始化
-    private boolean isQiyiSdkInit = false;
-    private String mUser;
-
     protected IPlayer.OnDataSourceSetListener mOnDataSourceSetListener;
     protected IPlayer.OnVideoSizeChangedListener mOnVideoSizeChangedListener;
     protected IPlayer.OnBufferChangedListener mOnBufferChangedListener;
     protected IPlayer.OnStateChangedListener mOnStateChangedListener;
     protected IPlayer.OnInfoListener mOnInfoListener;
+    private int mDrmType;
+    // 奇艺播放器播放电视剧时,无需再次初始化
+    private boolean isQiyiSdkInit = false;
+    private String mUser;
 
     public IsmartvPlayer(byte mode) {
         mPlayerMode = mode;
@@ -107,9 +100,12 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     @Override
-    public void setDataSource(IsmartvMedia media, ClipEntity clipEntity, ClipEntity.Quality initQuality,
-                              List<AdElementEntity> adList, // 视云影片需要添加是否有广告
-                              OnDataSourceSetListener onDataSourceSetListener) {
+    public void setDataSource(
+            IsmartvMedia media,
+            ClipEntity clipEntity,
+            ClipEntity.Quality initQuality,
+            List<AdElementEntity> adList, // 视云影片需要添加是否有广告
+            OnDataSourceSetListener onDataSourceSetListener) {
         if (media == null) {
             mLogMedia = new IsmartvMedia(mItemEntity.getItemPk(), mItemEntity.getPk());
             Log.e(TAG, "IsmartvMedia null, it's used to report log.");
@@ -125,8 +121,7 @@ public abstract class IsmartvPlayer implements IPlayer {
             }
             CallaPlay callaPlay = new CallaPlay();
             callaPlay.videoExcept(
-                    "noplayaddress", "noplayaddress",
-                    mLogMedia, 0, sid, 0, playerFlag);
+                    "noplayaddress", "noplayaddress", mLogMedia, 0, sid, 0, playerFlag);
             throw new IllegalArgumentException("IsmartvPlayer setDataSource invalidate.");
         }
         mOnDataSourceSetListener = onDataSourceSetListener;
@@ -136,37 +131,50 @@ public abstract class IsmartvPlayer implements IPlayer {
                 // 片源为视云
                 mClipEntity = new ClipEntity();
 
-//                String adaptive = clipEntity.getAdaptive();
+                //                String adaptive = clipEntity.getAdaptive();
                 String normal = clipEntity.getNormal();
                 String medium = clipEntity.getMedium();
                 String high = clipEntity.getHigh();
                 String ultra = clipEntity.getUltra();
                 String blueray = clipEntity.getBlueray();
                 String _4k = clipEntity.get_4k();
-//                if (!Utils.isEmptyText(adaptive)) {
-//                    mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive, IsmartvActivator.getInstance().getDeviceToken()));
-//                }
+                //                if (!Utils.isEmptyText(adaptive)) {
+                //                    mClipEntity.setAdaptive(AccessProxy.AESDecrypt(adaptive,
+                // IsmartvActivator.getInstance().getDeviceToken()));
+                //                }
                 if (!Utils.isEmptyText(normal)) {
-                    mClipEntity.setNormal(AccessProxy.AESDecrypt(normal, IsmartvActivator.getInstance().getDeviceToken()));
+                    mClipEntity.setNormal(
+                            AccessProxy.AESDecrypt(
+                                    normal, IsmartvActivator.getInstance().getDeviceToken()));
                 }
                 if (!Utils.isEmptyText(medium)) {
-                    mClipEntity.setMedium(AccessProxy.AESDecrypt(medium, IsmartvActivator.getInstance().getDeviceToken()));
+                    mClipEntity.setMedium(
+                            AccessProxy.AESDecrypt(
+                                    medium, IsmartvActivator.getInstance().getDeviceToken()));
                 }
                 if (!Utils.isEmptyText(high)) {
-                    mClipEntity.setHigh(AccessProxy.AESDecrypt(high, IsmartvActivator.getInstance().getDeviceToken()));
+                    mClipEntity.setHigh(
+                            AccessProxy.AESDecrypt(
+                                    high, IsmartvActivator.getInstance().getDeviceToken()));
                 }
                 if (!Utils.isEmptyText(ultra)) {
-                    mClipEntity.setUltra(AccessProxy.AESDecrypt(ultra, IsmartvActivator.getInstance().getDeviceToken()));
+                    mClipEntity.setUltra(
+                            AccessProxy.AESDecrypt(
+                                    ultra, IsmartvActivator.getInstance().getDeviceToken()));
                 }
                 if (!Utils.isEmptyText(blueray)) {
-                    mClipEntity.setBlueray(AccessProxy.AESDecrypt(blueray, IsmartvActivator.getInstance().getDeviceToken()));
+                    mClipEntity.setBlueray(
+                            AccessProxy.AESDecrypt(
+                                    blueray, IsmartvActivator.getInstance().getDeviceToken()));
                 }
                 if (!Utils.isEmptyText(_4k)) {
-                    mClipEntity.set_4k(AccessProxy.AESDecrypt(_4k, IsmartvActivator.getInstance().getDeviceToken()));
+                    mClipEntity.set_4k(
+                            AccessProxy.AESDecrypt(
+                                    _4k, IsmartvActivator.getInstance().getDeviceToken()));
                 }
-//                Log.d(TAG, mClipEntity.toString());
-                if (initQuality== null){
-                   initQuality = QUALITY_LOW;
+                //                Log.d(TAG, mClipEntity.toString());
+                if (initQuality == null) {
+                    initQuality = QUALITY_LOW;
                 }
                 String mediaUrl = initSmartQuality(initQuality);
                 mediaUrl = mClipEntity.getNormal();
@@ -189,7 +197,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                         mLogMedia.setAdIdMap(adIdMap);
                         paths[paths.length - 1] = mediaUrl;
                     } else {
-                        paths = new String[]{mediaUrl};
+                        paths = new String[] {mediaUrl};
                     }
                     setMedia(paths);
                 } else {
@@ -198,12 +206,12 @@ public abstract class IsmartvPlayer implements IPlayer {
                     }
                 }
                 break;
-//            case PlayerBuilder.MODE_PRELOAD_PLAYER:
-//                mPlayerFlag = PLAYER_FLAG_SMART;
-//                mClipEntity = clipEntity;
-//                initSmartQuality(initQuality);
-//                setMedia(new String[1]);
-//                break;
+                //            case PlayerBuilder.MODE_PRELOAD_PLAYER:
+                //                mPlayerFlag = PLAYER_FLAG_SMART;
+                //                mClipEntity = clipEntity;
+                //                initSmartQuality(initQuality);
+                //                setMedia(new String[1]);
+                //                break;
             case PlayerBuilder.MODE_QIYI_PLAYER:
                 // 片源为爱奇艺
                 mClipEntity = new ClipEntity();
@@ -218,72 +226,106 @@ public abstract class IsmartvPlayer implements IPlayer {
                 }
                 if (isQiyiSdkInit) {
                     String[] array = mClipEntity.getIqiyi_4_0().split(":");
-                    SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mDrmType, mStartPosition, null);
+                    SdkVideo qiyiInfo =
+                            new SdkVideo(
+                                    array[0],
+                                    array[1],
+                                    mClipEntity.is_vip(),
+                                    mDrmType,
+                                    mStartPosition,
+                                    null);
                     setMedia(qiyiInfo);
                     return;
                 }
                 // 初始化奇艺播放器,放在此处原因在于accessToken会发生变化,初始化成功后加载视频
                 Parameter extraParams = new Parameter();
-                //debug code
+                // debug code
                 final long time = TrueTime.now().getTime();
-                extraParams.setInitPlayerSdkAfter(0);  //SDK初始化在调用initialize之后delay一定时间开始执行, 单位为毫秒.
-                extraParams.setCustomerAppVersion(String.valueOf(DeviceUtils.getVersionCode(mContext)));      //传入客户App版本号
-                extraParams.setDeviceId(IsmartvActivator.getInstance().getSnToken());   //传入deviceId, VIP项目必传, 登录和鉴权使用
+                extraParams.setInitPlayerSdkAfter(0); // SDK初始化在调用initialize之后delay一定时间开始执行, 单位为毫秒.
+                extraParams.setCustomerAppVersion(
+                        String.valueOf(DeviceUtils.getVersionCode(mContext))); // 传入客户App版本号
+                extraParams.setDeviceId(
+                        IsmartvActivator.getInstance()
+                                .getSnToken()); // 传入deviceId, VIP项目必传, 登录和鉴权使用
                 extraParams.setDeviceInfo(DeviceUtils.getModelName());
                 extraParams.addAdsHint(Parameter.HINT_TYPE_SKIP_AD, "下"); // 跳过悦享看广告
                 extraParams.addAdsHint(Parameter.HINT_TYPE_HIDE_PAUSE_AD, "下"); // 跳过暂停广告
-                extraParams.addAdsHint(Parameter.HINT_TYPE_SHOW_CLICK_THROUGH_AD, "右"); // 前贴,中插广告跳转页面
-                PlayerSdk.getInstance().initialize(mContext, extraParams,
-                        new PlayerSdk.OnInitializedListener() {
-                            @Override
-                            public void onSuccess() {
-                                String zdevice_token = IsmartvActivator.getInstance().getZDeviceToken();
-                                String zuser_token = IsmartvActivator.getInstance().getZUserToken();
-                                // 先判断是否为付费影片，如果是付费则判断mUser
-                                if (mItemEntity.getExpense() != null && !TextUtils.isEmpty(mUser)) {
-                                    if (mUser.equals("device")) {
-                                        PlayerSdk.getInstance().login(zdevice_token);
-                                    } else if (mUser.equals("account")) {
-                                        PlayerSdk.getInstance().login(zuser_token);
-                                    }
-                                } else {
-                                    if (!Utils.isEmptyText(IsmartvActivator.getInstance().getAuthToken()) && !Utils.isEmptyText(zuser_token)) {
-                                        PlayerSdk.getInstance().login(zuser_token);
-                                    } else {
-                                        PlayerSdk.getInstance().login(zdevice_token);
-                                    }
-                                }
+                extraParams.addAdsHint(
+                        Parameter.HINT_TYPE_SHOW_CLICK_THROUGH_AD, "右"); // 前贴,中插广告跳转页面
+                PlayerSdk.getInstance()
+                        .initialize(
+                                mContext,
+                                extraParams,
+                                new PlayerSdk.OnInitializedListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        String zdevice_token =
+                                                IsmartvActivator.getInstance().getZDeviceToken();
+                                        String zuser_token =
+                                                IsmartvActivator.getInstance().getZUserToken();
+                                        // 先判断是否为付费影片，如果是付费则判断mUser
+                                        if (mItemEntity.getExpense() != null
+                                                && !TextUtils.isEmpty(mUser)) {
+                                            if (mUser.equals("device")) {
+                                                PlayerSdk.getInstance().login(zdevice_token);
+                                            } else if (mUser.equals("account")) {
+                                                PlayerSdk.getInstance().login(zuser_token);
+                                            }
+                                        } else {
+                                            if (!Utils.isEmptyText(
+                                                            IsmartvActivator.getInstance()
+                                                                    .getAuthToken())
+                                                    && !Utils.isEmptyText(zuser_token)) {
+                                                PlayerSdk.getInstance().login(zuser_token);
+                                            } else {
+                                                PlayerSdk.getInstance().login(zdevice_token);
+                                            }
+                                        }
 
-                                if (mClipEntity != null) {
-                                    // 此为异步回调
-                                    isQiyiSdkInit = true;
-                                    Log.i(TAG, "QiYiSdk init success:" + (TrueTime.now().getTime() - time));
-                                    String[] array = mClipEntity.getIqiyi_4_0().split(":");
-                                    SdkVideo qiyiInfo = new SdkVideo(array[0], array[1], mClipEntity.is_vip(), mDrmType, mStartPosition, null);
-                                    setMedia(qiyiInfo);
-                                }
-                            }
+                                        if (mClipEntity != null) {
+                                            // 此为异步回调
+                                            isQiyiSdkInit = true;
+                                            Log.i(
+                                                    TAG,
+                                                    "QiYiSdk init success:"
+                                                            + (TrueTime.now().getTime() - time));
+                                            String[] array = mClipEntity.getIqiyi_4_0().split(":");
+                                            SdkVideo qiyiInfo =
+                                                    new SdkVideo(
+                                                            array[0],
+                                                            array[1],
+                                                            mClipEntity.is_vip(),
+                                                            mDrmType,
+                                                            mStartPosition,
+                                                            null);
+                                            setMedia(qiyiInfo);
+                                        }
+                                    }
 
-                            @Override
-                            public void onFailed(int what, int extra) {
-                                if (mOnDataSourceSetListener != null) {
-                                    mOnDataSourceSetListener.onFailed("QiyiSdk init fail what = " + what + " extra = " + extra);
-                                }
-                            }
-                        });
+                                    @Override
+                                    public void onFailed(int what, int extra) {
+                                        if (mOnDataSourceSetListener != null) {
+                                            mOnDataSourceSetListener.onFailed(
+                                                    "QiyiSdk init fail what = "
+                                                            + what
+                                                            + " extra = "
+                                                            + extra);
+                                        }
+                                    }
+                                });
                 break;
         }
     }
 
     @Override
-    public void prepareAsync() {
-    }
+    public void prepareAsync() {}
 
     public void stopPlayBack() {
-//        if (mPlayerMode == PlayerBuilder.MODE_QIYI_PLAYER) {
-//            // Receiver not registered: com.qiyi.video.utils.NetWorkManager$NetWorkConnectionReceiver@44668530
-//            PlayerSdk.getInstance().release();
-//        }
+        //        if (mPlayerMode == PlayerBuilder.MODE_QIYI_PLAYER) {
+        //            // Receiver not registered:
+        // com.qiyi.video.utils.NetWorkManager$NetWorkConnectionReceiver@44668530
+        //            PlayerSdk.getInstance().release();
+        //        }
         stop();
         release();
 
@@ -299,7 +341,6 @@ public abstract class IsmartvPlayer implements IPlayer {
         mOnBufferChangedListener = null;
         mOnStateChangedListener = null;
         mOnInfoListener = null;
-
     }
 
     @Override
@@ -313,7 +354,8 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     @Override
-    public void setOnVideoSizeChangedListener(OnVideoSizeChangedListener onVideoSizeChangedListener) {
+    public void setOnVideoSizeChangedListener(
+            OnVideoSizeChangedListener onVideoSizeChangedListener) {
         mOnVideoSizeChangedListener = onVideoSizeChangedListener;
     }
 
@@ -407,7 +449,5 @@ public abstract class IsmartvPlayer implements IPlayer {
     }
 
     // 日志上报相关
-    public void logVideoExit(int exitPosition, String source) {
-    }
-
+    public void logVideoExit(int exitPosition, String source) {}
 }

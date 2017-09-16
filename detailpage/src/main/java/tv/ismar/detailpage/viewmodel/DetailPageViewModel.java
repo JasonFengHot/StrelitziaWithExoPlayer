@@ -1,6 +1,4 @@
 package tv.ismar.detailpage.viewmodel;
-import cn.ismartv.injectdb.library.util.Log;
-import cn.ismartv.truetime.TrueTime;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +24,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import cn.ismartv.injectdb.library.util.Log;
 import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
@@ -39,25 +38,49 @@ import tv.ismar.detailpage.BR;
 import tv.ismar.detailpage.R;
 import tv.ismar.detailpage.presenter.DetailPagePresenter;
 
-/**
- * Created by huibin on 8/08/06.
- */
+/** Created by huibin on 8/08/06. */
 public class DetailPageViewModel extends BaseObservable {
-    private Context mContext;
     private final DetailPagePresenter mPresenter;
     public ObservableField<String> itemTitle;
+    public String to = "";
+    private Context mContext;
     private ItemEntity mItemEntity = new ItemEntity();
     private int mRemandDay = 0;
     private String expireDate;
     private boolean itemIsload = false;
     private HistoryManager historyManager;
     private History mHistory;
-    public String to="";
 
     public DetailPageViewModel(Context context, DetailPagePresenter presenter) {
         mContext = context;
         mPresenter = presenter;
         itemTitle = new ObservableField<>();
+    }
+
+    @BindingAdapter({"imageUrl"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_STORE)
+                .into(view);
+    }
+
+    @BindingAdapter({"vipMark"})
+    public static void vipMark(ImageView view, String imageUrl) {
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_STORE)
+                .rotate(90)
+                .into(view);
+    }
+
+    @BindingAdapter("android:layout_width")
+    public static void setLayoutWidth(View view, float width) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.width = (int) width;
+        view.setLayoutParams(layoutParams);
     }
 
     public void replaceItem(ItemEntity itemEntity) {
@@ -116,27 +139,11 @@ public class DetailPageViewModel extends BaseObservable {
             isLogin = "yes";
         }
         mHistory = historyManager.getHistoryByUrl(historyUrl, isLogin);
-
     }
 
     public void showLayout() {
         itemIsload = true;
         notifyPropertyChanged(BR.itemLayoutVisibility);
-    }
-
-    @BindingAdapter({"imageUrl"})
-    public static void loadImage(ImageView view, String imageUrl) {
-        Picasso.with(view.getContext())
-                .load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE)
-                .into(view);
-    }
-
-    @BindingAdapter({"vipMark"})
-    public static void vipMark(ImageView view, String imageUrl) {
-        Picasso.with(view.getContext())
-                .load(imageUrl).memoryPolicy(MemoryPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_STORE)
-                .rotate(90)
-                .into(view);
     }
 
     @Bindable
@@ -152,7 +159,8 @@ public class DetailPageViewModel extends BaseObservable {
     @Bindable
     public String getDescription() {
         if (!TextUtils.isEmpty(mItemEntity.getDescription())) {
-            return mContext.getString(R.string.detail_page_introduction) + mItemEntity.getDescription();
+            return mContext.getString(R.string.detail_page_introduction)
+                    + mItemEntity.getDescription();
         }
         return mItemEntity.getDescription();
     }
@@ -181,7 +189,6 @@ public class DetailPageViewModel extends BaseObservable {
         return TextUtils.isEmpty(getGenre()) ? View.GONE : View.VISIBLE;
     }
 
-
     @Bindable
     public String getDirector() {
         StringBuffer stringBuffer = new StringBuffer();
@@ -200,7 +207,6 @@ public class DetailPageViewModel extends BaseObservable {
         }
         return stringBuffer.toString();
     }
-
 
     @Bindable
     public int getDirectorVisibility() {
@@ -225,7 +231,6 @@ public class DetailPageViewModel extends BaseObservable {
         }
         return stringBuffer.toString();
     }
-
 
     @Bindable
     public int getActorVisibility() {
@@ -259,12 +264,12 @@ public class DetailPageViewModel extends BaseObservable {
         return String.valueOf(length) + mContext.getString(R.string.minute);
     }
 
-
     @Bindable
     public int getLengthVisibility() {
-        return getLength().equals("0" + mContext.getString(R.string.minute)) ? View.GONE : View.VISIBLE;
+        return getLength().equals("0" + mContext.getString(R.string.minute))
+                ? View.GONE
+                : View.VISIBLE;
     }
-
 
     @Bindable
     public String getArea() {
@@ -276,7 +281,6 @@ public class DetailPageViewModel extends BaseObservable {
         }
         return area;
     }
-
 
     @Bindable
     public int getAreaVisibility() {
@@ -310,7 +314,6 @@ public class DetailPageViewModel extends BaseObservable {
     @Bindable
     public int getEmceeVisibility() {
         return TextUtils.isEmpty(getEmcee()) ? View.GONE : View.VISIBLE;
-
     }
 
     @Bindable
@@ -358,7 +361,8 @@ public class DetailPageViewModel extends BaseObservable {
                 return View.GONE;
             }
 
-            if (mItemEntity.getExpense().getPay_type() == 3 || mItemEntity.getExpense().getPay_type() == 0) {
+            if (mItemEntity.getExpense().getPay_type() == 3
+                    || mItemEntity.getExpense().getPay_type() == 0) {
 
                 return View.GONE;
             } else {
@@ -371,32 +375,34 @@ public class DetailPageViewModel extends BaseObservable {
         } catch (NullPointerException e) {
             return View.GONE;
         }
-
     }
 
     @Bindable
     public String getVipMarkUrl() {
         String url;
         if (mItemEntity.getExpense() != null) {
-            url = VipMark.getInstance().getImage((Activity) mContext, mItemEntity.getExpense().getPay_type(),
-                    mItemEntity.getExpense().getCpid());
+            url =
+                    VipMark.getInstance()
+                            .getImage(
+                                    (Activity) mContext,
+                                    mItemEntity.getExpense().getPay_type(),
+                                    mItemEntity.getExpense().getCpid());
         } else {
             url = "test";
         }
         return url;
     }
 
-
     @Bindable
     public int getVipMarkVisibility() {
         return TextUtils.isEmpty(getVipMarkUrl()) ? View.GONE : View.VISIBLE;
     }
 
-
     @Bindable
     public int getPermissionVisibility() {
         try {
-            if (mItemEntity.getExpense().getPay_type() == 3 || mItemEntity.getExpense().getPay_type() == 0) {
+            if (mItemEntity.getExpense().getPay_type() == 3
+                    || mItemEntity.getExpense().getPay_type() == 0) {
                 if (TextUtils.isEmpty(expireDate)) {
                     return View.VISIBLE;
                 } else {
@@ -428,7 +434,10 @@ public class DetailPageViewModel extends BaseObservable {
             if (episodes.equals("0")) {
                 episodes = "";
             } else {
-                episodes += String.format(mContext.getString(R.string.update_to_episode), mItemEntity.getSubitems().length);
+                episodes +=
+                        String.format(
+                                mContext.getString(R.string.update_to_episode),
+                                mItemEntity.getSubitems().length);
             }
 
         } catch (NullPointerException e) {
@@ -479,23 +488,25 @@ public class DetailPageViewModel extends BaseObservable {
                         }
                     }
                     if (subItems == null || subItems.length == 0) {
-                        return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
-                                mContext.getString(R.string.video_play);
+                        return mItemEntity.getExpense() != null && mRemandDay <= 0
+                                ? mContext.getString(R.string.video_preview)
+                                : mContext.getString(R.string.video_play);
                     } else {
-                        return mItemEntity.getExpense() != null && mRemandDay <= 0 ?
-                                mContext.getString(R.string.video_preview)
-                                        + " " + subitem_title
-//                                    subItems[subItems.length - 1].getSubtitle()
-                                :
-                                mContext.getString(R.string.video_play) + " " + subitem_title;
-//                                    subItems[subItems.length - 1].getSubtitle();
+                        return mItemEntity.getExpense() != null && mRemandDay <= 0
+                                ? mContext.getString(R.string.video_preview) + " " + subitem_title
+                                //                                    subItems[subItems.length -
+                                // 1].getSubtitle()
+                                : mContext.getString(R.string.video_play) + " " + subitem_title;
+                        //                                    subItems[subItems.length -
+                        // 1].getSubtitle();
                     }
 
                 default:
-                    return mItemEntity.getExpense() != null && mRemandDay <= 0 ? mContext.getString(R.string.video_preview) :
-                            mContext.getString(R.string.video_play);
+                    return mItemEntity.getExpense() != null && mRemandDay <= 0
+                            ? mContext.getString(R.string.video_preview)
+                            : mContext.getString(R.string.video_play);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return mContext.getString(R.string.video_play);
@@ -504,39 +515,31 @@ public class DetailPageViewModel extends BaseObservable {
     @Bindable
     public boolean getEnabled() {
 
+        if (mItemEntity.getLiveVideo()) {
+            if (videoIsStart()) {
 
-                if(mItemEntity.getLiveVideo()){
-                    if(videoIsStart()){
-
-                         return true;
-                    }else{
-                        return false;
-                    }
-                }else{
-                        return true;
-                }
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
         }
+    }
 
     @Bindable
     public int getVisibility() {
 
-                if(getPlayText().equals(mContext.getString(R.string.video_preview))){
-                    if(mItemEntity.getPreview()==null){
-                        return View.GONE;
-                    }else{
-                        return View.VISIBLE;
-                    }
+        if (getPlayText().equals(mContext.getString(R.string.video_preview))) {
+            if (mItemEntity.getPreview() == null) {
+                return View.GONE;
+            } else {
+                return View.VISIBLE;
+            }
 
-                }else{
-                    return View.VISIBLE;
-                }
-
-    }
-    @BindingAdapter("android:layout_width")
-    public static void setLayoutWidth(View view, float width) {
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.width = (int) width;
-        view.setLayoutParams(layoutParams);
+        } else {
+            return View.VISIBLE;
+        }
     }
 
     @Bindable
@@ -547,9 +550,10 @@ public class DetailPageViewModel extends BaseObservable {
     @Bindable
     public String getBookmarkText() {
 
-        return mPresenter.isFavorite() ? mContext.getString(R.string.video_favorite_) : mContext.getString(R.string.video_favorite);
+        return mPresenter.isFavorite()
+                ? mContext.getString(R.string.video_favorite_)
+                : mContext.getString(R.string.video_favorite);
     }
-
 
     public void notifyPlayCheck(PlayCheckEntity playCheckEntity) {
         mRemandDay = playCheckEntity.getRemainDay();
@@ -558,7 +562,7 @@ public class DetailPageViewModel extends BaseObservable {
         notifyPropertyChanged(BR.playText);
         notifyPropertyChanged(BR.expireDate);
         notifyPropertyChanged(BR.expireDateVisibility);
-        notifyPropertyChanged(BR.priceVisibility);     
+        notifyPropertyChanged(BR.priceVisibility);
         notifyPropertyChanged(BR.permissionVisibility);
         notifyPropertyChanged(BR.episodesVisibility);
         notifyPropertyChanged(BR.subitemsVisibility);
@@ -591,7 +595,6 @@ public class DetailPageViewModel extends BaseObservable {
     public int getExpireDateVisibility() {
         return TextUtils.isEmpty(expireDate) ? View.GONE : View.VISIBLE;
     }
-
 
     @Bindable
     public String getClassification() {
@@ -636,9 +639,11 @@ public class DetailPageViewModel extends BaseObservable {
 
     private boolean videoIsStart() {
         if (mItemEntity.getStartTime() != null) {
-            Calendar currentCalendar = new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+            Calendar currentCalendar =
+                    new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
             currentCalendar.setTime(TrueTime.now());
-            Calendar startCalendar = new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+            Calendar startCalendar =
+                    new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
             startCalendar.setTime(mItemEntity.getStartTime());
             if (currentCalendar.after(startCalendar)) {
                 return true;
@@ -649,6 +654,4 @@ public class DetailPageViewModel extends BaseObservable {
             return true;
         }
     }
-
-
 }

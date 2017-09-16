@@ -33,79 +33,69 @@ public class PlayerMenu extends PlayerMenuItem {
 
     private OnCreateMenuListener onCreateMenuListener;
 
-    public void setOnCreateMenuListener(OnCreateMenuListener listener) {
-        onCreateMenuListener = listener;
-    }
-
-    public interface OnCreateMenuListener {
-
-        boolean onMenuClicked(PlayerMenu playerMenu, int id);
-
-        void onMenuCloseed(PlayerMenu playerMenu);
-
-    }
-
     public PlayerMenu(Context ctx, ListView view) {
         super(-1, "");
         context = ctx;
         listView = view;
-        listView.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        pop();
-                        return true;
-                    } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
-                            || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                        return true;
-                    } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                        if (onHoveredPosition >= 0 && listView.getCount() > 2) {
-                            Log.i("LH/", "down-lastSelectedId:" + onHoveredPosition);
-                            PlayerMenuItem curr = getCurrMenu();
-                            if (curr != null) {
-                                PlayerMenuItem item = curr.subItems.get(onHoveredPosition);
+        listView.setOnKeyListener(
+                new View.OnKeyListener() {
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                pop();
+                                return true;
+                            } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+                                    || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                                return true;
+                            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                                if (onHoveredPosition >= 0 && listView.getCount() > 2) {
+                                    Log.i("LH/", "down-lastSelectedId:" + onHoveredPosition);
+                                    PlayerMenuItem curr = getCurrMenu();
+                                    if (curr != null) {
+                                        PlayerMenuItem item = curr.subItems.get(onHoveredPosition);
 
-                                int selection = -1;
-                                if (onHoveredPosition == (listView.getCount() - 1)) {
-                                    selection = listView.getCount() - 1;
-                                } else {
-                                    selection = onHoveredPosition + 1;
+                                        int selection = -1;
+                                        if (onHoveredPosition == (listView.getCount() - 1)) {
+                                            selection = listView.getCount() - 1;
+                                        } else {
+                                            selection = onHoveredPosition + 1;
+                                        }
+                                        loadMenu(curr, false, selection);
+                                    }
+                                    onHoveredPosition = -1;
                                 }
-                                loadMenu(curr, false, selection);
-                            }
-                            onHoveredPosition = -1;
-                        }
-                    } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                        if (onHoveredPosition >= 0 && listView.getCount() > 2) {
-                            Log.i("LH/", "up-lastSelectedId:" + onHoveredPosition);
-                            PlayerMenuItem curr = getCurrMenu();
-                            if (curr != null) {
-                                PlayerMenuItem item = curr.subItems.get(onHoveredPosition);
+                            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                                if (onHoveredPosition >= 0 && listView.getCount() > 2) {
+                                    Log.i("LH/", "up-lastSelectedId:" + onHoveredPosition);
+                                    PlayerMenuItem curr = getCurrMenu();
+                                    if (curr != null) {
+                                        PlayerMenuItem item = curr.subItems.get(onHoveredPosition);
 
-                                int selection = -1;
-                                if (onHoveredPosition == 0) {
-                                    selection = 0;
-                                } else {
-                                    selection = onHoveredPosition - 1;
+                                        int selection = -1;
+                                        if (onHoveredPosition == 0) {
+                                            selection = 0;
+                                        } else {
+                                            selection = onHoveredPosition - 1;
+                                        }
+                                        loadMenu(curr, false, selection);
+                                    }
+                                    onHoveredPosition = -1;
                                 }
-                                loadMenu(curr, false, selection);
                             }
-                            onHoveredPosition = -1;
                         }
+                        return false;
                     }
-                }
-                return false;
-            }
-        });
-        showAnimation = AnimationUtils.loadAnimation(context,
-                R.anim.slide_in_right);
-        hideAnimation = AnimationUtils.loadAnimation(context,
-                android.R.anim.slide_out_right);
+                });
+        showAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+        hideAnimation = AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right);
+    }
+
+    public void setOnCreateMenuListener(OnCreateMenuListener listener) {
+        onCreateMenuListener = listener;
     }
 
     private PlayerMenuItem getCurrMenu() {
-        if (menuStackTop == 0)
-            return null;
+        if (menuStackTop == 0) return null;
 
         return menuStack[menuStackTop - 1];
     }
@@ -128,48 +118,57 @@ public class PlayerMenu extends PlayerMenuItem {
             sel = selection;
         }
 
-        listView.setAdapter(new ArrayAdapter<String>(context, R.layout.adapter_player_menu,
-                R.id.adapter_menu_text, titles) {
-            public View getView(int position, View convertView, ViewGroup parent) {
-                convertView = super.getView(position, convertView, parent);
-                TextView tv = (TextView) convertView
-                        .findViewById(R.id.adapter_menu_text);
-                PlayerMenuItem curr = getCurrMenu();
-                int id = position;
-                TextView checkbox = (TextView) convertView.findViewById(R.id.adapter_menu_checkBox);
-                Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
-                checkbox.setTypeface(typeface);
-                if (curr.subItems.get(id).selected) {
-                    if (curr.subItems.get(id).id != 0 && curr.subItems.get(id).id != 100 & curr.subItems.get(id).id != 20 && curr.subItems.get(id).id != 30)
-                        checkbox.setVisibility(View.VISIBLE);
-                } else {
-                    checkbox.setVisibility(View.INVISIBLE);
-                }
-                convertView.setTag(R.id.adapter_menu_text, id);
-                convertView.setOnHoverListener(new View.OnHoverListener() {
-
-                    @Override
-                    public boolean onHover(View v, MotionEvent event) {
-                        if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER
-                                || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
-                            if (lastSelectMenu != null) {
-                                lastSelectMenu.setBackgroundResource(android.R.color.transparent);
-                            }
-                            v.setBackgroundResource(R.color._ff9c3c);
-                            lastSelectMenu = v;
-                            onHoveredPosition = (int) v.getTag(R.id.adapter_menu_text);
+        listView.setAdapter(
+                new ArrayAdapter<String>(
+                        context, R.layout.adapter_player_menu, R.id.adapter_menu_text, titles) {
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        convertView = super.getView(position, convertView, parent);
+                        TextView tv = (TextView) convertView.findViewById(R.id.adapter_menu_text);
+                        PlayerMenuItem curr = getCurrMenu();
+                        int id = position;
+                        TextView checkbox =
+                                (TextView) convertView.findViewById(R.id.adapter_menu_checkBox);
+                        Typeface typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL);
+                        checkbox.setTypeface(typeface);
+                        if (curr.subItems.get(id).selected) {
+                            if (curr.subItems.get(id).id != 0
+                                    && curr.subItems.get(id).id != 100
+                                            & curr.subItems.get(id).id != 20
+                                    && curr.subItems.get(id).id != 30)
+                                checkbox.setVisibility(View.VISIBLE);
                         } else {
-                            if (lastSelectMenu != null) {
-                                lastSelectMenu.setBackgroundResource(android.R.color.transparent);
-                            }
-                            onHoveredPosition = -1;
+                            checkbox.setVisibility(View.INVISIBLE);
                         }
-                        return false;
+                        convertView.setTag(R.id.adapter_menu_text, id);
+                        convertView.setOnHoverListener(
+                                new View.OnHoverListener() {
+
+                                    @Override
+                                    public boolean onHover(View v, MotionEvent event) {
+                                        if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER
+                                                || event.getAction()
+                                                        == MotionEvent.ACTION_HOVER_MOVE) {
+                                            if (lastSelectMenu != null) {
+                                                lastSelectMenu.setBackgroundResource(
+                                                        android.R.color.transparent);
+                                            }
+                                            v.setBackgroundResource(R.color._ff9c3c);
+                                            lastSelectMenu = v;
+                                            onHoveredPosition =
+                                                    (int) v.getTag(R.id.adapter_menu_text);
+                                        } else {
+                                            if (lastSelectMenu != null) {
+                                                lastSelectMenu.setBackgroundResource(
+                                                        android.R.color.transparent);
+                                            }
+                                            onHoveredPosition = -1;
+                                        }
+                                        return false;
+                                    }
+                                });
+                        return convertView;
                     }
                 });
-                return convertView;
-            }
-        });
         if (sel != -1) {
             listView.setSelection(sel);
         }
@@ -181,59 +180,64 @@ public class PlayerMenu extends PlayerMenuItem {
     private void create() {
         if (!created) {
             created = true;
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listView.setOnItemClickListener(
+                    new AdapterView.OnItemClickListener() {
 
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d(TAG, "select " + id);
-                    PlayerMenuItem curr = getCurrMenu();
-                    if (curr != null && curr.subItems != null) {
-                        PlayerMenuItem item = curr.subItems.get(position);
-                        if (item.isSub) {
-                            Log.d(TAG, "load " + item.title);
-                            loadMenu(item, true, -1);
-                        } else {
-                            Log.d(TAG, "click " + item.title);
-                            if (NetworkUtils.isConnected(context)) {
-                                for (PlayerMenuItem sub : curr.subItems) {
-                                    if (sub.id == item.id) {
-                                        sub.selected = true;
-                                    } else {
-                                        sub.selected = false;
+                        public void onItemClick(
+                                AdapterView<?> parent, View view, int position, long id) {
+                            Log.d(TAG, "select " + id);
+                            PlayerMenuItem curr = getCurrMenu();
+                            if (curr != null && curr.subItems != null) {
+                                PlayerMenuItem item = curr.subItems.get(position);
+                                if (item.isSub) {
+                                    Log.d(TAG, "load " + item.title);
+                                    loadMenu(item, true, -1);
+                                } else {
+                                    Log.d(TAG, "click " + item.title);
+                                    if (NetworkUtils.isConnected(context)) {
+                                        for (PlayerMenuItem sub : curr.subItems) {
+                                            if (sub.id == item.id) {
+                                                sub.selected = true;
+                                            } else {
+                                                sub.selected = false;
+                                            }
+                                        }
+                                    }
+                                    if (onCreateMenuListener != null
+                                            && onCreateMenuListener.onMenuClicked(
+                                                    PlayerMenu.this, item.id)) {
+                                        hide();
                                     }
                                 }
                             }
-                            if (onCreateMenuListener != null &&
-                                    onCreateMenuListener.onMenuClicked(PlayerMenu.this, item.id)) {
-                                hide();
+                        }
+                    });
+            listView.setOnItemSelectedListener(
+                    new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(
+                                AdapterView<?> parent, View view, int position, long id) {
+                            Log.i(TAG, "onItemSelected:" + position);
+                            if (view != null) {
+                                view.setBackgroundResource(R.color._ff9c3c);
+                                if (lastSelectMenu != null && view != lastSelectMenu) {
+                                    lastSelectMenu.setBackgroundResource(
+                                            android.R.color.transparent);
+                                }
+                                lastSelectMenu = view;
                             }
                         }
-                    }
-                }
-            });
-            listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Log.i(TAG, "onItemSelected:" + position);
-                    if (view != null){
-                        view.setBackgroundResource(R.color._ff9c3c);
-                        if (lastSelectMenu != null && view != lastSelectMenu) {
-                            lastSelectMenu.setBackgroundResource(android.R.color.transparent);
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            Log.i(TAG, "onNothingSelected");
                         }
-                        lastSelectMenu = view;
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    Log.i(TAG, "onNothingSelected");
-                }
-
-            });
+                    });
         }
     }
 
-    public void showQuality(int click_position){
+    public void showQuality(int click_position) {
         if (!visible && (subItems != null) && (subItems.size() != 0)) {
             visible = true;
             menuStackTop = 0;
@@ -243,7 +247,10 @@ public class PlayerMenu extends PlayerMenuItem {
             listView.startAnimation(showAnimation);
             listView.setItemsCanFocus(true);
             listView.requestFocus();
-            listView.performItemClick(listView.getChildAt(click_position), click_position, listView.getItemIdAtPosition(click_position));
+            listView.performItemClick(
+                    listView.getChildAt(click_position),
+                    click_position,
+                    listView.getItemIdAtPosition(click_position));
         }
     }
 
@@ -261,8 +268,7 @@ public class PlayerMenu extends PlayerMenuItem {
     }
 
     public void pop() {
-        if (!visible)
-            return;
+        if (!visible) return;
         if (menuStackTop > 0) {
             menuStackTop--;
             PlayerMenuItem curr = getCurrMenu();
@@ -292,5 +298,12 @@ public class PlayerMenu extends PlayerMenuItem {
 
     public void enable_scroll(boolean enable_scroll) {
         listView.setVerticalScrollBarEnabled(enable_scroll);
+    }
+
+    public interface OnCreateMenuListener {
+
+        boolean onMenuClicked(PlayerMenu playerMenu, int id);
+
+        void onMenuCloseed(PlayerMenu playerMenu);
     }
 }

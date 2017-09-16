@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sakura="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:sakura="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/content_bg_new"
@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:focusable="true"
         android:scaleType="fitXY"
-        android:src="#405185"/>
+        android:src="#405185" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,15 +25,14 @@
             android:layout_marginTop="@dimen/film_star_title_new_mt"
             android:gravity="center"
             android:textColor="@color/word_selected"
-            android:textSize="@dimen/textSize_40sp"/>
+            android:textSize="@dimen/textSize_40sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/indicator_ll_h"
             android:layout_marginLeft="@dimen/indicator_ll_ml"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -50,7 +49,7 @@
                     android:focusable="true"
                     android:padding="@dimen/arrow_padding"
                     android:src="@drawable/left_arrow_selector"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <cn.ismartv.tvhorizontalscrollview.TvHorizontalScrollView
@@ -87,7 +86,7 @@
                     android:focusable="true"
                     android:padding="@dimen/arrow_padding"
                     android:src="@drawable/right_arrow_selector"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -96,63 +95,61 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/poster_tv_margin_left"
             android:background="@android:color/transparent"
-            android:focusable="true"/>
+            android:focusable="true" />
 
         <RelativeLayout
             android:id="@+id/film_scroll_list_new"
             android:layout_width="match_parent"
             android:layout_height="@dimen/film_scroll_list_new_h"
-            android:clipToPadding="false"
-            android:clipChildren="false">
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <ImageView
                 android:id="@+id/content_arrow_left_new"
                 android:layout_width="@dimen/top_arrow_height"
                 android:layout_height="@dimen/top_arrow_width"
                 android:layout_alignParentLeft="true"
-                android:layout_marginTop="@dimen/content_arrow_left_new_mt"
                 android:layout_marginLeft="@dimen/gridview_padding"
+                android:layout_marginTop="@dimen/content_arrow_left_new_mt"
                 android:background="@drawable/arrow_left_selector_dearch"
                 android:clickable="true"
                 android:nextFocusDown="@id/content_arrow_left_new"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <tv.ismar.app.ui.HGridView
                 android:id="@+id/vod_scrollview_new"
                 android:layout_width="@dimen/vod_scrollview_new_w"
                 android:layout_height="match_parent"
-                sakura:horizontalSpacing="@dimen/vod_scrollview_new_hs"
-                sakura:numRows="1"
-                sakura:rowHeight="@dimen/filter_portraitresult_filter_grid_rowHeight"
-                sakura:selectorDrawable="@drawable/vod_gv_selector"
-                sakura:verticalSpacing="0dip"
-                sakura:selectionLeftPadding="@dimen/vod_scrollview_new_lp"
-                sakura:selectionTopPadding="@dimen/vod_scrollview_new_tp"
-                sakura:selectionRightPadding="@dimen/vod_scrollview_new_rp"
-                sakura:selectionBottomPadding="@dimen/vod_scrollview_new_bp"
-                sakura:posterScaleSize="1.15"
-                android:paddingTop="@dimen/vod_scrollview_new_pt"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:nextFocusLeft="@id/vod_scrollview_new"
-                android:nextFocusRight="@id/vod_scrollview_new"
-                android:nextFocusDown="@id/vod_scrollview_new"
                 android:layout_marginLeft="@dimen/vod_scrollview_new_ml"
                 android:layout_marginRight="@dimen/vod_scrollview_new_ml"
-             >
-            </tv.ismar.app.ui.HGridView>
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:nextFocusDown="@id/vod_scrollview_new"
+                android:nextFocusLeft="@id/vod_scrollview_new"
+                android:nextFocusRight="@id/vod_scrollview_new"
+                android:paddingTop="@dimen/vod_scrollview_new_pt"
+                sakura:horizontalSpacing="@dimen/vod_scrollview_new_hs"
+                sakura:numRows="1"
+                sakura:posterScaleSize="1.15"
+                sakura:rowHeight="@dimen/filter_portraitresult_filter_grid_rowHeight"
+                sakura:selectionBottomPadding="@dimen/vod_scrollview_new_bp"
+                sakura:selectionLeftPadding="@dimen/vod_scrollview_new_lp"
+                sakura:selectionRightPadding="@dimen/vod_scrollview_new_rp"
+                sakura:selectionTopPadding="@dimen/vod_scrollview_new_tp"
+                sakura:selectorDrawable="@drawable/vod_gv_selector"
+                sakura:verticalSpacing="0dip"></tv.ismar.app.ui.HGridView>
 
             <ImageView
                 android:id="@+id/content_arrow_right_new"
                 android:layout_width="@dimen/top_arrow_height"
                 android:layout_height="@dimen/top_arrow_width"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/content_arrow_left_new_mt"
                 android:layout_marginRight="@dimen/gridview_padding"
+                android:layout_marginTop="@dimen/content_arrow_left_new_mt"
                 android:background="@drawable/arrow_right_selector_search"
                 android:clickable="true"
                 android:nextFocusDown="@id/content_arrow_right_new"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
         </RelativeLayout>
 
@@ -164,7 +161,7 @@
             android:layout_marginRight="@dimen/update_dialog_arrow1_margin_left"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="#202e5d"/>
+            android:src="#202e5d" />
 
         <LinearLayout
             android:id="@+id/film_description_new"
@@ -185,21 +182,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/filmStar_item_horizontal_space"
-                    android:textSize="@dimen/textSize_30sp"/>
+                    android:textSize="@dimen/textSize_30sp" />
 
                 <TextView
                     android:id="@+id/director_new"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/filmStar_item_horizontal_space"
-                    android:textSize="@dimen/textSize_30sp"/>
+                    android:textSize="@dimen/textSize_30sp" />
 
                 <TextView
                     android:id="@+id/area_new"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/filmStar_item_horizontal_space"
-                    android:textSize="@dimen/textSize_30sp"/>
+                    android:textSize="@dimen/textSize_30sp" />
 
 
             </LinearLayout>
@@ -210,7 +207,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/filmStar_item_horizontal_space"
                 android:layout_weight="1"
-                android:textSize="@dimen/textSize_30sp"/>
+                android:textSize="@dimen/textSize_30sp" />
 
         </LinearLayout>
 

@@ -2,10 +2,7 @@ package tv.ismar.app.models;
 
 import java.util.List;
 
-/**
- * Created by admin on 2016/10/27.
- */
-
+/** Created by admin on 2016/10/27. */
 public class Game {
 
     private List<SportGame> living;
@@ -27,5 +24,4 @@ public class Game {
     public void setHighlight(List<SportGame> highlight) {
         this.highlight = highlight;
     }
-
 }

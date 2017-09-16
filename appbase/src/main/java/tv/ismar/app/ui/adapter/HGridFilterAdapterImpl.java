@@ -25,24 +25,19 @@ import tv.ismar.app.ui.HGridView;
 import tv.ismar.app.ui.view.AsyncImageView;
 import tv.ismar.app.ui.view.LabelImageView;
 
+public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection>
+        implements AsyncImageView.OnImageViewLoadListener {
 
-public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> implements AsyncImageView.OnImageViewLoadListener {
-
-    private final static String TAG = "HGridAdapterImpl";
-
+    private static final String TAG = "HGridAdapterImpl";
+    public HGridView hg;
     private Context mContext;
     private boolean mHasSection = true;
     private int mSize = 0;
-    public HGridView hg;
     private HashSet<AsyncImageView> mOnLoadingImageQueue = new HashSet<AsyncImageView>();
     private HashSet<RelativeLayout> mOnLoadinglayoutQueue = new HashSet<RelativeLayout>();
     private boolean isPortrait = false;
-    private Transformation mTransformation = new ReflectionTransformationBuilder()
-            .setIsHorizontal(true)
-            .build();
-    public void setIsPortrait(boolean isPortrait) {
-        this.isPortrait = isPortrait;
-    }
+    private Transformation mTransformation =
+            new ReflectionTransformationBuilder().setIsHorizontal(true).build();
 
     public HGridFilterAdapterImpl(Context context, ArrayList<ItemCollection> list) {
         mContext = context;
@@ -52,10 +47,10 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
                 mSize += list.get(i).count;
             }
         }
-
     }
 
-    public HGridFilterAdapterImpl(Context context, ArrayList<ItemCollection> list, boolean hasSection) {
+    public HGridFilterAdapterImpl(
+            Context context, ArrayList<ItemCollection> list, boolean hasSection) {
         mContext = context;
         if (list != null && list.size() > 0) {
             mList = list;
@@ -64,6 +59,10 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
             }
         }
         this.mHasSection = hasSection;
+    }
+
+    public void setIsPortrait(boolean isPortrait) {
+        this.isPortrait = isPortrait;
     }
 
     @Override
@@ -106,12 +105,16 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
         Holder holder = null;
         if (convertView == null) {
             if (!this.isPortrait)
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.filter_list_view_item, null);
+                convertView =
+                        LayoutInflater.from(mContext).inflate(R.layout.filter_list_view_item, null);
             else
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.filter_portraitlist_view_item, null);
+                convertView =
+                        LayoutInflater.from(mContext)
+                                .inflate(R.layout.filter_portraitlist_view_item, null);
             holder = new Holder();
             holder.title = (TextView) convertView.findViewById(R.id.filter_list_item_title);
-            holder.previewImage = (AsyncImageView) convertView.findViewById(R.id.filter_list_item_preview_img);
+            holder.previewImage =
+                    (AsyncImageView) convertView.findViewById(R.id.filter_list_item_preview_img);
             holder.ItemBeanScore = (TextView) convertView.findViewById(R.id.ItemBeanScore);
             holder.expense_txt = (ImageView) convertView.findViewById(R.id.expense_txt);
             convertView.setTag(holder);
@@ -137,7 +140,8 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
                 final Item item = mList.get(sectionIndex).objects.get(indexOfCurrentSection);
                 if (item != null) {
                     if (this.isPortrait) {
-                        if(item.list_url.equals("http://res.tvxio.bestv.com.cn/media/upload/20160321/36c8886fd5b4163ae48534a72ec3a555.png")){
+                        if (item.list_url.equals(
+                                "http://res.tvxio.bestv.com.cn/media/upload/20160321/36c8886fd5b4163ae48534a72ec3a555.png")) {
                             Picasso.with(mContext)
                                     .load(item.adlet_url)
                                     .error(R.drawable.list_item_ppreview_bg)
@@ -145,18 +149,19 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
                                     .transform(mTransformation)
                                     .into(holder.previewImage);
 
-                        }else {
+                        } else {
                             holder.previewImage.setUrl(item.list_url);
                         }
                     } else {
-                        if(item.adlet_url.equals("http://res.tvxio.bestv.com.cn/media/upload/20160504/5eae6db53f065ff0269dfc71fb28a4ec.png")){
+                        if (item.adlet_url.equals(
+                                "http://res.tvxio.bestv.com.cn/media/upload/20160504/5eae6db53f065ff0269dfc71fb28a4ec.png")) {
                             Picasso.with(mContext)
                                     .load(item.list_url)
                                     .error(R.drawable.list_item_ppreview_bg)
                                     .placeholder(R.drawable.list_item_ppreview_bg)
                                     .transform(mTransformation)
                                     .into(holder.previewImage);
-                        }else {
+                        } else {
                             holder.previewImage.setUrl(item.adlet_url);
                         }
                     }
@@ -169,7 +174,12 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
                         if (item.expense.cptitle != null) {
                             holder.expense_txt.setVisibility(View.VISIBLE);
 
-                            String imageUrl = VipMark.getInstance().getImage((Activity) mContext, item.expense.pay_type, item.expense.cpid);
+                            String imageUrl =
+                                    VipMark.getInstance()
+                                            .getImage(
+                                                    (Activity) mContext,
+                                                    item.expense.pay_type,
+                                                    item.expense.cpid);
                             Picasso.with(mContext).load(imageUrl).into(holder.expense_txt);
                         }
                     }
@@ -181,18 +191,10 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
                 // Show the default info.
                 holder.title.setText(mContext.getResources().getString(R.string.onload));
                 holder.previewImage.setUrl(null);
-
             }
         }
 
         return convertView;
-    }
-
-    static class Holder {
-        AsyncImageView previewImage;
-        TextView title;
-        TextView ItemBeanScore;
-        ImageView expense_txt;
     }
 
     @Override
@@ -209,26 +211,20 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
 
     @Override
     public boolean hasSection() {
-        if (this.mHasSection)
-            return true;
-        else
-            return false;
+        if (this.mHasSection) return true;
+        else return false;
     }
 
     @Override
     public int getSectionCount(int sectionIndex) {
-        if (mList.size() > 0)
-            return mList.get(sectionIndex).count;
-        else
-            return 0;
+        if (mList.size() > 0) return mList.get(sectionIndex).count;
+        else return 0;
     }
 
     @Override
     public String getLabelText(int sectionIndex) {
-        if (this.mHasSection)
-            return mList.get(sectionIndex).title;
-        else
-            return " ";
+        if (this.mHasSection) return mList.get(sectionIndex).title;
+        else return " ";
     }
 
     public void cancel() {
@@ -251,5 +247,12 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection> impleme
     @Override
     public void onLoadingFailed(AsyncImageView imageView, Throwable throwable) {
         mOnLoadingImageQueue.remove(imageView);
+    }
+
+    static class Holder {
+        AsyncImageView previewImage;
+        TextView title;
+        TextView ItemBeanScore;
+        ImageView expense_txt;
     }
 }

@@ -18,16 +18,10 @@ package tv.ismar.usercenter;
 
 import tv.ismar.usercenter.presenter.BasePresenter;
 
-/**
- * This specifies the contract between the view and the presenter.
- */
+/** This specifies the contract between the view and the presenter. */
 public interface HelpContract {
 
-    interface View extends BaseView<Presenter>{
+    interface View extends BaseView<Presenter> {}
 
-    }
-
-    interface Presenter extends BasePresenter {
-
-    }
+    interface Presenter extends BasePresenter {}
 }

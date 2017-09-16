@@ -6,48 +6,34 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="tasks"
-            type="tv.ismar.usercenter.viewmodel.ProductViewModel" />
+        <variable name="tasks" type="tv.ismar.usercenter.viewmodel.ProductViewModel" />
 
-        <variable
-            name="actionHandler"
-            type="tv.ismar.usercenter.ProductContract.Presenter" />
+        <variable name="actionHandler" type="tv.ismar.usercenter.ProductContract.Presenter" />
     </data>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <tv.ismar.app.ui.ZGridView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <tv.ismar.app.ui.ZGridView android:id="@+id/recyclerview"
+            android:layout_width="match_parent" android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/product_gridview_ml"
-            android:layout_marginTop="@dimen/product_recycler_mt"
-            android:focusable="true"
-            android:nextFocusLeft="@id/usercenter_store"
-            android:nextFocusUp="@id/recyclerview"
-            android:paddingTop="@dimen/usercenter_storefragment_packagelist_gridview_P"
+            android:layout_marginTop="@dimen/product_recycler_mt" android:focusable="true"
+            android:nextFocusLeft="@id/usercenter_store" android:nextFocusUp="@id/recyclerview"
             android:paddingLeft="@dimen/usercenter_storefragment_packagelist_gridview_P"
             android:paddingRight="@dimen/usercenter_storefragment_packagelist_gridview_P"
-            sakura:listSelector="@drawable/vod_gv_selector"
+            android:paddingTop="@dimen/usercenter_storefragment_packagelist_gridview_P"
+            sakura:horizontalSpace="@dimen/product_gridview_horizontal_space" sakura:listSelector="@drawable/vod_gv_selector"
             sakura:numColumns="4"
             sakura:selectorBottomPadding="@dimen/product_gridview_bp"
             sakura:selectorLeftPadding="@dimen/product_gridview_lp"
             sakura:selectorRightPadding="@dimen/product_gridview_rp"
             sakura:selectorTopPadding="@dimen/product_gridview_tp"
-            sakura:horizontalSpace="@dimen/product_gridview_horizontal_space"
             sakura:verticalSpace="@dimen/product_gridview_vertical_space" />
 
 
-        <ImageView
-            android:id="@+id/tmp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true" />
+        <ImageView android:id="@+id/tmp" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:focusable="true" />
     </LinearLayout>
 </layout>
 

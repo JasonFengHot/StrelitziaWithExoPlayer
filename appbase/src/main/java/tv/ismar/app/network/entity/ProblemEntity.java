@@ -1,8 +1,6 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by <huaijiefeng@gmail.com> on 9/10/14.
- */
+/** Created by <huaijiefeng@gmail.com> on 9/10/14. */
 public class ProblemEntity {
 
     private int point_id;

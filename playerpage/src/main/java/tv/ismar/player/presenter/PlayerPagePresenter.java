@@ -16,9 +16,7 @@ import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.util.Utils;
 import tv.ismar.player.PlayerPageContract;
 
-/**
- * Created by longhai on 16-9-8.
- */
+/** Created by longhai on 16-9-8. */
 public class PlayerPagePresenter implements PlayerPageContract.Presenter {
 
     private final String TAG = "LH/PlayerPagePresenter";
@@ -33,13 +31,11 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         mActivity = activity;
         playerView = view;
         playerView.setPresenter(this);
-
     }
 
     @Override
     public void start() {
         mSkyService = SkyService.ServiceManager.getService();
-
     }
 
     @Override
@@ -50,7 +46,6 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         if (mApiMediaUrlSubsc != null && !mApiMediaUrlSubsc.isUnsubscribed()) {
             mApiMediaUrlSubsc.unsubscribe();
         }
-
     }
 
     @Override
@@ -58,20 +53,21 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         if (mApiItemSubsc != null && !mApiItemSubsc.isUnsubscribed()) {
             mApiItemSubsc.unsubscribe();
         }
-        mApiItemSubsc = mSkyService.apiItem(itemPk)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<ItemEntity>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+        mApiItemSubsc =
+                mSkyService
+                        .apiItem(itemPk)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                mActivity.new BaseObserver<ItemEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    @Override
-                    public void onNext(ItemEntity itemEntity) {
-                        playerView.loadPlayerItem(itemEntity);
-                    }
-                });
-
+                                    @Override
+                                    public void onNext(ItemEntity itemEntity) {
+                                        playerView.loadPlayerItem(itemEntity);
+                                    }
+                                });
     }
 
     @Override
@@ -79,25 +75,25 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
         if (mApiMediaUrlSubsc != null && !mApiMediaUrlSubsc.isUnsubscribed()) {
             mApiMediaUrlSubsc.unsubscribe();
         }
-        if(Utils.isEmptyText(clipUrl)){
+        if (Utils.isEmptyText(clipUrl)) {
             Log.e(TAG, "clipUrl is null.");
             return;
         }
-        mApiMediaUrlSubsc = mSkyService.fetchMediaUrl(clipUrl, sign, code)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<ClipEntity>() {
-                    @Override
-                    public void onCompleted() {
+        mApiMediaUrlSubsc =
+                mSkyService
+                        .fetchMediaUrl(clipUrl, sign, code)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                mActivity.new BaseObserver<ClipEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
-
-                    @Override
-                    public void onNext(ClipEntity clipEntity) {
-                        playerView.loadPlayerClip(clipEntity);
-                    }
-                });
-
+                                    @Override
+                                    public void onNext(ClipEntity clipEntity) {
+                                        playerView.loadPlayerClip(clipEntity);
+                                    }
+                                });
     }
 
     @Override
@@ -106,28 +102,30 @@ public class PlayerPagePresenter implements PlayerPageContract.Presenter {
             mApiHistorySubsc.unsubscribe();
         }
 
-        mApiHistorySubsc = mSkyService.sendPlayHistory(history)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mActivity.new BaseObserver<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+        mApiHistorySubsc =
+                mSkyService
+                        .sendPlayHistory(history)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                mActivity.new BaseObserver<ResponseBody>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        try {
-                            String result = responseBody.string();
-                            Log.i(TAG, "SendHistory:" + result);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                                    @Override
+                                    public void onNext(ResponseBody responseBody) {
+                                        try {
+                                            String result = responseBody.string();
+                                            Log.i(TAG, "SendHistory:" + result);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
 
-                        if (mApiHistorySubsc != null && !mApiHistorySubsc.isUnsubscribed()) {
-                            mApiHistorySubsc.unsubscribe();
-                        }
-                    }
-                });
+                                        if (mApiHistorySubsc != null
+                                                && !mApiHistorySubsc.isUnsubscribed()) {
+                                            mApiHistorySubsc.unsubscribe();
+                                        }
+                                    }
+                                });
     }
-
 }

@@ -4,9 +4,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-/**
- * Created by Beaver on 2016/5/5.
- */
+/** Created by Beaver on 2016/5/5. */
 public class HorizontalSpacesItemDecoration extends RecyclerView.ItemDecoration {
 
     private int space;
@@ -20,7 +18,8 @@ public class HorizontalSpacesItemDecoration extends RecyclerView.ItemDecoration 
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(
+            Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         if (parent.getChildAdapterPosition(view) == 0) {
             outRect.left = padding;
         } else {
@@ -33,7 +32,5 @@ public class HorizontalSpacesItemDecoration extends RecyclerView.ItemDecoration 
         }
         outRect.top = 0;
         outRect.bottom = 0;
-
     }
-
 }

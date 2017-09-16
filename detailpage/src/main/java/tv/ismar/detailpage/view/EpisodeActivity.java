@@ -3,28 +3,21 @@ package tv.ismar.detailpage.view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.open.androidtvwidget.leanback.recycle.RecyclerViewTV;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ismartv.injectdb.library.util.Log;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.Source;
@@ -37,10 +30,7 @@ import tv.ismar.detailpage.R;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_ITEM_JSON;
 import static tv.ismar.app.core.PageIntentInterface.EXTRA_SOURCE;
 
-/**
- * Created by huibin on 11/29/16.
- */
-
+/** Created by huibin on 11/29/16. */
 public class EpisodeActivity extends BaseActivity implements View.OnHoverListener {
     private ItemEntity mItemEntity;
     private List<ItemEntity> mItemEntityList;
@@ -57,10 +47,9 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
     private LoadingDialog loadDialog;
     private boolean paystatus = false;
 
-
     private String source;
-    private String to="return";
-    private int subitem=0;
+    private String to = "return";
+    private int subitem = 0;
 
     private View tmp;
 
@@ -81,8 +70,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
         Bundle bundle = getIntent().getExtras();
 
-        if (null == bundle)
-            return;
+        if (null == bundle) return;
 
         mItemEntity = new Gson().fromJson(bundle.getString(EXTRA_ITEM_JSON), ItemEntity.class);
         source = bundle.getString(EXTRA_SOURCE);
@@ -101,10 +89,10 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         getSupportFragmentManager().beginTransaction().add(R.id.detail_head, headFragment).commit();
 
         initLayout();
-        episode_zgridview.setAdapter(new EpisodeAdapter(this,mItemEntity.getSubitems()));
+        episode_zgridview.setAdapter(new EpisodeAdapter(this, mItemEntity.getSubitems()));
         episode_zgridview.setUpView(episode_arrow_up);
         episode_zgridview.setDownView(episode_arrow_down);
-        if(mItemEntity.getSubitems().length>40){
+        if (mItemEntity.getSubitems().length > 40) {
             episode_arrow_down.setVisibility(View.VISIBLE);
         }
     }
@@ -113,9 +101,6 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
     public void onResume() {
         super.onResume();
     }
-
-
-
 
     private void initViews() {
         tmp = findViewById(R.id.tmp);
@@ -130,24 +115,30 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         episode_arrow_down = (Button) findViewById(R.id.episode_arrow_down);
         episode_arrow_up.setOnHoverListener(this);
         episode_arrow_down.setOnHoverListener(this);
-        episode_arrow_up.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                episode_zgridview.pageScroll(View.FOCUS_UP);
-            }
-        });
-        episode_arrow_down.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                episode_zgridview.pageScroll(View.FOCUS_DOWN);            }
-        });
+        episode_arrow_up.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        episode_zgridview.pageScroll(View.FOCUS_UP);
+                    }
+                });
+        episode_arrow_down.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        episode_zgridview.pageScroll(View.FOCUS_DOWN);
+                    }
+                });
     }
-
 
     private void initLayout() {
         if (mItemEntity.getExpense() != null) {
             String expensevalue = getResources().getString(R.string.one_drama_order_info);
-            one_drama_order_info.setText(String.format(expensevalue, mItemEntity.getExpense().getSubprice(), mItemEntity.getExpense().getDuration()));
+            one_drama_order_info.setText(
+                    String.format(
+                            expensevalue,
+                            mItemEntity.getExpense().getSubprice(),
+                            mItemEntity.getExpense().getDuration()));
             one_drama_order_info.setVisibility(View.VISIBLE);
         }
         if (mItemEntity.getPosterUrl() != null) {
@@ -209,7 +200,11 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         return true;
     }
 
-
+    @Override
+    public void onBackPressed() {
+        to = "return";
+        super.onBackPressed();
+    }
 
     private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int horizontal;
@@ -221,15 +216,16 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(
+                Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             outRect.top = vertical;
             outRect.bottom = vertical;
             outRect.left = horizontal;
             outRect.right = horizontal;
         }
-
     }
-    private class EpisodeAdapter extends BaseAdapter implements View.OnClickListener{
+
+    private class EpisodeAdapter extends BaseAdapter implements View.OnClickListener {
 
         private Context mContext;
         private ItemEntity[] mItemEntities;
@@ -238,6 +234,7 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
             mContext = context;
             mItemEntities = itemEntities;
         }
+
         @Override
         public int getCount() {
             return mItemEntities.length;
@@ -255,15 +252,15 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder=null;
-            if(convertView==null){
-                convertView=View.inflate(mContext,R.layout.episode_recycler_item,null);
-                viewHolder=new ViewHolder();
-                viewHolder.episodeBtn= (Button) convertView.findViewById(R.id.btn_count);
+            ViewHolder viewHolder = null;
+            if (convertView == null) {
+                convertView = View.inflate(mContext, R.layout.episode_recycler_item, null);
+                viewHolder = new ViewHolder();
+                viewHolder.episodeBtn = (Button) convertView.findViewById(R.id.btn_count);
                 viewHolder.episodeBtn.setTag(position);
                 convertView.setTag(viewHolder);
-            }else{
-                viewHolder= (ViewHolder) convertView.getTag();
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
                 viewHolder.episodeBtn.setTag(position);
             }
             viewHolder.episodeBtn.setOnClickListener(this);
@@ -271,27 +268,19 @@ public class EpisodeActivity extends BaseActivity implements View.OnHoverListene
             return convertView;
         }
 
-
         @Override
         public void onClick(View v) {
             ItemEntity subItemEntity = mItemEntities[(int) v.getTag()];
             PageIntent pageIntent = new PageIntent();
-            pageIntent.toPlayPage(EpisodeActivity.this, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST);
-            to="play";
-            subitem= (int) v.getTag();
+            pageIntent.toPlayPage(
+                    EpisodeActivity.this, mItemEntity.getPk(), subItemEntity.getPk(), Source.LIST);
+            to = "play";
+            subitem = (int) v.getTag();
         }
 
-
-        public class ViewHolder{
+        public class ViewHolder {
 
             public Button episodeBtn;
         }
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        to="return";
-        super.onBackPressed();
     }
 }

@@ -44,68 +44,39 @@ import tv.ismar.app.network.HttpCacheInterceptor;
 import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 
-/**
- * Created by beaver on 16-8-19.
- */
+/** Created by beaver on 16-8-19. */
 public class VodApplication extends Application {
-    private static HttpParamsInterceptor mHttpParamsInterceptor;
-    private HttpCacheInterceptor mHttpCacheInterceptor;
     public static final boolean DEBUG = true;
-    private ArrayList<WeakReference<OnLowMemoryListener>> mLowMemoryListeners;
+    public static final String CACHED_LOG = "cached_log";
+    public static final String PREFERENCE_FILE_NAME = "Daisy";
+    private static final int CORE_POOL_SIZE = 5;
+    private static final ThreadFactory sThreadFactory =
+            new ThreadFactory() {
+                private final AtomicInteger mCount = new AtomicInteger(1);
+
+                public Thread newThread(Runnable r) {
+                    return new Thread(r, "GreenDroid thread #" + mCount.getAndIncrement());
+                }
+            };
+    public static String DEVICE_TOKEN = "device_token";
+    private static HttpParamsInterceptor mHttpParamsInterceptor;
     private static VodApplication appInstance;
+    private static SharedPreferences mPreferences;
+    public ContentModel[] mContentModel;
+    protected String userAgent;
+    private HttpCacheInterceptor mHttpCacheInterceptor;
+    private ArrayList<WeakReference<OnLowMemoryListener>> mLowMemoryListeners;
     private HistoryManager mModuleHistoryManager;
     private FavoriteManager mModuleFavoriteManager;
     private DBHelper mModuleDBHelper;
     private ImageCache mImageCache;
-    public ContentModel[] mContentModel;
-    public static String DEVICE_TOKEN = "device_token";
-    private static final int CORE_POOL_SIZE = 5;
-    public static final String CACHED_LOG = "cached_log";
     private ExecutorService mExecutorService;
-    private static SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
-    public static final String PREFERENCE_FILE_NAME = "Daisy";
 
-    protected String userAgent;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        initLogger();
-        SPUtils.init(this);
-        appInstance = this;
-        ActiveAndroid.initialize(this);
-        AccountSharedPrefs.initialize(this);
-        CacheManager.initialize(this);// 首页导视相关
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-        Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
-        Picasso.setSingletonInstance(picasso);
-        IsmartvActivator.initialize(this);
-//        mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
-//        mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
-        mHttpParamsInterceptor = new HttpParamsInterceptor.Builder()
-                .build();
-
-        if (NetworkUtils.isConnected(this)) {
-            new Thread(new InitializeProcess(this)).start();
-        }
-        Log.i("LH/", "applicationOnCreateEnd:" + TrueTime.now().getTime());
-
-        userAgent = Util.getUserAgent(this, "ExoPlayerDemo");
-    }
-
-
-
-    public SharedPreferences.Editor getEditor() {
-        return mEditor;
-    }
+    public VodApplication() {}
 
     public static void setDevice_Token() {
         SimpleRestClient.device_token = mPreferences.getString(VodApplication.DEVICE_TOKEN, "");
-    }
-
-    public VodApplication() {
     }
 
     public static VodApplication get(Context context) {
@@ -116,15 +87,46 @@ public class VodApplication extends Application {
         return mHttpParamsInterceptor;
     }
 
+    public static VodApplication getModuleAppContext() {
+        return appInstance;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        initLogger();
+        SPUtils.init(this);
+        appInstance = this;
+        ActiveAndroid.initialize(this);
+        AccountSharedPrefs.initialize(this);
+        CacheManager.initialize(this); // 首页导视相关
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
+        Picasso.setSingletonInstance(picasso);
+        IsmartvActivator.initialize(this);
+        //        mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
+        //
+        // mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
+        mHttpParamsInterceptor = new HttpParamsInterceptor.Builder().build();
+
+        if (NetworkUtils.isConnected(this)) {
+            new Thread(new InitializeProcess(this)).start();
+        }
+        Log.i("LH/", "applicationOnCreateEnd:" + TrueTime.now().getTime());
+
+        userAgent = Util.getUserAgent(this, "ExoPlayerDemo");
+    }
+
+    public SharedPreferences.Editor getEditor() {
+        return mEditor;
+    }
+
     public HttpCacheInterceptor getCacheInterceptor() {
         if (mHttpCacheInterceptor == null) {
             mHttpCacheInterceptor = new HttpCacheInterceptor(this);
         }
         return mHttpCacheInterceptor;
-    }
-
-    public static VodApplication getModuleAppContext() {
-        return appInstance;
     }
 
     /**
@@ -167,19 +169,6 @@ public class VodApplication extends Application {
     }
 
     /**
-     * Return this application {@link HistoryManager}
-     *
-     * @return The application {@link HistoryManager}
-     */
-    public static interface OnLowMemoryListener {
-
-        /**
-         * Callback to be invoked when the system needs memory.
-         */
-        public void onLowMemoryReceived();
-    }
-
-    /**
      * Add a new listener to registered {@link OnLowMemoryListener}.
      *
      * @param listener The listener to unregister
@@ -191,18 +180,9 @@ public class VodApplication extends Application {
         }
     }
 
-
-    private static final ThreadFactory sThreadFactory = new ThreadFactory() {
-        private final AtomicInteger mCount = new AtomicInteger(1);
-
-        public Thread newThread(Runnable r) {
-            return new Thread(r, "GreenDroid thread #" + mCount.getAndIncrement());
-        }
-    };
-
     /**
-     * Return an ExecutorService (global to the entire application) that may be
-     * used by clients when running long tasks in the background.
+     * Return an ExecutorService (global to the entire application) that may be used by clients when
+     * running long tasks in the background.
      *
      * @return An ExecutorService to used when processing long running tasks
      */
@@ -258,16 +238,15 @@ public class VodApplication extends Application {
     }
 
     private void initLogger() {
-        Logger
-                .init("VOD_APPLICATION")                 // default PRETTYLOGGER or use just init()
-                .methodCount(10)                 // default 2
-                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
-                .methodOffset(2);      // default 0
+        Logger.init("VOD_APPLICATION") // default PRETTYLOGGER or use just init()
+                .methodCount(10) // default 2
+                .logLevel(LogLevel.FULL) // default LogLevel.FULL
+                .methodOffset(2); // default 0
     }
 
     public DataSource.Factory buildDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
-        return new DefaultDataSourceFactory(this, bandwidthMeter,
-                buildHttpDataSourceFactory(bandwidthMeter));
+        return new DefaultDataSourceFactory(
+                this, bandwidthMeter, buildHttpDataSourceFactory(bandwidthMeter));
     }
 
     public HttpDataSource.Factory buildHttpDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
@@ -276,5 +255,16 @@ public class VodApplication extends Application {
 
     public boolean useExtensionRenderers() {
         return BuildConfig.FLAVOR.equals("withExtensions");
+    }
+
+    /**
+     * Return this application {@link HistoryManager}
+     *
+     * @return The application {@link HistoryManager}
+     */
+    public static interface OnLowMemoryListener {
+
+        /** Callback to be invoked when the system needs memory. */
+        public void onLowMemoryReceived();
     }
 }

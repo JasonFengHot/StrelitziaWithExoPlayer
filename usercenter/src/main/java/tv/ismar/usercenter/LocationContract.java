@@ -19,14 +19,11 @@ package tv.ismar.usercenter;
 import tv.ismar.app.network.entity.WeatherEntity;
 import tv.ismar.usercenter.presenter.BasePresenter;
 
-/**
- * This specifies the contract between the view and the presenter.
- */
+/** This specifies the contract between the view and the presenter. */
 public interface LocationContract {
 
     interface View extends BaseView<Presenter> {
         void refreshWeather(WeatherEntity weatherInfo);
-
     }
 
     interface Presenter extends BasePresenter {

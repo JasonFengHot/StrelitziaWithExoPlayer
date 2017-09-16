@@ -2,9 +2,7 @@ package tv.ismar.app.entity;
 
 import java.util.ArrayList;
 
-/**
- * Created by huaijie on 6/3/15.
- */
+/** Created by huaijie on 6/3/15. */
 public class HomePagerEntity {
     private ArrayList<Carousel> carousels;
     private ArrayList<Poster> posters;
@@ -30,7 +28,7 @@ public class HomePagerEntity {
         private String pause_time;
         private String url;
         private String video_url;
-		private String title;
+        private String title;
         private String introduction;
         private String thumb_image;
         private String model_name;
@@ -38,39 +36,40 @@ public class HomePagerEntity {
         private int corner;
         private boolean expense;
         private int position;
-		public int getPosition() {
-			return position;
-		}
 
-		public void setPosition(int position) {
-			this.position = position;
-		}
+        public int getPosition() {
+            return position;
+        }
 
-		public boolean isExpense() {
-			return expense;
-		}
+        public void setPosition(int position) {
+            this.position = position;
+        }
 
-		public void setExpense(boolean expense) {
-			this.expense = expense;
-		}
+        public boolean isExpense() {
+            return expense;
+        }
 
-		public int getCorner() {
-			return corner;
-		}
+        public void setExpense(boolean expense) {
+            this.expense = expense;
+        }
 
-		public void setCorner(int corner) {
-			this.corner = corner;
-		}
+        public int getCorner() {
+            return corner;
+        }
 
-		public String getContent_model() {
-			return content_model;
-		}
+        public void setCorner(int corner) {
+            this.corner = corner;
+        }
 
-		public void setContent_model(String content_model) {
-			this.content_model = content_model;
-		}
+        public String getContent_model() {
+            return content_model;
+        }
 
-		public String getVideo_image() {
+        public void setContent_model(String content_model) {
+            this.content_model = content_model;
+        }
+
+        public String getVideo_image() {
             return video_image;
         }
 
@@ -94,7 +93,7 @@ public class HomePagerEntity {
             this.url = url;
         }
 
-		public String getVideo_url() {
+        public String getVideo_url() {
             return video_url;
         }
 
@@ -135,7 +134,6 @@ public class HomePagerEntity {
         }
     }
 
-
     public class Poster {
         private String vertical_url;
         private String title;
@@ -149,39 +147,39 @@ public class HomePagerEntity {
         private boolean expense;
         private int position;
 
-		public int getPosition() {
-			return position;
-		}
+        public int getPosition() {
+            return position;
+        }
 
-		public void setPosition(int position) {
-			this.position = position;
-		}
+        public void setPosition(int position) {
+            this.position = position;
+        }
 
-		public boolean isExpense() {
-			return expense;
-		}
+        public boolean isExpense() {
+            return expense;
+        }
 
-		public void setExpense(boolean expense) {
-			this.expense = expense;
-		}
+        public void setExpense(boolean expense) {
+            this.expense = expense;
+        }
 
-		public int getCorner() {
-			return corner;
-		}
+        public int getCorner() {
+            return corner;
+        }
 
-		public void setCorner(int corner) {
-			this.corner = corner;
-		}
+        public void setCorner(int corner) {
+            this.corner = corner;
+        }
 
-		public String getContent_model() {
-			return content_model;
-		}
+        public String getContent_model() {
+            return content_model;
+        }
 
-		public void setContent_model(String content_model) {
-			this.content_model = content_model;
-		}
+        public void setContent_model(String content_model) {
+            this.content_model = content_model;
+        }
 
-		public String getVertical_url() {
+        public String getVertical_url() {
             return vertical_url;
         }
 
@@ -233,5 +231,4 @@ public class HomePagerEntity {
             this.custom_image = custom_image;
         }
     }
-
 }

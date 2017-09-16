@@ -6,9 +6,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import tv.ismar.app.network.entity.WeatherEntity;
 
-/**
- * Created by huaijie on 9/15/15.
- */
+/** Created by huaijie on 9/15/15. */
 public class WeatherInfoHandler extends DefaultHandler {
 
     private final int TODAY = 5;
@@ -16,7 +14,6 @@ public class WeatherInfoHandler extends DefaultHandler {
 
     private final int UPDATED = 7;
     private final int REGION = 8;
-
 
     private final int CONDITION = 1;
     private final int TEMPHIGH = 2;
@@ -27,7 +24,6 @@ public class WeatherInfoHandler extends DefaultHandler {
 
     private WeatherEntity weatherEntity;
     private WeatherEntity.WeatherDetail weatherDetail;
-
 
     public WeatherEntity getWeatherEntity() {
         return weatherEntity;
@@ -43,9 +39,9 @@ public class WeatherInfoHandler extends DefaultHandler {
         super.endDocument();
     }
 
-
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes)
+            throws SAXException {
         if (localName.equals("WeatherWindow")) {
             flg = 0;
             return;
@@ -66,7 +62,6 @@ public class WeatherInfoHandler extends DefaultHandler {
             flg = TODAY;
             return;
         }
-
 
         if (localName.equals("tomorrow")) {
             weatherDetail = new WeatherEntity.WeatherDetail();
@@ -93,10 +88,7 @@ public class WeatherInfoHandler extends DefaultHandler {
             flg = IMAGE_URL;
             return;
         }
-
-
     }
-
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {

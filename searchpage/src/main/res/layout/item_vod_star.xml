@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        android:id="@+id/star_vod_list_item_new"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/star_vod_list_item_new"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <RelativeLayout
-            android:id="@+id/item_vod_image_layout_new"
-            android:layout_width="@dimen/item_vod_image_layout_new_w"
-            android:layout_height="@dimen/item_vod_image_layout_new_h"
-            android:background="@drawable/selector_star_list_item">
+        android:id="@+id/item_vod_image_layout_new"
+        android:layout_width="@dimen/item_vod_image_layout_new_w"
+        android:layout_height="@dimen/item_vod_image_layout_new_h"
+        android:background="@drawable/selector_star_list_item">
 
         <ImageView
-                android:id="@+id/item_vod_image_new"
-                android:layout_width="@dimen/item_vod_image_layout_new_w"
-                android:layout_height="@dimen/item_vod_image_layout_new_h"
-                android:layout_centerHorizontal="true"
-                android:scaleType="fitXY"/>
+            android:id="@+id/item_vod_image_new"
+            android:layout_width="@dimen/item_vod_image_layout_new_w"
+            android:layout_height="@dimen/item_vod_image_layout_new_h"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY" />
+
         <TextView
-                android:id="@+id/ItemBeanScore"
-                android:layout_width="@dimen/list_vip_score_w"
-                android:layout_height="@dimen/list_vip_score_h"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/list_vip_score_horizon_mt"
-                android:gravity="center"
-                android:textColor="@color/beanscore_color"
-                android:layout_marginRight="@dimen/list_vip_score_mr"
-                android:textSize="@dimen/score_tag_txt_size"
-                android:textStyle="bold"
-                android:visibility="gone"/>
+            android:id="@+id/ItemBeanScore"
+            android:layout_width="@dimen/list_vip_score_w"
+            android:layout_height="@dimen/list_vip_score_h"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/list_vip_score_mr"
+            android:layout_marginTop="@dimen/list_vip_score_horizon_mt"
+            android:gravity="center"
+            android:textColor="@color/beanscore_color"
+            android:textSize="@dimen/score_tag_txt_size"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
 
         <tv.ismar.searchpage.weight.RotateTextView
-                android:id="@+id/expense_txt"
-                android:layout_width="@dimen/VIP_tag_w"
-                android:layout_height="@dimen/VIP_tag_h"
-                android:textStyle="bold"
-                android:textSize="@dimen/tag_txt_size"
-                android:textColor="@color/expense_text_color"
-                android:gravity="center"
-                android:background="@drawable/list_ismar"
-                android:visibility="gone">
-        </tv.ismar.searchpage.weight.RotateTextView>
+            android:id="@+id/expense_txt"
+            android:layout_width="@dimen/VIP_tag_w"
+            android:layout_height="@dimen/VIP_tag_h"
+            android:background="@drawable/list_ismar"
+            android:gravity="center"
+            android:textColor="@color/expense_text_color"
+            android:textSize="@dimen/tag_txt_size"
+            android:textStyle="bold"
+            android:visibility="gone"></tv.ismar.searchpage.weight.RotateTextView>
         <!--<TextView-->
         <!--android:id="@+id/item_vod_score_new"-->
         <!--android:layout_width="@dimen/item_vod_score_new_w"-->
@@ -71,34 +70,34 @@
 
 
         <TextView
-                android:id="@+id/item_vod_focus_new"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="#b2000000"
-                android:gravity="center"
-                android:maxLength="8"
-                android:singleLine="true"
-                android:textSize="@dimen/textSize_24sp"
-                android:visibility="invisible"
+            android:id="@+id/item_vod_focus_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#b2000000"
+            android:gravity="center"
+            android:maxLength="8"
+            android:singleLine="true"
+            android:textSize="@dimen/textSize_24sp"
+            android:visibility="invisible"
 
-                />
+            />
     </RelativeLayout>
 
 
     <TextView
-            android:id="@+id/item_vod_title_new"
-            android:layout_width="@dimen/item_vod_title_new_w"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/item_vod_image_layout_new"
-            android:layout_below="@id/item_vod_image_layout_new"
-            android:layout_centerHorizontal="true"
-            android:ellipsize="marquee"
-            android:gravity="center"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:singleLine="true"
-            android:textColor="@color/word_selected"
+        android:id="@+id/item_vod_title_new"
+        android:layout_width="@dimen/item_vod_title_new_w"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/item_vod_image_layout_new"
+        android:layout_below="@id/item_vod_image_layout_new"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/item_vod_title_new_mt"
-            android:textSize="@dimen/textSize_36sp"/>
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textColor="@color/word_selected"
+        android:textSize="@dimen/textSize_36sp" />
 
 </LinearLayout>

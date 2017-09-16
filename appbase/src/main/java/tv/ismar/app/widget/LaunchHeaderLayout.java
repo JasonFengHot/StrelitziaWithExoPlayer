@@ -1,5 +1,4 @@
 package tv.ismar.app.widget;
-import cn.ismartv.truetime.TrueTime;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,6 +22,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import cn.ismartv.injectdb.library.query.Select;
+import cn.ismartv.truetime.TrueTime;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -32,25 +32,53 @@ import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.db.location.CityTable;
 import tv.ismar.app.network.entity.WeatherEntity;
 
-/**
- * Created by huaijie on 2015/7/21.
- */
-public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListener, View.OnFocusChangeListener, OnHoverListener {
+/** Created by huaijie on 2015/7/21. */
+public class LaunchHeaderLayout extends FrameLayout
+        implements View.OnClickListener, View.OnFocusChangeListener, OnHoverListener {
     private static final String TAG = "LaunchHeaderLayout";
+    private static final int[] INDICATOR_RES_LIST = {
+        R.string.vod_movielist_title_history,
+        R.string.guide_my_favorite,
+        R.string.guide_user_center,
+        R.string.guide_search
+    };
     private Context context;
-
-
     private TextView titleTextView;
     private TextView subTitleTextView;
     private TextView weatherInfoTextView;
-
     private ImageView dividerImage;
 
+    //    private SharedPreferences locationSharedPreferences;
     private LinearLayout guideLayout;
-
-//    private SharedPreferences locationSharedPreferences;
-
     private List<View> indicatorTableList;
+    private SharedPreferences.OnSharedPreferenceChangeListener changeListener =
+            new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
+                public void onSharedPreferenceChanged(
+                        SharedPreferences sharedPreferences, String key) {
+                    //           String geoId =
+                    // locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID, "101020100");
+                    try {
+                        String cityName =
+                                AccountSharedPrefs.getInstance()
+                                        .getSharedPrefs(AccountSharedPrefs.CITY);
+                        CityTable cityTable =
+                                new Select()
+                                        .from(CityTable.class)
+                                        .where(CityTable.CITY + " = ?", cityName)
+                                        .executeSingle();
+
+                        if (cityTable != null) {
+                            if (key.equals(AccountSharedPrefs.GEO_ID)) {
+                                fetchWeatherInfo(String.valueOf(cityTable.geo_id));
+                            }
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            };
+    private HeadItemClickListener mHeadItemClickListener;
 
     public LaunchHeaderLayout(Context context) {
         super(context);
@@ -64,7 +92,6 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
 
         View view = LayoutInflater.from(context).inflate(R.layout.fragment_head, null);
 
-
         titleTextView = (TextView) view.findViewById(R.id.title);
         subTitleTextView = (TextView) view.findViewById(R.id.sub_title);
         weatherInfoTextView = (TextView) view.findViewById(R.id.weather_info);
@@ -74,60 +101,44 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
         titleTextView.setText(R.string.app_name);
         subTitleTextView.setText(R.string.front_page);
 
-//        locationSharedPreferences = context.getSharedPreferences(LocationFragment.LOCATION_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        //        locationSharedPreferences =
+        // context.getSharedPreferences(LocationFragment.LOCATION_PREFERENCE_NAME,
+        // Context.MODE_PRIVATE);
 
         createGuideIndicator();
         String cityName = AccountSharedPrefs.getInstance().getSharedPrefs(AccountSharedPrefs.CITY);
 
-//        String geoId = locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID, "101020100");
+        //        String geoId =
+        // locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID,
+        // "101020100");
 
-        CityTable cityTable = new Select().from(CityTable.class).where(CityTable.CITY + " = ?", cityName).executeSingle();
+        CityTable cityTable =
+                new Select()
+                        .from(CityTable.class)
+                        .where(CityTable.CITY + " = ?", cityName)
+                        .executeSingle();
         if (cityTable != null) {
             fetchWeatherInfo(String.valueOf(cityTable.geo_id));
         }
         addView(view);
     }
 
-
-    private static final int[] INDICATOR_RES_LIST = {
-            R.string.vod_movielist_title_history,
-            R.string.guide_my_favorite,
-            R.string.guide_user_center,
-            R.string.guide_search
-    };
-
     @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         try {
             if (visibility == VISIBLE) {
-                AccountSharedPrefs.getInstance().getSharedPreferences().registerOnSharedPreferenceChangeListener(changeListener);
+                AccountSharedPrefs.getInstance()
+                        .getSharedPreferences()
+                        .registerOnSharedPreferenceChangeListener(changeListener);
             } else {
-                AccountSharedPrefs.getInstance().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(changeListener);
+                AccountSharedPrefs.getInstance()
+                        .getSharedPreferences()
+                        .unregisterOnSharedPreferenceChangeListener(changeListener);
             }
         } catch (Exception e) {
         }
     }
-
-    private SharedPreferences.OnSharedPreferenceChangeListener changeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//           String geoId = locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID, "101020100");
-            try {
-                String cityName = AccountSharedPrefs.getInstance().getSharedPrefs(AccountSharedPrefs.CITY);
-                CityTable cityTable = new Select().from(CityTable.class).where(CityTable.CITY + " = ?", cityName).executeSingle();
-
-                if (cityTable != null) {
-                    if (key.equals(AccountSharedPrefs.GEO_ID)) {
-                        fetchWeatherInfo(String.valueOf(cityTable.geo_id));
-                    }
-                }
-            } catch (Exception e) {
-
-            }
-        }
-    };
-
 
     private void createGuideIndicator() {
         int i = 0;
@@ -169,48 +180,56 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
     public void hideSubTiltle() {
         subTitleTextView.setVisibility(View.GONE);
         dividerImage.setVisibility(View.GONE);
-
     }
 
     private void fetchWeatherInfo(String geoId) {
-        ((BaseActivity) context).mWeatherSkyService.apifetchWeatherInfo(geoId).subscribeOn(Schedulers.io())
+        ((BaseActivity) context)
+                .mWeatherSkyService
+                .apifetchWeatherInfo(geoId)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<WeatherEntity>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(
+                        new Observer<WeatherEntity>() {
+                            @Override
+                            public void onCompleted() {}
 
-                    }
+                            @Override
+                            public void onError(Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(WeatherEntity weatherEntity) {
-                        parseXml(weatherEntity);
-                    }
-                });
+                            @Override
+                            public void onNext(WeatherEntity weatherEntity) {
+                                parseXml(weatherEntity);
+                            }
+                        });
     }
-
 
     private void parseXml(WeatherEntity weatherEntity) {
         Date now = TrueTime.now();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");//可以方便地修改日期格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日"); // 可以方便地修改日期格式
         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String todayTime = dateFormat.format(now);
 
-//            weatherInfoTextView.setText("");
-//                    weatherInfoTextView.append("   " + calendar.get(Calendar.YEAR) + context.getText(R.string.year).toString() +
-//                            calendar.get(Calendar.MONTH) + context.getText(R.string.month).toString() +
-//                            calendar.get(Calendar.DATE) + context.getText(R.string.day).toString() + "   ");
-//            weatherInfoTextView.append("   " + todayTime + "   ");
+        //            weatherInfoTextView.setText("");
+        //                    weatherInfoTextView.append("   " + calendar.get(Calendar.YEAR) +
+        // context.getText(R.string.year).toString() +
+        //                            calendar.get(Calendar.MONTH) +
+        // context.getText(R.string.month).toString() +
+        //                            calendar.get(Calendar.DATE) +
+        // context.getText(R.string.day).toString() + "   ");
+        //            weatherInfoTextView.append("   " + todayTime + "   ");
 
         weatherInfoTextView.append(weatherEntity.getToday().getCondition() + "   ");
         if (weatherEntity.getToday().getTemplow().equals(weatherEntity.getToday().getTemphigh())) {
-            weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + context.getText(R.string.degree));
+            weatherInfoTextView.append(
+                    weatherEntity.getToday().getTemplow() + context.getText(R.string.degree));
         } else {
-            weatherInfoTextView.append(weatherEntity.getToday().getTemplow() + " ~ " + weatherEntity.getToday().getTemphigh() + context.getText(R.string.degree));
+            weatherInfoTextView.append(
+                    weatherEntity.getToday().getTemplow()
+                            + " ~ "
+                            + weatherEntity.getToday().getTemphigh()
+                            + context.getText(R.string.degree));
         }
     }
 
@@ -230,32 +249,32 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
             }
         }
 
-//        PageIntent pageIntent = new PageIntent();
-//        Intent intent = new Intent();
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//        int i = v.getId();
-//        if (i == R.string.vod_movielist_title_history) {
-//            intent.setClassName("tv.ismar.daisy",
-//                    "tv.ismar.daisy.ChannelListActivity");
-//            intent.putExtra("channel", "histories");
-//
-//        } else if (i == R.string.guide_my_favorite) {
-//            intent.setClassName("tv.ismar.daisy",
-//                    "tv.ismar.daisy.ChannelListActivity");
-//            intent.putExtra("channel", "$bookmarks");
-//
-//        } else if (i == R.string.guide_user_center) {
-//            pageIntent.toUserCenter(context);
-//        } else if (i == R.string.guide_search) {
-//            if (isAppInstalled(context, "cn.ismartv.Jasmine")) {
-//                intent.setAction("cn.ismartv.jasmine.wordsearchactivity");
-//            } else {
-//                intent.setAction("tv.ismar.daisy.Search");
-//            }
-//
-//        }
-//        context.startActivity(intent);
+        //        PageIntent pageIntent = new PageIntent();
+        //        Intent intent = new Intent();
+        //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //
+        //        int i = v.getId();
+        //        if (i == R.string.vod_movielist_title_history) {
+        //            intent.setClassName("tv.ismar.daisy",
+        //                    "tv.ismar.daisy.ChannelListActivity");
+        //            intent.putExtra("channel", "histories");
+        //
+        //        } else if (i == R.string.guide_my_favorite) {
+        //            intent.setClassName("tv.ismar.daisy",
+        //                    "tv.ismar.daisy.ChannelListActivity");
+        //            intent.putExtra("channel", "$bookmarks");
+        //
+        //        } else if (i == R.string.guide_user_center) {
+        //            pageIntent.toUserCenter(context);
+        //        } else if (i == R.string.guide_search) {
+        //            if (isAppInstalled(context, "cn.ismartv.Jasmine")) {
+        //                intent.setAction("cn.ismartv.jasmine.wordsearchactivity");
+        //            } else {
+        //                intent.setAction("tv.ismar.daisy.Search");
+        //            }
+        //
+        //        }
+        //        context.startActivity(intent);
     }
 
     @Override
@@ -286,8 +305,7 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
             textView.setTextColor(getResources().getColor(R.color._ff9c3c));
             imageView.setVisibility(View.VISIBLE);
         } else {
-            textView.setTextColor(getResources().getColor(
-                    R.color.association_normal));
+            textView.setTextColor(getResources().getColor(R.color.association_normal));
             imageView.setVisibility(View.INVISIBLE);
         }
         return false;
@@ -302,20 +320,6 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
     public void hideWeather() {
         weatherInfoTextView.setVisibility(View.INVISIBLE);
     }
-
-
-    public interface HeadItemClickListener {
-        void onUserCenterClick();
-
-        void onHistoryClick();
-
-        void onFavoriteClick();
-
-        void onSearchClick();
-    }
-
-    private HeadItemClickListener mHeadItemClickListener;
-
 
     public void setHeadItemClickListener(HeadItemClickListener headItemClickListener) {
         mHeadItemClickListener = headItemClickListener;
@@ -334,5 +338,13 @@ public class LaunchHeaderLayout extends FrameLayout implements View.OnClickListe
         return pName.contains(packageName);
     }
 
+    public interface HeadItemClickListener {
+        void onUserCenterClick();
 
+        void onHistoryClick();
+
+        void onFavoriteClick();
+
+        void onSearchClick();
+    }
 }

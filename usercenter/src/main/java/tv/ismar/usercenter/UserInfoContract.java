@@ -20,16 +20,13 @@ import tv.ismar.app.network.entity.AccountBalanceEntity;
 import tv.ismar.app.network.entity.AccountPlayAuthEntity;
 import tv.ismar.usercenter.presenter.BasePresenter;
 
-/**
- * This specifies the contract between the view and the presenter.
- */
+/** This specifies the contract between the view and the presenter. */
 public interface UserInfoContract {
 
     interface View extends BaseView<Presenter> {
         void loadPrivilege(AccountPlayAuthEntity entity);
 
         void loadBalance(AccountBalanceEntity entity);
-
     }
 
     interface Presenter extends BasePresenter {
@@ -38,6 +35,5 @@ public interface UserInfoContract {
         void fetchPrivilege();
 
         void exitAccount();
-
     }
 }

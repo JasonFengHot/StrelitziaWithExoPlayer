@@ -2,16 +2,13 @@ package tv.ismar.app.network.entity;
 
 import java.util.List;
 
-/**
- * Created by huaijie on 2015/4/22.
- */
+/** Created by huaijie on 2015/4/22. */
 public class BindedCdnEntity {
     public static final String NO_RECORD = "104";
 
     private String retcode;
     private String retmsg;
     private CdnEntity sncdn;
-
 
     public String getRetcode() {
         return retcode;
@@ -48,7 +45,7 @@ public class BindedCdnEntity {
         private String sn;
         private String update_time;
 
-        public List getCdnid1() {
+        public List<? extends Object> getCdnid1() {
             return cdnid1;
         }
 

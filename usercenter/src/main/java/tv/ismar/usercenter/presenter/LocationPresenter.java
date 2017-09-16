@@ -10,21 +10,16 @@ import tv.ismar.usercenter.LocationContract;
 import tv.ismar.usercenter.view.LocationFragment;
 import tv.ismar.usercenter.view.UserCenterActivity;
 
-/**
- * Created by huibin on 10/28/16.
- */
-
+/** Created by huibin on 10/28/16. */
 public class LocationPresenter implements LocationContract.Presenter {
     private LocationFragment mFragment;
     private UserCenterActivity mActivity;
     private SkyService mSkyService;
     private Subscription weatherSub;
 
-
     public LocationPresenter(LocationFragment locationFragment) {
         locationFragment.setPresenter(this);
         mFragment = locationFragment;
-
     }
 
     @Override
@@ -42,25 +37,26 @@ public class LocationPresenter implements LocationContract.Presenter {
 
     @Override
     public void fetchWeather(String geoId) {
-        weatherSub = mSkyService.apifetchWeatherInfo(geoId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<WeatherEntity>() {
-                    @Override
-                    public void onCompleted() {
+        weatherSub =
+                mSkyService
+                        .apifetchWeatherInfo(geoId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                new Observer<WeatherEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
+                                    @Override
+                                    public void onError(Throwable throwable) {
+                                        throwable.printStackTrace();
+                                    }
 
-                    @Override
-                    public void onError(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(WeatherEntity weatherEntity) {
-                        parseXml(weatherEntity);
-                    }
-                });
+                                    @Override
+                                    public void onNext(WeatherEntity weatherEntity) {
+                                        parseXml(weatherEntity);
+                                    }
+                                });
     }
 
     private void parseXml(WeatherEntity weatherEntity) {

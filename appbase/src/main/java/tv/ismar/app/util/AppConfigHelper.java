@@ -6,18 +6,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * Created by mac on 16/3/22.
- */
+/** Created by mac on 16/3/22. */
 public class AppConfigHelper {
-
-    private static AppConfigHelper mInstance;
-    private Properties sysProperties;
-    private static Context mContext;
-    private static String FILE_NAME = "configure/setup.properties";
 
     public static final String KEY_PLATFORM = "platform";
     public static final String KEY_API_VERSION = "api_version";
+    private static AppConfigHelper mInstance;
+    private static Context mContext;
+    private static String FILE_NAME = "configure/setup.properties";
+    private Properties sysProperties;
 
     private AppConfigHelper() throws IOException, IllegalAccessException {
         if (mContext == null) {
@@ -50,5 +47,4 @@ public class AppConfigHelper {
     public static String getApiVersion() throws IOException, IllegalAccessException {
         return getInstance().sysProperties.getProperty(KEY_API_VERSION);
     }
-
 }

@@ -23,17 +23,8 @@ import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.reporter.IsmartvMedia;
 
-/**
- * Created by longhai on 16-10-12.
- */
+/** Created by longhai on 16-10-12. */
 public class QiYiVideoView extends VideoSurfaceView {
-
-    private final String TAG = "LH/QiYiVideoView";
-    private IMediaPlayer mPlayer;
-    private IMedia mMedia;
-    private IVideoOverlay mVideoOverlay;
-    private List<BitStream> bitStreamList;
-    private int previewLength;
 
     public static final int STATE_ERROR = -1;
     public static final int STATE_IDLE = 0;
@@ -43,8 +34,14 @@ public class QiYiVideoView extends VideoSurfaceView {
     public static final int STATE_PAUSED = 4;
     public static final int STATE_COMPLETED = 5;
     public static final int STATE_BUFFERING = 6;
+    private static final String PLAYER_FLAG_QIYI = "qiyi";
+    private final String TAG = "LH/QiYiVideoView";
+    private IMediaPlayer mPlayer;
+    private IMedia mMedia;
+    private IVideoOverlay mVideoOverlay;
+    private List<BitStream> bitStreamList;
+    private int previewLength;
     private int mCurrentState = STATE_IDLE;
-
     private IPlayer.OnDataSourceSetListener mOnDataSourceSetListener;
     private IPlayer.OnVideoSizeChangedListener mOnVideoSizeChangedListener;
     private IPlayer.OnBufferChangedListener mOnBufferChangedListener;
@@ -53,11 +50,9 @@ public class QiYiVideoView extends VideoSurfaceView {
     private ClipEntity.Quality mQuality;
     private List<ClipEntity.Quality> mQualities;
     private boolean mIsPlayingAdvertisement;
-    private boolean mIsPreview;// 奇艺预览结束时onStop调用， 没有onCompleted事件
-
+    private boolean mIsPreview; // 奇艺预览结束时onStop调用， 没有onCompleted事件
     // log
     private IsmartvMedia mLogMedia;
-    private static final String PLAYER_FLAG_QIYI = "qiyi";
     // 日志上报相关
     private int mSpeed = 0;
     private String mMediaIp = "";
@@ -65,38 +60,336 @@ public class QiYiVideoView extends VideoSurfaceView {
     private long mPlayerOpenTime = 0;
     private long mBufferStartTime;
     private boolean mFirstOpen = true; // 进入播放器缓冲结束
+    private IMediaPlayer.OnStateChangedListener qiyiStateChangedListener =
+            new IMediaPlayer.OnStateChangedListener() {
+                @Override
+                public void onPrepared(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    mCurrentState = STATE_PREPARED;
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onPrepared();
+                    }
+                }
 
-    public ClipEntity.Quality getmQuality() {
-        return mQuality;
-    }
+                @Override
+                public void onAdStart(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    mIsPlayingAdvertisement = true;
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onAdStart();
+                    }
+                    CallaPlay callaPlay = new CallaPlay();
+                    callaPlay.ad_play_load(
+                            mLogMedia,
+                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            mMediaIp,
+                            mMediaId,
+                            PLAYER_FLAG_QIYI);
+                }
 
-    public List<ClipEntity.Quality> getmQualities() {
-        return mQualities;
-    }
+                @Override
+                public void onAdEnd(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    mIsPlayingAdvertisement = false;
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onAdEnd();
+                    }
+                    CallaPlay callaPlay = new CallaPlay();
+                    callaPlay.ad_play_exit(
+                            mLogMedia,
+                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            mMediaIp,
+                            mMediaId,
+                            PLAYER_FLAG_QIYI);
+                }
 
-    public boolean ismIsPlayingAdvertisement() {
-        return mIsPlayingAdvertisement;
-    }
+                @Override
+                public void onMiddleAdStart(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    // 中插广告开始播放
+                    mIsPlayingAdvertisement = true;
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onMiddleAdStart();
+                    }
+                    CallaPlay callaPlay = new CallaPlay();
+                    callaPlay.ad_play_load(
+                            mLogMedia,
+                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            mMediaIp,
+                            mMediaId,
+                            PLAYER_FLAG_QIYI);
+                }
 
-    public void setmOnDataSourceSetListener(IPlayer.OnDataSourceSetListener mOnDataSourceSetListener) {
-        this.mOnDataSourceSetListener = mOnDataSourceSetListener;
-    }
+                @Override
+                public void onMiddleAdEnd(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    // 中插广告播放结束
+                    mIsPlayingAdvertisement = false;
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onMiddleAdEnd();
+                    }
+                    CallaPlay callaPlay = new CallaPlay();
+                    callaPlay.ad_play_exit(
+                            mLogMedia,
+                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            mMediaIp,
+                            mMediaId,
+                            PLAYER_FLAG_QIYI);
+                }
 
-    public void setmOnVideoSizeChangedListener(IPlayer.OnVideoSizeChangedListener mOnVideoSizeChangedListener) {
-        this.mOnVideoSizeChangedListener = mOnVideoSizeChangedListener;
-    }
+                @Override
+                public void onStarted(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    if (mCurrentState == STATE_PAUSED) {
+                        String sn = IsmartvActivator.getInstance().getSnToken();
+                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        CallaPlay callaPlay = new CallaPlay();
+                        callaPlay.videoPlayContinue(
+                                mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_QIYI);
+                    } else {
+                        CallaPlay callaPlay = new CallaPlay();
+                        callaPlay.videoPlayStart(mLogMedia, mSpeed, mMediaIp, PLAYER_FLAG_QIYI);
+                    }
+                    mCurrentState = STATE_PLAYING;
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onStarted();
+                    }
+                }
 
-    public void setmOnBufferChangedListener(IPlayer.OnBufferChangedListener mOnBufferChangedListener) {
-        this.mOnBufferChangedListener = mOnBufferChangedListener;
-    }
+                @Override
+                public void onPaused(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    Log.i(TAG, "qiyiOnPaused:" + mCurrentState);
+                    if (mCurrentState == STATE_PLAYING) {
+                        String sn = IsmartvActivator.getInstance().getSnToken();
+                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        CallaPlay callaPlay = new CallaPlay();
+                        callaPlay.videoPlayPause(
+                                mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_QIYI);
+                    }
+                    mCurrentState = STATE_PAUSED;
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onPaused();
+                    }
+                }
 
-    public void setmOnStateChangedListener(IPlayer.OnStateChangedListener mOnStateChangedListener) {
-        this.mOnStateChangedListener = mOnStateChangedListener;
-    }
+                @Override
+                public void onCompleted(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    mCurrentState = STATE_COMPLETED;
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onCompleted();
+                    }
+                }
 
-    public void setmOnInfoListener(IPlayer.OnInfoListener mOnInfoListener) {
-        this.mOnInfoListener = mOnInfoListener;
-    }
+                @Override
+                public void onStopped(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer != null && mIsPreview) {
+                        mCurrentState = STATE_COMPLETED;
+                        if (mOnStateChangedListener != null) {
+                            mOnStateChangedListener.onCompleted();
+                        }
+                    }
+                }
+
+                @Override
+                public boolean onError(IMediaPlayer iMediaPlayer, ISdkError iSdkError) {
+                    if (mPlayer == null) {
+                        return true;
+                    }
+                    mCurrentState = STATE_ERROR;
+                    Log.e(
+                            TAG,
+                            "QiYiPlayer onError:"
+                                    + iSdkError.getCode()
+                                    + " "
+                                    + iSdkError.getMsgFromError());
+
+                    String sn = IsmartvActivator.getInstance().getSnToken();
+                    String sid = Md5.md5(sn + TrueTime.now().getTime());
+                    CallaPlay callaPlay = new CallaPlay();
+                    callaPlay.videoExcept(
+                            "mediaexception",
+                            iSdkError.getCode(),
+                            mLogMedia,
+                            mSpeed,
+                            sid,
+                            getCurrentPosition(),
+                            PLAYER_FLAG_QIYI);
+
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onError(iSdkError.getMsgFromError());
+                    }
+                    return true;
+                }
+            };
+    private IMediaPlayer.OnBitStreamInfoListener qiyiBitStreamInfoListener =
+            new IMediaPlayer.OnBitStreamInfoListener() {
+                @Override
+                public void onPlayableBitStreamListUpdate(
+                        IMediaPlayer iMediaPlayer, List<BitStream> list) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    mQualities = new ArrayList<>();
+                    bitStreamList = list;
+                    for (BitStream bitStream : list) {
+                        Log.i(TAG, "bitStream:" + bitStream.getValue());
+                        // 去除对应视云“自适应”码率
+                        if (bitStream.getValue() > 1) {
+                            mQualities.add(bitStreamConvertToQuality(bitStream));
+                        }
+                    }
+                }
+
+                @Override
+                public void onVipBitStreamListUpdate(
+                        IMediaPlayer iMediaPlayer, List<BitStream> list) {
+                    Log.i(TAG, "bitStream:onVipBitStreamListUpdate");
+                }
+
+                @Override
+                public void onBitStreamSelected(IMediaPlayer iMediaPlayer, BitStream bitStream) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    mQuality = bitStreamConvertToQuality(bitStream);
+                }
+            };
+    private IMediaPlayer.OnPreviewInfoListener qiyiPreviewInfoListener =
+            new IMediaPlayer.OnPreviewInfoListener() {
+                @Override
+                public void onPreviewInfoReady(IMediaPlayer iMediaPlayer, boolean b, int i) {
+                    Log.d(TAG, "QiYiOnPreview: " + b + ", length = " + i);
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    if (b) {
+                        previewLength = i;
+                    }
+                }
+            };
+    private IMediaPlayer.OnVideoSizeChangedListener qiyiVideoSizeChangedListener =
+            new IMediaPlayer.OnVideoSizeChangedListener() {
+                @Override
+                public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int width, int height) {
+                    Log.i("LH/", "onVideoSizeChangedQiYi:" + width + " " + height);
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    if (mOnVideoSizeChangedListener != null) {
+                        mOnVideoSizeChangedListener.onVideoSizeChanged(width, height);
+                    }
+                }
+            };
+    private IMediaPlayer.OnSeekCompleteListener qiyiSeekCompleteListener =
+            new IMediaPlayer.OnSeekCompleteListener() {
+                @Override
+                public void onSeekCompleted(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    if (isInPlaybackState()) {
+                        String sn = IsmartvActivator.getInstance().getSnToken();
+                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        CallaPlay callaPlay = new CallaPlay();
+                        callaPlay.videoPlaySeekBlockend(
+                                mLogMedia,
+                                mSpeed,
+                                getCurrentPosition(),
+                                (TrueTime.now().getTime() - mBufferStartTime),
+                                mMediaIp,
+                                sid,
+                                PLAYER_FLAG_QIYI);
+                    }
+                    if (mOnStateChangedListener != null) {
+                        mOnStateChangedListener.onSeekComplete();
+                    }
+                }
+            };
+    private IMediaPlayer.OnBufferChangedListener qiyiBufferChangedListener =
+            new IMediaPlayer.OnBufferChangedListener() {
+                @Override
+                public void onBufferStart(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    if (mOnBufferChangedListener != null) {
+                        mOnBufferChangedListener.onBufferStart();
+                    }
+                    mBufferStartTime = TrueTime.now().getTime();
+                }
+
+                @Override
+                public void onBufferEnd(IMediaPlayer iMediaPlayer) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    if (mOnBufferChangedListener != null) {
+                        mOnBufferChangedListener.onBufferEnd();
+                    }
+                    CallaPlay callaPlay = new CallaPlay();
+                    if (mFirstOpen) {
+                        mFirstOpen = false;
+                        String sn = IsmartvActivator.getInstance().getSnToken();
+                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        callaPlay.videoPlayLoad(
+                                mLogMedia,
+                                (TrueTime.now().getTime() - mPlayerOpenTime),
+                                mSpeed,
+                                mMediaIp,
+                                sid,
+                                "",
+                                PLAYER_FLAG_QIYI);
+                    } else {
+                        String sn = IsmartvActivator.getInstance().getSnToken();
+                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        callaPlay.videoPlayBlockend(
+                                mLogMedia,
+                                mSpeed,
+                                getCurrentPosition(),
+                                mMediaIp,
+                                sid,
+                                PLAYER_FLAG_QIYI);
+                    }
+                    if (mIsPlayingAdvertisement) {
+                        callaPlay.ad_play_blockend(
+                                mLogMedia,
+                                (TrueTime.now().getTime() - mBufferStartTime),
+                                mMediaIp,
+                                mMediaId,
+                                PLAYER_FLAG_QIYI);
+                    }
+                }
+            };
+    private IMediaPlayer.OnInfoListener onInfoListener =
+            new IMediaPlayer.OnInfoListener() {
+                @Override
+                public void onInfo(IMediaPlayer iMediaPlayer, int i, Object o) {
+                    if (mPlayer == null) {
+                        return;
+                    }
+                    if (mOnInfoListener != null) {
+                        mOnInfoListener.onInfo(i, o);
+                    }
+                }
+            };
 
     public QiYiVideoView(Context context) {
         super(context);
@@ -110,7 +403,43 @@ public class QiYiVideoView extends VideoSurfaceView {
         super(context, attributeSet, i);
     }
 
-    public void setPlayer(IMedia media, IVideoOverlay videoOverlay, IsmartvMedia logMedia, boolean isPreview) {
+    public ClipEntity.Quality getmQuality() {
+        return mQuality;
+    }
+
+    public List<ClipEntity.Quality> getmQualities() {
+        return mQualities;
+    }
+
+    public boolean ismIsPlayingAdvertisement() {
+        return mIsPlayingAdvertisement;
+    }
+
+    public void setmOnDataSourceSetListener(
+            IPlayer.OnDataSourceSetListener mOnDataSourceSetListener) {
+        this.mOnDataSourceSetListener = mOnDataSourceSetListener;
+    }
+
+    public void setmOnVideoSizeChangedListener(
+            IPlayer.OnVideoSizeChangedListener mOnVideoSizeChangedListener) {
+        this.mOnVideoSizeChangedListener = mOnVideoSizeChangedListener;
+    }
+
+    public void setmOnBufferChangedListener(
+            IPlayer.OnBufferChangedListener mOnBufferChangedListener) {
+        this.mOnBufferChangedListener = mOnBufferChangedListener;
+    }
+
+    public void setmOnStateChangedListener(IPlayer.OnStateChangedListener mOnStateChangedListener) {
+        this.mOnStateChangedListener = mOnStateChangedListener;
+    }
+
+    public void setmOnInfoListener(IPlayer.OnInfoListener mOnInfoListener) {
+        this.mOnInfoListener = mOnInfoListener;
+    }
+
+    public void setPlayer(
+            IMedia media, IVideoOverlay videoOverlay, IsmartvMedia logMedia, boolean isPreview) {
         mPlayerOpenTime = TrueTime.now().getTime();
         mMedia = media;
         mVideoOverlay = videoOverlay;
@@ -129,27 +458,27 @@ public class QiYiVideoView extends VideoSurfaceView {
 
     private void openVideo() {
         mPlayer = PlayerSdk.getInstance().createMediaPlayer();
-        //setVideo方法, 更名为setData, 必须调用, 需传入IMedia对象, 起播时间点修改为从IMedia对象获取, 不从setData传参
+        // setVideo方法, 更名为setData, 必须调用, 需传入IMedia对象, 起播时间点修改为从IMedia对象获取, 不从setData传参
         mPlayer.setData(mMedia);
-        //设置IVideoOverlay对象, 必须调用
+        // 设置IVideoOverlay对象, 必须调用
         mPlayer.setDisplay(mVideoOverlay);
 
-        //设置播放状态回调监听器, 需要时设置
+        // 设置播放状态回调监听器, 需要时设置
         mPlayer.setOnStateChangedListener(qiyiStateChangedListener);
 
-        //设置码流信息回调监听器, 需要时设置
+        // 设置码流信息回调监听器, 需要时设置
         mPlayer.setOnBitStreamInfoListener(qiyiBitStreamInfoListener);
 
-        //设置VIP试看信息回调监听器, 需要时设置
+        // 设置VIP试看信息回调监听器, 需要时设置
         mPlayer.setOnPreviewInfoListener(qiyiPreviewInfoListener);
 
-        //设置视频分辨率回调监听器, 需要时设置
+        // 设置视频分辨率回调监听器, 需要时设置
         mPlayer.setOnVideoSizeChangedListener(qiyiVideoSizeChangedListener);
 
-        //设置seek完成监听器, 需要时设置
+        // 设置seek完成监听器, 需要时设置
         mPlayer.setOnSeekCompleteListener(qiyiSeekCompleteListener);
 
-        //设置缓冲事件监听器, 需要时设置
+        // 设置缓冲事件监听器, 需要时设置
         mPlayer.setOnBufferChangedListener(qiyiBufferChangedListener);
 
         mPlayer.setOnInfoListener(onInfoListener);
@@ -160,8 +489,10 @@ public class QiYiVideoView extends VideoSurfaceView {
     }
 
     public boolean isInPlaybackState() {
-        return (mPlayer != null && mCurrentState != STATE_ERROR
-                && mCurrentState != STATE_IDLE && mCurrentState != STATE_PREPARING);
+        return (mPlayer != null
+                && mCurrentState != STATE_ERROR
+                && mCurrentState != STATE_IDLE
+                && mCurrentState != STATE_PREPARING);
     }
 
     public void prepareAsync() {
@@ -240,8 +571,8 @@ public class QiYiVideoView extends VideoSurfaceView {
         String sn = IsmartvActivator.getInstance().getSnToken();
         String sid = Md5.md5(sn + TrueTime.now().getTime());
         CallaPlay callaPlay = new CallaPlay();
-        callaPlay.videoSwitchStream(mLogMedia, "manual",
-                mSpeed, sn, mMediaIp, sid, PLAYER_FLAG_QIYI);
+        callaPlay.videoSwitchStream(
+                mLogMedia, "manual", mSpeed, sn, mMediaIp, sid, PLAYER_FLAG_QIYI);
     }
 
     public IAdController getAdController() {
@@ -251,316 +582,15 @@ public class QiYiVideoView extends VideoSurfaceView {
         return mPlayer.getAdController();
     }
 
-    private IMediaPlayer.OnStateChangedListener qiyiStateChangedListener = new IMediaPlayer.OnStateChangedListener() {
-        @Override
-        public void onPrepared(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            mCurrentState = STATE_PREPARED;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onPrepared();
-            }
-        }
-
-        @Override
-        public void onAdStart(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            mIsPlayingAdvertisement = true;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onAdStart();
-            }
-            CallaPlay callaPlay = new CallaPlay();
-            callaPlay.ad_play_load(
-                    mLogMedia,
-                    (TrueTime.now().getTime() - mPlayerOpenTime),
-                    mMediaIp, mMediaId, PLAYER_FLAG_QIYI);
-        }
-
-        @Override
-        public void onAdEnd(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            mIsPlayingAdvertisement = false;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onAdEnd();
-            }
-            CallaPlay callaPlay = new CallaPlay();
-            callaPlay.ad_play_exit(
-                    mLogMedia,
-                    (TrueTime.now().getTime() - mPlayerOpenTime),
-                    mMediaIp, mMediaId, PLAYER_FLAG_QIYI);
-        }
-
-        @Override
-        public void onMiddleAdStart(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            //中插广告开始播放
-            mIsPlayingAdvertisement = true;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onMiddleAdStart();
-            }
-            CallaPlay callaPlay = new CallaPlay();
-            callaPlay.ad_play_load(
-                    mLogMedia,
-                    (TrueTime.now().getTime() - mPlayerOpenTime),
-                    mMediaIp, mMediaId, PLAYER_FLAG_QIYI);
-
-        }
-
-        @Override
-        public void onMiddleAdEnd(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            //中插广告播放结束
-            mIsPlayingAdvertisement = false;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onMiddleAdEnd();
-            }
-            CallaPlay callaPlay = new CallaPlay();
-            callaPlay.ad_play_exit(
-                    mLogMedia,
-                    (TrueTime.now().getTime() - mPlayerOpenTime),
-                    mMediaIp, mMediaId, PLAYER_FLAG_QIYI);
-
-        }
-
-        @Override
-        public void onStarted(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            if (mCurrentState == STATE_PAUSED) {
-                String sn = IsmartvActivator.getInstance().getSnToken();
-                String sid = Md5.md5(sn + TrueTime.now().getTime());
-                CallaPlay callaPlay = new CallaPlay();
-                callaPlay.videoPlayContinue(mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_QIYI);
-            } else {
-                CallaPlay callaPlay = new CallaPlay();
-                callaPlay.videoPlayStart(mLogMedia, mSpeed, mMediaIp, PLAYER_FLAG_QIYI);
-            }
-            mCurrentState = STATE_PLAYING;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onStarted();
-            }
-        }
-
-        @Override
-        public void onPaused(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            Log.i(TAG, "qiyiOnPaused:" + mCurrentState);
-            if (mCurrentState == STATE_PLAYING) {
-                String sn = IsmartvActivator.getInstance().getSnToken();
-                String sid = Md5.md5(sn + TrueTime.now().getTime());
-                CallaPlay callaPlay = new CallaPlay();
-                callaPlay.videoPlayPause(mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_QIYI);
-            }
-            mCurrentState = STATE_PAUSED;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onPaused();
-            }
-        }
-
-        @Override
-        public void onCompleted(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            mCurrentState = STATE_COMPLETED;
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onCompleted();
-            }
-        }
-
-        @Override
-        public void onStopped(IMediaPlayer iMediaPlayer) {
-            if (mPlayer != null && mIsPreview) {
-                mCurrentState = STATE_COMPLETED;
-                if (mOnStateChangedListener != null) {
-                    mOnStateChangedListener.onCompleted();
-                }
-            }
-
-        }
-
-        @Override
-        public boolean onError(IMediaPlayer iMediaPlayer, ISdkError iSdkError) {
-            if (mPlayer == null) {
-                return true;
-            }
-            mCurrentState = STATE_ERROR;
-            Log.e(TAG, "QiYiPlayer onError:" + iSdkError.getCode() + " " + iSdkError.getMsgFromError());
-
-            String sn = IsmartvActivator.getInstance().getSnToken();
-            String sid = Md5.md5(sn + TrueTime.now().getTime());
-            CallaPlay callaPlay = new CallaPlay();
-            callaPlay.videoExcept(
-                    "mediaexception", iSdkError.getCode(),
-                    mLogMedia, mSpeed, sid,
-                    getCurrentPosition(), PLAYER_FLAG_QIYI);
-
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onError(iSdkError.getMsgFromError());
-            }
-            return true;
-        }
-    };
-
-    private IMediaPlayer.OnBitStreamInfoListener qiyiBitStreamInfoListener = new IMediaPlayer.OnBitStreamInfoListener() {
-        @Override
-        public void onPlayableBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
-            if (mPlayer == null) {
-                return;
-            }
-            mQualities = new ArrayList<>();
-            bitStreamList = list;
-            for (BitStream bitStream : list) {
-                Log.i(TAG, "bitStream:" + bitStream.getValue());
-                // 去除对应视云“自适应”码率
-                if (bitStream.getValue() > 1) {
-                    mQualities.add(bitStreamConvertToQuality(bitStream));
-                }
-            }
-        }
-
-        @Override
-        public void onVipBitStreamListUpdate(IMediaPlayer iMediaPlayer, List<BitStream> list) {
-            Log.i(TAG, "bitStream:onVipBitStreamListUpdate");
-
-        }
-
-        @Override
-        public void onBitStreamSelected(IMediaPlayer iMediaPlayer, BitStream bitStream) {
-            if (mPlayer == null) {
-                return;
-            }
-            mQuality = bitStreamConvertToQuality(bitStream);
-        }
-    };
-
-    private IMediaPlayer.OnPreviewInfoListener qiyiPreviewInfoListener = new IMediaPlayer.OnPreviewInfoListener() {
-        @Override
-        public void onPreviewInfoReady(IMediaPlayer iMediaPlayer, boolean b, int i) {
-            Log.d(TAG, "QiYiOnPreview: " + b + ", length = " + i);
-            if (mPlayer == null) {
-                return;
-            }
-            if (b) {
-                previewLength = i;
-            }
-        }
-    };
-
-    private IMediaPlayer.OnVideoSizeChangedListener qiyiVideoSizeChangedListener = new IMediaPlayer.OnVideoSizeChangedListener() {
-        @Override
-        public void onVideoSizeChanged(IMediaPlayer iMediaPlayer, int width, int height) {
-            Log.i("LH/", "onVideoSizeChangedQiYi:" + width + " " + height);
-            if (mPlayer == null) {
-                return;
-            }
-            if (mOnVideoSizeChangedListener != null) {
-                mOnVideoSizeChangedListener.onVideoSizeChanged(width, height);
-            }
-        }
-    };
-
-    private IMediaPlayer.OnSeekCompleteListener qiyiSeekCompleteListener = new IMediaPlayer.OnSeekCompleteListener() {
-        @Override
-        public void onSeekCompleted(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            if (isInPlaybackState()) {
-                String sn = IsmartvActivator.getInstance().getSnToken();
-                String sid = Md5.md5(sn + TrueTime.now().getTime());
-                CallaPlay callaPlay = new CallaPlay();
-                callaPlay.videoPlaySeekBlockend(
-                        mLogMedia, mSpeed, getCurrentPosition(),
-                        (TrueTime.now().getTime() - mBufferStartTime),
-                        mMediaIp, sid, PLAYER_FLAG_QIYI);
-            }
-            if (mOnStateChangedListener != null) {
-                mOnStateChangedListener.onSeekComplete();
-            }
-        }
-    };
-
-    private IMediaPlayer.OnBufferChangedListener qiyiBufferChangedListener = new IMediaPlayer.OnBufferChangedListener() {
-        @Override
-        public void onBufferStart(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            if (mOnBufferChangedListener != null) {
-                mOnBufferChangedListener.onBufferStart();
-            }
-            mBufferStartTime = TrueTime.now().getTime();
-        }
-
-        @Override
-        public void onBufferEnd(IMediaPlayer iMediaPlayer) {
-            if (mPlayer == null) {
-                return;
-            }
-            if (mOnBufferChangedListener != null) {
-                mOnBufferChangedListener.onBufferEnd();
-            }
-            CallaPlay callaPlay = new CallaPlay();
-            if (mFirstOpen) {
-                mFirstOpen = false;
-                String sn = IsmartvActivator.getInstance().getSnToken();
-                String sid = Md5.md5(sn + TrueTime.now().getTime());
-                callaPlay.videoPlayLoad(
-                        mLogMedia,
-                        (TrueTime.now().getTime() - mPlayerOpenTime),
-                        mSpeed, mMediaIp, sid, "", PLAYER_FLAG_QIYI);
-            } else {
-                String sn = IsmartvActivator.getInstance().getSnToken();
-                String sid = Md5.md5(sn + TrueTime.now().getTime());
-                callaPlay.videoPlayBlockend(
-                        mLogMedia,
-                        mSpeed, getCurrentPosition(),
-                        mMediaIp, sid, PLAYER_FLAG_QIYI);
-            }
-            if (mIsPlayingAdvertisement) {
-                callaPlay.ad_play_blockend(
-                        mLogMedia,
-                        (TrueTime.now().getTime() - mBufferStartTime),
-                        mMediaIp, mMediaId, PLAYER_FLAG_QIYI);
-            }
-        }
-    };
-
-    private IMediaPlayer.OnInfoListener onInfoListener = new IMediaPlayer.OnInfoListener() {
-        @Override
-        public void onInfo(IMediaPlayer iMediaPlayer, int i, Object o) {
-            if (mPlayer == null) {
-                return;
-            }
-            if (mOnInfoListener != null) {
-                mOnInfoListener.onInfo(i, o);
-            }
-
-        }
-    };
-
     private BitStream qualityConvertToBitStream(ClipEntity.Quality quality) {
         // 更改为new_vip分支显示样式
         switch (quality) {
             case QUALITY_LOW:
             case QUALITY_ADAPTIVE:
                 return BitStream.BITSTREAM_STANDARD;
-            case QUALITY_NORMAL:// 流畅
+            case QUALITY_NORMAL: // 流畅
                 return BitStream.BITSTREAM_HIGH;
-            case QUALITY_MEDIUM:// 高清
+            case QUALITY_MEDIUM: // 高清
                 if (!bitStreamList.isEmpty()) {
                     if (bitStreamList.contains(BitStream.BITSTREAM_720P)) {
                         return BitStream.BITSTREAM_720P;
@@ -571,7 +601,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     }
                 }
                 return BitStream.BITSTREAM_720P;
-            case QUALITY_HIGH:// 超清
+            case QUALITY_HIGH: // 超清
                 if (!bitStreamList.isEmpty()) {
                     if (bitStreamList.contains(BitStream.BITSTREAM_1080P)) {
                         return BitStream.BITSTREAM_1080P;
@@ -602,18 +632,18 @@ public class QiYiVideoView extends VideoSurfaceView {
     }
 
     private ClipEntity.Quality bitStreamConvertToQuality(BitStream bitStream) {
-//        for (BitStream d : mBitStreamList) {
-//            if (d.equals(BitStream.BITSTREAM_HIGH)) {
-//                avalibleRate[0] = true;
-//                // currQuality = 0;
-//            } else if (d.equals(BitStream.BITSTREAM_720P)) {
-//                avalibleRate[1] = true;
-//                // currQuality = 1;
-//            } else if (d.equals(BitStream.BITSTREAM_1080P)) {
-//                avalibleRate[2] = true;
-//                // currQuality = 2;
-//            }
-//        }
+        //        for (BitStream d : mBitStreamList) {
+        //            if (d.equals(BitStream.BITSTREAM_HIGH)) {
+        //                avalibleRate[0] = true;
+        //                // currQuality = 0;
+        //            } else if (d.equals(BitStream.BITSTREAM_720P)) {
+        //                avalibleRate[1] = true;
+        //                // currQuality = 1;
+        //            } else if (d.equals(BitStream.BITSTREAM_1080P)) {
+        //                avalibleRate[2] = true;
+        //                // currQuality = 2;
+        //            }
+        //        }
         // 更改为以上显示方式
         if (bitStream == BitStream.BITSTREAM_STANDARD) {
             return ClipEntity.Quality.QUALITY_ADAPTIVE;

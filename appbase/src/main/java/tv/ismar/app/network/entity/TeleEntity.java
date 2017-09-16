@@ -1,8 +1,6 @@
 package tv.ismar.app.network.entity;
 
-/**
- * Created by huaijie on 11/14/14.
- */
+/** Created by huaijie on 11/14/14. */
 public class TeleEntity {
     private String title;
     private String phoneNo;

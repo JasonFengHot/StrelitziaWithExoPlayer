@@ -13,29 +13,27 @@ import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
+import tv.ismar.app.models.Recommend;
 import tv.ismar.searchpage.R;
 import tv.ismar.searchpage.model.Expense;
-import tv.ismar.app.models.Recommend;
 import tv.ismar.searchpage.weight.ItemContainer;
 import tv.ismar.searchpage.weight.ReflectionTransformationBuilder;
 import tv.ismar.searchpage.weight.RotateTextView;
 
-/**
- * Created by admin on 2016/2/1.
- */
+/** Created by admin on 2016/2/1. */
 public class RecommendAdapter extends BaseAdapter {
 
+    Transformation mTransformation =
+            new ReflectionTransformationBuilder().setIsHorizontal(true).build();
     private Context mContext;
-    Transformation mTransformation = new ReflectionTransformationBuilder()
-            .setIsHorizontal(true)
-            .build();
     private List<Recommend.ObjectsEntity> mData;
-    public void setmData(List<Recommend.ObjectsEntity> mData) {
-        this.mData = mData;
-    }
 
     public RecommendAdapter(Context mContext, List<Recommend.ObjectsEntity> mData) {
         this.mContext = mContext;
+        this.mData = mData;
+    }
+
+    public void setmData(List<Recommend.ObjectsEntity> mData) {
         this.mData = mData;
     }
 
@@ -64,35 +62,38 @@ public class RecommendAdapter extends BaseAdapter {
             viewHolder.ItemBeanScore = (TextView) convertView.findViewById(R.id.ItemBeanScore);
             viewHolder.expense_txt = (RotateTextView) convertView.findViewById(R.id.expense_txt);
             viewHolder.poster_title = (TextView) convertView.findViewById(R.id.poster_title);
-            viewHolder.item_container= (ItemContainer) convertView.findViewById(R.id.item_container);
-            viewHolder.tv_focus= (TextView) convertView.findViewById(R.id.tv_focus);
+            viewHolder.item_container =
+                    (ItemContainer) convertView.findViewById(R.id.item_container);
+            viewHolder.tv_focus = (TextView) convertView.findViewById(R.id.tv_focus);
             viewHolder.expense_txt.setDegrees(315);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         final Recommend.ObjectsEntity objectsEntity = mData.get(position);
-        if (objectsEntity.adlet_url!= null && !objectsEntity.adlet_url.equals("")) {
+        if (objectsEntity.adlet_url != null && !objectsEntity.adlet_url.equals("")) {
             if ("movie".equals(objectsEntity.content_model)) {
-                if(objectsEntity.bean_score>0) {
+                if (objectsEntity.bean_score > 0) {
                     viewHolder.ItemBeanScore.setText(objectsEntity.bean_score + "");
                     viewHolder.ItemBeanScore.setVisibility(View.VISIBLE);
                 }
-                if(objectsEntity.expense!=null){
-                    if(objectsEntity.expense.cptitle!=null){
+                if (objectsEntity.expense != null) {
+                    if (objectsEntity.expense.cptitle != null) {
                         viewHolder.expense_txt.setText(objectsEntity.expense.cptitle);
                         viewHolder.expense_txt.setVisibility(View.VISIBLE);
-                        if(objectsEntity.expense.pay_type== Expense.SEPARATE_CHARGE){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy_selector);
-                        }else if((objectsEntity.expense.cpid == Expense.ISMARTV_CPID)){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar_selector);
-                        }else if((objectsEntity.expense.cpid == Expense.IQIYI_CPID)){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi_selector);
+                        if (objectsEntity.expense.pay_type == Expense.SEPARATE_CHARGE) {
+                            viewHolder.expense_txt.setBackgroundResource(
+                                    R.drawable.list_single_buy_selector);
+                        } else if ((objectsEntity.expense.cpid == Expense.ISMARTV_CPID)) {
+                            viewHolder.expense_txt.setBackgroundResource(
+                                    R.drawable.list_ismar_selector);
+                        } else if ((objectsEntity.expense.cpid == Expense.IQIYI_CPID)) {
+                            viewHolder.expense_txt.setBackgroundResource(
+                                    R.drawable.list_lizhi_selector);
                         }
                     } else {
                         viewHolder.expense_txt.setVisibility(View.GONE);
                     }
-
                 }
                 Picasso.with(mContext)
                         .load(objectsEntity.vertical_url)
@@ -103,25 +104,27 @@ public class RecommendAdapter extends BaseAdapter {
                         .transform(mTransformation)
                         .into(viewHolder.iv_poster);
             } else {
-                if(objectsEntity.bean_score>0) {
-                           viewHolder.ItemBeanScore.setText(objectsEntity.bean_score + "");
+                if (objectsEntity.bean_score > 0) {
+                    viewHolder.ItemBeanScore.setText(objectsEntity.bean_score + "");
                     viewHolder.ItemBeanScore.setVisibility(View.VISIBLE);
                 }
-                if(objectsEntity.expense!=null){
-                    if(objectsEntity.expense.cptitle!=null){
+                if (objectsEntity.expense != null) {
+                    if (objectsEntity.expense.cptitle != null) {
                         viewHolder.expense_txt.setText(objectsEntity.expense.cptitle);
                         viewHolder.expense_txt.setVisibility(View.VISIBLE);
-                        if(objectsEntity.expense.pay_type==1){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_single_buy_selector);
-                        }else if((objectsEntity.expense.cpname).startsWith("ismar")){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_ismar_selector);
-                        }else if("iqiyi".equals(objectsEntity.expense.cpname)){
-                            viewHolder.expense_txt.setBackgroundResource(R.drawable.list_lizhi_selector);
+                        if (objectsEntity.expense.pay_type == 1) {
+                            viewHolder.expense_txt.setBackgroundResource(
+                                    R.drawable.list_single_buy_selector);
+                        } else if ((objectsEntity.expense.cpname).startsWith("ismar")) {
+                            viewHolder.expense_txt.setBackgroundResource(
+                                    R.drawable.list_ismar_selector);
+                        } else if ("iqiyi".equals(objectsEntity.expense.cpname)) {
+                            viewHolder.expense_txt.setBackgroundResource(
+                                    R.drawable.list_lizhi_selector);
                         }
                     } else {
                         viewHolder.expense_txt.setVisibility(View.GONE);
                     }
-
                 }
                 Picasso.with(mContext)
                         .load(objectsEntity.adlet_url)
@@ -132,13 +135,11 @@ public class RecommendAdapter extends BaseAdapter {
                         .transform(mTransformation)
                         .into(viewHolder.iv_poster);
             }
-
         }
 
         viewHolder.poster_title.setText(objectsEntity.title);
         viewHolder.tv_focus.setText(objectsEntity.focus);
         return convertView;
-
     }
 
     public static class ViewHolder {
@@ -149,5 +150,4 @@ public class RecommendAdapter extends BaseAdapter {
         TextView tv_focus;
         ItemContainer item_container;
     }
-
 }

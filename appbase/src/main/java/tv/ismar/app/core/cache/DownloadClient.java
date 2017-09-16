@@ -12,16 +12,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 import cn.ismartv.injectdb.library.query.Select;
 import tv.ismar.app.db.DownloadTable;
 import tv.ismar.app.util.FileUtils;
 import tv.ismar.app.util.HardwareUtils;
 
-/**
- * Created by huaijie on 6/19/15.
- */
+/** Created by huaijie on 6/19/15. */
 public class DownloadClient implements Runnable {
     private static final String TAG = "LH/DownloadClient";
 
@@ -33,8 +30,8 @@ public class DownloadClient implements Runnable {
     private StoreType mStoreType;
     private Context mContext;
 
-
-    public DownloadClient(Context context, String downloadUrl, String saveName, StoreType storeType) {
+    public DownloadClient(
+            Context context, String downloadUrl, String saveName, StoreType storeType) {
         mContext = context;
         urlStr = downloadUrl;
         mServerMD5 = FileUtils.getFileByUrl(downloadUrl).split("\\.")[0];
@@ -50,7 +47,6 @@ public class DownloadClient implements Runnable {
                 break;
         }
     }
-
 
     @Override
     public void run() {
@@ -83,30 +79,34 @@ public class DownloadClient implements Runnable {
         Log.d(TAG, "DownloadUrl: " + urlStr);
 
         boolean isDownload = false;
-        //database
-        DownloadTable downloadTable = new Select().from(DownloadTable.class).where(DownloadTable.DOWNLOAD_PATH + " =? ", downloadFile.getAbsolutePath()).executeSingle();
+        // database
+        DownloadTable downloadTable =
+                new Select()
+                        .from(DownloadTable.class)
+                        .where(DownloadTable.DOWNLOAD_PATH + " =? ", downloadFile.getAbsolutePath())
+                        .executeSingle();
         InputStream input = null;
         try {
-//            OkHttpClient client = new OkHttpClient.Builder()
-//                    .connectTimeout(6, TimeUnit.SECONDS)
-//                    .readTimeout(15, TimeUnit.SECONDS)
-//                    .build();
-//            Request request = new Request.Builder().url(url).build();
-//            Response response = client.newCall(request).execute();
-//            long total = response.body().contentLength();
-//            long current = 0;
-//            if (response.body() != null) {
-//                inputStream = response.body().byteStream();
-//                byte[] buffer = new byte[1024];
-//                int byteRead;
-//                while ((byteRead = inputStream.read(buffer)) != -1) {
-//                    Log.i(TAG, "byteRead:" + byteRead);
-//                    current += byteRead;
-//                    fileOutputStream.write(buffer, 0, byteRead);
-//                }
-//                isDownload = true;
-//                fileOutputStream.flush();
-//            }
+            //            OkHttpClient client = new OkHttpClient.Builder()
+            //                    .connectTimeout(6, TimeUnit.SECONDS)
+            //                    .readTimeout(15, TimeUnit.SECONDS)
+            //                    .build();
+            //            Request request = new Request.Builder().url(url).build();
+            //            Response response = client.newCall(request).execute();
+            //            long total = response.body().contentLength();
+            //            long current = 0;
+            //            if (response.body() != null) {
+            //                inputStream = response.body().byteStream();
+            //                byte[] buffer = new byte[1024];
+            //                int byteRead;
+            //                while ((byteRead = inputStream.read(buffer)) != -1) {
+            //                    Log.i(TAG, "byteRead:" + byteRead);
+            //                    current += byteRead;
+            //                    fileOutputStream.write(buffer, 0, byteRead);
+            //                }
+            //                isDownload = true;
+            //                fileOutputStream.flush();
+            //            }
             URL url = new URL(urlStr);
             HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
             httpUrlConnection.setRequestMethod("POST");
@@ -129,17 +129,17 @@ public class DownloadClient implements Runnable {
             Log.e(TAG, "IllegalArgumentException: " + e.getMessage());
         } finally {
             try {
-                if (outputStream != null){
+                if (outputStream != null) {
                     outputStream.close();
                 }
-                if (input != null){
+                if (input != null) {
                     input.close();
                 }
             } catch (IOException e) {
                 Log.e(TAG, "Close stream: " + e.getMessage());
             }
         }
-        if(isDownload){
+        if (isDownload) {
             downloadTable.download_path = downloadFile.getAbsolutePath();
             downloadTable.local_md5 = HardwareUtils.getMd5ByFile(downloadFile);
         }
@@ -149,18 +149,6 @@ public class DownloadClient implements Runnable {
         Log.d(TAG, "server md5 is: " + mServerMD5);
         Log.d(TAG, "local md5 is: " + downloadTable.local_md5);
         Log.d(TAG, "download complete!!!");
-
-    }
-
-    public enum StoreType {
-        Internal,
-        External
-    }
-
-    public enum DownloadState {
-        run,
-        pause,
-        complete
     }
 
     public String getUrl() {
@@ -183,7 +171,16 @@ public class DownloadClient implements Runnable {
         return mSaveName;
     }
 
+    public enum StoreType {
+        Internal,
+        External
+    }
 
+    public enum DownloadState {
+        run,
+        pause,
+        complete
+    }
 }
 
 //                    Request request = new Request.Builder()

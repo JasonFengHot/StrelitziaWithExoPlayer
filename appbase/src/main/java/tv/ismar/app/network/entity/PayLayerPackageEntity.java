@@ -2,9 +2,7 @@ package tv.ismar.app.network.entity;
 
 import java.util.List;
 
-/**
- * Created by huaijie on 4/12/16.
- */
+/** Created by huaijie on 4/12/16. */
 public class PayLayerPackageEntity {
     private List<Item_list> item_list;
 
@@ -20,28 +18,28 @@ public class PayLayerPackageEntity {
 
     private String type;
 
-    public void setItem_list(List<Item_list> item_list) {
-        this.item_list = item_list;
-    }
-
     public List<Item_list> getItem_list() {
         return this.item_list;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setItem_list(List<Item_list> item_list) {
+        this.item_list = item_list;
     }
 
     public String getDescription() {
         return this.description;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTitle() {
         return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getPrice() {
@@ -52,28 +50,28 @@ public class PayLayerPackageEntity {
         this.price = price;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
     public String getDuration() {
         return this.duration;
     }
 
-    public void setPk(int pk) {
-        this.pk = pk;
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public int getPk() {
         return this.pk;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setPk(int pk) {
+        this.pk = pk;
     }
 
     public String getType() {
         return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public class Item_list {
@@ -83,6 +81,11 @@ public class PayLayerPackageEntity {
 
         private int pay_type;
         private int cpid;
+        private int item_id;
+        private String vertical_url;
+        private String cptitle;
+        private String title;
+        private String content_model;
 
         public int getPay_type() {
             return pay_type;
@@ -100,15 +103,6 @@ public class PayLayerPackageEntity {
             this.cpid = cpid;
         }
 
-        private int item_id;
-
-        private String vertical_url;
-
-        private String cptitle;
-
-        private String title;
-        private String content_model;
-
         public String getContent_model() {
             return content_model;
         }
@@ -117,38 +111,36 @@ public class PayLayerPackageEntity {
             this.content_model = content_model;
         }
 
-        public void setItem_id(int item_id) {
-            this.item_id = item_id;
-        }
-
         public int getItem_id() {
             return this.item_id;
         }
 
-        public void setVertical_url(String vertical_url) {
-            this.vertical_url = vertical_url;
+        public void setItem_id(int item_id) {
+            this.item_id = item_id;
         }
 
         public String getVertical_url() {
             return this.vertical_url;
         }
 
-        public void setCptitle(String cptitle) {
-            this.cptitle = cptitle;
+        public void setVertical_url(String vertical_url) {
+            this.vertical_url = vertical_url;
         }
 
         public String getCptitle() {
             return this.cptitle;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
+        public void setCptitle(String cptitle) {
+            this.cptitle = cptitle;
         }
 
         public String getTitle() {
             return this.title;
         }
 
+        public void setTitle(String title) {
+            this.title = title;
+        }
     }
-
 }

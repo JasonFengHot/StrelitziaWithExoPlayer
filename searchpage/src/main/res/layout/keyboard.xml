@@ -1,221 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:jasmine="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/keyboard_width"
     android:layout_height="match_parent"
-    xmlns:jasmine="http://schemas.android.com/apk/res-auto"
+    android:background="#455996"
     android:clipChildren="false"
-    android:clipToPadding="false"
-    android:background="#455996">
+    android:clipToPadding="false">
 
     <ImageView
-            android:layout_width="@dimen/search_icon_width"
-            android:layout_height="@dimen/search_icon_height"
-            android:layout_marginLeft="@dimen/search_icon_margin_left"
-            android:layout_marginTop="@dimen/search_icon_margin_top"
-            android:src="@drawable/search_icon"/>
+        android:layout_width="@dimen/search_icon_width"
+        android:layout_height="@dimen/search_icon_height"
+        android:layout_marginLeft="@dimen/search_icon_margin_left"
+        android:layout_marginTop="@dimen/search_icon_margin_top"
+        android:src="@drawable/search_icon" />
 
     <EditText
-            android:id="@+id/et_input"
-            android:background="@null"
-            android:layout_width="@dimen/edittext_width"
-            android:layout_height="@dimen/edittext_height"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:layout_marginTop="@dimen/edittext_margin_top"
-            android:layout_marginLeft="@dimen/edittext_margin_left"
-            android:textColor="#ffffff"
-            android:singleLine="true"
-            android:textSize="@dimen/edittext_size"
-            />
+        android:id="@+id/et_input"
+        android:layout_width="@dimen/edittext_width"
+        android:layout_height="@dimen/edittext_height"
+        android:layout_marginLeft="@dimen/edittext_margin_left"
+        android:layout_marginTop="@dimen/edittext_margin_top"
+        android:background="@null"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/edittext_size" />
+
     <ImageView
-            android:layout_width="@dimen/edittext_divider_width"
-            android:layout_height="wrap_content"
-            android:src="@drawable/divider1"
-            android:layout_marginTop="@dimen/edittext_divider_margin_top"
-            android:layout_marginLeft="@dimen/edittext_divider_margin_left"
-            />
+        android:layout_width="@dimen/edittext_divider_width"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/edittext_divider_margin_left"
+        android:layout_marginTop="@dimen/edittext_divider_margin_top"
+        android:src="@drawable/divider1" />
+
     <tv.ismar.searchpage.weight.ZGridView
-            android:id="@+id/keyboard"
-            android:layout_width="@dimen/full_keyboard_width"
-            android:layout_height="@dimen/full_keyboard_height"
-            android:paddingLeft="@dimen/full_keyboard_margin_left"
-            android:paddingTop="@dimen/full_keyboard_margin_top"
-            jasmine:verticalSpace="@dimen/full_keyboard_v_spacing"
-            jasmine:horizontalSpace="@dimen/full_keyboard_h_spacing"
-            jasmine:numColumns="5"
-            android:scrollbars="none"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:nextFocusUp="@id/keyboard"
-            android:nextFocusLeft="@id/keyboard"
-            android:visibility="gone"
-            android:focusable="true"
-            android:cacheColorHint="@android:color/transparent"
-            jasmine:listSelector="@drawable/key_focus"
-            jasmine:selectorLeftPadding="@dimen/full_keyboard_padding"
-            jasmine:selectorTopPadding="@dimen/full_keyboard_padding"
-            jasmine:selectorRightPadding="@dimen/full_keyboard_padding"
-            jasmine:selectorBottomPadding="@dimen/full_keyboard_padding"
-            jasmine:scaleSize="1.2"
-            >
-    </tv.ismar.searchpage.weight.ZGridView>
+        android:id="@+id/keyboard"
+        android:layout_width="@dimen/full_keyboard_width"
+        android:layout_height="@dimen/full_keyboard_height"
+        android:cacheColorHint="@android:color/transparent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:focusable="true"
+        android:nextFocusLeft="@id/keyboard"
+        android:nextFocusUp="@id/keyboard"
+        android:paddingLeft="@dimen/full_keyboard_margin_left"
+        android:paddingTop="@dimen/full_keyboard_margin_top"
+        android:scrollbars="none"
+        android:visibility="gone"
+        jasmine:horizontalSpace="@dimen/full_keyboard_h_spacing"
+        jasmine:listSelector="@drawable/key_focus"
+        jasmine:numColumns="5"
+        jasmine:scaleSize="1.2"
+        jasmine:selectorBottomPadding="@dimen/full_keyboard_padding"
+        jasmine:selectorLeftPadding="@dimen/full_keyboard_padding"
+        jasmine:selectorRightPadding="@dimen/full_keyboard_padding"
+        jasmine:selectorTopPadding="@dimen/full_keyboard_padding"
+        jasmine:verticalSpace="@dimen/full_keyboard_v_spacing"></tv.ismar.searchpage.weight.ZGridView>
+
     <tv.ismar.searchpage.weight.ZGridView
-            android:id="@+id/t9_keyboard"
-            android:layout_width="@dimen/t9_keyboard_width"
-            android:layout_height="@dimen/t9_keyboard_height"
-            android:paddingLeft="@dimen/t9_keyboard_margin_left"
-            android:paddingTop="@dimen/t9_keyboard_margin_top"
-            jasmine:verticalSpace="@dimen/t9_keyboard_v_spacing"
-            jasmine:horizontalSpace="@dimen/t9_keyboard_h_spacing"
-            jasmine:numColumns="3"
-            android:scrollbars="none"
-            android:focusable="true"
-            android:nextFocusUp="@id/t9_keyboard"
-            android:nextFocusLeft="@id/t9_keyboard"
-            android:cacheColorHint="@android:color/transparent"
-            jasmine:listSelector="@drawable/t9_key_focus"
-            jasmine:selectorLeftPadding="@dimen/t9_keyboard_padding"
-            jasmine:selectorTopPadding="@dimen/t9_keyboard_padding"
-            jasmine:selectorRightPadding="@dimen/t9_keyboard_padding"
-            jasmine:selectorBottomPadding="@dimen/t9_keyboard_padding"
-            android:visibility="gone"
-        >
-    </tv.ismar.searchpage.weight.ZGridView>
+        android:id="@+id/t9_keyboard"
+        android:layout_width="@dimen/t9_keyboard_width"
+        android:layout_height="@dimen/t9_keyboard_height"
+        android:cacheColorHint="@android:color/transparent"
+        android:focusable="true"
+        android:nextFocusLeft="@id/t9_keyboard"
+        android:nextFocusUp="@id/t9_keyboard"
+        android:paddingLeft="@dimen/t9_keyboard_margin_left"
+        android:paddingTop="@dimen/t9_keyboard_margin_top"
+        android:scrollbars="none"
+        android:visibility="gone"
+        jasmine:horizontalSpace="@dimen/t9_keyboard_h_spacing"
+        jasmine:listSelector="@drawable/t9_key_focus"
+        jasmine:numColumns="3"
+        jasmine:selectorBottomPadding="@dimen/t9_keyboard_padding"
+        jasmine:selectorLeftPadding="@dimen/t9_keyboard_padding"
+        jasmine:selectorRightPadding="@dimen/t9_keyboard_padding"
+        jasmine:selectorTopPadding="@dimen/t9_keyboard_padding"
+        jasmine:verticalSpace="@dimen/t9_keyboard_v_spacing"></tv.ismar.searchpage.weight.ZGridView>
 
     <RelativeLayout
-            android:id="@+id/t9_key_0"
-            android:layout_width="@dimen/item_t9_width"
-            android:layout_height="@dimen/item_t9_width"
-            android:padding="@dimen/item_t9_padding"
-            android:layout_marginLeft="@dimen/item_t9_key0__margin_left"
-            android:layout_marginTop="@dimen/item_t9_key0__margin_top"
-            android:nextFocusUp="@id/t9_keyboard"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:background="@drawable/t9_key_selector"
-            android:visibility="invisible"
-            >
+        android:id="@+id/t9_key_0"
+        android:layout_width="@dimen/item_t9_width"
+        android:layout_height="@dimen/item_t9_width"
+        android:layout_marginLeft="@dimen/item_t9_key0__margin_left"
+        android:layout_marginTop="@dimen/item_t9_key0__margin_top"
+        android:background="@drawable/t9_key_selector"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:nextFocusUp="@id/t9_keyboard"
+        android:padding="@dimen/item_t9_padding"
+        android:visibility="invisible">
+
         <LinearLayout
-                android:layout_width="@dimen/item_t9_key_width"
-                android:layout_height="@dimen/item_t9_key_width"
-                android:orientation="vertical"
-                android:background="@drawable/t9_rect_bg"
-                >
+            android:layout_width="@dimen/item_t9_key_width"
+            android:layout_height="@dimen/item_t9_key_width"
+            android:background="@drawable/t9_rect_bg"
+            android:orientation="vertical">
+
             <TextView
-                    android:id="@+id/tv_num"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/item_t9_num_size"
-                    android:gravity="center"
-                    android:textColor="#ffffff"
-                    android:text="0"
-                    android:layout_marginTop="@dimen/item_t9_num_margin_top"/>
+                android:id="@+id/tv_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/item_t9_num_margin_top"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/item_t9_num_size" />
+
             <TextView
-                    android:id="@+id/tv_letter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/item_t9_letter_size"
-                    android:textColor="#ff9c3c"
-                    android:layout_marginBottom="@dimen/item_t9_letter_margin_bottom"
-                    android:gravity="center"
-                    />
+                android:id="@+id/tv_letter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/item_t9_letter_margin_bottom"
+                android:gravity="center"
+                android:textColor="#ff9c3c"
+                android:textSize="@dimen/item_t9_letter_size" />
         </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        android:clipToPadding="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/shift_key_margin_bottom"
+        android:layout_marginLeft="@dimen/shift_key_margin_left"
         android:clipChildren="false"
-            android:layout_marginLeft="@dimen/shift_key_margin_left"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/shift_key_margin_bottom">
+        android:clipToPadding="false">
 
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/tv_back"
-                        android:layout_width="@dimen/long_key_width"
-                        android:layout_height="@dimen/long_key_height"
-                        android:padding="@dimen/long_key_padding"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:clipToPadding="false"
-                        android:clipChildren="false"
-                        android:descendantFocusability="beforeDescendants"
-                        android:background="@drawable/long_key_selector"
-                        android:gravity="center"
-                        android:nextFocusDown="@id/tv_back"
-                        android:visibility="invisible">
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="回退"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/item_t9_num_size"
-                    android:background="@drawable/bg_button_long"
-                    />
-        </RelativeLayout>
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/tv_key_0"
-                        android:layout_toRightOf="@id/tv_back"
-                        android:layout_width="@dimen/item_key_width"
-                        android:layout_height="@dimen/item_key_width"
-                        android:padding="@dimen/long_key_padding"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:layout_marginLeft="@dimen/key_0_margin_left"
-                        android:descendantFocusability="beforeDescendants"
-                        android:background="@drawable/key_selector"
-            android:clipToPadding="false"
+            android:id="@+id/tv_back"
+            android:layout_width="@dimen/long_key_width"
+            android:layout_height="@dimen/long_key_height"
+            android:background="@drawable/long_key_selector"
             android:clipChildren="false"
-                        android:gravity="center"
-                        android:nextFocusDown="@id/tv_key_0"
-                        android:visibility="invisible">
-            <TextView
-                    android:layout_width="@dimen/key_width"
-                    android:layout_height="@dimen/key_width"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textSize="@dimen/item_t9_num_size"
-                    android:textColor="#ffffff"
-                    android:background="@drawable/bg_button_rect"/>
-        </RelativeLayout>
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/tv_T9"
-                        android:layout_width="@dimen/long_key_width"
-                        android:layout_height="@dimen/long_key_height"
-                        android:layout_toRightOf="@id/tv_key_0"
-                        android:padding="@dimen/long_key_padding"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:layout_marginLeft="@dimen/key_0_margin_left"
-                        android:descendantFocusability="beforeDescendants"
-                        android:background="@drawable/long_key_selector"
             android:clipToPadding="false"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:nextFocusDown="@id/tv_back"
+            android:padding="@dimen/long_key_padding"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_button_long"
+                android:gravity="center"
+                android:text="回退"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/item_t9_num_size" />
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tv_key_0"
+            android:layout_width="@dimen/item_key_width"
+            android:layout_height="@dimen/item_key_width"
+            android:layout_marginLeft="@dimen/key_0_margin_left"
+            android:layout_toRightOf="@id/tv_back"
+            android:background="@drawable/key_selector"
             android:clipChildren="false"
-                        android:gravity="center"
-                        android:nextFocusDown="@id/tv_T9"
-                        android:visibility="invisible">
+            android:clipToPadding="false"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:nextFocusDown="@id/tv_key_0"
+            android:padding="@dimen/long_key_padding"
+            android:visibility="invisible">
+
             <TextView
-                    android:id="@+id/tv_T9_keyboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="T9"
-                    android:textSize="@dimen/item_t9_num_size"
-                    android:textColor="#ffffff"
-                    android:background="@drawable/bg_button_long"/>
+                android:layout_width="@dimen/key_width"
+                android:layout_height="@dimen/key_width"
+                android:background="@drawable/bg_button_rect"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/item_t9_num_size" />
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tv_T9"
+            android:layout_width="@dimen/long_key_width"
+            android:layout_height="@dimen/long_key_height"
+            android:layout_marginLeft="@dimen/key_0_margin_left"
+            android:layout_toRightOf="@id/tv_key_0"
+            android:background="@drawable/long_key_selector"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:nextFocusDown="@id/tv_T9"
+            android:padding="@dimen/long_key_padding"
+            android:visibility="invisible">
+
             <TextView
-                    android:id="@+id/tv_full_keyboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="全键盘"
-                    android:textSize="@dimen/item_t9_num_size"
-                    android:textColor="#ffffff"
-                    android:visibility="gone"
-                    android:background="@drawable/bg_button_long"/>
+                android:id="@+id/tv_T9_keyboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_button_long"
+                android:gravity="center"
+                android:text="T9"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/item_t9_num_size" />
+
+            <TextView
+                android:id="@+id/tv_full_keyboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_button_long"
+                android:gravity="center"
+                android:text="全键盘"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/item_t9_num_size"
+                android:visibility="gone" />
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

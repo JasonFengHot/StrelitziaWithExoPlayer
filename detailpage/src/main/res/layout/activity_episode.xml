@@ -4,15 +4,14 @@
     android:id="@+id/large_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#0e163a"
-    >
+    android:orientation="vertical">
+
     <FrameLayout
         android:id="@+id/detail_head"
         android:layout_width="match_parent"
         android:layout_height="@dimen/detail_header_height"
-        android:layout_marginLeft="@dimen/episode_header_title_ml"
-    />
+        android:layout_marginLeft="@dimen/episode_header_title_ml" />
 
     <ImageView
         android:id="@+id/tmp"
@@ -22,28 +21,26 @@
         android:layout_marginRight="@dimen/horizontal_divider_mr"
         android:focusable="false"
         android:scaleType="fitXY"
-        android:src="@drawable/horizontal_divider_line"/>
+        android:src="@drawable/horizontal_divider_line" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/episode_header_height"
         android:layout_marginTop="@dimen/episode_post_mt"
-        android:paddingLeft="@dimen/drama_main_layout_PL"
-        android:paddingRight="@dimen/drama_main_layout_PR"
         android:orientation="horizontal"
-    >
+        android:paddingLeft="@dimen/drama_main_layout_PL"
+        android:paddingRight="@dimen/drama_main_layout_PR">
 
         <RelativeLayout
             android:layout_width="@dimen/drama_main_img_layout_W"
-            android:layout_height="match_parent"
-        >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/image_daram_back"
                 android:layout_width="@dimen/drama_main_image_daram_back_W"
                 android:layout_height="@dimen/drama_main_image_daram_back_H"
-                android:focusable="false"/>
+                android:focusable="false" />
 
             <ImageView
                 android:id="@+id/image_daram_label"
@@ -52,7 +49,7 @@
                 android:layout_alignRight="@+id/image_daram_back"
                 android:layout_alignTop="@+id/image_daram_back"
                 android:layout_marginRight="@dimen/drama_main_image_daram_label_MR"
-                android:layout_marginTop="@dimen/drama_main_image_daram_label_MT"/>
+                android:layout_marginTop="@dimen/drama_main_image_daram_label_MT" />
         </RelativeLayout>
 
         <LinearLayout
@@ -65,9 +62,9 @@
                 android:id="@+id/tv_drama_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_36sp"
+                android:layout_marginTop="@dimen/episode_tv_drama_name_mt"
                 android:includeFontPadding="true"
-                android:layout_marginTop="@dimen/episode_tv_drama_name_mt"/>
+                android:textSize="@dimen/text_size_36sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -80,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="true"
-                    android:textSize="@dimen/drama_main_tv_daram_textsize"/>
+                    android:textSize="@dimen/drama_main_tv_daram_textsize" />
 
                 <TextView
                     android:id="@+id/tv_daram_type"
@@ -89,7 +86,7 @@
                     android:layout_marginLeft="@dimen/drama_main_tv_daram_marginleft"
                     android:includeFontPadding="true"
                     android:singleLine="true"
-                    android:textSize="@dimen/drama_main_tv_daram_textsize"/>
+                    android:textSize="@dimen/drama_main_tv_daram_textsize" />
             </LinearLayout>
 
             <TextView
@@ -100,51 +97,49 @@
                 android:includeFontPadding="true"
                 android:text="@string/one_drama_order_info"
                 android:textSize="25sp"
-                android:visibility="gone"
-            />
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-    >
+        android:orientation="vertical">
+
         <Button
             android:id="@+id/episode_arrow_up"
             android:layout_width="@dimen/episode_arrow_up_w"
             android:layout_height="@dimen/episode_arrow_up_h"
+            android:layout_marginLeft="@dimen/episode_arrow_down_ml"
             android:layout_marginTop="@dimen/episode_arrow_up_mt"
             android:background="@drawable/episode_arrow_up"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:layout_marginLeft="@dimen/episode_arrow_down_ml"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
+
         <tv.ismar.app.widget.ZGridView
             android:id="@+id/episode_zgridview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/epsisode_recycler_height"
-            android:layout_marginTop="@dimen/epsisode_recycler_mt"
             android:layout_marginLeft="@dimen/epsisode_recycler_ml"
             android:layout_marginRight="@dimen/epsisode_recycler_mr"
-            jasmine:horizontalSpace="@dimen/epsisode_recycler_hs"
-            jasmine:verticalSpace="@dimen/epsisode_recycler_vs"
-            jasmine:numColumns="10"
-            android:focusable="true"
+            android:layout_marginTop="@dimen/epsisode_recycler_mt"
             android:descendantFocusability="afterDescendants"
-        />
+            android:focusable="true"
+            jasmine:horizontalSpace="@dimen/epsisode_recycler_hs"
+            jasmine:numColumns="10"
+            jasmine:verticalSpace="@dimen/epsisode_recycler_vs" />
+
         <Button
             android:id="@+id/episode_arrow_down"
             android:layout_width="@dimen/episode_arrow_up_w"
             android:layout_height="@dimen/episode_arrow_up_h"
             android:layout_marginBottom="@dimen/episode_arrow_down_mb"
+            android:layout_marginLeft="@dimen/episode_arrow_down_ml"
             android:background="@drawable/episode_arrow_down"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:layout_marginLeft="@dimen/episode_arrow_down_ml"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
     </LinearLayout>
 
 </LinearLayout>

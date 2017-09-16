@@ -7,8 +7,8 @@
         android:id="@+id/exit_text"
         android:layout_width="@dimen/player_toast_w"
         android:layout_height="@dimen/player_toast_h"
-        android:background="@drawable/player_exit_toast"
         android:layout_gravity="center_horizontal"
+        android:background="@drawable/player_exit_toast"
         android:gravity="center"
         android:textColor="@color/color_base_white"
         android:textSize="@dimen/text_size_36sp" />

@@ -1,70 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/rl_recognize_hotword"
-                android:layout_width="@dimen/hotword_width"
-                android:layout_height="match_parent"
-                android:background="#5266a5"
-        >
+    android:id="@+id/rl_recognize_hotword"
+    android:layout_width="@dimen/hotword_width"
+    android:layout_height="match_parent"
+    android:background="#5266a5">
 
     <TextView
-            android:id="@+id/tv_search_all"
-            android:layout_width="@dimen/search_all_width"
-            android:layout_height="@dimen/search_all_height"
-            android:layout_marginTop="@dimen/search_all_margin_top"
-            android:layout_marginLeft="@dimen/search_all_margin_left"
-            android:layout_marginRight="@dimen/search_all_margin_right"
-            android:textSize="@dimen/search_all_tv_size"
-            android:focusable="true"
-            android:gravity="center"
-            android:nextFocusUp="@id/tv_search_all"
-            android:background="@drawable/hotword_selector"
-            android:focusableInTouchMode="true"
-            android:textColor="@color/text_color2"
-            android:visibility="invisible"/>
+        android:id="@+id/tv_search_all"
+        android:layout_width="@dimen/search_all_width"
+        android:layout_height="@dimen/search_all_height"
+        android:layout_marginLeft="@dimen/search_all_margin_left"
+        android:layout_marginRight="@dimen/search_all_margin_right"
+        android:layout_marginTop="@dimen/search_all_margin_top"
+        android:background="@drawable/hotword_selector"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:nextFocusUp="@id/tv_search_all"
+        android:textColor="@color/text_color2"
+        android:textSize="@dimen/search_all_tv_size"
+        android:visibility="invisible" />
 
 
     <TextView
-            android:id="@+id/today_hotword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/today_word_tv_size"
-            android:text="今日热搜"
-            android:focusable="false"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="@dimen/today_word_tv_margin_top"
-            android:textColor="#ffffff"/>
+        android:id="@+id/today_hotword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/today_word_tv_margin_top"
+        android:focusable="false"
+        android:gravity="center_horizontal"
+        android:text="今日热搜"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/today_word_tv_size" />
+
     <ImageView
-            android:id="@+id/iv_toggle"
-            android:layout_width="@dimen/toggle_width"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:nextFocusLeft="@id/iv_toggle"
-            android:background="@drawable/left_drawer_selector"/>
+        android:id="@+id/iv_toggle"
+        android:layout_width="@dimen/toggle_width"
+        android:layout_height="match_parent"
+        android:background="@drawable/left_drawer_selector"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:nextFocusLeft="@id/iv_toggle"
+        android:visibility="invisible" />
+
     <LinearLayout
-            android:id="@+id/ll_hotwords"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/hotwords_margin_left"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/hotwords_margin_bottom"
-            android:orientation="vertical">
+        android:id="@+id/ll_hotwords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/hotwords_margin_bottom"
+        android:layout_marginLeft="@dimen/hotwords_margin_left"
+        android:orientation="vertical">
 
     </LinearLayout>
+
     <View
-            android:id="@+id/jump_view"
-            android:layout_width="@dimen/jump_view_width"
-            android:layout_height="@dimen/jump_view_height"
-            android:layout_marginTop="@dimen/jump_view_margin_top"
-            android:layout_marginLeft="@dimen/jump_view_margin_left"
-            android:focusable="true"
-            android:visibility="gone"
-            />
+        android:id="@+id/jump_view"
+        android:layout_width="@dimen/jump_view_width"
+        android:layout_height="@dimen/jump_view_height"
+        android:layout_marginLeft="@dimen/jump_view_margin_left"
+        android:layout_marginTop="@dimen/jump_view_margin_top"
+        android:focusable="true"
+        android:visibility="gone" />
+
     <View
-            android:layout_width="@dimen/hotword_line_width"
-            android:layout_height="match_parent"
-            android:background="#405185"
-            android:layout_marginLeft="@dimen/hotword_line_margin_left"
-            />
+        android:layout_width="@dimen/hotword_line_width"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/hotword_line_margin_left"
+        android:background="#405185" />
 </RelativeLayout>

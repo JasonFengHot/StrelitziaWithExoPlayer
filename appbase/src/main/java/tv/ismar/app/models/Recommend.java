@@ -2,13 +2,12 @@ package tv.ismar.app.models;
 
 import java.util.List;
 
-/**
- * Created by admin on 2016/2/18.
- */
+/** Created by admin on 2016/2/18. */
 public class Recommend {
 
     public int count;
     public List<ObjectsEntity> objects;
+
     public static class ObjectsEntity {
         public String adlet_url;
         public double bean_score;
@@ -29,10 +28,5 @@ public class Recommend {
         public String title;
         public String url;
         public String vertical_url;
-
-
-
     }
-
-
 }

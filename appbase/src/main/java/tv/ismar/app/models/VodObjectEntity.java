@@ -1,9 +1,6 @@
 package tv.ismar.app.models;
 
-
-/**
- * Created by admin on 2016/2/2.
- */
+/** Created by admin on 2016/2/2. */
 public class VodObjectEntity {
     private String title;
     private String adlet_url;
@@ -40,16 +37,16 @@ public class VodObjectEntity {
         return list_url;
     }
 
+    public void setList_url(String list_url) {
+        this.list_url = list_url;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setList_url(String list_url) {
-        this.list_url = list_url;
     }
 
     public String getAdlet_url() {
@@ -67,5 +64,4 @@ public class VodObjectEntity {
     public void setPk(long pk) {
         this.pk = pk;
     }
-
 }

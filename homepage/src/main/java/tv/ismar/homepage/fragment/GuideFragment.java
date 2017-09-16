@@ -17,21 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.StringUtils;
-import com.google.gson.Gson;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
-//import org.apache.commons.lang3.StringUtils;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import cn.ismartv.downloader.DownloadEntity;
-import cn.ismartv.downloader.DownloadStatus;
-import cn.ismartv.downloader.Md5;
-import cn.ismartv.injectdb.library.query.Select;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -51,17 +42,14 @@ import tv.ismar.homepage.widget.DaisyViewContainer;
 import tv.ismar.homepage.widget.HomeItemContainer;
 import tv.ismar.homepage.widget.LabelImageView3;
 
-/**
- * Created by huaijie on 5/18/15.
- */
-public class GuideFragment extends ChannelBaseFragment {
-    private String TAG = "GuideFragment";
+// import org.apache.commons.lang3.StringUtils;
 
+/** Created by huaijie on 5/18/15. */
+public class GuideFragment extends ChannelBaseFragment {
     private static final int START_PLAYBACK = 0x0000;
     private static final int CAROUSEL_NEXT = 0x0010;
-
+    private String TAG = "GuideFragment";
     private DaisyViewContainer guideRecommmendList;
-
 
     private ArrayList<String> allVideoUrl;
     private ArrayList<LabelImageView3> allItem;
@@ -74,7 +62,6 @@ public class GuideFragment extends ChannelBaseFragment {
     private BitmapDecoder bitmapDecoder;
     private DaisyVideoView mSurfaceView;
 
-
     private int mCurrentCarouselIndex = -1;
     private CarouselRepeatType mCarouselRepeatType = CarouselRepeatType.All;
 
@@ -82,6 +69,48 @@ public class GuideFragment extends ChannelBaseFragment {
     private HashMap<Integer, Integer> carouselMap;
     private Subscription homePageSub;
     private boolean isDestroyed = false;
+    private View.OnFocusChangeListener itemFocusChangeListener =
+            new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    boolean focusFlag = true;
+                    for (ImageView imageView : allItem) {
+                        focusFlag = focusFlag && (!imageView.isFocused());
+                    }
+                    if (hasFocus) {
+                        ((HomePageActivity) (getActivity())).setLastViewTag("");
+                    }
+                    // all view not focus
+                    if (focusFlag) {
+                        mCarouselRepeatType = CarouselRepeatType.All;
+                    } else {
+                        if (hasFocus) {
+                            //                    mHelper.onStop();
+                            int position = (Integer) v.getTag();
+                            mCarouselRepeatType = CarouselRepeatType.Once;
+                            mCurrentCarouselIndex = position;
+                            playCarousel(100);
+                        }
+                    }
+                }
+            };
+    private MediaPlayer.OnCompletionListener videoPlayEndListener;
+    private MediaPlayer.OnErrorListener mVideoOnErrorListener;
+    private MediaPlayer.OnPreparedListener mOnPreparedListener;
+    private Handler mHandler =
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    switch (msg.what) {
+                        case START_PLAYBACK:
+                            startPlayback();
+                            break;
+                        case CAROUSEL_NEXT:
+                            playCarousel(0);
+                            break;
+                    }
+                }
+            };
 
     @Override
     public void onAttach(Activity activity) {
@@ -92,37 +121,40 @@ public class GuideFragment extends ChannelBaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View mView = LayoutInflater.from(mContext).inflate(R.layout.fragment_guide, null);
         guideRecommmendList = (DaisyViewContainer) mView.findViewById(R.id.recommend_list);
-        toppage_carous_imageView1 = (LabelImageView3) mView.findViewById(R.id.toppage_carous_imageView1);
-        toppage_carous_imageView2 = (LabelImageView3) mView.findViewById(R.id.toppage_carous_imageView2);
-        toppage_carous_imageView3 = (LabelImageView3) mView.findViewById(R.id.toppage_carous_imageView3);
+        toppage_carous_imageView1 =
+                (LabelImageView3) mView.findViewById(R.id.toppage_carous_imageView1);
+        toppage_carous_imageView2 =
+                (LabelImageView3) mView.findViewById(R.id.toppage_carous_imageView2);
+        toppage_carous_imageView3 =
+                (LabelImageView3) mView.findViewById(R.id.toppage_carous_imageView3);
         film_post_layout = (HomeItemContainer) mView.findViewById(R.id.guide_center_layoutview);
         linkedVideoLoadingImage = (ImageView) mView.findViewById(R.id.linked_video_loading_image);
 
         mSurfaceView = (DaisyVideoView) mView.findViewById(R.id.linked_video);
-        mSurfaceView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mSurfaceView.setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
 
-            @Override
-            public void onFocusChange(View arg0, boolean arg1) {
-                if (arg1)
-                    film_post_layout.requestFocus();
-            }
-        });
-        mSurfaceView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onFocusChange(View arg0, boolean arg1) {
+                        if (arg1) film_post_layout.requestFocus();
+                    }
+                });
+        mSurfaceView.setOnClickListener(
+                new View.OnClickListener() {
 
-            @Override
-            public void onClick(View arg0) {
-                film_post_layout.performClick();
-            }
-        });
+                    @Override
+                    public void onClick(View arg0) {
+                        film_post_layout.performClick();
+                    }
+                });
         film_post_layout.setTag(R.id.view_position_tag, 1);
         film_post_layout.setOnClickListener(ItemClickListener);
 
@@ -130,12 +162,15 @@ public class GuideFragment extends ChannelBaseFragment {
         mRightTopView = toppage_carous_imageView1;
 
         bitmapDecoder = new BitmapDecoder();
-        bitmapDecoder.decode(mContext, R.drawable.guide_video_loading, new BitmapDecoder.Callback() {
-            @Override
-            public void onSuccess(BitmapDrawable bitmapDrawable) {
-                linkedVideoLoadingImage.setBackgroundDrawable(bitmapDrawable);
-            }
-        });
+        bitmapDecoder.decode(
+                mContext,
+                R.drawable.guide_video_loading,
+                new BitmapDecoder.Callback() {
+                    @Override
+                    public void onSuccess(BitmapDrawable bitmapDrawable) {
+                        linkedVideoLoadingImage.setBackgroundDrawable(bitmapDrawable);
+                    }
+                });
 
         return mView;
     }
@@ -158,17 +193,17 @@ public class GuideFragment extends ChannelBaseFragment {
         toppage_carous_imageView2 = null;
         toppage_carous_imageView3 = null;
         lastpostview = null;
-        if (linkedVideoLoadingImage != null && linkedVideoLoadingImage.getDrawingCache() != null && !linkedVideoLoadingImage.getDrawingCache().isRecycled()) {
+        if (linkedVideoLoadingImage != null
+                && linkedVideoLoadingImage.getDrawingCache() != null
+                && !linkedVideoLoadingImage.getDrawingCache().isRecycled()) {
             linkedVideoLoadingImage.getDrawingCache().recycle();
         }
         super.onDestroyView();
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     @Override
@@ -185,7 +220,6 @@ public class GuideFragment extends ChannelBaseFragment {
         }
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
@@ -200,7 +234,6 @@ public class GuideFragment extends ChannelBaseFragment {
         super.onStop();
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -209,42 +242,46 @@ public class GuideFragment extends ChannelBaseFragment {
         }
     }
 
-
     public void fetchHomePage() {
-        homePageSub = SkyService.ServiceManager.getCacheSkyService().TvHomepageTop().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(((HomePageActivity) getActivity()).new BaseObserver<HomePagerEntity>() {
-                    @Override
-                    public void onCompleted() {
+        homePageSub =
+                SkyService.ServiceManager.getCacheSkyService()
+                        .TvHomepageTop()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                ((HomePageActivity) getActivity())
+                                .new BaseObserver<HomePagerEntity>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
+                                    @Override
+                                    public void onError(Throwable e) {}
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(HomePagerEntity homePagerEntity) {
-                        if(homePagerEntity == null){
-                            super.onError(new Exception("数据异常"));
-                        } else {
-                            if(!isDestroyed)
-                            fillLayout(homePagerEntity);
-                        }
-                    }
-                });
-
+                                    @Override
+                                    public void onNext(HomePagerEntity homePagerEntity) {
+                                        if (homePagerEntity == null) {
+                                            super.onError(new Exception("数据异常"));
+                                        } else {
+                                            if (!isDestroyed) fillLayout(homePagerEntity);
+                                        }
+                                    }
+                                });
     }
 
     private void fillLayout(HomePagerEntity homePagerEntity) {
-        if (mContext == null || guideRecommmendList == null)
-            return;
+        if (mContext == null || guideRecommmendList == null) return;
         if (homePagerEntity == null) {
-            new CallaPlay().exception_except("launcher", "launcher", "homepage",
-                    "", 0, "api/tv/homepage/top/",
-                    SimpleRestClient.appVersion, "data", ""
-            );
+            new CallaPlay()
+                    .exception_except(
+                            "launcher",
+                            "launcher",
+                            "homepage",
+                            "",
+                            0,
+                            "api/tv/homepage/top/",
+                            SimpleRestClient.appVersion,
+                            "data",
+                            "");
             return;
         }
         ArrayList<HomePagerEntity.Carousel> carousels = homePagerEntity.getCarousels();
@@ -258,14 +295,14 @@ public class GuideFragment extends ChannelBaseFragment {
             initPosters(posters);
         }
         if (scrollFromBorder) {
-            if (isRight) {//右侧移入
-                if ("bottom".equals(bottomFlag)) {//下边界移入
+            if (isRight) { // 右侧移入
+                if ("bottom".equals(bottomFlag)) { // 下边界移入
                     lastpostview.findViewById(R.id.poster_title).requestFocus();
-                } else {//上边界边界移入
+                } else { // 上边界边界移入
                     toppage_carous_imageView1.requestFocus();
                 }
-//                		}
-            } else {//左侧移入
+                //                		}
+            } else { // 左侧移入
                 if (!StringUtils.isEmpty(bottomFlag)) {
                     if ("bottom".equals(bottomFlag)) {
 
@@ -276,7 +313,6 @@ public class GuideFragment extends ChannelBaseFragment {
             }
             ((HomePageActivity) getActivity()).resetBorderFocus();
         }
-
     }
 
     private void initPosters(ArrayList<HomePagerEntity.Poster> posters) {
@@ -286,12 +322,11 @@ public class GuideFragment extends ChannelBaseFragment {
             if (mContext == null) {
                 return;
             }
-            HomeItemContainer frameLayout = (HomeItemContainer) LayoutInflater
-                    .from(mContext).inflate(R.layout.item_poster, null);
-            ImageView itemView = (ImageView) frameLayout
-                    .findViewById(R.id.poster_image);
-            TextView textView = (TextView) frameLayout
-                    .findViewById(R.id.poster_title);
+            HomeItemContainer frameLayout =
+                    (HomeItemContainer)
+                            LayoutInflater.from(mContext).inflate(R.layout.item_poster, null);
+            ImageView itemView = (ImageView) frameLayout.findViewById(R.id.poster_image);
+            TextView textView = (TextView) frameLayout.findViewById(R.id.poster_title);
             if (!TextUtils.isEmpty(posters.get(i).getIntroduction())) {
                 textView.setText(posters.get(i).getIntroduction());
                 textView.setVisibility(View.VISIBLE);
@@ -302,29 +337,31 @@ public class GuideFragment extends ChannelBaseFragment {
             frameLayout.setTag(R.id.view_position_tag, i + 5);
             frameLayout.setOnClickListener(ItemClickListener);
             textView.setTag(R.id.poster_title, i);
-            textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    Object tagObject = v.getTag(R.id.poster_title);
-                    if (hasFocus) {
-                        ((HomeItemContainer) v.getParent())
-                                .setDrawBorder(true);
-                        ((HomeItemContainer) v.getParent()).invalidate();
-                        if (tagObject != null) {
-                            int tagindex = Integer.parseInt(tagObject.toString());
-                            if (tagindex == 0 || tagindex == 7) {
-                                ((HomePageActivity) (getActivity())).setLastViewTag("bottom");
+            textView.setOnFocusChangeListener(
+                    new View.OnFocusChangeListener() {
+                        @Override
+                        public void onFocusChange(View v, boolean hasFocus) {
+                            Object tagObject = v.getTag(R.id.poster_title);
+                            if (hasFocus) {
+                                ((HomeItemContainer) v.getParent()).setDrawBorder(true);
+                                ((HomeItemContainer) v.getParent()).invalidate();
+                                if (tagObject != null) {
+                                    int tagindex = Integer.parseInt(tagObject.toString());
+                                    if (tagindex == 0 || tagindex == 7) {
+                                        ((HomePageActivity) (getActivity()))
+                                                .setLastViewTag("bottom");
+                                    }
+                                }
+                            } else {
+                                ((HomeItemContainer) v.getParent()).setDrawBorder(false);
+                                ((HomeItemContainer) v.getParent()).invalidate();
                             }
                         }
-                    } else {
-                        ((HomeItemContainer) v.getParent())
-                                .setDrawBorder(false);
-                        ((HomeItemContainer) v.getParent()).invalidate();
-                    }
-                }
-            });
+                    });
 
-            Picasso.with(mContext).load(posters.get(i).getCustom_image()).memoryPolicy(MemoryPolicy.NO_STORE)
+            Picasso.with(mContext)
+                    .load(posters.get(i).getCustom_image())
+                    .memoryPolicy(MemoryPolicy.NO_STORE)
                     .into(itemView);
             posters.get(i).setPosition(i);
             textView.setTag(posters.get(i));
@@ -350,7 +387,6 @@ public class GuideFragment extends ChannelBaseFragment {
         guideRecommmendList.setFocusable(true);
         guideRecommmendList.setFocusableInTouchMode(true);
         guideRecommmendList.addAllViews(imageViews);
-
     }
 
     private void initCarousel(ArrayList<HomePagerEntity.Carousel> carousels) {
@@ -361,14 +397,20 @@ public class GuideFragment extends ChannelBaseFragment {
 
         try {
 
-            Picasso.with(mContext).load(carousels.get(0).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView1);
+            Picasso.with(mContext)
+                    .load(carousels.get(0).getThumb_image())
+                    .memoryPolicy(MemoryPolicy.NO_STORE)
+                    .into(toppage_carous_imageView1);
             toppage_carous_imageView1.setTag(0);
             toppage_carous_imageView1.setTag(R.drawable.launcher_selector, carousels.get(0));
             toppage_carous_imageView1.setOnClickListener(ItemClickListener);
             toppage_carous_imageView1.setOnFocusChangeListener(itemFocusChangeListener);
             carousels.get(0).setPosition(0);
             if (carousels.size() > 1) {
-                Picasso.with(mContext).load(carousels.get(1).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView2);
+                Picasso.with(mContext)
+                        .load(carousels.get(1).getThumb_image())
+                        .memoryPolicy(MemoryPolicy.NO_STORE)
+                        .into(toppage_carous_imageView2);
                 toppage_carous_imageView2.setTag(1);
                 toppage_carous_imageView2.setTag(R.drawable.launcher_selector, carousels.get(1));
                 toppage_carous_imageView2.setOnClickListener(ItemClickListener);
@@ -376,7 +418,10 @@ public class GuideFragment extends ChannelBaseFragment {
                 carousels.get(1).setPosition(1);
             }
             if (carousels.size() > 2) {
-                Picasso.with(mContext).load(carousels.get(2).getThumb_image()).memoryPolicy(MemoryPolicy.NO_STORE).into(toppage_carous_imageView3);
+                Picasso.with(mContext)
+                        .load(carousels.get(2).getThumb_image())
+                        .memoryPolicy(MemoryPolicy.NO_STORE)
+                        .into(toppage_carous_imageView3);
                 toppage_carous_imageView3.setTag(2);
                 toppage_carous_imageView3.setTag(R.drawable.launcher_selector, carousels.get(2));
                 toppage_carous_imageView3.setOnClickListener(ItemClickListener);
@@ -398,10 +443,17 @@ public class GuideFragment extends ChannelBaseFragment {
                 allVideoUrl.add(carousels.get(2).getVideo_url());
             }
         } catch (Exception e) {
-            new CallaPlay().exception_except("launcher", "launcher", "homepage",
-                    "", 0, "",
-                    SimpleRestClient.appVersion, "client", ""
-            );
+            new CallaPlay()
+                    .exception_except(
+                            "launcher",
+                            "launcher",
+                            "homepage",
+                            "",
+                            0,
+                            "",
+                            SimpleRestClient.appVersion,
+                            "client",
+                            "");
         }
 
         carouselMap = new HashMap<>();
@@ -419,7 +471,6 @@ public class GuideFragment extends ChannelBaseFragment {
         if (isPlayAd) {
             mHandler.removeMessages(START_PLAYBACK);
         }
-
     }
 
     @Override
@@ -429,7 +480,6 @@ public class GuideFragment extends ChannelBaseFragment {
         if (carouselMap != null) {
             mHandler.sendEmptyMessageDelayed(START_PLAYBACK, 0);
         }
-
     }
 
     private void playCarousel(int delay) {
@@ -458,47 +508,40 @@ public class GuideFragment extends ChannelBaseFragment {
 
             film_post_layout.setNextFocusRightId(carouselMap.get(mCurrentCarouselIndex));
 
-            film_post_layout.setTag(R.drawable.launcher_selector, mCarousels.get(mCurrentCarouselIndex));
+            film_post_layout.setTag(
+                    R.drawable.launcher_selector, mCarousels.get(mCurrentCarouselIndex));
             mHandler.removeMessages(START_PLAYBACK);
             mHandler.sendEmptyMessageDelayed(START_PLAYBACK, delay);
         } catch (Exception e) {
-            new CallaPlay().exception_except("launcher", "launcher", "homepage",
-                    "", 0, "",
-                    SimpleRestClient.appVersion, "client", ""
-            );
+            new CallaPlay()
+                    .exception_except(
+                            "launcher",
+                            "launcher",
+                            "homepage",
+                            "",
+                            0,
+                            "",
+                            SimpleRestClient.appVersion,
+                            "client",
+                            "");
         }
-
-
     }
-
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case START_PLAYBACK:
-                    startPlayback();
-                    break;
-                case CAROUSEL_NEXT:
-                    playCarousel(0);
-                    break;
-            }
-
-        }
-    };
-
 
     private void startPlayback() {
 
-        if (mSurfaceView == null)
-            return;
+        if (mSurfaceView == null) return;
         try {
             Log.d(TAG, "startPlayback is invoke...");
 
             mSurfaceView.setFocusable(false);
             mSurfaceView.setFocusableInTouchMode(false);
             String videoName = "guide_" + mCurrentCarouselIndex + ".mp4";
-            String videoPath = CacheManager.getInstance().doRequest(mCarousels.get(mCurrentCarouselIndex).getVideo_url(), videoName, DownloadClient.StoreType.Internal);
+            String videoPath =
+                    CacheManager.getInstance()
+                            .doRequest(
+                                    mCarousels.get(mCurrentCarouselIndex).getVideo_url(),
+                                    videoName,
+                                    DownloadClient.StoreType.Internal);
             Log.d(TAG, "current video path ====> " + videoPath);
             CallaPlay play = new CallaPlay();
             play.homepage_vod_trailer_play(videoPath, "launcher");
@@ -509,126 +552,94 @@ public class GuideFragment extends ChannelBaseFragment {
             stopPlayback();
             initCallback();
             mSurfaceView.setVideoPath(videoPath);
-//            mSurfaceView.start();
+            //            mSurfaceView.start();
             mSurfaceView.setFocusable(true);
             mSurfaceView.setFocusableInTouchMode(true);
 
         } catch (Exception e) {
             e.printStackTrace();
-            new CallaPlay().exception_except("launcher", "launcher", "homepage",
-                    "", 0, "",
-                    SimpleRestClient.appVersion, "client", ""
-            );
+            new CallaPlay()
+                    .exception_except(
+                            "launcher",
+                            "launcher",
+                            "homepage",
+                            "",
+                            0,
+                            "",
+                            SimpleRestClient.appVersion,
+                            "client",
+                            "");
         }
     }
 
     private void stopPlayback() {
-//        mSurfaceView.pause();
+        //        mSurfaceView.pause();
         mSurfaceView.stopPlayback();
-
     }
 
+    private void initCallback() {
+        videoPlayEndListener =
+                new MediaPlayer.OnCompletionListener() {
 
-    private View.OnFocusChangeListener itemFocusChangeListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            boolean focusFlag = true;
-            for (ImageView imageView : allItem) {
-                focusFlag = focusFlag && (!imageView.isFocused());
-            }
-            if (hasFocus) {
-                ((HomePageActivity) (getActivity())).setLastViewTag("");
-            }
-            // all view not focus
-            if (focusFlag) {
-                mCarouselRepeatType = CarouselRepeatType.All;
-            } else {
-                if (hasFocus) {
-//                    mHelper.onStop();
-                    int position = (Integer) v.getTag();
-                    mCarouselRepeatType = CarouselRepeatType.Once;
-                    mCurrentCarouselIndex = position;
-                    playCarousel(100);
-                }
-            }
-        }
-    };
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        stopPlayback();
+                        mHandler.sendEmptyMessage(CAROUSEL_NEXT);
+                    }
+                };
+        mVideoOnErrorListener =
+                new MediaPlayer.OnErrorListener() {
+                    @Override
+                    public boolean onError(MediaPlayer mp, int what, int extra) {
 
+                        Log.e(TAG, "play video error!!!");
+
+                        return true;
+                    }
+                };
+        mOnPreparedListener =
+                new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        if (mp != null && !mp.isPlaying()) {
+                            mp.start();
+                        }
+                        if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
+                            bitmapDecoder.interrupt();
+                        }
+                        linkedVideoLoadingImage.setVisibility(View.GONE);
+                    }
+                };
+        mSurfaceView.setOnCompletionListener(videoPlayEndListener);
+        mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
+        mSurfaceView.setOnPreparedListener(mOnPreparedListener);
+    }
 
     enum CarouselRepeatType {
         All,
         Once
     }
-
-
-    private MediaPlayer.OnCompletionListener videoPlayEndListener;
-
-    private MediaPlayer.OnErrorListener mVideoOnErrorListener;
-
-    private MediaPlayer.OnPreparedListener mOnPreparedListener;
-
-    private void initCallback(){
-        videoPlayEndListener = new MediaPlayer.OnCompletionListener() {
-
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                stopPlayback();
-                mHandler.sendEmptyMessage(CAROUSEL_NEXT);
-            }
-        };
-        mVideoOnErrorListener = new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-
-                Log.e(TAG, "play video error!!!");
-
-                return true;
-            }
-        };
-        mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                if(mp != null && !mp.isPlaying()){
-                    mp.start();
-                }
-                if (bitmapDecoder != null && bitmapDecoder.isAlive()) {
-                    bitmapDecoder.interrupt();
-                }
-                linkedVideoLoadingImage.setVisibility(View.GONE);
-            }
-        };
-        mSurfaceView.setOnCompletionListener(videoPlayEndListener);
-        mSurfaceView.setOnErrorListener(mVideoOnErrorListener);
-        mSurfaceView.setOnPreparedListener(mOnPreparedListener);
-    }
 }
-
-
 
 class Flag {
 
     private ChangeCallback changeCallback;
+    private int position;
 
     public Flag(ChangeCallback changeCallback) {
         this.changeCallback = changeCallback;
-    }
-
-    private int position;
-
-    public void setPosition(int position) {
-        this.position = position;
-        changeCallback.change(position);
-
     }
 
     public int getPosition() {
         return position;
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+        changeCallback.change(position);
+    }
+
     public interface ChangeCallback {
         void change(int position);
     }
 }
-
-
-

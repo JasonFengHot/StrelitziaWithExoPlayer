@@ -22,6 +22,4 @@ public interface FavoriteManager {
     public void deleteFavoriteByUrl(String url, String isnet);
 
     public void deleteAll(String isnet);
-
-
 }

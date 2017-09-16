@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
-    android:background="@android:color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     android:keepScreenOn="true">
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:textSize="10sp"
-            tools:ignore="SmallSp"/>
+            tools:ignore="SmallSp" />
 
         <LinearLayout
             android:id="@+id/controls_root"
@@ -41,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/retry"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

@@ -2,9 +2,7 @@ package tv.ismar.app.network.entity;
 
 import java.util.ArrayList;
 
-/**
- * Created by huaijie on 7/3/15.
- */
+/** Created by huaijie on 7/3/15. */
 public class AccountsOrdersEntity {
 
     private ArrayList<OrderEntity> order_list;
@@ -27,7 +25,15 @@ public class AccountsOrdersEntity {
     }
 
     public class OrderEntity {
+        public String type;
         private String url;
+        private String title;
+        private String info;
+        private String source;
+        private String expiry_date;
+        private String total_fee;
+        private String image_url;
+        private String start_date;
 
         public String getUrl() {
             return url;
@@ -36,15 +42,6 @@ public class AccountsOrdersEntity {
         public void setUrl(String url) {
             this.url = url;
         }
-
-        private String title;
-        private String info;
-        private String source;
-        private String expiry_date;
-        private String total_fee;
-        private String image_url;
-        private String start_date;
-        public String type;
 
         public String getTitle() {
             return title;

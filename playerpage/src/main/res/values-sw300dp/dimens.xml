@@ -1,36 +1,36 @@
 <resources>
 
-<dimen name="player_seekBar_max_h">5.28dp</dimen>
-<dimen name="player_seekBar_thumbOffset">8.33dp</dimen>
-<dimen name="player_controller_margin_lr">13.89dp</dimen>
-<dimen name="player_controller_padding_bottom">2.22dp</dimen>
-<dimen name="player_controller_left_w">166.67dp</dimen>
-<dimen name="player_timetext_h">12.50dp</dimen>
-<dimen name="player_timetext_mt">2.78dp</dimen>
-<dimen name="player_qualitytext_w">26.94dp</dimen>
-<dimen name="player_qualitytext_h">13.33dp</dimen>
-<dimen name="player_qualitytext_mt">3.33dp</dimen>
-<dimen name="player_qualitytext_back_corner">4.17dp</dimen>
-<dimen name="player_titletext_h">15.00dp</dimen>
-<dimen name="player_titletext_mt">4.44dp</dimen>
-<dimen name="player_icon_w">20.00dp</dimen>
-<dimen name="player_icon_h">19.72dp</dimen>
-<dimen name="player_icon_ml">5.28dp</dimen>
-<dimen name="player_menu_w">144.44dp</dimen>
-<dimen name="player_menu_padding_tb">44.44dp</dimen>
-<dimen name="player_menu_padding_l">11.11dp</dimen>
-<dimen name="player_menu_item_h">33.33dp</dimen>
-<dimen name="player_logo_image_mt">8.06dp</dimen>
-<dimen name="player_logo_image_mr">11.94dp</dimen>
+    <dimen name="player_seekBar_max_h">5.28dp</dimen>
+    <dimen name="player_seekBar_thumbOffset">8.33dp</dimen>
+    <dimen name="player_controller_margin_lr">13.89dp</dimen>
+    <dimen name="player_controller_padding_bottom">2.22dp</dimen>
+    <dimen name="player_controller_left_w">166.67dp</dimen>
+    <dimen name="player_timetext_h">12.50dp</dimen>
+    <dimen name="player_timetext_mt">2.78dp</dimen>
+    <dimen name="player_qualitytext_w">26.94dp</dimen>
+    <dimen name="player_qualitytext_h">13.33dp</dimen>
+    <dimen name="player_qualitytext_mt">3.33dp</dimen>
+    <dimen name="player_qualitytext_back_corner">4.17dp</dimen>
+    <dimen name="player_titletext_h">15.00dp</dimen>
+    <dimen name="player_titletext_mt">4.44dp</dimen>
+    <dimen name="player_icon_w">20.00dp</dimen>
+    <dimen name="player_icon_h">19.72dp</dimen>
+    <dimen name="player_icon_ml">5.28dp</dimen>
+    <dimen name="player_menu_w">144.44dp</dimen>
+    <dimen name="player_menu_padding_tb">44.44dp</dimen>
+    <dimen name="player_menu_padding_l">11.11dp</dimen>
+    <dimen name="player_menu_item_h">33.33dp</dimen>
+    <dimen name="player_logo_image_mt">8.06dp</dimen>
+    <dimen name="player_logo_image_mr">11.94dp</dimen>
 
-<dimen name="qiyi_ad_width">82.78dp</dimen>
-<dimen name="qiyi_ad_height">13.89dp</dimen>
-<dimen name="ad_text_count_w">21.67dp</dimen>
-<dimen name="ad_text_vip_w">60.00dp</dimen>
+    <dimen name="qiyi_ad_width">82.78dp</dimen>
+    <dimen name="qiyi_ad_height">13.89dp</dimen>
+    <dimen name="ad_text_count_w">21.67dp</dimen>
+    <dimen name="ad_text_vip_w">60.00dp</dimen>
 
-<dimen name="pause_ad_btn_wh">16.67dp</dimen>
+    <dimen name="pause_ad_btn_wh">16.67dp</dimen>
 
-<dimen name="player_toast_w">172.78dp</dimen>
-<dimen name="player_toast_h">20.28dp</dimen>
+    <dimen name="player_toast_w">172.78dp</dimen>
+    <dimen name="player_toast_h">20.28dp</dimen>
 
 </resources>

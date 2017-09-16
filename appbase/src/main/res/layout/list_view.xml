@@ -4,7 +4,7 @@
     android:id="@+id/large_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <tv.ismar.app.widget.LaunchHeaderLayout
         android:id="@+id/top_column_layout"
@@ -13,8 +13,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/list_head_paddingL"
         android:paddingRight="@dimen/list_head_paddingL"
-        android:visibility="gone" >
-    </tv.ismar.app.widget.LaunchHeaderLayout>
+        android:visibility="gone"></tv.ismar.app.widget.LaunchHeaderLayout>
 
     <ImageView
         android:layout_width="match_parent"
@@ -29,59 +28,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible" >
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/listportait_section_tab_H"
-            >
+            android:layout_height="@dimen/listportait_section_tab_H">
+
             <tv.ismar.app.widget.ScrollableSectionList
                 android:id="@+id/section_tabs"
                 android:layout_width="@dimen/list_section_width"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/list_progressBar_margin"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/list_progressBar_margin"
                 android:fillViewport="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:scrollbars="none" >
-            </tv.ismar.app.widget.ScrollableSectionList>
+                android:scrollbars="none"></tv.ismar.app.widget.ScrollableSectionList>
+
             <ImageView
                 android:id="@+id/shade_left"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/list_progressBar_margin"
                 android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/list_progressBar_margin"
                 android:scaleType="fitCenter"
                 android:src="@drawable/shade_arrow_left"
                 android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/arrow_left"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/list_progressBar_margin"
                 android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/list_progressBar_margin"
                 android:scaleType="fitCenter"
                 android:src="@drawable/section_list_arrow_left"
                 android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/shade_arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/list_progressBar_margin"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right"
+                android:layout_marginRight="@dimen/list_progressBar_margin"
                 android:scaleType="fitCenter"
                 android:src="@drawable/shade_arrow_right" />
+
             <ImageView
                 android:id="@+id/arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/list_progressBar_margin"
                 android:layout_alignParentRight="true"
-                android:visibility="invisible"
+                android:layout_marginRight="@dimen/list_progressBar_margin"
                 android:scaleType="fitCenter"
-                android:src="@drawable/section_list_arrow_right" />
+                android:src="@drawable/section_list_arrow_right"
+                android:visibility="invisible" />
         </RelativeLayout>
 
         <ProgressBar
@@ -101,7 +103,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <Button
             android:id="@+id/left_shadow"
@@ -149,8 +151,7 @@
             sakura:selectionRightPadding="@dimen/filter_Hgride_select_padding"
             sakura:selectionTopPadding="@dimen/filter_Hgride_select_padding"
             sakura:selectorDrawable="@drawable/vod_gv_selector"
-            sakura:verticalSpacing="0dip" >
-        </tv.ismar.app.ui.HGridView>
+            sakura:verticalSpacing="0dip"></tv.ismar.app.ui.HGridView>
     </RelativeLayout>
 
     <RelativeLayout
@@ -159,7 +160,7 @@
         android:layout_height="@dimen/gridview_no_video_container_height"
         android:layout_marginLeft="@dimen/gridview_no_video_container_marginLeft"
         android:layout_marginRight="@dimen/gridview_no_video_container_marginLeft"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/collect_or_history_txt"

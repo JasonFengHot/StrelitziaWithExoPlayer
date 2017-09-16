@@ -1,70 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/t9_background"
-                android:gravity="center">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/t9_background"
+    android:gravity="center">
+
     <RelativeLayout
-            android:layout_width="@dimen/t9_key_popup_h"
-            android:layout_height="@dimen/t9_key_popup_h">
+        android:layout_width="@dimen/t9_key_popup_h"
+        android:layout_height="@dimen/t9_key_popup_h">
+
         <TextView
-                android:id="@+id/tv_top"
-                android:layout_width="@dimen/t9_key_popup_tv_top_w"
-                android:layout_height="@dimen/t9_key_popup_tv_top_h"
-                android:layout_marginLeft="@dimen/t9_key_popup_tv_top_ml"
-                android:textSize="@dimen/t9_key_popup_tv_top_ts"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/t9_top_selector"/>
+            android:id="@+id/tv_top"
+            android:layout_width="@dimen/t9_key_popup_tv_top_w"
+            android:layout_height="@dimen/t9_key_popup_tv_top_h"
+            android:layout_marginLeft="@dimen/t9_key_popup_tv_top_ml"
+            android:background="@drawable/t9_top_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/t9_key_popup_tv_top_ts" />
+
         <TextView
-                android:id="@+id/tv_left"
-                android:layout_width="@dimen/t9_key_popup_tv_top_h"
-                android:layout_height="@dimen/t9_key_popup_tv_top_w"
-                android:layout_marginTop="@dimen/t9_key_popup_tv_top_ml"
-                android:textSize="@dimen/t9_key_popup_tv_top_ts"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/t9_left_selector"/>
-        <TextView
-                android:id="@+id/tv_right"
+            android:id="@+id/tv_left"
             android:layout_width="@dimen/t9_key_popup_tv_top_h"
             android:layout_height="@dimen/t9_key_popup_tv_top_w"
             android:layout_marginTop="@dimen/t9_key_popup_tv_top_ml"
-                android:layout_alignParentRight="true"
-                android:textSize="@dimen/t9_key_popup_tv_top_ts"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/t9_right_selector"/>
+            android:background="@drawable/t9_left_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/t9_key_popup_tv_top_ts" />
+
         <TextView
-                android:id="@+id/tv_bottom"
-                android:layout_width="@dimen/t9_key_popup_tv_top_w"
-                android:layout_height="@dimen/t9_key_popup_tv_top_h"
-                android:layout_marginLeft="@dimen/t9_key_popup_tv_top_ml"
-                android:layout_alignParentBottom="true"
-                android:textSize="@dimen/t9_key_popup_tv_top_ts"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/t9_bottom_selector"/>
+            android:id="@+id/tv_right"
+            android:layout_width="@dimen/t9_key_popup_tv_top_h"
+            android:layout_height="@dimen/t9_key_popup_tv_top_w"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/t9_key_popup_tv_top_ml"
+            android:background="@drawable/t9_right_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/t9_key_popup_tv_top_ts" />
+
         <TextView
-                android:id="@+id/tv_center"
-                android:layout_height="@dimen/t9_key_popup_tv_center_w"
-                android:layout_width="@dimen/t9_key_popup_tv_center_w"
-                android:textSize="@dimen/t9_key_popup_tv_top_ts"
-                android:layout_marginLeft="@dimen/t9_key_popup_tv_center_ml"
-                android:layout_marginTop="@dimen/t9_key_popup_tv_center_ml"
-                android:gravity="center"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:textColor="#ffffff"
-                android:background="@drawable/t9_center_selector"
-                />
+            android:id="@+id/tv_bottom"
+            android:layout_width="@dimen/t9_key_popup_tv_top_w"
+            android:layout_height="@dimen/t9_key_popup_tv_top_h"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/t9_key_popup_tv_top_ml"
+            android:background="@drawable/t9_bottom_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/t9_key_popup_tv_top_ts" />
+
+        <TextView
+            android:id="@+id/tv_center"
+            android:layout_width="@dimen/t9_key_popup_tv_center_w"
+            android:layout_height="@dimen/t9_key_popup_tv_center_w"
+            android:layout_marginLeft="@dimen/t9_key_popup_tv_center_ml"
+            android:layout_marginTop="@dimen/t9_key_popup_tv_center_ml"
+            android:background="@drawable/t9_center_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/t9_key_popup_tv_top_ts" />
     </RelativeLayout>
 </RelativeLayout>

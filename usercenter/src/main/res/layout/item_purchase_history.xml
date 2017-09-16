@@ -1,112 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tv.ismar.usercenter.view.RelativeLayoutContainer xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/purchaseFragment_item_minHeight"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:focusable="true"
-                >
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/header_divider"
-        android:visibility="gone"
-        />
-    <ImageView
-        android:id="@+id/orderlistitem_icon"
+<tv.ismar.usercenter.view.RelativeLayoutContainer
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="@dimen/purchaseFragment_item_minHeight" android:clipChildren="false"
+    android:clipToPadding="false" android:focusable="true">
+    <ImageView android:layout_width="match_parent" android:layout_height="1dp"
+        android:layout_alignParentBottom="true" android:background="@drawable/header_divider"
+        android:visibility="gone" />
+    <ImageView android:id="@+id/orderlistitem_icon"
         android:layout_width="@dimen/purchaseFragment_item_image_width"
         android:layout_height="@dimen/purchaseFragment_item_image_height"
 
-        android:scaleType="fitXY"
-        android:layout_centerVertical="true"
-    />
+        android:layout_centerVertical="true" android:scaleType="fitXY" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/purchase_history_item_margin_left"
-        android:layout_toRightOf="@+id/orderlistitem_icon"
-        android:orientation="vertical">
+        android:layout_toRightOf="@+id/orderlistitem_icon" android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/orderlistitem_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/h4_text_size"
-            />
+            <TextView android:id="@+id/orderlistitem_title" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textColor="#FFFFFF"
+                android:textSize="@dimen/h4_text_size" />
 
-            <TextView
-                android:id="@+id/purchase_extra"
-                android:layout_width="match_parent"
+            <TextView android:id="@+id/purchase_extra" android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/purchaseFragment_item_order_extra_marginLeft"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/h4_text_size"/>
+                android:textColor="#FFFFFF" android:textSize="@dimen/h4_text_size" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/purchase_history_text_margin_top"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/orderlistitem_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/h4_text_size"
-            />
+            <TextView android:id="@+id/orderlistitem_time" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textColor="#FFFFFF"
+                android:textSize="@dimen/h4_text_size" />
 
-            <TextView
-                android:id="@+id/orderlistitem_remainday"
-                android:layout_width="match_parent"
+            <TextView android:id="@+id/orderlistitem_remainday" android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/purchaseFragment_item_marginLeft"
-                android:singleLine="true"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/h4_text_size"
-            />
+                android:singleLine="true" android:textColor="#FFFFFF"
+                android:textSize="@dimen/h4_text_size" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/purchase_history_text_margin_top"
             android:orientation="horizontal">
 
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/orderlistitem_cost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/h4_text_size"
-            />
+            <TextView android:id="@+id/orderlistitem_cost" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textColor="#FFFFFF"
+                android:textSize="@dimen/h4_text_size" android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/orderlistitem_paychannel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/h4_text_size"
-            />
+            <TextView android:id="@+id/orderlistitem_paychannel" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textColor="#FFFFFF"
+                android:textSize="@dimen/h4_text_size" />
 
-            <TextView
-                android:id="@+id/orderlistitem_merge"
-                android:layout_width="wrap_content"
+            <TextView android:id="@+id/orderlistitem_merge" android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/purchaseFragment_item_marginLeft"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/h4_text_size"
-            />
+                android:textColor="#FFFFFF" android:textSize="@dimen/h4_text_size" />
         </LinearLayout>
 
 

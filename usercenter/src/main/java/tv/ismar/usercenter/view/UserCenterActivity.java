@@ -42,69 +42,146 @@ import tv.ismar.usercenter.viewmodel.ProductViewModel;
 import tv.ismar.usercenter.viewmodel.PurchaseHistoryViewModel;
 import tv.ismar.usercenter.viewmodel.UserInfoViewModel;
 
-
-/**
- * Created by huaijie on 7/3/15.
- */
-public class UserCenterActivity extends BaseActivity implements LoginFragment.LoginCallback,
-        IsmartvActivator.AccountChangeCallback {
+/** Created by huaijie on 7/3/15. */
+public class UserCenterActivity extends BaseActivity
+        implements LoginFragment.LoginCallback, IsmartvActivator.AccountChangeCallback {
+    public static final String LOCATION_FRAGMENT = "location";
+    public static final String LOGIN_FRAGMENT = "login";
     private static final String TAG = UserCenterActivity.class.getSimpleName();
     private static final int MSG_INDICATOR_CHANGE = 0x9b;
-
+    private static final int[] INDICATOR_TEXT_RES_ARRAY = {
+        R.string.usercenter_store,
+        R.string.usercenter_userinfo,
+        R.string.usercenter_login_register,
+        R.string.usercenter_purchase_history,
+        R.string.usercenter_help,
+        R.string.usercenter_location
+    };
+    private static final int[] INDICATOR_ID_RES_ARRAY = {
+        R.id.usercenter_store,
+        R.id.usercenter_userinfo,
+        R.id.usercenter_login_register,
+        R.id.usercenter_purchase_history,
+        R.id.usercenter_help,
+        R.id.usercenter_location
+    };
     private HelpFragment mHelpFragment;
     private LocationFragment mLocationFragment;
     private LoginFragment mLoginFragment;
     private ProductFragment mProductFragment;
     private PurchaseHistoryFragment mPurchaseHistoryFragment;
     private UserInfoFragment mUserInfoFragment;
-
     private ProductPresenter mProductPresenter;
     private LocationPresenter mLocationPresenter;
     private HelpPresenter mHelpPresenter;
     private PurchaseHistoryPresenter mPurchaseHistoryPresenter;
     private UserInfoPresenter mUserInfoPresenter;
-
     private ArrayList<View> indicatorView;
-
-
     private boolean isOnKeyDown = false;
     private boolean fargmentIsActive = false;
-
-    private static final int[] INDICATOR_TEXT_RES_ARRAY = {
-            R.string.usercenter_store,
-            R.string.usercenter_userinfo,
-            R.string.usercenter_login_register,
-            R.string.usercenter_purchase_history,
-            R.string.usercenter_help,
-            R.string.usercenter_location
-    };
-
-    private static final int[] INDICATOR_ID_RES_ARRAY = {
-            R.id.usercenter_store,
-            R.id.usercenter_userinfo,
-            R.id.usercenter_login_register,
-            R.id.usercenter_purchase_history,
-            R.id.usercenter_help,
-            R.id.usercenter_location
-    };
     private LinearLayout userCenterIndicatorLayout;
-
     private View lastSelectedView;
     private View lastHoveredView;
-
     private View fragmentContainer;
-
     private View purchaseItem;
-
-    public static final String LOCATION_FRAGMENT = "location";
-    public static final String LOGIN_FRAGMENT = "login";
-
     private HeadFragment headFragment;
 
     private Subscription bookmarksSub;
     private Subscription historySub;
+    private View.OnClickListener indicatorViewOnClickListener =
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mLocationFragment != null) {
+                        mLocationFragment.clearStatus();
+                    }
 
+                    int i = v.getId();
+                    if (i == R.id.usercenter_store) {
+                        selectProduct();
+                    } else if (i == R.id.usercenter_userinfo) {
+                        selectUserInfo();
+                    } else if (i == R.id.usercenter_login_register) {
+                        selectLogin();
+                    } else if (i == R.id.usercenter_purchase_history) {
+                        selectPurchaseHistory();
+                    } else if (i == R.id.usercenter_help) {
+                        selectHelp();
+                    } else if (i == R.id.usercenter_location) {
+                        selectLocation();
+                    }
+                    changeViewState(v, ViewState.Select);
+                }
+            };
+    private View.OnHoverListener indicatorOnHoverListener =
+            new View.OnHoverListener() {
+                @Override
+                public boolean onHover(final View v, MotionEvent event) {
+                    isOnKeyDown = false;
+                    ImageView textHoverImage = (ImageView) v.findViewById(R.id.text_select_bg);
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_HOVER_ENTER:
+                        case MotionEvent.ACTION_HOVER_MOVE:
+                            v.setHovered(true);
+                            if (!v.hasFocus()) {
+                                v.requestFocus();
+                            }
 
+                            if (lastHoveredView != null) {
+                                ImageView lastTextSelectImage =
+                                        (ImageView)
+                                                lastHoveredView.findViewById(R.id.text_select_bg);
+                                lastTextSelectImage.setVisibility(View.INVISIBLE);
+                            }
+                            textHoverImage.setVisibility(View.VISIBLE);
+                            lastHoveredView = v;
+                            break;
+                        case MotionEvent.ACTION_HOVER_EXIT:
+                            textHoverImage.setVisibility(View.INVISIBLE);
+                            v.setHovered(false);
+                            break;
+                    }
+                    return false;
+                }
+            };
+    private Handler messageHandler =
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    switch (msg.what) {
+                        case MSG_INDICATOR_CHANGE:
+                            if (fargmentIsActive) {
+                                View view = (View) msg.obj;
+                                view.callOnClick();
+                            }
+                            break;
+                    }
+                }
+            };
+    private View.OnFocusChangeListener indicatorOnFocusListener =
+            new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (v.isHovered()) {
+                        return;
+                    }
+
+                    if (hasFocus) {
+                        if (isOnKeyDown) {
+                            for (View myView : indicatorView) {
+                                myView.setHovered(false);
+                            }
+
+                            changeViewState(v, ViewState.Select);
+                            messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
+                            Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
+                            messageHandler.sendMessageDelayed(message, 300);
+                        }
+                    } else {
+                        changeViewState(v, ViewState.Unfocus);
+                    }
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,13 +190,14 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         IsmartvActivator.getInstance().addAccountChangeListener(this);
         addHeader();
         initViews();
-//        selectProduct();
+        //        selectProduct();
 
         // Load previously saved state, if available.
         if (savedInstanceState != null) {
-//            TasksFilterType currentFiltering =
-//                    (TasksFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
-//            mTasksPresenter.setFiltering(currentFiltering);
+            //            TasksFilterType currentFiltering =
+            //                    (TasksFilterType)
+            // savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
+            //            mTasksPresenter.setFiltering(currentFiltering);
         }
 
         selectIndicator(getIntent());
@@ -138,38 +216,41 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
         fragmentContainer = findViewById(R.id.user_center_container);
 
-//        fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-//            @Override
-//            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-//                Log.d(TAG, "new focus view: " + newFocus);
-//                if (lastHoveredView != null) {
-//                    lastHoveredView.setHovered(false);
-//                }
-//                clearTheLastHoveredVewState();
-//                if (oldFocus != null && newFocus != null && oldFocus.getTag() != null && oldFocus.getTag().equals(newFocus.getTag())) {
-//                    Log.d(TAG, "onGlobalFocusChanged same side");
-//                    isFromRightToLeft = false;
-//                } else {
-//                    if (newFocus != null && newFocus.getTag() != null && ("left").equals(newFocus.getTag())) {
-//                        Log.d(TAG, "onGlobalFocusChanged from right to left");
-//                        isFromRightToLeft = true;
-//                    } else {
-//                        isFromRightToLeft = false;
-//                    }
-//
-//                }
-//            }
-//        });
+        //        fragmentContainer.getViewTreeObserver().addOnGlobalFocusChangeListener(new
+        // ViewTreeObserver.OnGlobalFocusChangeListener() {
+        //            @Override
+        //            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+        //                Log.d(TAG, "new focus view: " + newFocus);
+        //                if (lastHoveredView != null) {
+        //                    lastHoveredView.setHovered(false);
+        //                }
+        //                clearTheLastHoveredVewState();
+        //                if (oldFocus != null && newFocus != null && oldFocus.getTag() != null &&
+        // oldFocus.getTag().equals(newFocus.getTag())) {
+        //                    Log.d(TAG, "onGlobalFocusChanged same side");
+        //                    isFromRightToLeft = false;
+        //                } else {
+        //                    if (newFocus != null && newFocus.getTag() != null &&
+        // ("left").equals(newFocus.getTag())) {
+        //                        Log.d(TAG, "onGlobalFocusChanged from right to left");
+        //                        isFromRightToLeft = true;
+        //                    } else {
+        //                        isFromRightToLeft = false;
+        //                    }
+        //
+        //                }
+        //            }
+        //        });
 
         createIndicatorView();
     }
-
 
     private void createIndicatorView() {
         indicatorView = new ArrayList<>();
         userCenterIndicatorLayout.removeAllViews();
         for (int i = 0; i < INDICATOR_TEXT_RES_ARRAY.length; i++) {
-            View frameLayout = LayoutInflater.from(this).inflate(R.layout.item_usercenter_indicator, null);
+            View frameLayout =
+                    LayoutInflater.from(this).inflate(R.layout.item_usercenter_indicator, null);
             TextView textView = (TextView) frameLayout.findViewById(R.id.indicator_text);
             textView.setText(INDICATOR_TEXT_RES_ARRAY[i]);
             frameLayout.setTag("left");
@@ -177,7 +258,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             frameLayout.setOnClickListener(indicatorViewOnClickListener);
             frameLayout.setOnFocusChangeListener(indicatorOnFocusListener);
             frameLayout.setOnHoverListener(indicatorOnHoverListener);
-            if (i == 0){
+            if (i == 0) {
                 frameLayout.setNextFocusUpId(frameLayout.getId());
             }
             if (i == 1) {
@@ -186,7 +267,7 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             if (i == 5) {
                 frameLayout.setNextFocusDownId(frameLayout.getId());
             }
-            if (i == 2){
+            if (i == 2) {
                 frameLayout.setNextFocusRightId(R.id.pay_edit_mobile);
             }
             indicatorView.add(frameLayout);
@@ -197,15 +278,15 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             changeViewState(indicatorView.get(2), ViewState.Disable);
         }
 
-//        userCenterIndicatorLayout.getChildAt(0).callOnClick();
+        //        userCenterIndicatorLayout.getChildAt(0).callOnClick();
 
     }
-
 
     private void selectProduct() {
 
         // Create the fragment
-        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof ProductFragment) {
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container)
+                instanceof ProductFragment) {
             return;
         }
 
@@ -221,13 +302,12 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mProductFragment, R.id.user_center_container);
-
-
     }
 
     private void selectUserInfo() {
         // Create the fragment
-        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof UserInfoFragment) {
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container)
+                instanceof UserInfoFragment) {
             return;
         }
         // Create the fragment
@@ -242,30 +322,28 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         mUserInfoFragment.setViewModel(userInfoViewModel);
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mUserInfoFragment, R.id.user_center_container);
-
-
     }
 
     private void selectLogin() {
         // Create the fragment
-        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LoginFragment) {
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container)
+                instanceof LoginFragment) {
             return;
         }
         // Create the fragment
-        if(mLoginFragment==null)
-        mLoginFragment = LoginFragment.newInstance();
+        if (mLoginFragment == null) mLoginFragment = LoginFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putString("source", "usercenter");
         mLoginFragment.setArguments(bundle);
         mLoginFragment.setLoginCallback(this);
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mLoginFragment, R.id.user_center_container);
-
     }
 
     private void selectPurchaseHistory() {
         // Create the fragment
-        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof PurchaseHistoryFragment) {
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container)
+                instanceof PurchaseHistoryFragment) {
             return;
         }
         // Create the fragment
@@ -279,13 +357,12 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         mPurchaseHistoryFragment.setViewModel(purchaseHistoryViewModel);
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mPurchaseHistoryFragment, R.id.user_center_container);
-
-
     }
 
     private void selectHelp() {
         // Create the fragment
-        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof HelpFragment) {
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container)
+                instanceof HelpFragment) {
             return;
         }
         // Create the fragment
@@ -293,13 +370,11 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         // Create the presenter
         mHelpPresenter = new HelpPresenter(mHelpFragment);
 
-        HelpViewModel helpViewModel =
-                new HelpViewModel(getApplicationContext(), mHelpPresenter);
+        HelpViewModel helpViewModel = new HelpViewModel(getApplicationContext(), mHelpPresenter);
 
         mHelpFragment.setViewModel(helpViewModel);
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mHelpFragment, R.id.user_center_container);
-
     }
 
     @Override
@@ -307,8 +382,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         super.onResume();
         AppConstant.purchase_referer = "profile";
         fargmentIsActive = true;
-        baseChannel="";
-        baseSection="";
+        baseChannel = "";
+        baseSection = "";
         if (IsmartvActivator.getInstance().isLogin()) {
             changeViewState(indicatorView.get(2), ViewState.Disable);
         } else {
@@ -318,7 +393,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
     private void selectLocation() {
         // Create the fragment
-        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LocationFragment) {
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container)
+                instanceof LocationFragment) {
             return;
         }
         mLocationFragment = LocationFragment.newInstance();
@@ -333,8 +409,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
 
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(), mLocationFragment, R.id.user_center_container);
-
-
     }
 
     @Override
@@ -348,86 +422,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         getHistoryByNet();
     }
 
-    private View.OnFocusChangeListener indicatorOnFocusListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            if (v.isHovered()) {
-                return;
-            }
-
-            if (hasFocus) {
-                if (isOnKeyDown) {
-                    for (View myView : indicatorView) {
-                        myView.setHovered(false);
-                    }
-
-                    changeViewState(v, ViewState.Select);
-                    messageHandler.removeMessages(MSG_INDICATOR_CHANGE);
-                    Message message = messageHandler.obtainMessage(MSG_INDICATOR_CHANGE, v);
-                    messageHandler.sendMessageDelayed(message, 300);
-                }
-            } else {
-                changeViewState(v, ViewState.Unfocus);
-            }
-        }
-    };
-
-    private View.OnClickListener indicatorViewOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mLocationFragment != null) {
-                mLocationFragment.clearStatus();
-            }
-
-            int i = v.getId();
-            if (i == R.id.usercenter_store) {
-                selectProduct();
-            } else if (i == R.id.usercenter_userinfo) {
-                selectUserInfo();
-            } else if (i == R.id.usercenter_login_register) {
-                selectLogin();
-            } else if (i == R.id.usercenter_purchase_history) {
-                selectPurchaseHistory();
-            } else if (i == R.id.usercenter_help) {
-                selectHelp();
-            } else if (i == R.id.usercenter_location) {
-                selectLocation();
-            }
-            changeViewState(v, ViewState.Select);
-
-        }
-    };
-
-
-    private View.OnHoverListener indicatorOnHoverListener = new View.OnHoverListener() {
-        @Override
-        public boolean onHover(final View v, MotionEvent event) {
-            isOnKeyDown = false;
-            ImageView textHoverImage = (ImageView) v.findViewById(R.id.text_select_bg);
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_HOVER_ENTER:
-                case MotionEvent.ACTION_HOVER_MOVE:
-                    v.setHovered(true);
-                    if (!v.hasFocus()) {
-                        v.requestFocus();
-                    }
-
-                    if (lastHoveredView != null) {
-                        ImageView lastTextSelectImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
-                        lastTextSelectImage.setVisibility(View.INVISIBLE);
-                    }
-                    textHoverImage.setVisibility(View.VISIBLE);
-                    lastHoveredView = v;
-                    break;
-                case MotionEvent.ACTION_HOVER_EXIT:
-                    textHoverImage.setVisibility(View.INVISIBLE);
-                    v.setHovered(false);
-                    break;
-            }
-            return false;
-        }
-    };
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         isOnKeyDown = true;
@@ -437,7 +431,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         return super.onKeyDown(keyCode, event);
     }
 
-
     private void changeViewState(View parentView, ViewState viewState) {
         TextView textView = (TextView) parentView.findViewById(R.id.indicator_text);
         ImageView textSelectImage = (ImageView) parentView.findViewById(R.id.text_select_bg);
@@ -446,15 +439,18 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             case Select:
                 if (parentView.isEnabled()) {
                     if (lastSelectedView != null) {
-                        ImageView lastTextSelectImage = (ImageView) lastSelectedView.findViewById(R.id.text_select_bg);
-                        ImageView lastTextFocusImage = (ImageView) lastSelectedView.findViewById(R.id.text_focus_bg);
+                        ImageView lastTextSelectImage =
+                                (ImageView) lastSelectedView.findViewById(R.id.text_select_bg);
+                        ImageView lastTextFocusImage =
+                                (ImageView) lastSelectedView.findViewById(R.id.text_focus_bg);
 
                         lastTextSelectImage.setVisibility(View.INVISIBLE);
                         lastTextFocusImage.setVisibility(View.INVISIBLE);
                     }
 
                     if (lastHoveredView != null) {
-                        ImageView lastTextHoverImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
+                        ImageView lastTextHoverImage =
+                                (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
                         lastTextHoverImage.setVisibility(View.INVISIBLE);
                     }
 
@@ -473,7 +469,8 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 textSelectImage.setVisibility(View.INVISIBLE);
                 textFocusImage.setVisibility(View.INVISIBLE);
                 textView.setText(R.string.usercenter_login);
-                textView.setTextColor(getResources().getColor(R.color.personinfo_login_button_disable));
+                textView.setTextColor(
+                        getResources().getColor(R.color.personinfo_login_button_disable));
                 parentView.setFocusable(false);
                 parentView.setFocusableInTouchMode(false);
                 parentView.setClickable(false);
@@ -490,7 +487,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
                 parentView.setClickable(true);
                 break;
         }
-
     }
 
     @Override
@@ -507,26 +503,18 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         super.onDestroy();
     }
 
-    private enum ViewState {
-        Enable,
-        Disable,
-        Select,
-        Unfocus,
-        Hover,
-        None
-    }
-
     public void clearTheLastHoveredVewState() {
         if (lastHoveredView != null) {
-            ImageView lastTextSelectImage = (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
+            ImageView lastTextSelectImage =
+                    (ImageView) lastHoveredView.findViewById(R.id.text_select_bg);
             lastTextSelectImage.setVisibility(View.INVISIBLE);
         }
-
     }
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container) instanceof LocationFragment) {
+        if (getSupportFragmentManager().findFragmentById(R.id.user_center_container)
+                instanceof LocationFragment) {
             if (!mLocationFragment.onBackPressed()) {
                 super.onBackPressed();
             }
@@ -534,20 +522,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             super.onBackPressed();
         }
     }
-
-    private Handler messageHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_INDICATOR_CHANGE:
-                    if (fargmentIsActive) {
-                        View view = (View) msg.obj;
-                        view.callOnClick();
-                    }
-                    break;
-            }
-        }
-    };
 
     private void selectIndicator(Intent intent) {
         String flag = intent.getStringExtra("flag");
@@ -599,34 +573,35 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         }
     }
 
-
     private void fetchFavorite() {
-        bookmarksSub = mSkyService.getBookmarks()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<Item[]>() {
-                    @Override
-                    public void onCompleted() {
+        bookmarksSub =
+                mSkyService
+                        .getBookmarks()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                new BaseObserver<Item[]>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
-
-                    @Override
-                    public void onNext(Item[] items) {
-                        for (Item item : items) {
-                            addFavorite(item);
-                        }
-                    }
-                });
+                                    @Override
+                                    public void onNext(Item[] items) {
+                                        for (Item item : items) {
+                                            addFavorite(item);
+                                        }
+                                    }
+                                });
     }
-
 
     private void addFavorite(Item mItem) {
         if (isFavorite(mItem)) {
-            String url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItem.pk + "/";
+            String url =
+                    IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItem.pk + "/";
             // DaisyUtils.getFavoriteManager(getContext())
             // .deleteFavoriteByUrl(url,"yes");
         } else {
-            String url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItem.pk + "/";
+            String url =
+                    IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + mItem.pk + "/";
             Favorite favorite = new Favorite();
             favorite.title = mItem.title;
             favorite.adlet_url = mItem.adlet_url;
@@ -638,7 +613,6 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
             DaisyUtils.getFavoriteManager(this).addFavorite(favorite, favorite.isnet);
         }
     }
-
 
     private boolean isFavorite(Item mItem) {
         if (mItem != null) {
@@ -656,22 +630,23 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
     }
 
     private void getHistoryByNet() {
-        historySub = mSkyService.getHistoryByNet()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<Item[]>() {
-                    @Override
-                    public void onCompleted() {
+        historySub =
+                mSkyService
+                        .getHistoryByNet()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                new BaseObserver<Item[]>() {
+                                    @Override
+                                    public void onCompleted() {}
 
-                    }
-
-                    @Override
-                    public void onNext(Item[] items) {
-                        for (Item item : items) {
-                            addHistory(item);
-                        }
-                    }
-                });
+                                    @Override
+                                    public void onNext(Item[] items) {
+                                        for (Item item : items) {
+                                            addHistory(item);
+                                        }
+                                    }
+                                });
     }
 
     private void addHistory(Item item) {
@@ -684,7 +659,11 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         history.last_quality = item.quality;
         if ("subitem".equals(item.model_name)) {
             history.sub_url = item.url;
-            history.url = IsmartvActivator.getInstance().getApiDomain() + "/api/item/" + item.item_pk + "/";
+            history.url =
+                    IsmartvActivator.getInstance().getApiDomain()
+                            + "/api/item/"
+                            + item.item_pk
+                            + "/";
         } else {
             history.url = item.url;
         }
@@ -692,14 +671,21 @@ public class UserCenterActivity extends BaseActivity implements LoginFragment.Lo
         history.is_continue = true;
         if (IsmartvActivator.getInstance().isLogin())
             DaisyUtils.getHistoryManager(this).addHistory(history, "yes", -1);
-        else
-            DaisyUtils.getHistoryManager(this).addHistory(history, "no", -1);
-
+        else DaisyUtils.getHistoryManager(this).addHistory(history, "no", -1);
     }
 
-    public void changeUserInfoSelectStatus(){
+    public void changeUserInfoSelectStatus() {
         indicatorView.get(1).callOnClick();
         indicatorView.get(1).requestFocus();
         changeViewState(indicatorView.get(1), ViewState.Select);
+    }
+
+    private enum ViewState {
+        Enable,
+        Disable,
+        Select,
+        Unfocus,
+        Hover,
+        None
     }
 }

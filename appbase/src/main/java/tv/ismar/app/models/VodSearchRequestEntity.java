@@ -1,8 +1,6 @@
 package tv.ismar.app.models;
 
-/**
- * Created by admin on 2016/2/2.
- */
+/** Created by admin on 2016/2/2. */
 public class VodSearchRequestEntity {
     private String keyword;
     private String content_type;

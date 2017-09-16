@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class PlayerMenuItem {
 
+    public boolean isSub = false;
     protected String title;
     protected int id = -1;
     protected boolean selected;
-    public boolean isSub = false;
     protected ArrayList<PlayerMenuItem> subItems;
 
     PlayerMenuItem(int id, String title, boolean selected) {
@@ -57,13 +57,11 @@ public class PlayerMenuItem {
     }
 
     public PlayerMenuItem findItem(int id) {
-        if (this.id == id)
-            return this;
+        if (this.id == id) return this;
         if (subItems != null) {
             for (PlayerMenuItem item : subItems) {
                 PlayerMenuItem find = item.findItem(id);
-                if (find != null)
-                    return find;
+                if (find != null) return find;
             }
         }
         return null;

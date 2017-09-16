@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/section_item_layout"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:id="@+id/section_item_layout"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    >
+    android:focusableInTouchMode="true">
 
     <ImageView
         android:id="@+id/section_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter" />
 
     <TextView
-        android:gravity="center"
         android:id="@+id/section_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="@dimen/list_section_tabSize"
-        android:textColor="@color/color_base_white"
+        android:gravity="center"
         android:singleLine="true"
-        />
+        android:textColor="@color/color_base_white"
+        android:textSize="@dimen/list_section_tabSize" />
 </FrameLayout>

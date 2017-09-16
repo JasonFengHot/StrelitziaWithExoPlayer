@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:paddingLeft="@dimen/header_fragment_mine_space"
     android:focusableInTouchMode="true"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/header_fragment_mine_space">
 
     <TextView
         android:id="@+id/weather_indicator"

@@ -3,9 +3,7 @@ package tv.ismar.app.network.entity;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by huaijie on 8/4/14.
- */
+/** Created by huaijie on 8/4/14. */
 public class FeedBackEntity {
 
     private String city;
@@ -18,6 +16,7 @@ public class FeedBackEntity {
     private int option;
     private String is_correct;
     private String width;
+    private List<Map<String, String>> speed;
 
     public String getWidth() {
         return width;
@@ -26,8 +25,6 @@ public class FeedBackEntity {
     public void setWidth(String width) {
         this.width = width;
     }
-
-    private List<Map<String, String>> speed;
 
     public String getCity() {
         return city;

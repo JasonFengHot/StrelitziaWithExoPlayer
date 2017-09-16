@@ -8,9 +8,7 @@ import android.widget.TextView;
 
 import tv.ismar.searchpage.R;
 
-/**
- * Created by admin on 2015/12/30.
- */
+/** Created by admin on 2015/12/30. */
 public class KeyboardAdapter extends BaseAdapter {
 
     private Context mContext;
@@ -43,6 +41,5 @@ public class KeyboardAdapter extends BaseAdapter {
         TextView key = (TextView) view.findViewById(R.id.btn_key);
         key.setText(mDatas[i]);
         return view;
-
     }
 }

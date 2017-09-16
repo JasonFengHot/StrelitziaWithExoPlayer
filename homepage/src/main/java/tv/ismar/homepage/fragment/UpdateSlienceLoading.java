@@ -13,16 +13,16 @@ import android.widget.ImageView;
 
 import tv.ismar.homepage.R;
 
-/**
- * Created by huibin on 22/12/2016.
- */
-
+/** Created by huibin on 22/12/2016. */
 public class UpdateSlienceLoading extends Fragment {
     private ImageView updateLoadingImg;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_update_slience, null);
     }
 
@@ -34,7 +34,6 @@ public class UpdateSlienceLoading extends Fragment {
         LinearInterpolator lin = new LinearInterpolator();
         operatingAnim.setInterpolator(lin);
         updateLoadingImg.startAnimation(operatingAnim);
-
     }
 
     @Override

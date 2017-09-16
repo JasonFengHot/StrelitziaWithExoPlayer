@@ -1,110 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:jasmine="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="@dimen/poster_result_width"
+    android:layout_height="match_parent"
     android:background="#5266a5"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
+
     <RelativeLayout
-            android:id="@+id/rl_search_subject"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:clipChildren="false"
-            android:clipToPadding="false">
+        android:id="@+id/rl_search_subject"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:visibility="gone">
 
 
         <TextView
-                android:id="@+id/tv_recommend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="向您推荐近似内容"
-                android:textSize="@dimen/none_result_tv_size"
-                android:layout_marginTop="@dimen/tab_iv_margin_top"
-                android:visibility="gone"
-                android:gravity="center"/>
-        <View
-                android:id="@+id/view_line"
-                android:layout_width="@dimen/none_result_line_width"
-                android:layout_height="@dimen/none_result_line_height"
-                android:background="@drawable/h_line"
-                android:layout_marginTop="@dimen/none_result_line_margin_top"
-                android:layout_marginLeft="@dimen/none_result_line_margin_left"
-                android:visibility="gone"/>
+            android:id="@+id/tv_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tab_iv_margin_top"
+            android:gravity="center"
+            android:text="向您推荐近似内容"
+            android:textSize="@dimen/none_result_tv_size"
+            android:visibility="gone" />
 
-        <include layout="@layout/toptab"/>
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="@dimen/none_result_line_width"
+            android:layout_height="@dimen/none_result_line_height"
+            android:layout_marginLeft="@dimen/none_result_line_margin_left"
+            android:layout_marginTop="@dimen/none_result_line_margin_top"
+            android:background="@drawable/h_line"
+            android:visibility="gone" />
+
+        <include layout="@layout/toptab" />
 
 
         <tv.ismar.searchpage.weight.ZGridView
-                android:id="@+id/poster_gridview"
-                android:layout_width="@dimen/gridview_width"
-                android:layout_height="@dimen/gridview_height"
-                jasmine:horizontalSpace="@dimen/gridview_horizontalSpacing"
-                jasmine:verticalSpace="@dimen/gridview_vertical_spacing"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:scrollbars="none"
-                android:layout_marginTop="@dimen/gridview_margin_top"
-                android:layout_marginLeft="@dimen/gridview_margin_left"
-                android:cacheColorHint="@android:color/transparent"
-                android:nextFocusRight="@id/poster_gridview"
-                android:nextFocusDown="@id/poster_gridview"
-                jasmine:numColumns="4"
-                android:focusable="true"
-                jasmine:listSelector="@drawable/item_focus"
-                jasmine:selectorLeftPadding="@dimen/gridview_padding"
-                jasmine:selectorTopPadding="@dimen/gridview_padding_top"
-                jasmine:selectorRightPadding="@dimen/gridview_padding"
-                jasmine:selectorBottomPadding="@dimen/gridview_padding_bottom"
-                jasmine:scaleSize="1.1" />
+            android:id="@+id/poster_gridview"
+            android:layout_width="@dimen/gridview_width"
+            android:layout_height="@dimen/gridview_height"
+            android:layout_marginLeft="@dimen/gridview_margin_left"
+            android:layout_marginTop="@dimen/gridview_margin_top"
+            android:cacheColorHint="@android:color/transparent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:nextFocusDown="@id/poster_gridview"
+            android:nextFocusRight="@id/poster_gridview"
+            android:scrollbars="none"
+            jasmine:horizontalSpace="@dimen/gridview_horizontalSpacing"
+            jasmine:listSelector="@drawable/item_focus"
+            jasmine:numColumns="4"
+            jasmine:scaleSize="1.1"
+            jasmine:selectorBottomPadding="@dimen/gridview_padding_bottom"
+            jasmine:selectorLeftPadding="@dimen/gridview_padding"
+            jasmine:selectorRightPadding="@dimen/gridview_padding"
+            jasmine:selectorTopPadding="@dimen/gridview_padding_top"
+            jasmine:verticalSpace="@dimen/gridview_vertical_spacing" />
+
         <ImageView
-                android:id="@+id/iv_left_arrow"
-                android:layout_width="@dimen/left_arrow_width"
-                android:layout_height="@dimen/left_arrow_height"
-                android:layout_marginLeft="@dimen/left_arrow_margin_left"
-                android:layout_marginTop="@dimen/left_arrow_margin_top"
-                android:visibility="invisible"
-                android:focusable="false"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/left_arrow_selector"/>
+            android:id="@+id/iv_left_arrow"
+            android:layout_width="@dimen/left_arrow_width"
+            android:layout_height="@dimen/left_arrow_height"
+            android:layout_marginLeft="@dimen/left_arrow_margin_left"
+            android:layout_marginTop="@dimen/left_arrow_margin_top"
+            android:background="@drawable/left_arrow_selector"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:visibility="invisible" />
+
         <ImageView
-                android:id="@+id/iv_right_arrow"
-                android:layout_width="@dimen/left_arrow_width"
-                android:layout_height="@dimen/left_arrow_height"
-                android:layout_marginTop="@dimen/left_arrow_margin_top"
-                android:layout_marginRight="@dimen/right_arrow_margin_right"
-                android:layout_alignParentRight="true"
-                android:visibility="invisible"
-                android:focusable="false"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/right_arrow_selector"/>
+            android:id="@+id/iv_right_arrow"
+            android:layout_width="@dimen/left_arrow_width"
+            android:layout_height="@dimen/left_arrow_height"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/right_arrow_margin_right"
+            android:layout_marginTop="@dimen/left_arrow_margin_top"
+            android:background="@drawable/right_arrow_selector"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:visibility="invisible" />
+
         <ImageView
-                android:id="@+id/iv_top_arrow"
-                android:layout_width="@dimen/top_arrow_width"
-                android:layout_height="@dimen/top_arrow_height"
-                android:layout_marginLeft="@dimen/top_arrow_margin_left"
-                android:layout_marginTop="@dimen/top_arrow_margin_top"
-                android:visibility="invisible"
-                android:focusable="false"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/arrow_top_selector_search"/>
+            android:id="@+id/iv_top_arrow"
+            android:layout_width="@dimen/top_arrow_width"
+            android:layout_height="@dimen/top_arrow_height"
+            android:layout_marginLeft="@dimen/top_arrow_margin_left"
+            android:layout_marginTop="@dimen/top_arrow_margin_top"
+            android:background="@drawable/arrow_top_selector_search"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:visibility="invisible" />
+
         <ImageView
-                android:id="@+id/iv_down_arrow"
-                android:layout_width="@dimen/top_arrow_width"
-                android:layout_height="@dimen/top_arrow_height"
-                android:layout_marginBottom="@dimen/bottom_arrow_margin_bottom"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/top_arrow_margin_left"
-                android:visibility="invisible"
-                android:focusable="false"
-                android:focusableInTouchMode="true"
-                android:background="@drawable/arrow_down_selector_search"/>
+            android:id="@+id/iv_down_arrow"
+            android:layout_width="@dimen/top_arrow_width"
+            android:layout_height="@dimen/top_arrow_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/bottom_arrow_margin_bottom"
+            android:layout_marginLeft="@dimen/top_arrow_margin_left"
+            android:background="@drawable/arrow_down_selector_search"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:visibility="invisible" />
     </RelativeLayout>
+
     <include
-            layout="@layout/loading"
-            android:id="@+id/loading"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            />
+        android:id="@+id/loading"
+        layout="@layout/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 </RelativeLayout>

@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RootRelativeLayout"
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent"
-	android:background="@android:color/transparent"
-	android:foreground="@android:color/transparent"
-	>
-	<ListView 
-		android:id="@+id/MenuListView"
-		android:layout_width="@dimen/menu_menulistview_W"
-		android:layout_height="fill_parent"
-		android:layout_alignParentRight="true"
-		android:paddingTop="@dimen/menu_menulistview_PT"
-		android:paddingBottom="@dimen/menu_menulistview_PB"
-		android:foreground="@color/player_menu_fg"
-		android:background="@color/player_menu_bg"
-		android:listSelector="@android:color/transparent"
-		android:visibility="invisible"
-	>
-	</ListView>
+    android:id="@+id/RootRelativeLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent"
+    android:foreground="@android:color/transparent">
+
+    <ListView
+        android:id="@+id/MenuListView"
+        android:layout_width="@dimen/menu_menulistview_W"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/player_menu_bg"
+        android:foreground="@color/player_menu_fg"
+        android:listSelector="@android:color/transparent"
+        android:paddingBottom="@dimen/menu_menulistview_PB"
+        android:paddingTop="@dimen/menu_menulistview_PT"
+        android:visibility="invisible"></ListView>
 </RelativeLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,13 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/filmitem_portrait_filter_divider_h"
         android:layout_marginTop="@dimen/filter_divider_mt"
-        android:background="@drawable/filter_divider"
-    />
+        android:background="@drawable/filter_divider" />
+
     <LinearLayout
         android:id="@+id/large_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <RelativeLayout
             android:id="@+id/detail_left_container"
             android:layout_width="@dimen/item_detail_detail_left_container_width"
@@ -30,7 +30,7 @@
                 android:layout_height="fill_parent"
                 android:scaleType="center"
                 android:src="@null"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
 
             <RelativeLayout
                 android:id="@+id/vod_payment_package_details_container"
@@ -47,13 +47,13 @@
                     android:layout_height="wrap_content"
                     android:text="礼包详情"
                     android:textColor="#ffffffff"
-                    android:textSize="@dimen/item_detail_btn_left_textsize"/>
+                    android:textSize="@dimen/item_detail_btn_left_textsize" />
 
                 <ImageView
                     android:layout_width="@dimen/package_detail_divider_W"
                     android:layout_height="@dimen/package_detail_divider_H"
                     android:layout_marginTop="@dimen/package_detail_divider_MT"
-                    android:background="#6609638e"/>
+                    android:background="#6609638e" />
 
                 <TextView
                     android:id="@+id/vod_payment_pacakge_title"
@@ -65,7 +65,7 @@
                     android:singleLine="true"
                     android:text="影视包季订购"
                     android:textColor="#ffbbbbbb"
-                    android:textSize="@dimen/item_detail_detail_title_textSize"/>
+                    android:textSize="@dimen/item_detail_detail_title_textSize" />
 
                 <TextView
                     android:id="@+id/vod_payment_packageDescribe_content"
@@ -76,8 +76,7 @@
                     android:lineSpacingExtra="@dimen/vod_payment_packageDescribe_content_ls"
                     android:orientation="horizontal"
                     android:textColor="#ffffffff"
-                    android:textSize="@dimen/vod_payment_packageDescribe_textsize"
-                />
+                    android:textSize="@dimen/vod_payment_packageDescribe_textsize" />
 
             </RelativeLayout>
 
@@ -98,7 +97,8 @@
                     android:background="@drawable/preview_img_bg"
                     android:focusable="false"
                     android:padding="@dimen/item_detail_previewimgview_padding"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY" />
+
                 <ImageView
                     android:id="@+id/isbuy_label"
                     android:layout_width="wrap_content"
@@ -108,7 +108,8 @@
                     android:layout_marginRight="@dimen/item_detail_detailquality_marginright"
                     android:layout_marginTop="@dimen/item_detail_detailquality_margintop"
                     android:background="@drawable/package_buyed_bg"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
+
                 <ImageView
                     android:id="@+id/quality_label"
                     android:layout_width="wrap_content"
@@ -117,7 +118,7 @@
                     android:layout_alignTop="@id/vod_payment_poster"
                     android:layout_marginRight="@dimen/item_detail_detailquality_marginright"
                     android:layout_marginTop="@dimen/item_detail_detailquality_margintop"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/vod_payment_price"
@@ -128,7 +129,7 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="#ffe3e3e3"
-                    android:textSize="@dimen/vod_payment_price_textsize"/>
+                    android:textSize="@dimen/vod_payment_price_textsize" />
 
                 <TextView
                     android:id="@+id/vod_payment_duration"
@@ -140,7 +141,7 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="#ffe3e3e3"
-                    android:textSize="@dimen/vod_payment_price_textsize"/>
+                    android:textSize="@dimen/vod_payment_price_textsize" />
             </RelativeLayout>
 
             <Button
@@ -154,8 +155,8 @@
                 android:nextFocusUp="@id/vod_payment_buyButton"
                 android:text="购买"
                 android:textColor="#FFF8F8FF"
-                android:visibility="invisible"
-                android:textSize="@dimen/item_detail_btn_right_textsize"/>
+                android:textSize="@dimen/item_detail_btn_right_textsize"
+                android:visibility="invisible" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -165,14 +166,14 @@
                 android:layout_marginTop="@dimen/vod_payment_package_title_MT"
                 android:text="礼包内容"
                 android:textColor="#ffffffff"
-                android:textSize="@dimen/item_detail_btn_left_textsize"/>
+                android:textSize="@dimen/item_detail_btn_left_textsize" />
 
             <ImageView
                 android:layout_width="@dimen/package_detail_divider_W"
                 android:layout_height="@dimen/package_detail_divider_H"
                 android:layout_marginLeft="@dimen/vod_payment_package_title_ML"
                 android:layout_marginTop="@dimen/package_detail_divider_cMT"
-                android:background="#6609638e"/>
+                android:background="#6609638e" />
 
             <com.open.androidtvwidget.leanback.recycle.RecyclerViewTV
                 android:id="@+id/vod_payment_item_of_package_container"
@@ -180,8 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/vod_payment_item_of_package_container_ML"
                 android:layout_marginTop="@dimen/vod_payment_item_of_package_container_MT"
-                android:focusable="true"
-            />
+                android:focusable="true" />
 
             <Button
                 android:id="@+id/vod_payment_item_more"
@@ -194,7 +194,7 @@
                 android:text="更多"
                 android:textColor="#FFF8F8FF"
                 android:textSize="@dimen/item_detail_btn_left_textsize"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
         </RelativeLayout>
 
@@ -205,8 +205,8 @@
             android:layout_height="match_parent"
             android:gravity="left"
             android:orientation="vertical"
-            android:visibility="invisible"
-        >
+            android:visibility="invisible">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
                 android:layout_marginTop="@dimen/item_detail_related_video_label_topnew"
                 android:text="关联视频"
                 android:textColor="#FFBBBBBB"
-                android:textSize="@dimen/item_detail_related_video_label_textsize"/>
+                android:textSize="@dimen/item_detail_related_video_label_textsize" />
 
             <ImageView
                 android:layout_width="@dimen/item_detail_related_divider_width"
@@ -222,14 +222,13 @@
                 android:layout_marginBottom="@dimen/item_detail_related_divider_marginbottom"
                 android:layout_marginLeft="@dimen/item_detail_related_divider_marginleft"
                 android:layout_marginTop="@dimen/item_detail_related_divider_margintop"
-                android:src="@drawable/related_divider"/>
+                android:src="@drawable/related_divider" />
 
             <LinearLayout
                 android:id="@+id/related_video_container"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_detail_related_video_container_height"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
 
             <Button
                 android:id="@+id/more_content"
@@ -239,7 +238,7 @@
                 android:layout_marginTop="@dimen/item_detail_btn_layout_marginB"
                 android:background="@drawable/package_more_btn_bg_selector"
                 android:textSize="@dimen/item_detail_more_content_textsize"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </LinearLayout>
 
     </LinearLayout>

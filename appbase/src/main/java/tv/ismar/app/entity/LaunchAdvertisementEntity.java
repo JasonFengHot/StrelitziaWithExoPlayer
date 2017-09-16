@@ -1,8 +1,6 @@
 package tv.ismar.app.entity;
 
-/**
- * Created by huaijie on 7/30/15.
- */
+/** Created by huaijie on 7/30/15. */
 public class LaunchAdvertisementEntity {
     private String retcode;
     private String retmsg;
@@ -62,7 +60,6 @@ public class LaunchAdvertisementEntity {
         private String serial;
         private String md5;
         private String media_url;
-
 
         public String getStart_date() {
             return start_date;
@@ -200,6 +197,4 @@ public class LaunchAdvertisementEntity {
             this.media_url = media_url;
         }
     }
-
-
 }

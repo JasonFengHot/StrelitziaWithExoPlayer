@@ -2,14 +2,11 @@ package tv.ismar.app.network.entity;
 
 import java.util.ArrayList;
 
-/**
- * Created by huaijie on 7/3/15.
- */
+/** Created by huaijie on 7/3/15. */
 public class YouHuiDingGouEntity {
     private int count;
     private int num_pages;
     private ArrayList<Object> objects;
-
 
     public int getCount() {
         return count;
@@ -47,7 +44,6 @@ public class YouHuiDingGouEntity {
         private long pk;
         private String thumb_url;
         private String model_name;
-
 
         public Expense getExpense() {
             return expense;

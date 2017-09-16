@@ -5,13 +5,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-/**
- * Created by huibin on 8/26/16.
- */
+/** Created by huibin on 8/26/16. */
 public class IsmartvActiveService {
     private static final String DEFAULT_HOST = "http://peachtest.tvxio.com";
     private static final String SIGN_FILE_NAME = "sign";
-
 
     private String manufacture;
     private String kind;
@@ -22,16 +19,13 @@ public class IsmartvActiveService {
     private String fingerprint;
     private String deviceId;
 
-//    private SkyService mSkyService;
-
+    //    private SkyService mSkyService;
 
     public IsmartvActiveService() {
-//        mSkyService = SkyService.ServiceManager.getService();
+        //        mSkyService = SkyService.ServiceManager.getService();
     }
 
-    private void getLicence() {
-
-    }
+    private void getLicence() {}
 
     private String generateKind() {
         return Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
@@ -48,13 +42,7 @@ public class IsmartvActiveService {
         return 0;
     }
 
-    public void start() {
+    public void start() {}
 
-    }
-
-    public static class Builder {
-
-
-    }
-
+    public static class Builder {}
 }

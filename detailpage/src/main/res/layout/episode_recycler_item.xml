@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:descendantFocusability="afterDescendants"
->
+    android:descendantFocusability="afterDescendants">
 
     <Button
         android:id="@+id/btn_count"
@@ -13,6 +11,6 @@
         android:background="@drawable/selector_episode_item"
         android:clickable="true"
         android:focusable="true"
-        android:textSize="@dimen/text_size_30sp"/>
+        android:textSize="@dimen/text_size_30sp" />
 
 </LinearLayout>

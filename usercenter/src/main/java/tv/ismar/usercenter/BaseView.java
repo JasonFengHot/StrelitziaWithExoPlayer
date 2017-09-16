@@ -19,5 +19,4 @@ package tv.ismar.usercenter;
 public interface BaseView<T> {
 
     void setPresenter(T presenter);
-
 }
