@@ -11,14 +11,14 @@
         android:id="@+id/detail_head"
         android:layout_width="match_parent"
         android:layout_height="@dimen/detail_header_height"
-        android:layout_marginLeft="@dimen/episode_header_title_ml" />
+        android:layout_marginStart="@dimen/episode_header_title_ml" />
 
     <ImageView
         android:id="@+id/tmp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/usercenter_horizontal_divider_line_height"
-        android:layout_marginLeft="@dimen/horizontal_divider_ml"
-        android:layout_marginRight="@dimen/horizontal_divider_mr"
+        android:layout_marginStart="@dimen/horizontal_divider_ml"
+        android:layout_marginEnd="@dimen/horizontal_divider_mr"
         android:focusable="false"
         android:scaleType="fitXY"
         android:src="@drawable/horizontal_divider_line" />
@@ -29,8 +29,8 @@
         android:layout_height="@dimen/episode_header_height"
         android:layout_marginTop="@dimen/episode_post_mt"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/drama_main_layout_PL"
-        android:paddingRight="@dimen/drama_main_layout_PR">
+        android:paddingStart="@dimen/drama_main_layout_PL"
+        android:paddingEnd="@dimen/drama_main_layout_PR">
 
         <RelativeLayout
             android:layout_width="@dimen/drama_main_img_layout_W"
@@ -46,16 +46,16 @@
                 android:id="@+id/image_daram_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/image_daram_back"
+                android:layout_alignEnd="@+id/image_daram_back"
                 android:layout_alignTop="@+id/image_daram_back"
-                android:layout_marginRight="@dimen/drama_main_image_daram_label_MR"
+                android:layout_marginEnd="@dimen/drama_main_image_daram_label_MR"
                 android:layout_marginTop="@dimen/drama_main_image_daram_label_MT" />
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/drama_main_content_layout_ML"
+            android:layout_marginStart="@dimen/drama_main_content_layout_ML"
             android:orientation="vertical">
 
             <TextView
@@ -83,7 +83,7 @@
                     android:id="@+id/tv_daram_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/drama_main_tv_daram_marginleft"
+                    android:layout_marginStart="@dimen/drama_main_tv_daram_marginleft"
                     android:includeFontPadding="true"
                     android:singleLine="true"
                     android:textSize="@dimen/drama_main_tv_daram_textsize" />
@@ -110,7 +110,7 @@
             android:id="@+id/episode_arrow_up"
             android:layout_width="@dimen/episode_arrow_up_w"
             android:layout_height="@dimen/episode_arrow_up_h"
-            android:layout_marginLeft="@dimen/episode_arrow_down_ml"
+            android:layout_marginStart="@dimen/episode_arrow_down_ml"
             android:layout_marginTop="@dimen/episode_arrow_up_mt"
             android:background="@drawable/episode_arrow_up"
             android:focusable="true"
@@ -121,8 +121,8 @@
             android:id="@+id/episode_zgridview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/epsisode_recycler_height"
-            android:layout_marginLeft="@dimen/epsisode_recycler_ml"
-            android:layout_marginRight="@dimen/epsisode_recycler_mr"
+            android:layout_marginStart="@dimen/epsisode_recycler_ml"
+            android:layout_marginEnd="@dimen/epsisode_recycler_mr"
             android:layout_marginTop="@dimen/epsisode_recycler_mt"
             android:descendantFocusability="afterDescendants"
             android:focusable="true"
@@ -135,7 +135,7 @@
             android:layout_width="@dimen/episode_arrow_up_w"
             android:layout_height="@dimen/episode_arrow_up_h"
             android:layout_marginBottom="@dimen/episode_arrow_down_mb"
-            android:layout_marginLeft="@dimen/episode_arrow_down_ml"
+            android:layout_marginStart="@dimen/episode_arrow_down_ml"
             android:background="@drawable/episode_arrow_down"
             android:focusable="true"
             android:focusableInTouchMode="true"

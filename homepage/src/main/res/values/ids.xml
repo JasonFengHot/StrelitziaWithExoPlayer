@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="purchase_history_list_first_id" type="id" />
-    <item name="userinfo_palyauth_list_first_id" type="id" />
-    <item name="userinfo_palyauth_list_last_id" type="id" />
     <item name="guidefragment_firstpost" type="id" />
     <item name="guidefragment_lastpost" type="id" />
     <item name="filmfragment_firstpost" type="id" />
     <item name="filmfragment_secondpost" type="id" />
     <item name="filmfragment_thirdpost" type="id" />
     <item name="filmfragment_firstcarousel" type="id" />
-    <item name="filmfragment_filmmore" type="id" />
-    <item name="childfragment_lefttop" type="id" />
-    <item name="childfragment_leftbottom" type="id" />
-    <item name="childfragment_righttop" type="id" />
 </resources>

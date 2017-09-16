@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="@dimen/dialog_width"
         android:layout_height="@dimen/dialog_height"
-        android:layout_marginLeft="@dimen/dialog_margin_Left"
+        android:layout_marginStart="@dimen/dialog_margin_Left"
         android:layout_marginTop="@dimen/dialog_margin_Top"
         android:background="@drawable/pop_bg_drawable"
         android:orientation="vertical">
@@ -26,7 +26,7 @@
         <ImageView
             android:layout_width="@dimen/dialog_arrow_width"
             android:layout_height="@dimen/dialog_arrow_height"
-            android:layout_marginLeft="@dimen/dialog_arrow_margin_left"
+            android:layout_marginStart="@dimen/dialog_arrow_margin_left"
             android:layout_marginTop="@dimen/dialog_arrow_margin_top"
             android:background="@drawable/arrow" />
 

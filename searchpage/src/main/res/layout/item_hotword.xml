@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/item_hotword_tv_margin_top"
         android:gravity="center"
-        android:paddingLeft="@dimen/item_hotword_iv_padding"
-        android:paddingRight="@dimen/item_hotword_iv_padding"
+        android:paddingStart="@dimen/item_hotword_iv_padding"
+        android:paddingEnd="@dimen/item_hotword_iv_padding"
         android:singleLine="true"
         android:textColor="@color/text_color"
         android:textSize="@dimen/item_hotword_tv_size" />

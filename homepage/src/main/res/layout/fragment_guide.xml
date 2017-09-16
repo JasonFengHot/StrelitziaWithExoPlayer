@@ -41,8 +41,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/guide_video_img_ml"
-            android:layout_toRightOf="@id/guide_center_layoutview"
+            android:layout_marginStart="@dimen/guide_video_img_ml"
+            android:layout_toEndOf="@id/guide_center_layoutview"
             android:clipChildren="false"
             android:clipToPadding="false">
 

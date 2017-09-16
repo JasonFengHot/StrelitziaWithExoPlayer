@@ -10,7 +10,7 @@
         android:id="@+id/progress_view"
         android:layout_width="@dimen/loading_progress_width"
         android:layout_height="@dimen/loading_progress_height"
-        android:layout_marginLeft="@dimen/loading_progress_margin_left"
+        android:layout_marginStart="@dimen/loading_progress_margin_left"
         android:layout_marginTop="@dimen/loading_progress_margin_top"
         android:background="@drawable/searching_progress" />
 
@@ -18,7 +18,7 @@
         android:layout_width="@dimen/loading_iv_width"
         android:layout_height="@dimen/loading_iv_height"
         android:layout_below="@id/progress_view"
-        android:layout_marginLeft="@dimen/loading_iv_margin_left"
+        android:layout_marginStart="@dimen/loading_iv_margin_left"
         android:layout_marginTop="@dimen/loading_iv_margin_top"
         android:src="@drawable/loading_text_img" />
 

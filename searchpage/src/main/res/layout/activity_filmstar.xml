@@ -21,7 +21,7 @@
             android:id="@+id/film_star_title_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/film_star_title_new_ml"
+            android:layout_marginStart="@dimen/film_star_title_new_ml"
             android:layout_marginTop="@dimen/film_star_title_new_mt"
             android:gravity="center"
             android:textColor="@color/word_selected"
@@ -30,14 +30,14 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/indicator_ll_h"
-            android:layout_marginLeft="@dimen/indicator_ll_ml"
+            android:layout_marginStart="@dimen/indicator_ll_ml"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/indicator_rl_ml"
+                android:layout_marginStart="@dimen/indicator_rl_ml"
                 android:layout_marginTop="@dimen/indicator_rl_mt">
 
                 <ImageView
@@ -74,7 +74,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/indicator_rl_ml"
+                android:layout_marginEnd="@dimen/indicator_rl_ml"
                 android:layout_marginTop="@dimen/indicator_rl_mt">
 
                 <ImageView
@@ -108,8 +108,8 @@
                 android:id="@+id/content_arrow_left_new"
                 android:layout_width="@dimen/top_arrow_height"
                 android:layout_height="@dimen/top_arrow_width"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="@dimen/gridview_padding"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/gridview_padding"
                 android:layout_marginTop="@dimen/content_arrow_left_new_mt"
                 android:background="@drawable/arrow_left_selector_dearch"
                 android:clickable="true"
@@ -120,8 +120,8 @@
                 android:id="@+id/vod_scrollview_new"
                 android:layout_width="@dimen/vod_scrollview_new_w"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/vod_scrollview_new_ml"
-                android:layout_marginRight="@dimen/vod_scrollview_new_ml"
+                android:layout_marginStart="@dimen/vod_scrollview_new_ml"
+                android:layout_marginEnd="@dimen/vod_scrollview_new_ml"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:nextFocusDown="@id/vod_scrollview_new"
@@ -143,8 +143,8 @@
                 android:id="@+id/content_arrow_right_new"
                 android:layout_width="@dimen/top_arrow_height"
                 android:layout_height="@dimen/top_arrow_width"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/gridview_padding"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/gridview_padding"
                 android:layout_marginTop="@dimen/content_arrow_left_new_mt"
                 android:background="@drawable/arrow_right_selector_search"
                 android:clickable="true"
@@ -157,8 +157,8 @@
             android:id="@+id/divider_line_new"
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_line_new_h"
-            android:layout_marginLeft="@dimen/update_dialog_arrow1_margin_left"
-            android:layout_marginRight="@dimen/update_dialog_arrow1_margin_left"
+            android:layout_marginStart="@dimen/update_dialog_arrow1_margin_left"
+            android:layout_marginEnd="@dimen/update_dialog_arrow1_margin_left"
             android:focusable="true"
             android:scaleType="fitXY"
             android:src="#202e5d" />
@@ -167,8 +167,8 @@
             android:id="@+id/film_description_new"
             android:layout_width="match_parent"
             android:layout_height="@dimen/t9_keyboard_margin_top"
-            android:layout_marginLeft="@dimen/film_description_new_ml"
-            android:layout_marginRight="@dimen/film_description_new_ml"
+            android:layout_marginStart="@dimen/film_description_new_ml"
+            android:layout_marginEnd="@dimen/film_description_new_ml"
             android:orientation="horizontal">
 
             <LinearLayout

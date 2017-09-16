@@ -7,7 +7,7 @@
     android:focusableInTouchMode="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/header_fragment_mine_space">
+    android:paddingStart="@dimen/header_fragment_mine_space">
 
     <TextView
         android:id="@+id/weather_indicator"

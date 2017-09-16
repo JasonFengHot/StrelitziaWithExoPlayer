@@ -16,7 +16,7 @@
         android:id="@+id/tipTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/loading_text_mt"
+        android:layout_marginStart="@dimen/loading_text_mt"
         android:text="@string/loading_text"
         android:textColor="@color/module_color_white"
         android:textSize="@dimen/h1_size" />

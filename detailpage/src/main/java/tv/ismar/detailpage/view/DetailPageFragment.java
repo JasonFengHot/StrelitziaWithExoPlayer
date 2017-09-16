@@ -39,7 +39,6 @@ import tv.ismar.app.network.entity.ItemEntity;
 import tv.ismar.app.network.entity.PlayCheckEntity;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HeadFragment;
-import tv.ismar.app.util.Constants;
 import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.SPUtils;
 import tv.ismar.app.util.SystemFileUtil;
@@ -216,7 +215,6 @@ public class DetailPageFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Log.i(TAG, Constants.TEST);
         mPresenter.start();
         //        mPresenter.fetchItem(String.valueOf(mItemEntity.getPk()));
         //        loadItem(mItemEntity);

@@ -9,8 +9,8 @@
         android:id="@+id/tv_search_all"
         android:layout_width="@dimen/search_all_width"
         android:layout_height="@dimen/search_all_height"
-        android:layout_marginLeft="@dimen/search_all_margin_left"
-        android:layout_marginRight="@dimen/search_all_margin_right"
+        android:layout_marginStart="@dimen/search_all_margin_left"
+        android:layout_marginEnd="@dimen/search_all_margin_right"
         android:layout_marginTop="@dimen/search_all_margin_top"
         android:background="@drawable/hotword_selector"
         android:focusable="true"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/hotwords_margin_bottom"
-        android:layout_marginLeft="@dimen/hotwords_margin_left"
+        android:layout_marginStart="@dimen/hotwords_margin_left"
         android:orientation="vertical">
 
     </LinearLayout>
@@ -58,7 +58,7 @@
         android:id="@+id/jump_view"
         android:layout_width="@dimen/jump_view_width"
         android:layout_height="@dimen/jump_view_height"
-        android:layout_marginLeft="@dimen/jump_view_margin_left"
+        android:layout_marginStart="@dimen/jump_view_margin_left"
         android:layout_marginTop="@dimen/jump_view_margin_top"
         android:focusable="true"
         android:visibility="gone" />
@@ -66,6 +66,6 @@
     <View
         android:layout_width="@dimen/hotword_line_width"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/hotword_line_margin_left"
+        android:layout_marginStart="@dimen/hotword_line_margin_left"
         android:background="#405185" />
 </RelativeLayout>

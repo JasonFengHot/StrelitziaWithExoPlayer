@@ -13,8 +13,8 @@
         android:layout_height="@dimen/channel_section_tabs_percentage_H"
         android:layout_alignParentBottom="true"
         android:indeterminate="false"
-        android:paddingLeft="@dimen/channel_section_tabs_percentage_PLR"
-        android:paddingRight="@dimen/channel_section_tabs_percentage_PLR"
+        android:paddingStart="@dimen/channel_section_tabs_percentage_PLR"
+        android:paddingEnd="@dimen/channel_section_tabs_percentage_PLR"
         android:progressDrawable="@drawable/section_percentage_noselected"
         android:visibility="gone" />
 

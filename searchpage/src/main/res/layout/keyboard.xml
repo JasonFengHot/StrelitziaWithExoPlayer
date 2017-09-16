@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="@dimen/search_icon_width"
         android:layout_height="@dimen/search_icon_height"
-        android:layout_marginLeft="@dimen/search_icon_margin_left"
+        android:layout_marginStart="@dimen/search_icon_margin_left"
         android:layout_marginTop="@dimen/search_icon_margin_top"
         android:src="@drawable/search_icon" />
 
@@ -18,7 +18,7 @@
         android:id="@+id/et_input"
         android:layout_width="@dimen/edittext_width"
         android:layout_height="@dimen/edittext_height"
-        android:layout_marginLeft="@dimen/edittext_margin_left"
+        android:layout_marginStart="@dimen/edittext_margin_left"
         android:layout_marginTop="@dimen/edittext_margin_top"
         android:background="@null"
         android:focusable="false"
@@ -30,7 +30,7 @@
     <ImageView
         android:layout_width="@dimen/edittext_divider_width"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/edittext_divider_margin_left"
+        android:layout_marginStart="@dimen/edittext_divider_margin_left"
         android:layout_marginTop="@dimen/edittext_divider_margin_top"
         android:src="@drawable/divider1" />
 
@@ -44,7 +44,7 @@
         android:focusable="true"
         android:nextFocusLeft="@id/keyboard"
         android:nextFocusUp="@id/keyboard"
-        android:paddingLeft="@dimen/full_keyboard_margin_left"
+        android:paddingStart="@dimen/full_keyboard_margin_left"
         android:paddingTop="@dimen/full_keyboard_margin_top"
         android:scrollbars="none"
         android:visibility="gone"
@@ -66,7 +66,7 @@
         android:focusable="true"
         android:nextFocusLeft="@id/t9_keyboard"
         android:nextFocusUp="@id/t9_keyboard"
-        android:paddingLeft="@dimen/t9_keyboard_margin_left"
+        android:paddingStart="@dimen/t9_keyboard_margin_left"
         android:paddingTop="@dimen/t9_keyboard_margin_top"
         android:scrollbars="none"
         android:visibility="gone"
@@ -83,7 +83,7 @@
         android:id="@+id/t9_key_0"
         android:layout_width="@dimen/item_t9_width"
         android:layout_height="@dimen/item_t9_width"
-        android:layout_marginLeft="@dimen/item_t9_key0__margin_left"
+        android:layout_marginStart="@dimen/item_t9_key0__margin_left"
         android:layout_marginTop="@dimen/item_t9_key0__margin_top"
         android:background="@drawable/t9_key_selector"
         android:focusable="true"
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/shift_key_margin_bottom"
-        android:layout_marginLeft="@dimen/shift_key_margin_left"
+        android:layout_marginStart="@dimen/shift_key_margin_left"
         android:clipChildren="false"
         android:clipToPadding="false">
 
@@ -158,8 +158,8 @@
             android:id="@+id/tv_key_0"
             android:layout_width="@dimen/item_key_width"
             android:layout_height="@dimen/item_key_width"
-            android:layout_marginLeft="@dimen/key_0_margin_left"
-            android:layout_toRightOf="@id/tv_back"
+            android:layout_marginStart="@dimen/key_0_margin_left"
+            android:layout_toEndOf="@id/tv_back"
             android:background="@drawable/key_selector"
             android:clipChildren="false"
             android:clipToPadding="false"
@@ -185,8 +185,8 @@
             android:id="@+id/tv_T9"
             android:layout_width="@dimen/long_key_width"
             android:layout_height="@dimen/long_key_height"
-            android:layout_marginLeft="@dimen/key_0_margin_left"
-            android:layout_toRightOf="@id/tv_key_0"
+            android:layout_marginStart="@dimen/key_0_margin_left"
+            android:layout_toEndOf="@id/tv_key_0"
             android:background="@drawable/long_key_selector"
             android:clipChildren="false"
             android:clipToPadding="false"

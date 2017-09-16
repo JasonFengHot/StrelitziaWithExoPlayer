@@ -15,7 +15,6 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:id="@+id/vaiety_lefttop"
             android:layout_width="@dimen/entertainment_top_left_w"
             android:layout_height="@dimen/entertainment_top_h"
             android:clipChildren="false"
@@ -52,7 +51,7 @@
                     android:id="@+id/vaiety_thumb2"
                     android:layout_width="@dimen/entertainment_thumb_w"
                     android:layout_height="@dimen/entertainment_thumb_h1"
-                    android:layout_marginLeft="@dimen/entertainment_thumb_ml"
+                    android:layout_marginStart="@dimen/entertainment_thumb_ml"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:scaleType="fitXY"
@@ -62,7 +61,7 @@
                     android:id="@+id/vaiety_thumb3"
                     android:layout_width="@dimen/entertainment_thumb_w"
                     android:layout_height="@dimen/entertainment_thumb_h1"
-                    android:layout_marginLeft="@dimen/entertainment_thumb_ml"
+                    android:layout_marginStart="@dimen/entertainment_thumb_ml"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:scaleType="fitXY"
@@ -81,10 +80,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/vaiety_righttop1"
             android:layout_width="@dimen/entertainment_top_right_item_linear_w"
             android:layout_height="@dimen/entertainment_top_right_item_linear_h"
-            android:layout_marginLeft="@dimen/entertainment_top_right_ml"
+            android:layout_marginStart="@dimen/entertainment_top_right_ml"
             android:background="@drawable/entertainment_item_bg"
             android:clipChildren="false"
             android:clipToPadding="false"
@@ -129,7 +127,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/vaiety_card3"
                 android:layout_width="@dimen/entertainment_top_right_item_w"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vaiety_card1"
@@ -170,10 +167,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/vaiety_righttop2"
             android:layout_width="@dimen/entertainment_top_right_item_linear_w"
             android:layout_height="@dimen/entertainment_top_right_item_linear_h"
-            android:layout_marginLeft="@dimen/entertainment_top_right_ml"
+            android:layout_marginStart="@dimen/entertainment_top_right_ml"
             android:background="@drawable/entertainment_item_bg"
             android:clipChildren="false"
             android:clipToPadding="false"
@@ -217,7 +213,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/vaiety_card4"
                 android:layout_width="@dimen/entertainment_top_right_item_w"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vaiety_card2"
@@ -267,7 +262,6 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:id="@+id/vaiety_channel1"
             android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="wrap_content"
             android:clipChildren="false"
@@ -301,10 +295,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/vaiety_channel2"
             android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/entertainment_bottom_item_space1"
+            android:layout_marginStart="@dimen/entertainment_bottom_item_space1"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">
@@ -336,10 +329,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/vaiety_channel3"
             android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/entertainment_bottom_item_space2"
+            android:layout_marginStart="@dimen/entertainment_bottom_item_space2"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">
@@ -371,10 +363,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/vaiety_channel4"
             android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/entertainment_bottom_item_space2"
+            android:layout_marginStart="@dimen/entertainment_bottom_item_space2"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">

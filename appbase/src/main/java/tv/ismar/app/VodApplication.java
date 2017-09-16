@@ -48,7 +48,6 @@ import tv.ismar.app.util.SPUtils;
 public class VodApplication extends Application {
     public static final boolean DEBUG = true;
     public static final String CACHED_LOG = "cached_log";
-    public static final String PREFERENCE_FILE_NAME = "Daisy";
     private static final int CORE_POOL_SIZE = 5;
     private static final ThreadFactory sThreadFactory =
             new ThreadFactory() {
@@ -58,6 +57,7 @@ public class VodApplication extends Application {
                     return new Thread(r, "GreenDroid thread #" + mCount.getAndIncrement());
                 }
             };
+    private static final String TAG = VodApplication.class.getSimpleName();
     public static String DEVICE_TOKEN = "device_token";
     private static HttpParamsInterceptor mHttpParamsInterceptor;
     private static VodApplication appInstance;
@@ -105,15 +105,11 @@ public class VodApplication extends Application {
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
         Picasso.setSingletonInstance(picasso);
         IsmartvActivator.initialize(this);
-        //        mHttpTrafficInterceptor = new HttpTrafficInterceptor(this);
-        //
-        // mHttpTrafficInterceptor.setTrafficType(HttpTrafficInterceptor.TrafficType.UNLIMITED);
         mHttpParamsInterceptor = new HttpParamsInterceptor.Builder().build();
 
         if (NetworkUtils.isConnected(this)) {
             new Thread(new InitializeProcess(this)).start();
         }
-        Log.i("LH/", "applicationOnCreateEnd:" + TrueTime.now().getTime());
 
         userAgent = Util.getUserAgent(this, "ExoPlayerDemo");
     }
@@ -208,21 +204,11 @@ public class VodApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        int i = 0;
-        while (i < mLowMemoryListeners.size()) {
-            final OnLowMemoryListener listener = mLowMemoryListeners.get(i).get();
-            if (listener == null) {
-                mLowMemoryListeners.remove(i);
-            } else {
-                listener.onLowMemoryReceived();
-                i++;
-            }
-        }
+        Log.e(TAG, "onLowMemory");
     }
 
     @Override
     public void onTrimMemory(int level) {
-        // TODO Auto-generated method stub
         super.onTrimMemory(level);
     }
 
@@ -232,7 +218,6 @@ public class VodApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        Log.i("LH/", "attachBaseContext:" + TrueTime.now().getTime());
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
@@ -262,9 +247,9 @@ public class VodApplication extends Application {
      *
      * @return The application {@link HistoryManager}
      */
-    public static interface OnLowMemoryListener {
+    public  interface OnLowMemoryListener {
 
         /** Callback to be invoked when the system needs memory. */
-        public void onLowMemoryReceived();
+        void onLowMemoryReceived();
     }
 }

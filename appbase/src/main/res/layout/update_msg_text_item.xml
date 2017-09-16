@@ -8,7 +8,7 @@
         android:id="@+id/update_msg_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/app_update_content_margin_left"
+        android:layout_marginStart="@dimen/app_update_content_margin_left"
         android:layout_marginTop="@dimen/app_update_line_margin_"
         android:textColor="#ffffff"
         android:textSize="@dimen/text_size_30sp" />

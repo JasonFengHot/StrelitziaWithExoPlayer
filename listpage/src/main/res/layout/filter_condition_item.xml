@@ -16,6 +16,6 @@
         android:id="@+id/line_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/filter_condition_item_linegroup_ml"
+        android:layout_marginStart="@dimen/filter_condition_item_linegroup_ml"
         android:layout_marginTop="@dimen/filter_condition_item_linegroup_mt"></tv.ismar.app.ui.view.MyViewGroup>
 </RelativeLayout>

@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_head_H"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/list_head_paddingL"
-        android:paddingRight="@dimen/tv_guide_top_section_padding"
+        android:paddingStart="@dimen/list_head_paddingL"
+        android:paddingEnd="@dimen/tv_guide_top_section_padding"
         android:visibility="gone"></tv.ismar.app.widget.LaunchHeaderLayout>
 
     <FrameLayout
@@ -23,8 +23,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/listportait_imageview_h"
-        android:layout_marginLeft="@dimen/divider_blowhead_ML"
-        android:layout_marginRight="@dimen/divider_blowhead_ML"
+        android:layout_marginStart="@dimen/divider_blowhead_ML"
+        android:layout_marginEnd="@dimen/divider_blowhead_ML"
         android:background="@drawable/orderlistdivide"
         android:gravity="center_vertical" />
 

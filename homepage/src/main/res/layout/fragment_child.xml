@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingLeft="@dimen/child_mlr"
-    android:paddingRight="@dimen/child_mlr"
+    android:paddingStart="@dimen/child_mlr"
+    android:paddingEnd="@dimen/child_mlr"
     android:paddingTop="@dimen/child_mt">
 
     <LinearLayout
@@ -19,8 +19,8 @@
         android:id="@+id/center_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/child_top_space"
-        android:layout_toRightOf="@id/left_layout"
+        android:layout_marginStart="@dimen/child_top_space"
+        android:layout_toEndOf="@id/left_layout"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical">
@@ -35,8 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="@dimen/child_img_big_pb"
-                android:paddingLeft="@dimen/child_img_big_plr"
-                android:paddingRight="@dimen/child_img_big_plr"
+                android:paddingStart="@dimen/child_img_big_plr"
+                android:paddingEnd="@dimen/child_img_big_plr"
                 android:paddingTop="@dimen/child_img_big_pt">
 
                 <ImageView
@@ -46,7 +46,6 @@
                     android:scaleType="fitXY" />
 
                 <LinearLayout
-                    android:id="@+id/indicator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -121,17 +120,17 @@
         android:id="@+id/right_layout"
         android:layout_width="@dimen/child_img_small_w"
         android:layout_height="@dimen/child_right_h"
-        android:layout_marginLeft="@dimen/child_top_space"
-        android:layout_toRightOf="@id/center_layout"
+        android:layout_marginStart="@dimen/child_top_space"
+        android:layout_toEndOf="@id/center_layout"
         android:orientation="vertical" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/right_layout"
-        android:layout_marginLeft="@dimen/child_more_ml"
+        android:layout_marginStart="@dimen/child_more_ml"
         android:layout_marginTop="@dimen/child_more_mt"
-        android:layout_toRightOf="@id/center_layout"
+        android:layout_toEndOf="@id/center_layout"
         android:clipChildren="false"
         android:clipToPadding="false">
 

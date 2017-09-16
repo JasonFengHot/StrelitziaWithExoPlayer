@@ -14,7 +14,7 @@
         android:id="@+id/player_pause_close"
         android:layout_width="@dimen/pause_ad_btn_wh"
         android:layout_height="@dimen/pause_ad_btn_wh"
-        android:layout_alignRight="@id/player_pause_image"
+        android:layout_alignEnd="@id/player_pause_image"
         android:layout_alignTop="@id/player_pause_image"
         android:background="@drawable/ad_close_bt" />
 

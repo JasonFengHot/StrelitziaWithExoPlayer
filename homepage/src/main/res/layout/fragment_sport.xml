@@ -8,7 +8,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/section_one"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/sport_top_h"
         android:clipChildren="false"
@@ -20,7 +19,7 @@
             android:layout_width="@dimen/sport_top_center_w"
             android:layout_height="@dimen/sport_top_h"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/sport_top_space"
+            android:layout_marginStart="@dimen/sport_top_space"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:nextFocusLeft="@+id/sport_card1"
@@ -98,8 +97,8 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/sport_top_h"
             android:layout_alignTop="@id/sportspost"
-            android:layout_marginLeft="@dimen/sport_top_space1"
-            android:layout_toRightOf="@+id/sportspost"
+            android:layout_marginStart="@dimen/sport_top_space1"
+            android:layout_toEndOf="@+id/sportspost"
             android:clipChildren="false"
             android:clipToPadding="false">
 
@@ -111,7 +110,6 @@
                 android:clipToPadding="false">
 
                 <RelativeLayout
-                    android:id="@+id/sec_one_list_2"
                     android:layout_width="@dimen/sport_top_item_w"
                     android:layout_height="wrap_content"
                     android:clipChildren="false"
@@ -207,7 +205,6 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:id="@+id/sport_channel1"
             android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="wrap_content"
             android:clipChildren="false"
@@ -240,10 +237,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/sport_channel2"
             android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/entertainment_bottom_item_space1"
+            android:layout_marginStart="@dimen/entertainment_bottom_item_space1"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">
@@ -274,10 +270,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/sport_channel3"
             android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/entertainment_bottom_item_space2"
+            android:layout_marginStart="@dimen/entertainment_bottom_item_space2"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">
@@ -308,10 +303,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/sport_channel4"
             android:layout_width="@dimen/entertainment_bottom_item_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/entertainment_bottom_item_space2"
+            android:layout_marginStart="@dimen/entertainment_bottom_item_space2"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">

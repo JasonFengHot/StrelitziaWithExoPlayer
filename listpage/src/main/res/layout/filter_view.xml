@@ -16,8 +16,8 @@
             android:id="@+id/filtermenulayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/filter_view_filtermenu_layout_ml"
-            android:layout_marginRight="@dimen/filter_view_filtermenu_layout_mr"
+            android:layout_marginStart="@dimen/filter_view_filtermenu_layout_ml"
+            android:layout_marginEnd="@dimen/filter_view_filtermenu_layout_mr"
             android:orientation="vertical"
             android:paddingTop="@dimen/filter_view_filtermenu_layout_pt"></LinearLayout>
 
@@ -26,15 +26,15 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/filmitem_portrait_filter_divider_h"
-        android:layout_marginLeft="@dimen/filter_view_filtermenulayout_ml"
-        android:layout_marginRight="@dimen/filter_view_filtermenulayout_ml"
+        android:layout_marginStart="@dimen/filter_view_filtermenulayout_ml"
+        android:layout_marginEnd="@dimen/filter_view_filtermenulayout_ml"
         android:background="@drawable/filter_divider" />
 
     <Button
         android:id="@+id/filter_submit"
         android:layout_width="@dimen/filter_view_filtersubmit_w"
         android:layout_height="@dimen/filter_view_filtersubmit_h"
-        android:layout_marginLeft="@dimen/filter_view_filtersubmit_ml"
+        android:layout_marginStart="@dimen/filter_view_filtersubmit_ml"
         android:layout_marginTop="@dimen/filter_view_filtersubmit_mt"
         android:background="@drawable/filter_btn_selector"
         android:focusable="true"

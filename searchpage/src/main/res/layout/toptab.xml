@@ -3,7 +3,7 @@
     android:id="@+id/scrowview"
     android:layout_width="@dimen/scrowview_width"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/scrowview_margin_left"
+    android:layout_marginStart="@dimen/scrowview_margin_left"
     android:layout_marginTop="@dimen/scrowview_margin_top"
     android:scrollbars="none">
 

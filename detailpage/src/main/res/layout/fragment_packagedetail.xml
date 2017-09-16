@@ -25,7 +25,6 @@
             android:visibility="invisible">
 
             <ImageView
-                android:id="@+id/vod_payment_intro_unactive_background"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:scaleType="center"
@@ -33,16 +32,14 @@
                 android:visibility="invisible" />
 
             <RelativeLayout
-                android:id="@+id/vod_payment_package_details_container"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginLeft="@dimen/vod_payment_package_details_container_ML"
+                android:layout_marginStart="@dimen/vod_payment_package_details_container_ML"
                 android:layout_marginTop="@dimen/vod_payment_package_details_container_MT"
                 android:orientation="vertical"
                 android:visibility="visible">
 
                 <TextView
-                    android:id="@+id/vod_payment_packageDescrible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="礼包详情"
@@ -81,10 +78,9 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/vod_payment_package_posterAndBuyBotton_container"
                 android:layout_width="@dimen/vod_payment_package_posterAndBuyBotton_container_W"
                 android:layout_height="@dimen/vod_payment_package_posterAndBuyBotton_container_H"
-                android:layout_marginLeft="@dimen/vod_payment_package_posterAndBuyBotton_container_ML"
+                android:layout_marginStart="@dimen/vod_payment_package_posterAndBuyBotton_container_ML"
                 android:layout_marginTop="@dimen/vod_payment_package_posterAndBuyBotton_container_MT"
                 android:visibility="visible">
 
@@ -92,8 +88,8 @@
                     android:id="@+id/vod_payment_poster"
                     android:layout_width="@dimen/vod_payment_poster_W"
                     android:layout_height="@dimen/vod_payment_poster_H"
-                    android:layout_marginLeft="@dimen/vod_payment_poster_MLR"
-                    android:layout_marginRight="@dimen/vod_payment_poster_MLR"
+                    android:layout_marginStart="@dimen/vod_payment_poster_MLR"
+                    android:layout_marginEnd="@dimen/vod_payment_poster_MLR"
                     android:background="@drawable/preview_img_bg"
                     android:focusable="false"
                     android:padding="@dimen/item_detail_previewimgview_padding"
@@ -103,20 +99,19 @@
                     android:id="@+id/isbuy_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/vod_payment_poster"
+                    android:layout_alignEnd="@id/vod_payment_poster"
                     android:layout_alignTop="@id/vod_payment_poster"
-                    android:layout_marginRight="@dimen/item_detail_detailquality_marginright"
+                    android:layout_marginEnd="@dimen/item_detail_detailquality_marginright"
                     android:layout_marginTop="@dimen/item_detail_detailquality_margintop"
                     android:background="@drawable/package_buyed_bg"
                     android:visibility="gone" />
 
                 <ImageView
-                    android:id="@+id/quality_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/vod_payment_poster"
+                    android:layout_alignEnd="@id/vod_payment_poster"
                     android:layout_alignTop="@id/vod_payment_poster"
-                    android:layout_marginRight="@dimen/item_detail_detailquality_marginright"
+                    android:layout_marginEnd="@dimen/item_detail_detailquality_marginright"
                     android:layout_marginTop="@dimen/item_detail_detailquality_margintop"
                     android:visibility="gone" />
 
@@ -136,7 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/vod_payment_price_MT"
-                    android:layout_toRightOf="@id/vod_payment_price"
+                    android:layout_toEndOf="@id/vod_payment_price"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:singleLine="true"
@@ -148,7 +143,7 @@
                 android:id="@+id/vod_payment_buyButton"
                 android:layout_width="@dimen/vod_payment_buyButton_W"
                 android:layout_height="@dimen/vod_payment_buyButton_H"
-                android:layout_marginLeft="@dimen/vod_payment_buyButton_ML"
+                android:layout_marginStart="@dimen/vod_payment_buyButton_ML"
                 android:layout_marginTop="@dimen/vod_payment_buyButton_MT"
                 android:background="@drawable/daisy_btn_bg_selector"
                 android:gravity="center"
@@ -162,7 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/vod_payment_package_title_ML"
+                android:layout_marginStart="@dimen/vod_payment_package_title_ML"
                 android:layout_marginTop="@dimen/vod_payment_package_title_MT"
                 android:text="礼包内容"
                 android:textColor="#ffffffff"
@@ -171,7 +166,7 @@
             <ImageView
                 android:layout_width="@dimen/package_detail_divider_W"
                 android:layout_height="@dimen/package_detail_divider_H"
-                android:layout_marginLeft="@dimen/vod_payment_package_title_ML"
+                android:layout_marginStart="@dimen/vod_payment_package_title_ML"
                 android:layout_marginTop="@dimen/package_detail_divider_cMT"
                 android:background="#6609638e" />
 
@@ -179,7 +174,7 @@
                 android:id="@+id/vod_payment_item_of_package_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/vod_payment_item_of_package_container_ML"
+                android:layout_marginStart="@dimen/vod_payment_item_of_package_container_ML"
                 android:layout_marginTop="@dimen/vod_payment_item_of_package_container_MT"
                 android:focusable="true" />
 
@@ -187,7 +182,7 @@
                 android:id="@+id/vod_payment_item_more"
                 android:layout_width="@dimen/vod_payment_item_more_W"
                 android:layout_height="@dimen/vod_payment_item_more_H"
-                android:layout_marginLeft="@dimen/vod_payment_item_more_ML"
+                android:layout_marginStart="@dimen/vod_payment_item_more_ML"
                 android:layout_marginTop="@dimen/vod_payment_item_more_MT"
                 android:background="@drawable/daisy_btn_bg_selector"
                 android:nextFocusUp="@id/vod_payment_item_of_package_container"
@@ -203,14 +198,14 @@
             android:id="@+id/detail_right_container"
             android:layout_width="@dimen/item_detail_right_container_width"
             android:layout_height="match_parent"
-            android:gravity="left"
+            android:gravity="start"
             android:orientation="vertical"
             android:visibility="invisible">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/item_detail_related_video_label_left"
+                android:layout_marginStart="@dimen/item_detail_related_video_label_left"
                 android:layout_marginTop="@dimen/item_detail_related_video_label_topnew"
                 android:text="关联视频"
                 android:textColor="#FFBBBBBB"
@@ -220,7 +215,7 @@
                 android:layout_width="@dimen/item_detail_related_divider_width"
                 android:layout_height="@dimen/item_detail_related_divider_height"
                 android:layout_marginBottom="@dimen/item_detail_related_divider_marginbottom"
-                android:layout_marginLeft="@dimen/item_detail_related_divider_marginleft"
+                android:layout_marginStart="@dimen/item_detail_related_divider_marginleft"
                 android:layout_marginTop="@dimen/item_detail_related_divider_margintop"
                 android:src="@drawable/related_divider" />
 
@@ -231,7 +226,6 @@
                 android:orientation="vertical"></LinearLayout>
 
             <Button
-                android:id="@+id/more_content"
                 android:layout_width="@dimen/item_detail_more_content_width"
                 android:layout_height="@dimen/item_detail_more_content_height"
                 android:layout_gravity="center_horizontal"

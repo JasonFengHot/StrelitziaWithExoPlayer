@@ -4,8 +4,8 @@
     android:layout_height="@dimen/menu_item_layout_H"
     android:clickable="false"
     android:focusable="false"
-    android:gravity="left"
-    android:paddingLeft="@dimen/menu_item_layout_PL">
+    android:gravity="start"
+    android:paddingStart="@dimen/menu_item_layout_PL">
 
     <TextView
         android:id="@+id/Menucheckbox"
@@ -13,7 +13,7 @@
         android:layout_height="fill_parent"
         android:clickable="false"
         android:focusable="false"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:text="√"
         android:textColor="@android:color/white"
         android:textSize="@dimen/menu_item_menutext_textsize"
@@ -23,7 +23,7 @@
         android:id="@+id/MenuText"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="@dimen/menu_item_menutext_marginleft"
+        android:layout_marginStart="@dimen/menu_item_menutext_marginleft"
         android:clickable="false"
         android:focusable="false"
         android:gravity="center"

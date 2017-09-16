@@ -110,16 +110,12 @@ public class HomeItemContainer extends FrameLayout {
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-        if (gainFocus) {
-            isDrawBorder = true;
-            //			bringToFront();
-            //			getRootView().requestLayout();
-            //			getRootView().invalidate();
-            //			zoomOut();
-        } else {
-            isDrawBorder = false;
-            //			zoomIn();
-        }
+        //			bringToFront();
+//			getRootView().requestLayout();
+//			getRootView().invalidate();
+//			zoomOut();
+//			zoomIn();
+        isDrawBorder = gainFocus;
     }
 
     private void zoomIn() {

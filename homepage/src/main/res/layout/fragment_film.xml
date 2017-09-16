@@ -33,8 +33,8 @@
             android:id="@+id/film_post_layout"
             android:layout_width="@dimen/film_top_middle_w"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/film_top_middle_ml"
-            android:layout_toRightOf="@id/film_lefttop_image"
+            android:layout_marginStart="@dimen/film_top_middle_ml"
+            android:layout_toEndOf="@id/film_lefttop_image"
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -61,8 +61,8 @@
                 android:layout_height="@dimen/film_top_text_h"
                 android:layout_gravity="bottom|center"
                 android:background="@color/color_alpha_black"
-                android:gravity="left|center"
-                android:paddingLeft="@dimen/film_top_text_pl"
+                android:gravity="start|center"
+                android:paddingStart="@dimen/film_top_text_pl"
                 android:textSize="@dimen/text_size_36sp"
                 android:visibility="gone" />
         </tv.ismar.homepage.widget.HomeItemContainer>
@@ -70,8 +70,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/film_carousel_ml"
-            android:layout_toRightOf="@id/film_post_layout"
+            android:layout_marginStart="@dimen/film_carousel_ml"
+            android:layout_toEndOf="@id/film_post_layout"
             android:clipChildren="false"
             android:clipToPadding="false">
 
