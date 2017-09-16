@@ -17,7 +17,7 @@ public interface HistoryManager {
      *
      * @param history
      */
-    public void addHistory(History history, String isnet, int completePosition);
+    void addHistory(History history, String isnet, int completePosition);
 
     /**
      * Add a history. Called by player when user exits player.Note that url may be an field of
@@ -33,7 +33,7 @@ public interface HistoryManager {
      *     pass 0 instead of the played position.
      */
     @Deprecated
-    public void addHistory(String title, String url, long currentPosition, String isnet);
+    void addHistory(String title, String url, long currentPosition, String isnet);
 
     /**
      * Get a history object according given url.
@@ -41,28 +41,28 @@ public interface HistoryManager {
      * @param url, the url which can get an item contain this.
      * @return a {@link History} object.
      */
-    public History getHistoryByUrl(String url, String isnet);
+    History getHistoryByUrl(String url, String isnet);
 
     /**
      * Get all histories.
      *
      * @return an ArrayList of History.
      */
-    public ArrayList<History> getAllHistories(String isnet);
+    ArrayList<History> getAllHistories(String isnet);
 
     /**
      * Delete a history entry in database by url
      *
      * @param url
      */
-    public void deleteHistory(String url, String isnet);
+    void deleteHistory(String url, String isnet);
 
     /** Delete all histories in database */
-    public void deleteAll(String isnet);
+    void deleteAll(String isnet);
 
     /** Add or update only one DBQuality */
-    public void addOrUpdateQuality(DBQuality quality);
+    void addOrUpdateQuality(DBQuality quality);
 
     /** get user DBQuality */
-    public DBQuality getQuality();
+    DBQuality getQuality();
 }

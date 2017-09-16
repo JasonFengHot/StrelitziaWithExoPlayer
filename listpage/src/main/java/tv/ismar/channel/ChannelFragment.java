@@ -297,7 +297,7 @@ public class ChannelFragment extends Fragment
                         @Override
                         public boolean onKey(View v, int keyCode, KeyEvent event) {
                             Log.i("onkeycode", keyCode + "");
-                            if (keyCode == event.KEYCODE_DPAD_RIGHT) {
+                            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                                 //                        mHGridView.setFocusableInTouchMode(true);
                                 //                        mHGridView.setFocusable(true);
                                 mHGridView

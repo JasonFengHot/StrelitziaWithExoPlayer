@@ -676,11 +676,7 @@ public class DetailPageFragment extends Fragment
             Calendar startCalendar =
                     new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
             startCalendar.setTime(mItemEntity.getStartTime());
-            if (currentCalendar.after(startCalendar)) {
-                return true;
-            } else {
-                return false;
-            }
+            return currentCalendar.after(startCalendar);
         } else {
             return true;
         }

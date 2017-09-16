@@ -17,8 +17,8 @@
         android:id="@+id/tmp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/usercenter_horizontal_divider_line_height"
-        android:layout_marginStart="@dimen/horizontal_divider_ml"
         android:layout_marginEnd="@dimen/horizontal_divider_mr"
+        android:layout_marginStart="@dimen/horizontal_divider_ml"
         android:focusable="false"
         android:scaleType="fitXY"
         android:src="@drawable/horizontal_divider_line" />
@@ -29,8 +29,8 @@
         android:layout_height="@dimen/episode_header_height"
         android:layout_marginTop="@dimen/episode_post_mt"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/drama_main_layout_PL"
-        android:paddingEnd="@dimen/drama_main_layout_PR">
+        android:paddingEnd="@dimen/drama_main_layout_PR"
+        android:paddingStart="@dimen/drama_main_layout_PL">
 
         <RelativeLayout
             android:layout_width="@dimen/drama_main_img_layout_W"
@@ -121,8 +121,8 @@
             android:id="@+id/episode_zgridview"
             android:layout_width="match_parent"
             android:layout_height="@dimen/epsisode_recycler_height"
-            android:layout_marginStart="@dimen/epsisode_recycler_ml"
             android:layout_marginEnd="@dimen/epsisode_recycler_mr"
+            android:layout_marginStart="@dimen/epsisode_recycler_ml"
             android:layout_marginTop="@dimen/epsisode_recycler_mt"
             android:descendantFocusability="afterDescendants"
             android:focusable="true"

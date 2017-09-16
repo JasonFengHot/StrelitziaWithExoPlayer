@@ -132,6 +132,7 @@ public class Metadata {
     public static final int DATE_VAL = 6;
     /** {@hide} */
     public static final int BYTE_ARRAY_VAL = 7;
+
     private static final int LAST_SYSTEM = 31;
     private static final int FIRST_CUSTOM = 8192;
     // FIXME: misses a type for shared heap is missing (MemoryFile).

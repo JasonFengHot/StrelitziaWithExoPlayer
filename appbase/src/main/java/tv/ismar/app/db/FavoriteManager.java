@@ -10,16 +10,16 @@ public interface FavoriteManager {
      *
      * @param favorite ,this object should guaranty all fields not null.
      */
-    public void addFavorite(Favorite favorite, String isnet);
+    void addFavorite(Favorite favorite, String isnet);
 
     @Deprecated
-    public void addFavorite(String title, String url, String content_model, String isnet);
+    void addFavorite(String title, String url, String content_model, String isnet);
 
-    public Favorite getFavoriteByUrl(String url, String isnet);
+    Favorite getFavoriteByUrl(String url, String isnet);
 
-    public ArrayList<Favorite> getAllFavorites(String isnet);
+    ArrayList<Favorite> getAllFavorites(String isnet);
 
-    public void deleteFavoriteByUrl(String url, String isnet);
+    void deleteFavoriteByUrl(String url, String isnet);
 
-    public void deleteAll(String isnet);
+    void deleteAll(String isnet);
 }

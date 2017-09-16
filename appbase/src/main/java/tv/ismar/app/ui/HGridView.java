@@ -74,6 +74,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
     protected AdapterDataSetObserver mDataSetObserver;
     /** The drawable used to draw the selector */
     protected Drawable mSelector;
+
     protected int mMeasuredHeight;
     View[] afterview;
     View[] preview;
@@ -90,6 +91,7 @@ public class HGridView extends AdapterView<HGridAdapter> {
     private int mRows;
     /** The position in adapter which is the first child of current list. */
     private int mFirstPosition;
+
     private int mMaxColumn;
     private Rect mListPadding = new Rect();
     private int mSelectionLeftPadding;
@@ -101,9 +103,11 @@ public class HGridView extends AdapterView<HGridAdapter> {
     private int mHorizontalSpacing;
     /** The vertical space between each item. */
     private int mVerticalSpace;
+
     private int mRowHeight;
     /** current layout mode. */
     private int mLayoutMode = LAYOUT_NORMAL;
+
     private boolean mDataChanged = false;
     private View mReferenceViewInSelectedColumn = null;
     private View mReferenceView = null;
@@ -120,9 +124,11 @@ public class HGridView extends AdapterView<HGridAdapter> {
      * rectangle).
      */
     private Rect mLabelDrawableOffset = new Rect();
+
     private Rect mLabelBackgroundDrawableOffset = new Rect();
     /** Store the label text paint */
     private Paint mLabelTextPaint;
+
     private Rect mLabelTextMargin = new Rect();
     private int mMinSingleTextHeight = 0;
     private int mMinSingleTextWidth = 0;
@@ -2408,16 +2414,16 @@ public class HGridView extends AdapterView<HGridAdapter> {
          * The view is not scrolling. Note navigating the list using the trackball counts as being
          * in the idle state since these transitions are not animated.
          */
-        public static int SCROLL_STATE_IDLE = 0;
+        int SCROLL_STATE_IDLE = 0;
 
         /** The user is scrolling using touch, and their finger is still on the screen */
-        public static int SCROLL_STATE_TOUCH_SCROLL = 1;
+        int SCROLL_STATE_TOUCH_SCROLL = 1;
 
         /**
          * The user had previously been scrolling using touch and had performed a fling. The
          * animation is now coasting to a stop
          */
-        public static int SCROLL_STATE_FLING = 2;
+        int SCROLL_STATE_FLING = 2;
 
         /**
          * Callback method to be invoked while the grid view is being scrolled. If the view is being
@@ -2429,9 +2435,9 @@ public class HGridView extends AdapterView<HGridAdapter> {
          * @param scrollState The current scroll state. One of {@link #SCROLL_STATE_IDLE}, {@link
          *     #SCROLL_STATE_TOUCH_SCROLL} or {@link #SCROLL_STATE_IDLE}.
          */
-        public static int SCROLL_STATE_FOCUS_MOVING = 4;
+        int SCROLL_STATE_FOCUS_MOVING = 4;
 
-        public void onScrollStateChanged(HGridView view, int scrollState);
+        void onScrollStateChanged(HGridView view, int scrollState);
 
         /**
          * Callback method to be invoked when the list or grid has been scrolled. This will be
@@ -2443,11 +2449,12 @@ public class HGridView extends AdapterView<HGridAdapter> {
          * @param visibleItemCount the number of visible cells
          * @param totalItemCount the number of items in the list adaptor
          */
-        public void onScroll(
+        void onScroll(
                 HGridView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
     }
+
     public interface OnHoverListener {
-        public boolean onHover(View v, MotionEvent event, int index);
+        boolean onHover(View v, MotionEvent event, int index);
     }
 
     public static class LayoutParams extends ViewGroup.LayoutParams {

@@ -323,16 +323,19 @@ public class ScrollableSectionList extends HorizontalScrollView {
                     }
                 }
             };
+
     public ScrollableSectionList(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
         initialize();
     }
+
     public ScrollableSectionList(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         initialize();
     }
+
     public ScrollableSectionList(Context context) {
         super(context);
         mContext = context;
@@ -900,7 +903,7 @@ public class ScrollableSectionList extends HorizontalScrollView {
      * @author bob
      */
     public interface OnSectionSelectChangedListener {
-        public void onSectionSelectChanged(int index);
+        void onSectionSelectChanged(int index);
     }
 
     class MyTimerTask extends TimerTask {

@@ -84,10 +84,8 @@ public class History implements Serializable, Comparable<History> {
         content_model = c.getString(c.getColumnIndex(DBFields.HistroyTable.CONTENT_MODEL));
         quality = c.getInt(c.getColumnIndex(DBFields.HistroyTable.QUALITY));
         last_quality = c.getInt(c.getColumnIndex(DBFields.HistroyTable.LAST_QUALITY));
-        is_complex =
-                c.getInt(c.getColumnIndex(DBFields.HistroyTable.IS_COMPLEX)) == 0 ? false : true;
-        is_continue =
-                c.getInt(c.getColumnIndex(DBFields.HistroyTable.IS_CONTINUE)) == 0 ? false : true;
+        is_complex = c.getInt(c.getColumnIndex(DBFields.HistroyTable.IS_COMPLEX)) != 0;
+        is_continue = c.getInt(c.getColumnIndex(DBFields.HistroyTable.IS_CONTINUE)) != 0;
         last_played_time = c.getLong(c.getColumnIndex(DBFields.HistroyTable.LAST_PLAY_TIME));
         last_position = c.getLong(c.getColumnIndex(DBFields.HistroyTable.LAST_POSITION));
         sub_url = c.getString(c.getColumnIndex(DBFields.HistroyTable.SUB_URL));

@@ -251,6 +251,6 @@ public class ChannelListActivity extends BaseActivity {
     }
 
     public interface OnMenuToggleListener {
-        public void OnMenuToggle();
+        void OnMenuToggle();
     }
 }

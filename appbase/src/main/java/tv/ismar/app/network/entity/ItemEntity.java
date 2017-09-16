@@ -91,8 +91,10 @@ public class ItemEntity {
 
     private String subtitle;
     private boolean renew_buy;
+
     @SerializedName("start_time")
     private Date startTime;
+
     private List<ItemEntity> items;
 
     public boolean isRenew_buy() {
@@ -469,8 +471,10 @@ public class ItemEntity {
         private String[][] actor;
         private String[][] guest;
         private String[][] emcee;
+
         @SerializedName("air_date")
         private String airDate;
+
         private String[] area;
 
         public String getClassification() {

@@ -38,7 +38,7 @@ public class BindedCdnEntity {
 
         private String add_time;
         private String cdnid;
-        private List cdnid1;
+        private List<? extends Object> cdnid1;
         private List cdnid2;
         private String flag;
         private String remark;
@@ -49,7 +49,7 @@ public class BindedCdnEntity {
             return cdnid1;
         }
 
-        public void setCdnid1(List cdnid1) {
+        public void setCdnid1(List<? extends Object> cdnid1) {
             this.cdnid1 = cdnid1;
         }
 

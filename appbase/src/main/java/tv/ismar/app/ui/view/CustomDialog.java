@@ -79,7 +79,7 @@ public class CustomDialog extends Dialog {
 
             if (mPositiveButtonText != null) {
                 ((Button) layout.findViewById(R.id.positive_button)).setText(mPositiveButtonText);
-                ((Button) layout.findViewById(R.id.positive_button))
+                layout.findViewById(R.id.positive_button)
                         .setOnHoverListener(
                                 new View.OnHoverListener() {
 
@@ -94,7 +94,7 @@ public class CustomDialog extends Dialog {
                                     }
                                 });
             }
-            ((Button) layout.findViewById(R.id.positive_button))
+            layout.findViewById(R.id.positive_button)
                     .setOnClickListener(
                             new View.OnClickListener() {
 
@@ -105,7 +105,7 @@ public class CustomDialog extends Dialog {
                             });
             if (mNegativeButtonText != null) {
                 ((Button) layout.findViewById(R.id.negative_btn)).setText(mNegativeButtonText);
-                ((Button) layout.findViewById(R.id.positive_button))
+                layout.findViewById(R.id.positive_button)
                         .setOnHoverListener(
                                 new View.OnHoverListener() {
 
@@ -121,7 +121,7 @@ public class CustomDialog extends Dialog {
                                 });
             }
             if (mNegativeListener != null) {
-                ((Button) layout.findViewById(R.id.negative_btn))
+                layout.findViewById(R.id.negative_btn)
                         .setOnClickListener(
                                 new View.OnClickListener() {
 

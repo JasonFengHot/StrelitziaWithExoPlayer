@@ -196,11 +196,7 @@ public class PlayerMenu extends PlayerMenuItem {
                                     Log.d(TAG, "click " + item.title);
                                     if (NetworkUtils.isConnected(context)) {
                                         for (PlayerMenuItem sub : curr.subItems) {
-                                            if (sub.id == item.id) {
-                                                sub.selected = true;
-                                            } else {
-                                                sub.selected = false;
-                                            }
+                                            sub.selected = sub.id == item.id;
                                         }
                                     }
                                     if (onCreateMenuListener != null

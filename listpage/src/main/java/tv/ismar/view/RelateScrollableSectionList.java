@@ -257,6 +257,7 @@ public class RelateScrollableSectionList extends HorizontalScrollView {
         super(context, attrs);
         initialize();
     }
+
     public RelateScrollableSectionList(Context context) {
         super(context);
         initialize();
@@ -581,6 +582,6 @@ public class RelateScrollableSectionList extends HorizontalScrollView {
      * @author bob
      */
     public interface OnSectionSelectChangedListener {
-        public void onSectionSelectChanged(int index);
+        void onSectionSelectChanged(int index);
     }
 }

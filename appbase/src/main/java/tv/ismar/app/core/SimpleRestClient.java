@@ -128,11 +128,7 @@ public class SimpleRestClient {
     public static int getItemId(String url, boolean[] isSubItem) {
         int id = 0;
         try {
-            if (url.contains("/item/")) {
-                isSubItem[0] = false;
-            } else {
-                isSubItem[0] = true;
-            }
+            isSubItem[0] = !url.contains("/item/");
             Pattern p = Pattern.compile("/(\\d+)/?$");
             Matcher m = p.matcher(url);
             if (m.find()) {
@@ -148,10 +144,7 @@ public class SimpleRestClient {
     }
 
     public static boolean isLogin() {
-        if ("".equals(IsmartvActivator.getInstance().getAuthToken())) {
-            return false;
-        }
-        return true;
+        return !"".equals(IsmartvActivator.getInstance().getAuthToken());
     }
 
     public Item[] getItems(String str) {
@@ -403,11 +396,11 @@ public class SimpleRestClient {
     }
 
     public interface HttpPostRequestInterface {
-        public void onPrepare();
+        void onPrepare();
 
-        public void onSuccess(String info);
+        void onSuccess(String info);
 
-        public void onFailed(String error);
+        void onFailed(String error);
     }
 
     class GetDataTask extends AsyncTask<RequestParams, Void, String> {

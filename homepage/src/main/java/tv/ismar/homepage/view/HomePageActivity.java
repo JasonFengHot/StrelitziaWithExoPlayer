@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -26,27 +23,16 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -58,27 +44,20 @@ import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.AppConstant;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.VodApplication;
-import tv.ismar.app.ad.AdsUpdateService;
-import tv.ismar.app.ad.AdvertiseManager;
 import tv.ismar.app.core.DaisyUtils;
-import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.core.preferences.AccountSharedPrefs;
-import tv.ismar.app.db.AdvertiseTable;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.service.TrueTimeService;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
-import tv.ismar.app.util.DeviceUtils;
 import tv.ismar.app.util.NetworkUtils;
-import tv.ismar.app.util.SPUtils;
-import tv.ismar.app.util.SystemFileUtil;
 import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.homepage.R;
 import tv.ismar.homepage.adapter.ChannelRecyclerAdapter;
@@ -89,9 +68,7 @@ import tv.ismar.homepage.fragment.ChildFragment;
 import tv.ismar.homepage.fragment.EntertainmentFragment;
 import tv.ismar.homepage.fragment.FilmFragment;
 import tv.ismar.homepage.fragment.GuideFragment;
-import tv.ismar.homepage.fragment.MessageDialogFragment;
 import tv.ismar.homepage.fragment.SportFragment;
-import tv.ismar.homepage.widget.DaisyVideoView;
 import tv.ismar.homepage.widget.Position;
 
 /** Created by huaijie on 5/18/15. */
@@ -120,20 +97,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     private RecyclerView home_tab_list;
     private ChannelRecyclerAdapter recyclerAdapter;
     private List<ChannelEntity> channelEntityList = new ArrayList<>();
-    private DaisyVideoView home_ad_video;
-    private ImageView home_ad_pic;
-    private Button home_ad_timer;
-    private AdvertiseManager advertiseManager;
-    private List<AdvertiseTable> launchAds;
-    private int countAdTime = 0;
-    private int currentImageAdCountDown = 0;
-    private boolean isStartImageCountDown = false;
-    private boolean isPlayingVideo = false;
-    /** advertisement end */
-    private int playIndex;
 
-    private RelativeLayout home_layout_advertisement;
-    private FrameLayout layout_homepage;
     private ImageView home_scroll_left;
     private ImageView home_scroll_right;
     private String homepage_template;
@@ -228,40 +192,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                     switch (msg.what) {
                         case MSG_AD_COUNTDOWN:
                             Log.i(TAG, "ad handler");
-                            if (home_ad_timer == null) {
-                                return;
-                            }
-                            if (!isPlayingVideo && countAdTime == 0) {
-                                mHandler.removeMessages(MSG_AD_COUNTDOWN);
-                                goNextPage();
-                                return;
-                            }
-                            if (home_ad_timer.getVisibility() != View.VISIBLE) {
-                                home_ad_timer.setVisibility(View.VISIBLE);
-                            }
-                            home_ad_timer.setTextColor(Color.WHITE);
-                            home_ad_timer.setText(countAdTime + "s");
-                            int refreshTime;
-                            if (!isPlayingVideo) {
-                                refreshTime = 1000;
-                                if (currentImageAdCountDown == 0 && !isStartImageCountDown) {
-                                    currentImageAdCountDown = launchAds.get(playIndex).duration;
-                                    isStartImageCountDown = true;
-                                } else {
-                                    if (currentImageAdCountDown == 0) {
-                                        playIndex += 1;
-                                        playLaunchAd(playIndex);
-                                        isStartImageCountDown = false;
-                                    } else {
-                                        currentImageAdCountDown--;
-                                    }
-                                }
-                                countAdTime--;
-                            } else {
-                                refreshTime = 500;
-                                countAdTime = getAdCountDownTime();
-                            }
-                            sendEmptyMessageDelayed(MSG_AD_COUNTDOWN, refreshTime);
                             break;
                         case MSG_FETCH_CHANNELS:
                             fetchChannels();
@@ -275,33 +205,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         case MSG_SHOW_NET_ERROR:
                             break;
                     }
-                }
-            };
-    private MediaPlayer.OnPreparedListener onPreparedListener =
-            new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    home_ad_video.start();
-                    if (playIndex == 0) {
-                        mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
-                    }
-                }
-            };
-    private MediaPlayer.OnCompletionListener onCompletionListener =
-            new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    Log.i(TAG, "OnCompletionListener");
-                    if (isFinishing()) {
-                        return;
-                    }
-                    if (playIndex == launchAds.size() - 1) {
-                        mHandler.removeMessages(MSG_AD_COUNTDOWN);
-                        goNextPage();
-                        return;
-                    }
-                    playIndex += 1;
-                    playLaunchAd(playIndex);
                 }
             };
 
@@ -413,35 +316,8 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         homepage_template = getIntent().getStringExtra("homepage_template");
         homepage_url = getIntent().getStringExtra("homepage_url");
 
-        /** advertisement start */
-        home_layout_advertisement = (RelativeLayout) findViewById(R.id.home_layout_advertisement);
-        layout_homepage = (FrameLayout) findViewById(R.id.layout_homepage);
-        home_ad_video = (DaisyVideoView) findViewById(R.id.home_ad_video);
-        home_ad_pic = (ImageView) findViewById(R.id.home_ad_pic);
-        home_ad_timer = (Button) findViewById(R.id.home_ad_timer);
-
-        advertiseManager = new AdvertiseManager(getApplicationContext());
-        launchAds = advertiseManager.getAppLaunchAdvertisement();
-        for (AdvertiseTable tab : launchAds) {
-            totalAdsMills = totalAdsMills + tab.duration * 1000;
-        }
-        for (AdvertiseTable adTable : launchAds) {
-            int duration = adTable.duration;
-            Log.d("LH/", "GetStartAd:" + adTable.location);
-            countAdTime += duration;
-        }
-
-        /** advertisement end */
         initViews();
         tempInitStaticVariable();
-        Properties sysProperties = new Properties();
-        try {
-            InputStream is = getAssets().open("configure/setup.properties");
-            sysProperties.load(is);
-            brandName = sysProperties.getProperty("platform");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         large_layout = (FrameLayout) findViewById(R.id.large_layout);
         bitmapDecoder = new BitmapDecoder();
@@ -454,55 +330,13 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         large_layout.setBackground(bitmapDrawable);
                         bitmapDecoder = null;
                         if (TextUtils.isEmpty(homepage_url)) {
-                            playLaunchAd(0);
 
                             mHandler.sendEmptyMessageDelayed(MSG_FETCH_CHANNELS, 1000);
                         }
                     }
                 });
-
-        if (!TextUtils.isEmpty(homepage_url)) {
-            home_layout_advertisement.setVisibility(View.GONE);
-            large_layout.removeView(home_layout_advertisement);
-            layout_homepage.setVisibility(View.VISIBLE);
-            BaseActivity.baseChannel = "";
-            BaseActivity.baseSection = "";
-            fetchChannels();
-            startAdsService();
-        }
-        //        startIntervalActive();
-
-        final String fromPage = getIntent().getStringExtra("fromPage");
+        fetchChannels();
         app_start_time = TrueTime.now().getTime();
-        final CallaPlay callaPlay = new CallaPlay();
-        if (fromPage != null) {
-            callaPlay.launcher_vod_click("section", -1, homepage_template, -1);
-        }
-        new Thread() {
-            @Override
-            public void run() {
-                // 日志上报
-                String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
-                String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
-                String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
-                callaPlay.app_start(
-                        IsmartvActivator.getInstance().getSnToken(),
-                        VodUserAgent.getModelName(),
-                        DeviceUtils.getScreenInch(HomePageActivity.this),
-                        android.os.Build.VERSION.RELEASE,
-                        SimpleRestClient.appVersion,
-                        SystemFileUtil.getSdCardTotal(HomePageActivity.this),
-                        SystemFileUtil.getSdCardAvalible(HomePageActivity.this),
-                        IsmartvActivator.getInstance().getUsername(),
-                        province,
-                        city,
-                        isp,
-                        fromPage,
-                        DeviceUtils.getLocalMacAddress(HomePageActivity.this),
-                        SimpleRestClient.app,
-                        getPackageName());
-            }
-        }.start();
     }
 
     private void initViews() {
@@ -834,14 +668,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
 
     @Override
     public void onBackPressed() {
-        if (countAdTime > 0) {
-            if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
-                mHandler.removeMessages(MSG_AD_COUNTDOWN);
-            }
-            finish();
-        } else {
-            showExitPopup(contentView);
-        }
+        showExitPopup(contentView);
     }
 
     /** fetch channel */
@@ -998,44 +825,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         exitPopup.dismiss();
                     }
                 });
-    }
-
-    private void showNetErrorPopup() {
-        if (neterrorshow) return;
-        final MessageDialogFragment dialog =
-                new MessageDialogFragment(
-                        HomePageActivity.this, getString(R.string.fetch_net_data_error), null);
-        dialog.setButtonText(getString(R.string.setting_network), getString(R.string.i_know));
-        try {
-            dialog.showAtLocation(
-                    getRootView(),
-                    Gravity.CENTER,
-                    new MessageDialogFragment.ConfirmListener() {
-                        @Override
-                        public void confirmClick(View view) {
-                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                            HomePageActivity.this.startActivity(intent);
-                        }
-                    },
-                    new MessageDialogFragment.CancelListener() {
-
-                        @Override
-                        public void cancelClick(View view) {
-                            dialog.dismiss();
-                            neterrorshow = true;
-                        }
-                    });
-            dialog.setOnDismissListener(
-                    new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            neterrorshow = true;
-                        }
-                    });
-            neterrorshow = true;
-        } catch (android.view.WindowManager.BadTokenException e) {
-            e.printStackTrace();
-        }
     }
 
     private void selectChannelByPosition(int position) {
@@ -1401,114 +1190,11 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
     }
 
     /** advertisement start */
-    private void playLaunchAd(final int index) {
-        isPlayingStartAd = true;
-        playIndex = index;
-        if (!launchAds.get(index).location.equals(AdvertiseManager.DEFAULT_ADV_PICTURE)) {
-            new CallaPlay()
-                    .boot_ad_play(
-                            launchAds.get(index).title,
-                            launchAds.get(index).media_id,
-                            launchAds.get(index).media_url,
-                            String.valueOf(launchAds.get(index).duration));
-        }
-        if (launchAds.get(index).media_type.equals(AdvertiseManager.TYPE_VIDEO)) {
-            isPlayingVideo = true;
-        }
-        if (isPlayingVideo) {
-            if (home_ad_video.getVisibility() != View.VISIBLE) {
-                home_ad_pic.setVisibility(View.GONE);
-                home_ad_video.setVisibility(View.VISIBLE);
-            }
-            home_ad_video.setVideoPath(launchAds.get(index).location);
-            home_ad_video.setOnPreparedListener(onPreparedListener);
-            home_ad_video.setOnCompletionListener(onCompletionListener);
-        } else {
-            if (home_ad_pic.getVisibility() != View.VISIBLE) {
-                home_ad_video.setVisibility(View.GONE);
-                home_ad_pic.setVisibility(View.VISIBLE);
-            }
-            Picasso.with(this)
-                    .load(launchAds.get(index).location)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
-                    .into(
-                            home_ad_pic,
-                            new Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    if (playIndex == 0) {
-                                        mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
-                                    }
-                                }
-
-                                @Override
-                                public void onError() {
-                                    Picasso.with(HomePageActivity.this)
-                                            .load("file:///android_asset/poster.png")
-                                            .memoryPolicy(
-                                                    MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                                            .networkPolicy(
-                                                    NetworkPolicy.NO_CACHE, NetworkPolicy.NO_CACHE)
-                                            .into(home_ad_pic);
-                                    if (playIndex == 0) {
-                                        mHandler.sendEmptyMessage(MSG_AD_COUNTDOWN);
-                                    }
-                                }
-                            });
-        }
-    }
-
     @Override
     protected void onStop() {
         Log.i(TAG, "onStop");
         SkyService.ServiceManager.executeActive = true;
         super.onStop();
-    }
-
-    private void goNextPage() {
-        Log.i(TAG, "goNextPage");
-        isPlayingStartAd = false;
-        if (home_ad_video != null) {
-            home_ad_video.stopPlayback();
-            home_ad_video = null;
-        }
-        home_layout_advertisement.setVisibility(View.GONE);
-        large_layout.removeView(home_layout_advertisement);
-        layout_homepage.setVisibility(View.VISIBLE);
-        if (currentFragment != null) {
-            currentFragment.playCarouselVideo();
-        }
-        if (mHandler.hasMessages(MSG_AD_COUNTDOWN)) {
-            mHandler.removeMessages(MSG_AD_COUNTDOWN);
-        }
-        isneedpause = true;
-        if (!NetworkUtils.isConnected(this)) { // 首页有数据缓存
-            showNoNetConnectDialog();
-        }
-        startAdsService();
-    }
-
-    private int getAdCountDownTime() {
-        if (launchAds == null || launchAds.isEmpty() || !isPlayingVideo) {
-            return 0;
-        }
-        int totalAdTime = 0;
-        int currentAd = playIndex;
-        if (currentAd == launchAds.size() - 1) {
-            totalAdTime = launchAds.get(launchAds.size() - 1).duration;
-        } else {
-            for (int i = currentAd; i < launchAds.size(); i++) {
-                totalAdTime += launchAds.get(i).duration;
-            }
-        }
-        return totalAdTime - home_ad_video.getCurrentPosition() / 1000 - 1;
-    }
-
-    private void startAdsService() {
-        Intent intent = new Intent();
-        intent.setClass(this, AdsUpdateService.class);
-        startService(intent);
     }
 
     /** advertisement end */
@@ -1542,20 +1228,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         }
                         break;
                     case SWITCH_PAGE_FROMLAUNCH:
-                        // longhai
-                        //					if (nextselectflag == 0
-                        //							|| (nextselectflag != activity.scroll
-                        //									.getnextSelectPosition())) {
-                        //						channelscrollIndex = channelscrollIndex - 1;
-                        //					}
-                        //
-                        //					nextselectflag = activity.scroll.getnextSelectPosition();
-                        //					activity.scroll.arrowScroll(View.FOCUS_RIGHT);
-                        //					if (channelscrollIndex > 0) {
-                        //						sendEmptyMessage(SWITCH_PAGE_FROMLAUNCH);
-                        //					} else {
-                        //						channelflag = false;
-                        //					}
                         break;
                 }
             }

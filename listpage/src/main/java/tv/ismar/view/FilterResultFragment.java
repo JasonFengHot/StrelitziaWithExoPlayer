@@ -279,9 +279,7 @@ public class FilterResultFragment extends BackHandledFragment
                                             / 1));
             params.gravity = Gravity.CENTER_VERTICAL;
             params.rightMargin =
-                    (int)
-                            (getResources().getDimensionPixelSize(R.dimen.filter_pro_hgride_text_MR)
-                                    / 1);
+                    getResources().getDimensionPixelSize(R.dimen.filter_pro_hgride_text_MR) / 1;
             // params.topMargin = 11;
             container.addView(label, params);
         }

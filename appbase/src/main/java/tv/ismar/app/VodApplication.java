@@ -26,7 +26,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.ismartv.injectdb.library.ActiveAndroid;
 import cn.ismartv.injectdb.library.app.Application;
-import cn.ismartv.truetime.TrueTime;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;
@@ -164,7 +163,6 @@ public class VodApplication extends Application {
         return rate;
     }
 
-
     /**
      * Return an ExecutorService (global to the entire application) that may be used by clients when
      * running long tasks in the background.
@@ -236,7 +234,7 @@ public class VodApplication extends Application {
      *
      * @return The application {@link HistoryManager}
      */
-    public  interface OnLowMemoryListener {
+    public interface OnLowMemoryListener {
 
         /** Callback to be invoked when the system needs memory. */
         void onLowMemoryReceived();

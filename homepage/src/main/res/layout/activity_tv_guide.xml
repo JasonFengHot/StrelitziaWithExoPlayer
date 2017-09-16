@@ -12,7 +12,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:visibility="gone">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,8 +35,8 @@
                     android:id="@+id/home_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/home_container_mlr"
                     android:layout_marginEnd="@dimen/home_container_mlr"
+                    android:layout_marginStart="@dimen/home_container_mlr"
                     android:layout_marginTop="@dimen/home_container_mt"
                     android:clipChildren="false"
                     android:clipToPadding="false" />
@@ -85,40 +85,4 @@
             android:nextFocusUp="@+id/guidefragment_firstpost" />
 
     </FrameLayout>
-
-    <RelativeLayout
-        android:id="@+id/home_layout_advertisement"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <tv.ismar.homepage.widget.DaisyVideoView
-            android:id="@+id/home_ad_video"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/home_ad_pic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/home_ad_timer"
-            android:layout_width="@dimen/ad_timer_wh"
-            android:layout_height="@dimen/ad_timer_wh"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="@dimen/ad_timer_mr"
-            android:layout_marginTop="@dimen/ad_timer_mt"
-            android:background="@drawable/count_down_back"
-            android:enabled="false"
-            android:gravity="center"
-            android:textAllCaps="false"
-            android:textColor="@color/color_base_white"
-            android:textSize="@dimen/text_size_48sp"
-            android:visibility="gone" />
-    </RelativeLayout>
 </FrameLayout>

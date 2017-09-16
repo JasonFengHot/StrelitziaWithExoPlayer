@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/child_img_small_pb"
-        android:paddingStart="@dimen/child_img_small_plr"
         android:paddingEnd="@dimen/child_img_small_plr"
+        android:paddingStart="@dimen/child_img_small_plr"
         android:paddingTop="@dimen/child_img_small_pt">
 
         <ImageView

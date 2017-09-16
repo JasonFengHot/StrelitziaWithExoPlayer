@@ -22,7 +22,7 @@ public class SystemFileUtil {
         String LOCALLOGDIR = "/tv/ismar/daisy";
         // File sdCardDir = Environment.getExternalStorageDirectory();
         // LogPath = sdCardDir+File.separator+LOCALLOGDIR+File.separator+LOGLOCALPATH;
-    };
+    }
 
     public static void readFile(String filePath, Context context) {
 
@@ -83,11 +83,7 @@ public class SystemFileUtil {
     }
 
     public static boolean isCanWriteSD() {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
     public static long getSdCardTotal(final Context context) {

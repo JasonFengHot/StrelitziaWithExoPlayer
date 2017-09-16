@@ -16,8 +16,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="@dimen/related_item_related_preview_img_ML"
         android:paddingBottom="@dimen/related_item_image_paddingbottom"
-        android:paddingStart="@dimen/related_item_image_paddingleft"
         android:paddingEnd="@dimen/related_item_image_paddingright"
+        android:paddingStart="@dimen/related_item_image_paddingleft"
         android:paddingTop="@dimen/related_item_image_paddingtop"
         android:scaleType="fitXY" />
 
@@ -86,8 +86,8 @@
         android:layout_width="@dimen/related_focus_text_width"
         android:layout_height="wrap_content"
         android:layout_below="@id/related_title"
-        android:layout_marginStart="@dimen/related_item_text_marginLeft"
         android:layout_marginEnd="@dimen/related_item_focus_marginright"
+        android:layout_marginStart="@dimen/related_item_text_marginLeft"
         android:layout_toEndOf="@id/related_preview_img"
         android:ellipsize="marquee"
         android:singleLine="true"

@@ -23,6 +23,7 @@ public class ImageLoader {
     private static ExecutorService sExecutor;
     private static BitmapFactory.Options sDefaultOptions;
     private static ImageCache sImageCache;
+
     public ImageLoader(Context context) {
         if (sImageCache == null) {
             sImageCache = DaisyUtils.getImageCache(context);
@@ -57,7 +58,7 @@ public class ImageLoader {
     }
 
     /** @author Cyril Mottier */
-    public static interface ImageLoaderCallback {
+    public interface ImageLoaderCallback {
 
         void onImageLoadingStarted(ImageLoader loader);
 
@@ -174,6 +175,6 @@ public class ImageLoader {
                     super.handleMessage(msg);
                     break;
             }
-        };
+        }
     }
 }

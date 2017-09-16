@@ -503,7 +503,7 @@ public class IsmartvActivator {
     }
 
     public boolean isLogin() {
-        return TextUtils.isEmpty(getUsername()) ? false : true;
+        return !TextUtils.isEmpty(getUsername());
     }
 
     private String generateSn() {

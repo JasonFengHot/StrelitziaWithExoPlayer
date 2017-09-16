@@ -73,6 +73,7 @@ public class AsyncImageView extends ImageView implements ImageRequestCallback {
     private boolean isTopic = false;
     private boolean is_complex;
     private String itemUrl;
+
     public AsyncImageView(Context context) {
         this(context, null);
     }
@@ -428,7 +429,7 @@ public class AsyncImageView extends ImageView implements ImageRequestCallback {
      *
      * @author Cyril Mottier
      */
-    public static interface OnImageViewLoadListener {
+    public interface OnImageViewLoadListener {
 
         /**
          * Called when the image started to load

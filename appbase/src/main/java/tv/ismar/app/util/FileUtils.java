@@ -99,9 +99,7 @@ public class FileUtils {
                 if (!flag) break;
             }
         }
-        if (!flag) return false;
-
-        return true;
+        return flag;
     }
 
     public boolean isFileExist(String filePath) {

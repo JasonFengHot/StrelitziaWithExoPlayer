@@ -68,16 +68,11 @@ public class Util {
                 (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        if (mWifi.isConnected()) {
-            // Do whatever
-            return true;
-        }
-        return false;
+        return mWifi.isConnected();
     }
 
     public static void setBooleanValue(Context context, String key, boolean value) {
         SharedPreferences prefs = context.getSharedPreferences("iamhere", Context.MODE_PRIVATE);
-        ;
         Editor editor = prefs.edit();
         editor.putBoolean(key, value);
         editor.commit();
@@ -85,13 +80,11 @@ public class Util {
 
     public static boolean getBooleanValue(Context context, String key) {
         SharedPreferences prefs = context.getSharedPreferences("iamhere", Context.MODE_PRIVATE);
-        ;
         return prefs.getBoolean(key, false);
     }
 
     public static void setValue(Context context, String key, String value) {
         SharedPreferences prefs = context.getSharedPreferences("iamhere", Context.MODE_PRIVATE);
-        ;
         Editor editor = prefs.edit();
         editor.putString(key, value);
         editor.commit();
@@ -99,7 +92,6 @@ public class Util {
 
     public static String getValue(Context context, String key) {
         SharedPreferences prefs = context.getSharedPreferences("iamhere", Context.MODE_PRIVATE);
-        ;
         return prefs.getString(key, "");
     }
 
@@ -502,11 +494,9 @@ public class Util {
         boolean bool = false;
 
         try {
-            if ((!new File("/system/bin/su").exists()) && (!new File("/system/xbin/su").exists())) {
-                bool = false;
-            } else {
-                bool = true;
-            }
+            bool =
+                    !((!new File("/system/bin/su").exists())
+                            && (!new File("/system/xbin/su").exists()));
         } catch (Exception e) {
 
         }

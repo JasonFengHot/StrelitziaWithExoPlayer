@@ -368,19 +368,11 @@ public class DetailPagePresenter implements DetailPageContract.Presenter {
             favorite = favoriteManager.getFavoriteByUrl(url, "no");
         }
 
-        if (favorite != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return favorite != null;
     }
 
     private boolean isLogin() {
-        if (TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername())) {
-            return false;
-        } else {
-            return true;
-        }
+        return !TextUtils.isEmpty(IsmartvActivator.getInstance().getUsername());
     }
 
     private void deleteFavoriteByNet() {

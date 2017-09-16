@@ -153,6 +153,7 @@ public class NetworkUtils {
     public static final String VIDEO_DRAMALIST_IN = "video_dramalist_in";
     /** 退出剧集列表界面 */
     public static final String VIDEO_DRAMALIST_OUT = "video_dramalist_out";
+
     public static final String FRONT_PAGE_VIDEO = "frontpagevideo";
     /** 用户点击推荐影片 */
     public static final String HOMEPAGE_VOD_CLICK = "homepage_vod_click";
@@ -172,6 +173,7 @@ public class NetworkUtils {
     public static final String APP_START = "app_start";
     /** 应用退出 */
     public static final String APP_EXIT = "app_exit";
+
     public static final String BOOT_AD_PLAY = "boot_ad_play";
     public static final String BOOT_AD_DOWNLOAD = "boot_ad_download";
     public static final String BOOT_AD_EXCEPT = "boot_ad_except";
@@ -181,6 +183,7 @@ public class NetworkUtils {
     public static final String PACKAGE_DETAIL_IN = "package_detail_in";
     /** 详情页缓冲完成 */
     public static final String DETAIL_PLAY_LOAD = "detail_play_load";
+
     private static final String TAG = "NetworkUtils";
     private static final String URL = "http://127.0.0.1:21098/log/track/";
     private static final int BUFFERSIZE = 1024;

@@ -11,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_head_H"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/list_head_paddingL"
         android:paddingEnd="@dimen/list_head_paddingL"
+        android:paddingStart="@dimen/list_head_paddingL"
         android:visibility="gone"></tv.ismar.app.widget.LaunchHeaderLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="@dimen/divider_blowhead_ML"
         android:layout_marginEnd="@dimen/divider_margin_MLR"
+        android:layout_marginStart="@dimen/divider_blowhead_ML"
         android:scaleType="fitXY"
         android:src="@drawable/orderlistdivide" />
 
@@ -90,8 +90,8 @@
             android:id="@+id/section_percentage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/listportait_Hgride_filterverSpace"
-            android:layout_marginStart="@dimen/list_progressBar_margin"
             android:layout_marginEnd="@dimen/list_progressBar_margin"
+            android:layout_marginStart="@dimen/list_progressBar_margin"
             android:indeterminate="false"
             android:indeterminateOnly="false"
             android:maxHeight="@dimen/gridview_main_panel_labelTextMarginBottom"
@@ -135,13 +135,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/filter_result_list_filter_grid_mb"
-            android:layout_marginStart="@dimen/listview_Hgride_ml"
             android:layout_marginEnd="@dimen/filter_result_list_filter_grid_ml"
+            android:layout_marginStart="@dimen/listview_Hgride_ml"
             android:layout_marginTop="@dimen/listview_Hgride_MT"
-            android:layout_toStartOf="@id/right_shadow"
             android:layout_toEndOf="@id/left_shadow"
-            android:paddingStart="@dimen/listportait_Hgride_pl"
+            android:layout_toStartOf="@id/right_shadow"
             android:paddingEnd="@dimen/filter_result_list_filter_grid_pr"
+            android:paddingStart="@dimen/listportait_Hgride_pl"
             android:paddingTop="@dimen/listview_Hgride_PT"
             sakura:horizontalSpacing="@dimen/listview_hgride_horSpace"
             sakura:numRows="3"
@@ -158,8 +158,8 @@
         android:id="@+id/no_video_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/gridview_no_video_container_height"
-        android:layout_marginStart="@dimen/gridview_no_video_container_marginLeft"
         android:layout_marginEnd="@dimen/gridview_no_video_container_marginLeft"
+        android:layout_marginStart="@dimen/gridview_no_video_container_marginLeft"
         android:visibility="gone">
 
         <TextView
@@ -188,8 +188,8 @@
             android:layout_height="@dimen/grid_view_main_recommend_gridview_H"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/grid_view_main_divider_MT"
-            android:layout_marginStart="@dimen/grid_view_main_recommend_txt_PL"
             android:layout_marginEnd="@dimen/grid_view_main_recommend_txt_PL"
+            android:layout_marginStart="@dimen/grid_view_main_recommend_txt_PL"
             sakura:horizontalSpace="@dimen/grid_view_main_horizontalSpace"
             sakura:listSelector="@drawable/vod_gv_selector"
             sakura:numColumns="6"

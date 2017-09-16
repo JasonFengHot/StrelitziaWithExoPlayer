@@ -133,15 +133,15 @@ public class MenuFragment extends DialogFragment implements OnItemClickListener 
     }
 
     public boolean isShowing() {
-        return getDialog() != null ? getDialog().isShowing() : false;
+        return getDialog() != null && getDialog().isShowing();
     }
 
     public interface OnMenuItemClickedListener {
-        public void onMenuItemClicked(MenuItem item);
+        void onMenuItemClicked(MenuItem item);
     }
 
     public interface OnMenuItemClickListener {
-        public void onMenuItemClick();
+        void onMenuItemClick();
     }
 
     public static class MenuItem {

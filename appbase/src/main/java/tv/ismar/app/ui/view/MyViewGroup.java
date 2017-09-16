@@ -129,11 +129,11 @@ public class MyViewGroup extends RadioGroup {
                 int width = child.getMeasuredWidth();
                 int height = child.getMeasuredHeight();
                 x += width + VIEW_MARGIN_X / 1;
-                y = row * (height + (int) (VIEW_MARGIN_Y / 1)) + height;
+                y = row * (height + VIEW_MARGIN_Y / 1) + height;
                 if (x > maxWidth) {
-                    x = width + (int) (VIEW_MARGIN_X / 1);
+                    x = width + VIEW_MARGIN_X / 1;
                     row++;
-                    y = row * (height + (int) (VIEW_MARGIN_Y / 1)) + height;
+                    y = row * (height + VIEW_MARGIN_Y / 1) + height;
                 }
                 child.layout(x - width, y - height, x, y);
             }

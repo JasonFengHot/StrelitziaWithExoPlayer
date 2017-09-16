@@ -516,12 +516,7 @@ public class DetailPageViewModel extends BaseObservable {
     public boolean getEnabled() {
 
         if (mItemEntity.getLiveVideo()) {
-            if (videoIsStart()) {
-
-                return true;
-            } else {
-                return false;
-            }
+            return videoIsStart();
         } else {
             return true;
         }
@@ -645,11 +640,7 @@ public class DetailPageViewModel extends BaseObservable {
             Calendar startCalendar =
                     new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
             startCalendar.setTime(mItemEntity.getStartTime());
-            if (currentCalendar.after(startCalendar)) {
-                return true;
-            } else {
-                return false;
-            }
+            return currentCalendar.after(startCalendar);
         } else {
             return true;
         }

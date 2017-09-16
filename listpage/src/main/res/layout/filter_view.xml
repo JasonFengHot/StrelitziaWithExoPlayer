@@ -16,8 +16,8 @@
             android:id="@+id/filtermenulayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/filter_view_filtermenu_layout_ml"
             android:layout_marginEnd="@dimen/filter_view_filtermenu_layout_mr"
+            android:layout_marginStart="@dimen/filter_view_filtermenu_layout_ml"
             android:orientation="vertical"
             android:paddingTop="@dimen/filter_view_filtermenu_layout_pt"></LinearLayout>
 
@@ -26,8 +26,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/filmitem_portrait_filter_divider_h"
-        android:layout_marginStart="@dimen/filter_view_filtermenulayout_ml"
         android:layout_marginEnd="@dimen/filter_view_filtermenulayout_ml"
+        android:layout_marginStart="@dimen/filter_view_filtermenulayout_ml"
         android:background="@drawable/filter_divider" />
 
     <Button

@@ -46,8 +46,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/entertainment_detail_content_padding_lr"
-                    android:layout_marginEnd="@dimen/entertainment_detail_content_padding_lr">
+                    android:layout_marginEnd="@dimen/entertainment_detail_content_padding_lr"
+                    android:layout_marginStart="@dimen/entertainment_detail_content_padding_lr">
 
                     <TextView
                         android:id="@+id/detail_title"
@@ -387,8 +387,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/entertainment_detail_text_h"
-                android:layout_marginStart="@dimen/entertainment_detail_content_padding_lr"
                 android:layout_marginEnd="@dimen/entertainment_detail_content_padding_lr"
+                android:layout_marginStart="@dimen/entertainment_detail_content_padding_lr"
                 android:layout_marginTop="@dimen/entertainment_detail_detail_mt"
                 android:ellipsize="end"
                 android:includeFontPadding="true"
@@ -401,8 +401,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/h1_size"
-                android:layout_marginStart="@dimen/entertainment_detail_content_padding_lr"
                 android:layout_marginEnd="@dimen/entertainment_detail_content_padding_lr"
+                android:layout_marginStart="@dimen/entertainment_detail_content_padding_lr"
                 android:layout_marginTop="@dimen/entertainment_detail_relative_text_mt"
                 android:includeFontPadding="true"
                 android:text="@string/recommend_str"
@@ -412,8 +412,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/entertainment_detail_content_padding_lr"
                 android:layout_marginEnd="@dimen/entertainment_detail_content_padding_lr"
+                android:layout_marginStart="@dimen/entertainment_detail_content_padding_lr"
                 android:layout_marginTop="@dimen/entertainment_detail_label_image_mt"
                 android:clipChildren="false"
                 android:clipToPadding="false">

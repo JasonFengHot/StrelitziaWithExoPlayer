@@ -37,9 +37,11 @@ public class LabelImageView extends AsyncImageView {
     private Rect mBound;
     private NinePatchDrawable mDrawable;
     private Rect mRect;
+
     public LabelImageView(Context context) {
         this(context, null);
     }
+
     public LabelImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }

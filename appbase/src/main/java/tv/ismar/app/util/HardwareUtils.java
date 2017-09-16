@@ -94,9 +94,7 @@ public class HardwareUtils {
     }
 
     public static boolean isExternalStorageMounted() {
-        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
-                ? true
-                : false;
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
     public static void deleteFiles(String path, ArrayList<String> exceptsArray) {

@@ -62,17 +62,17 @@ public interface IPlayer {
 
     void setOnInfoListener(OnInfoListener onInfoListener);
 
-    public interface OnVideoSizeChangedListener {
+    interface OnVideoSizeChangedListener {
         void onVideoSizeChanged(int videoWidth, int videoHeight);
     }
 
-    public interface OnBufferChangedListener {
+    interface OnBufferChangedListener {
         void onBufferStart();
 
         void onBufferEnd();
     }
 
-    public interface OnStateChangedListener {
+    interface OnStateChangedListener {
         void onPrepared();
 
         void onAdStart();
@@ -94,11 +94,11 @@ public interface IPlayer {
         boolean onError(String message);
     }
 
-    public interface OnInfoListener {
+    interface OnInfoListener {
         void onInfo(int what, Object extra);
     }
 
-    public interface OnDataSourceSetListener {
+    interface OnDataSourceSetListener {
 
         void onSuccess();
 

@@ -13,7 +13,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 
 import rx.android.schedulers.AndroidSchedulers;

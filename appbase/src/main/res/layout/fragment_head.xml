@@ -10,8 +10,8 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingStart="@dimen/header_fragment_padding_l"
-        android:paddingEnd="@dimen/header_fragment_padding_r">
+        android:paddingEnd="@dimen/header_fragment_padding_r"
+        android:paddingStart="@dimen/header_fragment_padding_l">
 
 
         <TextView
@@ -87,8 +87,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/header_fragment_divider_mlr"
         android:layout_marginEnd="@dimen/header_fragment_divider_mlr"
+        android:layout_marginStart="@dimen/header_fragment_divider_mlr"
         android:background="#33FFFFFF" />
 
 

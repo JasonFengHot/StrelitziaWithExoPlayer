@@ -38,7 +38,7 @@ public abstract class HGridAdapter<E> extends BaseAdapter {
     public abstract int getSectionCount(int sectionIndex);
 
     public boolean hasSection() {
-        return mList.size() > 1 ? true : false;
+        return mList.size() > 1;
     }
 
     public int getTotalSectionNum() {

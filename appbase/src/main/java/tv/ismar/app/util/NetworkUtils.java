@@ -20,10 +20,7 @@ public class NetworkUtils {
                         || (wifiNetInfo != null && wifiNetInfo.isConnected())
                         || (ethNetInfo != null && ethNetInfo.isConnected());
 
-        if (isConnected) {
-            return true;
-        }
-        return false;
+        return isConnected;
     }
 
     /** 是否wifi连接 */
@@ -31,11 +28,7 @@ public class NetworkUtils {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (info != null && info.getState() == NetworkInfo.State.CONNECTED) {
-            return true;
-        } else {
-            return false;
-        }
+        return info != null && info.getState() == NetworkInfo.State.CONNECTED;
     }
 
     /** 是否3G连接 */
@@ -43,10 +36,6 @@ public class NetworkUtils {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (info != null && info.getState() == NetworkInfo.State.CONNECTED) {
-            return true;
-        } else {
-            return false;
-        }
+        return info != null && info.getState() == NetworkInfo.State.CONNECTED;
     }
 }

@@ -28,7 +28,7 @@ ext {
     androidBuildToolsVersion = '25.0.2'
     androidMinSdkVersion = 17
     androidTargetSdkVersion = 24
-    supportLibraryVersion = '25.0.0'
+    supportLibraryVersion = '25.0.1'
 
     dependencies = [
             support_v4  : "com.android.support:support-v4:$supportLibraryVersion",

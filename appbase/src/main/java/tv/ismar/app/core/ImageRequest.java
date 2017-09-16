@@ -41,6 +41,7 @@ public class ImageRequest {
     private ImageRequestCallback mCallback;
     private ImageProcessor mBitmapProcessor;
     private BitmapFactory.Options mOptions;
+
     public ImageRequest(String url, ImageRequestCallback callback) {
         this(url, callback, null);
     }
@@ -93,7 +94,7 @@ public class ImageRequest {
     }
 
     /** @author Cyril Mottier */
-    public static interface ImageRequestCallback {
+    public interface ImageRequestCallback {
 
         /**
          * Callback to be invoked when the request processing started.

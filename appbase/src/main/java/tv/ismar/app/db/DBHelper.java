@@ -26,6 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     + "('_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT NOT NULL, 'url' TEXT NOT NULL, 'adlet_url' TEXT, "
                     + "'last_played_time' INTEGER DEFAULT(0), 'last_position' INTEGER DEFAULT(0), 'content_model' TEXT NOT NULL, 'quality' INTEGER DEFAULT(1), "
                     + "'last_quality' INTEGER DEFAULT(1), 'is_complex' INTEGER DEFAULT(0), 'is_continue' INTEGER DEFAULT(0), 'sub_url' TEXT,'isnet' TEXT NOT NULL,'price' INTEGER DEFAULT(0),'cpid' INTEGER DEFAULT(1),'cpname' TEXT,'cptitle' TEXT,'paytype' INTEGER DEFAULT(1))";
+
     private static final String CREATE_FAVORITE_TABLE =
             "CREATE TABLE IF NOT EXISTS 'favorite_table' "
                     + "('_id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 'title' TEXT NOT NULL, 'url' TEXT NOT NULL, 'content_model' TEXT, "
@@ -325,54 +326,54 @@ public class DBHelper extends SQLiteOpenHelper {
         db = null;
     }
 
-    public static interface DBFields {
+    public interface DBFields {
         /** Table columns about the history table. */
-        public static interface HistroyTable extends BaseColumns {
-            public static final Uri CONTENT_URI =
+        interface HistroyTable extends BaseColumns {
+            Uri CONTENT_URI =
                     Uri.parse("content://" + HistoryFavoriteProvider.AUTHORITY + "/histories");
-            public static final String TABLE_NAME = "history_table";
-            public static final String TITLE = "title";
-            public static final String URL = "url";
-            public static final String ADLET_URL = "adlet_url";
-            public static final String CONTENT_MODEL = "content_model";
-            public static final String QUALITY = "quality";
-            public static final String LAST_QUALITY = "last_quality";
-            public static final String IS_COMPLEX = "is_complex";
-            public static final String IS_CONTINUE = "is_continue";
-            public static final String LAST_PLAY_TIME = "last_played_time";
-            public static final String LAST_POSITION = "last_position";
-            public static final String SUB_URL = "sub_url";
-            public static final String ISNET = "isnet";
-            public static final String PRICE = "price";
-            public static final String CPID = "cpid";
-            public static final String CPNAME = "cpname";
-            public static final String CPTITLE = "cptitle";
-            public static final String PAYTYPE = "paytype";
+            String TABLE_NAME = "history_table";
+            String TITLE = "title";
+            String URL = "url";
+            String ADLET_URL = "adlet_url";
+            String CONTENT_MODEL = "content_model";
+            String QUALITY = "quality";
+            String LAST_QUALITY = "last_quality";
+            String IS_COMPLEX = "is_complex";
+            String IS_CONTINUE = "is_continue";
+            String LAST_PLAY_TIME = "last_played_time";
+            String LAST_POSITION = "last_position";
+            String SUB_URL = "sub_url";
+            String ISNET = "isnet";
+            String PRICE = "price";
+            String CPID = "cpid";
+            String CPNAME = "cpname";
+            String CPTITLE = "cptitle";
+            String PAYTYPE = "paytype";
         }
 
-        public static interface FavoriteTable extends BaseColumns {
-            public static final Uri CONTENT_URI =
+        interface FavoriteTable extends BaseColumns {
+            Uri CONTENT_URI =
                     Uri.parse("content://" + HistoryFavoriteProvider.AUTHORITY + "/favorites");
-            public static final String TABLE_NAME = "favorite_table";
-            public static final String TITLE = "title";
-            public static final String URL = "url";
-            public static final String ADLET_URL = "adlet_url";
-            public static final String IS_COMPLEX = "is_complex";
-            public static final String QUALITY = "quality";
-            public static final String CONTENT_MODEL = "content_model";
-            public static final String ISNET = "isnet";
-            public static final String CPID = "cpid";
-            public static final String CPNAME = "cpname";
-            public static final String CPTITLE = "cptitle";
-            public static final String PAYTYPE = "paytype";
+            String TABLE_NAME = "favorite_table";
+            String TITLE = "title";
+            String URL = "url";
+            String ADLET_URL = "adlet_url";
+            String IS_COMPLEX = "is_complex";
+            String QUALITY = "quality";
+            String CONTENT_MODEL = "content_model";
+            String ISNET = "isnet";
+            String CPID = "cpid";
+            String CPNAME = "cpname";
+            String CPTITLE = "cptitle";
+            String PAYTYPE = "paytype";
         }
 
-        public static interface QualityTable extends BaseColumns {
-            public static final Uri CONTENT_URI =
+        interface QualityTable extends BaseColumns {
+            Uri CONTENT_URI =
                     Uri.parse("content://" + HistoryFavoriteProvider.AUTHORITY + "/qualities");
-            public static final String TABLE_NAME = "quality_table";
-            public static final String URL = "url";
-            public static final String QUALITY = "quality";
+            String TABLE_NAME = "quality_table";
+            String URL = "url";
+            String QUALITY = "quality";
         }
     }
 }

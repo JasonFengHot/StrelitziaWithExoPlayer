@@ -50,8 +50,6 @@ import tv.ismar.searchpage.utils.SharedPreferencesUtils;
 import tv.ismar.searchpage.weight.MyDialog;
 import tv.ismar.searchpage.weight.ZGridView;
 
-;
-
 public class WordSearchActivity extends BaseActivity
         implements View.OnClickListener, View.OnFocusChangeListener, View.OnHoverListener {
     private static final String TAG = "WordSearchActivity";
@@ -648,7 +646,7 @@ public class WordSearchActivity extends BaseActivity
 
         poster_gridview = (ZGridView) findViewById(R.id.poster_gridview);
 
-        poster_gridview.setScale(1.1f);
+        ZGridView.setScale(1.1f);
         poster_gridview.setUpView(iv_top_arrow);
         poster_gridview.setDownView(iv_down_arrow);
         poster_gridview.setOnFocusChangeListener(
@@ -717,16 +715,8 @@ public class WordSearchActivity extends BaseActivity
                                     selectedTab = finalI;
                                     poster_gridview.setNextFocusUpId(
                                             top_tabs.getChildAt(finalI).getId());
-                                    if (iv_left_arrow.getVisibility() == View.VISIBLE) {
-                                        left = true;
-                                    } else {
-                                        left = false;
-                                    }
-                                    if (iv_right_arrow.getVisibility() == View.VISIBLE) {
-                                        right = true;
-                                    } else {
-                                        right = false;
-                                    }
+                                    left = iv_left_arrow.getVisibility() == View.VISIBLE;
+                                    right = iv_right_arrow.getVisibility() == View.VISIBLE;
                                     rl_search_subject.setVisibility(View.INVISIBLE);
                                     loading.setVisibility(View.VISIBLE);
                                     if (handler.hasMessages(1)) {

@@ -537,11 +537,7 @@ public class DaisyVideoView extends SurfaceView {
         }
         this.paths = paths;
         mLogMedia = logMedia;
-        if (paths.length > 1) {
-            mIsPlayingAdvertisement = true;
-        } else {
-            mIsPlayingAdvertisement = false;
-        }
+        mIsPlayingAdvertisement = paths.length > 1;
         mStartPosition = startPosition;
         mSeekWhenPrepared = 0;
         openVideo();
@@ -579,11 +575,7 @@ public class DaisyVideoView extends SurfaceView {
     }
 
     private boolean isCanWriteSD() {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return true;
-        } else {
-            return false;
-        }
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
     private void openVideo() {

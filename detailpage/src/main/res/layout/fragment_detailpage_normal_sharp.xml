@@ -37,8 +37,8 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/normal_detail_content_padding_pl"
-            android:paddingEnd="@dimen/normal_detail_content_padding_pr">
+            android:paddingEnd="@dimen/normal_detail_content_padding_pr"
+            android:paddingStart="@dimen/normal_detail_content_padding_pl">
 
             <RelativeLayout
                 android:layout_width="@dimen/normal_detail_content_w"

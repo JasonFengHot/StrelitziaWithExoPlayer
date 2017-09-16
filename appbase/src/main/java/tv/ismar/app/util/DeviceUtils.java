@@ -105,7 +105,7 @@ public class DeviceUtils {
         try {
             Enumeration<NetworkInterface> en_netInterface = NetworkInterface.getNetworkInterfaces();
             while (en_netInterface.hasMoreElements()) {
-                NetworkInterface ni = (NetworkInterface) en_netInterface.nextElement();
+                NetworkInterface ni = en_netInterface.nextElement();
                 Enumeration<InetAddress> en_ip = ni.getInetAddresses();
                 while (en_ip.hasMoreElements()) {
                     ip = en_ip.nextElement();

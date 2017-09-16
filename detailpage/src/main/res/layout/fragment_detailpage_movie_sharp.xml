@@ -48,8 +48,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/movie_detail_preview_img_h"
-                    android:layout_marginStart="@dimen/movie_detail_content_padding_pl"
-                    android:layout_marginEnd="@dimen/movie_detail_content_padding_pr">
+                    android:layout_marginEnd="@dimen/movie_detail_content_padding_pr"
+                    android:layout_marginStart="@dimen/movie_detail_content_padding_pl">
 
                     <FrameLayout
                         android:id="@+id/detail_preview_frame"
@@ -392,13 +392,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@id/detail_relative_button"
                     android:layout_toEndOf="@id/detail_relative_tv"
+                    android:layout_toStartOf="@id/detail_relative_button"
                     android:clipChildren="false"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
-                    android:paddingStart="@dimen/movie_detail_relative_img_ml"
-                    android:paddingEnd="@dimen/movie_detail_relative_img_mr">
+                    android:paddingEnd="@dimen/movie_detail_relative_img_mr"
+                    android:paddingStart="@dimen/movie_detail_relative_img_ml">
 
                     <LinearLayout
                         android:layout_width="0dp"

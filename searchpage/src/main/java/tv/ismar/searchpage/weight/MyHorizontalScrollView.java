@@ -53,11 +53,13 @@ public class MyHorizontalScrollView extends FrameLayout {
      * to a window.
      */
     static final int PFLAG3_IS_LAID_OUT = 0x4;
+
     private static final int ANIMATED_SCROLL_GAP = 250;
     private static final float MAX_SCROLL_FACTOR = 0.5f;
     private static final String TAG = "HorizontalScrollView";
     /** Sentinel value for no current active pointer. Used by {@link #mActivePointerId}. */
     private static final int INVALID_POINTER = -1;
+
     private static final int DEFAULT_CHILD_GRAVITY = Gravity.TOP | Gravity.START;
     private final Rect mTempRect = new Rect();
     public int mLeftDistance;
@@ -97,6 +99,7 @@ public class MyHorizontalScrollView extends FrameLayout {
     private boolean mFillViewport;
     /** Whether arrow scrolling is animated. */
     private boolean mSmoothScrollingEnabled = true;
+
     private int mTouchSlop;
     private int mMinimumVelocity;
     private int mMaximumVelocity;
@@ -107,6 +110,7 @@ public class MyHorizontalScrollView extends FrameLayout {
      * pointers are used.
      */
     private int mActivePointerId = INVALID_POINTER;
+
     private SavedState mSavedState;
     private int mScrollX;
     private int mScrollY;
@@ -464,7 +468,7 @@ public class MyHorizontalScrollView extends FrameLayout {
                     }
 
                     final int x = (int) ev.getX(pointerIndex);
-                    final int xDiff = (int) Math.abs(x - mLastMotionX);
+                    final int xDiff = Math.abs(x - mLastMotionX);
                     if (xDiff > mTouchSlop) {
                         mIsBeingDragged = true;
                         mLastMotionX = x;
@@ -478,7 +482,7 @@ public class MyHorizontalScrollView extends FrameLayout {
             case MotionEvent.ACTION_DOWN:
                 {
                     final int x = (int) ev.getX();
-                    if (!inChild((int) x, (int) ev.getY())) {
+                    if (!inChild(x, (int) ev.getY())) {
                         mIsBeingDragged = false;
                         recycleVelocityTracker();
                         break;
@@ -777,7 +781,7 @@ public class MyHorizontalScrollView extends FrameLayout {
 
     protected void invalidateParentIfNeeded() {
         if (isHardwareAccelerated() && mParent instanceof View) {
-            ((View) mParent).invalidate();
+            mParent.invalidate();
         }
     }
 
@@ -1831,7 +1835,7 @@ public class MyHorizontalScrollView extends FrameLayout {
         public SavedState(Parcel source) {
             super(source);
             scrollPosition = source.readInt();
-            isLayoutRtl = (source.readInt() == 0) ? true : false;
+            isLayoutRtl = (source.readInt() == 0);
         }
 
         @Override

@@ -120,8 +120,8 @@
                 android:id="@+id/vod_scrollview_new"
                 android:layout_width="@dimen/vod_scrollview_new_w"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/vod_scrollview_new_ml"
                 android:layout_marginEnd="@dimen/vod_scrollview_new_ml"
+                android:layout_marginStart="@dimen/vod_scrollview_new_ml"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:nextFocusDown="@id/vod_scrollview_new"
@@ -157,8 +157,8 @@
             android:id="@+id/divider_line_new"
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_line_new_h"
-            android:layout_marginStart="@dimen/update_dialog_arrow1_margin_left"
             android:layout_marginEnd="@dimen/update_dialog_arrow1_margin_left"
+            android:layout_marginStart="@dimen/update_dialog_arrow1_margin_left"
             android:focusable="true"
             android:scaleType="fitXY"
             android:src="#202e5d" />
@@ -167,8 +167,8 @@
             android:id="@+id/film_description_new"
             android:layout_width="match_parent"
             android:layout_height="@dimen/t9_keyboard_margin_top"
-            android:layout_marginStart="@dimen/film_description_new_ml"
             android:layout_marginEnd="@dimen/film_description_new_ml"
+            android:layout_marginStart="@dimen/film_description_new_ml"
             android:orientation="horizontal">
 
             <LinearLayout

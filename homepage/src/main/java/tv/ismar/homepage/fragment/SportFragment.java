@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-
 import java.util.ArrayList;
 
 import rx.Subscription;

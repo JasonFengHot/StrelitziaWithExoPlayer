@@ -148,11 +148,7 @@ public class OfflineCheckManager {
         }
 
         public boolean isOffline() {
-            if ("Not found".equalsIgnoreCase(detail)) {
-                return true;
-            } else {
-                return false;
-            }
+            return "Not found".equalsIgnoreCase(detail);
         }
     }
 }

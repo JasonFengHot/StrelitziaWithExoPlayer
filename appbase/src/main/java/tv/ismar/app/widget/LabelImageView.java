@@ -174,11 +174,7 @@ public class LabelImageView extends FrameLayout {
     }
 
     private void setBackgroundBorder(boolean focus) {
-        if (focus) {
-            drawBorder = true;
-        } else {
-            drawBorder = false;
-        }
+        drawBorder = focus;
         invalidate();
     }
 

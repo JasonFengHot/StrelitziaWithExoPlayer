@@ -61,8 +61,7 @@ public class Favorite implements Serializable {
         url = c.getString(c.getColumnIndex(DBFields.FavoriteTable.URL));
         adlet_url = c.getString(c.getColumnIndex(DBFields.FavoriteTable.ADLET_URL));
         quality = c.getInt(c.getColumnIndex(DBFields.FavoriteTable.QUALITY));
-        is_complex =
-                c.getInt(c.getColumnIndex(DBFields.FavoriteTable.IS_COMPLEX)) == 0 ? false : true;
+        is_complex = c.getInt(c.getColumnIndex(DBFields.FavoriteTable.IS_COMPLEX)) != 0;
         content_model = c.getString(c.getColumnIndex(DBFields.FavoriteTable.CONTENT_MODEL));
         isnet = c.getString(c.getColumnIndex(DBFields.FavoriteTable.ISNET));
         cpid = c.getInt(c.getColumnIndex(DBFields.FavoriteTable.CPID));

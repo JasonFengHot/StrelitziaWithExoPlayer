@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingStart="@dimen/child_mlr"
     android:paddingEnd="@dimen/child_mlr"
+    android:paddingStart="@dimen/child_mlr"
     android:paddingTop="@dimen/child_mt">
 
     <LinearLayout
@@ -35,8 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="@dimen/child_img_big_pb"
-                android:paddingStart="@dimen/child_img_big_plr"
                 android:paddingEnd="@dimen/child_img_big_plr"
+                android:paddingStart="@dimen/child_img_big_plr"
                 android:paddingTop="@dimen/child_img_big_pt">
 
                 <ImageView

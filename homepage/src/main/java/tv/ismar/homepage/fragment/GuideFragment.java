@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -69,6 +68,23 @@ public class GuideFragment extends ChannelBaseFragment {
     private HashMap<Integer, Integer> carouselMap;
     private Subscription homePageSub;
     private boolean isDestroyed = false;
+    private MediaPlayer.OnCompletionListener videoPlayEndListener;
+    private MediaPlayer.OnErrorListener mVideoOnErrorListener;
+    private MediaPlayer.OnPreparedListener mOnPreparedListener;
+    private Handler mHandler =
+            new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    switch (msg.what) {
+                        case START_PLAYBACK:
+                            startPlayback();
+                            break;
+                        case CAROUSEL_NEXT:
+                            playCarousel(0);
+                            break;
+                    }
+                }
+            };
     private View.OnFocusChangeListener itemFocusChangeListener =
             new View.OnFocusChangeListener() {
                 @Override
@@ -91,23 +107,6 @@ public class GuideFragment extends ChannelBaseFragment {
                             mCurrentCarouselIndex = position;
                             playCarousel(100);
                         }
-                    }
-                }
-            };
-    private MediaPlayer.OnCompletionListener videoPlayEndListener;
-    private MediaPlayer.OnErrorListener mVideoOnErrorListener;
-    private MediaPlayer.OnPreparedListener mOnPreparedListener;
-    private Handler mHandler =
-            new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    switch (msg.what) {
-                        case START_PLAYBACK:
-                            startPlayback();
-                            break;
-                        case CAROUSEL_NEXT:
-                            playCarousel(0);
-                            break;
                     }
                 }
             };

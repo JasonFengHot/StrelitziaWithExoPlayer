@@ -30,6 +30,7 @@ public class ClipEntity {
     private boolean is_vip;
     /** 奇艺2.1SDK需要新传入字段 */
     private boolean is_drm;
+
     private String m3u8;
 
     public String getLow() {

@@ -66,6 +66,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
      * @see #setTranscriptMode(int)
      */
     public static final int TRANSCRIPT_MODE_DISABLED = 0;
+
     public static final int NO_STRETCH = 0;
     public static final int STRETCH_SPACING = 1;
     public static final int STRETCH_SPACING_UNIFORM = 3;
@@ -83,6 +84,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     static final int LAYOUT_NORMAL = 2;
     /** Indicates that we are not in the middle of a touch gesture */
     static final int TOUCH_MODE_REST = -1;
+
     static final int TOUCH_MODE_TAP = 1;
     static final int TOUCH_MODE_DONE_WAITING = 2;
     /** Content height divided by this is the overscroll limit. */
@@ -103,6 +105,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
      * mSpecificTop
      */
     static final int LAYOUT_SYNC = 5;
+
     static final int TOUCH_MODE_DOWN = 0;
     static final int TOUCH_MODE_SCROLL = 3;
     /** Indicates the view is being flung outside of normal content bounds and will spring back. */
@@ -113,6 +116,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     static final int TOUCH_MODE_FLING = 4;
     /** Used for smooth scrolling at a consistent rate */
     static final Interpolator sLinearInterpolator = new LinearInterpolator();
+
     private static final int TOUCH_MODE_ON = 0;
     private static final int TOUCH_MODE_OFF = 1;
     private static final int TOUCH_MODE_UNKNOWN = -1;
@@ -124,6 +128,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
      * creating new ones
      */
     final RecycleBin mRecycler = new RecycleBin();
+
     final boolean[] mIsScrap = new boolean[1];
     public OnFocusChangeListener mFocusListener;
     public boolean isCandidate = false;
@@ -134,6 +139,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     int mResurrectToPosition = INVALID_POSITION;
     /** Should be used by subclasses to listen to changes in the dataset */
     AdapterDataSetObserver mDataSetObserver;
+
     boolean mDataChanged;
     int mOldItemCount;
     int mItemCount;
@@ -143,6 +149,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     /** The position of the first child displayed */
     @ViewDebug.ExportedProperty(category = "scrolling")
     int mFirstPosition = 0;
+
     long mSyncHeight;
     /** True if we need to sync to mSyncRowId */
     boolean mNeedSync = false;
@@ -157,6 +164,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
      * the next layout.
      */
     int mSpecificTop;
+
     @ViewDebug.ExportedProperty(category = "list")
     int mNextSelectedPosition = INVALID_POSITION;
     /**
@@ -171,6 +179,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
      * creating new ones
      */
     SparseBooleanArray mCheckStates;
+
     Runnable mPositionScrollAfterLayout;
     /** The last selected position we used when notifying */
     int mOldSelectedPosition = INVALID_POSITION;
@@ -200,14 +209,17 @@ public class ZGridView extends AdapterView<ListAdapter> {
      * is used to layout the children during a layout pass.
      */
     boolean mBlockLayoutRequests = false;
+
     int mLayoutMode = LAYOUT_NORMAL;
     /** Handles scrolling between positions within the list. */
     PositionScroller mPositionScroller;
+
     boolean mCachingStarted;
     boolean mCachingActive;
     boolean mScrollingCacheEnabled;
     /** Indicates whether the list selector should be drawn on top of the children or behind */
     boolean mDrawSelectorOnTop = false;
+
     int mTouchMode = TOUCH_MODE_REST;
     Rect mListPadding = new Rect();
     int mWidthMeasureSpec = 0;
@@ -215,6 +227,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     int mOverscrollMax;
     /** Controls if/how the user may choose/check items in the list */
     int mChoiceMode = CHOICE_MODE_NONE;
+
     int mMotionPosition;
     View mScrollUp;
     View mScrollDown;
@@ -229,6 +242,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     int mMotionCorrection;
     /** The offset to the top of the mMotionPosition view when the down motion event was received */
     int mMotionViewOriginalTop;
+
     int mOverflingDistance;
     int mTouchSlop;
     private int mLastTouchMode = TOUCH_MODE_UNKNOWN;
@@ -238,6 +252,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     private ListAdapter mAdapter;
     /** Our height after the last layout */
     private int mLayoutHeight;
+
     private Runnable mClearScrollingCache;
     private int mMinimumVelocity;
     private int mMaximumVelocity;
@@ -246,6 +261,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
      * Indicates that this list is always drawn on top of a solid, single-color, opaque background
      */
     private int mCacheColorHint;
+
     private int mSelectionLeftPadding;
     private int mSelectionTopPadding;
     private int mSelectionRightPadding;
@@ -258,6 +274,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     private boolean mTextFilterEnabled;
     /** This view is in transcript mode -- it shows the bottom of the list when the data changes */
     private int mTranscriptMode;
+
     private int mRequestedHorizontalSpacing;
     private int mVerticalSpacing = 0;
     private int mRequestedColumnWidth;
@@ -270,6 +287,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
     private int mLastScrollState = OnScrollListener.SCROLL_STATE_IDLE;
     /** Track the item count from the last time we handled a data change. */
     private int mLastHandledItemCount;
+
     private boolean mForceTranscriptScroll;
     private OnScrollListener mOnScrollListener;
     private Rect mTempRect = new Rect();
@@ -291,12 +309,14 @@ public class ZGridView extends AdapterView<ListAdapter> {
     private EdgeEffect mEdgeGlowTop;
     /** Tracks the state of the bottom edge glow. */
     private EdgeEffect mEdgeGlowBottom;
+
     private boolean mScrollProfilingStarted = false;
     private boolean mFlingProfilingStarted = false;
     /** Delayed action for touch mode. */
     private Runnable mTouchModeReset;
     /** Handles one frame of a fling */
     private FlingRunnable mFlingRunnable;
+
     private Rect mTouchFrame;
     private float mLastMotionX;
     private float mLastMotionY;
@@ -522,7 +542,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
             } else if (!checkLayoutParams(vlp)) {
                 lp = (ZGridView.LayoutParams) generateLayoutParams(vlp);
             } else {
-                lp = (ZGridView.LayoutParams) vlp;
+                lp = vlp;
             }
             lp.itemId = mAdapter.getItemId(position);
             child.setLayoutParams(lp);
@@ -4374,16 +4394,16 @@ public class ZGridView extends AdapterView<ListAdapter> {
          * The view is not scrolling. Note navigating the list using the trackball counts as being
          * in the idle state since these transitions are not animated.
          */
-        public static int SCROLL_STATE_IDLE = 0;
+        int SCROLL_STATE_IDLE = 0;
 
         /** The user is scrolling using touch, and their finger is still on the screen */
-        public static int SCROLL_STATE_TOUCH_SCROLL = 1;
+        int SCROLL_STATE_TOUCH_SCROLL = 1;
 
         /**
          * The user had previously been scrolling using touch and had performed a fling. The
          * animation is now coasting to a stop
          */
-        public static int SCROLL_STATE_FLING = 2;
+        int SCROLL_STATE_FLING = 2;
 
         /**
          * Callback method to be invoked while the grid view is being scrolled. If the view is being
@@ -4395,9 +4415,9 @@ public class ZGridView extends AdapterView<ListAdapter> {
          * @param scrollState The current scroll state. One of {@link #SCROLL_STATE_IDLE}, {@link
          *     #SCROLL_STATE_TOUCH_SCROLL} or {@link #SCROLL_STATE_IDLE}.
          */
-        public static int SCROLL_STATE_FOCUS_MOVING = 4;
+        int SCROLL_STATE_FOCUS_MOVING = 4;
 
-        public void onScrollStateChanged(ZGridView view, int scrollState);
+        void onScrollStateChanged(ZGridView view, int scrollState);
 
         /**
          * Callback method to be invoked when the list or grid has been scrolled. This will be
@@ -4409,12 +4429,12 @@ public class ZGridView extends AdapterView<ListAdapter> {
          * @param visibleItemCount the number of visible cells
          * @param totalItemCount the number of items in the list adaptor
          */
-        public void onScroll(
+        void onScroll(
                 ZGridView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
     }
 
     public interface OnHoverListener {
-        public boolean onHover(View v, MotionEvent event);
+        boolean onHover(View v, MotionEvent event);
     }
 
     /** AbsListView extends LayoutParams to provide a place to hold the view type. */
@@ -4487,6 +4507,7 @@ public class ZGridView extends AdapterView<ListAdapter> {
         private static final int FLYWHEEL_TIMEOUT = 40; // milliseconds
         /** Tracks the decay of a fling scroll */
         private final OverScroller mScroller;
+
         private final Runnable mCheckFlywheel =
                 new Runnable() {
                     public void run() {

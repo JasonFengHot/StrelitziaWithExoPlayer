@@ -17,8 +17,6 @@ import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-
-
 import tv.ismar.app.widget.AsyncImageView;
 import tv.ismar.homepage.R;
 

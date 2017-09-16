@@ -11,6 +11,7 @@ public class PlayerBuilder {
     public static final byte MODE_SMART_PLAYER = 0x01;
     /** 奇艺片源,使用奇艺播放器 */
     public static final byte MODE_QIYI_PLAYER = 0x02;
+
     private static final String TAG = "LH/PlayerBuilder";
 
     //    /**

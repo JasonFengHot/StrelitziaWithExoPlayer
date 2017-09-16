@@ -211,8 +211,7 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection>
 
     @Override
     public boolean hasSection() {
-        if (this.mHasSection) return true;
-        else return false;
+        return this.mHasSection;
     }
 
     @Override
