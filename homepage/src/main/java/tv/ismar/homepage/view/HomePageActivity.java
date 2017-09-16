@@ -34,8 +34,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.StringUtils;
-import com.konka.android.media.KKMediaPlayer;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -910,7 +909,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (brandName != null && brandName.toLowerCase().contains("changhong")) {
             homepage_template = "template3";
         }
-        if (!StringUtils.isEmpty(homepage_template)) {
+        if (!TextUtils.isEmpty(homepage_template)) {
             for (int i = 0; i < mChannelEntitys.length; i++) {
                 if (brandName != null && brandName.toLowerCase().contains("changhong")) {
                     if ("sport".equalsIgnoreCase(mChannelEntitys[i].getChannel())) {
@@ -1281,16 +1280,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
             return;
         }
         neterrorshow = false;
-        if (!TextUtils.isEmpty(brandName) && brandName.equalsIgnoreCase("konka")) {
-            try {
-                Class.forName("com.konka.android.media.KKMediaPlayer");
-                KKMediaPlayer localKKMediaPlayer1 = new KKMediaPlayer();
-                KKMediaPlayer.setContext(this);
-                KKMediaPlayer.setAspectRatio(0);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         if (!NetworkUtils.isConnected(this) && !NetworkUtils.isWifi(this)) showNoNetConnectDelay();
     }
 
@@ -1358,7 +1347,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         }
         homepage_template = intent.getStringExtra("homepage_template");
         homepage_url = intent.getStringExtra("homepage_url");
-        if (StringUtils.isEmpty(homepage_template) || StringUtils.isEmpty(homepage_url)) {
+        if (TextUtils.isEmpty(homepage_template) || TextUtils.isEmpty(homepage_url)) {
             //            fetchChannels();
         } else {
             fetchChannels();

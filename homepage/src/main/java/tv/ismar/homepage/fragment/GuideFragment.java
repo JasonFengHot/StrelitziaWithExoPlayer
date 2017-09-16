@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.StringUtils;
+
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -303,7 +303,7 @@ public class GuideFragment extends ChannelBaseFragment {
                 }
                 //                		}
             } else { // 左侧移入
-                if (!StringUtils.isEmpty(bottomFlag)) {
+                if (!TextUtils.isEmpty(bottomFlag)) {
                     if ("bottom".equals(bottomFlag)) {
 
                     } else {

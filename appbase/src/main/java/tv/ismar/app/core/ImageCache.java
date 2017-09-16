@@ -19,7 +19,6 @@ public class ImageCache implements VodApplication.OnLowMemoryListener {
 
     public ImageCache(Context context) {
         mSoftCache = new HashMap<String, SoftReference<Bitmap>>();
-        DaisyUtils.getVodApplication(context).registerOnLowMemoryListener(this);
     }
 
     public static ImageCache from(Context context) {

@@ -164,17 +164,6 @@ public class VodApplication extends Application {
         return rate;
     }
 
-    /**
-     * Add a new listener to registered {@link OnLowMemoryListener}.
-     *
-     * @param listener The listener to unregister
-     * @see OnLowMemoryListener
-     */
-    public void registerOnLowMemoryListener(OnLowMemoryListener listener) {
-        if (listener != null) {
-            mLowMemoryListeners.add(new WeakReference<OnLowMemoryListener>(listener));
-        }
-    }
 
     /**
      * Return an ExecutorService (global to the entire application) that may be used by clients when

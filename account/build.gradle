@@ -42,12 +42,12 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':rxandroid-1.2.1')
     compile project(':ismartv_truetime')
     compile dependencies.appCompat
     compile dependencies.support_v4
-    compile project(':utilcode-1.3.0')
     compile 'com.orhanobut:logger:1.15'
+    compile 'com.blankj:utilcode:1.9.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
 }
 
 tasks.withType(JavaCompile) {

@@ -13,7 +13,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.StringUtils;
 
 import java.util.ArrayList;
 
@@ -233,7 +232,7 @@ public class PackageListDetailActivity extends BaseActivity
     }
 
     private void getPackageList() {
-        if (StringUtils.isEmpty(itemlistUrl)) {
+        if (TextUtils.isEmpty(itemlistUrl)) {
             itemlistUrl =
                     "http://"
                             + IsmartvActivator.getInstance().getApiDomain()

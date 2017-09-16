@@ -40,7 +40,6 @@ public class DetailPageActivity extends BaseActivity {
     private String source;
     private ItemEntity mItemEntity;
     private DetailPageFragment detailPageFragment;
-    private PackageDetailFragment mPackageDetailFragment;
     private int itemPK;
     private Handler handler =
             new Handler(
@@ -184,10 +183,6 @@ public class DetailPageActivity extends BaseActivity {
                 fragmentTransaction.commit();
                 break;
             case PageIntent.DETAIL_TYPE_PKG:
-                String packJson = new Gson().toJson(mItemEntity);
-                mPackageDetailFragment = PackageDetailFragment.newInstance(source, packJson);
-                fragmentTransaction.replace(R.id.activity_detail_container, mPackageDetailFragment);
-                fragmentTransaction.commit();
                 break;
         }
     }

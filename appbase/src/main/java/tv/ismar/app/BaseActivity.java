@@ -32,7 +32,6 @@ import tv.ismar.app.widget.ModuleMessagePopWindow;
 import tv.ismar.app.widget.NetErrorPopWindow;
 import tv.ismar.app.widget.NoNetConnectDialog;
 import tv.ismar.app.widget.NoNetModuleMessagePop;
-import tv.ismar.app.widget.UpdatePopupWindow;
 
 /** Created by beaver on 16-8-19. */
 public class BaseActivity extends AppCompatActivity {
@@ -44,6 +43,7 @@ public class BaseActivity extends AppCompatActivity {
     public static boolean isCheckoutUpdate = true;
     /** 日志新加字段相关，定义为全局静态变量 */
     public static String baseSection = "";
+
     public static String baseChannel = "";
     public NoNetModuleMessagePop noNetConnectWindow;
     public SkyService mSkyService;
@@ -58,7 +58,6 @@ public class BaseActivity extends AppCompatActivity {
     public boolean isExpireAccessToken = false;
     Handler noNetConnectHandler;
     Runnable noNetConnectRunnable;
-    private UpdatePopupWindow updatePopupWindow;
     private LoadingDialog mLoadingDialog;
     private ModuleMessagePopWindow netErrorPopWindow;
     private ModuleMessagePopWindow expireAccessTokenPop;
@@ -89,24 +88,6 @@ public class BaseActivity extends AppCompatActivity {
                                 && updateBundle.get("msgs").equals(bundle.get("msgs"))) {
                             isExsit = true;
                         }
-                    }
-
-                    if (!isExsit) {
-                        updateInfo.push(bundle);
-                        updateAgainHandler = new Handler();
-                        updateAgainRunnable =
-                                (new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (updatePopupWindow == null
-                                                || !updatePopupWindow.isShowing()) {
-                                            if (activityIsAlive) {
-                                                showUpdatePopup(getRootView(), updateInfo);
-                                            }
-                                        }
-                                    }
-                                });
-                        updateAgainHandler.postDelayed(updateAgainRunnable, 4000);
                     }
                 }
             };
@@ -189,10 +170,6 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        if (updatePopupWindow != null) {
-            updatePopupWindow.dismiss();
-            updatePopupWindow = null;
-        }
         super.onStop();
     }
 
@@ -377,27 +354,9 @@ public class BaseActivity extends AppCompatActivity {
 
     private void registerUpdateReceiver() {}
 
-    private void showUpdatePopup(final View view, final Stack<Bundle> stack) {
-        String currentActivityName = getCurrentActivityName(this);
-        if (!stack.isEmpty()
-                && !currentActivityName.equals("tv.ismar.player.view.PlayerActivity")) {
-            updateBundle = stack.pop();
-            updatePopupWindow = new UpdatePopupWindow(this, updateBundle);
-            updatePopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-            updatePopupWindow.setOnDismissListener(
-                    new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            if (!activityIsAlive) {
-                                updateInfo.push(updateBundle);
-                            }
-                            showUpdatePopup(view, stack);
-                        }
-                    });
-        }
-    }
+    private void showUpdatePopup(final View view, final Stack<Bundle> stack) {}
 
-        @Override
+    @Override
     protected void onDestroy() {
         try {
             unregisterReceiver(onNetConnectReceiver);
@@ -405,13 +364,9 @@ public class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         super.onDestroy();
+    }
 
-        //        RefWatcher refWatcher = VodApplication.getRefWatcher(this);
-        //        refWatcher.watch(this);
-
-    };
-
-private void checkUpgrade() {}
+    private void checkUpgrade() {}
 
     public String getCurrentActivityName(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

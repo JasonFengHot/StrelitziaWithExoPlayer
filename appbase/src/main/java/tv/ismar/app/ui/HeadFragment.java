@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.open.androidtvwidget.view.LinearMainLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -106,8 +105,8 @@ public class HeadFragment extends Fragment
             switch (mHeaderType) {
                 case HEADER_USERCENTER:
                     subTitleTextView.setText("个人中心");
-                    LinearMainLayout.LayoutParams layoutParams =
-                            (LinearMainLayout.LayoutParams) subTitleTextView.getLayoutParams();
+                    LinearLayout.LayoutParams layoutParams =
+                            (LinearLayout.LayoutParams) subTitleTextView.getLayoutParams();
                     layoutParams.setMargins(
                             getResources()
                                     .getDimensionPixelSize(

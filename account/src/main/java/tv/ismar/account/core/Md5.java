@@ -2,7 +2,8 @@ package tv.ismar.account.core;
 
 import android.util.Log;
 
-import com.blankj.utilcode.utils.EncryptUtils;
+
+import com.blankj.utilcode.util.EncryptUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

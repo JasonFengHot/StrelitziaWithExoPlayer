@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.StringUtils;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -400,7 +400,7 @@ public class FilmFragment extends ChannelBaseFragment {
                 frameLayout.setOnClickListener(ItemClickListener);
                 ImageView postitemView = (ImageView) frameLayout.findViewById(R.id.poster_image);
                 TextView textView = (TextView) frameLayout.findViewById(R.id.poster_title);
-                if (!StringUtils.isEmpty(posters.get(i).getIntroduction())) {
+                if (!TextUtils.isEmpty(posters.get(i).getIntroduction())) {
                     textView.setText(posters.get(i).getIntroduction());
                     textView.setVisibility(View.VISIBLE);
                 }
@@ -729,7 +729,7 @@ public class FilmFragment extends ChannelBaseFragment {
 
         final String url = mCarousels.get(mCurrentCarouselIndex).getVideo_image();
         String intro = mCarousels.get(mCurrentCarouselIndex).getIntroduction();
-        if (!StringUtils.isEmpty(intro)) {
+        if (!TextUtils.isEmpty(intro)) {
             film_linked_title.setVisibility(View.VISIBLE);
             film_linked_title.setText(intro);
         } else {
@@ -771,7 +771,7 @@ public class FilmFragment extends ChannelBaseFragment {
         }
 
         String intro = mCarousels.get(mCurrentCarouselIndex).getIntroduction();
-        if (!StringUtils.isEmpty(intro)) {
+        if (!TextUtils.isEmpty(intro)) {
             film_linked_title.setVisibility(View.VISIBLE);
             film_linked_title.setText(intro);
         } else {

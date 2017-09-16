@@ -10,18 +10,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application>
-
-
-        <service android:name=".update.UpdateService" />
-
         <service android:name=".ad.AdsUpdateService" />
         <service android:name=".service.TrueTimeService" />
-
-        <receiver android:name=".receiver.ConnectivityChangeReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

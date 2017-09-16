@@ -10,13 +10,14 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.blankj.utilcode.utils.StringUtils;
+
 
 import tv.ismar.app.widget.AsyncImageView;
 import tv.ismar.homepage.R;
@@ -270,7 +271,7 @@ public class LabelImageView3 extends AsyncImageView {
         }
         // 绘制看点背景
         paint.setColor(Color.WHITE);
-        if (!StringUtils.isEmpty(title) && title.length() > 0) {
+        if (!TextUtils.isEmpty(title) && title.length() > 0) {
             int shadowHeight = textPaddingTop + textPaddingBottom + textSize;
             int shadowT = height - shadowHeight;
             if (maxTextNum > 0 && title.length() > maxTextNum) {

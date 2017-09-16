@@ -5,6 +5,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.StringUtils;
+
 
 import java.util.ArrayList;
 
@@ -87,7 +88,7 @@ public class SportFragment extends ChannelBaseFragment {
                     PicassoUtils.load(
                             mContext, looppost.get(++loopindex).getVideo_image(), sportspost);
                     sportspost.setTag(R.drawable.launcher_selector, looppost.get(loopindex));
-                    if (!StringUtils.isEmpty(looppost.get(loopindex).getIntroduction())) {
+                    if (!TextUtils.isEmpty(looppost.get(loopindex).getIntroduction())) {
                         sportspost.setTitle(looppost.get(loopindex).getIntroduction());
                     } else {
                         sportspost.setTitle(null);
@@ -121,7 +122,7 @@ public class SportFragment extends ChannelBaseFragment {
                         PicassoUtils.load(mContext, carousel.getVideo_image(), sportspost);
 
                         sportspost.setTag(R.drawable.launcher_selector, carousel);
-                        if (!StringUtils.isEmpty(carousel.getIntroduction())) {
+                        if (!TextUtils.isEmpty(carousel.getIntroduction())) {
                             sportspost.setTitle(carousel.getIntroduction());
                         } else {
                             sportspost.setTitle(null);
