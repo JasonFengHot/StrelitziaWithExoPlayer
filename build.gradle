@@ -3,9 +3,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'cn.ismartv.plugin:plugin:1.0.3'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -16,6 +17,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
 
@@ -25,16 +27,18 @@ task clean(type: Delete) {
 
 ext {
     androidCompileSdkVersion = 24
-    androidBuildToolsVersion = '25.0.2'
+    androidBuildToolsVersion = '26.0.2'
     androidMinSdkVersion = 17
     androidTargetSdkVersion = 24
     supportLibraryVersion = '25.0.1'
+    supportMultidexVersion = "1.0.2"
 
     dependencies = [
             support_v4  : "com.android.support:support-v4:$supportLibraryVersion",
             appCompat   : "com.android.support:appcompat-v7:$supportLibraryVersion",
             cardView    : "com.android.support:cardview-v7:$supportLibraryVersion",
             recyclerView: "com.android.support:recyclerview-v7:$supportLibraryVersion",
+            multidex    : "com.android.support:multidex:$supportMultidexVersion"
     ]
 }
 tasks.withType(JavaCompile) {

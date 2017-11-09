@@ -27,14 +27,14 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile dependencies.appCompat
+    compile dependencies.recyclerView
+    compile dependencies.multidex
     compile project(':account')
     compile project(':ismartv_db')
     compile project(':ismartv_imagereflection')
-    compile 'com.orhanobut:logger:1.15'
-    compile dependencies.appCompat
-    compile dependencies.recyclerView
-    compile 'com.android.support:multidex:1.0.1'
     compile project(path: ':library')
+    compile 'com.orhanobut:logger:1.15'
 }
 
 tasks.withType(JavaCompile) {
