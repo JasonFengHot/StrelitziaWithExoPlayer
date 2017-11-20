@@ -32,11 +32,7 @@ public final class ReflectionTransformationBuilder {
         return new Transformation() {
             @Override
             public Bitmap transform(Bitmap source) {
-                Bitmap transformed = ReflectionDrawable.fromBitmap(source, isHorizontal).toBitmap();
-                if (!source.equals(transformed)) {
-                    source.recycle();
-                }
-                return transformed;
+                return source;
             }
 
             @Override

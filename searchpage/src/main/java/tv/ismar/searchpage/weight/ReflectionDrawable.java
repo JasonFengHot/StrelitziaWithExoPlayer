@@ -113,14 +113,6 @@ public class ReflectionDrawable extends Drawable {
         //    mBorderPaint.setStrokeWidth(mBorderWidth);
     }
 
-    public static cn.ismartv.imagereflection.ReflectionDrawable fromBitmap(
-            Bitmap bitmap, boolean isHorizontal) {
-        if (bitmap != null) {
-            return new cn.ismartv.imagereflection.ReflectionDrawable(bitmap, isHorizontal);
-        } else {
-            return null;
-        }
-    }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
         //        int w = drawable.getIntrinsicWidth();

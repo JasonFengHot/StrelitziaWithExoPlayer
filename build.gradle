@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'cn.ismartv.plugin:plugin:1.0.3'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -26,12 +26,12 @@ task clean(type: Delete) {
 }
 
 ext {
-    androidCompileSdkVersion = 24
-    androidBuildToolsVersion = '26.0.2'
+    androidCompileSdkVersion = 25
+    androidBuildToolsVersion = '25.0.2'
     androidMinSdkVersion = 17
     androidTargetSdkVersion = 24
-    supportLibraryVersion = '25.0.1'
-    supportMultidexVersion = "1.0.2"
+    supportLibraryVersion = '25.0.0'
+    supportMultidexVersion = "1.0.1"
 
     dependencies = [
             support_v4  : "com.android.support:support-v4:$supportLibraryVersion",

@@ -17,9 +17,7 @@ import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import cn.ismartv.imagereflection.ReflectionTransformationBuilder;
 import tv.ismar.app.R;
-import tv.ismar.app.core.VipMark;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
 import tv.ismar.app.ui.HGridView;
@@ -38,8 +36,6 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection>
     private HashSet<RelativeLayout> mOnLoadinglayoutQueue = new HashSet<RelativeLayout>();
     private boolean isPortrait = false;
     private int template = 0; // 1 2
-    private Transformation mTransformation =
-            new ReflectionTransformationBuilder().setIsHorizontal(true).build();
 
     public HGridAdapterImpl(Context context, ArrayList<ItemCollection> list) {
         mContext = context;
@@ -197,12 +193,7 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection>
                     if (item.expense != null) {
                         if (item.expense.cptitle != null) {
                             holder.price.setVisibility(View.VISIBLE);
-                            String imageUrl =
-                                    VipMark.getInstance()
-                                            .getImage(
-                                                    (Activity) mContext,
-                                                    item.expense.pay_type,
-                                                    item.expense.cpid);
+                            String imageUrl = null;
                             Picasso.with(mContext).load(imageUrl).into(holder.price);
                         } else {
                             holder.price.setVisibility(View.GONE);
@@ -218,7 +209,6 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection>
                                     .load(item.adlet_url)
                                     .error(R.drawable.list_item_ppreview_bg)
                                     .placeholder(R.drawable.list_item_ppreview_bg)
-                                    .transform(mTransformation)
                                     .config(Bitmap.Config.RGB_565)
                                     .into(holder.previewImage);
 
@@ -232,7 +222,6 @@ public class HGridAdapterImpl extends HGridAdapter<ItemCollection>
                                     .load(item.list_url)
                                     .error(R.drawable.list_item_ppreview_bg)
                                     .placeholder(R.drawable.list_item_ppreview_bg)
-                                    .transform(mTransformation)
                                     .config(Bitmap.Config.RGB_565)
                                     .into(holder.previewImage);
                         } else {

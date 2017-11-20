@@ -7,26 +7,10 @@ import android.preference.PreferenceManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import cn.ismartv.injectdb.library.query.Select;
-import tv.ismar.app.core.InitializeProcess;
-import tv.ismar.app.db.location.ProvinceTable;
 
 public class SPUtils {
 
     private static SPUtils helper;
-    private static SharedPreferences.OnSharedPreferenceChangeListener
-            sharedPreferenceChangeListener =
-                    new SharedPreferences.OnSharedPreferenceChangeListener() {
-                        @Override
-                        public void onSharedPreferenceChanged(
-                                SharedPreferences sharedPreferences, String key) {
-                            if (key.equals(InitializeProcess.PROVINCE)) {
-                                changeProvincePY(
-                                        sharedPreferences.getString(
-                                                InitializeProcess.PROVINCE, ""));
-                            }
-                        }
-                    };
     private SharedPreferences mSharedPreferences = null;
     private Context ctx;
     private SharedPreferences.Editor editor;
@@ -34,8 +18,6 @@ public class SPUtils {
     private SPUtils(Context context) {
         this.ctx = context;
         this.mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
-        this.mSharedPreferences.registerOnSharedPreferenceChangeListener(
-                sharedPreferenceChangeListener);
         this.editor = mSharedPreferences.edit();
     }
 
@@ -105,26 +87,5 @@ public class SPUtils {
             }
         }
         return array;
-    }
-
-    public static void putFloatArray(SharedPreferences.Editor editor, String key, float[] array) {
-        try {
-            JSONArray json = new JSONArray();
-            for (float f : array) json.put(f);
-            editor.putString(key, json.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void changeProvincePY(String provinceName) {
-        ProvinceTable provinceTable =
-                new Select()
-                        .from(ProvinceTable.class)
-                        .where(ProvinceTable.PROVINCE_NAME + " = ?", provinceName)
-                        .executeSingle();
-        if (provinceTable != null) {
-            putValue(InitializeProcess.PROVINCE_PY, provinceTable.pinyin);
-        }
     }
 }

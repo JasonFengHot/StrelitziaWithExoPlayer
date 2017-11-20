@@ -51,7 +51,6 @@ import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Util;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.MessageQueue;
-import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.player.CallaPlay;
@@ -629,18 +628,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                 String ad_domain = IsmartvActivator.getInstance().getAdDomain();
                 String log_domain = IsmartvActivator.getInstance().getLogDomain();
                 String upgrade_domain = IsmartvActivator.getInstance().getUpgradeDomain();
-                AccountSharedPrefs accountSharedPrefs = AccountSharedPrefs.getInstance();
-                AccountSharedPrefs.setSharedPrefs(
-                        AccountSharedPrefs.APP_UPDATE_DOMAIN, upgrade_domain);
-                AccountSharedPrefs.setSharedPrefs(AccountSharedPrefs.LOG_DOMAIN, log_domain);
-                AccountSharedPrefs.setSharedPrefs(AccountSharedPrefs.API_DOMAIN, apiDomain);
-                AccountSharedPrefs.setSharedPrefs(
-                        AccountSharedPrefs.ADVERTISEMENT_DOMAIN, ad_domain);
-                AccountSharedPrefs.setSharedPrefs(
-                        AccountSharedPrefs.DEVICE_TOKEN,
-                        IsmartvActivator.getInstance().getDeviceToken());
-                AccountSharedPrefs.setSharedPrefs(
-                        AccountSharedPrefs.SN_TOKEN, IsmartvActivator.getInstance().getSnToken());
                 if (apiDomain != null && !apiDomain.contains("http")) {
                     apiDomain = "http://" + apiDomain;
                 }

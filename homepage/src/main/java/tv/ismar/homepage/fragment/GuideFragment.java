@@ -27,8 +27,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.AppConstant;
 import tv.ismar.app.core.SimpleRestClient;
-import tv.ismar.app.core.cache.CacheManager;
-import tv.ismar.app.core.cache.DownloadClient;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.network.SkyService;
@@ -535,12 +533,8 @@ public class GuideFragment extends ChannelBaseFragment {
             mSurfaceView.setFocusable(false);
             mSurfaceView.setFocusableInTouchMode(false);
             String videoName = "guide_" + mCurrentCarouselIndex + ".mp4";
-            String videoPath =
-                    CacheManager.getInstance()
-                            .doRequest(
-                                    mCarousels.get(mCurrentCarouselIndex).getVideo_url(),
-                                    videoName,
-                                    DownloadClient.StoreType.Internal);
+            String videoPath ="";
+
             Log.d(TAG, "current video path ====> " + videoPath);
             CallaPlay play = new CallaPlay();
             play.homepage_vod_trailer_play(videoPath, "launcher");

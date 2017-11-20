@@ -31,9 +31,6 @@ dependencies {
     compile dependencies.recyclerView
     compile dependencies.multidex
     compile project(':account')
-    compile project(':ismartv_db')
-    compile project(':ismartv_imagereflection')
-    compile project(path: ':library')
     compile 'com.orhanobut:logger:1.15'
 }
 

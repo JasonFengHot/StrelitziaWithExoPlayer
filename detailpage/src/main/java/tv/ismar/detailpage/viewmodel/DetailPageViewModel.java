@@ -24,11 +24,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import cn.ismartv.injectdb.library.util.Log;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
-import tv.ismar.app.core.VipMark;
 import tv.ismar.app.db.HistoryManager;
 import tv.ismar.app.entity.History;
 import tv.ismar.app.network.entity.ItemEntity;
@@ -381,12 +379,8 @@ public class DetailPageViewModel extends BaseObservable {
     public String getVipMarkUrl() {
         String url;
         if (mItemEntity.getExpense() != null) {
-            url =
-                    VipMark.getInstance()
-                            .getImage(
-                                    (Activity) mContext,
-                                    mItemEntity.getExpense().getPay_type(),
-                                    mItemEntity.getExpense().getCpid());
+            url = null;
+
         } else {
             url = "test";
         }
@@ -475,7 +469,6 @@ public class DetailPageViewModel extends BaseObservable {
                     ItemEntity[] subItems = mItemEntity.getSubitems();
                     String subitem_title = "";
                     if (mHistory != null && mHistory.sub_url != null) {
-                        Log.e("getPlaytext", mHistory.toString());
                         for (int i = 0; i < subItems.length; i++) {
                             if (mItemEntity.getExpense() != null) {
                                 break;

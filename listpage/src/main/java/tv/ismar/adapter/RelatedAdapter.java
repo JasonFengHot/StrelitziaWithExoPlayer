@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import cn.ismartv.imagereflection.ReflectionTransformationBuilder;
-import tv.ismar.app.core.VipMark;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.ui.view.AsyncImageView;
 import tv.ismar.app.ui.view.LabelImageView;
@@ -30,8 +28,6 @@ public class RelatedAdapter extends BaseAdapter implements AsyncImageView.OnImag
     private List<Item> mItemList;
     private HashSet<AsyncImageView> mOnLoadingImageQueue;
     private boolean isPortrait = false;
-    private Transformation mTransformation =
-            new ReflectionTransformationBuilder().setIsHorizontal(true).build();
 
     public RelatedAdapter(Context context, List<Item> itemList, boolean isPortrait) {
         this.isPortrait = isPortrait;
@@ -105,7 +101,6 @@ public class RelatedAdapter extends BaseAdapter implements AsyncImageView.OnImag
                         .load(mItemList.get(position).adlet_url)
                         .error(R.drawable.list_item_ppreview_bg)
                         .placeholder(null)
-                        .transform(mTransformation)
                         .into(holder.previewImage);
             } else {
                 holder.previewImage.setUrl(mItemList.get(position).list_url);
@@ -126,12 +121,8 @@ public class RelatedAdapter extends BaseAdapter implements AsyncImageView.OnImag
         if (mItemList.get(position).expense != null) {
             if (mItemList.get(position).expense.cptitle != null) {
                 holder.price.setVisibility(View.VISIBLE);
-                String imageUrl =
-                        VipMark.getInstance()
-                                .getImage(
-                                        (Activity) mContext,
-                                        mItemList.get(position).expense.pay_type,
-                                        mItemList.get(position).expense.cpid);
+                String imageUrl = null;
+
                 Picasso.with(mContext).load(imageUrl).into(holder.price);
             }
         } else {

@@ -16,9 +16,7 @@ import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import cn.ismartv.imagereflection.ReflectionTransformationBuilder;
 import tv.ismar.app.R;
-import tv.ismar.app.core.VipMark;
 import tv.ismar.app.entity.Item;
 import tv.ismar.app.entity.ItemCollection;
 import tv.ismar.app.ui.HGridView;
@@ -36,8 +34,6 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection>
     private HashSet<AsyncImageView> mOnLoadingImageQueue = new HashSet<AsyncImageView>();
     private HashSet<RelativeLayout> mOnLoadinglayoutQueue = new HashSet<RelativeLayout>();
     private boolean isPortrait = false;
-    private Transformation mTransformation =
-            new ReflectionTransformationBuilder().setIsHorizontal(true).build();
 
     public HGridFilterAdapterImpl(Context context, ArrayList<ItemCollection> list) {
         mContext = context;
@@ -146,7 +142,6 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection>
                                     .load(item.adlet_url)
                                     .error(R.drawable.list_item_ppreview_bg)
                                     .placeholder(R.drawable.list_item_ppreview_bg)
-                                    .transform(mTransformation)
                                     .into(holder.previewImage);
 
                         } else {
@@ -159,7 +154,6 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection>
                                     .load(item.list_url)
                                     .error(R.drawable.list_item_ppreview_bg)
                                     .placeholder(R.drawable.list_item_ppreview_bg)
-                                    .transform(mTransformation)
                                     .into(holder.previewImage);
                         } else {
                             holder.previewImage.setUrl(item.adlet_url);
@@ -174,12 +168,7 @@ public class HGridFilterAdapterImpl extends HGridAdapter<ItemCollection>
                         if (item.expense.cptitle != null) {
                             holder.expense_txt.setVisibility(View.VISIBLE);
 
-                            String imageUrl =
-                                    VipMark.getInstance()
-                                            .getImage(
-                                                    (Activity) mContext,
-                                                    item.expense.pay_type,
-                                                    item.expense.cpid);
+                            String imageUrl = null;
                             Picasso.with(mContext).load(imageUrl).into(holder.expense_txt);
                         }
                     }

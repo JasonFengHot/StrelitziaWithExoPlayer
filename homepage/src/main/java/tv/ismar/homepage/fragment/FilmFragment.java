@@ -35,8 +35,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.core.SimpleRestClient;
-import tv.ismar.app.core.cache.CacheManager;
-import tv.ismar.app.core.cache.DownloadClient;
 import tv.ismar.app.entity.HomePagerEntity;
 import tv.ismar.app.entity.HomePagerEntity.Carousel;
 import tv.ismar.app.player.CallaPlay;
@@ -566,12 +564,8 @@ public class FilmFragment extends ChannelBaseFragment {
         mSurfaceView.setFocusable(false);
         mSurfaceView.setFocusableInTouchMode(false);
         String videoName = mChannelName + "_" + mCurrentCarouselIndex + ".mp4";
-        String videoPath =
-                CacheManager.getInstance()
-                        .doRequest(
-                                mCarousels.get(mCurrentCarouselIndex).getVideo_url(),
-                                videoName,
-                                DownloadClient.StoreType.External);
+        String videoPath = "";
+
         Log.d(TAG, "current video path ====> " + videoPath);
         CallaPlay play = new CallaPlay();
         play.homepage_vod_trailer_play(videoPath, mChannelName);

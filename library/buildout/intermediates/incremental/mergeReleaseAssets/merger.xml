@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/home/huibin/ExoPlayer/library/src/main/assets"/><source path="/home/huibin/ExoPlayer/library/buildout/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/home/huibin/ExoPlayer/library/src/release/assets"/></dataSet></merger>

@@ -28,11 +28,9 @@ import java.util.TimeZone;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.PageIntent;
 import tv.ismar.app.core.SimpleRestClient;
 import tv.ismar.app.core.Source;
-import tv.ismar.app.core.VipMark;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.core.client.NetworkUtils;
 import tv.ismar.app.network.entity.EventProperty;
@@ -182,26 +180,6 @@ public class DetailPageFragment extends Fragment
             CallaPlay callaPlay = new CallaPlay();
             callaPlay.launcher_vod_click(
                     "item", mItemEntity.getPk(), mItemEntity.getTitle(), position);
-
-            String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
-            String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
-            String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
-            callaPlay.app_start(
-                    IsmartvActivator.getInstance().getSnToken(),
-                    VodUserAgent.getModelName(),
-                    DeviceUtils.getScreenInch(getActivity()),
-                    android.os.Build.VERSION.RELEASE,
-                    SimpleRestClient.appVersion,
-                    SystemFileUtil.getSdCardTotal(getActivity().getApplicationContext()),
-                    SystemFileUtil.getSdCardAvalible(getActivity().getApplicationContext()),
-                    IsmartvActivator.getInstance().getUsername(),
-                    province,
-                    city,
-                    isp,
-                    source,
-                    DeviceUtils.getLocalMacAddress(getActivity().getApplicationContext()),
-                    SimpleRestClient.app,
-                    getActivity().getPackageName());
         }
     }
 
@@ -364,9 +342,7 @@ public class DetailPageFragment extends Fragment
             ItemEntity.Expense expense = itemEntities[i].getExpense();
             if (expense != null && !Utils.isEmptyText(expense.getCptitle())) {
                 relRelImageViews[i].setLivVipPosition(LabelImageView.LEFTTOP);
-                String imageUrl =
-                        VipMark.getInstance()
-                                .getImage(mActivity, expense.getPay_type(), expense.getCpid());
+                String imageUrl = null;
                 relRelImageViews[i].setLivVipUrl(imageUrl);
             }
             String scoreStr = itemEntities[i].getBeanScore();

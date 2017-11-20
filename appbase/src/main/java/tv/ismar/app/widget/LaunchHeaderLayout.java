@@ -21,15 +21,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import cn.ismartv.injectdb.library.query.Select;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.R;
-import tv.ismar.app.core.preferences.AccountSharedPrefs;
-import tv.ismar.app.db.location.CityTable;
 import tv.ismar.app.network.entity.WeatherEntity;
 
 /** Created by huaijie on 2015/7/21. */
@@ -51,33 +48,6 @@ public class LaunchHeaderLayout extends FrameLayout
     //    private SharedPreferences locationSharedPreferences;
     private LinearLayout guideLayout;
     private List<View> indicatorTableList;
-    private SharedPreferences.OnSharedPreferenceChangeListener changeListener =
-            new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @Override
-                public void onSharedPreferenceChanged(
-                        SharedPreferences sharedPreferences, String key) {
-                    //           String geoId =
-                    // locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID, "101020100");
-                    try {
-                        String cityName =
-                                AccountSharedPrefs.getInstance()
-                                        .getSharedPrefs(AccountSharedPrefs.CITY);
-                        CityTable cityTable =
-                                new Select()
-                                        .from(CityTable.class)
-                                        .where(CityTable.CITY + " = ?", cityName)
-                                        .executeSingle();
-
-                        if (cityTable != null) {
-                            if (key.equals(AccountSharedPrefs.GEO_ID)) {
-                                fetchWeatherInfo(String.valueOf(cityTable.geo_id));
-                            }
-                        }
-                    } catch (Exception e) {
-
-                    }
-                }
-            };
     private HeadItemClickListener mHeadItemClickListener;
 
     public LaunchHeaderLayout(Context context) {
@@ -106,38 +76,16 @@ public class LaunchHeaderLayout extends FrameLayout
         // Context.MODE_PRIVATE);
 
         createGuideIndicator();
-        String cityName = AccountSharedPrefs.getInstance().getSharedPrefs(AccountSharedPrefs.CITY);
 
         //        String geoId =
         // locationSharedPreferences.getString(LocationFragment.LOCATION_PREFERENCE_GEOID,
         // "101020100");
-
-        CityTable cityTable =
-                new Select()
-                        .from(CityTable.class)
-                        .where(CityTable.CITY + " = ?", cityName)
-                        .executeSingle();
-        if (cityTable != null) {
-            fetchWeatherInfo(String.valueOf(cityTable.geo_id));
-        }
         addView(view);
     }
 
     @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
-        try {
-            if (visibility == VISIBLE) {
-                AccountSharedPrefs.getInstance()
-                        .getSharedPreferences()
-                        .registerOnSharedPreferenceChangeListener(changeListener);
-            } else {
-                AccountSharedPrefs.getInstance()
-                        .getSharedPreferences()
-                        .unregisterOnSharedPreferenceChangeListener(changeListener);
-            }
-        } catch (Exception e) {
-        }
     }
 
     private void createGuideIndicator() {

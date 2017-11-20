@@ -12,9 +12,7 @@ import android.widget.FrameLayout;
 
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
-import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.SimpleRestClient;
-import tv.ismar.app.core.VipMark;
 import tv.ismar.app.core.VodUserAgent;
 import tv.ismar.app.player.CallaPlay;
 import tv.ismar.app.ui.HeadFragment;
@@ -29,14 +27,12 @@ public class ChannelListActivity extends BaseActivity {
     private ChannelFragment channelFragment;
     private HeadFragment headFragment;
     private FrameLayout head;
-    private VipMark dip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.channel_layout);
         head = (FrameLayout) findViewById(R.id.head_layout);
-        dip = VipMark.getInstance();
         Intent intent = getIntent();
         String title = null;
         String url = null;
@@ -114,31 +110,6 @@ public class ChannelListActivity extends BaseActivity {
         if (fromPage != null) {
             final CallaPlay callaPlay = new CallaPlay();
             final String source = fromPage;
-            new Thread() {
-                @Override
-                public void run() {
-                    // 日志上报
-                    String province = (String) SPUtils.getValue(InitializeProcess.PROVINCE_PY, "");
-                    String city = (String) SPUtils.getValue(InitializeProcess.CITY, "");
-                    String isp = (String) SPUtils.getValue(InitializeProcess.ISP, "");
-                    callaPlay.app_start(
-                            IsmartvActivator.getInstance().getSnToken(),
-                            VodUserAgent.getModelName(),
-                            DeviceUtils.getScreenInch(ChannelListActivity.this),
-                            android.os.Build.VERSION.RELEASE,
-                            SimpleRestClient.appVersion,
-                            SystemFileUtil.getSdCardTotal(ChannelListActivity.this),
-                            SystemFileUtil.getSdCardAvalible(ChannelListActivity.this),
-                            IsmartvActivator.getInstance().getUsername(),
-                            province,
-                            city,
-                            isp,
-                            source,
-                            DeviceUtils.getLocalMacAddress(ChannelListActivity.this),
-                            SimpleRestClient.app,
-                            getPackageName());
-                }
-            }.start();
             if (!channel.equals("$bookmarks") || channel.equals("histories")) {
                 callaPlay.launcher_vod_click("section", -1, homepage_template, -1);
             }

@@ -1,6 +1,7 @@
 package tv.ismar.app;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDex;
@@ -24,15 +25,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import cn.ismartv.injectdb.library.ActiveAndroid;
-import cn.ismartv.injectdb.library.app.Application;
 import tv.ismar.account.HttpParamsInterceptor;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.core.ImageCache;
-import tv.ismar.app.core.InitializeProcess;
 import tv.ismar.app.core.SimpleRestClient;
-import tv.ismar.app.core.cache.CacheManager;
-import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.db.DBHelper;
 import tv.ismar.app.db.FavoriteManager;
 import tv.ismar.app.db.HistoryManager;
@@ -40,7 +36,6 @@ import tv.ismar.app.db.LocalFavoriteManager;
 import tv.ismar.app.db.LocalHistoryManager;
 import tv.ismar.app.entity.ContentModel;
 import tv.ismar.app.network.HttpCacheInterceptor;
-import tv.ismar.app.util.NetworkUtils;
 import tv.ismar.app.util.SPUtils;
 
 /** Created by beaver on 16-8-19. */
@@ -96,20 +91,11 @@ public class VodApplication extends Application {
         initLogger();
         SPUtils.init(this);
         appInstance = this;
-        ActiveAndroid.initialize(this);
-        AccountSharedPrefs.initialize(this);
-        CacheManager.initialize(this); // 首页导视相关
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-
         Picasso picasso = new Picasso.Builder(this).executor(executorService).build();
         Picasso.setSingletonInstance(picasso);
         IsmartvActivator.initialize(this);
         mHttpParamsInterceptor = new HttpParamsInterceptor.Builder().build();
-
-        if (NetworkUtils.isConnected(this)) {
-            new Thread(new InitializeProcess(this)).start();
-        }
-
         userAgent = Util.getUserAgent(this, "ExoPlayerDemo");
     }
 
@@ -217,8 +203,8 @@ public class VodApplication extends Application {
     }
 
     public DataSource.Factory buildDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
-        return new DefaultDataSourceFactory(
-                this, bandwidthMeter, buildHttpDataSourceFactory(bandwidthMeter));
+        return new DefaultDataSourceFactory(this, bandwidthMeter,
+                buildHttpDataSourceFactory(bandwidthMeter));
     }
 
     public HttpDataSource.Factory buildHttpDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
