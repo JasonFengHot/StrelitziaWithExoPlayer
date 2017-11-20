@@ -17,9 +17,12 @@
     <application>
         <activity
             android:name=".view.PlayerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="fontScale|keyboardHidden|layoutDirection|orientation|screenLayout|screenSize|smallestScreenSize"
             android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <meta-data
+                android:name="hwc-theme"
+                android:value="androidhwext:style/Theme.Emui.Dark.NoActionBar.Fullscreen"/>
 
             <intent-filter>
                 <action android:name="com.google.android.exoplayer.demo.action.VIEW" />
