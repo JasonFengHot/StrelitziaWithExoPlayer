@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import cn.ismartv.injectdb.library.query.Select;
-import cn.ismartv.truetime.TrueTime;
+
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -206,7 +206,7 @@ public class LaunchHeaderLayout extends FrameLayout
     }
 
     private void parseXml(WeatherEntity weatherEntity) {
-        Date now = TrueTime.now();
+        Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日"); // 可以方便地修改日期格式
         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String todayTime = dateFormat.format(now);

@@ -13,10 +13,11 @@ import com.qiyi.sdk.player.PlayerSdk;
 import com.qiyi.sdk.player.SdkVideo;
 import com.qiyi.tvapi.type.DrmType;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
 import tv.ismar.app.network.entity.AdElementEntity;
@@ -114,7 +115,7 @@ public abstract class IsmartvPlayer implements IPlayer {
         }
         if (clipEntity == null || mPlayerMode == 0) {
             String sn = IsmartvActivator.getInstance().getSnToken();
-            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            String sid = Md5.md5(sn + new Date().getTime());
             String playerFlag = "bestv";
             if (mPlayerMode == PlayerBuilder.MODE_QIYI_PLAYER) {
                 playerFlag = "qiyi";
@@ -240,7 +241,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                 // 初始化奇艺播放器,放在此处原因在于accessToken会发生变化,初始化成功后加载视频
                 Parameter extraParams = new Parameter();
                 // debug code
-                final long time = TrueTime.now().getTime();
+                final long time = new Date().getTime();
                 extraParams.setInitPlayerSdkAfter(0); // SDK初始化在调用initialize之后delay一定时间开始执行, 单位为毫秒.
                 extraParams.setCustomerAppVersion(
                         String.valueOf(DeviceUtils.getVersionCode(mContext))); // 传入客户App版本号
@@ -288,7 +289,7 @@ public abstract class IsmartvPlayer implements IPlayer {
                                             Log.i(
                                                     TAG,
                                                     "QiYiSdk init success:"
-                                                            + (TrueTime.now().getTime() - time));
+                                                            + (new Date().getTime() - time));
                                             String[] array = mClipEntity.getIqiyi_4_0().split(":");
                                             SdkVideo qiyiInfo =
                                                     new SdkVideo(

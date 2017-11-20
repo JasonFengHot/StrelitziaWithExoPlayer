@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import cn.ismartv.truetime.TrueTime;
+
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -318,7 +318,7 @@ public class HeadFragment extends Fragment
     }
 
     private void parseXml(WeatherEntity weatherEntity) {
-        Date now = TrueTime.now();
+        Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
         dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String todayTime = dateFormat.format(now);

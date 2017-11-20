@@ -14,11 +14,12 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.account.IsmartvActivator;
 
 /** Created by beaver on 16-8-22. */
@@ -49,7 +50,7 @@ public class Utils {
     public static String getTime() {
 
         Calendar c = Calendar.getInstance();
-        c.setTime(TrueTime.now());
+        c.setTime(new Date());
         c.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         int y = c.get(Calendar.YEAR);
         int m = c.get(Calendar.MONTH) + 1;

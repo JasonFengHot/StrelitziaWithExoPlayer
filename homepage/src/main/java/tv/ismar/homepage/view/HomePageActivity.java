@@ -31,12 +31,13 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.ismartv.truetime.TrueTime;
+
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -54,7 +55,6 @@ import tv.ismar.app.core.preferences.AccountSharedPrefs;
 import tv.ismar.app.entity.ChannelEntity;
 import tv.ismar.app.network.SkyService;
 import tv.ismar.app.player.CallaPlay;
-import tv.ismar.app.service.TrueTimeService;
 import tv.ismar.app.ui.HeadFragment;
 import tv.ismar.app.util.BitmapDecoder;
 import tv.ismar.app.util.NetworkUtils;
@@ -308,8 +308,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         if (savedInstanceState != null) savedInstanceState = null;
         super.onCreate(savedInstanceState);
 
-        Log.i("LH/", "homepageOnCreate:" + TrueTime.now().getTime());
-        startTrueTimeService();
+        Log.i("LH/", "homepageOnCreate:" + new Date().getTime());
         contentView = LayoutInflater.from(this).inflate(R.layout.activity_tv_guide, null);
         setContentView(contentView);
         fragmentSwitch = new FragmentSwitchHandler(this);
@@ -336,7 +335,7 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                     }
                 });
         fetchChannels();
-        app_start_time = TrueTime.now().getTime();
+        app_start_time = new Date().getTime();
     }
 
     private void initViews() {
@@ -799,10 +798,10 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
                         SkyService.ServiceManager.executeActive = true;
                         exitPopup.dismiss();
                         CallaPlay callaPlay = new CallaPlay();
-                        //                        callaPlay.app_exit(TrueTime.now().getTime() -
+                        //                        callaPlay.app_exit(new Date().getTime() -
                         // app_start_time, SimpleRestClient.appVersion);
                         callaPlay.app_exit(
-                                TrueTime.now().getTime() - app_start_time,
+                                new Date().getTime() - app_start_time,
                                 SimpleRestClient.appVersion);
                         HomePageActivity.this.finish();
                         ArrayList<String> cache_log = MessageQueue.getQueueList();
@@ -1195,13 +1194,6 @@ public class HomePageActivity extends BaseActivity implements HeadFragment.HeadI
         Log.i(TAG, "onStop");
         SkyService.ServiceManager.executeActive = true;
         super.onStop();
-    }
-
-    /** advertisement end */
-    private void startTrueTimeService() {
-        Intent intent = new Intent();
-        intent.setClass(this, TrueTimeService.class);
-        startService(intent);
     }
 
     private enum ScrollType {

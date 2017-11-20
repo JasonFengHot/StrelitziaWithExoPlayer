@@ -13,9 +13,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.app.core.client.MessageQueue;
 import tv.ismar.app.core.client.NetworkUtils;
 
@@ -100,16 +101,16 @@ public class SystemReporterReceiver extends BroadcastReceiver {
                     NetworkUtils.SaveLogToLocal(eventName, properties);
                     Log.i("reporter", "lastUseTime:" + lastUseTme);
                 }
-                long tvOnTime = TrueTime.now().getTime();
+                long tvOnTime = new Date().getTime();
                 Log.d(TAG, "tvOnTime:" + tvOnTime + "  lastUseTme:" + lastUseTme);
-                editor.putLong(tv_on_time, TrueTime.now().getTime());
+                editor.putLong(tv_on_time, new Date().getTime());
                 editor.apply();
                 new Thread(mUpLoadLogRunnable).start();
             } else if (action.equals(ACTION_SHUTDOWN)) {
                 long lastTvOnTime = settings.getLong(tv_on_time, 0);
                 long useTime = 0;
                 if (lastTvOnTime > 0) {
-                    useTime = TrueTime.now().getTime() - lastTvOnTime;
+                    useTime = new Date().getTime() - lastTvOnTime;
                 }
                 Log.d(TAG, "lastUseTime:" + useTime);
                 editor.putLong(lastUseTime, useTime);

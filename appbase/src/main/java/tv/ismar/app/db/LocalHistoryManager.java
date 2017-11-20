@@ -6,8 +6,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.db.DBHelper.DBFields;
 import tv.ismar.app.entity.DBQuality;
@@ -33,7 +34,7 @@ public class LocalHistoryManager implements HistoryManager {
             throw new RuntimeException("url or title can not be null");
         }
 
-        long currentTimeMillis = TrueTime.now().getTime();
+        long currentTimeMillis = new Date().getTime();
         if (mHistories != null && mHistories.size() > 0) {
             for (History history : mHistories) {
                 if (url.equals(history.url) && history.id != 0) {
@@ -97,7 +98,7 @@ public class LocalHistoryManager implements HistoryManager {
             throw new RuntimeException("history or history's field should not be null");
         }
 
-        long currentTimeMillis = TrueTime.now().getTime();
+        long currentTimeMillis = new Date().getTime();
         History h = getHistoryByUrl(history.url, isnet);
         if (h != null) {
             h.last_position = history.last_position;

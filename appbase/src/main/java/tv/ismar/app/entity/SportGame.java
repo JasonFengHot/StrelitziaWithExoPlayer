@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import cn.ismartv.truetime.TrueTime;
+
 
 public class SportGame {
     private String start_time;
@@ -81,10 +81,10 @@ public class SportGame {
             try {
                 Date starttime = sdf.parse(start_time);
                 Date expirytime = sdf.parse(expiry_date);
-                if (TrueTime.now().getTime() < starttime.getTime()) return 5;
-                if (TrueTime.now().getTime() > starttime.getTime()
-                        && TrueTime.now().getTime() < expirytime.getTime()) return 4;
-                if (TrueTime.now().getTime() > expirytime.getTime()) return 6;
+                if (new Date().getTime() < starttime.getTime()) return 5;
+                if (new Date().getTime() > starttime.getTime()
+                        && new Date().getTime() < expirytime.getTime()) return 4;
+                if (new Date().getTime() > expirytime.getTime()) return 6;
             } catch (ParseException e) {
                 e.printStackTrace();
             }

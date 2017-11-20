@@ -22,9 +22,10 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import cn.ismartv.truetime.TrueTime;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
@@ -343,7 +344,7 @@ public class WordSearchActivity extends BaseActivity
 
                                 @Override
                                 public void onClick(final View view) {
-                                    long time = TrueTime.now().getTime();
+                                    long time = new Date().getTime();
                                     if (lastClicktime == 0) {
                                         lastClicktime = time;
                                     } else {

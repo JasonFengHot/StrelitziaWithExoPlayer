@@ -17,9 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
+import java.util.Date;
 import java.util.Stack;
 
-import cn.ismartv.truetime.TrueTime;
+
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 import tv.ismar.account.IsmartvActivator;
@@ -108,7 +109,7 @@ public class BaseActivity extends AppCompatActivity {
         mIrisService = SkyService.ServiceManager.getIrisService();
         mSpeedCallaService = SkyService.ServiceManager.getSpeedCallaService();
         mLilyHostService = SkyService.ServiceManager.getLilyHostService();
-        app_start_time = TrueTime.now().getTime();
+        app_start_time = new Date().getTime();
 
         registerNoNetReceiver();
     }

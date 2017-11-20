@@ -19,12 +19,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.BaseActivity;
 import tv.ismar.app.core.InitializeProcess;
@@ -672,7 +673,7 @@ public class DetailPageFragment extends Fragment
         if (mItemEntity.getStartTime() != null) {
             Calendar currentCalendar =
                     new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-            currentCalendar.setTime(TrueTime.now());
+            currentCalendar.setTime(new Date());
             Calendar startCalendar =
                     new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
             startCalendar.setTime(mItemEntity.getStartTime());

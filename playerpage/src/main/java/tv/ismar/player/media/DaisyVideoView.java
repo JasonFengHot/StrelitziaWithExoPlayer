@@ -15,9 +15,10 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
 import tv.ismar.app.player.CallaPlay;
@@ -113,7 +114,7 @@ public class DaisyVideoView extends SurfaceView {
                                                 CallaPlay callaPlay = new CallaPlay();
                                                 callaPlay.ad_play_load(
                                                         mLogMedia,
-                                                        (TrueTime.now().getTime()
+                                                        (new Date().getTime()
                                                                 - mPlayerOpenTime),
                                                         mMediaIp,
                                                         mMediaId,
@@ -168,7 +169,7 @@ public class DaisyVideoView extends SurfaceView {
                             CallaPlay callaPlay = new CallaPlay();
                             callaPlay.ad_play_exit(
                                     mLogMedia,
-                                    (TrueTime.now().getTime() - mPlayerOpenTime),
+                                    (new Date().getTime() - mPlayerOpenTime),
                                     mMediaIp,
                                     mMediaId,
                                     PLAYER_FLAG_SMART);
@@ -220,7 +221,7 @@ public class DaisyVideoView extends SurfaceView {
                             if (mOnBufferChangedListener != null) {
                                 mOnBufferChangedListener.onBufferStart();
                             }
-                            mBufferStartTime = TrueTime.now().getTime();
+                            mBufferStartTime = new Date().getTime();
                             break;
                         case 1002:
                             if (isSeekBuffer) {
@@ -246,10 +247,10 @@ public class DaisyVideoView extends SurfaceView {
                                 }
                                 mFirstOpen = false;
                                 String sn = IsmartvActivator.getInstance().getSnToken();
-                                String sid = Md5.md5(sn + TrueTime.now().getTime());
+                                String sid = Md5.md5(sn + new Date().getTime());
                                 callaPlay.videoPlayLoad(
                                         mLogMedia,
-                                        (TrueTime.now().getTime() - mPlayerOpenTime),
+                                        (new Date().getTime() - mPlayerOpenTime),
                                         mSpeed,
                                         mMediaIp,
                                         sid,
@@ -260,13 +261,13 @@ public class DaisyVideoView extends SurfaceView {
                                     && !mLogMedia.getAdIdMap().isEmpty()) {
                                 callaPlay.ad_play_blockend(
                                         mLogMedia,
-                                        (TrueTime.now().getTime() - mBufferStartTime),
+                                        (new Date().getTime() - mBufferStartTime),
                                         mMediaIp,
                                         mMediaId,
                                         PLAYER_FLAG_SMART);
                             } else {
                                 String sn = IsmartvActivator.getInstance().getSnToken();
-                                String sid = Md5.md5(sn + TrueTime.now().getTime());
+                                String sid = Md5.md5(sn + new Date().getTime());
                                 callaPlay.videoPlayBlockend(
                                         mLogMedia,
                                         mSpeed,
@@ -293,13 +294,13 @@ public class DaisyVideoView extends SurfaceView {
                     }
                     if (isInPlaybackState()) {
                         String sn = IsmartvActivator.getInstance().getSnToken();
-                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        String sid = Md5.md5(sn + new Date().getTime());
                         CallaPlay callaPlay = new CallaPlay();
                         callaPlay.videoPlaySeekBlockend(
                                 mLogMedia,
                                 mSpeed,
                                 getCurrentPosition(),
-                                (TrueTime.now().getTime() - mBufferStartTime),
+                                (new Date().getTime() - mBufferStartTime),
                                 mMediaIp,
                                 sid,
                                 PLAYER_FLAG_SMART);
@@ -343,7 +344,7 @@ public class DaisyVideoView extends SurfaceView {
                     mCurrentState = STATE_ERROR;
                     mTargetState = STATE_ERROR;
                     String sn = IsmartvActivator.getInstance().getSnToken();
-                    String sid = Md5.md5(sn + TrueTime.now().getTime());
+                    String sid = Md5.md5(sn + new Date().getTime());
                     CallaPlay callaPlay = new CallaPlay();
                     callaPlay.videoExcept(
                             "mediaexception",
@@ -529,9 +530,9 @@ public class DaisyVideoView extends SurfaceView {
     public void setVideoPaths(
             String[] paths, int startPosition, IsmartvMedia logMedia, boolean isSwitchQuality) {
         if (mFirstOpen) {
-            mPlayerOpenTime = TrueTime.now().getTime();
+            mPlayerOpenTime = new Date().getTime();
             String sn = IsmartvActivator.getInstance().getSnToken();
-            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            String sid = Md5.md5(sn + new Date().getTime());
             CallaPlay callaPlay = new CallaPlay();
             callaPlay.videoStart(mLogMedia, sn, mSpeed, sid, PLAYER_FLAG_SMART);
         }
@@ -546,7 +547,7 @@ public class DaisyVideoView extends SurfaceView {
 
         if (isSwitchQuality) {
             String sn = IsmartvActivator.getInstance().getSnToken();
-            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            String sid = Md5.md5(sn + new Date().getTime());
             CallaPlay callaPlay = new CallaPlay();
             callaPlay.videoSwitchStream(
                     mLogMedia, "manual", mSpeed, sn, mMediaIp, sid, PLAYER_FLAG_SMART);
@@ -645,7 +646,7 @@ public class DaisyVideoView extends SurfaceView {
             CallaPlay callaPlay = new CallaPlay();
             if (mCurrentState == STATE_PAUSED) {
                 String sn = IsmartvActivator.getInstance().getSnToken();
-                String sid = Md5.md5(sn + TrueTime.now().getTime());
+                String sid = Md5.md5(sn + new Date().getTime());
                 callaPlay.videoPlayContinue(
                         mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_SMART);
             } else {
@@ -666,7 +667,7 @@ public class DaisyVideoView extends SurfaceView {
                 if (mCurrentState == STATE_PLAYING) {
                     CallaPlay callaPlay = new CallaPlay();
                     String sn = IsmartvActivator.getInstance().getSnToken();
-                    String sid = Md5.md5(sn + TrueTime.now().getTime());
+                    String sid = Md5.md5(sn + new Date().getTime());
                     callaPlay.videoPlayPause(
                             mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_SMART);
                 }
@@ -722,11 +723,11 @@ public class DaisyVideoView extends SurfaceView {
                 }
             }.start();
             isSeekBuffer = true;
-            mBufferStartTime = TrueTime.now().getTime();
+            mBufferStartTime = new Date().getTime();
             mSeekWhenPrepared = 0;
             if (!isFirstSeek) {
                 String sn = IsmartvActivator.getInstance().getSnToken();
-                String sid = Md5.md5(sn + TrueTime.now().getTime());
+                String sid = Md5.md5(sn + new Date().getTime());
                 CallaPlay callaPlay = new CallaPlay();
                 callaPlay.videoPlaySeek(
                         mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_SMART);
@@ -809,14 +810,14 @@ public class DaisyVideoView extends SurfaceView {
 
     public void logVideoExit(int exitPosition, String source) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + TrueTime.now().getTime());
+        String sid = Md5.md5(sn + new Date().getTime());
         CallaPlay callaPlay = new CallaPlay();
         callaPlay.videoExit(
                 mLogMedia,
                 mSpeed,
                 source,
                 exitPosition,
-                (TrueTime.now().getTime() - mPlayerOpenTime),
+                (new Date().getTime() - mPlayerOpenTime),
                 sid,
                 PLAYER_FLAG_SMART);
     }

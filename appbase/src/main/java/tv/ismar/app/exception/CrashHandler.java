@@ -17,10 +17,11 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.ismartv.truetime.TrueTime;
+
 
 /** Created by huibin on 2016/12/15. */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
@@ -160,8 +161,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         String result = writer.toString();
         sb.append(result);
         try {
-            long timestamp = TrueTime.now().getTime();
-            String time = formatter.format(TrueTime.now());
+            long timestamp = new Date().getTime();
+            String time = formatter.format(new Date());
             String fileName = "crash-" + time + "-" + timestamp + ".log";
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 String path = "/sdcard/crash/";

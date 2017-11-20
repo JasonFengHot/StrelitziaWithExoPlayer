@@ -14,9 +14,10 @@ import com.qiyi.sdk.player.PlayerSdk;
 import com.qiyi.sdk.player.VideoSurfaceView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.account.core.Md5;
 import tv.ismar.app.network.entity.ClipEntity;
@@ -85,7 +86,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     CallaPlay callaPlay = new CallaPlay();
                     callaPlay.ad_play_load(
                             mLogMedia,
-                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            (new Date().getTime() - mPlayerOpenTime),
                             mMediaIp,
                             mMediaId,
                             PLAYER_FLAG_QIYI);
@@ -103,7 +104,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     CallaPlay callaPlay = new CallaPlay();
                     callaPlay.ad_play_exit(
                             mLogMedia,
-                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            (new Date().getTime() - mPlayerOpenTime),
                             mMediaIp,
                             mMediaId,
                             PLAYER_FLAG_QIYI);
@@ -122,7 +123,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     CallaPlay callaPlay = new CallaPlay();
                     callaPlay.ad_play_load(
                             mLogMedia,
-                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            (new Date().getTime() - mPlayerOpenTime),
                             mMediaIp,
                             mMediaId,
                             PLAYER_FLAG_QIYI);
@@ -141,7 +142,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     CallaPlay callaPlay = new CallaPlay();
                     callaPlay.ad_play_exit(
                             mLogMedia,
-                            (TrueTime.now().getTime() - mPlayerOpenTime),
+                            (new Date().getTime() - mPlayerOpenTime),
                             mMediaIp,
                             mMediaId,
                             PLAYER_FLAG_QIYI);
@@ -154,7 +155,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     }
                     if (mCurrentState == STATE_PAUSED) {
                         String sn = IsmartvActivator.getInstance().getSnToken();
-                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        String sid = Md5.md5(sn + new Date().getTime());
                         CallaPlay callaPlay = new CallaPlay();
                         callaPlay.videoPlayContinue(
                                 mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_QIYI);
@@ -176,7 +177,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     Log.i(TAG, "qiyiOnPaused:" + mCurrentState);
                     if (mCurrentState == STATE_PLAYING) {
                         String sn = IsmartvActivator.getInstance().getSnToken();
-                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        String sid = Md5.md5(sn + new Date().getTime());
                         CallaPlay callaPlay = new CallaPlay();
                         callaPlay.videoPlayPause(
                                 mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_QIYI);
@@ -222,7 +223,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                                     + iSdkError.getMsgFromError());
 
                     String sn = IsmartvActivator.getInstance().getSnToken();
-                    String sid = Md5.md5(sn + TrueTime.now().getTime());
+                    String sid = Md5.md5(sn + new Date().getTime());
                     CallaPlay callaPlay = new CallaPlay();
                     callaPlay.videoExcept(
                             "mediaexception",
@@ -307,13 +308,13 @@ public class QiYiVideoView extends VideoSurfaceView {
                     }
                     if (isInPlaybackState()) {
                         String sn = IsmartvActivator.getInstance().getSnToken();
-                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        String sid = Md5.md5(sn + new Date().getTime());
                         CallaPlay callaPlay = new CallaPlay();
                         callaPlay.videoPlaySeekBlockend(
                                 mLogMedia,
                                 mSpeed,
                                 getCurrentPosition(),
-                                (TrueTime.now().getTime() - mBufferStartTime),
+                                (new Date().getTime() - mBufferStartTime),
                                 mMediaIp,
                                 sid,
                                 PLAYER_FLAG_QIYI);
@@ -333,7 +334,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     if (mOnBufferChangedListener != null) {
                         mOnBufferChangedListener.onBufferStart();
                     }
-                    mBufferStartTime = TrueTime.now().getTime();
+                    mBufferStartTime = new Date().getTime();
                 }
 
                 @Override
@@ -348,10 +349,10 @@ public class QiYiVideoView extends VideoSurfaceView {
                     if (mFirstOpen) {
                         mFirstOpen = false;
                         String sn = IsmartvActivator.getInstance().getSnToken();
-                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        String sid = Md5.md5(sn + new Date().getTime());
                         callaPlay.videoPlayLoad(
                                 mLogMedia,
-                                (TrueTime.now().getTime() - mPlayerOpenTime),
+                                (new Date().getTime() - mPlayerOpenTime),
                                 mSpeed,
                                 mMediaIp,
                                 sid,
@@ -359,7 +360,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                                 PLAYER_FLAG_QIYI);
                     } else {
                         String sn = IsmartvActivator.getInstance().getSnToken();
-                        String sid = Md5.md5(sn + TrueTime.now().getTime());
+                        String sid = Md5.md5(sn + new Date().getTime());
                         callaPlay.videoPlayBlockend(
                                 mLogMedia,
                                 mSpeed,
@@ -371,7 +372,7 @@ public class QiYiVideoView extends VideoSurfaceView {
                     if (mIsPlayingAdvertisement) {
                         callaPlay.ad_play_blockend(
                                 mLogMedia,
-                                (TrueTime.now().getTime() - mBufferStartTime),
+                                (new Date().getTime() - mBufferStartTime),
                                 mMediaIp,
                                 mMediaId,
                                 PLAYER_FLAG_QIYI);
@@ -440,14 +441,14 @@ public class QiYiVideoView extends VideoSurfaceView {
 
     public void setPlayer(
             IMedia media, IVideoOverlay videoOverlay, IsmartvMedia logMedia, boolean isPreview) {
-        mPlayerOpenTime = TrueTime.now().getTime();
+        mPlayerOpenTime = new Date().getTime();
         mMedia = media;
         mVideoOverlay = videoOverlay;
         mLogMedia = logMedia;
         mIsPreview = isPreview;
 
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + TrueTime.now().getTime());
+        String sid = Md5.md5(sn + new Date().getTime());
         CallaPlay callaPlay = new CallaPlay();
         callaPlay.videoStart(mLogMedia, sn, mSpeed, sid, PLAYER_FLAG_QIYI);
 
@@ -533,7 +534,7 @@ public class QiYiVideoView extends VideoSurfaceView {
         if (isInPlaybackState()) {
             mPlayer.seekTo(position);
             String sn = IsmartvActivator.getInstance().getSnToken();
-            String sid = Md5.md5(sn + TrueTime.now().getTime());
+            String sid = Md5.md5(sn + new Date().getTime());
             CallaPlay callaPlay = new CallaPlay();
             callaPlay.videoPlaySeek(mLogMedia, mSpeed, getCurrentPosition(), sid, PLAYER_FLAG_QIYI);
         }
@@ -569,7 +570,7 @@ public class QiYiVideoView extends VideoSurfaceView {
         mPlayer.switchBitStream(qualityConvertToBitStream(quality));
         mQuality = quality;
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + TrueTime.now().getTime());
+        String sid = Md5.md5(sn + new Date().getTime());
         CallaPlay callaPlay = new CallaPlay();
         callaPlay.videoSwitchStream(
                 mLogMedia, "manual", mSpeed, sn, mMediaIp, sid, PLAYER_FLAG_QIYI);
@@ -669,14 +670,14 @@ public class QiYiVideoView extends VideoSurfaceView {
 
     public void logVideoExit(int exitPosition, String source) {
         String sn = IsmartvActivator.getInstance().getSnToken();
-        String sid = Md5.md5(sn + TrueTime.now().getTime());
+        String sid = Md5.md5(sn + new Date().getTime());
         CallaPlay callaPlay = new CallaPlay();
         callaPlay.videoExit(
                 mLogMedia,
                 mSpeed,
                 source,
                 exitPosition,
-                (TrueTime.now().getTime() - mPlayerOpenTime),
+                (new Date().getTime() - mPlayerOpenTime),
                 sid,
                 PLAYER_FLAG_QIYI);
     }

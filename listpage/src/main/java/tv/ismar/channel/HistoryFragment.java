@@ -22,11 +22,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.TimeZone;
 
-import cn.ismartv.truetime.TrueTime;
+
 import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
@@ -106,7 +107,7 @@ public class HistoryFragment extends Fragment
     private Item netItem;
 
     private long getTodayStartPoint() {
-        long currentTime = TrueTime.now().getTime();
+        long currentTime = new Date().getTime();
         GregorianCalendar currentCalendar = new GregorianCalendar();
         currentCalendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         currentCalendar.setTimeInMillis(currentTime);

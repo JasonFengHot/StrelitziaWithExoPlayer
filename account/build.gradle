@@ -42,7 +42,6 @@ android {
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':ismartv_truetime')
     compile dependencies.appCompat
     compile dependencies.support_v4
     compile 'com.orhanobut:logger:1.15'

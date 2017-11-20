@@ -25,7 +25,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import cn.ismartv.injectdb.library.util.Log;
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.VipMark;
@@ -636,7 +636,7 @@ public class DetailPageViewModel extends BaseObservable {
         if (mItemEntity.getStartTime() != null) {
             Calendar currentCalendar =
                     new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-            currentCalendar.setTime(TrueTime.now());
+            currentCalendar.setTime(new Date());
             Calendar startCalendar =
                     new GregorianCalendar(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
             startCalendar.setTime(mItemEntity.getStartTime());

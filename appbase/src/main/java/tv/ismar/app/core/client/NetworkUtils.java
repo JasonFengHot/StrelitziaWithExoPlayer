@@ -29,6 +29,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
@@ -38,7 +39,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import cn.ismartv.truetime.TrueTime;
+
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.VodApplication;
 import tv.ismar.app.core.SimpleRestClient;
@@ -218,7 +219,7 @@ public class NetworkUtils {
             conn.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
             // conn.addRequestProperty("User-Agent", Build.MODEL+"/"+SimpleRestClient.appVersion+"
             // "+SimpleRestClient.sn_token);
-            //            conn.setIfModifiedSince(TrueTime.now().getTime());
+            //            conn.setIfModifiedSince(new Date().getTime());
             conn.setConnectTimeout(CONNET_TIME_OUT);
             conn.setReadTimeout(READ_TIME_OUT);
             // conn.setUseCaches(false);
@@ -788,7 +789,7 @@ public class NetworkUtils {
     public static String getContentJson(String eventName, HashMap<String, Object> propertiesMap)
             throws JSONException {
         JSONObject propertiesJson = new JSONObject();
-        propertiesJson.put("time", TrueTime.now().getTime() / 1000);
+        propertiesJson.put("time", new Date().getTime() / 1000);
         if (propertiesMap != null) {
             Set<String> set = propertiesMap.keySet();
             for (String key : set) {
