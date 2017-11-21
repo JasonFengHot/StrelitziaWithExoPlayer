@@ -70,8 +70,8 @@ public class IsmartvActivator {
 
     private IsmartvActivator() {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        manufacture = Build.BRAND.replace(" ", "_");
-        kind = Build.PRODUCT.replaceAll(" ", "_").toLowerCase();
+        manufacture = "sharp";
+        kind = "uf30";
         version = String.valueOf(getAppVersionCode());
         deviceId = getDeviceId();
         sn = generateSn();
@@ -508,7 +508,7 @@ public class IsmartvActivator {
 
     private String generateSn() {
         String mysn;
-        mysn = stringFromJNI();
+        mysn = stringFromJNI() + "11";
         Log.d(TAG, "stringFromJNI: " + mysn);
         if ("noaddress".equals(mysn)) {
             mysn = Md5.md5(getDeviceId() + Build.SERIAL);
