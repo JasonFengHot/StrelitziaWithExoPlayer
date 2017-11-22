@@ -5,21 +5,24 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
 import java.util.UUID;
-import java.util.logging.Handler;
 
 import tv.ismar.app.PlayerHelper;
 import tv.ismar.app.R;
 import tv.ismar.app.network.entity.ClipEntity;
 import tv.ismar.app.ui.MessageDialogFragment;
+import tv.ismar.iqiyiplayer.SdkTestActivity;
 
-/** Created by huibin on 9/13/16. */
+/**
+ * Created by huibin on 9/13/16.
+ */
 public class PageIntent implements PageIntentInterface {
+    private static final String TAG = "PageIntent";
 
     public static final String DRM_SCHEME_UUID_EXTRA = "drm_scheme_uuid";
     public static final String DRM_LICENSE_URL = "drm_license_url";
@@ -164,17 +167,29 @@ public class PageIntent implements PageIntentInterface {
                 new PlayerHelper.Callback() {
                     @Override
                     public void success(ClipEntity clipEntity) {
-                        UriSample uriSample =
-                                new UriSample(
-                                        "test",
-                                        null,
-                                        null,
-                                        null,
-                                        false,
-                                        clipEntity.getM3u8(),
-                                        null);
-                        Intent intent = uriSample.buildIntent(context);
-                        context.startActivity(intent);
+                        //爱奇艺视频源
+                        if (!TextUtils.isEmpty(clipEntity.getIqiyi_4_0())) {
+                            String iqiyi = clipEntity.getIqiyi_4_0();
+                            Log.d(TAG, "iqiyi: " + iqiyi);
+                            Intent intent = new Intent();
+                            intent.setClass(context, SdkTestActivity.class);
+                            intent.putExtra("iqiyi_params", iqiyi);
+                            context.startActivity(intent);
+
+                        } else {
+                            //视云视频源
+                            UriSample uriSample =
+                                    new UriSample(
+                                            "test",
+                                            null,
+                                            null,
+                                            null,
+                                            false,
+                                            clipEntity.getM3u8(),
+                                            null);
+                            Intent intent = uriSample.buildIntent(context);
+                            context.startActivity(intent);
+                        }
                     }
                 });
     }
@@ -187,7 +202,8 @@ public class PageIntent implements PageIntentInterface {
     }
 
     @Override
-    public void toUserCenterLocation(Context context) {}
+    public void toUserCenterLocation(Context context) {
+    }
 
     @Override
     public void toPackageList(Context context, String source, int pk) {

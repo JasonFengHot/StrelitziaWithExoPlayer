@@ -130,6 +130,7 @@ public class SdkTestActivity extends Activity implements OnClickListener, OnChec
     private Surface mSurface;
     private IMedia mCurrentVideo;
     //    private IAdController mAdController;
+
     private OnFeedbackFinishedListener mFeedbackFinishedListener = new OnFeedbackFinishedListener() {
         @Override
         public void onFailed(ISdkError error) {
@@ -410,34 +411,7 @@ public class SdkTestActivity extends Activity implements OnClickListener, OnChec
             }
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-        setContentView(R.layout.activity_sdk_test);
-        initViews();
-
-        mPlaylistManager = new PlayListManager();
-        mPlaylistManager.initialize();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume");
-        initQiyiPlayerSdk();
-        getPackageName();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause");
-        if (isFinishing()) {
-            releasePlayer();
-        }
-    }
+    private String iqiyiParams;
 
     private static String getTimeString(int timeInMs) {
         int second = timeInMs / 1000;
@@ -468,6 +442,40 @@ public class SdkTestActivity extends Activity implements OnClickListener, OnChec
         Log.d(TAG, "getPlaybackTimeString(" + timeInMs + "): hour="
                 + hour + ", minute=" + minute + ", second=" + second + ", result=" + ret);
         return ret;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+        setContentView(R.layout.activity_sdk_test);
+
+        Intent intent = getIntent();
+        if (intent != null){
+            iqiyiParams = intent.getStringExtra("iqiyi_params");
+        }
+
+        initViews();
+
+        mPlaylistManager = new PlayListManager();
+        mPlaylistManager.initialize();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+        initQiyiPlayerSdk();
+        getPackageName();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+        if (isFinishing()) {
+            releasePlayer();
+        }
     }
 
     private void initViews() {
@@ -560,100 +568,95 @@ public class SdkTestActivity extends Activity implements OnClickListener, OnChec
     @Override
     public void onClick(View v) {
         IAdController adController = mPlayer != null ? mPlayer.getAdController() : null;
-        switch (v.getId()) {
-            case R.id.btn_rw:
-                if (mPlayer != null) {
-                    //不再提供seek方法, 只提供seekTo, 原seek方法实现方式
-                    int currentPosition = mPlayer.getCurrentPosition();
-                    mPlayer.seekTo(currentPosition - SEEK_STEPS[mSeekStepIndex]);
-                }
-                break;
-            case R.id.btn_ff:
-                if (mPlayer != null) {
-                    //不再提供seek方法, 只提供seekTo, 原seek方法实现方式
-                    int currentPosition = mPlayer.getCurrentPosition();
-                    mPlayer.seekTo(currentPosition + SEEK_STEPS[mSeekStepIndex]);
-                }
-                break;
-            case R.id.btn_play:
-                if (mPlayer != null && !mPlayer.isPlaying()) {
-                    mPlayer.start();
-                }
-                break;
-            case R.id.btn_pause:
-                if (mPlayer != null) {
-                    mPlayer.pause();
-                }
-                break;
-            case R.id.btn_stop:
-                if (mPlayer != null) {
-                    mPlayer.stop();
-                }
-                break;
-            case R.id.btn_increase_step:
-                mSeekStepIndex = Math.min(SEEK_STEPS.length - 1, mSeekStepIndex + 1);
-                mTxtSeekStep.setText(getTimeString(SEEK_STEPS[mSeekStepIndex]));
-                break;
-            case R.id.btn_decrease_step:
-                mSeekStepIndex = Math.max(0, mSeekStepIndex - 1);
-                mTxtSeekStep.setText(getTimeString(SEEK_STEPS[mSeekStepIndex]));
-                break;
-            case R.id.btn_next:
-                playNextMovieInPlaylist();
-                break;
-            case R.id.btn_fullscreen:
-                changeToFullScreen();
-                mIsFullScreen = true;
-                break;
-            case R.id.btn_up:
-                break;
-            case R.id.btn_down:
-                //隐藏暂停广告
-                if (adController != null && isPauseAdShown()) {
-                    adController.hideAd(AdType.PAUSE);
-                }
+        int i = v.getId();
+        if (i == R.id.btn_rw) {
+            if (mPlayer != null) {
+                //不再提供seek方法, 只提供seekTo, 原seek方法实现方式
+                int currentPosition = mPlayer.getCurrentPosition();
+                mPlayer.seekTo(currentPosition - SEEK_STEPS[mSeekStepIndex]);
+            }
 
-                //跳过悦享看广告
-                if (adController != null) {
-                    adController.skipAd();
-                }
-                break;
-            case R.id.btn_left:
-                //隐藏跳转广告, 返回视频播放
-                if (adController != null && isClickThroughAdShown()) {
-                    adController.hideAd(AdType.CLICKTHROUGH);
-                }
-                break;
-            case R.id.btn_right:
-                //跳转广告
-                if (adController != null && adController.isEnableClickThroughAd()) {
-                    adController.showAd(AdType.CLICKTHROUGH);
-                }
-                break;
+        } else if (i == R.id.btn_ff) {
+            if (mPlayer != null) {
+                //不再提供seek方法, 只提供seekTo, 原seek方法实现方式
+                int currentPosition = mPlayer.getCurrentPosition();
+                mPlayer.seekTo(currentPosition + SEEK_STEPS[mSeekStepIndex]);
+            }
+
+        } else if (i == R.id.btn_play) {
+            if (mPlayer != null && !mPlayer.isPlaying()) {
+                mPlayer.start();
+            }
+
+        } else if (i == R.id.btn_pause) {
+            if (mPlayer != null) {
+                mPlayer.pause();
+            }
+
+        } else if (i == R.id.btn_stop) {
+            if (mPlayer != null) {
+                mPlayer.stop();
+            }
+
+        } else if (i == R.id.btn_increase_step) {
+            mSeekStepIndex = Math.min(SEEK_STEPS.length - 1, mSeekStepIndex + 1);
+            mTxtSeekStep.setText(getTimeString(SEEK_STEPS[mSeekStepIndex]));
+
+        } else if (i == R.id.btn_decrease_step) {
+            mSeekStepIndex = Math.max(0, mSeekStepIndex - 1);
+            mTxtSeekStep.setText(getTimeString(SEEK_STEPS[mSeekStepIndex]));
+
+        } else if (i == R.id.btn_next) {
+            playNextMovieInPlaylist();
+
+        } else if (i == R.id.btn_fullscreen) {
+            changeToFullScreen();
+            mIsFullScreen = true;
+
+        } else if (i == R.id.btn_up) {
+        } else if (i == R.id.btn_down) {//隐藏暂停广告
+            if (adController != null && isPauseAdShown()) {
+                adController.hideAd(AdType.PAUSE);
+            }
+
+            //跳过悦享看广告
+            if (adController != null) {
+                adController.skipAd();
+            }
+
+        } else if (i == R.id.btn_left) {//隐藏跳转广告, 返回视频播放
+            if (adController != null && isClickThroughAdShown()) {
+                adController.hideAd(AdType.CLICKTHROUGH);
+            }
+
+        } else if (i == R.id.btn_right) {//跳转广告
+            if (adController != null && adController.isEnableClickThroughAd()) {
+                adController.showAd(AdType.CLICKTHROUGH);
+            }
+
         }
     }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId) {
-            case R.id.rb_original:
-                if (mPlayer != null) {
-                    //原始比例
-                    mPlayer.setVideoRatio(VideoRatio.ORIGINAL);
-                }
-                break;
-            case R.id.rb_stretched:
-                if (mPlayer != null) {
-                    //充满全屏
-                    mPlayer.setVideoRatio(VideoRatio.STRETCH_TO_FIT);
-                }
-                break;
-            case R.id.rb_custom:
-                if (mPlayer != null) {
-                    //固定比例4:3
-                    mPlayer.setVideoRatio(VideoRatio.FIXED_4_3);
-                }
-                break;
+        if (checkedId == R.id.rb_original) {
+            if (mPlayer != null) {
+                //原始比例
+                mPlayer.setVideoRatio(VideoRatio.ORIGINAL);
+            }
+
+        } else if (checkedId == R.id.rb_stretched) {
+            if (mPlayer != null) {
+                //充满全屏
+                mPlayer.setVideoRatio(VideoRatio.STRETCH_TO_FIT);
+            }
+
+        } else if (checkedId == R.id.rb_custom) {
+            if (mPlayer != null) {
+                //固定比例4:3
+                mPlayer.setVideoRatio(VideoRatio.FIXED_4_3);
+            }
+
         }
     }
 
@@ -793,10 +796,14 @@ public class SdkTestActivity extends Activity implements OnClickListener, OnChec
         }
         LogUtils.setDebug(true);
         //login, 同步操作, 有网络接口调用, 可能耗时, 请注意. 初始只需调用一次, 登录成功后一直有效, 如需登出, 请调用logout
-        Log.d(TAG,"login:" + PlayerSdk.getInstance().login("ec625b4f863d5217f427242538a8b1211f4b4c6beb2d52887355fbb862f47cfa"));
+        Log.d(TAG, "login:" + PlayerSdk.getInstance().login("ec625b4f863d5217f427242538a8b1211f4b4c6beb2d52887355fbb862f47cfa"));
         startPlayMovie(mPlaylistManager.getCurrent());
         Map<String, Object> extra = new HashMap<String, Object>();
-        startPlayMovie(new SdkVideo("244034600", "244034600", true, IMedia.DRM_TYPE_NONE, 0, null));
+       String[] params = iqiyiParams.split(":");
+        String iqiyiParam1 = params[0];
+        String iqiyiParam2 = params[1];
+        String iqiyiParam3 = params[2];
+        startPlayMovie(new SdkVideo(iqiyiParam1, iqiyiParam2, true, IMedia.DRM_TYPE_NONE, 0, null));
 
         //轮播节目播放
 //        SdkVideo liveVideo = new SdkVideo("380079222", BitStream.BITSTREAM_HIGH, false);
