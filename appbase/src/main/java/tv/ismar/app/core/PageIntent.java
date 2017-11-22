@@ -5,11 +5,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
 import java.util.UUID;
+import java.util.logging.Handler;
 
 import tv.ismar.app.PlayerHelper;
 import tv.ismar.app.R;
@@ -171,7 +173,8 @@ public class PageIntent implements PageIntentInterface {
                                         false,
                                         clipEntity.getM3u8(),
                                         null);
-                        context.startActivity(uriSample.buildIntent(context));
+                        Intent intent = uriSample.buildIntent(context);
+                        context.startActivity(intent);
                     }
                 });
     }
@@ -268,7 +271,7 @@ public class PageIntent implements PageIntentInterface {
 
         public Intent buildIntent(Context context) {
             Intent intent = new Intent();
-            intent.setClassName(context, "tv.ismar.player.view.PlayerActivity");
+            intent.setClassName(context, "tv.ismar.playerpage.PlayerActivity");
             intent.putExtra(PREFER_EXTENSION_DECODERS, preferExtensionDecoders);
             if (drmSchemeUuid != null) {
                 intent.putExtra(DRM_SCHEME_UUID_EXTRA, drmSchemeUuid.toString());

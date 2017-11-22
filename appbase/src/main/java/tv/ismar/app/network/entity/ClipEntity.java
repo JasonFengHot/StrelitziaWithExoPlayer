@@ -168,7 +168,7 @@ public class ClipEntity {
     }
 
     public String getM3u8() {
-        return m3u8;
+        return "file://" +m3u8;
     }
 
     public void setM3u8(String m3u8) {

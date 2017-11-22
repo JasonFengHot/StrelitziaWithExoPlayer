@@ -11,6 +11,7 @@ import okio.BufferedSink;
 import okio.Okio;
 import rx.Observer;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import tv.ismar.account.IsmartvActivator;
 import tv.ismar.app.network.SkyService;
@@ -67,7 +68,7 @@ public class PlayerHelper {
                 SkyService.ServiceManager.getService()
                         .fetchMediaUrl(clipUrl, sign, code)
                         .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 new Observer<ClipEntity>() {
                                     @Override
